@@ -1,6 +1,15 @@
 {
-  "last_generated": "2026-04-15T06:00:00-03:00",
+  "last_generated": "2026-04-16T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-16",
+      "summary": "Ataque supply chain ao Trivy compromete pipelines CI/CD, Llama 4 Scout oferece 10M tokens de contexto e AWS Bedrock AgentCore Evaluations chega em GA.",
+      "highlights": [
+        { "title": "Ataque à cadeia de suprimentos do Trivy compromete pipelines CI/CD globalmente", "url": "https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/" },
+        { "title": "Llama 4 Scout oferece janela de 10 milhões de tokens como modelo open-weight", "url": "https://www.buildfastwithai.com/blogs/best-ai-models-april-2026" },
+        { "title": "Amazon Bedrock AgentCore Evaluations chega em GA para governança de agentes IA", "url": "https://aws.amazon.com/about-aws/whats-new/2026/03/agentcore-evaluations-generally-available/" }
+      ]
+    },
     {
       "date": "2026-04-15",
       "summary": "Patch Tuesday corrige 163 CVEs incluindo zero-day no SharePoint, Claude Mythos é confirmado e AWS lança Amazon S3 Files.",
