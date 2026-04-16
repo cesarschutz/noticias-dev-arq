@@ -379,9 +379,6 @@ nav.topbar {
    CONTROLS BAR — tighter
    ═══════════════════════════════════════════ */
 .controls {
-  position: sticky;
-  top: 52px;
-  z-index: 50;
   margin: 16px 0 20px;
 }
 .controls-shell {
@@ -1174,28 +1171,27 @@ footer.site::before {
   </div>
 </section>
 
-<div class="controls">
-  <div class="controls-shell glass container">
-    <div class="filters" id="filters"></div>
-    <div class="toolbar">
-      <div class="btngroup">
-        <button id="mode-cards" class="active">Cards</button>
-        <button id="mode-list">Lista</button>
-      </div>
-      <div class="search"><input type="text" id="search" placeholder="Buscar not&iacute;cias..."></div>
-      <button class="urgbtn" id="urgbtn">&#9888;&#65039; Apenas urgentes</button>
-    </div>
-  </div>
-</div>
-
 <main class="container">
   <div class="section" id="sec-top3" style="display:none">
-    <div class="left"><div class="ico">&#11088;</div><div><h2>Imperd&iacute;veis do Dia</h2><span class="sub">top 3 destaques curados</span></div></div>
+    <div class="left"><div class="ico">⭐</div><div><h2>Imperdíveis do Dia</h2><span class="sub">top 3 destaques curados</span></div></div>
   </div>
   <section class="top3" id="top3"></section>
 
+  <div class="controls">
+    <div class="controls-shell glass">
+      <div class="filters" id="filters"></div>
+      <div class="toolbar">
+        <div class="btngroup">
+          <button id="mode-cards" class="active">Cards</button>
+          <button id="mode-list">Lista</button>
+        </div>
+        <button class="urgbtn" id="urgbtn">⚠️ Apenas urgentes</button>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
-    <div class="left"><div class="ico">&#128240;</div><div><h2>Todas as Not&iacute;cias</h2><span class="sub" id="news-count"></span></div></div>
+    <div class="left"><div class="ico">📰</div><div><h2>Todas as Notícias</h2><span class="sub" id="news-count"></span></div></div>
   </div>
   <section class="list" id="list"></section>
 
@@ -1576,13 +1572,12 @@ footer.site::before {
     var list = document.getElementById('list');
     var getCards = function() { return Array.from(list.querySelectorAll('.card')); };
     var filters = document.getElementById('filters');
-    var search = document.getElementById('search');
     var urgbtn = document.getElementById('urgbtn');
     var activeFilter = 'all';
     var onlyUrgent = false;
 
     function apply() {
-      var q = (search.value || '').toLowerCase().trim();
+      var q = '';
       var visible = 0;
       getCards().forEach(function(c) {
         var cat = c.dataset.category;
@@ -1610,8 +1605,6 @@ footer.site::before {
       activeFilter = b.dataset.filter;
       apply();
     });
-
-    search.addEventListener('input', apply);
 
     urgbtn.addEventListener('click', function() {
       onlyUrgent = !onlyUrgent;
