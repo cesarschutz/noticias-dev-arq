@@ -391,10 +391,11 @@ footer.site::before {
 footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
 /* ── About Section ── */
-.about-section { margin: 24px 0 }
+.about-section { margin: 24px 0; overflow: hidden }
 .about-panel {
   padding: 24px; border-radius: 20px;
   position: relative; overflow: hidden;
+  max-width: 100%;
 }
 .about-panel::before {
   content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
@@ -438,7 +439,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   font-size: 11px; font-weight: 600; color: var(--ink-soft);
   display: flex; align-items: center; gap: 6px;
   transition: transform .22s ease, box-shadow .22s ease, color .22s ease;
-  white-space: nowrap;
+  min-width: 0; overflow: hidden;
 }
 .tool-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); color: var(--ink) }
 
