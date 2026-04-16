@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevPulse • Arquivo Diário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-base:#05070d;
+    --bg-surface:#0b1220;
+    --bg-surface-2:#0f1828;
+    --bg-elevated:#152033;
+    --border:#1a2a44;
+    --border-strong:#26416b;
+    --border-soft:rgba(255,255,255,0.06);
+
+    --blue:#1E88E5;
+    --blue-deep:#0D47A1;
+    --blue-glow:rgba(30,136,229,0.18);
+    --blue-strong:#2196F3;
+    --blue-soft:rgba(30,136,229,0.12);
+    --blue-vivid:#42A5F5;
+
+    --text-primary:#ffffff;
+    --text-secondary:#d0dcee;
+    --text-muted:#9cb2cf;
+    --text-dim:#5a6e8c;
+
+    --cat-sec:#F87171;
+    --cat-ai:#C084FC;
+    --cat-cloud:#38BDF8;
+    --cat-devops:#FBBF24;
+
+    --radius-sm:8px;
+    --radius-md:12px;
+    --radius-lg:16px;
+    --radius-xl:20px;
+
+    --shadow-sm:0 1px 3px rgba(0,0,0,.35);
+    --shadow-md:0 4px 16px rgba(0,0,0,.4);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:
+      radial-gradient(1400px 700px at 10% -10%, rgba(30,136,229,0.22), transparent 55%),
+      radial-gradient(1100px 550px at 110% 5%, rgba(13,71,161,0.18), transparent 55%),
+      radial-gradient(900px 500px at 50% 120%, rgba(66,165,245,0.10), transparent 60%),
+      var(--bg-base);
+    background-attachment:fixed;
+    color:var(--text-primary);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:14px;line-height:1.65;font-weight:400;min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1400px;margin:0 auto;padding:0 28px}
+  ::selection{background:var(--blue);color:#fff}
+
+  /* HEADER */
+  header.site{padding:40px 0 28px;position:relative}
+  header.site::after{content:"";position:absolute;left:28px;right:28px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent)}
+  .brandline{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .brand{display:flex;align-items:center;gap:16px}
+  .logo{
+    font-weight:700;letter-spacing:.1em;font-size:13px;
+    padding:8px 14px;border:1px solid var(--blue);color:var(--blue-strong);
+    border-radius:6px;background:var(--blue-glow);text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:10px;
+    box-shadow:0 0 20px rgba(30,136,229,.2);
+  }
+  .logo .stripes{display:inline-flex;gap:2px}
+  .logo .stripes i{display:inline-block;width:3px;height:13px;background:var(--blue)}
+  .logo .stripes i:nth-child(2){background:#fff}
+  .logo .stripes i:nth-child(3){background:#000;box-shadow:0 0 0 1px var(--border-strong)}
+  .tagline{color:var(--text-muted);font-size:14px;font-weight:400}
+
+  /* HERO */
+  .hero{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:stretch}
+  @media(max-width:960px){.hero{grid-template-columns:1fr}}
+  .hero-main{
+    position:relative;overflow:hidden;
+    background:
+      linear-gradient(135deg,rgba(30,136,229,0.14),rgba(13,71,161,0.04) 60%,transparent),
+      var(--bg-surface);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:32px;
+  }
+  .hero-main::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 33%,#fff 33%,#fff 66%,#000 66%,#000 100%);
+    opacity:.9;
+  }
+  .hero-main::after{
+    content:"";position:absolute;right:-120px;top:-120px;width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(30,136,229,.28),transparent);pointer-events:none;
+  }
+  .hero-label{
+    font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--blue-strong);margin-bottom:14px;display:inline-flex;align-items:center;gap:8px;
+  }
+  .hero-label .dot{width:8px;height:8px;border-radius:50%;background:var(--blue-strong);box-shadow:0 0 0 4px var(--blue-glow);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--blue-glow)}50%{box-shadow:0 0 0 8px rgba(30,136,229,.05)}}
+  .hero-date{
+    font-size:30px;font-weight:800;letter-spacing:-0.025em;line-height:1.15;
+    background:linear-gradient(180deg,#fff 0%,#b0c4e4 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    position:relative;
+  }
+  .hero-sub{color:var(--text-muted);margin-top:14px;font-size:15px;line-height:1.65;max-width:720px;position:relative}
+  .hero-highlights{
+    margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);
+    display:flex;flex-direction:column;gap:8px;max-width:720px;position:relative;
+  }
+  .hero-highlights a{
+    color:var(--text-muted);text-decoration:none;font-size:13px;line-height:1.55;
+    padding-left:18px;position:relative;transition:all .15s ease;
+    display:block;
+  }
+  .hero-highlights a::before{content:"▸";position:absolute;left:0;color:var(--blue-strong);font-size:12px;top:1px}
+  .hero-highlights a:hover{color:#fff;transform:translateX(4px)}
+  .hero-highlights a:hover::before{color:#fff}
+  .hero-highlights a .ext{font-size:10px;opacity:.5;margin-left:4px}
+  .hero-btn{
+    position:relative;margin-top:22px;
+    background:var(--blue);color:#fff;border:0;
+    padding:14px 28px;border-radius:12px;font-size:14px;font-weight:700;
+    cursor:pointer;font-family:inherit;transition:all .2s ease;
+    display:inline-flex;align-items:center;gap:10px;
+    box-shadow:0 6px 20px rgba(30,136,229,.4);
+    letter-spacing:-0.01em;
+  }
+  .hero-btn:hover{background:var(--blue-strong);transform:translateY(-2px);box-shadow:0 10px 30px rgba(30,136,229,.5)}
+  .hero-btn.disabled{background:var(--bg-elevated);color:var(--text-muted);cursor:not-allowed;box-shadow:none;border:1px solid var(--border)}
+
+  /* HERO ASIDE: mini stats */
+  .hero-aside{
+    background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:22px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;
+  }
+  .hero-aside::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cat-ai),var(--blue) 50%,var(--cat-sec));opacity:.5}
+  .hero-aside h4{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);display:flex;align-items:center;gap:8px}
+  .hero-aside h4::before{content:"";width:14px;height:2px;background:var(--blue);border-radius:2px}
+  .mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ms-box{background:var(--bg-surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;transition:all .2s ease}
+  .ms-box:hover{border-color:var(--blue);transform:translateY(-2px)}
+  .ms-val{font-size:26px;font-weight:800;color:var(--text-primary);letter-spacing:-0.02em;line-height:1}
+  .ms-lbl{color:var(--text-muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-top:6px}
+  .ms-box.accent .ms-val{color:var(--blue-strong)}
+
+  /* SECTION HEADERS */
+  h2.section{
+    font-size:20px;font-weight:700;margin:40px 0 20px;letter-spacing:-0.02em;
+    display:flex;align-items:center;gap:12px;
+  }
+  h2.section .ico{
+    width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,var(--blue-glow),transparent);
+    border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;
+    font-size:18px;
+  }
+  h2.section .cnt{
+    font-size:11px;color:var(--text-muted);font-weight:600;
+    background:var(--bg-surface);padding:3px 10px;border-radius:999px;border:1px solid var(--border);
+    font-family:'JetBrains Mono',monospace;
+  }
+  h2.section::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);margin-left:8px}
+
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:flex-start;margin-top:8px}
+  @media(max-width:960px){.layout{grid-template-columns:1fr}}
+
+  /* EDITIONS GRID */
+  .editions{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .ed-card{
+    position:relative;background:var(--bg-surface);border:1px solid var(--border);
+    border-radius:var(--radius-md);overflow:hidden;
+    transition:all .22s ease;display:flex;flex-direction:column;
+    box-shadow:var(--shadow-sm);cursor:pointer;
+  }
+  .ed-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--blue);opacity:.9;transition:width .22s ease;
+  }
+  .ed-card:hover{background:var(--bg-elevated);transform:translateY(-3px);box-shadow:var(--shadow-lg),0 0 0 1px var(--blue);border-color:transparent}
+  .ed-card:hover::before{width:5px}
+  .ed-card .ed-header{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:18px 20px 14px;
+  }
+  .ed-card .ed-header-left{display:flex;flex-direction:column}
+  .ed-card .ed-date{font-weight:700;font-size:16px;letter-spacing:-0.01em;color:var(--text-primary);line-height:1.2}
+  .ed-card .ed-weekday{color:var(--text-dim);font-size:11px;margin-top:3px;text-transform:capitalize;font-weight:500}
+  .ed-card .ed-arrow{
+    color:var(--blue-strong);font-size:14px;font-weight:700;
+    width:32px;height:32px;border-radius:8px;
+    background:var(--blue-glow);border:1px solid rgba(30,136,229,.3);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .22s ease;flex-shrink:0;
+  }
+  .ed-card:hover .ed-arrow{background:var(--blue);color:#fff;transform:translateX(2px)}
+  .ed-card .ed-summary{
+    color:var(--text-muted);font-size:12.5px;line-height:1.6;
+    padding:0 20px;
+  }
+  .ed-card .ed-highlights{
+    list-style:none;padding:14px 20px;margin:0;
+    display:flex;flex-direction:column;gap:7px;
+    border-top:1px solid var(--border);margin-top:14px;flex:1;
+  }
+  .ed-card .ed-highlights li{font-size:11.5px;line-height:1.5;padding-left:16px;position:relative}
+  .ed-card .ed-highlights li::before{content:"▸";position:absolute;left:0;color:var(--blue-strong);font-size:10px}
+  .ed-card .ed-highlights a{
+    color:var(--text-muted);text-decoration:none;transition:color .15s ease;
+    display:inline-flex;align-items:baseline;gap:4px;
+  }
+  .ed-card .ed-highlights a:hover{color:var(--blue-strong);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .ed-card .ed-highlights a .ext{font-size:9px;opacity:.5;margin-left:2px}
+  .ed-card .ed-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 20px;border-top:1px solid var(--border);
+    background:rgba(0,0,0,.2);font-size:11.5px;color:var(--text-dim);
+  }
+  .ed-card .ed-footer .open-label{
+    color:var(--blue-strong);font-weight:600;display:inline-flex;align-items:center;gap:4px;
+    transition:gap .2s;
+  }
+  .ed-card:hover .ed-footer .open-label{gap:8px;color:var(--blue-vivid)}
+
+  /* SIDEBAR */
+  aside.sidebar{position:sticky;top:20px}
+  .cal-panel{
+    background:var(--bg-surface);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:20px;
+    box-shadow:var(--shadow-md);position:relative;overflow:hidden;
+  }
+  .cal-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 33%,#fff 33%,#fff 66%,#000 66%,#000 100%)}
+  .cal-panel h3{
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+    color:var(--text-muted);margin:8px 0 16px;display:flex;align-items:center;gap:8px;
+  }
+  .cal-panel h3::before{content:"";width:14px;height:2px;background:var(--blue);border-radius:2px}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .cal-month{font-size:14px;font-weight:700;letter-spacing:-0.01em;flex:1;text-align:center;text-transform:capitalize}
+  .iconbtn{
+    background:var(--bg-surface-2);border:1px solid var(--border);
+    color:var(--text-muted);width:30px;height:30px;border-radius:8px;
+    display:inline-flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:all .18s ease;font-size:14px;line-height:1;
+  }
+  .iconbtn:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:scale(1.05)}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+  .cal-dow{font-size:9px;font-weight:700;color:var(--text-dim);text-align:center;padding:5px 0;letter-spacing:.06em;text-transform:uppercase}
+  .day{
+    aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+    border-radius:8px;font-size:11.5px;font-weight:500;position:relative;
+    cursor:default;background:transparent;border:1px solid transparent;
+    transition:all .15s ease;color:var(--text-dim);
+  }
+  .day.empty{visibility:hidden}
+  .day.in-month{color:var(--text-muted)}
+  .day.has-report{color:var(--text-primary);background:var(--blue-glow);cursor:pointer;border-color:rgba(30,136,229,.15)}
+  .day.has-report:hover{background:var(--blue);color:#fff;transform:scale(1.1);border-color:var(--blue);box-shadow:0 4px 12px rgba(30,136,229,.4)}
+  .day.today{border-color:#fff;color:#fff;font-weight:700;background:rgba(255,255,255,.08)}
+  .day.today.has-report{background:linear-gradient(135deg,rgba(255,255,255,0.18),rgba(30,136,229,0.22));color:#fff;border-color:rgba(255,255,255,.5)}
+  .day.today.has-report:hover{background:#fff;color:var(--blue-deep);border-color:#fff}
+  .day .dot{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--blue-strong)}
+  .day.today .dot{background:#fff}
+  .day.has-report:hover .dot{background:#fff}
+  .cal-legend{
+    margin-top:16px;padding-top:16px;border-top:1px solid var(--border);
+    display:flex;flex-direction:column;gap:8px;color:var(--text-muted);font-size:10.5px;
+  }
+  .leg-item{display:inline-flex;align-items:center;gap:8px}
+  .sw{width:12px;height:12px;border-radius:4px;display:inline-block;flex-shrink:0}
+  .sw.report{background:var(--blue-glow);border:1px solid var(--blue)}
+  .sw.today{border:1.5px solid #fff;background:rgba(255,255,255,.08)}
+
+  .sidebar-footer{margin-top:14px;padding:0 4px;color:var(--text-dim);font-size:10.5px;text-align:center}
+
+  /* FOOTER */
+  footer.site{margin-top:72px;padding:32px 0 48px;border-top:1px solid var(--border);color:var(--text-dim);font-size:12px;text-align:center;position:relative}
+  footer.site::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 33%,#fff 33%,#fff 66%,#000 66%,#000 100%);opacity:.7}
+  footer.site .ft-brand{color:var(--text-secondary);font-weight:600;margin-bottom:4px}
+  footer.site code{
+    background:var(--bg-surface);padding:3px 8px;border-radius:4px;
+    border:1px solid var(--border);font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+  }
+
+  @media(max-width:720px){
+    .container{padding:0 18px}
+    .hero-date{font-size:22px}
+    .hero-main{padding:24px}
+    h2.section{font-size:17px;margin:32px 0 16px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <div class="brandline">
+      <div class="brand">
+        <span class="logo"><span class="stripes"><i></i><i></i><i></i></span>DevPulse</span>
+        <span class="tagline">• Arquivo Diário do Arquiteto</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-main">
+        <div class="hero-label"><span class="dot"></span>Edição de Hoje</div>
+        <h1 class="hero-date" id="today-date">—</h1>
+        <p class="hero-sub" id="today-sub">Verificando edição do dia…</p>
+        <div class="hero-highlights" id="today-hl"></div>
+        <button class="hero-btn" id="today-open">📰 Abrir edição completa →</button>
+      </div>
+
+      <div class="hero-aside">
+        <h4>📊 Visão geral do arquivo</h4>
+        <div class="mini-stats">
+          <div class="ms-box accent"><div class="ms-val" id="stat-total">0</div><div class="ms-lbl">Edições</div></div>
+          <div class="ms-box"><div class="ms-val" id="stat-days">0</div><div class="ms-lbl">Dias cobertos</div></div>
+          <div class="ms-box"><div class="ms-val" id="stat-first">—</div><div class="ms-lbl">Primeira edição</div></div>
+          <div class="ms-box"><div class="ms-val" id="stat-last">—</div><div class="ms-lbl">Última edição</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <h2 class="section"><span class="ico">📚</span>Edições Anteriores <span class="cnt" id="count-prev">0</span></h2>
+
+  <div class="layout">
+    <div>
+      <div class="editions" id="recent-list"></div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="cal-panel">
+        <h3>📅 Calendário</h3>
+        <div class="cal-head">
+          <button class="iconbtn" id="prev" title="Mês anterior">‹</button>
+          <div class="cal-month" id="month-label">—</div>
+          <button class="iconbtn" id="next" title="Próximo mês">›</button>
+        </div>
+        <div class="cal-grid" id="dow">
+          <div class="cal-dow">D</div><div class="cal-dow">S</div><div class="cal-dow">T</div>
+          <div class="cal-dow">Q</div><div class="cal-dow">Q</div><div class="cal-dow">S</div><div class="cal-dow">S</div>
+        </div>
+        <div class="cal-grid" id="grid"></div>
+        <div class="cal-legend">
+          <div class="leg-item"><span class="sw report"></span> Edição disponível</div>
+          <div class="leg-item"><span class="sw today"></span> Dia de hoje</div>
+        </div>
+      </div>
+      <div class="sidebar-footer">Arquivo local • atualizado diariamente</div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="container">
+    <div class="ft-brand">DevPulse • Arquivo Diário do Arquiteto</div>
+    Arquivo local em <code>noticias-arq/dias/</code> • Atualizado automaticamente pelo agendamento diário
+  </div>
+</footer>
+
+<script>
+(function(){
+  const EDITIONS = {
+    "2026-04-09": {
+      summary: "Ataque à cadeia npm (axios) atribuído à Coreia do Norte, TypeScript 7.0 reescrito em Go e GA dos agentes AWS DevOps/Security.",
+      highlights: [
+        {t:"Ataque a cadeia de suprimentos do npm axios atribuído à Coreia do Norte", u:"https://www.elastic.co/security-labs/axios-one-rat-to-rule-them-all"},
+        {t:"TypeScript 7.0 será reescrito em Go com ganho de performance de 10x", u:"https://thenewstack.io/microsoft-typescript-devs-explain-why-they-chose-go-over-rust-c/"},
+        {t:"AWS DevOps Agent e Security Agent chegam a Disponibilidade Geral", u:"https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-devops-agent-security-agent-ga-product-lifecycle-updates-and-more-april-6-2026/"}
+      ]
+    },
+    "2026-04-10": {
+      summary: "Bypass de autorização crítico no Docker Engine (CVE-2026-34040), GA dos agentes AWS e Pinterest leva MCP para produção.",
+      highlights: [
+        {t:"CVE-2026-34040: bypass de AuthZ no Docker Engine permite acesso total ao host", u:"https://thehackernews.com/2026/04/docker-cve-2026-34040-lets-attackers.html"},
+        {t:"AWS DevOps Agent e Security Agent chegam em GA — operações cloud autônomas", u:"https://aws.amazon.com/blogs/mt/announcing-general-availability-of-aws-devops-agent/"},
+        {t:"Pinterest implanta ecossistema MCP em produção para automação com agentes IA", u:"https://www.infoq.com/news/2026/04/pinterest-mcp-ecosystem/"}
+      ]
+    },
+    "2026-04-11": {
+      summary: "Anthropic libera Claude Mythos via Project Glasswing, falha crítica no Docker Engine e agentes AWS em GA com suporte MCP.",
+      highlights: [
+        {t:"Anthropic lança Claude Mythos em acesso restrito e encontra milhares de zero-days", u:"https://fortune.com/2026/04/07/anthropic-claude-mythos-model-project-glasswing-cybersecurity/"},
+        {t:"CVE-2026-34040: falha crítica no Docker Engine permite bypass total de AuthZ", u:"https://thehackernews.com/2026/04/docker-cve-2026-34040-lets-attackers.html"},
+        {t:"AWS DevOps Agent e Security Agent em GA com suporte multi-cloud e MCP", u:"https://aws.amazon.com/blogs/mt/announcing-general-availability-of-aws-devops-agent/"}
+      ]
+    },
+    "2026-04-12": {
+      summary: "Docker CVE-2026-34040 ganha tração, Claude Mythos em acesso controlado e coalizão OpenAI/Anthropic/Google contra clonagem chinesa.",
+      highlights: [
+        {t:"Docker CVE-2026-34040: bypass de autorização permite acesso root ao host", u:"https://thehackernews.com/2026/04/docker-cve-2026-34040-lets-attackers.html"},
+        {t:"Claude Mythos em acesso controlado; OpenAI, Anthropic e Google se unem contra clonagem", u:"https://whatllm.org/blog/new-ai-models-april-2026"},
+        {t:"AWS lança DevOps Agent e Security Agent em GA — incidentes de horas para minutos", u:"https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-devops-agent-security-agent-ga-product-lifecycle-updates-and-more-april-6-2026/"}
+      ]
+    },
+    "2026-04-13": {
+      summary: "Agentes AWS em GA, Meta lança Muse Spark do Superintelligence Labs e zero-days críticos em Chrome e Fortinet sob exploração.",
+      highlights: [
+        {t:"AWS DevOps Agent e Security Agent em GA com resolução autônoma de incidentes", u:"https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-devops-agent-security-agent-ga-product-lifecycle-updates-and-more-april-6-2026/"},
+        {t:"Meta lança Muse Spark, primeiro modelo da era Superintelligence Labs", u:"https://techcrunch.com/2026/04/08/meta-debuts-the-muse-spark-model-in-a-ground-up-overhaul-of-its-ai/"},
+        {t:"Zero-days críticos: Chrome CVE-2026-5281 e Fortinet CVE-2026-35616 explorados", u:"https://thehackernews.com/2026/04/new-chrome-zero-day-cve-2026-5281-under.html"}
+      ]
+    },
+    "2026-04-14": {
+      summary: "Fortinet corrige zero-day ativamente explorado, OpenAI lança GPT-6 com System-1/System-2 e agentes AWS em GA com MTTR −75%.",
+      highlights: [
+        {t:"Fortinet corrige CVE-2026-35616 em FortiClient EMS com exploração ativa", u:"https://thehackernews.com/2026/04/fortinet-patches-actively-exploited-cve.html"},
+        {t:"OpenAI lança GPT-6 com arquitetura System-1/System-2 e hallucination <0,1%", u:"https://llm-stats.com/llm-updates"},
+        {t:"AWS DevOps Agent e Security Agent em GA com MTTR até 75% menor", u:"https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-devops-agent-security-agent-ga-product-lifecycle-updates-and-more-april-6-2026/"}
+      ]
+    },
+    "2026-04-15": {
+      summary: "Patch Tuesday corrige 163 CVEs incluindo zero-day no SharePoint, Claude Mythos é confirmado e AWS lança Amazon S3 Files.",
+      highlights: [
+        {t:"Microsoft Patch Tuesday de Abril corrige 163 CVEs, incluindo zero-day ativo no SharePoint", u:"https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201"},
+        {t:"Anthropic confirma Claude Mythos e abre Project Glasswing para defesa cibernética", u:"https://techcrunch.com/2026/04/07/anthropic-mythos-ai-model-preview-security/"},
+        {t:"AWS lança Amazon S3 Files: buckets acessíveis como filesystem de alta performance", u:"https://aws.amazon.com/new/"}
+      ]
+    }
+  };
+  const AVAILABLE = Object.keys(EDITIONS).sort();
+  const availableSet = new Set(AVAILABLE);
+
+  const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  const MONTHS_SHORT = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  const WEEKDAYS_FULL = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+
+  function pad(n){return String(n).padStart(2,"0")}
+  function isoOf(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+  function fileOf(iso){return "dias/devpulse-"+iso+".html"}
+  function escapeHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const todayISO = isoOf(today);
+
+  // Stats
+  document.getElementById("stat-total").textContent = AVAILABLE.length;
+  if(AVAILABLE.length > 0){
+    const first = AVAILABLE[0].split("-").map(Number);
+    const last = AVAILABLE[AVAILABLE.length-1].split("-").map(Number);
+    document.getElementById("stat-first").textContent = first[2]+"/"+pad(first[1]);
+    document.getElementById("stat-last").textContent = last[2]+"/"+pad(last[1]);
+    const d1 = new Date(first[0],first[1]-1,first[2]);
+    const d2 = new Date(last[0],last[1]-1,last[2]);
+    document.getElementById("stat-days").textContent = Math.round((d2-d1)/(1000*60*60*24))+1;
+  }
+
+  // Hero
+  document.getElementById("today-date").textContent =
+    WEEKDAYS_FULL[today.getDay()]+", "+today.getDate()+" de "+MONTHS[today.getMonth()]+" de "+today.getFullYear();
+  const sub = document.getElementById("today-sub");
+  const btn = document.getElementById("today-open");
+  const todayHl = document.getElementById("today-hl");
+  if(availableSet.has(todayISO)){
+    const edToday = EDITIONS[todayISO];
+    sub.textContent = edToday && edToday.summary
+      ? edToday.summary
+      : "Edição do dia disponível — pronta para leitura.";
+    btn.onclick = () => { window.location.href = fileOf(todayISO); };
+    if(edToday && edToday.highlights){
+      todayHl.innerHTML = edToday.highlights.slice(0,3).map(h => {
+        const text = typeof h === 'string' ? h : h.t;
+        const url = typeof h === 'string' ? null : h.u;
+        if(url){
+          return '<a href="'+url+'" target="_blank" rel="noopener">'+escapeHtml(text)+'<span class="ext">↗</span></a>';
+        }
+        return '<a style="cursor:default">'+escapeHtml(text)+'</a>';
+      }).join("");
+    }
+  } else {
+    sub.textContent = "Ainda não há edição publicada para hoje. Consulte o calendário ao lado.";
+    btn.classList.add("disabled");
+    btn.textContent = "Edição de hoje ainda não publicada";
+    btn.onclick = (e) => e.preventDefault();
+    todayHl.style.display = "none";
+  }
+
+  // Calendar
+  let viewYear = today.getFullYear();
+  let viewMonth = today.getMonth();
+  const grid = document.getElementById("grid");
+  const monthLabel = document.getElementById("month-label");
+
+  function render(){
+    monthLabel.textContent = MONTHS[viewMonth]+" "+viewYear;
+    grid.innerHTML = "";
+    const first = new Date(viewYear, viewMonth, 1);
+    const startDow = first.getDay();
+    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+    for(let i=0;i<startDow;i++){
+      const d = document.createElement("div");
+      d.className = "day empty";
+      grid.appendChild(d);
+    }
+    for(let day=1; day<=daysInMonth; day++){
+      const iso = viewYear+"-"+pad(viewMonth+1)+"-"+pad(day);
+      const el = document.createElement("div");
+      el.className = "day in-month";
+      if(iso === todayISO) el.classList.add("today");
+      if(availableSet.has(iso)){
+        el.classList.add("has-report");
+        const ed = EDITIONS[iso];
+        const sum = ed && ed.summary ? "\n\n"+ed.summary : "";
+        el.title = "Edição de "+day+"/"+pad(viewMonth+1)+"/"+viewYear+sum;
+        el.onclick = () => { window.location.href = fileOf(iso); };
+      } else {
+        el.title = "Sem edição em "+day+"/"+pad(viewMonth+1)+"/"+viewYear;
+      }
+      el.textContent = day;
+      if(availableSet.has(iso)){
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        el.appendChild(dot);
+      }
+      grid.appendChild(el);
+    }
+  }
+  document.getElementById("prev").onclick = () => { viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--} render(); };
+  document.getElementById("next").onclick = () => { viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++} render(); };
+  render();
+
+  // Edições anteriores
+  const recentWrap = document.getElementById("recent-list");
+  const previous = AVAILABLE.filter(iso => iso !== todayISO).sort().reverse();
+  document.getElementById("count-prev").textContent = previous.length;
+  previous.forEach(iso => {
+    const [y,m,d] = iso.split("-").map(Number);
+    const dt = new Date(y, m-1, d);
+    const ed = EDITIONS[iso] || {summary:"", highlights:[]};
+    const card = document.createElement("div");
+    card.className = "ed-card";
+    const hl = (ed.highlights||[]).slice(0,3).map(h => {
+      const text = typeof h === 'string' ? h : h.t;
+      const url = typeof h === 'string' ? null : h.u;
+      if(url){
+        return '<li><a href="'+url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">'+escapeHtml(text)+'<span class="ext">↗</span></a></li>';
+      }
+      return '<li><span style="color:var(--text-muted)">'+escapeHtml(text)+'</span></li>';
+    }).join("");
+    card.innerHTML =
+      '<div class="ed-header">'+
+        '<div class="ed-header-left">'+
+          '<div class="ed-date">'+d+' de '+MONTHS[m-1]+' de '+y+'</div>'+
+          '<div class="ed-weekday">'+WEEKDAYS_FULL[dt.getDay()]+'</div>'+
+        '</div>'+
+        '<div class="ed-arrow">→</div>'+
+      '</div>'+
+      (ed.summary?'<div class="ed-summary">'+escapeHtml(ed.summary)+'</div>':'')+
+      (hl?'<ul class="ed-highlights">'+hl+'</ul>':'')+
+      '<div class="ed-footer">'+
+        '<span>📰 '+((ed.highlights||[]).length)+' destaques</span>'+
+        '<span class="open-label">Ver edição →</span>'+
+      '</div>';
+    card.addEventListener('click', () => { window.location.href = fileOf(iso); });
+    recentWrap.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>
