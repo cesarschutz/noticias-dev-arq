@@ -375,7 +375,7 @@ nav .nav-inner {
    ═══════════════════════════════════════════ */
 .controls {
   position: sticky;
-  top: 0;
+  top: 48px;
   z-index: 50;
   margin: 16px 0 20px;
 }
@@ -912,16 +912,26 @@ nav .nav-inner {
    ═══════════════════════════════════════════ */
 footer.site {
   margin-top: 32px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   border-radius: 20px;
-  padding: 28px 0 40px;
+  padding: 16px 20px;
   text-align: center;
+  font-size: 11px;
   position: relative;
+  overflow: hidden;
+}
+footer.site::before {
+  content: "";
+  position: absolute;
+  left: 24px; right: 24px; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.25;
 }
 .ft-brand {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin-bottom: 4px;
 }
 .ft-sub {

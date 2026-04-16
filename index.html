@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DevPulse - Arquivo Diario</title>
+<title>DevPulse - Arquivo Diário</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -380,13 +380,27 @@ footer.site {
   margin-bottom: 24px; margin-top: 32px;
   text-align: center;
   font-size: 11px;
+  position: relative; overflow: hidden;
+}
+footer.site::before {
+  content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.25;
 }
 .ft-brand { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px }
 footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
 /* ── About Section ── */
-.about-section { margin: 20px 0 }
-.about-panel { padding: 20px; border-radius: 20px; }
+.about-section { margin: 24px 0 }
+.about-panel {
+  padding: 24px; border-radius: 20px;
+  position: relative; overflow: hidden;
+}
+.about-panel::before {
+  content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.35;
+}
 .about-panel h2 { font-size: 18px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 8px }
 .about-panel .about-text { color: var(--ink-soft); font-size: 13px; line-height: 1.6 }
 .about-panel .about-text p { margin-bottom: 6px }
@@ -573,7 +587,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   <nav class="topbar">
     <div class="brand">
       <div class="brand-mark"><span class="stripes"><i></i><i></i><i></i></span></div>
-      <div class="brand-copy"><strong>DevPulse</strong><span>Arquivo Diario do Arquiteto</span></div>
+      <div class="brand-copy"><strong>DevPulse</strong><span>Arquivo Diário do Arquiteto</span></div>
     </div>
     <div class="topbar-center">arquivo editorial</div>
     <div class="topbar-right">
@@ -587,11 +601,11 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   <div class="hero-panel glass">
     <div class="hero-top">
       <div class="hero-left">
-        <div class="hero-kicker"><span class="dot"></span>Edicao de Hoje</div>
+        <div class="hero-kicker"><span class="dot"></span>Edição de Hoje</div>
         <h1 id="today-date">&mdash;</h1>
         <p id="today-sub">Verificando...</p>
       </div>
-      <button class="hero-btn" id="today-open">Abrir edicao &#8599;</button>
+      <button class="hero-btn" id="today-open">Abrir edição &#8599;</button>
     </div>
     <div class="highlights" id="today-hl"></div>
   </div>
@@ -601,12 +615,12 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   <div class="about-panel glass">
     <div class="about-text">
       <h2>Sobre o DevPulse</h2>
-      <p>Curadoria diaria automatizada de noticias tecnicas para arquitetos de software e solucao. Todos os dias as 6h da manha, uma IA pesquisa as principais fontes de tecnologia, curadoria as noticias mais relevantes e gera uma edicao completa — tudo automaticamente.</p>
-      <p>O sistema monitora <strong>10 categorias tecnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto pratico para decisoes de arquitetura.</p>
+      <p>Curadoria diária automatizada de notícias técnicas para arquitetos de software e solução. Todos os dias às 6h da manhã, uma IA pesquisa as principais fontes de tecnologia, curadoria as notícias mais relevantes e gera uma edição completa — tudo automaticamente.</p>
+      <p>O sistema monitora <strong>10 categorias técnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto prático para decisões de arquitetura.</p>
     </div>
     <div class="about-cats-title">Categorias monitoradas</div>
     <div class="cat-grid">
-      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Seguranca</span></div>
+      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Segurança</span></div>
       <div class="cat-card" data-cat="ai" style="--cc: var(--cat-ai)"><span class="cat-icon">🤖</span><span class="cat-name">IA & LLMs</span></div>
       <div class="cat-card" data-cat="cloud" style="--cc: var(--cat-cloud)"><span class="cat-icon">☁️</span><span class="cat-name">Cloud</span></div>
       <div class="cat-card" data-cat="devops" style="--cc: var(--cat-devops)"><span class="cat-icon">⚙️</span><span class="cat-name">DevOps</span></div>
@@ -615,7 +629,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       <div class="cat-card" data-cat="db" style="--cc: var(--cat-db)"><span class="cat-icon">🗄️</span><span class="cat-name">Bancos</span></div>
       <div class="cat-card" data-cat="lang" style="--cc: var(--cat-lang)"><span class="cat-icon">🛠️</span><span class="cat-name">Linguagens</span></div>
       <div class="cat-card" data-cat="arqsw" style="--cc: var(--cat-arqsw)"><span class="cat-icon">🏛️</span><span class="cat-name">Arq. Software</span></div>
-      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solucao</span></div>
+      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solução</span></div>
     </div>
     <div class="about-tools-title">Ferramentas monitoradas</div>
     <div class="tool-grid">
@@ -640,7 +654,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       <div class="section-title">
         <div class="copy">
           <div class="badge-icon">&#128218;</div>
-          <div><h2>Edicoes Anteriores</h2><p>arquivo completo de edicoes</p></div>
+          <div><h2>Edições Anteriores</h2><p>arquivo completo de edições</p></div>
         </div>
         <div class="count-pill" id="count-prev">0</div>
       </div>
@@ -648,16 +662,16 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     </section>
     <aside>
       <div class="calendar-card glass">
-        <div class="section-label"><strong>Calendario</strong><span>navegacao</span></div>
+        <div class="section-label"><strong>Calendário</strong><span>navegação</span></div>
         <div class="cal-header">
-          <button class="cal-btn" id="cal-prev" title="Mes anterior">&#8249;</button>
+          <button class="cal-btn" id="cal-prev" title="Mês anterior">&#8249;</button>
           <div class="cal-label" id="cal-month-label">&mdash;</div>
-          <button class="cal-btn" id="cal-next" title="Proximo mes">&#8250;</button>
+          <button class="cal-btn" id="cal-next" title="Próximo mês">&#8250;</button>
         </div>
         <div class="cal-grid" id="cal-dow"></div>
         <div class="cal-grid" id="cal-grid"></div>
         <div class="cal-legend">
-          <div class="cal-legend-item"><span class="cal-swatch report"></span> Edicao disponivel</div>
+          <div class="cal-legend-item"><span class="cal-swatch report"></span> Edição disponível</div>
           <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
         </div>
       </div>
@@ -666,8 +680,8 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 </main>
 
 <footer class="site glass container">
-  <div class="ft-brand">DevPulse &middot; Arquivo Diario do Arquiteto</div>
-  <div>Atualizado automaticamente pelo agendamento diario</div>
+  <div class="ft-brand">DevPulse &middot; Arquivo Diário do Arquiteto</div>
+  <div>Atualizado automaticamente pelo agendamento diário</div>
 </footer>
 
 <div class="overlay" id="overlay">
@@ -688,8 +702,8 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 <script>
 (function() {
   /* ── Constants ── */
-  var MONTHS = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var WEEKDAYS = ['Domingo','Segunda-feira','Terca-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'];
+  var MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var WEEKDAYS = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
   var DOW_SHORT = ['D','S','T','Q','Q','S','S'];
 
   var CAT_META = {
@@ -753,7 +767,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       document.getElementById('today-sub').textContent = 'Erro ao carregar dados do arquivo.';
       var btn = document.getElementById('today-open');
       btn.classList.add('disabled');
-      btn.textContent = 'Dados indisponiveis';
+      btn.textContent = 'Dados indisponíveis';
       document.getElementById('today-hl').style.display = 'none';
     });
 
@@ -773,7 +787,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
     if (availableSet.has(todayISO)) {
       var ed = EDITIONS[todayISO];
-      sub.textContent = ed.summary || 'Edicao do dia disponivel.';
+      sub.textContent = ed.summary || 'Edição do dia disponível.';
       btn.addEventListener('click', function() { window.location.href = 'dia.html?d=' + todayISO });
 
       if (ed.highlights && ed.highlights.length) {
@@ -787,9 +801,9 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         todayHl.style.display = 'none';
       }
     } else {
-      sub.textContent = 'Ainda nao ha edicao publicada para hoje.';
+      sub.textContent = 'Ainda não há edição publicada para hoje.';
       btn.classList.add('disabled');
-      btn.textContent = 'Edicao ainda nao disponivel';
+      btn.textContent = 'Edição ainda não disponível';
       btn.addEventListener('click', function(e) { e.preventDefault() });
       todayHl.style.display = 'none';
     }
@@ -826,7 +840,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         if (iso === todayISO) el.classList.add('today');
         if (availableSet.has(iso)) {
           el.classList.add('has-report');
-          el.title = (EDITIONS[iso] && EDITIONS[iso].summary) || 'Edicao disponivel';
+          el.title = (EDITIONS[iso] && EDITIONS[iso].summary) || 'Edição disponível';
           (function(isoVal) {
             el.addEventListener('click', function() { window.location.href = 'dia.html?d=' + isoVal });
           })(iso);
@@ -876,7 +890,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         (hlItems ? '<ul class="ed-highlights">' + hlItems + '</ul>' : '') +
         '<div class="ed-footer">' +
           '<span>\uD83D\uDCF0 ' + hlCount + ' destaques</span>' +
-          '<span class="open-label">Ver edicao \u2192</span>' +
+          '<span class="open-label">Ver edição \u2192</span>' +
         '</div>';
 
       card.addEventListener('click', function() { window.location.href = 'dia.html?d=' + iso });
