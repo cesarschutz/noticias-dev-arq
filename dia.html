@@ -652,6 +652,13 @@ nav.topbar {
   height: 3px;
   background: linear-gradient(90deg, var(--c, var(--accent)), color-mix(in srgb, var(--c, var(--accent)) 60%, #6c5ce7));
 }
+.top-card .t-image {
+  width: 100%; height: 160px;
+  background-size: cover; background-position: center;
+  background-color: var(--glass-bg-solid);
+  flex-shrink: 0;
+}
+.top-card.img-failed .t-image { display: none }
 .top-card .body {
   padding: 16px 18px 14px;
   flex: 1;
@@ -833,6 +840,59 @@ nav.topbar {
   background: var(--glass-bg-solid);
 }
 
+/* List + Summary mode — lista compacta com resumo visível */
+.list.listmode-detail {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--glass-card);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+.listmode-detail .card {
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: transparent;
+  padding: 12px 16px;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: none;
+}
+.listmode-detail .card::before,
+.listmode-detail .card::after { display: none; }
+.listmode-detail .card:last-child { border-bottom: 0; }
+.listmode-detail .card .head {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.listmode-detail .card .headline {
+  font-size: 13px;
+  font-weight: 700;
+}
+.listmode-detail .card .summary {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.listmode-detail .card .foot {
+  border-top: 0;
+  padding-top: 4px;
+  font-size: 11px;
+}
+.listmode-detail .card:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--glass-bg-solid);
+}
+
 /* ═══════════════════════════════════════════
    TOOL CARDS — tighter
    ═══════════════════════════════════════════ */
@@ -993,8 +1053,45 @@ footer.site::before {
   border-color: var(--accent);
   color: #fff;
 }
-.top-card .read-check, .card .read-check { position: static; flex-shrink: 0; }
-.top-card .foot, .card .foot { display: flex; align-items: center; }
+.top-card .read-check, .card .read-check, .tool-card .read-check { position: static; flex-shrink: 0; margin-left: auto; }
+.top-card .foot, .card .foot { display: flex; align-items: center; gap: 8px; }
+.top-card .foot > span:first-child, .card .foot > span:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tool-card .link { display: flex; align-items: center; gap: 8px; }
+
+/* ── Favorite tracking ── */
+.fav-star {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; min-width: 18px;
+  font-size: 14px; line-height: 1;
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: transform .15s ease, color .15s ease, text-shadow .15s ease;
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  flex-shrink: 0;
+}
+.fav-star:hover { transform: scale(1.2); color: #f5b301 }
+.fav-star.faved { color: #f5b301; text-shadow: 0 0 6px rgba(245,179,1,.45) }
+
+.is-fav {
+  box-shadow: inset 3px 0 0 0 #f5b301, var(--shadow-sm);
+}
+.is-read.is-fav { opacity: 1 }
+.is-read.is-fav .headline,
+.is-read.is-fav .ov-headline,
+.is-read.is-fav .sr-headline { text-decoration: none }
+
+/* Chip no topbar */
+.fav-chip {
+  padding: 5px 12px; border-radius: 999px; font-size: 10px; font-weight: 700;
+  border: 1px solid var(--glass-border); background: var(--glass-bg-solid);
+  color: var(--ink-dim); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+  transition: all .2s ease; display: inline-flex; align-items: center; gap: 4px;
+}
+.fav-chip .star { color: #f5b301; font-size: 12px }
+.fav-chip:hover { color: #f5b301; border-color: #f5b301; background: rgba(245,179,1,.1) }
+.fav-chip.has-favs { border-color: rgba(245,179,1,.4) }
 
 /* ═══════════════════════════════════════════
    GLOBAL SEARCH
@@ -1152,6 +1249,7 @@ footer.site::before {
       <span class="gs-shortcut">⌘K</span>
     </div>
     <div class="topbar-right">
+      <button class="fav-chip" id="fav-chip" title="Ver favoritos"><span class="star">&#9733;</span> <span id="fav-count">0</span></button>
       <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
       <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon">🌙</span></button>
     </div>
@@ -1183,6 +1281,7 @@ footer.site::before {
       <div class="toolbar">
         <div class="btngroup">
           <button id="mode-cards" class="active">Cards</button>
+          <button id="mode-list-detail">Lista + Resumo</button>
           <button id="mode-list">Lista</button>
         </div>
         <button class="urgbtn" id="urgbtn">⚠️ Apenas urgentes</button>
@@ -1261,6 +1360,9 @@ footer.site::before {
       }
     });
     updateClearBtn();
+    if (typeof applyFavState === 'function') {
+      try { applyFavState(container); } catch(e) {}
+    }
   }
   function updateClearBtn() {
     var btn = document.getElementById('clear-read');
@@ -1277,6 +1379,63 @@ footer.site::before {
     }
   });
   updateClearBtn();
+
+  /* ═══════════════════════════════════════
+     FAVORITE TRACKING
+     ═══════════════════════════════════════ */
+  var FAV_KEY = 'dp-favorites';
+  function getFavs() {
+    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function isFav(url) { return getFavs().indexOf(url) !== -1; }
+  function toggleFav(url) {
+    var list = getFavs();
+    var idx = list.indexOf(url);
+    if (idx === -1) {
+      list.push(url);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+      if (!isRead(url)) markRead(url);
+    } else {
+      list.splice(idx, 1);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+    }
+  }
+  function applyFavState(container) {
+    if (!container) container = document;
+    container.querySelectorAll('[data-url]').forEach(function(el) {
+      var url = el.dataset.url;
+      var star = el.querySelector('.fav-star');
+      if (isFav(url)) {
+        el.classList.add('is-fav');
+        if (star) { star.classList.add('faved'); star.textContent = '\u2605'; }
+      } else {
+        el.classList.remove('is-fav');
+        if (star) { star.classList.remove('faved'); star.textContent = '\u2606'; }
+      }
+    });
+    updateFavChip();
+  }
+  function updateFavChip() {
+    var chip = document.getElementById('fav-chip');
+    var count = getFavs().length;
+    var countEl = document.getElementById('fav-count');
+    if (countEl) countEl.textContent = count;
+    if (chip) {
+      if (count > 0) chip.classList.add('has-favs');
+      else chip.classList.remove('has-favs');
+    }
+  }
+  function attachStarHandler(star, url) {
+    if (!star) return;
+    star.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFav(url);
+      applyFavState(document);
+      applyReadState(document);
+    });
+  }
+  updateFavChip();
 
   /* ═══════════════════════════════════════
      THEME TOGGLE
@@ -1386,8 +1545,14 @@ footer.site::before {
     if (item['new']) badges += '<span class="badge new">Novo</span>';
     if (item.star) badges += '<span class="badge star">Destaque</span>';
 
+    var imageHtml = '';
+    if (item.image) {
+      imageHtml = '<div class="t-image" style="background-image:url(\'' + esc(item.image) + '\')"></div>' +
+        '<img src="' + esc(item.image) + '" style="display:none" onerror="this.parentElement.classList.add(\'img-failed\')" />';
+    }
     a.innerHTML =
       '<div class="gradient-bar"></div>' +
+      imageHtml +
       '<div class="body">' +
         '<div class="badges">' + badges + '</div>' +
         '<div class="headline">' + esc(item.headline) + '</div>' +
@@ -1395,6 +1560,7 @@ footer.site::before {
       '</div>' +
       '<div class="foot">' +
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
+        '<span class="fav-star" title="Favoritar">\u2606</span>' +
         '<span class="read-check" title="Marcar como lida"></span>' +
         '<span class="open">Abrir &rarr;</span>' +
       '</div>';
@@ -1405,6 +1571,7 @@ footer.site::before {
       toggleRead(item.url);
       applyReadState();
     });
+    attachStarHandler(a.querySelector('.fav-star'), item.url);
     return a;
   }
 
@@ -1434,6 +1601,7 @@ footer.site::before {
       '<div class="summary">' + esc(item.summary) + '</div>' +
       '<div class="foot">' +
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
+        '<span class="fav-star" title="Favoritar">\u2606</span>' +
         '<span class="read-check" title="Marcar como lida"></span>' +
         '<span class="arrow">&nearr;</span>' +
       '</div>';
@@ -1444,6 +1612,7 @@ footer.site::before {
       toggleRead(item.url);
       applyReadState();
     });
+    attachStarHandler(a.querySelector('.fav-star'), item.url);
     return a;
   }
 
@@ -1460,7 +1629,7 @@ footer.site::before {
         '<div class="ver">' + esc(tool.version) + '</div>' +
       '</div>' +
       '<div class="desc">' + esc(tool.description) + '</div>' +
-      '<div class="link"><span>Changelog &rarr;</span><span class="read-check" title="Marcar como lida"></span></div>';
+      '<div class="link"><span>Changelog &rarr;</span><span class="fav-star" title="Favoritar">\u2606</span><span class="read-check" title="Marcar como lida"></span></div>';
     a.addEventListener('click', function() { markRead(tool.url); applyReadState(); });
     a.querySelector('.read-check').addEventListener('click', function(e) {
       e.preventDefault();
@@ -1468,6 +1637,7 @@ footer.site::before {
       toggleRead(tool.url);
       applyReadState();
     });
+    attachStarHandler(a.querySelector('.fav-star'), tool.url);
     return a;
   }
 
@@ -1636,23 +1806,32 @@ footer.site::before {
     /* Mode toggle */
     var modeCards = document.getElementById('mode-cards');
     var modeList = document.getElementById('mode-list');
+    var modeListDetail = document.getElementById('mode-list-detail');
 
     function setMode(m) {
+      list.classList.remove('listmode', 'listmode-detail');
+      modeCards.classList.remove('active');
+      modeList.classList.remove('active');
+      modeListDetail.classList.remove('active');
       if (m === 'list') {
         list.classList.add('listmode');
         modeList.classList.add('active');
-        modeCards.classList.remove('active');
+      } else if (m === 'list-detail') {
+        list.classList.add('listmode-detail');
+        modeListDetail.classList.add('active');
       } else {
-        list.classList.remove('listmode');
         modeCards.classList.add('active');
-        modeList.classList.remove('active');
       }
       try { localStorage.setItem('dp-mode', m); } catch(e) {}
     }
 
     modeCards.addEventListener('click', function() { setMode('cards'); });
     modeList.addEventListener('click', function() { setMode('list'); });
-    try { if (localStorage.getItem('dp-mode') === 'list') setMode('list'); } catch(e) {}
+    modeListDetail.addEventListener('click', function() { setMode('list-detail'); });
+    try {
+      var saved = localStorage.getItem('dp-mode');
+      if (saved === 'list' || saved === 'list-detail') setMode(saved);
+    } catch(e) {}
   }
 
   /* ═══════════════════════════════════════
@@ -1854,6 +2033,7 @@ footer.site::before {
           return '<a class="sr-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '">' +
             '<span class="read-check" title="Marcar como lida"></span>' +
             '<span class="sr-headline">' + esc(item.headline) + '</span>' +
+            '<span class="fav-star" title="Favoritar">\u2606</span>' +
             '<span class="sr-badge" style="background:var(--cat-' + (item.category || 'cloud') + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
           '</a>';
         }).join('');
@@ -1866,9 +2046,28 @@ footer.site::before {
           e.preventDefault(); e.stopPropagation();
           toggleRead(a.dataset.url); applyReadState(); applyReadState(searchResults);
         });
+        attachStarHandler(a.querySelector('.fav-star'), a.dataset.url, searchResults);
       });
       applyReadState(searchResults);
+      applyFavState(searchResults);
     }
+  })();
+
+  /* ═══════════════════════════════════════
+     FAVORITES OVERLAY (carrega outras edições)
+     ═══════════════════════════════════════ */
+  (function initFavOverlay() {
+    var chip = document.getElementById('fav-chip');
+    if (!chip) return;
+    chip.addEventListener('click', function() {
+      var favs = getFavs();
+      if (!favs.length) {
+        alert('Nenhuma not\u00edcia favoritada ainda. Clique em \u2605 nas not\u00edcias para salv\u00e1-las.');
+        return;
+      }
+      // Redireciona para o index onde o overlay completo de favoritos está disponível
+      window.location.href = 'index.html#favorites';
+    });
   })();
 
 })();

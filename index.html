@@ -156,6 +156,16 @@ nav.topbar {
 }
 .clear-read-btn.has-reads { display: inline-flex }
 .clear-read-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft) }
+
+.fav-chip {
+  padding: 5px 12px; border-radius: 999px; font-size: 10px; font-weight: 700;
+  border: 1px solid var(--glass-border); background: var(--glass-bg-solid);
+  color: var(--ink-dim); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+  transition: all .2s ease; display: inline-flex; align-items: center; gap: 4px;
+}
+.fav-chip .star { color: #f5b301; font-size: 12px }
+.fav-chip:hover { color: #f5b301; border-color: #f5b301; background: rgba(245,179,1,.1) }
+.fav-chip.has-favs { border-color: rgba(245,179,1,.4) }
 .theme-toggle {
   width: 38px; height: 38px; border-radius: 50%;
   border: 1px solid var(--glass-border);
@@ -217,15 +227,28 @@ nav.topbar {
 /* ── Top 3 cards ── */
 .top3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px }
 .top3-card {
-  padding: 14px; border-radius: 14px; cursor: pointer;
+  padding: 0; border-radius: 14px; cursor: pointer;
   background: var(--glass-bg); border: 1px solid var(--glass-border);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--shadow-sm);
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex; flex-direction: column;
   transition: transform .2s, box-shadow .2s;
   text-decoration: none; color: inherit;
   position: relative; overflow: hidden;
 }
+.top3-card > .t3-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1 }
+.top3-card:not(.has-image) > .t3-body { padding: 14px }
+.top3-card.has-image > .t3-body { padding: 12px 14px 14px }
+.t3-image {
+  width: 100%; height: 120px;
+  background-size: cover; background-position: center;
+  background-color: var(--glass-bg-solid);
+  flex-shrink: 0;
+}
+.top3-card.img-failed .t3-image { display: none }
+.top3-card.img-failed > .t3-body { padding: 14px }
+.is-read.is-fav .t3-image,
+.is-read .t3-image { opacity: 1 }
 .top3-card::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
   background: var(--cc, var(--accent));
@@ -460,6 +483,8 @@ nav.topbar {
   cursor: pointer;
 }
 .ed-cat-item:hover { background: var(--accent-soft); transform: translateX(3px) }
+.ed-cat-item .read-check { width: 13px; height: 13px; min-width: 13px; font-size: 8px }
+.ed-cat-item .fav-star { width: 16px; height: 16px; font-size: 12px; margin-left: 4px }
 .ed-cat-badge {
   width: 18px; height: 18px; border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
@@ -572,7 +597,8 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 .ov-card .ov-badge.new { background: var(--accent-soft); color: var(--accent) }
 .ov-card .ov-headline { font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--ink) }
 .ov-card .ov-summary { font-size: 12px; line-height: 1.6; color: var(--ink-soft) }
-.ov-card .ov-meta { font-size: 11px; color: var(--ink-dim); display: flex; gap: 8px; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--line) }
+.ov-card .ov-meta { font-size: 11px; color: var(--ink-dim); display: flex; gap: 8px; align-items: center; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--line) }
+.t3-meta { align-items: center }
 
 /* Tool card in overlay */
 .ov-tool {
@@ -599,6 +625,39 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 .is-read .cf-headline,
 .is-read .headline,
 .is-read .ov-headline { text-decoration: line-through; text-decoration-color: var(--ink-dim); text-decoration-thickness: 1px; }
+
+/* ── Favorite tracking ── */
+.fav-star {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; min-width: 18px;
+  font-size: 14px; line-height: 1;
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: transform .15s ease, color .15s ease, text-shadow .15s ease;
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  flex-shrink: 0;
+}
+.fav-star:hover { transform: scale(1.2); color: #f5b301 }
+.fav-star.faved { color: #f5b301; text-shadow: 0 0 6px rgba(245,179,1,.45) }
+
+.is-fav {
+  box-shadow: inset 3px 0 0 0 #f5b301, var(--shadow-sm);
+  background: linear-gradient(90deg, rgba(245,179,1,.08), transparent 30%), var(--glass-bg-solid);
+}
+/* Top3-card tem ::before com cor da categoria — sobrescreve para dourado quando favoritado */
+.top3-card.is-fav::before { background: linear-gradient(180deg, #f5b301, #d99100); opacity: 1 }
+.top3-card.is-fav { box-shadow: var(--shadow-sm); background: linear-gradient(90deg, rgba(245,179,1,.08), transparent 30%), var(--glass-bg) }
+
+/* Favorito vence sobre lido: cancela o fade e line-through */
+.is-read.is-fav { opacity: 1 }
+.is-read.is-fav .t3-headline,
+.is-read.is-fav .cf-headline,
+.is-read.is-fav .headline,
+.is-read.is-fav .ov-headline,
+.is-read.is-fav .ed-cat-headline,
+.is-read.is-fav .sr-headline { text-decoration: none }
 .read-check {
   width: 16px; height: 16px; min-width: 16px;
   border-radius: 4px;
@@ -619,10 +678,10 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   border-color: var(--accent);
   color: #fff;
 }
-.top3-card .read-check { position: absolute; top: 10px; right: 10px; }
-.cf-item .read-check { margin-left: auto; }
+.top3-card .read-check { margin-left: auto; }
+.cf-item .read-check { margin-left: auto; padding: 2px; }
 .ov-card { position: relative; }
-.ov-card .read-check { position: absolute; top: 12px; right: 12px; }
+.ov-card .read-check { margin-left: auto; }
 
 /* ── Global Search trigger (nav) ── */
 .global-search {
@@ -774,6 +833,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         <span>Explorar</span>
         <span class="explore-arrow" id="explore-arrow">&#9662;</span>
       </button>
+      <button class="fav-chip" id="fav-chip" title="Ver favoritos"><span class="star">&#9733;</span> <span id="fav-count">0</span></button>
       <button class="clear-read-btn" id="clear-read" title="Limpar leituras">&#10005; Lidas</button>
       <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon"></span></button>
     </div>
@@ -933,6 +993,9 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       }
     });
     updateClearBtn();
+    if (typeof applyFavState === 'function') {
+      try { applyFavState(container); } catch(e) {}
+    }
   }
   function updateClearBtn() {
     var btn = document.getElementById('clear-read');
@@ -949,6 +1012,61 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     }
   });
   updateClearBtn();
+
+  /* ── Favorite tracking ── */
+  var FAV_KEY = 'dp-favorites';
+  function getFavs() {
+    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function isFav(url) { return getFavs().indexOf(url) !== -1; }
+  function toggleFav(url) {
+    var list = getFavs();
+    var idx = list.indexOf(url);
+    if (idx === -1) {
+      list.push(url);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+      if (!isRead(url)) markRead(url);
+    } else {
+      list.splice(idx, 1);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+    }
+  }
+  function applyFavState(container) {
+    if (!container) container = document;
+    container.querySelectorAll('[data-url]').forEach(function(el) {
+      var url = el.dataset.url;
+      var star = el.querySelector('.fav-star');
+      if (isFav(url)) {
+        el.classList.add('is-fav');
+        if (star) { star.classList.add('faved'); star.textContent = '\u2605'; }
+      } else {
+        el.classList.remove('is-fav');
+        if (star) { star.classList.remove('faved'); star.textContent = '\u2606'; }
+      }
+    });
+    updateFavChip();
+  }
+  function updateFavChip() {
+    var chip = document.getElementById('fav-chip');
+    var count = getFavs().length;
+    var countEl = document.getElementById('fav-count');
+    if (countEl) countEl.textContent = count;
+    if (chip) {
+      if (count > 0) chip.classList.add('has-favs');
+      else chip.classList.remove('has-favs');
+    }
+  }
+  function attachStarHandler(star, url) {
+    if (!star) return;
+    star.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFav(url);
+      applyFavState(document);
+      applyReadState(document);
+    });
+  }
+  updateFavChip();
 
   /* ── Constants ── */
   var MONTHS = ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -1087,12 +1205,20 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       a.rel = 'noopener';
       a.setAttribute('data-url', item.url);
       a.style.setProperty('--cc', 'var(--cat-' + item.category + ')');
+      var imageHtml = '';
+      if (item.image) {
+        a.classList.add('has-image');
+        imageHtml = '<div class="t3-image" style="background-image:url(\'' + esc(item.image) + '\')"></div>' +
+          '<img src="' + esc(item.image) + '" style="display:none" onerror="this.parentElement.classList.add(\'img-failed\')" />';
+      }
       a.innerHTML =
-        '<span class="read-check" title="Marcar como lida"></span>' +
-        '<div class="t3-badges"><span class="t3-badge">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span></div>' +
-        '<div class="t3-headline">' + esc(item.headline) + '</div>' +
-        '<div class="t3-summary">' + esc(item.summary) + '</div>' +
-        '<div class="t3-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
+        imageHtml +
+        '<div class="t3-body">' +
+          '<div class="t3-badges"><span class="t3-badge">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span></div>' +
+          '<div class="t3-headline">' + esc(item.headline) + '</div>' +
+          '<div class="t3-summary">' + esc(item.summary) + '</div>' +
+          '<div class="t3-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span><span class="fav-star" title="Favoritar">\u2606</span><span class="read-check" title="Marcar como lida"></span></div>' +
+        '</div>';
       a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
       a.querySelector('.read-check').addEventListener('click', function(e) {
         e.preventDefault();
@@ -1100,9 +1226,11 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         toggleRead(item.url);
         applyReadState();
       });
+      attachStarHandler(a.querySelector('.fav-star'), item.url, top3El);
       top3El.appendChild(a);
     });
     applyReadState(top3El);
+    applyFavState(top3El);
 
     /* Per category (1 each, preferring non-top3 items) */
     var catFeed = document.getElementById('cat-feed');
@@ -1134,6 +1262,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         '<span class="cf-badge" style="background:var(--cat-' + catKey + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
         '<span class="cf-headline">' + esc(item.headline) + '</span>' +
         '<span class="cf-source">' + esc(item.source) + '</span>' +
+        '<span class="fav-star" title="Favoritar">\u2606</span>' +
         '<span class="read-check" title="Marcar como lida"></span>';
       a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
       a.querySelector('.read-check').addEventListener('click', function(e) {
@@ -1142,9 +1271,11 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         toggleRead(item.url);
         applyReadState();
       });
+      attachStarHandler(a.querySelector('.fav-star'), item.url, catFeed);
       catFeed.appendChild(a);
     });
     applyReadState(catFeed);
+    applyFavState(catFeed);
 
     /* Tools */
     if (data.tools && data.tools.length) {
@@ -1244,15 +1375,26 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
             if (!item) return;
             var cat = CAT_META[catKey] || {};
             html += '<a class="ed-cat-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '" onclick="event.stopPropagation()">' +
+              '<span class="read-check" title="Marcar como lida"></span>' +
               '<span class="ed-cat-badge" style="background:var(--cat-' + catKey + ')">' + (cat.icon || '') + '</span>' +
               '<span class="ed-cat-headline">' + esc(item.headline) + '</span>' +
+              '<span class="fav-star" title="Favoritar">\u2606</span>' +
             '</a>';
           });
           if (html) feedEl.innerHTML = html;
           feedEl.querySelectorAll('.ed-cat-item').forEach(function(a) {
             a.addEventListener('click', function() { markRead(a.dataset.url); applyReadState(); });
+            var rc = a.querySelector('.read-check');
+            if (rc) rc.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleRead(a.dataset.url);
+              applyReadState(feedEl);
+            });
+            attachStarHandler(a.querySelector('.fav-star'), a.dataset.url, feedEl);
           });
           applyReadState(feedEl);
+          applyFavState(feedEl);
         })
         .catch(function() {});
     });
@@ -1352,11 +1494,10 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         a.rel = 'noopener';
         a.setAttribute('data-url', item.url);
         a.innerHTML =
-          '<span class="read-check" title="Marcar como lida"></span>' +
           (badges ? '<div class="ov-badges">' + badges + '</div>' : '') +
           '<div class="ov-headline">' + esc(item.headline) + '</div>' +
           '<div class="ov-summary">' + esc(item.summary) + '</div>' +
-          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
+          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span><span class="fav-star" title="Favoritar">\u2606</span><span class="read-check" title="Marcar como lida"></span></div>';
         a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
         a.querySelector('.read-check').addEventListener('click', function(e) {
           e.preventDefault();
@@ -1364,11 +1505,13 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
           toggleRead(item.url);
           applyReadState(overlayContent);
         });
+        attachStarHandler(a.querySelector('.fav-star'), item.url, overlayContent);
         cardsContainer.appendChild(a);
       });
       overlayContent.appendChild(div);
     });
     applyReadState(overlayContent);
+    applyFavState(overlayContent);
   }
 
   async function showToolOverlay(toolName) {
@@ -1517,6 +1660,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         return '<a class="sr-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '">' +
           '<span class="read-check" title="Marcar como lida"></span>' +
           '<span class="sr-headline">' + esc(item.headline) + '</span>' +
+          '<span class="fav-star" title="Favoritar">\u2606</span>' +
           '<span class="sr-badge" style="background:var(--cat-' + (item.category || 'cloud') + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
         '</a>';
       }).join('');
@@ -1533,8 +1677,121 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         applyReadState();
         applyReadState(searchResults);
       });
+      attachStarHandler(a.querySelector('.fav-star'), a.dataset.url, searchResults);
     });
     applyReadState(searchResults);
+    applyFavState(searchResults);
+  }
+
+  /* ══════ Favorites overlay ══════ */
+  async function showFavoritesOverlay() {
+    overlayIcon.textContent = '\u2605';
+    overlayTitle.textContent = 'Favoritos';
+    overlayCount.textContent = 'Carregando...';
+    overlayContent.innerHTML = '<div class="overlay-loading">Carregando favoritos...</div>';
+    openOverlay();
+
+    await loadAllDays();
+
+    var favUrls = new Set(getFavs());
+    if (!favUrls.size) {
+      overlayCount.textContent = '0 favoritos';
+      overlayContent.innerHTML = '<div class="overlay-empty">Nenhuma not\u00edcia favoritada ainda. Marque com \u2605 para salvar aqui.</div>';
+      return;
+    }
+
+    var grouped = [];
+    var dates = Object.keys(dataCache).sort().reverse();
+    var seenUrls = new Set();
+    dates.forEach(function(date) {
+      var day = dataCache[date];
+      var rawItems = [].concat(day.top3 || [], day.news || []);
+      var items = [];
+      rawItems.forEach(function(n) {
+        if (!favUrls.has(n.url)) return;
+        if (seenUrls.has(n.url)) return;
+        seenUrls.add(n.url);
+        items.push(n);
+      });
+      var tools = [];
+      (day.tools || []).forEach(function(t) {
+        if (!favUrls.has(t.url)) return;
+        if (seenUrls.has(t.url)) return;
+        seenUrls.add(t.url);
+        tools.push(t);
+      });
+      if (items.length || tools.length) {
+        grouped.push({ date: date, formatted: day.formatted_date || date, items: items, tools: tools });
+      }
+    });
+
+    var totalCount = grouped.reduce(function(s, g) { return s + g.items.length + g.tools.length; }, 0);
+    overlayCount.textContent = totalCount + ' favorito' + (totalCount !== 1 ? 's' : '');
+
+    if (!totalCount) {
+      overlayContent.innerHTML = '<div class="overlay-empty">Seus favoritos est\u00e3o em edi\u00e7\u00f5es que n\u00e3o foram carregadas.</div>';
+      return;
+    }
+
+    overlayContent.innerHTML = '';
+    grouped.forEach(function(group) {
+      var div = document.createElement('div');
+      div.className = 'ov-date-group';
+      div.innerHTML =
+        '<div class="ov-date-label">' + esc(group.formatted) + ' <span class="ov-day-count">' + (group.items.length + group.tools.length) + '</span></div>' +
+        '<div class="ov-cards"></div>';
+      var cardsContainer = div.querySelector('.ov-cards');
+
+      group.items.forEach(function(item) {
+        var badges = '';
+        if (item.urgent) badges += '<span class="ov-badge urg">Urgente</span>';
+        if (item['new']) badges += '<span class="ov-badge new">Novo</span>';
+        var a = document.createElement('a');
+        a.className = 'ov-card';
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('data-url', item.url);
+        a.innerHTML =
+          (badges ? '<div class="ov-badges">' + badges + '</div>' : '') +
+          '<div class="ov-headline">' + esc(item.headline) + '</div>' +
+          '<div class="ov-summary">' + esc(item.summary) + '</div>' +
+          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span><span class="fav-star" title="Favoritar">\u2606</span><span class="read-check" title="Marcar como lida"></span></div>';
+        a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
+        a.querySelector('.read-check').addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation();
+          toggleRead(item.url); applyReadState(overlayContent);
+        });
+        attachStarHandler(a.querySelector('.fav-star'), item.url, overlayContent);
+        cardsContainer.appendChild(a);
+      });
+
+      group.tools.forEach(function(tool) {
+        var d = document.createElement('div');
+        d.className = 'ov-tool';
+        d.setAttribute('data-url', tool.url);
+        d.innerHTML =
+          '<div class="ov-tool-top"><span class="ov-tool-name">' + esc(tool.icon + ' ' + tool.name) + '</span>' +
+          '<span class="ov-tool-ver">' + esc(tool.version) + '</span></div>' +
+          '<div class="ov-tool-desc">' + esc(tool.description) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-top:4px">' +
+            '<a href="' + tool.url + '" target="_blank" rel="noopener">Ver changelog \u2192</a>' +
+            '<span style="margin-left:auto"></span>' +
+            '<span class="fav-star" title="Favoritar">\u2606</span>' +
+          '</div>';
+        attachStarHandler(d.querySelector('.fav-star'), tool.url, overlayContent);
+        cardsContainer.appendChild(d);
+      });
+
+      overlayContent.appendChild(div);
+    });
+    applyReadState(overlayContent);
+    applyFavState(overlayContent);
+  }
+
+  document.getElementById('fav-chip').addEventListener('click', showFavoritesOverlay);
+  if (window.location.hash === '#favorites') {
+    setTimeout(showFavoritesOverlay, 500);
   }
 })();
 </script>

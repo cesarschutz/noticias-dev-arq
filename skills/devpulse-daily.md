@@ -91,9 +91,11 @@ Para cada categoria, faça buscas variadas. Inclua o ano atual nas queries para 
 
 ## FERRAMENTAS MONITORADAS
 
-Além das notícias por categoria, pesquise atualizações específicas destas ferramentas. Se não houver novidade nas últimas 48h, **omita a ferramenta** do JSON.
+Pesquise **tanto o changelog oficial quanto notícias, reviews, incidentes e discussões em outros veículos** (InfoQ, Hacker News, The New Stack, DevClass, Reddit r/devops, r/kubernetes etc.) sobre cada ferramenta. Use os changelogs como **ponto de partida**, mas priorize o que gerou discussão/repercussão recente — uma notícia de uma ferramenta em veículo externo de alta reputação pode valer mais que um patch note obscuro no site oficial.
 
-| Ferramenta | Changelog / Release Notes |
+Se não houver novidade relevante nas últimas 48h, **omita a ferramenta** do JSON. O campo `tools[].url` pode apontar para artigo externo, post de blog, review ou thread — não precisa ser o changelog oficial.
+
+| Ferramenta | Changelog (ponto de partida) |
 |---|---|
 | Microsoft Teams | https://learn.microsoft.com/en-us/microsoftteams/get-clients |
 | Notion | https://www.notion.so/releases |
@@ -106,6 +108,11 @@ Além das notícias por categoria, pesquise atualizações específicas destas f
 | Docker Desktop | https://docs.docker.com/desktop/release-notes/ |
 | Structurizr | https://structurizr.com/changelog |
 | C4 Model | https://c4model.com/ |
+
+**Exemplos de buscas complementares** para cada ferramenta:
+- `"{Ferramenta}" site:infoq.com OR site:thenewstack.io`
+- `"{Ferramenta}" news OR review OR incident OR outage`
+- `"{Ferramenta}" site:news.ycombinator.com`
 
 ---
 
@@ -153,7 +160,8 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
       "source": "Nome da Fonte",
       "url": "https://url-real-verificada.com/artigo",
-      "read_time": 4
+      "read_time": 4,
+      "image": "https://url-da-imagem-og-image-do-artigo.com/img.jpg"
     }
   ],
   "news": [
@@ -227,13 +235,73 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
 
 ---
 
+## CRITÉRIOS DE PRIORIZAÇÃO
+
+Para decidir **quais** notícias entram no `top3`, **qual notícia representa cada categoria** no feed principal e **qual notícia principal de cada ferramenta**, calcule mentalmente um score ponderado para cada candidata:
+
+| Critério | Peso | Como medir |
+|---|---|---|
+| **Convergência de fontes** | 40% | A mesma notícia (mesmo fato central) aparece em **≥ 2 veículos independentes**, sendo pelo menos 1 de alta reputação. Faça busca cruzada (ex.: mesma CVE ou mesmo release em fontes diferentes) para confirmar. Obrigatório para top3, desejável para principal por categoria. |
+| **Impacto arquitetural** | 30% | CVE ≥ 7.0 ou zero-day com exploração ativa; breaking change; GA de produto relevante (cloud, DB, runtime); deprecation anunciada; major release com impacto de ecossistema. |
+| **Frescor** | 15% | Publicado nas últimas 24h. Bônus se ≤ 6h (ganha o tag `new:true`). |
+| **Diversidade no Top 3** | 10% | Os 3 itens do top3 devem ser de **categorias diferentes** (não repetir `sec` com 2 itens no top3, por exemplo). |
+| **Autoridade da fonte** | 5% | Fonte está na lista "FONTES PREFERIDAS" acima. |
+
+### Aplicação
+
+1. **Top 3 do dia**: selecione as 3 candidatas de maior score total, obrigatoriamente de 3 categorias distintas. Para cada top3, **confirme convergência** buscando o mesmo fato em ao menos 1 fonte adicional antes de incluir.
+2. **Principal de cada categoria** (primeira notícia de cada categoria no feed, mostrada nas edições anteriores e no feed da página do dia): a de maior score dentro da categoria. Convergência é um desempate, não requisito.
+3. **Principal de cada ferramenta**: entre as notícias/releases que envolvem a ferramenta, selecione a de maior score.
+
+**Não invente convergência.** Se um fato só aparece em uma fonte, ainda pode entrar no `news[]`, mas **não deve** entrar no top3.
+
+---
+
+## URL OBRIGATORIAMENTE ESPECÍFICA
+
+Toda `url` (em `top3[]`, `news[]` e `tools[]`) **deve apontar ao artigo, post ou release específico** que é descrito no resumo. **Nunca** a listagens, newsrooms, homepages ou páginas índice.
+
+### Padrões proibidos (exemplos)
+
+- `https://aws.amazon.com/new/` ou `https://aws.amazon.com/about-aws/whats-new/` **sem slug** de artigo (ex.: `.../2026/04/titulo-do-anuncio/`)
+- `https://*/releases` ou `https://*/changelog` sem âncora `#versao` ou slug específico
+- `https://*/blog/` ou `https://*/news/` sem post específico no final
+- Homepages de vendor (`https://docker.com/`, `https://nextjs.org/`, `https://anthropic.com/`)
+- Páginas de tag ou categoria (`https://site.com/tag/devops/`, `https://site.com/category/ai/`)
+
+### Como garantir URL específica
+
+1. Extraia a URL retornada pela WebSearch. Confira se tem slug/ID único (não é apenas a raiz do blog ou índice de releases).
+2. Se a pesquisa retornou apenas a página índice, faça um **segundo `WebFetch`** na homepage do blog e localize o permalink exato do post correspondente.
+3. Se mesmo assim não encontrar permalink, **descarte essa notícia** — não inclua com URL genérica. Substitua por outra do mesmo tema/categoria.
+
+Exceção: `tools[].url` pode apontar para o changelog oficial com âncora específica (`.../releases#v2.3.1`), mas não para a raiz de changelog genérica.
+
+---
+
+## IMAGENS NO TOP 3
+
+Cada item do `top3[]` **deve tentar incluir** o campo `image` com a URL da imagem de destaque do artigo:
+
+1. Após escolher os 3 itens do top3, faça `WebFetch` na `url` de cada um.
+2. No HTML retornado, procure (nesta ordem):
+   - `<meta property="og:image" content="...">`
+   - `<meta name="twitter:image" content="...">`
+   - `<meta itemprop="image" content="...">`
+3. Capture a primeira URL válida (deve ser uma URL absoluta, HTTPS de preferência).
+4. Se **nenhuma** for encontrada, **omita o campo `image`** desse item. O frontend degrada graciosamente (renderiza o card sem imagem).
+
+O campo `image` é **opcional** e **só aparece no `top3[]`** — não em `news[]` nem `tools[]`.
+
+---
+
 ## REGRAS DE QUALIDADE
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões de ferramentas.** Se não encontrar nada relevante numa categoria, reduza — qualidade > quantidade.
 3. **Mínimo 15 notícias** no total, cobrindo pelo menos **5 categorias** diferentes.
-4. **Top 3 destaques** devem ser de categorias diferentes quando possível.
-5. **URLs verificáveis**: toda URL deve ser de um artigo/página real encontrado na pesquisa.
+4. **Top 3 destaques** devem ser de categorias diferentes **obrigatoriamente** e devem atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
+5. **URLs específicas e verificáveis**: seguir a seção "URL OBRIGATORIAMENTE ESPECÍFICA". URL genérica = descarte da notícia.
 6. **Contagens corretas**: `stats.total` = `top3.length + news.length`, `stats.urgent` = contagem real de `urgent:true`, etc.
 7. **Sem duplicatas** com a edição do dia anterior (verifique `data/editions.json`).
 8. **Perspectiva do arquiteto**: resumos devem explicar o que é + por que importa + o que o arquiteto deve fazer.
@@ -245,6 +313,7 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
     - `"breaking": true` → mudanças que quebram backward compatibility
 11. **`read_time`**: estimar com base no tamanho da headline + summary (2-5 minutos típico).
 12. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
+13. **Imagens no top3**: tente capturar `og:image` via `WebFetch` para cada um dos 3 itens (ver seção "IMAGENS NO TOP 3"). Campo opcional — omita se não encontrar.
 
 ---
 
