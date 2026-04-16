@@ -74,7 +74,8 @@ a { color: inherit; text-decoration: none }
 code, .mono { font-family: 'IBM Plex Mono', monospace }
 
 /* ── Smooth theme transitions ── */
-body, .glass, nav, footer, .edition-card, .calendar-card, .day {
+body, .glass, nav, footer, .edition-card, .day, .top3-card, .cf-item, .tf-item,
+.sidebar-panel, .cat-pill, .tool-mini {
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -142,7 +143,7 @@ nav.topbar {
   font-size: 11px; font-weight: 600; color: var(--ink-dim);
   font-family: 'IBM Plex Mono', monospace;
 }
-.status-pill .dot, .hero-kicker .dot {
+.status-pill .dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: #30D158; box-shadow: 0 0 8px #30D158;
   animation: pulse-dot 2s ease-in-out infinite;
@@ -160,58 +161,234 @@ nav.topbar {
 .theme-toggle:hover { transform: scale(1.1); box-shadow: var(--shadow-sm) }
 .theme-toggle:active { transform: scale(.95) }
 
-/* ── Hero (compact) ── */
-.hero { margin-top: 16px }
-.hero-panel { padding: 24px; border-radius: 20px; position: relative; overflow: hidden }
-.hero-panel::before {
-  content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
+/* ── Dashboard grid ── */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+/* ── Day Hero (compact) ── */
+.day-hero { padding: 20px; border-radius: 16px; margin-bottom: 16px; position: relative; overflow: hidden }
+.day-hero::before {
+  content: ""; position: absolute; left: 20px; right: 20px; top: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.35;
 }
-.hero-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap }
-.hero-left { flex: 1; min-width: 0 }
-.hero-kicker {
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+.day-hero-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap }
+.day-kicker {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--accent);
   font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
 }
-.hero-kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px #30D158; animation: pulse-dot 2s ease-in-out infinite }
-.hero-panel h1 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 800 }
-.hero-panel p { margin-top: 6px; font-size: 13px; line-height: 1.55; color: var(--ink-soft); max-width: 700px }
+.day-kicker .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #30D158; box-shadow: 0 0 6px #30D158;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.day-hero h1 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.15 }
+.day-desc { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin-top: 4px; max-width: 600px }
 .hero-btn {
-  padding: 10px 22px; border-radius: 999px; font-size: 13px; font-weight: 700; border: none;
-  background: linear-gradient(180deg, #1b81ff, #106ef1); color: #fff;
+  padding: 9px 20px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  border: none; background: linear-gradient(180deg, #1b81ff, #106ef1); color: #fff;
   cursor: pointer; font-family: inherit;
-  box-shadow: 0 8px 20px rgba(19,117,255,.25);
-  transition: transform .2s, box-shadow .2s;
-  white-space: nowrap; flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(19,117,255,.25);
+  transition: transform .2s, box-shadow .2s; white-space: nowrap; flex-shrink: 0;
 }
-.hero-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(19,117,255,.3) }
+.hero-btn:hover { transform: translateY(-1px) }
 .hero-btn:active { transform: scale(.97) }
 .hero-btn.disabled { background: var(--glass-bg-solid); color: var(--ink-dim); cursor: not-allowed; box-shadow: none; border: 1px solid var(--glass-border) }
-.highlights { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px }
-.highlights a {
+
+/* ── Section labels ── */
+.section-label-sm {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  margin: 16px 0 8px; display: flex; align-items: center; gap: 6px;
+}
+
+/* ── Top 3 cards ── */
+.top3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px }
+.top3-card {
+  padding: 14px; border-radius: 14px; cursor: pointer;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+}
+.top3-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--cc, var(--accent));
+}
+.top3-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md) }
+.top3-card .t3-badges { display: flex; gap: 4px; flex-wrap: wrap }
+.top3-card .t3-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--cc, var(--accent)), color-mix(in srgb, var(--cc, var(--accent)) 70%, #000));
+  color: #fff;
+}
+.top3-card .t3-headline { font-size: 13px; font-weight: 700; line-height: 1.3; letter-spacing: -.01em }
+.top3-card .t3-meta { font-size: 10px; color: var(--ink-dim); margin-top: auto; display: flex; justify-content: space-between }
+
+/* ── Category feed ── */
+.cat-feed { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px }
+.cf-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 8px 12px; border-radius: 10px;
+  padding: 7px 10px; border-radius: 8px;
   background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  color: var(--ink-soft); font-size: 12px; line-height: 1.4;
+  cursor: pointer; transition: transform .15s, background .15s;
+  text-decoration: none; color: inherit;
+}
+.cf-item:hover { transform: translateX(4px); background: var(--accent-soft) }
+.cf-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: var(--cc, var(--accent)); color: #fff;
+  flex-shrink: 0; white-space: nowrap;
+}
+.cf-headline { font-size: 12px; font-weight: 600; line-height: 1.35; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.cf-source { font-size: 9px; color: var(--ink-dim); flex-shrink: 0 }
+
+/* ── Tools feed ── */
+.tools-feed { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px }
+.tf-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 8px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  cursor: pointer; transition: transform .15s;
+  text-decoration: none; color: inherit;
+  font-size: 11px; font-weight: 600;
+}
+.tf-item:hover { transform: translateY(-1px) }
+.tf-ver {
+  font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ── Sidebar ── */
+.dash-sidebar { position: sticky; top: 60px; display: flex; flex-direction: column; gap: 14px }
+.sidebar-panel { padding: 16px; border-radius: 16px }
+.sidebar-panel-title { font-size: 13px; font-weight: 700; display: block; margin-bottom: 10px }
+.sidebar-text { font-size: 11px; line-height: 1.55; color: var(--ink-soft); margin-bottom: 10px }
+.sidebar-label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  margin: 10px 0 6px;
+}
+
+/* Collapse */
+.collapse-header {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; font-size: 13px; font-weight: 700;
+  padding-bottom: 8px; user-select: none;
+}
+.collapse-arrow { font-size: 12px; transition: transform .3s ease; color: var(--ink-dim) }
+.collapse-arrow.collapsed { transform: rotate(-90deg) }
+.collapse-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+  opacity: 0;
+}
+.collapse-body.open { max-height: 500px; opacity: 1 }
+
+/* Sidebar category/tool grids */
+.sidebar-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
+.sidebar-cat-grid .cat-pill {
+  padding: 5px 8px; border-radius: 6px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  font-size: 10px; font-weight: 600; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 4px;
   transition: transform .15s, color .15s;
 }
-.highlights a::before {
-  content: "\2197"; width: 16px; height: 16px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--accent-soft); color: var(--accent);
-  font-size: 9px; font-weight: 800; flex-shrink: 0;
+.sidebar-cat-grid .cat-pill:hover { transform: translateY(-1px); color: var(--ink) }
+.sidebar-tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
+.sidebar-tool-grid .tool-mini {
+  padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  font-size: 9px; font-weight: 600; color: var(--ink-dim);
+  display: flex; align-items: center; gap: 3px;
+  transition: color .15s;
 }
-.highlights a:hover { transform: translateX(4px); color: var(--ink) }
-.highlights a .ext { font-size: 10px; opacity: .4; margin-left: 4px }
+.sidebar-tool-grid .tool-mini:hover { color: var(--ink) }
 
-/* ── Main content ── */
-.main { margin-top: 24px; padding-bottom: 60px }
-.content-grid {
-  display: grid; grid-template-columns: 1fr 320px; gap: 18px;
-  align-items: flex-start;
+/* ── Calendar ── */
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
 }
+.cal-label {
+  font-size: 14px; font-weight: 700; letter-spacing: -.01em;
+  text-transform: capitalize; flex: 1; text-align: center;
+  color: var(--ink);
+}
+.cal-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--glass-border);
+  background: var(--glass-bg-solid); color: var(--ink-soft);
+  display: grid; place-items: center; cursor: pointer;
+  font-size: 15px; font-weight: 600;
+  transition: background .2s, color .2s, transform .2s;
+}
+.cal-btn:hover { background: var(--accent); color: #fff; transform: scale(1.08) }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px }
+.cal-dow {
+  font-size: 10px; font-weight: 700; color: var(--ink-dim);
+  text-align: center; padding: 6px 0; text-transform: uppercase;
+  letter-spacing: .04em; font-family: 'IBM Plex Mono', monospace;
+}
+.day {
+  aspect-ratio: 1/1; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+  background: var(--glass-bg-solid);
+  transition: transform .18s, background .18s, color .18s;
+}
+.day.empty { visibility: hidden; background: transparent }
+.day.has-report {
+  background: var(--accent-soft);
+  border-color: rgba(19,117,255,.15);
+  color: var(--ink);
+  cursor: pointer;
+}
+.day.has-report:hover {
+  transform: scale(1.06);
+  background: var(--accent);
+  color: #fff;
+}
+.day.today {
+  color: #fff; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), #5E5CE6);
+  box-shadow: 0 2px 10px rgba(19,117,255,.35);
+}
+.day.today.has-report:hover {
+  background: linear-gradient(135deg, #5E5CE6, #BF5AF2);
+  transform: scale(1.08);
+}
+.cal-legend {
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 7px;
+  font-size: 11px; color: var(--ink-dim);
+}
+.cal-legend-item { display: flex; align-items: center; gap: 8px }
+.cal-swatch {
+  width: 12px; height: 12px; border-radius: 6px; flex-shrink: 0;
+}
+.cal-swatch.report { background: var(--accent-soft); border: 1px solid var(--accent) }
+.cal-swatch.today-sw {
+  background: linear-gradient(135deg, var(--accent), #5E5CE6);
+  box-shadow: 0 0 6px rgba(19,117,255,.3);
+}
+
+/* ── Editions section (below dashboard) ── */
+.editions-section { margin-top: 32px; padding-bottom: 40px }
 .section-title {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
@@ -302,78 +479,6 @@ nav.topbar {
 }
 .edition-card:hover .ed-footer .open-label { gap: 8px }
 
-/* ── Calendar ── */
-.calendar-card {
-  border-radius: 20px; padding: 18px; position: sticky; top: 70px;
-}
-.cal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.cal-label {
-  font-size: 14px; font-weight: 700; letter-spacing: -.01em;
-  text-transform: capitalize; flex: 1; text-align: center;
-  color: var(--ink);
-}
-.cal-btn {
-  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--glass-border);
-  background: var(--glass-bg-solid); color: var(--ink-soft);
-  display: grid; place-items: center; cursor: pointer;
-  font-size: 15px; font-weight: 600;
-  transition: background .2s, color .2s, transform .2s;
-}
-.cal-btn:hover { background: var(--accent); color: #fff; transform: scale(1.08) }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px }
-.cal-dow {
-  font-size: 10px; font-weight: 700; color: var(--ink-dim);
-  text-align: center; padding: 6px 0; text-transform: uppercase;
-  letter-spacing: .04em; font-family: 'IBM Plex Mono', monospace;
-}
-.day {
-  aspect-ratio: 1/1; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700;
-  border: 1px solid transparent;
-  color: var(--ink-dim);
-  background: var(--glass-bg-solid);
-  transition: transform .18s, background .18s, color .18s;
-}
-.day.empty { visibility: hidden; background: transparent }
-.day.has-report {
-  background: var(--accent-soft);
-  border-color: rgba(19,117,255,.15);
-  color: var(--ink);
-  cursor: pointer;
-}
-.day.has-report:hover {
-  transform: scale(1.06);
-  background: var(--accent);
-  color: #fff;
-}
-.day.today {
-  color: #fff; font-weight: 800;
-  background: linear-gradient(135deg, var(--accent), #5E5CE6);
-  box-shadow: 0 2px 10px rgba(19,117,255,.35);
-}
-.day.today.has-report:hover {
-  background: linear-gradient(135deg, #5E5CE6, #BF5AF2);
-  transform: scale(1.08);
-}
-.cal-legend {
-  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 7px;
-  font-size: 11px; color: var(--ink-dim);
-}
-.cal-legend-item { display: flex; align-items: center; gap: 8px }
-.cal-swatch {
-  width: 12px; height: 12px; border-radius: 6px; flex-shrink: 0;
-}
-.cal-swatch.report { background: var(--accent-soft); border: 1px solid var(--accent) }
-.cal-swatch.today-sw {
-  background: linear-gradient(135deg, var(--accent), #5E5CE6);
-  box-shadow: 0 0 6px rgba(19,117,255,.3);
-}
-
 /* ── Footer ── */
 footer.site {
   border-radius: 20px; padding: 16px 20px;
@@ -389,59 +494,6 @@ footer.site::before {
 }
 .ft-brand { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px }
 footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
-
-/* ── About Section ── */
-.about-section { margin: 24px 0; overflow: hidden }
-.about-panel {
-  padding: 24px; border-radius: 20px;
-  position: relative; overflow: hidden;
-  max-width: 100%;
-}
-.about-panel::before {
-  content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.35;
-}
-.about-panel h2 { font-size: 18px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 8px }
-.about-panel .about-text { color: var(--ink-soft); font-size: 13px; line-height: 1.6 }
-.about-panel .about-text p { margin-bottom: 6px }
-
-.about-cats-title, .about-tools-title {
-  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--ink-dim); margin: 18px 0 10px;
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-/* Category cards */
-.cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px }
-.cat-card {
-  padding: 10px 14px; border-radius: 12px; cursor: pointer;
-  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  display: flex; align-items: center; gap: 10px;
-  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-  position: relative; overflow: hidden;
-}
-.cat-card::before {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--cc) 15%, transparent), transparent 60%);
-  opacity: 0; transition: opacity .22s ease;
-}
-.cat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--cc) 30%, transparent) }
-.cat-card:hover::before { opacity: 1 }
-.cat-icon { font-size: 16px; position: relative }
-.cat-name { font-size: 12px; font-weight: 700; position: relative; color: var(--ink) }
-
-/* Tool pills */
-.tool-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px }
-.tool-pill {
-  padding: 8px 12px; border-radius: 10px; cursor: pointer;
-  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  font-size: 11px; font-weight: 600; color: var(--ink-soft);
-  display: flex; align-items: center; gap: 6px;
-  transition: transform .22s ease, box-shadow .22s ease, color .22s ease;
-  min-width: 0; overflow: hidden;
-}
-.tool-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); color: var(--ink) }
 
 /* ── Overlay (Apple Sheet) ── */
 .overlay {
@@ -542,37 +594,25 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 .ov-tool .ov-tool-desc { font-size: 12.5px; line-height: 1.6; color: var(--ink-soft) }
 .ov-tool a { color: var(--accent); font-size: 12px; font-weight: 700 }
 
-/* ── Section label (calendar header) ── */
-.section-label {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 10px;
-}
-.section-label strong { font-size: 14px; font-weight: 700; color: var(--ink) }
-.section-label span {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--ink-dim);
-  font-family: 'IBM Plex Mono', monospace;
-}
-.calendar-head { margin: 10px 0 12px }
-
 /* ── Responsive ── */
 @media (max-width: 1100px) {
-  .content-grid { grid-template-columns: 1fr }
-  .cat-grid { grid-template-columns: repeat(3, 1fr) }
-  .tool-grid { grid-template-columns: repeat(3, 1fr) }
+  .dashboard { grid-template-columns: 1fr }
   .ov-cards { grid-template-columns: 1fr }
+}
+@media (max-width: 860px) {
+  .top3-grid { grid-template-columns: 1fr }
 }
 @media (max-width: 720px) {
   .container { width: min(100% - 20px, 1440px) }
   .topbar { grid-template-columns: 1fr; justify-items: start; border-radius: 18px; gap: 8px; padding: 12px 14px }
   .topbar-center { display: none }
-  .hero-panel, .calendar-card, footer.site { padding: 16px }
+  .day-hero { padding: 16px }
+  .sidebar-panel { padding: 14px }
+  footer.site { padding: 16px }
   .editions { grid-template-columns: 1fr }
-  .hero-panel h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
-  .cat-grid { grid-template-columns: repeat(2, 1fr) }
-  .tool-grid { grid-template-columns: repeat(2, 1fr) }
+  .day-hero h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
+  .day-hero-top { flex-direction: column; align-items: flex-start }
   .overlay-sheet { max-height: 95vh; border-radius: 16px 16px 0 0 }
-  .hero-top { flex-direction: column; align-items: flex-start }
 }
 </style>
 </head>
@@ -584,11 +624,12 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   <div class="orb orb-3"></div>
 </div>
 
+<!-- NAV (sticky) -->
 <header class="site container">
   <nav class="topbar">
     <div class="brand">
       <div class="brand-mark"><span class="stripes"><i></i><i></i><i></i></span></div>
-      <div class="brand-copy"><strong>DevPulse</strong><span>Arquivo Diário do Arquiteto</span></div>
+      <div class="brand-copy"><strong>DevPulse</strong><span>Arquivo Di&#225;rio do Arquiteto</span></div>
     </div>
     <div class="topbar-center">arquivo editorial</div>
     <div class="topbar-right">
@@ -598,93 +639,114 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   </nav>
 </header>
 
-<section class="hero container">
-  <div class="hero-panel glass">
-    <div class="hero-top">
-      <div class="hero-left">
-        <div class="hero-kicker"><span class="dot"></span>Edição de Hoje</div>
-        <h1 id="today-date">&mdash;</h1>
-        <p id="today-sub">Verificando...</p>
-      </div>
-      <button class="hero-btn" id="today-open">Abrir edição &#8599;</button>
-    </div>
-    <div class="highlights" id="today-hl"></div>
-  </div>
-</section>
+<!-- DASHBOARD: two columns -->
+<div class="dashboard container">
 
-<section class="about-section container">
-  <div class="about-panel glass">
-    <div class="about-text">
-      <h2>Sobre o DevPulse</h2>
-      <p>Curadoria diária automatizada de notícias técnicas para arquitetos de software e solução. Todos os dias às 6h da manhã, uma IA pesquisa as principais fontes de tecnologia, curadoria as notícias mais relevantes e gera uma edição completa — tudo automaticamente.</p>
-      <p>O sistema monitora <strong>10 categorias técnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto prático para decisões de arquitetura.</p>
-    </div>
-    <div class="about-cats-title">Categorias monitoradas</div>
-    <div class="cat-grid">
-      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Segurança</span></div>
-      <div class="cat-card" data-cat="ai" style="--cc: var(--cat-ai)"><span class="cat-icon">🤖</span><span class="cat-name">IA & LLMs</span></div>
-      <div class="cat-card" data-cat="cloud" style="--cc: var(--cat-cloud)"><span class="cat-icon">☁️</span><span class="cat-name">Cloud</span></div>
-      <div class="cat-card" data-cat="devops" style="--cc: var(--cat-devops)"><span class="cat-icon">⚙️</span><span class="cat-name">DevOps</span></div>
-      <div class="cat-card" data-cat="backend" style="--cc: var(--cat-backend)"><span class="cat-icon">🔧</span><span class="cat-name">Backend</span></div>
-      <div class="cat-card" data-cat="frontend" style="--cc: var(--cat-frontend)"><span class="cat-icon">🖥️</span><span class="cat-name">Frontend</span></div>
-      <div class="cat-card" data-cat="db" style="--cc: var(--cat-db)"><span class="cat-icon">🗄️</span><span class="cat-name">Bancos</span></div>
-      <div class="cat-card" data-cat="lang" style="--cc: var(--cat-lang)"><span class="cat-icon">🛠️</span><span class="cat-name">Linguagens</span></div>
-      <div class="cat-card" data-cat="arqsw" style="--cc: var(--cat-arqsw)"><span class="cat-icon">🏛️</span><span class="cat-name">Arq. Software</span></div>
-      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solução</span></div>
-    </div>
-    <div class="about-tools-title">Ferramentas monitoradas</div>
-    <div class="tool-grid">
-      <div class="tool-pill" data-tool="Microsoft Teams">📱 Teams</div>
-      <div class="tool-pill" data-tool="Notion">📝 Notion</div>
-      <div class="tool-pill" data-tool="IntelliJ IDEA">🧠 IntelliJ</div>
-      <div class="tool-pill" data-tool="Cursor IDE">⌨️ Cursor</div>
-      <div class="tool-pill" data-tool="Warp Terminal">🖥️ Warp</div>
-      <div class="tool-pill" data-tool="MongoDB Compass">🍃 Compass</div>
-      <div class="tool-pill" data-tool="DBeaver">🦫 DBeaver</div>
-      <div class="tool-pill" data-tool="Postman">📮 Postman</div>
-      <div class="tool-pill" data-tool="Docker">🐳 Docker</div>
-      <div class="tool-pill" data-tool="Structurizr">🏗️ Structurizr</div>
-      <div class="tool-pill" data-tool="C4 Model">📐 C4 Model</div>
-    </div>
-  </div>
-</section>
+  <!-- LEFT: Today's edition -->
+  <div class="dash-main">
 
-<main class="container main">
-  <div class="content-grid">
-    <section>
-      <div class="section-title">
-        <div class="copy">
-          <div class="badge-icon">&#128218;</div>
-          <div><h2>Edições Anteriores</h2><p>arquivo completo de edições</p></div>
+    <!-- Hero compact -->
+    <div class="day-hero glass">
+      <div class="day-hero-top">
+        <div>
+          <div class="day-kicker"><span class="dot"></span> EDI&#199;&#195;O DE HOJE</div>
+          <h1 id="today-date">&mdash;</h1>
+          <p class="day-desc" id="today-sub">Verificando...</p>
         </div>
-        <div class="count-pill" id="count-prev">0</div>
+        <button class="hero-btn" id="today-open">Abrir edi&#231;&#227;o &#8599;</button>
       </div>
-      <div class="editions" id="recent-list"></div>
-    </section>
-    <aside>
-      <div class="calendar-card glass">
-        <div class="section-label"><strong>Calendário</strong><span>navegação</span></div>
-        <div class="cal-header">
-          <button class="cal-btn" id="cal-prev" title="Mês anterior">&#8249;</button>
-          <div class="cal-label" id="cal-month-label">&mdash;</div>
-          <button class="cal-btn" id="cal-next" title="Próximo mês">&#8250;</button>
-        </div>
-        <div class="cal-grid" id="cal-dow"></div>
-        <div class="cal-grid" id="cal-grid"></div>
-        <div class="cal-legend">
-          <div class="cal-legend-item"><span class="cal-swatch report"></span> Edição disponível</div>
-          <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
-        </div>
-      </div>
-    </aside>
+    </div>
+
+    <!-- Top 3 -->
+    <div class="section-label-sm">&#11088; Destaques do dia</div>
+    <div class="top3-grid" id="top3-grid"></div>
+
+    <!-- Per category feed -->
+    <div class="section-label-sm">&#128240; Por categoria</div>
+    <div class="cat-feed" id="cat-feed"></div>
+
+    <!-- Tools of the day -->
+    <div class="section-label-sm" id="tools-label" style="display:none">&#128736;&#65039; Ferramentas atualizadas</div>
+    <div class="tools-feed" id="tools-feed"></div>
   </div>
-</main>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="dash-sidebar">
+
+    <!-- About (collapsible) -->
+    <div class="sidebar-panel glass">
+      <div class="collapse-header" id="about-toggle">
+        <strong>Sobre o DevPulse</strong>
+        <span class="collapse-arrow" id="about-arrow">&#9662;</span>
+      </div>
+      <div class="collapse-body" id="about-body">
+        <p class="sidebar-text">Curadoria di&#225;ria automatizada por IA. Todo dia &#224;s 6h, pesquisa 10 categorias t&#233;cnicas e 11 ferramentas para arquitetos de software.</p>
+        <div class="sidebar-label">Categorias</div>
+        <div class="sidebar-cat-grid" id="cat-grid-sidebar">
+          <div class="cat-pill" data-cat="sec">&#128272; Seg.</div>
+          <div class="cat-pill" data-cat="ai">&#129302; IA</div>
+          <div class="cat-pill" data-cat="cloud">&#9729;&#65039; Cloud</div>
+          <div class="cat-pill" data-cat="devops">&#9881;&#65039; DevOps</div>
+          <div class="cat-pill" data-cat="backend">&#128295; Back.</div>
+          <div class="cat-pill" data-cat="frontend">&#128421;&#65039; Front.</div>
+          <div class="cat-pill" data-cat="db">&#128452;&#65039; Bancos</div>
+          <div class="cat-pill" data-cat="lang">&#128736;&#65039; Lang.</div>
+          <div class="cat-pill" data-cat="arqsw">&#127963;&#65039; Arq.SW</div>
+          <div class="cat-pill" data-cat="arqsol">&#128506;&#65039; Arq.Sol</div>
+        </div>
+        <div class="sidebar-label">Ferramentas</div>
+        <div class="sidebar-tool-grid" id="tool-grid-sidebar">
+          <div class="tool-mini" data-tool="Microsoft Teams">&#128241; Teams</div>
+          <div class="tool-mini" data-tool="Notion">&#128221; Notion</div>
+          <div class="tool-mini" data-tool="IntelliJ IDEA">&#129504; IntelliJ</div>
+          <div class="tool-mini" data-tool="Cursor IDE">&#9000;&#65039; Cursor</div>
+          <div class="tool-mini" data-tool="Warp Terminal">&#128421;&#65039; Warp</div>
+          <div class="tool-mini" data-tool="MongoDB Compass">&#127811; Compass</div>
+          <div class="tool-mini" data-tool="DBeaver">&#129451; DBeaver</div>
+          <div class="tool-mini" data-tool="Postman">&#128238; Postman</div>
+          <div class="tool-mini" data-tool="Docker">&#128051; Docker</div>
+          <div class="tool-mini" data-tool="Structurizr">&#127959;&#65039; Structurizr</div>
+          <div class="tool-mini" data-tool="C4 Model">&#128208; C4</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="sidebar-panel glass">
+      <strong class="sidebar-panel-title">Calend&#225;rio</strong>
+      <div class="cal-header">
+        <button class="cal-btn" id="cal-prev" title="M&#234;s anterior">&#8249;</button>
+        <div class="cal-label" id="cal-month-label">&mdash;</div>
+        <button class="cal-btn" id="cal-next" title="Pr&#243;ximo m&#234;s">&#8250;</button>
+      </div>
+      <div class="cal-grid" id="cal-dow"></div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><span class="cal-swatch report"></span> Edi&#231;&#227;o dispon&#237;vel</div>
+        <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- PREVIOUS EDITIONS (full width, below) -->
+<div class="container editions-section">
+  <div class="section-title">
+    <div class="copy">
+      <div class="badge-icon">&#128218;</div>
+      <div><h2>Edi&#231;&#245;es Anteriores</h2><p>arquivo completo de edi&#231;&#245;es</p></div>
+    </div>
+    <div class="count-pill" id="count-prev">0</div>
+  </div>
+  <div class="editions" id="recent-list"></div>
+</div>
 
 <footer class="site glass container">
-  <div class="ft-brand">DevPulse &middot; Arquivo Diário do Arquiteto</div>
-  <div>Atualizado automaticamente pelo agendamento diário</div>
+  <div class="ft-brand">DevPulse &middot; Arquivo Di&#225;rio do Arquiteto</div>
+  <div>Atualizado automaticamente pelo agendamento di&#225;rio</div>
 </footer>
 
+<!-- Overlay modal -->
 <div class="overlay" id="overlay">
   <div class="overlay-sheet glass">
     <div class="drag-indicator"></div>
@@ -703,22 +765,36 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 <script>
 (function() {
   /* ── Constants ── */
-  var MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var WEEKDAYS = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  var MONTHS = ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var WEEKDAYS = ['Domingo','Segunda-feira','Ter\u00e7a-feira','Quarta-feira','Quinta-feira','Sexta-feira','S\u00e1bado'];
   var DOW_SHORT = ['D','S','T','Q','Q','S','S'];
 
   var CAT_META = {
     sec:      { icon: '\uD83D\uDD10', label: 'Seguran\u00e7a',      color: 'var(--cat-sec)' },
-    ai:       { icon: '\uD83E\uDD16', label: 'IA & LLMs',      color: 'var(--cat-ai)' },
-    cloud:    { icon: '\u2601\uFE0F', label: 'Cloud',           color: 'var(--cat-cloud)' },
-    devops:   { icon: '\u2699\uFE0F', label: 'DevOps',          color: 'var(--cat-devops)' },
-    backend:  { icon: '\uD83D\uDD27', label: 'Backend',         color: 'var(--cat-backend)' },
-    frontend: { icon: '\uD83D\uDDA5\uFE0F', label: 'Frontend',        color: 'var(--cat-frontend)' },
-    db:       { icon: '\uD83D\uDDC4\uFE0F', label: 'Bancos',          color: 'var(--cat-db)' },
-    lang:     { icon: '\uD83D\uDEE0\uFE0F', label: 'Linguagens',      color: 'var(--cat-lang)' },
-    arqsw:    { icon: '\uD83C\uDFDB\uFE0F', label: 'Arq. Software',   color: 'var(--cat-arqsw)' },
-    arqsol:   { icon: '\uD83D\uDDFA\uFE0F', label: 'Arq. Solu\u00e7\u00e3o',    color: 'var(--cat-arqsol)' }
+    ai:       { icon: '\uD83E\uDD16', label: 'IA & LLMs',           color: 'var(--cat-ai)' },
+    cloud:    { icon: '\u2601\uFE0F', label: 'Cloud',               color: 'var(--cat-cloud)' },
+    devops:   { icon: '\u2699\uFE0F', label: 'DevOps',              color: 'var(--cat-devops)' },
+    backend:  { icon: '\uD83D\uDD27', label: 'Backend',             color: 'var(--cat-backend)' },
+    frontend: { icon: '\uD83D\uDDA5\uFE0F', label: 'Frontend',     color: 'var(--cat-frontend)' },
+    db:       { icon: '\uD83D\uDDC4\uFE0F', label: 'Bancos',       color: 'var(--cat-db)' },
+    lang:     { icon: '\uD83D\uDEE0\uFE0F', label: 'Linguagens',   color: 'var(--cat-lang)' },
+    arqsw:    { icon: '\uD83C\uDFDB\uFE0F', label: 'Arq. Software',color: 'var(--cat-arqsw)' },
+    arqsol:   { icon: '\uD83D\uDDFA\uFE0F', label: 'Arq. Solu\u00e7\u00e3o', color: 'var(--cat-arqsol)' }
   };
+
+  var TOOLS_LIST = [
+    { name: 'Microsoft Teams', icon: '\uD83D\uDCF1', short: 'Teams' },
+    { name: 'Notion', icon: '\uD83D\uDCDD', short: 'Notion' },
+    { name: 'IntelliJ IDEA', icon: '\uD83E\uDDE0', short: 'IntelliJ' },
+    { name: 'Cursor IDE', icon: '\u2328\uFE0F', short: 'Cursor' },
+    { name: 'Warp Terminal', icon: '\uD83D\uDDA5\uFE0F', short: 'Warp' },
+    { name: 'MongoDB Compass', icon: '\uD83C\uDF43', short: 'Compass' },
+    { name: 'DBeaver', icon: '\uD83E\uDDAB', short: 'DBeaver' },
+    { name: 'Postman', icon: '\uD83D\uDCEE', short: 'Postman' },
+    { name: 'Docker', icon: '\uD83D\uDC33', short: 'Docker' },
+    { name: 'Structurizr', icon: '\uD83C\uDFD7\uFE0F', short: 'Structurizr' },
+    { name: 'C4 Model', icon: '\uD83D\uDCD0', short: 'C4' }
+  ];
 
   var dataCache = {};
   var allDates = [];
@@ -726,6 +802,12 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   function pad(n) { return String(n).padStart(2, '0') }
   function isoOf(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) }
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
+
+  function formatDate(iso) {
+    var parts = iso.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    return WEEKDAYS[dt.getDay()] + ', ' + parts[2] + ' de ' + MONTHS[parts[1] - 1] + ' de ' + parts[0];
+  }
 
   var today = new Date(); today.setHours(0, 0, 0, 0);
   var todayISO = isoOf(today);
@@ -760,68 +842,174 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   document.getElementById('today-date').textContent =
     WEEKDAYS[today.getDay()] + ', ' + today.getDate() + ' de ' + MONTHS[today.getMonth()] + ' de ' + today.getFullYear();
 
+  /* ── Collapse toggle ── */
+  var aboutToggle = document.getElementById('about-toggle');
+  var aboutBody = document.getElementById('about-body');
+  var aboutArrow = document.getElementById('about-arrow');
+  aboutArrow.classList.add('collapsed');
+  aboutToggle.addEventListener('click', function() {
+    aboutBody.classList.toggle('open');
+    aboutArrow.classList.toggle('collapsed');
+  });
+
   /* ── Fetch & render ── */
   fetch('data/editions.json')
     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json() })
-    .then(renderArchive)
+    .then(function(data) {
+      var EDITIONS = {};
+      data.editions.forEach(function(ed) {
+        EDITIONS[ed.date] = { summary: ed.summary, highlights: ed.highlights || [] };
+      });
+      var AVAILABLE = Object.keys(EDITIONS).sort();
+      allDates = AVAILABLE.slice();
+      var availableSet = new Set(AVAILABLE);
+
+      /* ── Calendar ── */
+      renderCalendar(availableSet, EDITIONS);
+
+      /* ── Previous editions ── */
+      renderPreviousEditions(EDITIONS, AVAILABLE);
+
+      /* ── Try to load today's full data ── */
+      if (availableSet.has(todayISO)) {
+        fetch('data/' + todayISO + '.json')
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(dayData) {
+            if (dayData) {
+              dataCache[todayISO] = dayData;
+              renderTodayDashboard(dayData);
+            } else {
+              renderTodayFromEditions(EDITIONS[todayISO]);
+            }
+          })
+          .catch(function() {
+            renderTodayFromEditions(EDITIONS[todayISO]);
+          });
+      } else {
+        showNoEdition();
+      }
+    })
     .catch(function() {
       document.getElementById('today-sub').textContent = 'Erro ao carregar dados do arquivo.';
       var btn = document.getElementById('today-open');
       btn.classList.add('disabled');
-      btn.textContent = 'Dados indisponíveis';
-      document.getElementById('today-hl').style.display = 'none';
+      btn.textContent = 'Dados indispon\u00edveis';
     });
 
-  function renderArchive(data) {
-    var EDITIONS = {};
-    data.editions.forEach(function(ed) {
-      EDITIONS[ed.date] = { summary: ed.summary, highlights: ed.highlights || [] };
+  /* ── Render today's dashboard from full day data ── */
+  function renderTodayDashboard(data) {
+    document.getElementById('today-date').textContent = data.formatted_date || formatDate(data.date);
+    document.getElementById('today-sub').textContent = data.hero_description || '';
+    document.getElementById('today-open').onclick = function() {
+      window.location.href = 'dia.html?d=' + data.date;
+    };
+
+    /* Top 3 */
+    var top3El = document.getElementById('top3-grid');
+    (data.top3 || []).forEach(function(item) {
+      var cat = CAT_META[item.category] || {};
+      var a = document.createElement('a');
+      a.className = 'top3-card';
+      a.href = item.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.style.setProperty('--cc', 'var(--cat-' + item.category + ')');
+      a.innerHTML =
+        '<div class="t3-badges"><span class="t3-badge">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span></div>' +
+        '<div class="t3-headline">' + esc(item.headline) + '</div>' +
+        '<div class="t3-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
+      top3El.appendChild(a);
     });
-    var AVAILABLE = Object.keys(EDITIONS).sort();
-    allDates = AVAILABLE.slice();
-    var availableSet = new Set(AVAILABLE);
 
-    /* ── Today's hero ── */
-    var sub = document.getElementById('today-sub');
-    var btn = document.getElementById('today-open');
-    var todayHl = document.getElementById('today-hl');
+    /* Per category (1 each, preferring non-top3 items) */
+    var catFeed = document.getElementById('cat-feed');
+    var top3Urls = new Set((data.top3 || []).map(function(n) { return n.url; }));
+    var seen = {};
+    var allItems = [].concat(data.top3 || [], data.news || []);
 
-    if (availableSet.has(todayISO)) {
-      var ed = EDITIONS[todayISO];
-      sub.textContent = ed.summary || 'Edição do dia disponível.';
-      btn.addEventListener('click', function() { window.location.href = 'dia.html?d=' + todayISO });
-
-      if (ed.highlights && ed.highlights.length) {
-        todayHl.innerHTML = ed.highlights.slice(0, 3).map(function(h) {
-          if (h.url) {
-            return '<a href="' + esc(h.url) + '" target="_blank" rel="noopener">' + esc(h.title) + '<span class="ext">\u2197</span></a>';
-          }
-          return '<a style="cursor:default">' + esc(h.title) + '</a>';
-        }).join('');
-      } else {
-        todayHl.style.display = 'none';
+    allItems.forEach(function(n) {
+      if (seen[n.category]) return;
+      if (top3Urls.has(n.url)) {
+        var alt = (data.news || []).find(function(x) { return x.category === n.category; });
+        if (alt) { seen[n.category] = alt; return; }
       }
-    } else {
-      sub.textContent = 'Ainda não há edição publicada para hoje.';
-      btn.classList.add('disabled');
-      btn.textContent = 'Edição ainda não disponível';
-      btn.addEventListener('click', function(e) { e.preventDefault() });
-      todayHl.style.display = 'none';
-    }
+      seen[n.category] = n;
+    });
 
-    /* ── Calendar ── */
+    var catOrder = ['sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'];
+    catOrder.forEach(function(catKey) {
+      var item = seen[catKey];
+      if (!item) return;
+      var cat = CAT_META[catKey] || {};
+      var a = document.createElement('a');
+      a.className = 'cf-item';
+      a.href = item.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.innerHTML =
+        '<span class="cf-badge" style="background:var(--cat-' + catKey + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
+        '<span class="cf-headline">' + esc(item.headline) + '</span>' +
+        '<span class="cf-source">' + esc(item.source) + '</span>';
+      catFeed.appendChild(a);
+    });
+
+    /* Tools */
+    if (data.tools && data.tools.length) {
+      document.getElementById('tools-label').style.display = '';
+      var toolsFeed = document.getElementById('tools-feed');
+      data.tools.forEach(function(tool) {
+        var a = document.createElement('a');
+        a.className = 'tf-item';
+        a.href = tool.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML =
+          '<span>' + esc(tool.icon + ' ' + tool.name) + '</span>' +
+          '<span class="tf-ver">' + esc(tool.version) + '</span>';
+        toolsFeed.appendChild(a);
+      });
+    }
+  }
+
+  /* ── Fallback: render from editions.json only ── */
+  function renderTodayFromEditions(ed) {
+    document.getElementById('today-date').textContent = formatDate(ed && ed.date ? ed.date : todayISO);
+    document.getElementById('today-sub').textContent = (ed && ed.summary) || '';
+    document.getElementById('today-open').onclick = function() {
+      window.location.href = 'dia.html?d=' + todayISO;
+    };
+    var top3El = document.getElementById('top3-grid');
+    ((ed && ed.highlights) || []).forEach(function(h) {
+      var a = document.createElement('a');
+      a.className = 'top3-card';
+      if (h.url) { a.href = h.url; a.target = '_blank'; a.rel = 'noopener'; }
+      a.innerHTML = '<div class="t3-headline">' + esc(h.title) + '</div>';
+      top3El.appendChild(a);
+    });
+  }
+
+  /* ── No edition available ── */
+  function showNoEdition() {
+    document.getElementById('today-sub').textContent = 'Edi\u00e7\u00e3o de hoje ainda n\u00e3o dispon\u00edvel.';
+    var btn = document.getElementById('today-open');
+    btn.classList.add('disabled');
+    btn.textContent = 'Aguardando edi\u00e7\u00e3o';
+    btn.onclick = function(e) { e.preventDefault(); };
+  }
+
+  /* ── Calendar ── */
+  function renderCalendar(availableSet, EDITIONS) {
     var calYear = today.getFullYear();
     var calMonth = today.getMonth();
     var calGrid = document.getElementById('cal-grid');
     var calLabel = document.getElementById('cal-month-label');
     var calDow = document.getElementById('cal-dow');
 
-    /* Render DOW header once */
     calDow.innerHTML = DOW_SHORT.map(function(d) {
       return '<div class="cal-dow">' + d + '</div>';
     }).join('');
 
-    function renderCalendar() {
+    function render() {
       calLabel.textContent = MONTHS[calMonth] + ' ' + calYear;
       calGrid.innerHTML = '';
       var startDay = new Date(calYear, calMonth, 1).getDay();
@@ -841,9 +1029,9 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         if (iso === todayISO) el.classList.add('today');
         if (availableSet.has(iso)) {
           el.classList.add('has-report');
-          el.title = (EDITIONS[iso] && EDITIONS[iso].summary) || 'Edição disponível';
+          el.title = (EDITIONS[iso] && EDITIONS[iso].summary) || 'Edi\u00e7\u00e3o dispon\u00edvel';
           (function(isoVal) {
-            el.addEventListener('click', function() { window.location.href = 'dia.html?d=' + isoVal });
+            el.addEventListener('click', function() { window.location.href = 'dia.html?d=' + isoVal; });
           })(iso);
         }
         calGrid.appendChild(el);
@@ -852,19 +1040,21 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
     document.getElementById('cal-prev').addEventListener('click', function() {
       calMonth--;
-      if (calMonth < 0) { calMonth = 11; calYear-- }
-      renderCalendar();
+      if (calMonth < 0) { calMonth = 11; calYear--; }
+      render();
     });
     document.getElementById('cal-next').addEventListener('click', function() {
       calMonth++;
-      if (calMonth > 11) { calMonth = 0; calYear++ }
-      renderCalendar();
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      render();
     });
-    renderCalendar();
+    render();
+  }
 
-    /* ── Edition cards ── */
+  /* ── Previous editions ── */
+  function renderPreviousEditions(EDITIONS, AVAILABLE) {
     var recentList = document.getElementById('recent-list');
-    var prev = AVAILABLE.filter(function(d) { return d !== todayISO }).sort().reverse();
+    var prev = AVAILABLE.filter(function(d) { return d !== todayISO; }).sort().reverse();
     document.getElementById('count-prev').textContent = prev.length;
 
     prev.forEach(function(iso) {
@@ -891,10 +1081,10 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         (hlItems ? '<ul class="ed-highlights">' + hlItems + '</ul>' : '') +
         '<div class="ed-footer">' +
           '<span>\uD83D\uDCF0 ' + hlCount + ' destaques</span>' +
-          '<span class="open-label">Ver edição \u2192</span>' +
+          '<span class="open-label">Ver edi\u00e7\u00e3o \u2192</span>' +
         '</div>';
 
-      card.addEventListener('click', function() { window.location.href = 'dia.html?d=' + iso });
+      card.addEventListener('click', function() { window.location.href = 'dia.html?d=' + iso; });
       recentList.appendChild(card);
     });
   }
@@ -1032,18 +1222,12 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     });
   }
 
-  // Attach click handlers to category cards
-  document.querySelectorAll('.cat-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      showCategoryOverlay(card.dataset.cat);
-    });
+  /* ── Sidebar click handlers ── */
+  document.querySelectorAll('.cat-pill').forEach(function(el) {
+    el.addEventListener('click', function() { showCategoryOverlay(el.dataset.cat); });
   });
-
-  // Attach click handlers to tool pills
-  document.querySelectorAll('.tool-pill').forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      showToolOverlay(pill.dataset.tool);
-    });
+  document.querySelectorAll('.tool-mini').forEach(function(el) {
+    el.addEventListener('click', function() { showToolOverlay(el.dataset.tool); });
   });
 })();
 </script>
