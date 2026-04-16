@@ -74,8 +74,7 @@ a { color: inherit; text-decoration: none }
 code, .mono { font-family: 'IBM Plex Mono', monospace }
 
 /* ── Smooth theme transitions ── */
-body, .glass, nav, footer, .edition-card, .day, .top3-card, .cf-item, .tf-item,
-.sidebar-panel, .cat-pill, .tool-mini {
+body, .glass, nav, footer, .edition-card, .top3-card, .cf-item, .tf-item {
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -171,20 +170,9 @@ nav.topbar {
 
 /* ── Dashboard grid ── */
 .dashboard {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 20px;
-  align-items: start;
+  display: block;
   margin-top: 16px;
 }
-.dash-sidebar {
-  position: sticky; top: 60px;
-  display: flex; flex-direction: column; gap: 12px;
-  max-height: calc(100vh - 72px); overflow-y: auto;
-  scrollbar-width: thin; scrollbar-color: var(--accent-soft) transparent;
-}
-.dash-sidebar::-webkit-scrollbar { width: 4px }
-.dash-sidebar::-webkit-scrollbar-thumb { background: var(--accent-soft); border-radius: 4px }
 
 /* ── Day Hero (compact) ── */
 .day-card { padding: 20px; border-radius: 20px; position: relative; overflow: hidden }
@@ -289,105 +277,81 @@ nav.topbar {
   font-family: 'IBM Plex Mono', monospace;
 }
 
-/* ── Sidebar ── */
-.sidebar-panel { padding: 14px; border-radius: 14px }
-.sidebar-panel-title { font-size: 12px; font-weight: 700; display: block; margin-bottom: 8px }
-.sidebar-text { font-size: 10px; line-height: 1.5; color: var(--ink-soft); margin-bottom: 8px }
-.sidebar-label {
+/* ── Explore button ── */
+.explore-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  color: var(--ink-soft); cursor: pointer;
+  font-size: 12px; font-weight: 700; font-family: inherit;
+  transition: all .2s ease;
+}
+.explore-btn:hover { color: var(--ink); border-color: var(--accent) }
+.explore-btn.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent) }
+.explore-arrow { font-size: 10px; transition: transform .3s ease }
+.explore-btn.active .explore-arrow { transform: rotate(180deg) }
+
+/* ── Mega menu ── */
+.mega-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+  opacity: 0;
+  margin-top: 8px;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  box-shadow: var(--shadow-md);
+}
+.mega-menu.open {
+  max-height: 400px;
+  opacity: 1;
+}
+.mega-inner {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1.5fr;
+  gap: 20px;
+  align-items: start;
+}
+.mega-about strong {
+  font-size: 13px; font-weight: 800; display: block; margin-bottom: 8px;
+}
+.mega-about p {
+  font-size: 11px; line-height: 1.55; color: var(--ink-soft);
+}
+.mega-label {
   font-size: 9px; font-weight: 700; text-transform: uppercase;
   letter-spacing: .07em; color: var(--ink-dim);
   font-family: 'IBM Plex Mono', monospace;
-  margin: 8px 0 5px;
+  margin-bottom: 8px;
 }
-
-/* Sidebar category/tool grids */
-.sidebar-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
-.sidebar-cat-grid .cat-pill {
-  padding: 5px 8px; border-radius: 6px; cursor: pointer;
+.mega-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
+.mega-cat {
+  padding: 7px 10px; border-radius: 8px; cursor: pointer;
   background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  font-size: 10px; font-weight: 600; color: var(--ink-soft);
+  font-size: 11px; font-weight: 600; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 5px;
+  transition: all .15s ease;
+  position: relative; overflow: hidden;
+}
+.mega-cat::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--cc, var(--accent)); opacity: 0; transition: opacity .15s;
+}
+.mega-cat:hover { color: var(--ink); transform: translateX(3px) }
+.mega-cat:hover::before { opacity: 1 }
+.mega-tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px }
+.mega-tool {
+  padding: 6px 8px; border-radius: 6px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  font-size: 10px; font-weight: 600; color: var(--ink-dim);
   display: flex; align-items: center; gap: 4px;
-  transition: transform .15s, color .15s;
+  transition: all .15s ease;
 }
-.sidebar-cat-grid .cat-pill:hover { transform: translateY(-1px); color: var(--ink) }
-.sidebar-tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
-.sidebar-tool-grid .tool-mini {
-  padding: 4px 8px; border-radius: 6px; cursor: pointer;
-  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  font-size: 9px; font-weight: 600; color: var(--ink-dim);
-  display: flex; align-items: center; gap: 3px;
-  transition: color .15s;
-}
-.sidebar-tool-grid .tool-mini:hover { color: var(--ink) }
-
-/* ── Calendar ── */
-.cal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.cal-label {
-  font-size: 14px; font-weight: 700; letter-spacing: -.01em;
-  text-transform: capitalize; flex: 1; text-align: center;
-  color: var(--ink);
-}
-.cal-btn {
-  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--glass-border);
-  background: var(--glass-bg-solid); color: var(--ink-soft);
-  display: grid; place-items: center; cursor: pointer;
-  font-size: 15px; font-weight: 600;
-  transition: background .2s, color .2s, transform .2s;
-}
-.cal-btn:hover { background: var(--accent); color: #fff; transform: scale(1.08) }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px }
-.cal-dow {
-  font-size: 10px; font-weight: 700; color: var(--ink-dim);
-  text-align: center; padding: 6px 0; text-transform: uppercase;
-  letter-spacing: .04em; font-family: 'IBM Plex Mono', monospace;
-}
-.day {
-  aspect-ratio: 1/1; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700;
-  border: 1px solid transparent;
-  color: var(--ink-dim);
-  background: var(--glass-bg-solid);
-  transition: transform .18s, background .18s, color .18s;
-}
-.day.empty { visibility: hidden; background: transparent }
-.day.has-report {
-  background: var(--accent-soft);
-  border-color: rgba(19,117,255,.15);
-  color: var(--ink);
-  cursor: pointer;
-}
-.day.has-report:hover {
-  transform: scale(1.06);
-  background: var(--accent);
-  color: #fff;
-}
-.day.today {
-  color: #fff; font-weight: 800;
-  background: linear-gradient(135deg, var(--accent), #5E5CE6);
-  box-shadow: 0 2px 10px rgba(19,117,255,.35);
-}
-.day.today.has-report:hover {
-  background: linear-gradient(135deg, #5E5CE6, #BF5AF2);
-  transform: scale(1.08);
-}
-.cal-legend {
-  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 7px;
-  font-size: 11px; color: var(--ink-dim);
-}
-.cal-legend-item { display: flex; align-items: center; gap: 8px }
-.cal-swatch {
-  width: 12px; height: 12px; border-radius: 6px; flex-shrink: 0;
-}
-.cal-swatch.report { background: var(--accent-soft); border: 1px solid var(--accent) }
-.cal-swatch.today-sw {
-  background: linear-gradient(135deg, var(--accent), #5E5CE6);
-  box-shadow: 0 0 6px rgba(19,117,255,.3);
-}
+.mega-tool:hover { color: var(--ink); transform: translateX(2px) }
 
 /* ── Editions section (below dashboard) ── */
 /* editions-section removed — editions are inside dash-main now */
@@ -530,16 +494,17 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   opacity: 0; pointer-events: none;
   transition: opacity .3s ease;
-  display: flex; align-items: flex-end; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: min(10vh, 80px);
 }
 .overlay.active { opacity: 1; pointer-events: auto }
 .overlay-sheet {
   width: 100%; max-width: 900px; max-height: 90vh;
-  border-radius: 20px 20px 0 0;
-  transform: translateY(100%);
+  border-radius: 0 0 20px 20px;
+  transform: translateY(-100%);
   transition: transform .45s cubic-bezier(.32,.72,.0,1);
   display: flex; flex-direction: column;
-  box-shadow: 0 -10px 60px rgba(0,0,0,.25);
+  box-shadow: 0 10px 60px rgba(0,0,0,.25);
 }
 .overlay.active .overlay-sheet { transform: translateY(0) }
 .drag-indicator {
@@ -754,27 +719,25 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
 /* ── Responsive ── */
 @media (max-width: 1100px) {
-  .dashboard { grid-template-columns: 1fr }
-  .dash-sidebar { position: static; max-height: none; overflow: visible; flex-direction: row; flex-wrap: wrap; gap: 12px }
-  .dash-sidebar .sidebar-panel { flex: 1; min-width: 240px }
+  .mega-inner { grid-template-columns: 1fr; }
   .ov-cards { grid-template-columns: 1fr }
 }
 @media (max-width: 860px) {
   .top3-grid { grid-template-columns: 1fr }
-  .dash-sidebar { flex-direction: column }
-  .dash-sidebar .sidebar-panel { min-width: auto }
 }
 @media (max-width: 720px) {
   .container { width: min(100% - 20px, 1440px) }
   .topbar { grid-template-columns: 1fr; justify-items: start; border-radius: 18px; gap: 8px; padding: 12px 14px }
   .topbar-center { display: none }
   .day-card { padding: 16px }
-  .sidebar-panel { padding: 12px }
   footer.site { padding: 16px }
   .editions { grid-template-columns: 1fr }
   .day-card h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
   .day-hero-top { flex-direction: column; align-items: flex-start }
-  .overlay-sheet { max-height: 95vh; border-radius: 16px 16px 0 0 }
+  .overlay-sheet { max-height: 95vh; border-radius: 0 0 16px 16px }
+  .explore-btn .explore-label { display: none; }
+  .mega-cat-grid { grid-template-columns: 1fr; }
+  .mega-tool-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -802,68 +765,59 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     </div>
     <div class="topbar-right">
       <div class="status-pill"><span class="dot"></span>arquivo ativo</div>
-      <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
+      <button class="explore-btn" id="explore-btn">
+        <span>Explorar</span>
+        <span class="explore-arrow" id="explore-arrow">&#9662;</span>
+      </button>
+      <button class="clear-read-btn" id="clear-read" title="Limpar leituras">&#10005; Lidas</button>
       <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon"></span></button>
     </div>
   </nav>
+  <div class="mega-menu" id="mega-menu">
+    <div class="mega-inner">
+      <div class="mega-about">
+        <strong>Sobre o DevPulse</strong>
+        <p>Curadoria di&#225;ria automatizada por IA. Todo dia &#224;s 6h, pesquisa 10 categorias t&#233;cnicas e 11 ferramentas para arquitetos de software.</p>
+      </div>
+      <div class="mega-section">
+        <div class="mega-label">Categorias</div>
+        <div class="mega-cat-grid">
+          <div class="mega-cat" data-cat="sec" style="--cc:var(--cat-sec)"><span>🔐</span> Seguran&#231;a</div>
+          <div class="mega-cat" data-cat="ai" style="--cc:var(--cat-ai)"><span>🤖</span> IA &amp; LLMs</div>
+          <div class="mega-cat" data-cat="cloud" style="--cc:var(--cat-cloud)"><span>☁️</span> Cloud</div>
+          <div class="mega-cat" data-cat="devops" style="--cc:var(--cat-devops)"><span>⚙️</span> DevOps</div>
+          <div class="mega-cat" data-cat="backend" style="--cc:var(--cat-backend)"><span>🔧</span> Backend</div>
+          <div class="mega-cat" data-cat="frontend" style="--cc:var(--cat-frontend)"><span>🖥️</span> Frontend</div>
+          <div class="mega-cat" data-cat="db" style="--cc:var(--cat-db)"><span>🗄️</span> Bancos</div>
+          <div class="mega-cat" data-cat="lang" style="--cc:var(--cat-lang)"><span>🛠️</span> Linguagens</div>
+          <div class="mega-cat" data-cat="arqsw" style="--cc:var(--cat-arqsw)"><span>🏛️</span> Arq. Software</div>
+          <div class="mega-cat" data-cat="arqsol" style="--cc:var(--cat-arqsol)"><span>🗺️</span> Arq. Solu&#231;&#227;o</div>
+        </div>
+      </div>
+      <div class="mega-section">
+        <div class="mega-label">Ferramentas monitoradas</div>
+        <div class="mega-tool-grid">
+          <div class="mega-tool" data-tool="Microsoft Teams">📱 Teams</div>
+          <div class="mega-tool" data-tool="Notion">📝 Notion</div>
+          <div class="mega-tool" data-tool="IntelliJ IDEA">🧠 IntelliJ</div>
+          <div class="mega-tool" data-tool="Cursor IDE">⌨️ Cursor</div>
+          <div class="mega-tool" data-tool="Warp Terminal">🖥️ Warp</div>
+          <div class="mega-tool" data-tool="MongoDB Compass">🍃 Compass</div>
+          <div class="mega-tool" data-tool="DBeaver">🦫 DBeaver</div>
+          <div class="mega-tool" data-tool="Postman">📮 Postman</div>
+          <div class="mega-tool" data-tool="Docker">🐳 Docker</div>
+          <div class="mega-tool" data-tool="Structurizr">🏗️ Structurizr</div>
+          <div class="mega-tool" data-tool="C4 Model">📐 C4 Model</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<!-- DASHBOARD: sidebar left + content right -->
+<!-- DASHBOARD: full-width content -->
 <div class="dashboard container">
 
-  <!-- LEFT: Sidebar (fixed) -->
-  <aside class="dash-sidebar">
-    <!-- Calendar -->
-    <div class="sidebar-panel glass">
-      <strong class="sidebar-panel-title">Calendário</strong>
-      <div class="cal-header">
-        <button class="cal-btn" id="cal-prev" title="Mês anterior">‹</button>
-        <div class="cal-label" id="cal-month-label">—</div>
-        <button class="cal-btn" id="cal-next" title="Próximo mês">›</button>
-      </div>
-      <div class="cal-grid" id="cal-dow"></div>
-      <div class="cal-grid" id="cal-grid"></div>
-      <div class="cal-legend">
-        <div class="cal-legend-item"><span class="cal-swatch report"></span> Edição disponível</div>
-        <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
-      </div>
-    </div>
-
-    <!-- About (always open) -->
-    <div class="sidebar-panel glass sidebar-about">
-      <strong class="sidebar-panel-title">Sobre o DevPulse</strong>
-      <p class="sidebar-text">Curadoria diária automatizada por IA. Todo dia às 6h, pesquisa 10 categorias técnicas e 11 ferramentas para arquitetos de software.</p>
-      <div class="sidebar-label">Categorias</div>
-      <div class="sidebar-cat-grid" id="cat-grid-sidebar">
-        <div class="cat-pill" data-cat="sec">🔐 Seg.</div>
-        <div class="cat-pill" data-cat="ai">🤖 IA</div>
-        <div class="cat-pill" data-cat="cloud">☁️ Cloud</div>
-        <div class="cat-pill" data-cat="devops">⚙️ DevOps</div>
-        <div class="cat-pill" data-cat="backend">🔧 Back.</div>
-        <div class="cat-pill" data-cat="frontend">🖥️ Front.</div>
-        <div class="cat-pill" data-cat="db">🗄️ Bancos</div>
-        <div class="cat-pill" data-cat="lang">🛠️ Lang.</div>
-        <div class="cat-pill" data-cat="arqsw">🏛️ Arq.SW</div>
-        <div class="cat-pill" data-cat="arqsol">🗺️ Arq.Sol</div>
-      </div>
-      <div class="sidebar-label">Ferramentas</div>
-      <div class="sidebar-tool-grid" id="tool-grid-sidebar">
-        <div class="tool-mini" data-tool="Microsoft Teams">📱 Teams</div>
-        <div class="tool-mini" data-tool="Notion">📝 Notion</div>
-        <div class="tool-mini" data-tool="IntelliJ IDEA">🧠 IntelliJ</div>
-        <div class="tool-mini" data-tool="Cursor IDE">⌨️ Cursor</div>
-        <div class="tool-mini" data-tool="Warp Terminal">🖥️ Warp</div>
-        <div class="tool-mini" data-tool="MongoDB Compass">🍃 Compass</div>
-        <div class="tool-mini" data-tool="DBeaver">🦫 DBeaver</div>
-        <div class="tool-mini" data-tool="Postman">📮 Postman</div>
-        <div class="tool-mini" data-tool="Docker">🐳 Docker</div>
-        <div class="tool-mini" data-tool="Structurizr">🏗️ Structurizr</div>
-        <div class="tool-mini" data-tool="C4 Model">📐 C4</div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- RIGHT: Main content -->
+  <!-- Main content -->
   <div class="dash-main">
     <!-- Hero + Top 3 -->
     <div class="day-card glass">
@@ -994,7 +948,6 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   /* ── Constants ── */
   var MONTHS = ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   var WEEKDAYS = ['Domingo','Segunda-feira','Ter\u00e7a-feira','Quarta-feira','Quinta-feira','Sexta-feira','S\u00e1bado'];
-  var DOW_SHORT = ['D','S','T','Q','Q','S','S'];
 
   var CAT_META = {
     sec:      { icon: '\uD83D\uDD10', label: 'Seguran\u00e7a',      color: 'var(--cat-sec)' },
@@ -1080,9 +1033,6 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       var AVAILABLE = Object.keys(EDITIONS).sort();
       allDates = AVAILABLE.slice();
       var availableSet = new Set(AVAILABLE);
-
-      /* ── Calendar ── */
-      renderCalendar(availableSet, EDITIONS);
 
       /* ── Previous editions ── */
       renderPreviousEditions(EDITIONS, AVAILABLE);
@@ -1233,60 +1183,6 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     btn.classList.add('disabled');
     btn.textContent = 'Aguardando edi\u00e7\u00e3o';
     btn.onclick = function(e) { e.preventDefault(); };
-  }
-
-  /* ── Calendar ── */
-  function renderCalendar(availableSet, EDITIONS) {
-    var calYear = today.getFullYear();
-    var calMonth = today.getMonth();
-    var calGrid = document.getElementById('cal-grid');
-    var calLabel = document.getElementById('cal-month-label');
-    var calDow = document.getElementById('cal-dow');
-
-    calDow.innerHTML = DOW_SHORT.map(function(d) {
-      return '<div class="cal-dow">' + d + '</div>';
-    }).join('');
-
-    function render() {
-      calLabel.textContent = MONTHS[calMonth] + ' ' + calYear;
-      calGrid.innerHTML = '';
-      var startDay = new Date(calYear, calMonth, 1).getDay();
-      var daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-
-      for (var i = 0; i < startDay; i++) {
-        var empty = document.createElement('div');
-        empty.className = 'day empty';
-        calGrid.appendChild(empty);
-      }
-      for (var day = 1; day <= daysInMonth; day++) {
-        var iso = calYear + '-' + pad(calMonth + 1) + '-' + pad(day);
-        var el = document.createElement('div');
-        el.className = 'day';
-        el.textContent = day;
-
-        if (iso === todayISO) el.classList.add('today');
-        if (availableSet.has(iso)) {
-          el.classList.add('has-report');
-          el.title = (EDITIONS[iso] && EDITIONS[iso].summary) || 'Edi\u00e7\u00e3o dispon\u00edvel';
-          (function(isoVal) {
-            el.addEventListener('click', function() { window.location.href = 'dia.html?d=' + isoVal; });
-          })(iso);
-        }
-        calGrid.appendChild(el);
-      }
-    }
-
-    document.getElementById('cal-prev').addEventListener('click', function() {
-      calMonth--;
-      if (calMonth < 0) { calMonth = 11; calYear--; }
-      render();
-    });
-    document.getElementById('cal-next').addEventListener('click', function() {
-      calMonth++;
-      if (calMonth > 11) { calMonth = 0; calYear++; }
-      render();
-    });
-    render();
   }
 
   /* ── Previous editions ── */
@@ -1506,12 +1402,40 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     });
   }
 
-  /* ── Sidebar click handlers ── */
-  document.querySelectorAll('.cat-pill').forEach(function(el) {
-    el.addEventListener('click', function() { showCategoryOverlay(el.dataset.cat); });
+  /* ── Mega menu toggle ── */
+  var exploreBtn = document.getElementById('explore-btn');
+  var megaMenu = document.getElementById('mega-menu');
+  exploreBtn.addEventListener('click', function() {
+    exploreBtn.classList.toggle('active');
+    megaMenu.classList.toggle('open');
   });
-  document.querySelectorAll('.tool-mini').forEach(function(el) {
-    el.addEventListener('click', function() { showToolOverlay(el.dataset.tool); });
+  document.addEventListener('click', function(e) {
+    if (!exploreBtn.contains(e.target) && !megaMenu.contains(e.target)) {
+      exploreBtn.classList.remove('active');
+      megaMenu.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      exploreBtn.classList.remove('active');
+      megaMenu.classList.remove('open');
+    }
+  });
+
+  /* ── Mega menu click handlers ── */
+  document.querySelectorAll('.mega-cat').forEach(function(el) {
+    el.addEventListener('click', function() {
+      exploreBtn.classList.remove('active');
+      megaMenu.classList.remove('open');
+      showCategoryOverlay(el.dataset.cat);
+    });
+  });
+  document.querySelectorAll('.mega-tool').forEach(function(el) {
+    el.addEventListener('click', function() {
+      exploreBtn.classList.remove('active');
+      megaMenu.classList.remove('open');
+      showToolOverlay(el.dataset.tool);
+    });
   });
 
   /* ── Global Search (Ctrl+K / Cmd+K) ── */
