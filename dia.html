@@ -538,8 +538,8 @@
     document.getElementById('date-chip').innerHTML = '<span class="live"></span>' + esc(data.formatted_date);
 
     /* Hero */
-    document.getElementById('hero-title').textContent = data.title || '';
-    document.getElementById('hero-desc').textContent = data.description || '';
+    document.getElementById('hero-title').textContent = data.hero_title || '';
+    document.getElementById('hero-desc').textContent = data.hero_description || '';
 
     /* Hero meta */
     var metaEl = document.getElementById('hero-meta');
