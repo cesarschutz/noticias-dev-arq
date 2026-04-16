@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevPulse • 15 de Abril de 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --apple-bg:#000;
+    --apple-surface:rgba(28,28,30,0.72);
+    --apple-surface-solid:#1C1C1E;
+    --apple-glass:rgba(255,255,255,0.06);
+    --apple-glass-strong:rgba(255,255,255,0.10);
+    --apple-glass-border:rgba(255,255,255,0.10);
+    --apple-glass-border-strong:rgba(255,255,255,0.18);
+    --apple-text:#F5F5F7;
+    --apple-text-secondary:#A1A1A6;
+    --apple-text-tertiary:#6E6E73;
+    --apple-blue:#0A84FF;
+    --apple-blue-soft:rgba(10,132,255,0.18);
+    --apple-indigo:#5E5CE6;
+    --apple-purple:#BF5AF2;
+    --apple-pink:#FF375F;
+    --apple-red:#FF453A;
+    --apple-orange:#FF9F0A;
+    --apple-yellow:#FFD60A;
+    --apple-green:#30D158;
+    --apple-teal:#64D2FF;
+    --apple-mint:#66D4CF;
+    --apple-separator:rgba(255,255,255,0.08);
+    --radius:16px;
+    --radius-sm:12px;
+    --radius-xs:8px;
+    --blur:40px;
+    --blur-strong:60px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--apple-bg);color:var(--apple-text);
+    font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Helvetica Neue',sans-serif;
+    font-size:15px;line-height:1.47;font-weight:400;min-height:100vh;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--apple-blue);color:#fff}
+
+  /* ANIMATED GRADIENT ORBS */
+  .bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.35;will-change:transform}
+  .orb-1{width:600px;height:600px;top:-10%;left:-5%;background:var(--apple-blue);animation:float1 25s ease-in-out infinite}
+  .orb-2{width:500px;height:500px;top:20%;right:-10%;background:var(--apple-purple);animation:float2 30s ease-in-out infinite}
+  .orb-3{width:450px;height:450px;bottom:-5%;left:30%;background:var(--apple-indigo);animation:float3 28s ease-in-out infinite}
+  .orb-4{width:350px;height:350px;top:60%;left:-8%;background:var(--apple-teal);opacity:.2;animation:float4 22s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(80px,60px) scale(1.1)}66%{transform:translate(-40px,30px) scale(.95)}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-60px,80px) scale(.9)}66%{transform:translate(40px,-40px) scale(1.08)}}
+  @keyframes float3{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,-70px) scale(1.05)}66%{transform:translate(-60px,50px) scale(.92)}}
+  @keyframes float4{0%,100%{transform:translate(0,0)}50%{transform:translate(100px,-60px)}}
+
+  .page{position:relative;z-index:1}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* GLASS NAV */
+  nav.topbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(0,0,0,0.65);backdrop-filter:blur(var(--blur-strong)) saturate(180%);
+    -webkit-backdrop-filter:blur(var(--blur-strong)) saturate(180%);
+    border-bottom:0.5px solid var(--apple-separator);
+    padding:0 24px;height:52px;display:flex;align-items:center;justify-content:center;
+  }
+  nav .nav-inner{max-width:1200px;width:100%;display:flex;align-items:center;justify-content:space-between}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:-0.01em}
+  .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--apple-blue),var(--apple-purple));flex-shrink:0}
+  .nav-actions{display:flex;align-items:center;gap:10px}
+  .nav-chip{
+    font-size:12px;color:var(--apple-text-secondary);
+    padding:6px 14px;border-radius:999px;
+    background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    display:inline-flex;align-items:center;gap:6px;font-weight:500;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  }
+  .nav-chip .live{width:6px;height:6px;border-radius:50%;background:var(--apple-green);box-shadow:0 0 6px var(--apple-green);animation:livePulse 2s ease-in-out infinite}
+  @keyframes livePulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .nav-back{
+    font-size:13px;color:var(--apple-blue);font-weight:500;
+    display:inline-flex;align-items:center;gap:4px;
+    transition:opacity .2s;
+  }
+  .nav-back:hover{opacity:.7}
+
+  /* HERO */
+  .hero{padding:100px 0 48px}
+  .hero-inner{
+    background:var(--apple-glass);backdrop-filter:blur(var(--blur)) saturate(150%);
+    -webkit-backdrop-filter:blur(var(--blur)) saturate(150%);
+    border:0.5px solid var(--apple-glass-border);border-radius:24px;
+    padding:48px;position:relative;overflow:hidden;
+    display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:center;
+  }
+  @media(max-width:860px){.hero-inner{grid-template-columns:1fr;padding:32px}}
+  .hero-inner::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.25) 50%,transparent);
+  }
+  .hero-overline{
+    font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--apple-blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;
+  }
+  .hero-title{
+    font-size:44px;font-weight:800;letter-spacing:-0.03em;line-height:1.05;
+    background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.65) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-desc{color:var(--apple-text-secondary);font-size:17px;line-height:1.55;margin-top:16px;max-width:680px;font-weight:400}
+  .hero-meta{margin-top:24px;display:flex;gap:24px;flex-wrap:wrap}
+  .hm{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--apple-text-secondary);font-weight:500}
+  .hm strong{color:var(--apple-text);font-weight:700;font-size:15px}
+
+  .hero-stats{display:flex;flex-direction:column;gap:12px}
+  .stat-card{
+    background:rgba(255,255,255,0.04);border:0.5px solid var(--apple-glass-border);
+    border-radius:var(--radius-sm);padding:16px;text-align:center;
+    transition:all .3s ease;
+  }
+  .stat-card:hover{background:rgba(255,255,255,0.08);transform:scale(1.02)}
+  .stat-val{font-size:32px;font-weight:800;letter-spacing:-0.03em;line-height:1;background:linear-gradient(135deg,var(--apple-blue),var(--apple-purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--apple-text-tertiary);font-weight:600;margin-top:6px}
+  .stat-card.warn .stat-val{background:linear-gradient(135deg,var(--apple-orange),var(--apple-red));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+  /* CONTROLS */
+  .controls{
+    position:sticky;top:52px;z-index:50;
+    background:rgba(0,0,0,0.6);backdrop-filter:blur(var(--blur-strong)) saturate(180%);
+    -webkit-backdrop-filter:blur(var(--blur-strong)) saturate(180%);
+    border-bottom:0.5px solid var(--apple-separator);
+    padding:16px 0;margin-bottom:40px;
+  }
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .pill{
+    font-size:13px;padding:7px 16px;border-radius:999px;
+    background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    color:var(--apple-text-secondary);cursor:pointer;transition:all .25s ease;
+    font-family:inherit;font-weight:500;
+  }
+  .pill:hover{background:var(--apple-glass-strong);color:var(--apple-text)}
+  .pill.active{background:var(--apple-blue);color:#fff;border-color:var(--apple-blue);box-shadow:0 2px 16px rgba(10,132,255,.4)}
+  .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .seg-control{
+    display:flex;background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    border-radius:10px;padding:2px;overflow:hidden;
+  }
+  .seg-control button{
+    background:transparent;border:0;color:var(--apple-text-secondary);
+    padding:8px 18px;font-size:13px;cursor:pointer;font-family:inherit;
+    transition:all .25s ease;font-weight:500;border-radius:8px;
+  }
+  .seg-control button.active{background:rgba(255,255,255,0.12);color:var(--apple-text)}
+  .search-box{flex:1;min-width:220px;max-width:400px;position:relative}
+  .search-box input{
+    width:100%;background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    border-radius:10px;padding:10px 14px 10px 36px;color:var(--apple-text);
+    font-size:14px;font-family:inherit;outline:none;transition:all .25s;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  }
+  .search-box input::placeholder{color:var(--apple-text-tertiary)}
+  .search-box input:focus{border-color:var(--apple-blue);box-shadow:0 0 0 3px var(--apple-blue-soft)}
+  .search-box::before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--apple-text-tertiary)}
+  .urgbtn{
+    background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    border-radius:10px;color:var(--apple-text-secondary);padding:10px 18px;
+    cursor:pointer;font-size:13px;font-family:inherit;font-weight:500;transition:all .25s;
+  }
+  .urgbtn.active{background:rgba(255,69,58,.18);color:var(--apple-red);border-color:rgba(255,69,58,.4)}
+
+  /* SECTION */
+  .sec-head{
+    font-size:28px;font-weight:700;letter-spacing:-0.025em;margin:48px 0 24px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .sec-head .sec-icon{
+    width:40px;height:40px;border-radius:var(--radius-sm);
+    background:linear-gradient(135deg,var(--apple-blue),var(--apple-indigo));
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    box-shadow:0 4px 16px rgba(10,132,255,.3);
+  }
+  .sec-head .sec-sub{font-size:14px;color:var(--apple-text-tertiary);font-weight:400;margin-left:auto}
+
+  /* TOP 3 */
+  .top3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.top3{grid-template-columns:1fr}}
+  .top-card{
+    background:var(--apple-glass);backdrop-filter:blur(var(--blur)) saturate(150%);
+    -webkit-backdrop-filter:blur(var(--blur)) saturate(150%);
+    border:0.5px solid var(--apple-glass-border);border-radius:20px;
+    overflow:hidden;transition:all .35s cubic-bezier(.25,.46,.45,.94);
+    display:flex;flex-direction:column;position:relative;
+  }
+  .top-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.2) 50%,transparent);
+  }
+  .top-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 0.5px var(--apple-glass-border-strong)}
+  .top-card .gradient-bar{height:4px;background:linear-gradient(90deg,var(--c1,var(--apple-blue)),var(--c2,var(--apple-indigo)))}
+  .top-card .body{padding:24px;flex:1;display:flex;flex-direction:column;gap:14px}
+  .top-card .headline{font-size:18px;font-weight:700;line-height:1.25;letter-spacing:-0.02em}
+  .top-card .summary{color:var(--apple-text-secondary);font-size:14px;line-height:1.6;flex:1}
+  .top-card .foot{
+    padding:16px 24px;border-top:0.5px solid var(--apple-separator);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;color:var(--apple-text-tertiary);font-weight:500;
+  }
+  .top-card .foot .open{
+    color:var(--apple-blue);font-weight:600;display:flex;align-items:center;gap:4px;
+    transition:gap .2s;
+  }
+  .top-card:hover .foot .open{gap:8px}
+
+  .badges{display:flex;gap:6px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;letter-spacing:.01em}
+  .badge.cat{background:linear-gradient(135deg,var(--c1,var(--apple-blue)),var(--c2,var(--apple-indigo)));color:#fff}
+  .badge.new{background:var(--apple-blue-soft);color:var(--apple-blue);border:0.5px solid rgba(10,132,255,.3)}
+  .badge.urg{background:rgba(255,69,58,.15);color:var(--apple-red);border:0.5px solid rgba(255,69,58,.3)}
+  .badge.star{background:rgba(255,214,10,.12);color:var(--apple-yellow);border:0.5px solid rgba(255,214,10,.25)}
+
+  /* CARDS GRID */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:var(--apple-glass);backdrop-filter:blur(30px) saturate(150%);
+    -webkit-backdrop-filter:blur(30px) saturate(150%);
+    border:0.5px solid var(--apple-glass-border);border-radius:var(--radius);
+    padding:20px;cursor:pointer;transition:all .3s cubic-bezier(.25,.46,.45,.94);
+    display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;
+  }
+  .card::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--c1,var(--apple-blue)),var(--c2,var(--apple-indigo)));
+    border-radius:0 2px 2px 0;opacity:.8;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 0.5px var(--apple-glass-border-strong);background:var(--apple-glass-strong)}
+  .card .head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .card .headline{font-size:15px;font-weight:600;line-height:1.35;letter-spacing:-0.01em}
+  .card .summary{color:var(--apple-text-secondary);font-size:13px;line-height:1.6;flex:1}
+  .card .foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--apple-text-tertiary);padding-top:10px;border-top:0.5px solid var(--apple-separator);font-weight:500}
+  .card .foot .arrow{color:var(--apple-blue);font-weight:600;transition:transform .2s}
+  .card:hover .foot .arrow{transform:translateX(3px)}
+
+  .cards.listmode{grid-template-columns:1fr;gap:0;border:0.5px solid var(--apple-glass-border);border-radius:var(--radius);overflow:hidden;background:var(--apple-glass);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur))}
+  .listmode .card{border-radius:0;border:0;border-bottom:0.5px solid var(--apple-separator);backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;padding:16px 20px;flex-direction:row;align-items:center;gap:14px}
+  .listmode .card:last-child{border-bottom:0}
+  .listmode .card::after{width:2px}
+  .listmode .card .head{flex:1;flex-direction:row;align-items:center;gap:12px}
+  .listmode .card .headline{font-size:14px;font-weight:500}
+  .listmode .card .summary{display:none}
+  .listmode .card .foot{border-top:0;padding-top:0;white-space:nowrap}
+  .listmode .card:hover{transform:none;box-shadow:none;background:rgba(255,255,255,0.04)}
+
+  /* TOOLS */
+  .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:1000px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.tools-grid{grid-template-columns:1fr}}
+  .tool-card{
+    background:var(--apple-glass);backdrop-filter:blur(30px) saturate(150%);
+    -webkit-backdrop-filter:blur(30px) saturate(150%);
+    border:0.5px solid var(--apple-glass-border);border-radius:var(--radius);
+    padding:20px;cursor:pointer;transition:all .3s cubic-bezier(.25,.46,.45,.94);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .tool-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4);background:var(--apple-glass-strong)}
+  .tool-card .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .tool-card .name{font-size:15px;font-weight:700;letter-spacing:-0.01em}
+  .tool-card .ver{
+    font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;
+    background:var(--apple-blue-soft);color:var(--apple-blue);
+    border:0.5px solid rgba(10,132,255,.3);
+  }
+  .tool-card .desc{color:var(--apple-text-secondary);font-size:12.5px;line-height:1.55;flex:1}
+  .tool-card .link{color:var(--apple-blue);font-size:12px;font-weight:600;margin-top:auto;display:flex;align-items:center;gap:4px;transition:gap .2s}
+  .tool-card:hover .link{gap:8px}
+
+  /* CATEGORY COLORS */
+  .c-sec{--c1:var(--apple-red);--c2:var(--apple-orange)}
+  .c-ai{--c1:var(--apple-purple);--c2:var(--apple-pink)}
+  .c-cloud{--c1:var(--apple-blue);--c2:var(--apple-teal)}
+  .c-devops{--c1:var(--apple-orange);--c2:var(--apple-yellow)}
+  .c-backend{--c1:var(--apple-green);--c2:var(--apple-mint)}
+  .c-frontend{--c1:var(--apple-pink);--c2:var(--apple-purple)}
+  .c-db{--c1:var(--apple-teal);--c2:var(--apple-green)}
+  .c-lang{--c1:var(--apple-orange);--c2:var(--apple-red)}
+  .c-arqsw{--c1:var(--apple-indigo);--c2:var(--apple-purple)}
+  .c-arqsol{--c1:var(--apple-blue);--c2:var(--apple-indigo)}
+
+  /* FOOTER */
+  footer{padding:48px 0 64px;text-align:center;position:relative}
+  footer::before{content:"";position:absolute;left:24px;right:24px;top:0;height:0.5px;background:var(--apple-separator)}
+  .ft-brand{font-size:13px;font-weight:600;color:var(--apple-text-secondary);margin-bottom:6px}
+  .ft-sub{font-size:12px;color:var(--apple-text-tertiary)}
+  .ft-sources{margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+  .ft-sources a{
+    font-size:11px;color:var(--apple-text-tertiary);padding:6px 14px;
+    border-radius:999px;background:var(--apple-glass);border:0.5px solid var(--apple-glass-border);
+    transition:all .25s;font-weight:500;
+  }
+  .ft-sources a:hover{color:var(--apple-blue);border-color:var(--apple-blue);background:var(--apple-blue-soft)}
+
+  @media(max-width:640px){
+    .hero-title{font-size:30px}
+    .hero-inner{padding:28px}
+    .container{padding:0 16px}
+    .sec-head{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<div class="page">
+
+<nav class="topbar">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="dot"></span>DevPulse</div>
+    <div class="nav-actions">
+      <a class="nav-back" href="../index.html">← Arquivo</a>
+      <div class="nav-chip"><span class="live"></span>15 de Abril de 2026</div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-overline">Edição do Dia</div>
+        <h1 class="hero-title">Patch Tuesday histórico, Claude Mythos e S3 Files</h1>
+        <p class="hero-desc">Microsoft fecha 163 CVEs incluindo zero-day ativo no SharePoint. Anthropic abre Claude Mythos via Project Glasswing para defesa cibernética, enquanto AWS lança S3 Files com latências de ~1ms.</p>
+        <div class="hero-meta">
+          <div class="hm"><strong>25</strong> notícias</div>
+          <div class="hm"><strong>7</strong> urgentes</div>
+          <div class="hm"><strong>11</strong> categorias</div>
+          <div class="hm"><strong>4</strong> ferramentas</div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card warn"><div class="stat-val">7</div><div class="stat-lbl">CVEs Urgentes</div></div>
+        <div class="stat-card"><div class="stat-val">163</div><div class="stat-lbl">CVEs Patch Tue.</div></div>
+        <div class="stat-card"><div class="stat-val">6</div><div class="stat-lbl">Novidades</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="container">
+    <div class="pills" id="filters">
+      <button class="pill active" data-filter="all">Todas</button>
+      <button class="pill" data-filter="c-sec">Segurança</button>
+      <button class="pill" data-filter="c-ai">IA & LLMs</button>
+      <button class="pill" data-filter="c-cloud">Cloud</button>
+      <button class="pill" data-filter="c-devops">DevOps</button>
+      <button class="pill" data-filter="c-backend">Backend</button>
+      <button class="pill" data-filter="c-frontend">Frontend</button>
+      <button class="pill" data-filter="c-db">Bancos</button>
+      <button class="pill" data-filter="c-lang">Linguagens</button>
+      <button class="pill" data-filter="c-arqsw">Arq. Software</button>
+      <button class="pill" data-filter="c-arqsol">Arq. Solução</button>
+    </div>
+    <div class="toolbar">
+      <div class="seg-control">
+        <button id="mode-cards" class="active">Cards</button>
+        <button id="mode-list">Lista</button>
+      </div>
+      <div class="search-box"><input type="text" id="search" placeholder="Buscar notícias…"></div>
+      <button class="urgbtn" id="urgbtn">⚠ Urgentes</button>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+
+  <h2 class="sec-head"><span class="sec-icon">⭐</span>Imperdíveis<span class="sec-sub">Top 3 destaques curados</span></h2>
+  <section class="top3">
+
+    <a class="top-card c-sec" data-category="c-sec" data-urgent="true" href="https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201" target="_blank" rel="noopener">
+      <div class="gradient-bar"></div>
+      <div class="body">
+        <div class="badges"><span class="badge cat">Segurança</span><span class="badge urg">Urgente</span><span class="badge star">Destaque</span></div>
+        <div class="headline">Patch Tuesday de Abril corrige 163 CVEs, incluindo zero-day ativo no SharePoint</div>
+        <div class="summary">Segunda maior atualização mensal já publicada pela Microsoft: 8 críticas, CVE-2026-33827 (RCE TCP/IP, CVSS 9.8), CVE-2026-33824 (IKE IPsec) e o zero-day CVE-2026-32201 no SharePoint Server.</div>
+      </div>
+      <div class="foot"><span>Tenable · ~4 min</span><span class="open">Abrir →</span></div>
+    </a>
+
+    <a class="top-card c-ai" data-category="c-ai" data-urgent="true" href="https://techcrunch.com/2026/04/07/anthropic-mythos-ai-model-preview-security/" target="_blank" rel="noopener">
+      <div class="gradient-bar"></div>
+      <div class="body">
+        <div class="badges"><span class="badge cat">IA & LLMs</span><span class="badge new">Novo</span><span class="badge star">Destaque</span></div>
+        <div class="headline">Anthropic confirma Claude Mythos e abre Project Glasswing para defesa cibernética</div>
+        <div class="summary">Anthropic reconheceu publicamente o Claude Mythos, seu modelo mais capaz até hoje. Acesso gated a cerca de 50 organizações via Project Glasswing, focado em varredura de vulnerabilidades.</div>
+      </div>
+      <div class="foot"><span>TechCrunch · ~5 min</span><span class="open">Abrir →</span></div>
+    </a>
+
+    <a class="top-card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/new/" target="_blank" rel="noopener">
+      <div class="gradient-bar"></div>
+      <div class="body">
+        <div class="badges"><span class="badge cat">Cloud</span><span class="badge new">Novo</span><span class="badge star">Destaque</span></div>
+        <div class="headline">AWS lança Amazon S3 Files: buckets acessíveis como filesystem de alta performance</div>
+        <div class="summary">O novo Amazon S3 Files expõe buckets como filesystems POSIX-like sobre compute AWS, com latências em torno de 1ms. Elimina o trade-off entre storage de objeto e interativo.</div>
+      </div>
+      <div class="foot"><span>AWS · ~3 min</span><span class="open">Abrir →</span></div>
+    </a>
+
+  </section>
+
+  <h2 class="sec-head"><span class="sec-icon">📰</span>Todas as Notícias<span class="sec-sub">25 itens</span></h2>
+  <section class="cards" id="list">
+
+    <a class="card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/new/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Cloud</span></div><div class="badges"><span class="badge new">Novo</span></div></div>
+      <div class="headline">AWS Bedrock Guardrails: organizational safeguards agora GA</div>
+      <div class="summary">Aplicação centralizada de controles de segurança em múltiplas contas de uma AWS Organization. Padronize políticas de IA generativa sem duplicar configuração por conta.</div>
+      <div class="foot"><span>AWS · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/new/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Cloud</span></div></div>
+      <div class="headline">Database Savings Plans cobrem OpenSearch e Neptune Analytics</div>
+      <div class="summary">Economia de até 35% com commitment de 1 ano sobre uso serverless e provisioned. Impacto direto em FinOps de workloads de busca e grafos analíticos.</div>
+      <div class="foot"><span>AWS · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/new/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Cloud</span></div></div>
+      <div class="headline">Elastic Beanstalk ganha análise de ambiente com IA (Bedrock)</div>
+      <div class="summary">Quando o health degrada, o Beanstalk coleta eventos, métricas e logs e envia ao Bedrock para gerar passo-a-passo de troubleshooting.</div>
+      <div class="foot"><span>AWS · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/new/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Cloud</span></div></div>
+      <div class="headline">AWS Sustainability Console: dados Scope 1, 2 e 3 sem billing</div>
+      <div class="summary">Time de sustentabilidade passa a ter acesso independente ao painel de emissões, desacoplando-o de permissões financeiras.</div>
+      <div class="foot"><span>AWS · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-cloud" data-category="c-cloud" data-urgent="false" href="https://aws.amazon.com/about-aws/whats-new/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Cloud</span></div><div class="badges"><span class="badge urg">Breaking</span></div></div>
+      <div class="headline">AWS VPC Encryption Controls passa a ser pago</div>
+      <div class="summary">Após fase gratuita, recurso passa a impactar custos de contas com alta carga de tráfego privado. Revise tagging e alocação de custo.</div>
+      <div class="foot"><span>AWS · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-devops" data-category="c-devops" data-urgent="false" href="https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">DevOps</span></div><div class="badges"><span class="badge new">Novo</span></div></div>
+      <div class="headline">Kubernetes v1.36 chega em 22/04 com deprecação de externalIPs</div>
+      <div class="summary">O campo externalIPs em Service (vetor de MITM) passa a emitir warning e será removido na v1.43. Hora de revisar manifests.</div>
+      <div class="foot"><span>Kubernetes · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-devops" data-category="c-devops" data-urgent="true" href="https://kubernetes.io/blog/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">DevOps</span></div><div class="badges"><span class="badge urg">Urgente</span></div></div>
+      <div class="headline">Ingress-NGINX aposentado: sem novos fixes de segurança</div>
+      <div class="summary">SIG Network descontinuou o projeto em 24/03. Migre para Gateway API, NGINX Gateway Fabric ou ingresses comerciais.</div>
+      <div class="foot"><span>Kubernetes · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-devops" data-category="c-devops" data-urgent="false" href="https://www.infoq.com/news/2026/01/pulumi-adds-terraform-hcl/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">DevOps</span></div></div>
+      <div class="headline">Pulumi Neo: agente de IA gera e faz deploy de infra por prompt</div>
+      <div class="summary">Pulumi passou a executar HCL nativo e gerenciar estado Terraform em seu cloud — consolidação relevante no cenário IaC.</div>
+      <div class="foot"><span>InfoQ · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-devops" data-category="c-devops" data-urgent="false" href="https://docs.docker.com/desktop/release-notes/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">DevOps</span></div></div>
+      <div class="headline">Docker Desktop: startup mais rápido no WSL2 e fix de CPU alta</div>
+      <div class="summary">Redução de segundos no startup (WSL2), correção em Windows API proxy (CPU alta) e melhorias no Docker Model Runner.</div>
+      <div class="foot"><span>Docker · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-sec" data-category="c-sec" data-urgent="true" href="https://www.thehackerwire.com/vulnerability/CVE-2026-35031/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Segurança</span></div><div class="badges"><span class="badge urg">Urgente</span></div></div>
+      <div class="headline">CVE-2026-35031 no Jellyfin: CVSS 9.9</div>
+      <div class="summary">Vulnerabilidade crítica exige atualização imediata em qualquer instância exposta. Revise segmentação de rede.</div>
+      <div class="foot"><span>TheHackerWire · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-sec" data-category="c-sec" data-urgent="true" href="https://www.thehackerwire.com/vulnerability/CVE-2026-34457/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Segurança</span></div><div class="badges"><span class="badge urg">Urgente</span></div></div>
+      <div class="headline">OAuth2 Proxy: CVE-2026-34457 (CVSS 9.1)</div>
+      <div class="summary">Falha crítica pode comprometer fluxos de SSO — atualize imediatamente em clusters K8s.</div>
+      <div class="foot"><span>TheHackerWire · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-sec" data-category="c-sec" data-urgent="true" href="https://www.thehackerwire.com/vulnerability/CVE-2026-39399/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Segurança</span></div><div class="badges"><span class="badge urg">Urgente</span></div></div>
+      <div class="headline">NuGet Gallery: CVE-2026-39399 (CVSS 9.6)</div>
+      <div class="summary">Potencial supply-chain attack em ecossistema .NET. Revise políticas de pacotes internos e mirrors privados.</div>
+      <div class="foot"><span>TheHackerWire · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-sec" data-category="c-sec" data-urgent="true" href="https://docs.docker.com/desktop/release-notes/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Segurança</span></div><div class="badges"><span class="badge urg">Urgente</span></div></div>
+      <div class="headline">CVE-2026-33990: SSRF no Docker Model Runner</div>
+      <div class="summary">Corrigido em versão recente do Docker Desktop. Atualize estações de desenvolvimento e agentes CI.</div>
+      <div class="foot"><span>Docker · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-ai" data-category="c-ai" data-urgent="false" href="https://www.axios.com/2026/04/09/openai-new-model-cyber-mythos-anthopic" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">IA & LLMs</span></div><div class="badges"><span class="badge new">Novo</span></div></div>
+      <div class="headline">OpenAI anuncia GPT-5.4-Cyber para defensores digitais</div>
+      <div class="summary">Modelo especializado em segurança ofensiva e defensiva. Reforça a corrida por IA aplicada à cibersegurança.</div>
+      <div class="foot"><span>Axios · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-ai" data-category="c-ai" data-urgent="false" href="https://llm-stats.com/llm-updates" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">IA & LLMs</span></div></div>
+      <div class="headline">GPT-5.4 bate recordes em OSWorld, WebArena e GDPval</div>
+      <div class="summary">Avanço em agentes que operam GUI e completam tarefas de knowledge work. Importante para "computer-use agents".</div>
+      <div class="foot"><span>llm-stats · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-ai" data-category="c-ai" data-urgent="false" href="https://www.nxcode.io/resources/news/cursor-ai-review-2026-features-pricing-worth-it" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">IA & LLMs</span></div></div>
+      <div class="headline">Cursor 3: workspace multi-repo com handoff local ↔ cloud</div>
+      <div class="summary">Bugbot chega a ~80% de resolution rate — 15pp acima de concorrentes. Relevante para padronização de IDE.</div>
+      <div class="foot"><span>NxCode · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-frontend" data-category="c-frontend" data-urgent="false" href="https://github.com/facebook/react/releases/tag/v19.2.5" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Frontend</span></div><div class="badges"><span class="badge new">Novo</span></div></div>
+      <div class="headline">React 19.2.5 reforça proteções em Server Components</div>
+      <div class="summary">Patch foca em robustez de RSC em cenários de renderização recursiva. Importante para App Router / Next.js.</div>
+      <div class="foot"><span>GitHub · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-lang" data-category="c-lang" data-urgent="false" href="https://www.infoworld.com/article/4100582/microsoft-steers-native-port-of-typescript-to-early-2026-release.html" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Linguagens</span></div></div>
+      <div class="headline">TypeScript 7.0 em Go: compilador nativo promete 10x performance</div>
+      <div class="summary">TS 6.0 será o último sobre a base antiga. TS 7.0 com mudanças breaking — planeje pipeline de build/CI.</div>
+      <div class="foot"><span>InfoWorld · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-lang" data-category="c-lang" data-urgent="false" href="https://tech-insider.org/rust-vs-go-2026/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Linguagens</span></div></div>
+      <div class="headline">Go 1.24 e Tokio 1.43: scheduler para alta-concorrência</div>
+      <div class="summary">Go 1.24 traz work-stealing eficiente e generic type aliases. Tokio 1.43 reduz overhead de tasks.</div>
+      <div class="foot"><span>Tech Insider · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-db" data-category="c-db" data-urgent="false" href="https://versionlog.com/blog/postgresql-19-whats-coming-september-2026/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Bancos</span></div><div class="badges"><span class="badge new">Novo</span></div></div>
+      <div class="headline">PostgreSQL 19 entra em feature freeze</div>
+      <div class="summary">Betas em maio, release final set/out. Inicie validações de compatibilidade em staging.</div>
+      <div class="foot"><span>VersionLog · ~3 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-db" data-category="c-db" data-urgent="false" href="https://www.mongodb.com/docs/manual/release-notes/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Bancos</span></div></div>
+      <div class="headline">MongoDB 8.0.17: estabilidade e performance</div>
+      <div class="summary">Última patch da família 8.0, correções em queries vetoriais e otimizações no oplog.</div>
+      <div class="foot"><span>MongoDB · ~2 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-backend" data-category="c-backend" data-urgent="false" href="https://aws.amazon.com/blogs/aws/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Backend</span></div></div>
+      <div class="headline">Circuit breaker + Bedrock: padrão para pipelines com LLM</div>
+      <div class="summary">Boas práticas de resiliência: timeouts agressivos, fallback determinístico e métricas p95/p99 por prompt.</div>
+      <div class="foot"><span>AWS Blog · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-arqsw" data-category="c-arqsw" data-urgent="false" href="https://www.infoq.com/news/2026/01/pulumi-adds-terraform-hcl/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Arq. Software</span></div></div>
+      <div class="headline">IaC de declarativo para conversacional com agentes de IA</div>
+      <div class="summary">Contratos de platform team precisam guiar geração por IA — senão viram drift em escala.</div>
+      <div class="foot"><span>InfoQ · ~5 min</span><span class="arrow">↗</span></div>
+    </a>
+
+    <a class="card c-arqsol" data-category="c-arqsol" data-urgent="false" href="https://blog.jetbrains.com/idea/2026/03/intellij-idea-2026-1/" target="_blank" rel="noopener">
+      <div class="head"><div class="badges"><span class="badge cat">Arq. Solução</span></div></div>
+      <div class="headline">Agent Client Protocol (ACP): ponte entre IDEs e agentes</div>
+      <div class="summary">IntelliJ 2026.1 adota ACP. Impacto em decisões de tooling em grandes organizações.</div>
+      <div class="foot"><span>JetBrains · ~4 min</span><span class="arrow">↗</span></div>
+    </a>
+
+  </section>
+
+  <h2 class="sec-head"><span class="sec-icon">🛠</span>Ferramentas<span class="sec-sub">Releases recentes</span></h2>
+  <section class="tools-grid">
+
+    <a class="tool-card" href="https://blog.jetbrains.com/idea/2026/03/intellij-idea-2026-1/" target="_blank" rel="noopener">
+      <div class="top"><div class="name">IntelliJ IDEA</div><div class="ver">v2026.1</div></div>
+      <div class="desc">Suporte a Codex, Cursor e agentes via Agent Client Protocol com ACP Registry. Melhorias em Java, Kotlin e Spring.</div>
+      <div class="link">Changelog →</div>
+    </a>
+
+    <a class="tool-card" href="https://releasebot.io/updates/cursor" target="_blank" rel="noopener">
+      <div class="top"><div class="name">Cursor IDE</div><div class="ver">v3</div></div>
+      <div class="desc">Workspace multi-repo, handoff local/cloud, Bugbot com ~80% de resolução em PR reviews.</div>
+      <div class="link">Changelog →</div>
+    </a>
+
+    <a class="tool-card" href="https://docs.docker.com/desktop/release-notes/" target="_blank" rel="noopener">
+      <div class="top"><div class="name">Docker Desktop</div><div class="ver">abr/26</div></div>
+      <div class="desc">Startup rápido no WSL2, fix CPU alta e correção de SSRF (CVE-2026-33990) no Model Runner.</div>
+      <div class="link">Changelog →</div>
+    </a>
+
+    <a class="tool-card" href="https://www.mongodb.com/docs/manual/release-notes/" target="_blank" rel="noopener">
+      <div class="top"><div class="name">MongoDB</div><div class="ver">v8.0.17</div></div>
+      <div class="desc">Patch 8.0 com correções em queries vetoriais e oplog. Para clusters já em MongoDB 8.x.</div>
+      <div class="link">Changelog →</div>
+    </a>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="ft-brand">DevPulse · Arquivo Diário do Arquiteto</div>
+    <div class="ft-sub">Gerado por Claude AI em 15/04/2026 · Fontes verificadas nas últimas 24h</div>
+    <div class="ft-sources">
+      <a href="https://aws.amazon.com/blogs/aws/" target="_blank" rel="noopener">AWS</a>
+      <a href="https://kubernetes.io/blog/" target="_blank" rel="noopener">Kubernetes</a>
+      <a href="https://thehackernews.com/" target="_blank" rel="noopener">Hacker News</a>
+      <a href="https://www.tenable.com/" target="_blank" rel="noopener">Tenable</a>
+      <a href="https://techcrunch.com/" target="_blank" rel="noopener">TechCrunch</a>
+      <a href="https://www.infoq.com/" target="_blank" rel="noopener">InfoQ</a>
+      <a href="https://blog.jetbrains.com/idea/" target="_blank" rel="noopener">JetBrains</a>
+      <a href="https://www.mongodb.com/docs/manual/release-notes/" target="_blank" rel="noopener">MongoDB</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const list = document.getElementById('list');
+  const cards = () => Array.from(document.querySelectorAll('#list .card'));
+  const filters = document.getElementById('filters');
+  const search = document.getElementById('search');
+  const urgbtn = document.getElementById('urgbtn');
+  const modeCards = document.getElementById('mode-cards');
+  const modeList = document.getElementById('mode-list');
+  let activeFilter = 'all', onlyUrgent = false;
+
+  function apply(){
+    const q = (search.value||'').toLowerCase().trim();
+    cards().forEach(c => {
+      const cat = c.dataset.category, urg = c.dataset.urgent === 'true';
+      const h = c.querySelector('.headline').textContent.toLowerCase();
+      const s = c.querySelector('.summary').textContent.toLowerCase();
+      let ok = true;
+      if(activeFilter !== 'all' && cat !== activeFilter) ok = false;
+      if(onlyUrgent && !urg) ok = false;
+      if(q && !h.includes(q) && !s.includes(q)) ok = false;
+      c.style.display = ok ? '' : 'none';
+    });
+  }
+  filters.addEventListener('click', e => {
+    const b = e.target.closest('.pill'); if(!b) return;
+    filters.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    b.classList.add('active'); activeFilter = b.dataset.filter; apply();
+  });
+  search.addEventListener('input', apply);
+  urgbtn.addEventListener('click', () => { onlyUrgent=!onlyUrgent; urgbtn.classList.toggle('active',onlyUrgent); apply(); });
+
+  function setMode(m){
+    if(m==='list'){list.classList.add('listmode');modeList.classList.add('active');modeCards.classList.remove('active')}
+    else{list.classList.remove('listmode');modeCards.classList.add('active');modeList.classList.remove('active')}
+    try{localStorage.setItem('dp-mode',m)}catch(e){}
+  }
+  modeCards.addEventListener('click',()=>setMode('cards'));
+  modeList.addEventListener('click',()=>setMode('list'));
+  try{if(localStorage.getItem('dp-mode')==='list')setMode('list')}catch(e){}
+})();
+</script>
+</body>
+</html>
