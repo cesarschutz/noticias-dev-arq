@@ -150,6 +150,14 @@ nav.topbar {
 }
 @keyframes pulse-dot { 0%,100% { opacity: 1 } 50% { opacity: .45 } }
 
+.clear-read-btn {
+  padding: 5px 12px; border-radius: 999px; font-size: 10px; font-weight: 700;
+  border: 1px solid var(--glass-border); background: var(--glass-bg-solid);
+  color: var(--ink-dim); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+  transition: all .2s ease; display: none;
+}
+.clear-read-btn.has-reads { display: inline-flex }
+.clear-read-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft) }
 .theme-toggle {
   width: 38px; height: 38px; border-radius: 50%;
   border: 1px solid var(--glass-border);
@@ -666,6 +674,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     <div class="topbar-center">arquivo editorial</div>
     <div class="topbar-right">
       <div class="status-pill"><span class="dot"></span>arquivo ativo</div>
+      <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
       <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon"></span></button>
     </div>
   </nav>
@@ -830,7 +839,23 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         if (check) { check.classList.remove('checked'); check.textContent = ''; }
       }
     });
+    updateClearBtn();
   }
+  function updateClearBtn() {
+    var btn = document.getElementById('clear-read');
+    if (btn) {
+      var count = getReadUrls().length;
+      if (count > 0) { btn.classList.add('has-reads'); btn.textContent = '\u2715 ' + count + ' lida' + (count > 1 ? 's' : ''); }
+      else { btn.classList.remove('has-reads'); }
+    }
+  }
+  document.getElementById('clear-read').addEventListener('click', function() {
+    if (confirm('Limpar todas as leituras marcadas?')) {
+      try { localStorage.removeItem(READ_KEY); } catch(e) {}
+      applyReadState();
+    }
+  });
+  updateClearBtn();
 
   /* ── Constants ── */
   var MONTHS = ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -988,7 +1013,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         '<div class="t3-badges"><span class="t3-badge">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span></div>' +
         '<div class="t3-headline">' + esc(item.headline) + '</div>' +
         '<div class="t3-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
-      a.addEventListener('click', function() { markRead(item.url); });
+      a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
       a.querySelector('.read-check').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1030,7 +1055,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         '<span class="cf-headline">' + esc(item.headline) + '</span>' +
         '<span class="cf-source">' + esc(item.source) + '</span>' +
         '<span class="read-check" title="Marcar como lida"></span>';
-      a.addEventListener('click', function() { markRead(item.url); });
+      a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
       a.querySelector('.read-check').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1276,7 +1301,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
           '<div class="ov-headline">' + esc(item.headline) + '</div>' +
           '<div class="ov-summary">' + esc(item.summary) + '</div>' +
           '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
-        a.addEventListener('click', function() { markRead(item.url); });
+        a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
         a.querySelector('.read-check').addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();

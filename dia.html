@@ -272,6 +272,16 @@ nav .nav-inner {
 }
 @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
 
+/* Clear read button */
+.clear-read-btn {
+  padding: 5px 12px; border-radius: 999px; font-size: 10px; font-weight: 700;
+  border: 1px solid var(--glass-border); background: var(--glass-bg-solid);
+  color: var(--ink-dim); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+  transition: all .2s ease; display: none;
+}
+.clear-read-btn.has-reads { display: inline-flex }
+.clear-read-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft) }
+
 /* Theme Toggle */
 .theme-toggle {
   width: 34px; height: 34px;
@@ -1040,6 +1050,7 @@ footer.site::before {
     <div class="nav-actions">
       <a class="back-link" href="index.html">&larr; Arquivo</a>
       <div class="datechip" id="date-chip"><span class="today-dot"></span>Carregando...</div>
+      <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
       <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon">&#127769;</span></button>
     </div>
   </div>
@@ -1135,7 +1146,23 @@ footer.site::before {
         if (check) { check.classList.remove('checked'); check.textContent = ''; }
       }
     });
+    updateClearBtn();
   }
+  function updateClearBtn() {
+    var btn = document.getElementById('clear-read');
+    if (btn) {
+      var count = getReadUrls().length;
+      if (count > 0) { btn.classList.add('has-reads'); btn.textContent = '\u2715 ' + count + ' lida' + (count > 1 ? 's' : ''); }
+      else { btn.classList.remove('has-reads'); }
+    }
+  }
+  document.getElementById('clear-read').addEventListener('click', function() {
+    if (confirm('Limpar todas as leituras marcadas?')) {
+      try { localStorage.removeItem(READ_KEY); } catch(e) {}
+      applyReadState();
+    }
+  });
+  updateClearBtn();
 
   /* ═══════════════════════════════════════
      THEME TOGGLE
@@ -1257,7 +1284,7 @@ footer.site::before {
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
         '<span class="open">Abrir &rarr;</span>' +
       '</div>';
-    a.addEventListener('click', function() { markRead(item.url); });
+    a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
     a.querySelector('.read-check').addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -1296,7 +1323,7 @@ footer.site::before {
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
         '<span class="arrow">&nearr;</span>' +
       '</div>';
-    a.addEventListener('click', function() { markRead(item.url); });
+    a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
     a.querySelector('.read-check').addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
