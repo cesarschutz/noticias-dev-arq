@@ -28,6 +28,9 @@
   --nav-bg: rgba(255,255,255,.72);
   --selection-bg: rgba(19,117,255,.18);
   --selection-color: #07111f;
+  --cat-sec: #ef5a67; --cat-ai: #b485ff; --cat-cloud: #52aef8;
+  --cat-devops: #e7a32a; --cat-backend: #2fcf99; --cat-frontend: #ef7bb9;
+  --cat-db: #23c5bc; --cat-lang: #f39b4d; --cat-arqsw: #8b8df7; --cat-arqsol: #7d98ff;
 }
 [data-theme="dark"] {
   --bg: #000000;
@@ -48,6 +51,9 @@
   --nav-bg: rgba(0,0,0,.65);
   --selection-bg: rgba(10,132,255,.35);
   --selection-color: #fff;
+  --cat-sec: #ef5a67; --cat-ai: #b485ff; --cat-cloud: #52aef8;
+  --cat-devops: #e7a32a; --cat-backend: #2fcf99; --cat-frontend: #ef7bb9;
+  --cat-db: #23c5bc; --cat-lang: #f39b4d; --cat-arqsw: #8b8df7; --cat-arqsol: #7d98ff;
 }
 
 /* ── Reset ── */
@@ -443,6 +449,171 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
   .editions { grid-template-columns: 1fr }
   .hero-copy h1 { font-size: clamp(1.75rem, 6vw, 2.8rem) }
 }
+
+/* ── About Section ── */
+.about-section { margin: 32px 0 }
+.about-panel { padding: 36px; border-radius: 28px; }
+.about-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: center }
+.about-grid h2 { font-size: 26px; font-weight: 800; letter-spacing: -.04em; margin-bottom: 14px }
+.about-grid .about-text { color: var(--ink-soft); font-size: 14px; line-height: 1.75 }
+.about-grid .about-text p { margin-bottom: 10px }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px }
+.about-stat {
+  padding: 20px; border-radius: 20px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  text-align: center;
+}
+.about-stat strong { display: block; font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -.03em }
+.about-stat span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-dim) }
+
+.about-cats-title, .about-tools-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-dim); margin: 28px 0 14px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Category cards */
+.cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px }
+.cat-card {
+  padding: 16px; border-radius: 18px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 10px;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  position: relative; overflow: hidden;
+}
+.cat-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cc) 15%, transparent), transparent 60%);
+  opacity: 0; transition: opacity .22s ease;
+}
+.cat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--cc) 30%, transparent) }
+.cat-card:hover::before { opacity: 1 }
+.cat-icon { font-size: 20px; position: relative }
+.cat-name { font-size: 13px; font-weight: 700; position: relative; color: var(--ink) }
+
+/* Tool pills */
+.tool-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px }
+.tool-pill {
+  padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  font-size: 12px; font-weight: 600; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 6px;
+  transition: transform .22s ease, box-shadow .22s ease, color .22s ease;
+  white-space: nowrap;
+}
+.tool-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); color: var(--ink) }
+
+/* ── Overlay (Apple Sheet) ── */
+.overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.overlay.active { opacity: 1; pointer-events: auto }
+.overlay-sheet {
+  width: 100%; max-width: 900px; max-height: 90vh;
+  border-radius: 20px 20px 0 0;
+  transform: translateY(100%);
+  transition: transform .45s cubic-bezier(.32,.72,.0,1);
+  display: flex; flex-direction: column;
+  box-shadow: 0 -10px 60px rgba(0,0,0,.25);
+}
+.overlay.active .overlay-sheet { transform: translateY(0) }
+.drag-indicator {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--ink-dim); opacity: .25;
+  margin: 10px auto 4px;
+}
+.overlay-header {
+  padding: 16px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 14px;
+  flex-shrink: 0;
+}
+.overlay-icon { font-size: 28px }
+.overlay-title-wrap { flex: 1 }
+.overlay-title { font-size: 20px; font-weight: 800; letter-spacing: -.03em }
+.overlay-count {
+  font-size: 11px; font-weight: 600; color: var(--ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.overlay-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  cursor: pointer; display: grid; place-items: center;
+  font-size: 14px; color: var(--ink-dim);
+  transition: transform .2s, background .2s;
+}
+.overlay-close:hover { transform: scale(1.1); background: var(--accent-soft); color: var(--accent) }
+.overlay-content { overflow-y: auto; padding: 20px 24px 40px; flex: 1 }
+.overlay-loading { text-align: center; padding: 60px 0; color: var(--ink-dim); font-size: 14px }
+.overlay-empty { text-align: center; padding: 60px 0; color: var(--ink-dim); font-size: 14px }
+
+/* Date groups inside overlay */
+.ov-date-group { margin-bottom: 28px }
+.ov-date-label {
+  font-size: 14px; font-weight: 800; color: var(--ink-dim);
+  padding-bottom: 12px; border-bottom: 1px solid var(--line);
+  margin-bottom: 14px; letter-spacing: -.02em;
+  display: flex; align-items: center; gap: 8px;
+}
+.ov-date-label .ov-day-count {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.ov-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px }
+.ov-card {
+  padding: 16px; border-radius: 18px; cursor: pointer;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none; color: inherit;
+}
+.ov-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm) }
+.ov-card .ov-badges { display: flex; gap: 6px; flex-wrap: wrap }
+.ov-card .ov-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+}
+.ov-card .ov-badge.urg { background: rgba(239,68,68,.12); color: #ef4444 }
+.ov-card .ov-badge.new { background: var(--accent-soft); color: var(--accent) }
+.ov-card .ov-headline { font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--ink) }
+.ov-card .ov-summary { font-size: 12px; line-height: 1.6; color: var(--ink-soft) }
+.ov-card .ov-meta { font-size: 11px; color: var(--ink-dim); display: flex; gap: 8px; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--line) }
+
+/* Tool card in overlay */
+.ov-tool {
+  padding: 18px; border-radius: 18px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform .2s;
+}
+.ov-tool:hover { transform: translateY(-2px) }
+.ov-tool .ov-tool-top { display: flex; justify-content: space-between; align-items: center }
+.ov-tool .ov-tool-name { font-size: 15px; font-weight: 800 }
+.ov-tool .ov-tool-ver {
+  font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.ov-tool .ov-tool-desc { font-size: 12.5px; line-height: 1.6; color: var(--ink-soft) }
+.ov-tool a { color: var(--accent); font-size: 12px; font-weight: 700 }
+
+@media (max-width: 1100px) {
+  .about-grid { grid-template-columns: 1fr }
+  .cat-grid { grid-template-columns: repeat(3, 1fr) }
+  .tool-grid { grid-template-columns: repeat(3, 1fr) }
+  .ov-cards { grid-template-columns: 1fr }
+}
+@media (max-width: 720px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr) }
+  .tool-grid { grid-template-columns: repeat(2, 1fr) }
+  .about-stats { grid-template-columns: 1fr 1fr 1fr }
+  .overlay-sheet { max-height: 95vh; border-radius: 16px 16px 0 0 }
+}
 </style>
 </head>
 <body>
@@ -492,6 +663,50 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
   </aside>
 </section>
 
+<section class="about-section container">
+  <div class="about-panel glass">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>Sobre o DevPulse</h2>
+        <p>Curadoria diária automatizada de notícias técnicas para arquitetos de software e solução. Todos os dias às 6h da manhã, uma IA pesquisa as principais fontes de tecnologia, curadoria as notícias mais relevantes e gera uma edição completa — tudo automaticamente.</p>
+        <p>O sistema monitora <strong>10 categorias técnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto prático para decisões de arquitetura.</p>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat"><strong>10</strong><span>Categorias</span></div>
+        <div class="about-stat"><strong>11</strong><span>Ferramentas</span></div>
+        <div class="about-stat"><strong>6h</strong><span>Diário</span></div>
+      </div>
+    </div>
+    <div class="about-cats-title">Categorias monitoradas</div>
+    <div class="cat-grid">
+      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Segurança</span></div>
+      <div class="cat-card" data-cat="ai" style="--cc: var(--cat-ai)"><span class="cat-icon">🤖</span><span class="cat-name">IA & LLMs</span></div>
+      <div class="cat-card" data-cat="cloud" style="--cc: var(--cat-cloud)"><span class="cat-icon">☁️</span><span class="cat-name">Cloud</span></div>
+      <div class="cat-card" data-cat="devops" style="--cc: var(--cat-devops)"><span class="cat-icon">⚙️</span><span class="cat-name">DevOps</span></div>
+      <div class="cat-card" data-cat="backend" style="--cc: var(--cat-backend)"><span class="cat-icon">🔧</span><span class="cat-name">Backend</span></div>
+      <div class="cat-card" data-cat="frontend" style="--cc: var(--cat-frontend)"><span class="cat-icon">🖥️</span><span class="cat-name">Frontend</span></div>
+      <div class="cat-card" data-cat="db" style="--cc: var(--cat-db)"><span class="cat-icon">🗄️</span><span class="cat-name">Bancos</span></div>
+      <div class="cat-card" data-cat="lang" style="--cc: var(--cat-lang)"><span class="cat-icon">🛠️</span><span class="cat-name">Linguagens</span></div>
+      <div class="cat-card" data-cat="arqsw" style="--cc: var(--cat-arqsw)"><span class="cat-icon">🏛️</span><span class="cat-name">Arq. Software</span></div>
+      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solução</span></div>
+    </div>
+    <div class="about-tools-title">Ferramentas monitoradas</div>
+    <div class="tool-grid">
+      <div class="tool-pill" data-tool="Microsoft Teams">📱 Teams</div>
+      <div class="tool-pill" data-tool="Notion">📝 Notion</div>
+      <div class="tool-pill" data-tool="IntelliJ IDEA">🧠 IntelliJ</div>
+      <div class="tool-pill" data-tool="Cursor IDE">⌨️ Cursor</div>
+      <div class="tool-pill" data-tool="Warp Terminal">🖥️ Warp</div>
+      <div class="tool-pill" data-tool="MongoDB Compass">🍃 Compass</div>
+      <div class="tool-pill" data-tool="DBeaver">🦫 DBeaver</div>
+      <div class="tool-pill" data-tool="Postman">📮 Postman</div>
+      <div class="tool-pill" data-tool="Docker">🐳 Docker</div>
+      <div class="tool-pill" data-tool="Structurizr">🏗️ Structurizr</div>
+      <div class="tool-pill" data-tool="C4 Model">📐 C4 Model</div>
+    </div>
+  </div>
+</section>
+
 <main class="container main">
   <div class="content-grid">
     <section>
@@ -528,12 +743,43 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
   <div>Atualizado automaticamente pelo agendamento diario</div>
 </footer>
 
+<div class="overlay" id="overlay">
+  <div class="overlay-sheet glass">
+    <div class="drag-indicator"></div>
+    <div class="overlay-header">
+      <span class="overlay-icon" id="overlay-icon"></span>
+      <div class="overlay-title-wrap">
+        <h3 class="overlay-title" id="overlay-title"></h3>
+        <span class="overlay-count" id="overlay-count"></span>
+      </div>
+      <button class="overlay-close" id="overlay-close">✕</button>
+    </div>
+    <div class="overlay-content" id="overlay-content"></div>
+  </div>
+</div>
+
 <script>
 (function() {
   /* ── Constants ── */
   var MONTHS = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   var WEEKDAYS = ['Domingo','Segunda-feira','Terca-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'];
   var DOW_SHORT = ['D','S','T','Q','Q','S','S'];
+
+  var CAT_META = {
+    sec:      { icon: '\uD83D\uDD10', label: 'Seguran\u00e7a',      color: 'var(--cat-sec)' },
+    ai:       { icon: '\uD83E\uDD16', label: 'IA & LLMs',      color: 'var(--cat-ai)' },
+    cloud:    { icon: '\u2601\uFE0F', label: 'Cloud',           color: 'var(--cat-cloud)' },
+    devops:   { icon: '\u2699\uFE0F', label: 'DevOps',          color: 'var(--cat-devops)' },
+    backend:  { icon: '\uD83D\uDD27', label: 'Backend',         color: 'var(--cat-backend)' },
+    frontend: { icon: '\uD83D\uDDA5\uFE0F', label: 'Frontend',        color: 'var(--cat-frontend)' },
+    db:       { icon: '\uD83D\uDDC4\uFE0F', label: 'Bancos',          color: 'var(--cat-db)' },
+    lang:     { icon: '\uD83D\uDEE0\uFE0F', label: 'Linguagens',      color: 'var(--cat-lang)' },
+    arqsw:    { icon: '\uD83C\uDFDB\uFE0F', label: 'Arq. Software',   color: 'var(--cat-arqsw)' },
+    arqsol:   { icon: '\uD83D\uDDFA\uFE0F', label: 'Arq. Solu\u00e7\u00e3o',    color: 'var(--cat-arqsol)' }
+  };
+
+  var dataCache = {};
+  var allDates = [];
 
   function pad(n) { return String(n).padStart(2, '0') }
   function isoOf(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) }
@@ -590,6 +836,7 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
       EDITIONS[ed.date] = { summary: ed.summary, highlights: ed.highlights || [] };
     });
     var AVAILABLE = Object.keys(EDITIONS).sort();
+    allDates = AVAILABLE.slice();
     var availableSet = new Set(AVAILABLE);
 
     /* ── Stats ── */
@@ -726,6 +973,153 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
       recentList.appendChild(card);
     });
   }
+
+  /* ── Data loading & overlay logic ── */
+  async function loadAllDays() {
+    var toFetch = allDates.filter(function(d) { return !dataCache[d]; });
+    if (!toFetch.length) return;
+    var results = await Promise.all(
+      toFetch.map(function(d) {
+        return fetch('data/' + d + '.json')
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .catch(function() { return null; });
+      })
+    );
+    toFetch.forEach(function(d, i) { if (results[i]) dataCache[d] = results[i]; });
+  }
+
+  function getNewsByCategory(catKey) {
+    var grouped = [];
+    var dates = Object.keys(dataCache).sort().reverse();
+    dates.forEach(function(date) {
+      var day = dataCache[date];
+      var items = [].concat(day.top3 || [], day.news || [])
+        .filter(function(n) { return n.category === catKey; });
+      if (items.length) {
+        grouped.push({ date: day.date, formatted: day.formatted_date, items: items });
+      }
+    });
+    return grouped;
+  }
+
+  function getToolUpdates(toolName) {
+    var grouped = [];
+    var dates = Object.keys(dataCache).sort().reverse();
+    dates.forEach(function(date) {
+      var day = dataCache[date];
+      var tools = (day.tools || []).filter(function(t) {
+        return t.name.toLowerCase().includes(toolName.toLowerCase());
+      });
+      if (tools.length) {
+        grouped.push({ date: day.date, formatted: day.formatted_date, tools: tools });
+      }
+    });
+    return grouped;
+  }
+
+  var overlay = document.getElementById('overlay');
+  var overlayContent = document.getElementById('overlay-content');
+  var overlayTitle = document.getElementById('overlay-title');
+  var overlayIcon = document.getElementById('overlay-icon');
+  var overlayCount = document.getElementById('overlay-count');
+
+  function openOverlay() { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function closeOverlay() { overlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+  document.getElementById('overlay-close').addEventListener('click', closeOverlay);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeOverlay(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeOverlay(); });
+
+  async function showCategoryOverlay(catKey) {
+    var cat = CAT_META[catKey];
+    if (!cat) return;
+    overlayIcon.textContent = cat.icon;
+    overlayTitle.textContent = cat.label;
+    overlayCount.textContent = 'Carregando...';
+    overlayContent.innerHTML = '<div class="overlay-loading">Carregando not\u00edcias...</div>';
+    openOverlay();
+
+    await loadAllDays();
+    var grouped = getNewsByCategory(catKey);
+    var total = grouped.reduce(function(s, g) { return s + g.items.length; }, 0);
+    overlayCount.textContent = total + ' not\u00edcia' + (total !== 1 ? 's' : '') + ' encontrada' + (total !== 1 ? 's' : '');
+
+    if (!total) {
+      overlayContent.innerHTML = '<div class="overlay-empty">Nenhuma not\u00edcia encontrada para esta categoria.</div>';
+      return;
+    }
+
+    overlayContent.innerHTML = '';
+    grouped.forEach(function(group) {
+      var div = document.createElement('div');
+      div.className = 'ov-date-group';
+      var cardsHtml = group.items.map(function(item) {
+        var badges = '';
+        if (item.urgent) badges += '<span class="ov-badge urg">Urgente</span>';
+        if (item.new) badges += '<span class="ov-badge new">Novo</span>';
+        return '<a class="ov-card" href="' + item.url + '" target="_blank" rel="noopener">' +
+          (badges ? '<div class="ov-badges">' + badges + '</div>' : '') +
+          '<div class="ov-headline">' + esc(item.headline) + '</div>' +
+          '<div class="ov-summary">' + esc(item.summary) + '</div>' +
+          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>' +
+        '</a>';
+      }).join('');
+      div.innerHTML =
+        '<div class="ov-date-label">' + esc(group.formatted) + ' <span class="ov-day-count">' + group.items.length + '</span></div>' +
+        '<div class="ov-cards">' + cardsHtml + '</div>';
+      overlayContent.appendChild(div);
+    });
+  }
+
+  async function showToolOverlay(toolName) {
+    overlayIcon.textContent = '\uD83D\uDEE0\uFE0F';
+    overlayTitle.textContent = toolName;
+    overlayCount.textContent = 'Carregando...';
+    overlayContent.innerHTML = '<div class="overlay-loading">Carregando atualiza\u00e7\u00f5es...</div>';
+    openOverlay();
+
+    await loadAllDays();
+    var grouped = getToolUpdates(toolName);
+    var total = grouped.reduce(function(s, g) { return s + g.tools.length; }, 0);
+    overlayCount.textContent = total + ' atualiza\u00e7\u00e3o' + (total !== 1 ? '\u00f5es' : '') + ' encontrada' + (total !== 1 ? 's' : '');
+
+    if (!total) {
+      overlayContent.innerHTML = '<div class="overlay-empty">Nenhuma atualiza\u00e7\u00e3o encontrada para esta ferramenta.</div>';
+      return;
+    }
+
+    overlayContent.innerHTML = '';
+    grouped.forEach(function(group) {
+      var div = document.createElement('div');
+      div.className = 'ov-date-group';
+      var toolsHtml = group.tools.map(function(tool) {
+        return '<div class="ov-tool">' +
+          '<div class="ov-tool-top"><span class="ov-tool-name">' + esc(tool.icon + ' ' + tool.name) + '</span>' +
+          '<span class="ov-tool-ver">' + esc(tool.version) + '</span></div>' +
+          '<div class="ov-tool-desc">' + esc(tool.description) + '</div>' +
+          '<a href="' + tool.url + '" target="_blank" rel="noopener">Ver changelog \u2192</a>' +
+        '</div>';
+      }).join('');
+      div.innerHTML =
+        '<div class="ov-date-label">' + esc(group.formatted) + ' <span class="ov-day-count">' + group.tools.length + '</span></div>' +
+        toolsHtml;
+      overlayContent.appendChild(div);
+    });
+  }
+
+  // Attach click handlers to category cards
+  document.querySelectorAll('.cat-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      showCategoryOverlay(card.dataset.cat);
+    });
+  });
+
+  // Attach click handlers to tool pills
+  document.querySelectorAll('.tool-pill').forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      showToolOverlay(pill.dataset.tool);
+    });
+  });
 })();
 </script>
 </body>
