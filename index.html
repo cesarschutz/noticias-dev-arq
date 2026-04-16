@@ -292,10 +292,6 @@ nav.topbar {
 
 /* ── Mega menu ── */
 .mega-menu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
-  opacity: 0;
   margin: 0 24px;
   border-radius: 0 0 16px 16px;
   background: var(--glass-bg);
@@ -304,10 +300,18 @@ nav.topbar {
   backdrop-filter: blur(24px) saturate(150%);
   -webkit-backdrop-filter: blur(24px) saturate(150%);
   box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .35s cubic-bezier(.4,0,.2,1), opacity .2s ease;
+  pointer-events: none;
 }
+.mega-menu .mega-inner { overflow: hidden; min-height: 0; }
 .mega-menu.open {
-  max-height: 400px;
+  grid-template-rows: 1fr;
   opacity: 1;
+  pointer-events: auto;
 }
 .mega-inner {
   padding: 20px;
