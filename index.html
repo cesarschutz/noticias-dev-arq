@@ -172,11 +172,19 @@ nav.topbar {
 /* ── Dashboard grid ── */
 .dashboard {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 280px 1fr;
   gap: 20px;
   align-items: start;
   margin-top: 16px;
 }
+.dash-sidebar {
+  position: sticky; top: 60px;
+  display: flex; flex-direction: column; gap: 12px;
+  max-height: calc(100vh - 72px); overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--accent-soft) transparent;
+}
+.dash-sidebar::-webkit-scrollbar { width: 4px }
+.dash-sidebar::-webkit-scrollbar-thumb { background: var(--accent-soft); border-radius: 4px }
 
 /* ── Day Hero (compact) ── */
 .day-card { padding: 20px; border-radius: 20px; position: relative; overflow: hidden }
@@ -281,31 +289,15 @@ nav.topbar {
 }
 
 /* ── Sidebar ── */
-.dash-sidebar { position: sticky; top: 60px; display: flex; flex-direction: column; gap: 14px }
-.sidebar-panel { padding: 16px; border-radius: 16px }
-.sidebar-panel-title { font-size: 13px; font-weight: 700; display: block; margin-bottom: 10px }
-.sidebar-text { font-size: 11px; line-height: 1.55; color: var(--ink-soft); margin-bottom: 10px }
+.sidebar-panel { padding: 14px; border-radius: 14px }
+.sidebar-panel-title { font-size: 12px; font-weight: 700; display: block; margin-bottom: 8px }
+.sidebar-text { font-size: 10px; line-height: 1.5; color: var(--ink-soft); margin-bottom: 8px }
 .sidebar-label {
   font-size: 9px; font-weight: 700; text-transform: uppercase;
   letter-spacing: .07em; color: var(--ink-dim);
   font-family: 'IBM Plex Mono', monospace;
-  margin: 10px 0 6px;
+  margin: 8px 0 5px;
 }
-
-/* Collapse */
-.collapse-header {
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; font-size: 13px; font-weight: 700;
-  padding-bottom: 8px; user-select: none;
-}
-.collapse-arrow { font-size: 12px; transition: transform .3s ease; color: var(--ink-dim) }
-.collapse-arrow.collapsed { transform: rotate(-90deg) }
-.collapse-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
-  opacity: 0;
-}
-.collapse-body.open { max-height: 500px; opacity: 1 }
 
 /* Sidebar category/tool grids */
 .sidebar-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px }
@@ -397,7 +389,7 @@ nav.topbar {
 }
 
 /* ── Editions section (below dashboard) ── */
-.editions-section { margin-top: 32px; padding-bottom: 40px }
+/* editions-section removed — editions are inside dash-main now */
 .section-title {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
@@ -664,20 +656,24 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .dashboard { grid-template-columns: 1fr }
+  .dash-sidebar { position: static; max-height: none; overflow: visible; flex-direction: row; flex-wrap: wrap; gap: 12px }
+  .dash-sidebar .sidebar-panel { flex: 1; min-width: 240px }
   .ov-cards { grid-template-columns: 1fr }
 }
 @media (max-width: 860px) {
   .top3-grid { grid-template-columns: 1fr }
+  .dash-sidebar { flex-direction: column }
+  .dash-sidebar .sidebar-panel { min-width: auto }
 }
 @media (max-width: 720px) {
   .container { width: min(100% - 20px, 1440px) }
   .topbar { grid-template-columns: 1fr; justify-items: start; border-radius: 18px; gap: 8px; padding: 12px 14px }
   .topbar-center { display: none }
-  .day-hero { padding: 16px }
-  .sidebar-panel { padding: 14px }
+  .day-card { padding: 16px }
+  .sidebar-panel { padding: 12px }
   footer.site { padding: 16px }
   .editions { grid-template-columns: 1fr }
-  .day-hero h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
+  .day-card h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
   .day-hero-top { flex-direction: column; align-items: flex-start }
   .overlay-sheet { max-height: 95vh; border-radius: 16px 16px 0 0 }
 }
@@ -707,11 +703,64 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   </nav>
 </header>
 
-<!-- DASHBOARD: two columns -->
+<!-- DASHBOARD: sidebar left + content right -->
 <div class="dashboard container">
 
-  <!-- LEFT: Today's edition (single card) -->
+  <!-- LEFT: Sidebar (fixed) -->
+  <aside class="dash-sidebar">
+    <!-- Calendar -->
+    <div class="sidebar-panel glass">
+      <strong class="sidebar-panel-title">Calendário</strong>
+      <div class="cal-header">
+        <button class="cal-btn" id="cal-prev" title="Mês anterior">‹</button>
+        <div class="cal-label" id="cal-month-label">—</div>
+        <button class="cal-btn" id="cal-next" title="Próximo mês">›</button>
+      </div>
+      <div class="cal-grid" id="cal-dow"></div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><span class="cal-swatch report"></span> Edição disponível</div>
+        <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
+      </div>
+    </div>
+
+    <!-- About (always open) -->
+    <div class="sidebar-panel glass sidebar-about">
+      <strong class="sidebar-panel-title">Sobre o DevPulse</strong>
+      <p class="sidebar-text">Curadoria diária automatizada por IA. Todo dia às 6h, pesquisa 10 categorias técnicas e 11 ferramentas para arquitetos de software.</p>
+      <div class="sidebar-label">Categorias</div>
+      <div class="sidebar-cat-grid" id="cat-grid-sidebar">
+        <div class="cat-pill" data-cat="sec">🔐 Seg.</div>
+        <div class="cat-pill" data-cat="ai">🤖 IA</div>
+        <div class="cat-pill" data-cat="cloud">☁️ Cloud</div>
+        <div class="cat-pill" data-cat="devops">⚙️ DevOps</div>
+        <div class="cat-pill" data-cat="backend">🔧 Back.</div>
+        <div class="cat-pill" data-cat="frontend">🖥️ Front.</div>
+        <div class="cat-pill" data-cat="db">🗄️ Bancos</div>
+        <div class="cat-pill" data-cat="lang">🛠️ Lang.</div>
+        <div class="cat-pill" data-cat="arqsw">🏛️ Arq.SW</div>
+        <div class="cat-pill" data-cat="arqsol">🗺️ Arq.Sol</div>
+      </div>
+      <div class="sidebar-label">Ferramentas</div>
+      <div class="sidebar-tool-grid" id="tool-grid-sidebar">
+        <div class="tool-mini" data-tool="Microsoft Teams">📱 Teams</div>
+        <div class="tool-mini" data-tool="Notion">📝 Notion</div>
+        <div class="tool-mini" data-tool="IntelliJ IDEA">🧠 IntelliJ</div>
+        <div class="tool-mini" data-tool="Cursor IDE">⌨️ Cursor</div>
+        <div class="tool-mini" data-tool="Warp Terminal">🖥️ Warp</div>
+        <div class="tool-mini" data-tool="MongoDB Compass">🍃 Compass</div>
+        <div class="tool-mini" data-tool="DBeaver">🦫 DBeaver</div>
+        <div class="tool-mini" data-tool="Postman">📮 Postman</div>
+        <div class="tool-mini" data-tool="Docker">🐳 Docker</div>
+        <div class="tool-mini" data-tool="Structurizr">🏗️ Structurizr</div>
+        <div class="tool-mini" data-tool="C4 Model">📐 C4</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: Main content -->
   <div class="dash-main">
+    <!-- Today's edition -->
     <div class="day-card glass">
       <div class="day-hero-top">
         <div>
@@ -736,77 +785,17 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
         <div class="tools-feed" id="tools-feed"></div>
       </div>
     </div>
+
+    <!-- Previous editions -->
+    <div class="section-title" style="margin-top: 24px">
+      <div class="copy">
+        <div class="badge-icon">📚</div>
+        <div><h2>Edições Anteriores</h2><p>arquivo completo de edições</p></div>
+      </div>
+      <div class="count-pill" id="count-prev">0</div>
+    </div>
+    <div class="editions" id="recent-list"></div>
   </div>
-
-  <!-- RIGHT: Sidebar -->
-  <aside class="dash-sidebar">
-
-    <!-- About (collapsible) -->
-    <div class="sidebar-panel glass">
-      <div class="collapse-header" id="about-toggle">
-        <strong>Sobre o DevPulse</strong>
-        <span class="collapse-arrow" id="about-arrow">&#9662;</span>
-      </div>
-      <div class="collapse-body" id="about-body">
-        <p class="sidebar-text">Curadoria di&#225;ria automatizada por IA. Todo dia &#224;s 6h, pesquisa 10 categorias t&#233;cnicas e 11 ferramentas para arquitetos de software.</p>
-        <div class="sidebar-label">Categorias</div>
-        <div class="sidebar-cat-grid" id="cat-grid-sidebar">
-          <div class="cat-pill" data-cat="sec">&#128272; Seg.</div>
-          <div class="cat-pill" data-cat="ai">&#129302; IA</div>
-          <div class="cat-pill" data-cat="cloud">&#9729;&#65039; Cloud</div>
-          <div class="cat-pill" data-cat="devops">&#9881;&#65039; DevOps</div>
-          <div class="cat-pill" data-cat="backend">&#128295; Back.</div>
-          <div class="cat-pill" data-cat="frontend">&#128421;&#65039; Front.</div>
-          <div class="cat-pill" data-cat="db">&#128452;&#65039; Bancos</div>
-          <div class="cat-pill" data-cat="lang">&#128736;&#65039; Lang.</div>
-          <div class="cat-pill" data-cat="arqsw">&#127963;&#65039; Arq.SW</div>
-          <div class="cat-pill" data-cat="arqsol">&#128506;&#65039; Arq.Sol</div>
-        </div>
-        <div class="sidebar-label">Ferramentas</div>
-        <div class="sidebar-tool-grid" id="tool-grid-sidebar">
-          <div class="tool-mini" data-tool="Microsoft Teams">&#128241; Teams</div>
-          <div class="tool-mini" data-tool="Notion">&#128221; Notion</div>
-          <div class="tool-mini" data-tool="IntelliJ IDEA">&#129504; IntelliJ</div>
-          <div class="tool-mini" data-tool="Cursor IDE">&#9000;&#65039; Cursor</div>
-          <div class="tool-mini" data-tool="Warp Terminal">&#128421;&#65039; Warp</div>
-          <div class="tool-mini" data-tool="MongoDB Compass">&#127811; Compass</div>
-          <div class="tool-mini" data-tool="DBeaver">&#129451; DBeaver</div>
-          <div class="tool-mini" data-tool="Postman">&#128238; Postman</div>
-          <div class="tool-mini" data-tool="Docker">&#128051; Docker</div>
-          <div class="tool-mini" data-tool="Structurizr">&#127959;&#65039; Structurizr</div>
-          <div class="tool-mini" data-tool="C4 Model">&#128208; C4</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Calendar -->
-    <div class="sidebar-panel glass">
-      <strong class="sidebar-panel-title">Calend&#225;rio</strong>
-      <div class="cal-header">
-        <button class="cal-btn" id="cal-prev" title="M&#234;s anterior">&#8249;</button>
-        <div class="cal-label" id="cal-month-label">&mdash;</div>
-        <button class="cal-btn" id="cal-next" title="Pr&#243;ximo m&#234;s">&#8250;</button>
-      </div>
-      <div class="cal-grid" id="cal-dow"></div>
-      <div class="cal-grid" id="cal-grid"></div>
-      <div class="cal-legend">
-        <div class="cal-legend-item"><span class="cal-swatch report"></span> Edi&#231;&#227;o dispon&#237;vel</div>
-        <div class="cal-legend-item"><span class="cal-swatch today-sw"></span> Hoje</div>
-      </div>
-    </div>
-  </aside>
-</div>
-
-<!-- PREVIOUS EDITIONS (full width, below) -->
-<div class="container editions-section">
-  <div class="section-title">
-    <div class="copy">
-      <div class="badge-icon">&#128218;</div>
-      <div><h2>Edi&#231;&#245;es Anteriores</h2><p>arquivo completo de edi&#231;&#245;es</p></div>
-    </div>
-    <div class="count-pill" id="count-prev">0</div>
-  </div>
-  <div class="editions" id="recent-list"></div>
 </div>
 
 <footer class="site glass container">
@@ -961,16 +950,6 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   /* ── Render today's date immediately ── */
   document.getElementById('today-date').textContent =
     WEEKDAYS[today.getDay()] + ', ' + today.getDate() + ' de ' + MONTHS[today.getMonth()] + ' de ' + today.getFullYear();
-
-  /* ── Collapse toggle ── */
-  var aboutToggle = document.getElementById('about-toggle');
-  var aboutBody = document.getElementById('about-body');
-  var aboutArrow = document.getElementById('about-arrow');
-  aboutArrow.classList.add('collapsed');
-  aboutToggle.addEventListener('click', function() {
-    aboutBody.classList.toggle('open');
-    aboutArrow.classList.toggle('collapsed');
-  });
 
   /* ── Fetch & render ── */
   fetch('data/editions.json')
