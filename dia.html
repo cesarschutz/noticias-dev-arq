@@ -1381,23 +1381,38 @@ footer.site::before {
   updateClearBtn();
 
   /* ═══════════════════════════════════════
-     FAVORITE TRACKING
+     FAVORITE TRACKING (schema v2: self-contained)
      ═══════════════════════════════════════ */
   var FAV_KEY = 'dp-favorites';
   function getFavs() {
-    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; }
+    try {
+      var raw = JSON.parse(localStorage.getItem(FAV_KEY) || '[]');
+      return raw.map(function(x) {
+        if (typeof x === 'string') return { url: x, headline: x, _legacy: true, _date: '' };
+        return x;
+      });
+    } catch(e) { return []; }
   }
-  function isFav(url) { return getFavs().indexOf(url) !== -1; }
-  function toggleFav(url) {
+  function saveFavs(list) {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+  function isFav(url) {
+    return getFavs().some(function(f) { return f.url === url; });
+  }
+  function toggleFav(item) {
+    if (!item || !item.url) return;
     var list = getFavs();
-    var idx = list.indexOf(url);
+    var idx = -1;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].url === item.url) { idx = i; break; }
+    }
     if (idx === -1) {
-      list.push(url);
-      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
-      if (!isRead(url)) markRead(url);
+      list.push(item);
+      saveFavs(list);
+      if (!isRead(item.url)) markRead(item.url);
     } else {
       list.splice(idx, 1);
-      try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch(e) {}
+      saveFavs(list);
     }
   }
   function applyFavState(container) {
@@ -1425,12 +1440,17 @@ footer.site::before {
       else chip.classList.remove('has-favs');
     }
   }
-  function attachStarHandler(star, url) {
-    if (!star) return;
+  function attachStarHandler(star, item, dateISO, dateFormatted, kind) {
+    if (!star || !item) return;
     star.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      toggleFav(url);
+      var enriched = Object.assign({}, item, {
+        _date: dateISO || '',
+        _formatted: dateFormatted || '',
+        _kind: kind || 'news'
+      });
+      toggleFav(enriched);
       applyFavState(document);
       applyReadState(document);
     });
@@ -1571,7 +1591,7 @@ footer.site::before {
       toggleRead(item.url);
       applyReadState();
     });
-    attachStarHandler(a.querySelector('.fav-star'), item.url);
+    attachStarHandler(a.querySelector('.fav-star'), item, currentDayMeta.date, currentDayMeta.formatted, 'news');
     return a;
   }
 
@@ -1612,7 +1632,7 @@ footer.site::before {
       toggleRead(item.url);
       applyReadState();
     });
-    attachStarHandler(a.querySelector('.fav-star'), item.url);
+    attachStarHandler(a.querySelector('.fav-star'), item, currentDayMeta.date, currentDayMeta.formatted, 'news');
     return a;
   }
 
@@ -1637,14 +1657,17 @@ footer.site::before {
       toggleRead(tool.url);
       applyReadState();
     });
-    attachStarHandler(a.querySelector('.fav-star'), tool.url);
+    attachStarHandler(a.querySelector('.fav-star'), tool, currentDayMeta.date, currentDayMeta.formatted, 'tool');
     return a;
   }
 
   /* ═══════════════════════════════════════
      MAIN RENDER
      ═══════════════════════════════════════ */
+  var currentDayMeta = { date: '', formatted: '' };
   function render(data) {
+    currentDayMeta.date = data.date || '';
+    currentDayMeta.formatted = data.formatted_date || '';
     var news = data.news || [];
     var top3 = data.top3 || [];
     var tools = data.tools || [];
@@ -2025,10 +2048,12 @@ footer.site::before {
         return;
       }
       searchResults.innerHTML = '';
+      var srUrlMap = {};
       grouped.forEach(function(group) {
         var div = document.createElement('div');
         div.className = 'sr-group';
         var itemsHtml = group.items.map(function(item) {
+          srUrlMap[item.url] = { item: item, date: group.date, formatted: group.formatted };
           var cat = CAT_META[item.category] || {};
           return '<a class="sr-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '">' +
             '<span class="read-check" title="Marcar como lida"></span>' +
@@ -2046,7 +2071,8 @@ footer.site::before {
           e.preventDefault(); e.stopPropagation();
           toggleRead(a.dataset.url); applyReadState(); applyReadState(searchResults);
         });
-        attachStarHandler(a.querySelector('.fav-star'), a.dataset.url, searchResults);
+        var entry = srUrlMap[a.dataset.url];
+        if (entry) attachStarHandler(a.querySelector('.fav-star'), entry.item, entry.date, entry.formatted, 'news');
       });
       applyReadState(searchResults);
       applyFavState(searchResults);
