@@ -380,7 +380,7 @@ nav.topbar {
    ═══════════════════════════════════════════ */
 .controls {
   position: sticky;
-  top: 52px;
+  top: 56px;
   z-index: 50;
   margin: 16px 0 20px;
 }
@@ -1134,13 +1134,6 @@ footer.site::before {
       <div class="brand-copy"><strong>DevPulse</strong><span>Radar do Arquiteto</span></div>
     </a>
     <div class="topbar-center">
-      <div class="global-search" id="global-search-trigger">
-        <span class="gs-icon">⌕</span>
-        <span class="gs-placeholder">Pesquisar notícias...</span>
-        <span class="gs-shortcut">⌘K</span>
-      </div>
-    </div>
-    <div class="topbar-right">
       <div class="datechip" id="date-chip">
         <span class="today-dot"></span>
         <span id="date-chip-text">Carregando...</span>
@@ -1155,8 +1148,15 @@ footer.site::before {
           <div class="dp-grid" id="dp-grid"></div>
         </div>
       </div>
+    </div>
+    <div class="topbar-right">
+      <div class="global-search" id="global-search-trigger">
+        <span class="gs-icon">⌕</span>
+        <span class="gs-placeholder">Pesquisar notícias...</span>
+        <span class="gs-shortcut">⌘K</span>
+      </div>
       <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
-      <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon">&#127769;</span></button>
+      <button class="theme-toggle" id="theme-toggle" title="Alternar tema"><span id="toggle-icon">🌙</span></button>
     </div>
   </nav>
 </header>
@@ -1181,7 +1181,7 @@ footer.site::before {
   <section class="top3" id="top3"></section>
 
   <div class="controls">
-    <div class="controls-shell glass">
+    <div class="controls-shell glass container">
       <div class="filters" id="filters"></div>
       <div class="toolbar">
         <div class="btngroup">
@@ -1209,6 +1209,19 @@ footer.site::before {
   <div class="ft-sub" id="ft-sub"></div>
   <div class="sources" id="ft-sources"></div>
 </footer>
+
+<div class="search-modal" id="search-modal">
+  <div class="search-modal-sheet glass">
+    <div class="search-modal-input-wrap">
+      <span class="smi-icon">⌕</span>
+      <input type="text" id="search-modal-input" placeholder="Pesquisar em todas as edições..." autocomplete="off">
+      <span class="smi-esc" id="search-modal-close">Esc</span>
+    </div>
+    <div class="search-modal-results" id="search-modal-results">
+      <div class="search-modal-empty">Digite para pesquisar nas manchetes e resumos de todas as edições.</div>
+    </div>
+  </div>
+</div>
 
 <script>
 (function() {
@@ -1863,19 +1876,6 @@ footer.site::before {
 
 })();
 </script>
-
-<div class="search-modal" id="search-modal">
-  <div class="search-modal-sheet glass">
-    <div class="search-modal-input-wrap">
-      <span class="smi-icon">⌕</span>
-      <input type="text" id="search-modal-input" placeholder="Pesquisar em todas as edições..." autocomplete="off">
-      <span class="smi-esc" id="search-modal-close">Esc</span>
-    </div>
-    <div class="search-modal-results" id="search-modal-results">
-      <div class="search-modal-empty">Digite para pesquisar nas manchetes e resumos de todas as edições.</div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
