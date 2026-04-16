@@ -2,15 +2,15 @@
   "date": "2026-04-16",
   "weekday": "Quinta-feira",
   "formatted_date": "Quinta, 16 de Abril de 2026",
-  "generated_at": "06:00:00",
-  "hero_title": "Claude Opus 4.7 em GA, AWS Interconnect multicloud e prazo CISA",
-  "hero_description": "Anthropic libera Claude Opus 4.7 como seu modelo público mais capaz, AWS anuncia Interconnect multicloud em GA conectando AWS e Google Cloud, e CISA exige correção do FortiClient EMS até hoje. Kubernetes v1.36 sai semana que vem com HPAScaleToZero em GA.",
+  "generated_at": "06:00",
+  "hero_title": "Opus 4.7 em GA, MCP sob ataque sistêmico e Code Mode",
+  "hero_description": "Anthropic disponibiliza Claude Opus 4.7 ao público com reasoning xhigh e visão 3x maior. Ox Security revela falha sistêmica no MCP que expõe 200 mil servidores a execução remota. Cloudflare redefine o padrão MCP com Code Mode, reduzindo tokens em 99,9%.",
   "stats": {
-    "total": 18,
+    "total": 21,
     "categories": 10,
     "tools": 4,
     "urgent": 5,
-    "new": 5
+    "new": 4
   },
   "top3": [
     {
@@ -21,12 +21,26 @@
       "new": true,
       "star": true,
       "breaking": false,
-      "headline": "Anthropic lança Claude Opus 4.7 em GA com salto em engenharia de software",
-      "summary": "Anthropic disponibiliza o Opus 4.7 como modelo público mais capaz, com +13% em benchmarks de código, 3x mais tarefas de produção resolvidas, visão até 3,75 megapixels e novo nível de esforço 'xhigh'. O preço mantém o do Opus 4.6 e o modelo está em todos os produtos Claude, API, AWS Bedrock, Azure e Vertex AI. Arquitetos devem avaliar agentes de longa duração e Claude Code review; a companhia reconhece que o interno Mythos Preview continua mais potente mas ficará restrito por risco.",
+      "headline": "Anthropic libera Claude Opus 4.7 em GA com reasoning xhigh e visão 3x maior",
+      "summary": "Opus 4.7 é lançado em disponibilidade geral com ganhos fortes em engenharia de software em tarefas difíceis, execução agêntica mais confiável e reasoning de longo horizonte. Traz o novo nível xhigh de raciocínio, mecanismo de Task Budgets para controlar custo em workflows longos e entrada visual até 2.576px (3,75 megapixels). Arquitetos que usam IA em pipelines autônomos devem avaliar o xhigh em tarefas tool-dependent e considerar Task Budgets como guardrail para limitar consumo em agentes de produção.",
       "source": "Anthropic",
       "url": "https://www.anthropic.com/news/claude-opus-4-7",
       "read_time": 4,
-      "image": "https://cdn.sanity.io/images/4zrzovbb/website/96ea2509a90e527642c822303e56296a07bcfce4-1920x1080.png"
+      "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/96ea2509a90e527642c822303e56296a07bcfce4-1920x1080.png"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança",
+      "category_icon": "🔐",
+      "urgent": true,
+      "new": true,
+      "star": true,
+      "breaking": true,
+      "headline": "Ox Security expõe falha sistêmica no MCP: 200 mil servidores vulneráveis a RCE",
+      "summary": "A Ox Security publicou em 15/04 que o modelo de execução STDIO do Anthropic MCP executa comandos do SO mesmo com servidor falhando na inicialização, abrindo caminho para injeção de comandos em escala. A falha atinge todos os 11 SDKs oficiais (Python, TypeScript, Java, Go, Rust e outros) e estima-se 7.000+ servidores publicamente expostos e 200.000 instâncias ativas. Anthropic classifica como design intencional e delega sanitização ao desenvolvedor. Arquitetos devem auditar integrações MCP, isolar servidores STDIO em sandbox e validar todos os inputs antes de repassar para processos.",
+      "source": "Ox Security",
+      "url": "https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/",
+      "read_time": 5
     },
     {
       "category": "cloud",
@@ -36,24 +50,10 @@
       "new": true,
       "star": true,
       "breaking": false,
-      "headline": "AWS Interconnect multicloud em GA: conexão privada AWS↔Google Cloud com MACsec",
-      "summary": "O AWS Interconnect multicloud chega a Disponibilidade Geral, oferecendo conectividade privada de alta velocidade entre VPCs AWS e outros provedores, com MACsec 802.1AE nativo, tráfego totalmente no backbone AWS/partner e resiliência multi-AZ. Google Cloud é o primeiro parceiro (cinco pares de região entre US/UK/DE), com Azure e OCI chegando em 2026. Também foi lançado o Interconnect last-mile. Para arquitetos de solução, elimina a complexidade de VPN/Direct Connect cross-cloud.",
-      "source": "AWS News Blog",
-      "url": "https://aws.amazon.com/blogs/aws/aws-interconnect-is-now-generally-available-with-a-new-option-to-simplify-last-mile-connectivity/",
-      "read_time": 5
-    },
-    {
-      "category": "sec",
-      "category_label": "Segurança",
-      "category_icon": "🔐",
-      "urgent": true,
-      "new": false,
-      "star": true,
-      "breaking": false,
-      "headline": "Patch Tuesday de Abril corrige 168 CVEs; SharePoint zero-day já é explorado",
-      "summary": "A Microsoft fechou na maior Patch Tuesday de 2026 um total de 168 vulnerabilidades — 2 zero-days, com CVE-2026-32201 (spoofing em SharePoint, CVSS 6.5) sob exploração ativa e CVE-2026-33824 (RCE em Windows IKE, CVSS 9.8) como a mais crítica do lote. CISA adicionou a falha ao KEV e deu prazo de 28 de abril para agências federais. Adobe, Fortinet e SAP também publicaram correções importantes (CVE-2026-27681 no SAP BPC, CVSS 9.9).",
-      "source": "BleepingComputer",
-      "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-april-2026-patch-tuesday-fixes-167-flaws-2-zero-days/",
+      "headline": "Cloudflare Code Mode MCP: 2.500 endpoints da API em apenas 1.000 tokens de contexto",
+      "summary": "Cloudflare anunciou um servidor MCP baseado em Code Mode que expõe toda a API (2.500+ endpoints em DNS, Workers, R2, Zero Trust) por meio de duas únicas ferramentas (search e execute), reduzindo o footprint de contexto de mais de 2 milhões para ~1.000 tokens — queda de 99,9%. O agente escreve JavaScript contra o tipo gerado do OpenAPI e executa em Dynamic Worker isolado sem filesystem. Esse padrão muda como arquitetos devem desenhar servidores MCP para APIs grandes: em vez de expor cada endpoint como tool, expor o spec e deixar o modelo gerar código.",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/code-mode-mcp/",
       "read_time": 5
     }
   ],
@@ -66,10 +66,10 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "CISA adiciona 6 falhas Fortinet, Microsoft e Adobe ao KEV; prazo FortiClient EMS é hoje",
-      "summary": "A CISA incluiu CVE-2026-21643 (SQL injection no FortiClient EMS, CVSS 9.1) junto a falhas Adobe Acrobat, Windows CLFS e Microsoft Exchange no Known Exploited Vulnerabilities Catalog. Agências federais têm até 27 de abril para a maioria, mas o prazo do FortiClient EMS é 16 de abril — hoje. Arquitetos de segurança devem executar varredura imediata de ativos expostos.",
+      "headline": "SAP corrige CVE-2026-27681 com CVSS 9.9: SQL injection em BPC/BW",
+      "summary": "Patch Day da SAP de abril endereça falha crítica em SAP Business Planning and Consolidation (10.1 e 11.0) e Business Warehouse. Usuário autenticado de baixo privilégio pode executar SQL arbitrário via upload de arquivo ABAP, com compromisso total de confidencialidade, integridade e disponibilidade. Aplique a Security Note 3719353 imediatamente — ambientes S/4HANA, ERP e NetWeaver também entram no escopo do patch cycle.",
       "source": "The Hacker News",
-      "url": "https://thehackernews.com/2026/04/cisa-adds-6-known-exploited-flaws-in.html",
+      "url": "https://blog.zerobot.info/sap-april-2026-patch-day-abap-sql-injection-cve-2026-27681",
       "read_time": 3
     },
     {
@@ -80,10 +80,10 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "Adobe Acrobat Reader patcheia CVE-2026-34621 sob exploração desde dezembro",
-      "summary": "Adobe publicou correção emergencial para falha no Acrobat Reader que permite executar JavaScript malicioso ao abrir PDFs especialmente criados. Evidências indicam exploração ativa desde dezembro de 2025. Em fluxos onde PDFs circulam por e-mail ou gateways, arquitetos devem priorizar patch e reforçar sandboxing de preview.",
-      "source": "The Hacker News",
-      "url": "https://thehackernews.com/2026/04/adobe-patches-actively-exploited.html",
+      "headline": "Adobe corrige zero-day CVE-2026-34621 no Acrobat Reader explorado desde dez/2025",
+      "summary": "Adobe lançou patch out-of-band em 13/04 para falha crítica de prototype pollution no Acrobat Reader explorada in the wild há mais de 4 meses. CISA adicionou ao catálogo KEV com prazo de 27/04 para agências federais. Atualize para Continuous 26.001.21431 ou Classic 24.001.30365. Inclua escaneamento de endpoints em fluxos de incident response para detectar exploits prévios.",
+      "source": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/2026/04/13/adobe-acrobat-reader-cve-2026-34621-emergency-fix/",
       "read_time": 3
     },
     {
@@ -94,11 +94,25 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "CVE-2026-39987: RCE no Marimo explorado 10 horas após divulgação",
-      "summary": "Notebook Python open-source Marimo recebeu correção para CVE-2026-39987 (CVSS 9.3), um RCE pré-autenticação via endpoint WebSocket que entrega shell PTY completa ao invasor. Campanhas de exploração começaram em 10h após disclosure. Reforça o risco de cadeia de suprimentos em ferramentas de dev expostas na rede — arquitetos devem isolar notebooks em rede privada e autenticar no layer de transporte.",
-      "source": "IronPlate",
-      "url": "https://ironplate.ai/blog/weekly-agentic-ai-threat-intel-april-7-2026",
+      "headline": "CISA flagra zero-day em Windows Task Host com escalonamento para SYSTEM",
+      "summary": "CISA alertou agências americanas sobre falha no Task Host do Windows permitindo escalonamento de privilégios para SYSTEM. A exploração já está em curso. Revise políticas de aplicação de privilégio mínimo, monitore execuções inesperadas de TaskHost.exe e acelere deploy do Patch Tuesday de abril nos endpoints.",
+      "source": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-windows-task-host-vulnerability-as-exploited-in-attacks/",
       "read_time": 3
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança",
+      "category_icon": "🔐",
+      "urgent": true,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Ivanti EPMM sob ataque ativo: CVE-2026-1281 e CVE-2026-1340 com RCE não autenticado",
+      "summary": "CISA adicionou CVE-2026-1340 (CVSS 9.8) ao catálogo KEV e código de PoC já está público para ambas as falhas. O vetor está em scripts bash legados usados pelo Apache para URL rewriting. Ataques de escaneamento em larga escala foram rastreados a um único IP bulletproof. Aplique RPM 12.x.0.x/12.x.1.x, e se não puder patchar, isole a gerência do EPMM em rede segmentada.",
+      "source": "Tenable",
+      "url": "https://www.tenable.com/blog/cve-2026-1281-cve-2026-1340-ivanti-endpoint-manager-mobile-epmm-zero-day-vulnerabilities",
+      "read_time": 4
     },
     {
       "category": "ai",
@@ -108,10 +122,10 @@
       "new": true,
       "star": false,
       "breaking": false,
-      "headline": "Claude Opus 4.7 chega ao GitHub Copilot e AWS Bedrock no mesmo dia",
-      "summary": "GitHub publica changelog confirmando disponibilidade imediata do Claude Opus 4.7 no Copilot CLI e IDE, com melhorias de MCP e mensagens de erro refinadas. Paralelamente o modelo já está no AWS Bedrock, Azure e Google Vertex — primeira vez que Anthropic faz lançamento simultâneo em todos os hyperscalers. Arquitetos que mantêm padrão multi-cloud para LLMs ganham paridade em janelas de contexto e esforço xhigh.",
-      "source": "GitHub Changelog",
-      "url": "https://github.blog/changelog/2026-04-16-claude-opus-4-7-is-generally-available/",
+      "headline": "Anthropic redesenha Claude Code desktop para sessões paralelas e drag-and-drop",
+      "summary": "Em 14/04 a Anthropic reconstruiu o Claude Code desktop em torno de múltiplos agentes simultâneos: sidebar unificada, layout drag-and-drop, terminal integrado, diff viewer mais rápido, preview de HTML/PDF, side chats com contexto isolado e três modos de visualização (Verbose/Normal/Summary). Arquitetos que orquestram tarefas longas em múltiplos repos ganham um hub real — reduz context switching e viabiliza workflows de best-of-n entre modelos.",
+      "source": "Claude Blog",
+      "url": "https://claude.com/blog/claude-code-desktop-redesign",
       "read_time": 3
     },
     {
@@ -122,39 +136,25 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "Roadmap MCP 2026 prioriza transporte stateless, SSO e governança enterprise",
-      "summary": "O Model Context Protocol publica roadmap focando em escala horizontal, autenticação com SSO integrado (Cross-App Access), trilhas de auditoria e Contributor Ladder para delegação de SEPs. Anthropic reporta 10.000+ servidores MCP públicos e 97M de downloads mensais de SDKs. Arquitetos montando plataformas de agentes devem antecipar migração do Streamable HTTP atual para o próximo transporte.",
-      "source": "The New Stack",
-      "url": "https://thenewstack.io/model-context-protocol-roadmap-2026/",
-      "read_time": 4
+      "headline": "Claude sofre múltiplas outages em 15/04 durante pico de demanda",
+      "summary": "Em 15/04 Claude.ai, API e Claude Code apresentaram elevação de erros entre 10h53 e 13h42 ET, com dois ciclos distintos de indisponibilidade. Paralelamente usuários heavy relataram degradação percebida de performance. Anthropic nega relação com compute crunch ou Mythos. Arquitetos dependentes de Claude em produção devem reforçar fallback multi-provider, circuit breakers e retry com backoff em chamadas críticas.",
+      "source": "TechRadar",
+      "url": "https://www.techradar.com/news/live/claude-anthropic-down-outage-april-15-2026",
+      "read_time": 3
     },
     {
       "category": "cloud",
       "category_label": "Cloud",
       "category_icon": "☁️",
       "urgent": false,
-      "new": true,
+      "new": false,
       "star": false,
       "breaking": false,
-      "headline": "AWS Sustainability Console entra em GA com Scope 1/2/3 sem permissão de billing",
-      "summary": "AWS lança console independente de sustentabilidade que consolida relatórios de emissão Scope 1, 2 e 3 e dá acesso direto a times de ESG sem exigir permissão de billing. Também acompanha salvaguardas organizacionais GA no Amazon Bedrock Guardrails para aplicação centralizada de políticas em múltiplas contas. Útil para arquitetos atendendo requisitos CSRD/SEC Climate.",
-      "source": "AWS What's New",
-      "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/aws-announces-ga-AWS-interconnect-multicloud/",
+      "headline": "Amazon Bedrock ganha alocação de custo por usuário/role IAM",
+      "summary": "AWS Bedrock agora permite tagging de principals IAM com atributos como time ou centro de custo, e os dados fluem para Cost Explorer e Cost and Usage Report detalhado. Destrava chargeback granular e showback por squad em organizações com múltiplos times consumindo modelos Bedrock — deixa de ser necessário segmentar por conta AWS só para distinguir gastos de LLM.",
+      "source": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-claude-mythos-preview-in-amazon-bedrock-aws-agent-registry-and-more-april-13-2026/",
       "read_time": 3
-    },
-    {
-      "category": "devops",
-      "category_label": "DevOps",
-      "category_icon": "⚙️",
-      "urgent": false,
-      "new": true,
-      "star": false,
-      "breaking": true,
-      "headline": "Kubernetes v1.36 tem release marcado para 22/abr com MutatingAdmissionPolicy em GA",
-      "summary": "A release v1.36 chega semana que vem com 20 features alpha novas focadas em performance de workloads, escalabilidade de API e uso eficiente de recurso. Destaques: MutatingAdmissionPolicy em GA, HPAScaleToZero ligado por padrão, OCI VolumeSource e User namespaces stable. Volume gitRepo foi removido (breaking change). Arquitetos devem planejar upgrade dos admission controllers baseados em webhooks para mutations nativas.",
-      "source": "Kubernetes Blog",
-      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
-      "read_time": 4
     },
     {
       "category": "devops",
@@ -164,10 +164,38 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "OpenTofu alcança 9,8M de downloads e amplia divergência técnica vs Terraform",
-      "summary": "Dois anos e meio após o fork, OpenTofu tem 300% de crescimento anual, admissão CNCF e diferenças fundamentais em state encryption, provider for_each e registry independente com 2.000+ providers. Boeing, Capital One e AMD rodam em produção; Fidelity migrou 50.000 state files. Com IBM elevando preços do Terraform Cloud 18%, CIOs devem incluir OpenTofu em avaliações de IaC.",
-      "source": "TechTarget",
-      "url": "https://www.techtarget.com/searchitoperations/news/366581612/OpenTofu-forges-on-with-beta-feature-that-drew-HashiCorp-ire",
+      "headline": "GitHub Actions custom images para runners hospedados chegam em GA",
+      "summary": "GitHub anunciou a disponibilidade geral de imagens customizadas em runners hospedados, após preview iniciado em outubro/2025. Times podem partir de uma base GitHub-approved e construir VM images sob medida para seus workflows — reduz drift de dependências, acelera cold start e endereça requisitos de compliance. Também entrou em preview VNET failover em Azure private networking para runners.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/github-actions-custom-runners/",
+      "read_time": 3
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Kubernetes v1.36 deprecia externalIPs e se aproxima do release (22/04)",
+      "summary": "Sneak peek do Kubernetes 1.36 (22/04) confirma deprecação do campo externalIPs em Service spec — vetor conhecido de ataques MITM (CVE-2020-8554) — com remoção total prevista para v1.43. Traz também Linux User Namespaces mais robustos, DRA aprimorado, manifest-based admission control e montagem de OCI artifacts. Arquitetos de plataforma devem revisar manifests que usem externalIPs e planejar migração para LoadBalancer ou Gateway API.",
+      "source": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
+      "read_time": 4
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend",
+      "category_icon": "🖥️",
+      "urgent": false,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Next.js 16.2 acelera dev startup em ~400% e traz agent-ready create-next-app",
+      "summary": "Release de 16.2 entrega ~87% mais rápido no next dev vs 16.1, desserialização de payload RSC 350% mais rápida, 200+ fixes no Turbopack, e recursos focados em agentes IA (AGENTS.md por padrão, browser log forwarding, experimental Agent DevTools). Para quem pensa arquitetura frontend acompanhando a onda de agentes, traz tooling de primeira classe — agent pode depurar via CLI next-browser com screenshots, network e console.",
+      "source": "Next.js Blog",
+      "url": "https://nextjs.org/blog/next-16-2",
       "read_time": 4
     },
     {
@@ -178,24 +206,10 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "DoorDash unifica onboarding global em plataforma composable de workflow",
-      "summary": "Engenharia do DoorDash detalha reconstrução do onboarding de entregadores em plataforma modular com orquestração step-based e camada composable. O design reduz variações por país/marca, acelera experimentos e consolida regras de compliance num único engine. Case study relevante para arquitetos que mantêm pipelines de aquisição e KYC em fintechs e marketplaces.",
-      "source": "InfoQ",
-      "url": "https://www.infoq.com/news/2026/03/doordash-dasherglobal-onboarding/",
-      "read_time": 5
-    },
-    {
-      "category": "frontend",
-      "category_label": "Frontend",
-      "category_icon": "🖥️",
-      "urgent": false,
-      "new": false,
-      "star": false,
-      "breaking": false,
-      "headline": "Next.js 16.2 acelera dev em 4x e traz Agent DevTools experimental",
-      "summary": "Vercel lança 16.2 com Turbopack servindo next dev ~87% mais rápido que a 16.1, Server Fast Refresh com hot reload granular no servidor, Web Worker Origin para WASM e tree shaking de dynamic imports. Novidades voltadas a AI: agent-ready create-next-app, browser log forwarding e Agent DevTools. Arquitetos com apps server-heavy ganham feedback loop quase instantâneo em dev.",
-      "source": "Next.js Blog",
-      "url": "https://nextjs.org/blog/next-16-2-turbopack",
+      "headline": "Spring Boot 4.1.0-M3: gRPC nativo, AMQP 1.0 e Spring Batch para MongoDB",
+      "summary": "O marco M3 do Spring Boot 4.1 consolida Spring gRPC como módulo de primeira classe, adiciona Spring Batch para MongoDB, rotação de arquivos no Log4j, SSL para streams RabbitMQ e AMQP 1.0 no Spring AMQP. Fortes sinais de que 4.1.0 (previsto para Q2) vai facilitar arquiteturas polyglot backend sem abandonar o ecossistema Spring — menos boilerplate para gRPC services e filas modernas.",
+      "source": "Spring Blog",
+      "url": "https://github.com/spring-projects/spring-boot/releases",
       "read_time": 3
     },
     {
@@ -206,25 +220,11 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "PostgreSQL 18 + pgvector consolida Postgres como banco 'AI-Native'",
-      "summary": "Stack PostgreSQL 18 com pgvector, pgvectorscale (StreamingDiskANN, SBQ) e pgrag permite implementar pipelines RAG completos — extração de PDF, chunking e chamadas a LLMs — dentro do SQL. Combinado com I/O assíncrono, uuidv7 e OAuth 2.0, substitui bancos vetoriais de nicho em 99% dos casos enterprise. Arquitetos podem simplificar topologia tirando Pinecone/Weaviate do caminho para a maioria das workloads.",
-      "source": "Medium — Mohit Soni",
-      "url": "https://medium.com/@mohitsoni_/postgresql-18-pgvector-the-definitive-guide-to-building-production-grade-rag-pipelines-239ee9c0e56f",
-      "read_time": 5
-    },
-    {
-      "category": "db",
-      "category_label": "Bancos",
-      "category_icon": "🗄️",
-      "urgent": true,
-      "new": false,
-      "star": false,
-      "breaking": false,
-      "headline": "MySQL 8.0 chega ao End of Life em 30 de abril; Postgres 14 e Redis 7.2 na fila",
-      "summary": "Em 30/abr MySQL 8.0 sai de suporte oficial, seguido por PostgreSQL 14, Redis 7.2/7.4 e MongoDB 6.0 nos meses seguintes. Continuar em produção exige contrato de suporte estendido ou plano imediato de upgrade. Arquitetos devem mapear dependências de driver, mudanças de SQL mode e compatibilidade de replicação antes da virada.",
+      "headline": "MySQL 8.0 atinge EOL em 30/04 — migração obrigatória para 8.4 ou 9.x",
+      "summary": "Em 30/04/2026 o MySQL 8.0 entra em end-of-life oficial. Sem novos patches de segurança, sem backports. Paralelamente, PostgreSQL 14, Redis 7.2/7.4 e MongoDB 6.0 se aproximam de EOL nos próximos trimestres. Se seu estado de banco ainda está em 8.0, incorpore a migração no roadmap imediatamente — inclusive Amazon RDS/Aurora clients precisam planejar a janela.",
       "source": "InfoWorld",
       "url": "https://www.infoworld.com/article/4142051/update-your-databases-now-to-avoid-data-debt.html",
-      "read_time": 4
+      "read_time": 3
     },
     {
       "category": "lang",
@@ -234,11 +234,11 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "GitHub Copilot CLI alcança GA com operações autônomas em repositório",
-      "summary": "Copilot CLI chega em Disponibilidade Geral em abril e publica hoje a versão 1.0.28 com correção em prompts de permissão dentro de submódulos git, dicas de migração MCP atualizadas e ajuste em Azure resource IDs nas regras de segurança de caminho. Para arquitetos, formaliza comandos naturais como interface produtiva em CI/CD e workflows de correção em massa.",
-      "source": "InfoQ",
-      "url": "https://www.infoq.com/news/2026/04/github-copilot-cli-ga/",
-      "read_time": 3
+      "headline": "Java Annotated Monthly de abril destaca Java 26, Spring Boot 4.1 e AI-assisted debugging",
+      "summary": "A edição de abril do Java Annotated Monthly da JetBrains compila os destaques do mês: previews de pattern matching e lazy constants no Java 26, avanços em virtual threads debugging, Spring Data / Spring Debugger atualizados e Kotlin 2.2 com no-arg/all-open autoconfig. Leitura rápida e curada para arquitetos JVM alinharem roadmap com o que está chegando ao IntelliJ e ao ecossistema Spring.",
+      "source": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/",
+      "read_time": 4
     },
     {
       "category": "arqsw",
@@ -248,11 +248,25 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "Architecture Advice Process descentraliza decisões com ADRs leves",
-      "summary": "Apresentação de Andrew Harmel-Law na Goto Copenhagen defende o Architecture Advice Process: qualquer engenheiro pode tomar uma decisão arquitetural desde que solicite e registre conselho de afetados e especialistas. Reduz gargalos de comitês de arquitetura e acelera entrega em plataformas grandes. Padrão complementar a times de plataforma e engineering enablement.",
+      "headline": "MCP em produção: retrospectiva com 87 ferramentas conectadas em 9 categorias",
+      "summary": "Case study detalhado de um deployment MCP em produção mostra como organizar inventário de 87 tools em 9 categorias para workflows de monitoring e trading. Times usando MCP para integrar LLMs com GitHub, Linear e Rollbar cortaram tempo de investigação de 15 minutos para 30 segundos. Para arquitetos desenhando plataformas agênticas, o ponto chave: categorização e escopo por capacidade, não por sistema.",
+      "source": "Dev Journal",
+      "url": "https://earezki.com/ai-news/2026-04-13-mcp-en-production-retour-dexprience-aprs-87-outils-connects/",
+      "read_time": 5
+    },
+    {
+      "category": "arqsw",
+      "category_label": "Arq. Software",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Uber abre código do uForwarder: proxy Kafka para trilhões de mensagens/dia",
+      "summary": "Uber open-sourceou o uForwarder, proxy push-based para Kafka que processa trilhões de mensagens e petabytes diários. Traz context-aware routing, mitigação de head-of-line blocking, auto-rebalance adaptativo e processamento com delay por partição. Alternativa robusta para quem está escalando microserviços event-driven e sofrendo com backpressure e hot partitions em consumidores tradicionais.",
       "source": "InfoQ",
-      "url": "https://www.infoq.com/news/2026/03/architecture-advice-process/",
-      "read_time": 6
+      "url": "https://www.infoq.com/news/2026/02/uber-uforwarder-kafka-push-proxy/",
+      "read_time": 4
     },
     {
       "category": "arqsol",
@@ -262,55 +276,83 @@
       "new": false,
       "star": false,
       "breaking": false,
-      "headline": "DDD em 2026 combina hexagonal, CQRS e AI para cortar falhas de deploy em 40%",
-      "summary": "Revisão sistemática publicada no ScienceDirect e cases do DDD Europe 2026 confirmam ganho de linguagem ubíqua, bounded context e hexagonal. Um caso em logística relatou -40% de falhas de deploy com mapeamento contextual rigoroso. Ferramentas de IA começam a otimizar workflows Saga e previsão de contenção. Arquitetos de solução devem revisitar modelagem antes de novas iniciativas de decomposição.",
-      "source": "ScienceDirect",
-      "url": "https://www.sciencedirect.com/science/article/pii/S0164121225002055",
-      "read_time": 6
+      "headline": "Agentic AI Foundation consolida MCP como padrão de interoperabilidade",
+      "summary": "A Agentic AI Foundation (Linux Foundation) realizou o MCP Dev Summit NA em 2-3/04 em Nova York com mais de 95 sessões e auditório lotado. Reforça MCP como padrão de indústria para interoperabilidade agêntica junto com goose (Block) e AGENTS.md (OpenAI). Arquitetos de solução em empresas regulamentadas ganham um norte mais estável para escolher MCP sem bloqueio a um único vendor.",
+      "source": "Linux Foundation",
+      "url": "https://www.linuxfoundation.org/press/agentic-ai-foundation-unveils-mcp-dev-summit-north-america-2026-schedule",
+      "read_time": 3
+    },
+    {
+      "category": "arqsol",
+      "category_label": "Arq. Solução",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Platform Engineering + DDD: a tese da Domain-Driven Platform Engineering",
+      "summary": "Artigo do platformengineering.org aprofunda a tese de DDPE — Internal Developer Platforms estruturadas ao redor de domínios de negócio, não somente eficiência técnica. Benefícios: delivery cycles mais rápidos com plataformas business-aligned, autonomia de dev via self-service e escala modular por domínio. Arquitetos de solução lidando com IDPs em múltiplas unidades de negócio encontram aqui um framework conceitual para justificar investimentos e organizar squads.",
+      "source": "Platform Engineering",
+      "url": "https://platformengineering.org/blog/the-need-for-domain-driven-platform-engineering",
+      "read_time": 5
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "new": false,
+      "star": false,
+      "breaking": false,
+      "headline": "Kubernetes Ingress-NGINX encerrado em 24/03 — hora de migrar para Gateway API",
+      "summary": "SIG Network e Security Response Committee confirmaram retirada do Ingress-NGINX. Sem mais releases, bugfixes ou correções de segurança. Recomendação oficial: migrar para Gateway API (moderno, evoluindo) ou controllers alternativos (F5 NGINX, Traefik, HAProxy, Contour). Arquitetos de plataforma K8s devem ter plano de migração em 2026 — instalações existentes continuam funcionando, mas passaram a virar tech debt de segurança.",
+      "source": "Google Open Source Blog",
+      "url": "https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html",
+      "read_time": 4
     }
   ],
   "tools": [
     {
-      "name": "IntelliJ IDEA",
-      "icon": "🧠",
-      "version": "2026.1",
-      "description": "IntelliJ IDEA 2026.1 chega com suporte nativo a agentes ACP-compatíveis (Codex, Cursor), assistência first-class para C/C++ em projetos multi-linguagem, Dev Container workflow nativo, JavaScript sem Ultimate e mais de 1.000 correções de bugs.",
-      "url": "https://blog.jetbrains.com/idea/2026/03/intellij-idea-2026-1/"
+      "name": "Cursor IDE",
+      "icon": "✏️",
+      "version": "3.0",
+      "description": "Cursor 3 (02/04) reorganiza a IDE em torno de Agents Window com execução paralela local, em worktrees, cloud e SSH remoto. Introduz Design Mode para anotar UI no navegador, Agent Tabs em grid/side-by-side, comandos /worktree e /best-of-n (paraleliza tarefa em múltiplos modelos) e Bugbot com taxa de resolução de 78%.",
+      "url": "https://cursor.com/changelog/3-0"
     },
     {
       "name": "Notion",
       "icon": "📝",
-      "version": "3.4 (part 2)",
-      "description": "Notion 3.4 part 2 ativa voice input em desktop para prompts de AI, instruções customizadas para Meeting Notes, links compartilháveis read-only de chats, Workers for Agents em developer preview e integrações MCP expandidas (Calendar, Mail, Slack).",
+      "version": "3.4",
+      "description": "Update de 14/04 traz AI Autofill para Custom Agents em databases, instruções customizadas nas AI Meeting Notes, voice input por padrão no desktop (macOS/Windows) e Workers for Agents em developer preview (execução de código com timeout 30s e 128MB). Custom Agents ficam 35–50% mais baratos, especialmente com Haiku 4.5 e GPT-5.4 Mini/Nano.",
       "url": "https://www.notion.com/releases/2026-04-14"
     },
     {
-      "name": "Docker Desktop",
-      "icon": "🐳",
-      "version": "latest",
-      "description": "Nova release corrige travamento ao descobrir pods Kubernetes com contexto quebrado, crashes de terminal e de rede no QEMU 10.2+, além de patches para CVE-2026-2664 (grpcfuse) e CVE-2026-28400 (Model Runner). Adiciona suporte vLLM Metal e perfis no MCP Toolkit.",
-      "url": "https://docs.docker.com/desktop/release-notes/"
+      "name": "IntelliJ IDEA",
+      "icon": "🧠",
+      "version": "2026.1",
+      "description": "Release de 2026.1 adiciona suporte built-in a Codex, Cursor e agentes compatíveis com ACP, Java 26 desde o dia 1 (com previews de pattern matching e lazy constants), Kotlin JPA autoconfig de no-arg/all-open, recursos de JS/TS/HTML/CSS agora free, sincronização de tema com o SO no Linux e 1.000+ bug fixes.",
+      "url": "https://blog.jetbrains.com/idea/2026/03/intellij-idea-2026-1/"
     },
     {
       "name": "Postman",
       "icon": "📮",
-      "version": "April 2026",
-      "description": "Postman ganha geração de SDK para PHP, Go e C# (Team/Enterprise), command palette com navegação por texto natural, Spec Hub changelogs com autoria e localização exata das mudanças, e publicação de collections como site Fern. CLI adiciona flags -e e -r para Flows.",
+      "version": "Abr/2026",
+      "description": "Atualização traz heatmap Tests vs VU em performance tests, SDK Generator com PHP/Go/C# (6 linguagens no total), CLI generator a partir de collections/OpenAPI com scenarios nomeados, two-way sync OpenAPI 3.1 ↔ collections, command palette ⌘+Shift+P por linguagem natural e migração de APIs Git-linked com diretório específico.",
       "url": "https://www.postman.com/release-notes/"
     }
   ],
   "sources": [
     { "name": "Anthropic", "url": "https://www.anthropic.com/news" },
-    { "name": "AWS News Blog", "url": "https://aws.amazon.com/blogs/aws/" },
+    { "name": "Ox Security", "url": "https://www.ox.security/blog/" },
+    { "name": "Cloudflare Blog", "url": "https://blog.cloudflare.com/" },
     { "name": "The Hacker News", "url": "https://thehackernews.com/" },
     { "name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/" },
-    { "name": "Tenable", "url": "https://www.tenable.com/blog" },
-    { "name": "CISA KEV", "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog" },
+    { "name": "AWS Blog", "url": "https://aws.amazon.com/blogs/aws/" },
     { "name": "Kubernetes Blog", "url": "https://kubernetes.io/blog/" },
     { "name": "InfoQ", "url": "https://www.infoq.com/" },
-    { "name": "The New Stack", "url": "https://thenewstack.io/" },
     { "name": "Next.js Blog", "url": "https://nextjs.org/blog" },
-    { "name": "GitHub Changelog", "url": "https://github.blog/changelog/" },
-    { "name": "JetBrains Blog", "url": "https://blog.jetbrains.com/idea/" }
+    { "name": "JetBrains Blog", "url": "https://blog.jetbrains.com/idea/" },
+    { "name": "Linux Foundation", "url": "https://www.linuxfoundation.org/" },
+    { "name": "Tenable", "url": "https://www.tenable.com/blog" }
   ]
 }

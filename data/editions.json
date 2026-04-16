@@ -3,11 +3,11 @@
   "editions": [
     {
       "date": "2026-04-16",
-      "summary": "Anthropic libera Claude Opus 4.7 como modelo público mais capaz, AWS Interconnect multicloud em GA conecta AWS a Google Cloud e Patch Tuesday fecha 168 CVEs incluindo zero-day no SharePoint.",
+      "summary": "Claude Opus 4.7 chega em GA, Ox Security expõe falha sistêmica no MCP que atinge 200 mil servidores e Cloudflare lança Code Mode que reduz tokens em 99,9%.",
       "highlights": [
-        { "title": "Anthropic lança Claude Opus 4.7 em GA com salto em engenharia de software", "url": "https://www.anthropic.com/news/claude-opus-4-7" },
-        { "title": "AWS Interconnect multicloud em GA: conexão privada AWS↔Google Cloud com MACsec", "url": "https://aws.amazon.com/blogs/aws/aws-interconnect-is-now-generally-available-with-a-new-option-to-simplify-last-mile-connectivity/" },
-        { "title": "Patch Tuesday de Abril corrige 168 CVEs; SharePoint zero-day já é explorado", "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-april-2026-patch-tuesday-fixes-167-flaws-2-zero-days/" }
+        { "title": "Anthropic libera Claude Opus 4.7 em GA com reasoning xhigh, Task Budgets e visão 3x maior", "url": "https://www.anthropic.com/news/claude-opus-4-7" },
+        { "title": "Ox Security revela falha sistêmica no MCP: execução remota afeta 200 mil servidores e 11 SDKs", "url": "https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/" },
+        { "title": "Cloudflare lança Code Mode MCP Server: 2.500 endpoints em apenas 1.000 tokens de contexto", "url": "https://blog.cloudflare.com/code-mode-mcp/" }
       ]
     },
     {
