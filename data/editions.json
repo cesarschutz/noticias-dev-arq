@@ -3,11 +3,11 @@
   "editions": [
     {
       "date": "2026-04-16",
-      "summary": "Ataque supply chain ao Trivy compromete pipelines CI/CD, Llama 4 Scout oferece 10M tokens de contexto e AWS Bedrock AgentCore Evaluations chega em GA.",
+      "summary": "Anthropic libera Claude Opus 4.7 como modelo público mais capaz, AWS Interconnect multicloud em GA conecta AWS a Google Cloud e Patch Tuesday fecha 168 CVEs incluindo zero-day no SharePoint.",
       "highlights": [
-        { "title": "Ataque à cadeia de suprimentos do Trivy compromete pipelines CI/CD globalmente", "url": "https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/" },
-        { "title": "Llama 4 Scout oferece janela de 10 milhões de tokens como modelo open-weight", "url": "https://www.buildfastwithai.com/blogs/best-ai-models-april-2026" },
-        { "title": "Amazon Bedrock AgentCore Evaluations chega em GA para governança de agentes IA", "url": "https://aws.amazon.com/about-aws/whats-new/2026/03/agentcore-evaluations-generally-available/" }
+        { "title": "Anthropic lança Claude Opus 4.7 em GA com salto em engenharia de software", "url": "https://www.anthropic.com/news/claude-opus-4-7" },
+        { "title": "AWS Interconnect multicloud em GA: conexão privada AWS↔Google Cloud com MACsec", "url": "https://aws.amazon.com/blogs/aws/aws-interconnect-is-now-generally-available-with-a-new-option-to-simplify-last-mile-connectivity/" },
+        { "title": "Patch Tuesday de Abril corrige 168 CVEs; SharePoint zero-day já é explorado", "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-april-2026-patch-tuesday-fixes-167-flaws-2-zero-days/" }
       ]
     },
     {
