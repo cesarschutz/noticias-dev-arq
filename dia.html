@@ -963,6 +963,37 @@ footer.site::before {
 }
 
 /* ═══════════════════════════════════════════
+   READ TRACKING
+   ═══════════════════════════════════════════ */
+.is-read { opacity: 0.4; }
+.is-read:hover { opacity: 0.7; }
+.is-read .headline,
+.is-read .ov-headline { text-decoration: line-through; text-decoration-color: var(--ink-dim); text-decoration-thickness: 1px; }
+.read-check {
+  width: 16px; height: 16px; min-width: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-dim);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s ease;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: transparent;
+  position: relative;
+  z-index: 2;
+}
+.read-check:hover { border-color: var(--accent); background: var(--accent-soft); }
+.read-check.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.top-card .read-check { position: absolute; top: 14px; right: 14px; z-index: 3; }
+.card .read-check { position: absolute; top: 10px; right: 10px; z-index: 3; }
+.listmode .card .read-check { position: static; margin-left: auto; }
+
+/* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media (max-width: 1180px) {
@@ -1069,6 +1100,44 @@ footer.site::before {
   'use strict';
 
   /* ═══════════════════════════════════════
+     READ TRACKING
+     ═══════════════════════════════════════ */
+  var READ_KEY = 'dp-read';
+  function getReadUrls() {
+    try { return JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function isRead(url) {
+    return getReadUrls().indexOf(url) !== -1;
+  }
+  function markRead(url) {
+    var list = getReadUrls();
+    if (list.indexOf(url) === -1) {
+      list.push(url);
+      try { localStorage.setItem(READ_KEY, JSON.stringify(list)); } catch(e) {}
+    }
+  }
+  function toggleRead(url) {
+    var list = getReadUrls();
+    var idx = list.indexOf(url);
+    if (idx === -1) { list.push(url); } else { list.splice(idx, 1); }
+    try { localStorage.setItem(READ_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+  function applyReadState(container) {
+    if (!container) container = document;
+    container.querySelectorAll('[data-url]').forEach(function(el) {
+      var url = el.dataset.url;
+      var check = el.querySelector('.read-check');
+      if (isRead(url)) {
+        el.classList.add('is-read');
+        if (check) { check.classList.add('checked'); check.textContent = '\u2713'; }
+      } else {
+        el.classList.remove('is-read');
+        if (check) { check.classList.remove('checked'); check.textContent = ''; }
+      }
+    });
+  }
+
+  /* ═══════════════════════════════════════
      THEME TOGGLE
      ═══════════════════════════════════════ */
   var toggle = document.getElementById('theme-toggle');
@@ -1166,6 +1235,7 @@ footer.site::before {
     a.className = 'top-card ' + cat.css;
     a.dataset.category = cat.css;
     a.dataset.urgent = String(!!item.urgent);
+    a.setAttribute('data-url', item.url);
     a.href = item.url;
     a.target = '_blank';
     a.rel = 'noopener';
@@ -1176,6 +1246,7 @@ footer.site::before {
     if (item.star) badges += '<span class="badge star">Destaque</span>';
 
     a.innerHTML =
+      '<span class="read-check" title="Marcar como lida"></span>' +
       '<div class="gradient-bar"></div>' +
       '<div class="body">' +
         '<div class="badges">' + badges + '</div>' +
@@ -1186,6 +1257,13 @@ footer.site::before {
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
         '<span class="open">Abrir &rarr;</span>' +
       '</div>';
+    a.addEventListener('click', function() { markRead(item.url); });
+    a.querySelector('.read-check').addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleRead(item.url);
+      applyReadState();
+    });
     return a;
   }
 
@@ -1195,6 +1273,7 @@ footer.site::before {
     a.className = 'card ' + cat.css;
     a.dataset.category = cat.css;
     a.dataset.urgent = String(!!item.urgent);
+    a.setAttribute('data-url', item.url);
     a.href = item.url;
     a.target = '_blank';
     a.rel = 'noopener';
@@ -1206,6 +1285,7 @@ footer.site::before {
     if (item.breaking) rightBadges += '<span class="badge urg">Breaking</span>';
 
     a.innerHTML =
+      '<span class="read-check" title="Marcar como lida"></span>' +
       '<div class="head">' +
         '<div class="badges">' + leftBadges + '</div>' +
         (rightBadges ? '<div class="badges">' + rightBadges + '</div>' : '') +
@@ -1216,6 +1296,13 @@ footer.site::before {
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
         '<span class="arrow">&nearr;</span>' +
       '</div>';
+    a.addEventListener('click', function() { markRead(item.url); });
+    a.querySelector('.read-check').addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleRead(item.url);
+      applyReadState();
+    });
     return a;
   }
 
@@ -1335,6 +1422,9 @@ footer.site::before {
       a.textContent = src.name;
       ftSources.appendChild(a);
     });
+
+    /* Apply read state to all rendered items */
+    applyReadState();
 
     /* Attach interactivity */
     attachControls();

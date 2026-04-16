@@ -594,6 +594,38 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 .ov-tool .ov-tool-desc { font-size: 12.5px; line-height: 1.6; color: var(--ink-soft) }
 .ov-tool a { color: var(--accent); font-size: 12px; font-weight: 700 }
 
+/* ── Read tracking ── */
+.is-read { opacity: 0.4; }
+.is-read:hover { opacity: 0.7; }
+.is-read .t3-headline,
+.is-read .cf-headline,
+.is-read .headline,
+.is-read .ov-headline { text-decoration: line-through; text-decoration-color: var(--ink-dim); text-decoration-thickness: 1px; }
+.read-check {
+  width: 16px; height: 16px; min-width: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-dim);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s ease;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: transparent;
+  position: relative;
+  z-index: 2;
+}
+.read-check:hover { border-color: var(--accent); background: var(--accent-soft); }
+.read-check.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.top3-card .read-check { position: absolute; top: 10px; right: 10px; }
+.cf-item .read-check { margin-left: auto; }
+.ov-card { position: relative; }
+.ov-card .read-check { position: absolute; top: 12px; right: 12px; }
+
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .dashboard { grid-template-columns: 1fr }
@@ -764,6 +796,42 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
 <script>
 (function() {
+  /* ── Read tracking ── */
+  var READ_KEY = 'dp-read';
+  function getReadUrls() {
+    try { return JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function isRead(url) {
+    return getReadUrls().indexOf(url) !== -1;
+  }
+  function markRead(url) {
+    var list = getReadUrls();
+    if (list.indexOf(url) === -1) {
+      list.push(url);
+      try { localStorage.setItem(READ_KEY, JSON.stringify(list)); } catch(e) {}
+    }
+  }
+  function toggleRead(url) {
+    var list = getReadUrls();
+    var idx = list.indexOf(url);
+    if (idx === -1) { list.push(url); } else { list.splice(idx, 1); }
+    try { localStorage.setItem(READ_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+  function applyReadState(container) {
+    if (!container) container = document;
+    container.querySelectorAll('[data-url]').forEach(function(el) {
+      var url = el.dataset.url;
+      var check = el.querySelector('.read-check');
+      if (isRead(url)) {
+        el.classList.add('is-read');
+        if (check) { check.classList.add('checked'); check.textContent = '\u2713'; }
+      } else {
+        el.classList.remove('is-read');
+        if (check) { check.classList.remove('checked'); check.textContent = ''; }
+      }
+    });
+  }
+
   /* ── Constants ── */
   var MONTHS = ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   var WEEKDAYS = ['Domingo','Segunda-feira','Ter\u00e7a-feira','Quarta-feira','Quinta-feira','Sexta-feira','S\u00e1bado'];
@@ -913,13 +981,23 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       a.href = item.url;
       a.target = '_blank';
       a.rel = 'noopener';
+      a.setAttribute('data-url', item.url);
       a.style.setProperty('--cc', 'var(--cat-' + item.category + ')');
       a.innerHTML =
+        '<span class="read-check" title="Marcar como lida"></span>' +
         '<div class="t3-badges"><span class="t3-badge">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span></div>' +
         '<div class="t3-headline">' + esc(item.headline) + '</div>' +
         '<div class="t3-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
+      a.addEventListener('click', function() { markRead(item.url); });
+      a.querySelector('.read-check').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRead(item.url);
+        applyReadState();
+      });
       top3El.appendChild(a);
     });
+    applyReadState(top3El);
 
     /* Per category (1 each, preferring non-top3 items) */
     var catFeed = document.getElementById('cat-feed');
@@ -946,12 +1024,22 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       a.href = item.url;
       a.target = '_blank';
       a.rel = 'noopener';
+      a.setAttribute('data-url', item.url);
       a.innerHTML =
         '<span class="cf-badge" style="background:var(--cat-' + catKey + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
         '<span class="cf-headline">' + esc(item.headline) + '</span>' +
-        '<span class="cf-source">' + esc(item.source) + '</span>';
+        '<span class="cf-source">' + esc(item.source) + '</span>' +
+        '<span class="read-check" title="Marcar como lida"></span>';
+      a.addEventListener('click', function() { markRead(item.url); });
+      a.querySelector('.read-check').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRead(item.url);
+        applyReadState();
+      });
       catFeed.appendChild(a);
     });
+    applyReadState(catFeed);
 
     /* Tools */
     if (data.tools && data.tools.length) {
@@ -1168,22 +1256,38 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
     grouped.forEach(function(group) {
       var div = document.createElement('div');
       div.className = 'ov-date-group';
-      var cardsHtml = group.items.map(function(item) {
+      div.innerHTML =
+        '<div class="ov-date-label">' + esc(group.formatted) + ' <span class="ov-day-count">' + group.items.length + '</span></div>' +
+        '<div class="ov-cards"></div>';
+      var cardsContainer = div.querySelector('.ov-cards');
+      group.items.forEach(function(item) {
         var badges = '';
         if (item.urgent) badges += '<span class="ov-badge urg">Urgente</span>';
         if (item.new) badges += '<span class="ov-badge new">Novo</span>';
-        return '<a class="ov-card" href="' + item.url + '" target="_blank" rel="noopener">' +
+        var a = document.createElement('a');
+        a.className = 'ov-card';
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('data-url', item.url);
+        a.innerHTML =
+          '<span class="read-check" title="Marcar como lida"></span>' +
           (badges ? '<div class="ov-badges">' + badges + '</div>' : '') +
           '<div class="ov-headline">' + esc(item.headline) + '</div>' +
           '<div class="ov-summary">' + esc(item.summary) + '</div>' +
-          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>' +
-        '</a>';
-      }).join('');
-      div.innerHTML =
-        '<div class="ov-date-label">' + esc(group.formatted) + ' <span class="ov-day-count">' + group.items.length + '</span></div>' +
-        '<div class="ov-cards">' + cardsHtml + '</div>';
+          '<div class="ov-meta"><span>' + esc(item.source) + '</span><span>~' + item.read_time + ' min</span></div>';
+        a.addEventListener('click', function() { markRead(item.url); });
+        a.querySelector('.read-check').addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleRead(item.url);
+          applyReadState(overlayContent);
+        });
+        cardsContainer.appendChild(a);
+      });
       overlayContent.appendChild(div);
     });
+    applyReadState(overlayContent);
   }
 
   async function showToolOverlay(toolName) {
