@@ -1,0 +1,19 @@
+{
+  "date": "2026-04-10",
+  "weekday": "Sexta-feira",
+  "formatted_date": "Sexta, 10 de Abril de 2026",
+  "generated_at": "06:00",
+  "hero_title": "Docker CVE-2026-34040, agentes AWS GA e Pinterest MCP",
+  "hero_description": "Bypass de autorização crítico no Docker Engine (CVE-2026-34040), GA dos agentes AWS e Pinterest leva MCP para produção.",
+  "stats": {
+    "total": 0,
+    "categories": 0,
+    "tools": 0,
+    "urgent": 0,
+    "new": 0
+  },
+  "top3": [],
+  "news": [],
+  "tools": [],
+  "sources": []
+}
