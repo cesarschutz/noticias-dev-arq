@@ -26,10 +26,10 @@ Monte o arquivo JSON do dia seguindo o schema especificado. Selecione os **3 des
 
 ### 5. Salvar arquivos e fazer push
 
-- Escreva `data/{YYYY-MM-DD}.json` com o conteúdo do dia
 - Leia `data/editions.json`, adicione a nova edição no início do array `editions`, atualize `last_generated`
-- Escreva o `data/editions.json` atualizado
-- **NÃO faça git push** — o sandbox não tem acesso de rede. Apenas escreva os arquivos JSON. O usuário rodará `./push.sh` para fazer commit e push.
+- Escreva o `data/editions.json` atualizado **PRIMEIRO**
+- Escreva `data/{YYYY-MM-DD}.json` com o conteúdo do dia **POR ÚLTIMO** (isso dispara o auto-push)
+- **NÃO faça git push** — o sandbox não tem acesso de rede. Um LaunchAgent no macOS detecta a mudança em `data/` e roda `push.sh` automaticamente.
 
 ---
 
