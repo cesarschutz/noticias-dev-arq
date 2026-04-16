@@ -912,7 +912,7 @@ nav .nav-inner {
   margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
   transition: gap .2s;
 }
 .tool-card:hover .link { gap: 8px; }
@@ -999,9 +999,8 @@ footer.site::before {
   border-color: var(--accent);
   color: #fff;
 }
-.top-card .read-check { position: absolute; top: 14px; right: 14px; z-index: 3; }
-.card .read-check { position: absolute; top: 10px; right: 10px; z-index: 3; }
-.listmode .card .read-check { position: static; margin-left: auto; }
+.top-card .read-check, .card .read-check { position: static; flex-shrink: 0; }
+.top-card .foot, .card .foot { display: flex; align-items: center; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
@@ -1273,7 +1272,6 @@ footer.site::before {
     if (item.star) badges += '<span class="badge star">Destaque</span>';
 
     a.innerHTML =
-      '<span class="read-check" title="Marcar como lida"></span>' +
       '<div class="gradient-bar"></div>' +
       '<div class="body">' +
         '<div class="badges">' + badges + '</div>' +
@@ -1282,6 +1280,7 @@ footer.site::before {
       '</div>' +
       '<div class="foot">' +
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
+        '<span class="read-check" title="Marcar como lida"></span>' +
         '<span class="open">Abrir &rarr;</span>' +
       '</div>';
     a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
@@ -1312,7 +1311,6 @@ footer.site::before {
     if (item.breaking) rightBadges += '<span class="badge urg">Breaking</span>';
 
     a.innerHTML =
-      '<span class="read-check" title="Marcar como lida"></span>' +
       '<div class="head">' +
         '<div class="badges">' + leftBadges + '</div>' +
         (rightBadges ? '<div class="badges">' + rightBadges + '</div>' : '') +
@@ -1321,6 +1319,7 @@ footer.site::before {
       '<div class="summary">' + esc(item.summary) + '</div>' +
       '<div class="foot">' +
         '<span>' + esc(item.source) + ' &middot; ~' + esc(item.read_time) + ' min</span>' +
+        '<span class="read-check" title="Marcar como lida"></span>' +
         '<span class="arrow">&nearr;</span>' +
       '</div>';
     a.addEventListener('click', function() { markRead(item.url); applyReadState(); });
@@ -1336,6 +1335,7 @@ footer.site::before {
   function buildToolCard(tool) {
     var a = document.createElement('a');
     a.className = 'tool-card';
+    a.setAttribute('data-url', tool.url);
     a.href = tool.url;
     a.target = '_blank';
     a.rel = 'noopener';
@@ -1345,7 +1345,14 @@ footer.site::before {
         '<div class="ver">' + esc(tool.version) + '</div>' +
       '</div>' +
       '<div class="desc">' + esc(tool.description) + '</div>' +
-      '<div class="link">Changelog &rarr;</div>';
+      '<div class="link"><span>Changelog &rarr;</span><span class="read-check" title="Marcar como lida"></span></div>';
+    a.addEventListener('click', function() { markRead(tool.url); applyReadState(); });
+    a.querySelector('.read-check').addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleRead(tool.url);
+      applyReadState();
+    });
     return a;
   }
 
