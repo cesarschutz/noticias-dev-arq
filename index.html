@@ -653,6 +653,104 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 .ov-card { position: relative; }
 .ov-card .read-check { position: absolute; top: 12px; right: 12px; }
 
+/* ── Global Search trigger (nav) ── */
+.global-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 10px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  cursor: pointer; transition: all .2s ease;
+  min-width: 220px;
+}
+.global-search:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft) }
+.gs-icon { font-size: 14px; color: var(--ink-dim); flex-shrink: 0 }
+.gs-placeholder { font-size: 12px; color: var(--ink-dim); flex: 1; font-weight: 500 }
+.gs-shortcut {
+  font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
+}
+
+/* ── Search Modal ── */
+.search-modal {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: min(20vh, 140px);
+}
+.search-modal.active { opacity: 1; pointer-events: auto }
+.search-modal-sheet {
+  width: 100%; max-width: 620px; max-height: 70vh;
+  border-radius: 16px;
+  transform: translateY(-20px) scale(.97);
+  transition: transform .25s cubic-bezier(.32,.72,.0,1);
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+  overflow: hidden;
+}
+.search-modal.active .search-modal-sheet { transform: translateY(0) scale(1) }
+
+.search-modal-input-wrap {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.smi-icon { font-size: 18px; color: var(--accent); flex-shrink: 0 }
+.search-modal-input-wrap input {
+  flex: 1; border: none; background: transparent;
+  font-size: 15px; font-weight: 500; color: var(--ink);
+  outline: none; font-family: inherit;
+}
+.search-modal-input-wrap input::placeholder { color: var(--ink-dim) }
+.smi-esc {
+  font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 4px;
+  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
+  color: var(--ink-dim); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+}
+
+.search-modal-results {
+  overflow-y: auto; padding: 12px 18px 20px; flex: 1;
+}
+.search-modal-empty {
+  text-align: center; padding: 40px 0; color: var(--ink-dim); font-size: 13px;
+}
+.search-modal-no-results {
+  text-align: center; padding: 40px 0; color: var(--ink-dim); font-size: 13px;
+}
+
+/* Search result groups */
+.sr-group { margin-bottom: 18px }
+.sr-date {
+  font-size: 11px; font-weight: 700; color: var(--ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase; letter-spacing: .05em;
+  padding-bottom: 6px; border-bottom: 1px solid var(--line);
+  margin-bottom: 6px;
+}
+.sr-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 8px; border-radius: 8px;
+  cursor: pointer; transition: background .15s, transform .15s;
+  text-decoration: none; color: inherit;
+}
+.sr-item:hover { background: var(--accent-soft); transform: translateX(3px) }
+.sr-item .read-check { flex-shrink: 0 }
+.sr-item .sr-headline {
+  font-size: 12px; font-weight: 600; line-height: 1.35;
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sr-item .sr-badge {
+  font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 999px;
+  color: #fff; flex-shrink: 0; white-space: nowrap;
+}
+.sr-item.is-read { opacity: 0.4 }
+.sr-item.is-read:hover { opacity: 0.7 }
+.sr-item.is-read .sr-headline { text-decoration: line-through; text-decoration-color: var(--ink-dim) }
+
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .dashboard { grid-template-columns: 1fr }
@@ -694,7 +792,13 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       <div class="brand-mark"><span class="stripes"><i></i><i></i><i></i></span></div>
       <div class="brand-copy"><strong>DevPulse</strong><span>Arquivo Di&#225;rio do Arquiteto</span></div>
     </div>
-    <div class="topbar-center">arquivo editorial</div>
+    <div class="topbar-center">
+      <div class="global-search" id="global-search-trigger">
+        <span class="gs-icon">⌕</span>
+        <span class="gs-placeholder">Pesquisar notícias...</span>
+        <span class="gs-shortcut">⌘K</span>
+      </div>
+    </div>
     <div class="topbar-right">
       <div class="status-pill"><span class="dot"></span>arquivo ativo</div>
       <button class="clear-read-btn" id="clear-read" title="Limpar leituras">✕ Lidas</button>
@@ -804,6 +908,20 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 </footer>
 
 <!-- Overlay modal -->
+<!-- SEARCH MODAL -->
+<div class="search-modal" id="search-modal">
+  <div class="search-modal-sheet glass">
+    <div class="search-modal-input-wrap">
+      <span class="smi-icon">⌕</span>
+      <input type="text" id="search-modal-input" placeholder="Pesquisar em todas as edições..." autocomplete="off">
+      <span class="smi-esc" id="search-modal-close">Esc</span>
+    </div>
+    <div class="search-modal-results" id="search-modal-results">
+      <div class="search-modal-empty">Digite para pesquisar nas manchetes e resumos de todas as edições.</div>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay">
   <div class="overlay-sheet glass">
     <div class="drag-indicator"></div>
@@ -1394,6 +1512,100 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
   document.querySelectorAll('.tool-mini').forEach(function(el) {
     el.addEventListener('click', function() { showToolOverlay(el.dataset.tool); });
   });
+
+  /* ── Global Search (Ctrl+K / Cmd+K) ── */
+  var searchModal = document.getElementById('search-modal');
+  var searchInput = document.getElementById('search-modal-input');
+  var searchResults = document.getElementById('search-modal-results');
+  var searchDebounce = null;
+
+  function openSearch() {
+    searchModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { searchInput.focus(); }, 100);
+  }
+  function closeSearch() {
+    searchModal.classList.remove('active');
+    document.body.style.overflow = '';
+    searchInput.value = '';
+    searchResults.innerHTML = '<div class="search-modal-empty">Digite para pesquisar nas manchetes e resumos de todas as edi\u00e7\u00f5es.</div>';
+  }
+
+  document.getElementById('global-search-trigger').addEventListener('click', openSearch);
+  document.getElementById('search-modal-close').addEventListener('click', closeSearch);
+  searchModal.addEventListener('click', function(e) { if (e.target === searchModal) closeSearch(); });
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchModal.classList.contains('active')) closeSearch();
+      else openSearch();
+    }
+    if (e.key === 'Escape' && searchModal.classList.contains('active')) closeSearch();
+  });
+
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(doSearch, 200);
+  });
+
+  async function doSearch() {
+    var q = (searchInput.value || '').toLowerCase().trim();
+    if (q.length < 2) {
+      searchResults.innerHTML = '<div class="search-modal-empty">Digite ao menos 2 caracteres...</div>';
+      return;
+    }
+
+    await loadAllDays();
+
+    var grouped = [];
+    var dates = Object.keys(dataCache).sort().reverse();
+    dates.forEach(function(date) {
+      var day = dataCache[date];
+      var items = [].concat(day.top3 || [], day.news || []);
+      var matches = items.filter(function(n) {
+        return (n.headline && n.headline.toLowerCase().indexOf(q) !== -1) ||
+               (n.summary && n.summary.toLowerCase().indexOf(q) !== -1);
+      });
+      if (matches.length) {
+        grouped.push({ date: date, formatted: day.formatted_date || date, items: matches });
+      }
+    });
+
+    if (!grouped.length) {
+      searchResults.innerHTML = '<div class="search-modal-no-results">Nenhum resultado para "<strong>' + esc(searchInput.value) + '</strong>"</div>';
+      return;
+    }
+
+    searchResults.innerHTML = '';
+    var totalCount = 0;
+    grouped.forEach(function(group) {
+      var div = document.createElement('div');
+      div.className = 'sr-group';
+      var itemsHtml = group.items.map(function(item) {
+        totalCount++;
+        var cat = CAT_META[item.category] || {};
+        return '<a class="sr-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '">' +
+          '<span class="read-check" title="Marcar como lida"></span>' +
+          '<span class="sr-headline">' + esc(item.headline) + '</span>' +
+          '<span class="sr-badge" style="background:var(--cat-' + (item.category || 'cloud') + ')">' + esc((cat.icon || '') + ' ' + (cat.label || '')) + '</span>' +
+        '</a>';
+      }).join('');
+      div.innerHTML = '<div class="sr-date">' + esc(group.formatted) + ' \u00b7 ' + group.items.length + '</div>' + itemsHtml;
+      searchResults.appendChild(div);
+    });
+
+    searchResults.querySelectorAll('.sr-item').forEach(function(a) {
+      a.addEventListener('click', function() { markRead(a.dataset.url); applyReadState(); applyReadState(searchResults); });
+      a.querySelector('.read-check').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRead(a.dataset.url);
+        applyReadState();
+        applyReadState(searchResults);
+      });
+    });
+    applyReadState(searchResults);
+  }
 })();
 </script>
 </body>
