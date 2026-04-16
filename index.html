@@ -74,7 +74,7 @@ a { color: inherit; text-decoration: none }
 code, .mono { font-family: 'IBM Plex Mono', monospace }
 
 /* ── Smooth theme transitions ── */
-body, .glass, nav, footer, .edition-card, .stat-card, .calendar-card, .day {
+body, .glass, nav, footer, .edition-card, .calendar-card, .day {
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -101,10 +101,10 @@ body, .glass, nav, footer, .edition-card, .stat-card, .calendar-card, .day {
 .container { width: min(100% - 32px, 1440px); margin: 0 auto }
 
 /* ── Nav ── */
-header.site { position: sticky; top: 0; z-index: 100; padding: 12px 0 }
+header.site { position: sticky; top: 0; z-index: 100; padding: 8px 0 }
 nav.topbar {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
-  padding: 12px 22px; border-radius: 32px;
+  padding: 10px 18px; border-radius: 20px;
   background: var(--nav-bg);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(24px) saturate(150%);
@@ -113,20 +113,20 @@ nav.topbar {
 }
 .brand { display: flex; align-items: center; gap: 12px }
 .brand-mark {
-  width: 36px; height: 36px; border-radius: 12px;
+  width: 32px; height: 32px; border-radius: 10px;
   background: linear-gradient(135deg, var(--accent), #5E5CE6);
   display: grid; place-items: center;
   box-shadow: 0 4px 14px rgba(19,117,255,.3);
 }
 .stripes { display: flex; gap: 3px; transform: rotate(-12deg) }
 .stripes i {
-  display: block; width: 3px; height: 14px; border-radius: 2px;
+  display: block; width: 2.5px; height: 12px; border-radius: 2px;
   background: rgba(255,255,255,.9);
 }
-.stripes i:nth-child(2) { height: 10px }
-.stripes i:nth-child(3) { height: 7px }
+.stripes i:nth-child(2) { height: 9px }
+.stripes i:nth-child(3) { height: 6px }
 .brand-copy { display: flex; flex-direction: column; line-height: 1.2 }
-.brand-copy strong { font-size: 15px; font-weight: 800; letter-spacing: -.02em }
+.brand-copy strong { font-size: 14px; font-weight: 800; letter-spacing: -.02em }
 .brand-copy span { font-size: 11px; color: var(--ink-dim); font-weight: 500 }
 .topbar-center {
   text-align: center; font-size: 12px; font-weight: 600;
@@ -160,115 +160,61 @@ nav.topbar {
 .theme-toggle:hover { transform: scale(1.1); box-shadow: var(--shadow-sm) }
 .theme-toggle:active { transform: scale(.95) }
 
-/* ── Hero ── */
-.hero-wrap {
-  display: grid; grid-template-columns: 1fr 340px; gap: 20px;
-  margin-top: 20px; align-items: stretch;
-}
-.hero-main {
-  padding: 44px; border-radius: 32px; position: relative; overflow: hidden;
-}
-.hero-main::before {
+/* ── Hero (compact) ── */
+.hero { margin-top: 16px }
+.hero-panel { padding: 24px; border-radius: 20px; position: relative; overflow: hidden }
+.hero-panel::before {
   content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.35;
 }
+.hero-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap }
+.hero-left { flex: 1; min-width: 0 }
 .hero-kicker {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-  color: var(--accent); margin-bottom: 20px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
   font-family: 'IBM Plex Mono', monospace;
 }
-.hero-grid { display: grid; grid-template-columns: 1fr; gap: 24px }
-.hero-copy h1 {
-  font-size: clamp(2.25rem, 5vw, 4.7rem);
-  line-height: .98; letter-spacing: -.055em; font-weight: 800;
-  color: var(--ink);
-}
-.hero-copy p {
-  margin-top: 16px; font-size: 16px; line-height: 1.65;
-  color: var(--ink-soft); max-width: 620px;
-}
-.hero-actions { margin-top: 24px }
+.hero-kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px #30D158; animation: pulse-dot 2s ease-in-out infinite }
+.hero-panel h1 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 800 }
+.hero-panel p { margin-top: 6px; font-size: 13px; line-height: 1.55; color: var(--ink-soft); max-width: 700px }
 .hero-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 30px; border-radius: 999px; border: none;
-  background: var(--accent); color: #fff;
-  font-size: 14px; font-weight: 700; font-family: inherit;
-  cursor: pointer; letter-spacing: -.01em;
-  box-shadow: 0 4px 20px rgba(19,117,255,.35);
-  transition: transform .2s ease, box-shadow .2s ease;
+  padding: 10px 22px; border-radius: 999px; font-size: 13px; font-weight: 700; border: none;
+  background: linear-gradient(180deg, #1b81ff, #106ef1); color: #fff;
+  cursor: pointer; font-family: inherit;
+  box-shadow: 0 8px 20px rgba(19,117,255,.25);
+  transition: transform .2s, box-shadow .2s;
+  white-space: nowrap; flex-shrink: 0;
 }
-.hero-btn:hover { transform: scale(1.04); box-shadow: 0 6px 28px rgba(19,117,255,.45) }
+.hero-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(19,117,255,.3) }
 .hero-btn:active { transform: scale(.97) }
-.hero-btn.disabled {
-  background: var(--glass-bg-solid); color: var(--ink-dim);
-  cursor: not-allowed; box-shadow: none; border: 1px solid var(--glass-border);
-}
-.highlights {
-  margin-top: 24px; padding-top: 20px;
-  border-top: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 10px;
-}
+.hero-btn.disabled { background: var(--glass-bg-solid); color: var(--ink-dim); cursor: not-allowed; box-shadow: none; border: 1px solid var(--glass-border) }
+.highlights { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px }
 .highlights a {
-  display: block; padding: 16px 18px 16px 44px; border-radius: 18px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: 10px;
   background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  color: var(--ink-soft); font-size: 13px; line-height: 1.65;
-  transition: transform .2s, background .2s, color .2s;
-  box-shadow: var(--shadow-sm); position: relative;
+  color: var(--ink-soft); font-size: 12px; line-height: 1.4;
+  transition: transform .15s, color .15s;
 }
 .highlights a::before {
-  content: "\2197"; position: absolute; left: 16px; top: 18px;
-  width: 18px; height: 18px; border-radius: 50%;
+  content: "\2197"; width: 16px; height: 16px; border-radius: 50%;
   display: grid; place-items: center;
   background: var(--accent-soft); color: var(--accent);
-  font-size: 10px; font-weight: 800;
+  font-size: 9px; font-weight: 800; flex-shrink: 0;
 }
-.highlights a:hover { transform: translateY(-2px); color: var(--ink) }
+.highlights a:hover { transform: translateX(4px); color: var(--ink) }
 .highlights a .ext { font-size: 10px; opacity: .4; margin-left: 4px }
 
-/* ── Hero aside ── */
-.hero-aside {
-  border-radius: 32px; padding: 32px; display: flex; flex-direction: column; gap: 20px;
-}
-.section-label {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 18px;
-}
-.section-label strong { font-size: 14px; font-weight: 700; color: var(--ink) }
-.section-label span {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--ink-dim);
-  font-family: 'IBM Plex Mono', monospace;
-}
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
-.stat-card {
-  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  border-radius: 18px; padding: 18px 14px; text-align: center;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.stat-card:hover { transform: scale(1.04); box-shadow: var(--shadow-sm) }
-.stat-card em {
-  display: block; font-style: normal; font-size: 11px;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: var(--ink-dim); font-weight: 600; margin-bottom: 8px;
-  font-family: 'IBM Plex Mono', monospace;
-}
-.stat-card strong {
-  font-size: 28px; font-weight: 800; letter-spacing: -.03em; line-height: 1;
-  color: var(--accent);
-}
-.stat-card strong.small { font-size: 16px; letter-spacing: -.01em }
-
 /* ── Main content ── */
-.main { margin-top: 40px; padding-bottom: 60px }
+.main { margin-top: 24px; padding-bottom: 60px }
 .content-grid {
-  display: grid; grid-template-columns: 1fr 320px; gap: 28px;
+  display: grid; grid-template-columns: 1fr 320px; gap: 18px;
   align-items: flex-start;
 }
 .section-title {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .section-title .copy { display: flex; align-items: center; gap: 14px }
 .section-title .badge-icon {
@@ -277,7 +223,7 @@ nav.topbar {
   display: grid; place-items: center; font-size: 22px;
   box-shadow: 0 4px 16px rgba(19,117,255,.25);
 }
-.section-title h2 { font-size: 24px; font-weight: 800; letter-spacing: -.03em; color: var(--ink) }
+.section-title h2 { font-size: 22px; font-weight: 800; letter-spacing: -.03em; color: var(--ink) }
 .section-title p { font-size: 13px; color: var(--ink-dim); margin-top: 2px }
 .count-pill {
   font-size: 13px; font-weight: 700; color: var(--accent);
@@ -288,11 +234,11 @@ nav.topbar {
 
 /* ── Edition cards ── */
 .editions {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px;
 }
 .edition-card {
-  display: flex; flex-direction: column; gap: 18px;
-  padding: 22px; border-radius: 28px;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 16px; border-radius: 20px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-md);
@@ -300,7 +246,7 @@ nav.topbar {
   -webkit-backdrop-filter: blur(24px) saturate(150%);
   transition: transform .24s ease, box-shadow .24s ease, background .24s ease;
   overflow: hidden; cursor: pointer; position: relative;
-  min-height: 280px;
+  min-height: auto;
 }
 .edition-card::before {
   content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 1px;
@@ -315,13 +261,13 @@ nav.topbar {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
 }
 .ed-date-wrap { display: flex; flex-direction: column; gap: 3px }
-.ed-date { font-size: 17px; font-weight: 700; letter-spacing: -.02em; color: var(--ink) }
+.ed-date { font-size: 18px; font-weight: 700; letter-spacing: -.02em; color: var(--ink) }
 .ed-weekday {
-  font-size: 12px; color: var(--ink-dim); text-transform: capitalize;
+  font-size: 11px; color: var(--ink-dim); text-transform: capitalize;
   font-weight: 500; font-family: 'IBM Plex Mono', monospace;
 }
 .ed-arrow {
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 34px; height: 34px; border-radius: 12px;
   background: var(--accent-soft); border: 1px solid rgba(19,117,255,.15);
   display: grid; place-items: center;
   color: var(--accent); font-size: 16px; font-weight: 600;
@@ -329,13 +275,13 @@ nav.topbar {
   flex-shrink: 0;
 }
 .edition-card:hover .ed-arrow { background: var(--accent); color: #fff; transform: scale(1.08) }
-.ed-summary { font-size: 13px; line-height: 1.65; color: var(--ink-soft) }
+.ed-summary { font-size: 12px; line-height: 1.6; color: var(--ink-soft) }
 .ed-highlights {
   list-style: none; display: flex; flex-direction: column; gap: 8px;
   padding-top: 14px; border-top: 1px solid var(--line); flex: 1;
 }
 .ed-highlights li {
-  font-size: 12px; line-height: 1.55; padding-left: 18px;
+  font-size: 11px; line-height: 1.55; padding-left: 18px;
   position: relative; color: var(--ink-soft);
 }
 .ed-highlights li::before {
@@ -344,8 +290,8 @@ nav.topbar {
 }
 .ed-footer {
   display: flex; align-items: center; justify-content: space-between;
-  padding-top: 14px; border-top: 1px solid var(--line);
-  font-size: 12px; color: var(--ink-dim); font-weight: 500;
+  padding-top: 12px; border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--ink-dim); font-weight: 500;
   font-family: 'IBM Plex Mono', monospace;
 }
 .ed-footer .open-label {
@@ -358,11 +304,11 @@ nav.topbar {
 
 /* ── Calendar ── */
 .calendar-card {
-  border-radius: 28px; padding: 24px; position: sticky; top: 80px;
+  border-radius: 20px; padding: 18px; position: sticky; top: 70px;
 }
 .cal-header {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .cal-label {
   font-size: 14px; font-weight: 700; letter-spacing: -.01em;
@@ -384,9 +330,9 @@ nav.topbar {
   letter-spacing: .04em; font-family: 'IBM Plex Mono', monospace;
 }
 .day {
-  aspect-ratio: 1/1; border-radius: 14px;
+  aspect-ratio: 1/1; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700;
+  font-size: 11px; font-weight: 700;
   border: 1px solid transparent;
   color: var(--ink-dim);
   background: var(--glass-bg-solid);
@@ -414,7 +360,7 @@ nav.topbar {
   transform: scale(1.08);
 }
 .cal-legend {
-  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line);
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
   display: flex; flex-direction: column; gap: 7px;
   font-size: 11px; color: var(--ink-dim);
 }
@@ -430,52 +376,31 @@ nav.topbar {
 
 /* ── Footer ── */
 footer.site {
-  border-radius: 32px; padding: 28px 36px;
-  margin-bottom: 24px; margin-top: 0;
+  border-radius: 20px; padding: 16px 20px;
+  margin-bottom: 24px; margin-top: 32px;
   text-align: center;
+  font-size: 11px;
 }
-.ft-brand { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px }
-footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
-
-/* ── Responsive ── */
-@media (max-width: 1100px) {
-  .hero-wrap, .content-grid, .hero-grid { grid-template-columns: 1fr }
-}
-@media (max-width: 720px) {
-  .container { width: min(100% - 20px, 1440px) }
-  .topbar { grid-template-columns: 1fr; justify-items: start; border-radius: 26px; gap: 8px; padding: 14px 18px }
-  .topbar-center { display: none }
-  .hero-main, .hero-aside, .calendar-card, footer.site { padding: 20px }
-  .editions { grid-template-columns: 1fr }
-  .hero-copy h1 { font-size: clamp(1.75rem, 6vw, 2.8rem) }
-}
+.ft-brand { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px }
+footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
 /* ── About Section ── */
-.about-section { margin: 32px 0 }
-.about-panel { padding: 36px; border-radius: 28px; }
-.about-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: center }
-.about-grid h2 { font-size: 26px; font-weight: 800; letter-spacing: -.04em; margin-bottom: 14px }
-.about-grid .about-text { color: var(--ink-soft); font-size: 14px; line-height: 1.75 }
-.about-grid .about-text p { margin-bottom: 10px }
-.about-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px }
-.about-stat {
-  padding: 20px; border-radius: 20px;
-  background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  text-align: center;
-}
-.about-stat strong { display: block; font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -.03em }
-.about-stat span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-dim) }
+.about-section { margin: 20px 0 }
+.about-panel { padding: 20px; border-radius: 20px; }
+.about-panel h2 { font-size: 18px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 8px }
+.about-panel .about-text { color: var(--ink-soft); font-size: 13px; line-height: 1.6 }
+.about-panel .about-text p { margin-bottom: 6px }
 
 .about-cats-title, .about-tools-title {
-  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--ink-dim); margin: 28px 0 14px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-dim); margin: 18px 0 10px;
   font-family: 'IBM Plex Mono', monospace;
 }
 
 /* Category cards */
-.cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px }
+.cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px }
 .cat-card {
-  padding: 16px; border-radius: 18px; cursor: pointer;
+  padding: 10px 14px; border-radius: 12px; cursor: pointer;
   background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
   display: flex; align-items: center; gap: 10px;
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
@@ -488,15 +413,15 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
 }
 .cat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--cc) 30%, transparent) }
 .cat-card:hover::before { opacity: 1 }
-.cat-icon { font-size: 20px; position: relative }
-.cat-name { font-size: 13px; font-weight: 700; position: relative; color: var(--ink) }
+.cat-icon { font-size: 16px; position: relative }
+.cat-name { font-size: 12px; font-weight: 700; position: relative; color: var(--ink) }
 
 /* Tool pills */
-.tool-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px }
+.tool-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px }
 .tool-pill {
-  padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  padding: 8px 12px; border-radius: 10px; cursor: pointer;
   background: var(--glass-bg-solid); border: 1px solid var(--glass-border);
-  font-size: 12px; font-weight: 600; color: var(--ink-soft);
+  font-size: 11px; font-weight: 600; color: var(--ink-soft);
   display: flex; align-items: center; gap: 6px;
   transition: transform .22s ease, box-shadow .22s ease, color .22s ease;
   white-space: nowrap;
@@ -602,17 +527,37 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
 .ov-tool .ov-tool-desc { font-size: 12.5px; line-height: 1.6; color: var(--ink-soft) }
 .ov-tool a { color: var(--accent); font-size: 12px; font-weight: 700 }
 
+/* ── Section label (calendar header) ── */
+.section-label {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.section-label strong { font-size: 14px; font-weight: 700; color: var(--ink) }
+.section-label span {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.calendar-head { margin: 10px 0 12px }
+
+/* ── Responsive ── */
 @media (max-width: 1100px) {
-  .about-grid { grid-template-columns: 1fr }
+  .content-grid { grid-template-columns: 1fr }
   .cat-grid { grid-template-columns: repeat(3, 1fr) }
   .tool-grid { grid-template-columns: repeat(3, 1fr) }
   .ov-cards { grid-template-columns: 1fr }
 }
 @media (max-width: 720px) {
+  .container { width: min(100% - 20px, 1440px) }
+  .topbar { grid-template-columns: 1fr; justify-items: start; border-radius: 18px; gap: 8px; padding: 12px 14px }
+  .topbar-center { display: none }
+  .hero-panel, .calendar-card, footer.site { padding: 16px }
+  .editions { grid-template-columns: 1fr }
+  .hero-panel h1 { font-size: clamp(1.2rem, 5vw, 1.6rem) }
   .cat-grid { grid-template-columns: repeat(2, 1fr) }
   .tool-grid { grid-template-columns: repeat(2, 1fr) }
-  .about-stats { grid-template-columns: 1fr 1fr 1fr }
   .overlay-sheet { max-height: 95vh; border-radius: 16px 16px 0 0 }
+  .hero-top { flex-direction: column; align-items: flex-start }
 }
 </style>
 </head>
@@ -638,48 +583,30 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
   </nav>
 </header>
 
-<section class="container hero-wrap">
-  <div class="hero-main glass">
-    <div class="hero-kicker"><span class="dot"></span>Edicao de Hoje</div>
-    <div class="hero-grid">
-      <div class="hero-copy">
+<section class="hero container">
+  <div class="hero-panel glass">
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="hero-kicker"><span class="dot"></span>Edicao de Hoje</div>
         <h1 id="today-date">&mdash;</h1>
-        <p id="today-sub">Verificando edicao do dia&hellip;</p>
-        <div class="hero-actions">
-          <button class="hero-btn" id="today-open">Abrir edicao completa &#8599;</button>
-        </div>
-        <div class="highlights" id="today-hl"></div>
+        <p id="today-sub">Verificando...</p>
       </div>
+      <button class="hero-btn" id="today-open">Abrir edicao &#8599;</button>
     </div>
+    <div class="highlights" id="today-hl"></div>
   </div>
-  <aside class="hero-aside glass">
-    <div class="section-label"><strong>Visao geral do arquivo</strong><span>estatisticas</span></div>
-    <div class="stats-grid">
-      <div class="stat-card"><em>Edicoes</em><strong id="s-total">0</strong></div>
-      <div class="stat-card"><em>Dias cobertos</em><strong id="s-days">0</strong></div>
-      <div class="stat-card"><em>Primeira edicao</em><strong class="small" id="s-first">&mdash;</strong></div>
-      <div class="stat-card"><em>Ultima edicao</em><strong class="small" id="s-last">&mdash;</strong></div>
-    </div>
-  </aside>
 </section>
 
 <section class="about-section container">
   <div class="about-panel glass">
-    <div class="about-grid">
-      <div class="about-text">
-        <h2>Sobre o DevPulse</h2>
-        <p>Curadoria diária automatizada de notícias técnicas para arquitetos de software e solução. Todos os dias às 6h da manhã, uma IA pesquisa as principais fontes de tecnologia, curadoria as notícias mais relevantes e gera uma edição completa — tudo automaticamente.</p>
-        <p>O sistema monitora <strong>10 categorias técnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto prático para decisões de arquitetura.</p>
-      </div>
-      <div class="about-stats">
-        <div class="about-stat"><strong>10</strong><span>Categorias</span></div>
-        <div class="about-stat"><strong>11</strong><span>Ferramentas</span></div>
-        <div class="about-stat"><strong>6h</strong><span>Diário</span></div>
-      </div>
+    <div class="about-text">
+      <h2>Sobre o DevPulse</h2>
+      <p>Curadoria diaria automatizada de noticias tecnicas para arquitetos de software e solucao. Todos os dias as 6h da manha, uma IA pesquisa as principais fontes de tecnologia, curadoria as noticias mais relevantes e gera uma edicao completa — tudo automaticamente.</p>
+      <p>O sistema monitora <strong>10 categorias tecnicas</strong> e <strong>11 ferramentas</strong> do dia a dia, priorizando impacto pratico para decisoes de arquitetura.</p>
     </div>
     <div class="about-cats-title">Categorias monitoradas</div>
     <div class="cat-grid">
-      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Segurança</span></div>
+      <div class="cat-card" data-cat="sec" style="--cc: var(--cat-sec)"><span class="cat-icon">🔐</span><span class="cat-name">Seguranca</span></div>
       <div class="cat-card" data-cat="ai" style="--cc: var(--cat-ai)"><span class="cat-icon">🤖</span><span class="cat-name">IA & LLMs</span></div>
       <div class="cat-card" data-cat="cloud" style="--cc: var(--cat-cloud)"><span class="cat-icon">☁️</span><span class="cat-name">Cloud</span></div>
       <div class="cat-card" data-cat="devops" style="--cc: var(--cat-devops)"><span class="cat-icon">⚙️</span><span class="cat-name">DevOps</span></div>
@@ -688,7 +615,7 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
       <div class="cat-card" data-cat="db" style="--cc: var(--cat-db)"><span class="cat-icon">🗄️</span><span class="cat-name">Bancos</span></div>
       <div class="cat-card" data-cat="lang" style="--cc: var(--cat-lang)"><span class="cat-icon">🛠️</span><span class="cat-name">Linguagens</span></div>
       <div class="cat-card" data-cat="arqsw" style="--cc: var(--cat-arqsw)"><span class="cat-icon">🏛️</span><span class="cat-name">Arq. Software</span></div>
-      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solução</span></div>
+      <div class="cat-card" data-cat="arqsol" style="--cc: var(--cat-arqsol)"><span class="cat-icon">🗺️</span><span class="cat-name">Arq. Solucao</span></div>
     </div>
     <div class="about-tools-title">Ferramentas monitoradas</div>
     <div class="tool-grid">
@@ -752,7 +679,7 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
         <h3 class="overlay-title" id="overlay-title"></h3>
         <span class="overlay-count" id="overlay-count"></span>
       </div>
-      <button class="overlay-close" id="overlay-close">✕</button>
+      <button class="overlay-close" id="overlay-close">&#10005;</button>
     </div>
     <div class="overlay-content" id="overlay-content"></div>
   </div>
@@ -838,23 +765,6 @@ footer.site > :last-child { font-size: 12px; color: var(--ink-dim) }
     var AVAILABLE = Object.keys(EDITIONS).sort();
     allDates = AVAILABLE.slice();
     var availableSet = new Set(AVAILABLE);
-
-    /* ── Stats ── */
-    var totalEl = document.getElementById('s-total');
-    var daysEl = document.getElementById('s-days');
-    var firstEl = document.getElementById('s-first');
-    var lastEl = document.getElementById('s-last');
-
-    totalEl.textContent = AVAILABLE.length;
-    if (AVAILABLE.length) {
-      var f = AVAILABLE[0].split('-').map(Number);
-      var l = AVAILABLE[AVAILABLE.length - 1].split('-').map(Number);
-      firstEl.textContent = pad(f[2]) + '/' + pad(f[1]);
-      lastEl.textContent = pad(l[2]) + '/' + pad(l[1]);
-      var d1 = new Date(f[0], f[1] - 1, f[2]);
-      var d2 = new Date(l[0], l[1] - 1, l[2]);
-      daysEl.textContent = Math.round((d2 - d1) / 864e5) + 1;
-    }
 
     /* ── Today's hero ── */
     var sub = document.getElementById('today-sub');
