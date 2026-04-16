@@ -29,7 +29,7 @@ Monte o arquivo JSON do dia seguindo o schema especificado. Selecione os **3 des
 - Escreva `data/{YYYY-MM-DD}.json` com o conteúdo do dia
 - Leia `data/editions.json`, adicione a nova edição no início do array `editions`, atualize `last_generated`
 - Escreva o `data/editions.json` atualizado
-- Execute: `git add data/ && git commit -m "feat: DevPulse edição de {data formatada}" && git push origin main`
+- **NÃO faça git push** — o sandbox não tem acesso de rede. Apenas escreva os arquivos JSON. O usuário rodará `./push.sh` para fazer commit e push.
 
 ---
 
