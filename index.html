@@ -179,8 +179,9 @@ nav.topbar {
 }
 
 /* ── Day Hero (compact) ── */
-.day-hero { padding: 20px; border-radius: 16px; margin-bottom: 16px; position: relative; overflow: hidden }
-.day-hero::before {
+.day-card { padding: 20px; border-radius: 20px; position: relative; overflow: hidden }
+.day-divider { height: 1px; background: var(--line); margin: 16px 0 }
+.day-card::before {
   content: ""; position: absolute; left: 20px; right: 20px; top: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.35;
@@ -487,6 +488,32 @@ nav.topbar {
 }
 .edition-card:hover .ed-footer .open-label { gap: 8px }
 
+/* Category feed inside edition cards */
+.ed-cat-feed { display: flex; flex-direction: column; gap: 3px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line) }
+.ed-cat-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 6px; border-radius: 6px;
+  text-decoration: none; color: inherit;
+  transition: background .15s, transform .15s;
+  cursor: pointer;
+}
+.ed-cat-item:hover { background: var(--accent-soft); transform: translateX(3px) }
+.ed-cat-badge {
+  width: 18px; height: 18px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0; color: #fff;
+}
+.ed-cat-headline {
+  font-size: 11px; font-weight: 500; line-height: 1.3;
+  color: var(--ink-soft);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  min-width: 0; flex: 1;
+}
+.ed-cat-item:hover .ed-cat-headline { color: var(--ink) }
+.ed-cat-item.is-read { opacity: 0.4 }
+.ed-cat-item.is-read:hover { opacity: 0.7 }
+.ed-cat-item.is-read .ed-cat-headline { text-decoration: line-through; text-decoration-color: var(--ink-dim) }
+
 /* ── Footer ── */
 footer.site {
   border-radius: 20px; padding: 16px 20px;
@@ -683,32 +710,32 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 <!-- DASHBOARD: two columns -->
 <div class="dashboard container">
 
-  <!-- LEFT: Today's edition -->
+  <!-- LEFT: Today's edition (single card) -->
   <div class="dash-main">
-
-    <!-- Hero compact -->
-    <div class="day-hero glass">
+    <div class="day-card glass">
       <div class="day-hero-top">
         <div>
-          <div class="day-kicker"><span class="dot"></span> EDI&#199;&#195;O DE HOJE</div>
-          <h1 id="today-date">&mdash;</h1>
+          <div class="day-kicker"><span class="dot"></span> EDIÇÃO DE HOJE</div>
+          <h1 id="today-date">—</h1>
           <p class="day-desc" id="today-sub">Verificando...</p>
         </div>
-        <button class="hero-btn" id="today-open">Abrir edi&#231;&#227;o &#8599;</button>
+        <button class="hero-btn" id="today-open">Abrir edição ↗</button>
+      </div>
+
+      <div class="day-divider"></div>
+      <div class="section-label-sm">⭐ Destaques</div>
+      <div class="top3-grid" id="top3-grid"></div>
+
+      <div class="day-divider"></div>
+      <div class="section-label-sm">📰 Por categoria</div>
+      <div class="cat-feed" id="cat-feed"></div>
+
+      <div id="tools-wrap" style="display:none">
+        <div class="day-divider"></div>
+        <div class="section-label-sm">🛠️ Ferramentas</div>
+        <div class="tools-feed" id="tools-feed"></div>
       </div>
     </div>
-
-    <!-- Top 3 -->
-    <div class="section-label-sm">&#11088; Destaques do dia</div>
-    <div class="top3-grid" id="top3-grid"></div>
-
-    <!-- Per category feed -->
-    <div class="section-label-sm">&#128240; Por categoria</div>
-    <div class="cat-feed" id="cat-feed"></div>
-
-    <!-- Tools of the day -->
-    <div class="section-label-sm" id="tools-label" style="display:none">&#128736;&#65039; Ferramentas atualizadas</div>
-    <div class="tools-feed" id="tools-feed"></div>
   </div>
 
   <!-- RIGHT: Sidebar -->
@@ -1068,7 +1095,7 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
 
     /* Tools */
     if (data.tools && data.tools.length) {
-      document.getElementById('tools-label').style.display = '';
+      document.getElementById('tools-wrap').style.display = '';
       var toolsFeed = document.getElementById('tools-feed');
       data.tools.forEach(function(tool) {
         var a = document.createElement('a');
@@ -1175,30 +1202,60 @@ footer.site > :last-child { font-size: 11px; color: var(--ink-dim) }
       var y = parts[0], m = parts[1], d = parts[2];
       var dt = new Date(y, m - 1, d);
       var ed = EDITIONS[iso] || { summary: '', highlights: [] };
-      var hlCount = (ed.highlights || []).length;
-      var hlItems = (ed.highlights || []).slice(0, 3).map(function(h) {
-        return '<li>' + esc(h.title) + '</li>';
-      }).join('');
 
       var card = document.createElement('div');
       card.className = 'edition-card';
       card.innerHTML =
         '<div class="ed-top">' +
           '<div class="ed-date-wrap">' +
-            '<div class="ed-date">' + d + ' de ' + MONTHS[m - 1] + ' de ' + y + '</div>' +
+            '<div class="ed-date">' + d + ' de ' + MONTHS[m - 1] + '</div>' +
             '<div class="ed-weekday">' + WEEKDAYS[dt.getDay()] + '</div>' +
           '</div>' +
           '<div class="ed-arrow">\u2192</div>' +
         '</div>' +
         (ed.summary ? '<div class="ed-summary">' + esc(ed.summary) + '</div>' : '') +
-        (hlItems ? '<ul class="ed-highlights">' + hlItems + '</ul>' : '') +
+        '<div class="ed-cat-feed" id="ed-feed-' + iso + '"></div>' +
         '<div class="ed-footer">' +
-          '<span>\uD83D\uDCF0 ' + hlCount + ' destaques</span>' +
-          '<span class="open-label">Ver edi\u00e7\u00e3o \u2192</span>' +
+          '<span class="open-label">Ver edi\u00e7\u00e3o completa \u2192</span>' +
         '</div>';
 
-      card.addEventListener('click', function() { window.location.href = 'dia.html?d=' + iso; });
+      card.addEventListener('click', function(e) {
+        if (!e.target.closest('.ed-cat-item')) {
+          window.location.href = 'dia.html?d=' + iso;
+        }
+      });
       recentList.appendChild(card);
+
+      fetch('data/' + iso + '.json')
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(dayData) {
+          if (!dayData) return;
+          dataCache[iso] = dayData;
+          var feedEl = document.getElementById('ed-feed-' + iso);
+          if (!feedEl) return;
+          var allItems = [].concat(dayData.top3 || [], dayData.news || []);
+          var seen = {};
+          var catOrder = ['sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'];
+          allItems.forEach(function(n) {
+            if (!seen[n.category]) seen[n.category] = n;
+          });
+          var html = '';
+          catOrder.forEach(function(catKey) {
+            var item = seen[catKey];
+            if (!item) return;
+            var cat = CAT_META[catKey] || {};
+            html += '<a class="ed-cat-item" href="' + item.url + '" target="_blank" rel="noopener" data-url="' + item.url + '" onclick="event.stopPropagation()">' +
+              '<span class="ed-cat-badge" style="background:var(--cat-' + catKey + ')">' + (cat.icon || '') + '</span>' +
+              '<span class="ed-cat-headline">' + esc(item.headline) + '</span>' +
+            '</a>';
+          });
+          if (html) feedEl.innerHTML = html;
+          feedEl.querySelectorAll('.ed-cat-item').forEach(function(a) {
+            a.addEventListener('click', function() { markRead(a.dataset.url); applyReadState(); });
+          });
+          applyReadState(feedEl);
+        })
+        .catch(function() {});
     });
   }
 
