@@ -45,7 +45,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 10 categorias + 16 ferramentas + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 10 categorias + 19 ferramentas + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade top3)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -147,11 +147,14 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 | `devops` | `ghactions` | GitHub Actions |
 | `devops` | `warp` | Warp Terminal |
 | `obs` | `grafana` | Grafana |
+| `obs` | `dynatrace` | Dynatrace |
 | `data` | `postgres` | PostgreSQL |
 | `data` | `mongocompass` | MongoDB Compass |
 | `data` | `dbeaver` | DBeaver |
+| `data` | `databricks` | Databricks |
 | `integ` | `kafka` | Apache Kafka |
 | `integ` | `postman` | Postman |
+| `arqsol` | `togaf` | TOGAF |
 | `backend` | `intellij` | IntelliJ IDEA |
 
 **Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`.

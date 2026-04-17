@@ -33,8 +33,8 @@ TOOL_KEYS_V1  = {'teams','notion','intellij','cursor','warp','mongocompass','dbe
 # Taxonomia v2 (exigida a partir de STRICT_FROM_V2)
 CATEGORIES_V2 = {'sec','ai','cloud','devops','obs','data','integ','backend','arqsw','arqsol'}
 TOOL_KEYS_V2  = {'structurizr','cursor','claudecode','keycloak','terraform','docker',
-                  'kubernetes','ghactions','warp','grafana','postgres','mongocompass',
-                  'dbeaver','kafka','postman','intellij'}
+                  'kubernetes','ghactions','warp','grafana','dynatrace','postgres',
+                  'mongocompass','dbeaver','databricks','kafka','postman','togaf','intellij'}
 
 # União: aceita ambos (validator decide por data)
 CATEGORIES = CATEGORIES_V1 | CATEGORIES_V2

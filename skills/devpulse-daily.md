@@ -67,7 +67,7 @@ Antes de chamar Write, verifique mentalmente e corrija:
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `top3[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: top3 3/3 com `image`; news[] ≥40% com `image`; tools[] com kind release/news têm `image` quando possível.
-- [ ] **`tools[]` com 16 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `postgres`, `mongocompass`, `dbeaver`, `kafka`, `postman`, `intellij`).
+- [ ] **`tools[]` com 19 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `dynatrace`, `postgres`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `togaf`, `intellij`).
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens**: campos `text`, `author`, `related_to` presentes em cada um.
 
@@ -152,7 +152,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ## FERRAMENTAS MONITORADAS
 
-Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**16 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**19 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -178,11 +178,14 @@ Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker Ne
 | `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/label/github-actions/ |
 | `warp` | Warp Terminal | `devops` | https://docs.warp.dev/getting-started/changelog |
 | `grafana` | Grafana | `obs` | https://grafana.com/docs/grafana/latest/release-notes/ |
+| `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
 | `mongocompass` | MongoDB Compass | `data` | https://www.mongodb.com/docs/compass/current/release-notes/ |
 | `dbeaver` | DBeaver | `data` | https://dbeaver.io/download/ |
+| `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/index.html |
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads |
 | `postman` | Postman | `integ` | https://www.postman.com/release-notes/ |
+| `togaf` | TOGAF | `arqsol` | https://www.opengroup.org/togaf |
 | `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
 
 **Exemplos de buscas complementares** para cada ferramenta:
@@ -354,7 +357,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos do top3).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `top3[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `postgres`, `mongocompass`, `dbeaver`, `kafka`, `postman`, `intellij`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
+- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `dynatrace`, `postgres`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `togaf`, `intellij`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
 
 ---
 
@@ -481,7 +484,7 @@ O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
 13. **Imagens**: seguir a cascata — **3/3 top3 com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
-14. **16 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`.
+14. **19 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`.
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
