@@ -341,10 +341,60 @@ button { font-family: inherit; color: inherit; }
   grid-template-areas:
     "top  top  top"
     "side main rail";
-  height: 100vh;
+  height: calc(100vh - 44px);
   position: relative;
   z-index: 2;
 }
+
+/* verse footer */
+.verse-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  background: var(--bg-deep);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  z-index: 100;
+  overflow: hidden;
+}
+.verse-symbol {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  color: var(--cyan);
+  opacity: .85;
+}
+.verse-text-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  overflow: hidden;
+}
+.verse-text {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity .5s ease;
+}
+.verse-ref {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--cyan);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: .06em;
+  text-shadow: var(--glow-c);
+}
+.verse-bar.fade .verse-text,
+.verse-bar.fade .verse-ref { opacity: 0; }
 
 /* ═══ Topbar ═══ */
 .topbar {
@@ -3477,9 +3527,71 @@ async function init(){
   // aplica deep link se presente
   await applyInitialDeepLink();
 }
+/* ═══ Verse footer ═══ */
+let _verses = [];
+let _verseDeck = [];
+let _verseIdx = 0;
+
+function initVerses(){
+  fetch('data/verses.json')
+    .then(r => r.json())
+    .then(data => {
+      _verses = data;
+      _verseDeck = shuffleArray(_verses);
+      _verseIdx = 0;
+      showVerse();
+      setInterval(() => { if (!document.hidden) cycleVerse(); }, 30000);
+    })
+    .catch(() => {});
+}
+
+function showVerse(){
+  if (!_verseDeck.length) return;
+  const v = _verseDeck[_verseIdx];
+  const bar = $('verse-bar');
+  const textEl = $('verse-text');
+  const refEl = $('verse-ref');
+  if (!textEl) return;
+  bar.classList.add('fade');
+  setTimeout(() => {
+    textEl.textContent = '\u201c' + v.text + '\u201d';
+    refEl.textContent = v.ref;
+    bar.classList.remove('fade');
+  }, 500);
+}
+
+function cycleVerse(){
+  _verseIdx++;
+  if (_verseIdx >= _verseDeck.length) {
+    _verseDeck = shuffleArray(_verses);
+    _verseIdx = 0;
+  }
+  showVerse();
+}
+
 init();
+initVerses();
 
 })();
 </script>
+
+<!-- VERSE FOOTER -->
+<footer class="verse-bar" id="verse-bar" aria-live="polite">
+  <!-- Cruz e Chama — símbolo metodista -->
+  <svg class="verse-symbol" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- chama esquerda -->
+    <path d="M8 10 C6 6 7 2 9 0 C8 3 10 5 10 8 C9 6 8 5 8 10Z" fill="currentColor" opacity=".9"/>
+    <!-- chama direita -->
+    <path d="M16 10 C18 6 17 2 15 0 C16 3 14 5 14 8 C15 6 16 5 16 10Z" fill="currentColor" opacity=".9"/>
+    <!-- haste vertical da cruz -->
+    <rect x="10.5" y="9" width="3" height="19" rx="1" fill="currentColor"/>
+    <!-- travessa horizontal da cruz -->
+    <rect x="4" y="14" width="16" height="3" rx="1" fill="currentColor"/>
+  </svg>
+  <div class="verse-text-wrap">
+    <span class="verse-text" id="verse-text">—</span>
+    <span class="verse-ref" id="verse-ref"></span>
+  </div>
+</footer>
 </body>
 </html>
