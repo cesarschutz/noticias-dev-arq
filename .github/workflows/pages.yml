@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'index.html'
+      - 'assets/**'
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -23,6 +29,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generate RSS feed
+        run: python3 scripts/generate_feed.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

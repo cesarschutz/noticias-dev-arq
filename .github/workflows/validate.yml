@@ -1,0 +1,26 @@
+name: Validate JSON
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/validate.yml'
+  push:
+    branches: ["main"]
+    paths:
+      - 'data/**'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate editions
+        run: python3 scripts/validate_editions.py
+      - name: Build RSS feed (dry run)
+        run: python3 scripts/generate_feed.py

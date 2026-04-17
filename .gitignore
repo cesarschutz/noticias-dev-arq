@@ -1,0 +1,8 @@
+# Feed é gerado pelo CI (scripts/generate_feed.py) antes do deploy
+feed.xml
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

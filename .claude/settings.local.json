@@ -67,7 +67,10 @@
       "mcp__claude_ai_PIXA__assets",
       "Bash(curl -sL -o console-texture.svg \"https://assets.pixelcut.app/org/5d22ff2f-e4bc-4a94-9da5-cc3a25c719ad/media/4a1a6518-3f6a-49eb-855e-c64bcb0653b1_1776392427.jpg?Expires=1776478939&KeyName=px-assets-key-1&Signature=-bKV7B9tdsYA9plS9e6rCwLi4dI=\")",
       "Bash(curl -sL -A \"Mozilla/5.0\" -o console-texture.svg \"https://assets.pixelcut.app/org/5d22ff2f-e4bc-4a94-9da5-cc3a25c719ad/media/4a1a6518-3f6a-49eb-855e-c64bcb0653b1_1776392427.jpg?Expires=1776478965&KeyName=px-assets-key-1&Signature=AD4TYZBfmtDEGXM9i-dpEnauiBc=\")",
-      "Bash(curl -sI http://localhost:8765/console-ops.html)"
+      "Bash(curl -sI http://localhost:8765/console-ops.html)",
+      "Bash(python3)",
+      "Bash(python3 scripts/validate_editions.py)",
+      "Bash(python3 scripts/generate_feed.py)"
     ]
   }
 }
