@@ -28,15 +28,19 @@ Para cada uma das 10 categorias abaixo, faça **2-3 buscas na web** (WebSearch) 
 
 Após cada WebSearch, **leia a data do artigo** (via WebFetch se não aparecer no snippet) e descarte o que estiver fora da janela — operadores de data não são confiáveis.
 
-**Cobertura obrigatória**: cada uma das **10 categorias** deve ter **≥ 1 item** em `top3[]` + `news[]` combinados. As categorias são: `sec` (Segurança & IAM), `ai` (IA & LLMs), `cloud` (Cloud & Infra), `devops` (DevOps & Plataformas), `obs` (Observabilidade), `data` (Dados & Streaming), `integ` (Integração & Eventos), `backend` (Backend & Runtimes), `arqsw` (Arq. Software), `arqsol` (Arq. Solução). Se não houver notícia fresca na janela para uma categoria, inclua **1 item evergreen de alta qualidade** (artigo InfoQ, DDD Europe talk, paper acadêmico, post de blog técnico seminal). Nunca omita uma categoria — qualidade > frescor apenas em último caso.
+**Cobertura obrigatória**: cada uma das **10 categorias** deve ter **≥ 1 item** em `top3[]` + `news[]` combinados. As categorias são: `sec` (Segurança & IAM), `ai` (IA & LLMs), `aws` (AWS), `devops` (DevOps & Plataformas), `obs` (Observabilidade), `data` (Dados & Streaming), `integ` (Integração & Eventos), `backend` (Backend & Runtimes), `arqsw` (Arq. Software), `arqsol` (Arq. Solução). Se não houver notícia fresca na janela para uma categoria, inclua **1 item evergreen de alta qualidade** (artigo InfoQ, DDD Europe talk, paper acadêmico, post de blog técnico seminal). Nunca omita uma categoria — qualidade > frescor apenas em último caso.
 
 ### 3. Verificar ferramentas
 
-Para cada uma das **16 ferramentas monitoradas**, produza **obrigatoriamente 1 item em `tools[]`**. Siga a hierarquia de `kind` (veja a seção FERRAMENTAS MONITORADAS para definições completas):
+Para cada uma das **30 ferramentas monitoradas**, produza **obrigatoriamente 1 item em `tools[]`**. Siga a hierarquia de `kind`:
 
-**`release > news > tutorial > tip > curiosity`**
+**`release > news > tutorial > tip > curiosity > indirect`**
 
-Pesquise tanto o changelog oficial quanto artigos externos (InfoQ, TheNewStack, HN, Reddit r/devops). Se mesmo após 3 buscas não houver conteúdo relevante recente, use `curiosity` com uma trivia **específica** daquela ferramenta — nunca genérica. Limite de 1 `curiosity` por ferramenta por mês (documentar no campo `description` por qual motivo foi necessário usar curiosidade).
+Pesquise tanto o changelog oficial quanto artigos externos (InfoQ, TheNewStack, HN, Reddit r/devops).
+
+**Conteúdo indireto (fallback antes de `curiosity`):** Se após 2-3 buscas não houver nada diretamente sobre a ferramenta, é permitido e preferível trazer um artigo do **ecossistema ou domínio** da ferramenta — por exemplo, para Lambda: um artigo sobre padrões serverless; para DynamoDB: artigo sobre modelagem NoSQL; para PlantUML: artigo sobre diagramas como código. Documente no campo `description` que o conteúdo é indireto e por quê. Use `kind: "news"` ou `kind: "tutorial"` conforme o tipo de artigo, mesmo sendo indireto.
+
+Se mesmo o conteúdo indireto falhar, use `curiosity` com uma trivia **específica** daquela ferramenta — nunca genérica. Limite de 1 `curiosity` por ferramenta por mês (documentar no campo `description` por qual motivo foi necessário usar curiosidade).
 
 ### 4. Pulso social (Hacker News) e blogs de engenharia
 
@@ -63,11 +67,11 @@ Antes de chamar Write, verifique mentalmente e corrija:
 - [ ] **Sem duplicatas intra-edição**: mesma URL não aparece 2 vezes.
 - [ ] **Top3 completo**: exatamente 3 itens, cada um com `star:true`, `source`, `url`, `summary`.
 - [ ] **Diversidade top3**: pelo menos 2 categorias distintas entre os 3 (3 é ideal, 2 é aceitável se houver matéria extraordinária que justifique repetir categoria).
-- [ ] **Mínimo 15 notícias** em `news[]` + `top3[]`, cobrindo **todas as 10 categorias** (`sec`, `ai`, `cloud`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`).
+- [ ] **Mínimo 15 notícias** em `news[]` + `top3[]`, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `top3[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: top3 3/3 com `image`; news[] ≥40% com `image`; tools[] com kind release/news têm `image` quando possível.
-- [ ] **`tools[]` com 19 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `dynatrace`, `postgres`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `togaf`, `intellij`).
+- [ ] **`tools[]` com 30 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `keycloak`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `docker`, `kubernetes`, `warp`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `togaf`, `intellij`, `gradle`, `maven`).
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens**: campos `text`, `author`, `related_to` presentes em cada um.
 
@@ -100,11 +104,11 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"AI agent" OR "MCP" OR "Model Context Protocol" OR "RAG" OR "LangChain"`
 - `"Cursor" OR "Claude Code" OR "GitHub Copilot" AI coding tool update`
 
-### ☁️ Cloud & Infra (`cloud`)
+### 🔶 AWS (`aws`)
 - `site:aws.amazon.com/about-aws/whats-new new service OR launch`
-- `"AWS" OR "Azure" OR "GCP" new feature OR release OR GA`
-- `"Terraform" OR "OpenTofu" OR "Pulumi" OR "Crossplane" release OR update`
-- `"landing zone" OR "IaC" OR "cloud-native" architecture update`
+- `"AWS" announcement OR release OR GA site:aws.amazon.com OR site:awsblogs.com`
+- `"Lambda" OR "DynamoDB" OR "SQS" OR "SNS" OR "API Gateway" OR "CloudWatch" update OR incident`
+- `"AWS re:Invent" OR "AWS re:Post" OR "AWS Architecture" pattern OR blog`
 
 ### ⚙️ DevOps & Plataformas (`devops`)
 - `"Kubernetes" release OR deprecation OR security OR CVE`
@@ -152,7 +156,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ## FERRAMENTAS MONITORADAS
 
-Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**19 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**30 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -169,24 +173,35 @@ Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker Ne
 | `tool_key` | Ferramenta | Categoria | Changelog / Blog |
 |---|---|---|---|
 | `structurizr` | Structurizr | `arqsw` | https://structurizr.com/changelog |
+| `whimsical` | Whimsical | `arqsw` | https://whimsical.com/changelog |
+| `plantuml` | PlantUML | `arqsw` | https://plantuml.com/changes |
 | `cursor` | Cursor IDE | `ai` | https://www.cursor.com/changelog |
 | `claudecode` | Claude Code | `ai` | https://docs.anthropic.com/en/release-notes/claude-code |
+| `chatgpt` | ChatGPT | `ai` | https://help.openai.com/en/articles/6825453-chatgpt-release-notes |
+| `vscode` | VS Code | `ai` | https://code.visualstudio.com/updates |
 | `keycloak` | Keycloak | `sec` | https://www.keycloak.org/docs/latest/release_notes/ |
-| `terraform` | Terraform | `cloud` | https://github.com/hashicorp/terraform/blob/main/CHANGELOG.md |
+| `cloudwatch` | CloudWatch | `aws` | https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/DocumentHistory.html |
+| `lambda` | Lambda | `aws` | https://docs.aws.amazon.com/lambda/latest/dg/lambda-whats-new.html |
+| `dynamodb` | DynamoDB | `aws` | https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WhatsNew.html |
+| `apigateway` | API Gateway | `aws` | https://docs.aws.amazon.com/apigateway/latest/developerguide/history.html |
+| `sns` | Amazon SNS | `aws` | https://docs.aws.amazon.com/sns/latest/dg/sns-release-notes.html |
+| `sqs` | Amazon SQS | `aws` | https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-release-notes.html |
 | `docker` | Docker Desktop | `devops` | https://docs.docker.com/desktop/release-notes/ |
 | `kubernetes` | Kubernetes | `devops` | https://kubernetes.io/releases/ |
-| `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/label/github-actions/ |
 | `warp` | Warp Terminal | `devops` | https://docs.warp.dev/getting-started/changelog |
-| `grafana` | Grafana | `obs` | https://grafana.com/docs/grafana/latest/release-notes/ |
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
+| `mysql` | MySQL | `data` | https://dev.mysql.com/doc/relnotes/mysql/en/ |
 | `mongocompass` | MongoDB Compass | `data` | https://www.mongodb.com/docs/compass/current/release-notes/ |
 | `dbeaver` | DBeaver | `data` | https://dbeaver.io/download/ |
 | `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/index.html |
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads |
 | `postman` | Postman | `integ` | https://www.postman.com/release-notes/ |
+| `openapi` | OpenAPI | `integ` | https://www.openapis.org/news |
 | `togaf` | TOGAF | `arqsol` | https://www.opengroup.org/togaf |
 | `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
+| `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
+| `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
 
 **Exemplos de buscas complementares** para cada ferramenta:
 - `"{Ferramenta}" site:infoq.com OR site:thenewstack.io`
@@ -322,15 +337,15 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 | Chave | Label | Ícone | Escopo |
 |---|---|---|---|
 | `sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust |
-| `ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
-| `cloud` | Cloud & Infra | ☁️ | AWS/Azure/GCP + IaC (Terraform/Pulumi/OpenTofu) |
-| `devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, CI/CD, GitOps, platform engineering |
-| `obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Grafana, Datadog |
+| `ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools (Cursor, ChatGPT, Claude) |
+| `aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, API Gateway, etc. |
+| `devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, platform engineering, SRE |
+| `obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog |
 | `data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
-| `integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, schemas |
-| `backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, frameworks server-side |
-| `arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs |
-| `arqsol` | Arq. Solução | 🗺️ | Integração enterprise, landing zones, reference architectures |
+| `integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
+| `backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
+| `arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs, Whimsical, PlantUML |
+| `arqsol` | Arq. Solução | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
 
 ---
 
@@ -357,7 +372,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos do top3).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `top3[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `cursor`, `claudecode`, `keycloak`, `terraform`, `docker`, `kubernetes`, `ghactions`, `warp`, `grafana`, `dynatrace`, `postgres`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `togaf`, `intellij`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
+- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `keycloak`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `docker`, `kubernetes`, `warp`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `togaf`, `intellij`, `gradle`, `maven`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
 
 ---
 
@@ -470,7 +485,7 @@ O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões de ferramentas.** Se não encontrar nada relevante numa categoria, reduza — qualidade > quantidade.
-3. **Mínimo 15 notícias** no total, cobrindo **todas as 10 categorias** (`sec`, `ai`, `cloud`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`) com 1+ por categoria; evergreen aceitável se não houver fresco.
+3. **Mínimo 15 notícias** no total, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`) com 1+ por categoria; evergreen aceitável se não houver fresco.
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
 6. **Sem duplicatas** com as 7 edições anteriores (ver passo 1).
@@ -484,7 +499,7 @@ O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
 13. **Imagens**: seguir a cascata — **3/3 top3 com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
-14. **19 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`.
+14. **30 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo direto, é permitido conteúdo **indireto do ecossistema** da ferramenta (documentar em `description`).
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.

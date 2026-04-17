@@ -45,7 +45,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 10 categorias + 19 ferramentas + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 10 categorias + 30 ferramentas + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade top3)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -119,45 +119,56 @@ Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_
 |-------|---------|-------|-------|--------|
 | sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust |
 | ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
-| cloud | `--cat-cloud` | Cloud & Infra | ☁️ | AWS/Azure/GCP + IaC (Terraform/Pulumi/OpenTofu) |
-| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, CI/CD, GitOps, platform engineering |
-| obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Grafana, Datadog |
+| aws | `--cat-aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, etc. |
+| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, platform engineering, SRE |
+| obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
-| integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, schemas |
-| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, frameworks server-side |
-| arqsw | `--cat-arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs |
-| arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ | Integração enterprise, landing zones, reference architectures |
+| integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
+| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
+| arqsw | `--cat-arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs, Whimsical, PlantUML |
+| arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
 
 **Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
-- `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
+- `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 
-## Ferramentas monitoradas (16, agrupadas por categoria)
+## Ferramentas monitoradas (30, agrupadas por categoria)
 
-Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato.
+Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema da ferramenta é permitido (documentar em `description`).
 
 | Categoria | `tool_key` | Nome |
 |---|---|---|
 | `arqsw` | `structurizr` | Structurizr |
+| `arqsw` | `whimsical` | Whimsical |
+| `arqsw` | `plantuml` | PlantUML |
 | `ai` | `cursor` | Cursor IDE |
 | `ai` | `claudecode` | Claude Code |
+| `ai` | `chatgpt` | ChatGPT |
+| `ai` | `vscode` | VS Code |
 | `sec` | `keycloak` | Keycloak |
-| `cloud` | `terraform` | Terraform |
+| `aws` | `cloudwatch` | CloudWatch |
+| `aws` | `lambda` | Lambda |
+| `aws` | `dynamodb` | DynamoDB |
+| `aws` | `apigateway` | API Gateway |
+| `aws` | `sns` | Amazon SNS |
+| `aws` | `sqs` | Amazon SQS |
 | `devops` | `docker` | Docker Desktop |
 | `devops` | `kubernetes` | Kubernetes |
-| `devops` | `ghactions` | GitHub Actions |
 | `devops` | `warp` | Warp Terminal |
-| `obs` | `grafana` | Grafana |
 | `obs` | `dynatrace` | Dynatrace |
 | `data` | `postgres` | PostgreSQL |
+| `data` | `mysql` | MySQL |
 | `data` | `mongocompass` | MongoDB Compass |
 | `data` | `dbeaver` | DBeaver |
 | `data` | `databricks` | Databricks |
 | `integ` | `kafka` | Apache Kafka |
 | `integ` | `postman` | Postman |
+| `integ` | `openapi` | OpenAPI |
 | `arqsol` | `togaf` | TOGAF |
 | `backend` | `intellij` | IntelliJ IDEA |
+| `backend` | `gradle` | Gradle |
+| `backend` | `maven` | Apache Maven |
 
-**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`.
+**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`.
 
 ## O Que Atualizar Quando
 

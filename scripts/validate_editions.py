@@ -27,14 +27,23 @@ STRICT_FROM    = '2026-04-18'
 STRICT_FROM_V2 = '2026-04-20'
 
 # Taxonomia v1 (legacy — aceita como warning em strict_v2)
-CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'}
+CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol','obs','data','integ'}
 TOOL_KEYS_V1  = {'teams','notion','intellij','cursor','warp','mongocompass','dbeaver','postman','docker','structurizr','c4'}
 
 # Taxonomia v2 (exigida a partir de STRICT_FROM_V2)
-CATEGORIES_V2 = {'sec','ai','cloud','devops','obs','data','integ','backend','arqsw','arqsol'}
-TOOL_KEYS_V2  = {'structurizr','cursor','claudecode','keycloak','terraform','docker',
-                  'kubernetes','ghactions','warp','grafana','dynatrace','postgres',
-                  'mongocompass','dbeaver','databricks','kafka','postman','togaf','intellij'}
+CATEGORIES_V2 = {'sec','ai','aws','devops','obs','data','integ','backend','arqsw','arqsol'}
+TOOL_KEYS_V2  = {
+  'structurizr','whimsical','plantuml',
+  'cursor','claudecode','chatgpt','vscode',
+  'keycloak',
+  'cloudwatch','lambda','dynamodb','apigateway','sns','sqs',
+  'docker','kubernetes','warp',
+  'dynatrace',
+  'postgres','mysql','mongocompass','dbeaver','databricks',
+  'kafka','postman','openapi',
+  'togaf',
+  'intellij','gradle','maven'
+}
 
 # União: aceita ambos (validator decide por data)
 CATEGORIES = CATEGORIES_V1 | CATEGORIES_V2

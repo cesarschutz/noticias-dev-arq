@@ -64,15 +64,16 @@
 
   --cat-sec:      #EF4444;
   --cat-ai:       #A78BFA;
-  --cat-cloud:    #60A5FA;
+  --cat-aws:      #FF9900;
   --cat-devops:   #F59E0B;
-  --cat-backend:  #22C55E;
   --cat-obs:      #9B7BFF;
   --cat-data:     #38BDF8;
   --cat-integ:    #2DD4BF;
+  --cat-backend:  #22C55E;
   --cat-arqsw:    #C084FC;
   --cat-arqsol:   #FF9F45;
   /* legacy aliases — mantidas para edições antigas */
+  --cat-cloud:    #FF9900;
   --cat-frontend: #EC4899;
   --cat-db:       #38BDF8;
   --cat-lang:     #FACC15;
@@ -130,15 +131,16 @@
 
   --cat-sec:      #B91C3C;
   --cat-ai:       #6D28D9;
-  --cat-cloud:    #1D4ED8;
+  --cat-aws:      #C46B00;
   --cat-devops:   #B0590C;
-  --cat-backend:  #166534;
   --cat-obs:      #5B21B6;
   --cat-data:     #0E7490;
   --cat-integ:    #0F766E;
+  --cat-backend:  #166534;
   --cat-arqsw:    #7C3AED;
   --cat-arqsol:   #C2570A;
   /* legacy aliases */
+  --cat-cloud:    #C46B00;
   --cat-frontend: #BE185D;
   --cat-db:       #0E7490;
   --cat-lang:     #854D0E;
@@ -1852,7 +1854,7 @@ button { font-family: inherit; color: inherit; }
     <div class="side-section">
       <div class="side-label">
         <span>// ferramentas</span>
-        <span class="count" id="tool-total">19</span>
+        <span class="count" id="tool-total">30</span>
       </div>
       <div id="tools-side" role="list"></div>
     </div>
@@ -1907,7 +1909,7 @@ button { font-family: inherit; color: inherit; }
 const CAT = {
   sec:     { l:'sec',     lf:'Segurança & IAM',        i:'🔐' },
   ai:      { l:'ai',      lf:'IA & LLMs',              i:'🤖' },
-  cloud:   { l:'cloud',   lf:'Cloud & Infra',          i:'☁' },
+  aws:     { l:'aws',     lf:'AWS',                    i:'🔶' },
   devops:  { l:'devops',  lf:'DevOps & Plataformas',   i:'⚙' },
   obs:     { l:'obs',     lf:'Observabilidade',        i:'📈' },
   data:    { l:'data',    lf:'Dados & Streaming',      i:'🗄' },
@@ -1919,9 +1921,10 @@ const CAT = {
 
 // Redirecionamento de chaves legadas para a nova taxonomia
 const LEGACY_CAT_MAP = {
+  cloud:    'aws',
   db:       'data',
   lang:     'backend',
-  frontend: null   // null = redireciona pra home
+  frontend: null
 };
 
 // Tipos usados para colorir card na sidebar
@@ -1936,34 +1939,45 @@ const TOOL_KIND = {
 
 const TOOLS = [
   // Arq. Software
-  { key:'structurizr',  category:'arqsw',   name:'Structurizr',       aliases:['structurizr'],                            icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'structurizr',  category:'arqsw',   name:'Structurizr',       aliases:['structurizr'],                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'whimsical',    category:'arqsw',   name:'Whimsical',          aliases:['whimsical'],                                icon:'🎨', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=whimsical.com&sz=128' },
+  { key:'plantuml',     category:'arqsw',   name:'PlantUML',           aliases:['plantuml','plant uml'],                     icon:'🌱', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
   // IA & LLMs
-  { key:'cursor',       category:'ai',      name:'Cursor IDE',         aliases:['cursor ide','cursor'],                    icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
-  { key:'claudecode',   category:'ai',      name:'Claude Code',        aliases:['claude code','anthropic claude'],         icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'cursor',       category:'ai',      name:'Cursor IDE',         aliases:['cursor ide','cursor'],                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
+  { key:'claudecode',   category:'ai',      name:'Claude Code',        aliases:['claude code','anthropic claude'],           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'chatgpt',      category:'ai',      name:'ChatGPT',            aliases:['chatgpt','openai chatgpt','gpt-4'],         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
+  { key:'vscode',       category:'ai',      name:'VS Code',            aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
   // Segurança & IAM
-  { key:'keycloak',     category:'sec',     name:'Keycloak',           aliases:['keycloak'],                               icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
-  // Cloud & Infra
-  { key:'terraform',    category:'cloud',   name:'Terraform',          aliases:['terraform','opentofu'],                   icon:'🏗️', kind:'devops', logo:'https://cdn.simpleicons.org/terraform/7B42BC' },
+  { key:'keycloak',     category:'sec',     name:'Keycloak',           aliases:['keycloak'],                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
+  // AWS
+  { key:'cloudwatch',   category:'aws',     name:'CloudWatch',         aliases:['cloudwatch','aws cloudwatch'],              icon:'📡', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
+  { key:'lambda',       category:'aws',     name:'Lambda',             aliases:['aws lambda','lambda function'],             icon:'λ',  kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
+  { key:'dynamodb',     category:'aws',     name:'DynamoDB',           aliases:['dynamodb','amazon dynamodb'],               icon:'🔷', kind:'db',     logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6' },
+  { key:'apigateway',   category:'aws',     name:'API Gateway',        aliases:['api gateway','aws api gateway'],            icon:'🚪', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
+  { key:'sns',          category:'aws',     name:'Amazon SNS',         aliases:['amazon sns','sns','simple notification'],   icon:'📣', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
+  { key:'sqs',          category:'aws',     name:'Amazon SQS',         aliases:['amazon sqs','sqs','simple queue'],          icon:'📬', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
   // DevOps & Plataformas
-  { key:'docker',       category:'devops',  name:'Docker Desktop',     aliases:['docker desktop','docker'],                icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
-  { key:'kubernetes',   category:'devops',  name:'Kubernetes',         aliases:['kubernetes','k8s','kubectl'],             icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
-  { key:'ghactions',    category:'devops',  name:'GitHub Actions',     aliases:['github actions','gh actions'],            icon:'⚡', kind:'devops', logo:'https://cdn.simpleicons.org/githubactions/2088FF' },
-  { key:'warp',         category:'devops',  name:'Warp Terminal',      aliases:['warp terminal','warp'],                   icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
+  { key:'docker',       category:'devops',  name:'Docker Desktop',     aliases:['docker desktop','docker'],                  icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
+  { key:'kubernetes',   category:'devops',  name:'Kubernetes',         aliases:['kubernetes','k8s','kubectl'],               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
+  { key:'warp',         category:'devops',  name:'Warp Terminal',      aliases:['warp terminal','warp'],                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
   // Observabilidade
-  { key:'grafana',      category:'obs',     name:'Grafana',            aliases:['grafana'],                                icon:'📊', kind:'devops', logo:'https://cdn.simpleicons.org/grafana/F46800' },
-  { key:'dynatrace',    category:'obs',     name:'Dynatrace',          aliases:['dynatrace'],                              icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
+  { key:'dynatrace',    category:'obs',     name:'Dynatrace',          aliases:['dynatrace'],                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
   // Dados & Streaming
-  { key:'postgres',     category:'data',    name:'PostgreSQL',         aliases:['postgresql','postgres'],                  icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
-  { key:'mongocompass', category:'data',    name:'MongoDB Compass',    aliases:['mongodb compass','compass','mongodb'],    icon:'🧭', kind:'db',     logo:'https://cdn.simpleicons.org/mongodb/00ed64' },
-  { key:'dbeaver',      category:'data',    name:'DBeaver',            aliases:['dbeaver'],                                icon:'🦫', kind:'db',     logo:'https://www.google.com/s2/favicons?domain=dbeaver.io&sz=128' },
-  { key:'databricks',   category:'data',    name:'Databricks',         aliases:['databricks'],                             icon:'⚡', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
+  { key:'postgres',     category:'data',    name:'PostgreSQL',         aliases:['postgresql','postgres'],                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
+  { key:'mysql',        category:'data',    name:'MySQL',              aliases:['mysql'],                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
+  { key:'mongocompass', category:'data',    name:'MongoDB Compass',    aliases:['mongodb compass','compass','mongodb'],      icon:'🧭', kind:'db',     logo:'https://cdn.simpleicons.org/mongodb/00ed64' },
+  { key:'dbeaver',      category:'data',    name:'DBeaver',            aliases:['dbeaver'],                                  icon:'🦫', kind:'db',     logo:'https://www.google.com/s2/favicons?domain=dbeaver.io&sz=128' },
+  { key:'databricks',   category:'data',    name:'Databricks',         aliases:['databricks'],                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
   // Integração & Eventos
-  { key:'kafka',        category:'integ',   name:'Apache Kafka',       aliases:['apache kafka','kafka','confluent'],       icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
-  { key:'postman',      category:'integ',   name:'Postman',            aliases:['postman'],                                icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
+  { key:'kafka',        category:'integ',   name:'Apache Kafka',       aliases:['apache kafka','kafka','confluent'],         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
+  { key:'postman',      category:'integ',   name:'Postman',            aliases:['postman'],                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
+  { key:'openapi',      category:'integ',   name:'OpenAPI',            aliases:['openapi','swagger','open api'],             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
   // Arq. Solução
-  { key:'togaf',        category:'arqsol',  name:'TOGAF',              aliases:['togaf','the open group'],                 icon:'🏢', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=opengroup.org&sz=128' },
+  { key:'togaf',        category:'arqsol',  name:'TOGAF',              aliases:['togaf','the open group'],                   icon:'🏢', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=opengroup.org&sz=128' },
   // Backend & Runtimes
-  { key:'intellij',     category:'backend', name:'IntelliJ IDEA',      aliases:['intellij','jetbrains idea'],              icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' }
+  { key:'intellij',     category:'backend', name:'IntelliJ IDEA',      aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
+  { key:'gradle',       category:'backend', name:'Gradle',             aliases:['gradle'],                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
+  { key:'maven',        category:'backend', name:'Apache Maven',       aliases:['apache maven','maven'],                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' }
 ];
 
 const TOOL_KIND_BADGE = {
@@ -2221,7 +2235,7 @@ async function loadAll(){
 }
 // Lazy load inteligente: só baixa edições que têm o filtro (usando counts_by_*)
 function legacyCatKeys(key) {
-  const revMap = { data: ['db'], backend: ['lang'] };
+  const revMap = { aws: ['cloud'], data: ['db'], backend: ['lang'] };
   return [key, ...(revMap[key] || [])];
 }
 async function loadForCategory(key){
@@ -2266,7 +2280,7 @@ function renderSidebar(){
   // Totals (todas edições do índice)
   const catTotals = {};
   const toolTotals = {};
-  const CAT_LEGACY_FWD = { db:'data', lang:'backend', frontend:null };
+  const CAT_LEGACY_FWD = { cloud:'aws', db:'data', lang:'backend', frontend:null };
   (STATE.editionsIndex?.editions || []).forEach(e => {
     Object.entries(e.counts_by_category || {}).forEach(([k,v]) => {
       const kk = (k in CAT_LEGACY_FWD) ? CAT_LEGACY_FWD[k] : k;
@@ -2279,7 +2293,7 @@ function renderSidebar(){
 
   // Counts do dia atual (apenas em home); legacy keys mapeadas para o novo nome
   const catToday = {};
-  const LEGACY_CAT_FWD = { db:'data', lang:'backend', frontend:null };
+  const LEGACY_CAT_FWD = { cloud:'aws', db:'data', lang:'backend', frontend:null };
   if (isHome && ed) {
     [...(ed.top3||[]), ...(ed.news||[])].forEach(it => {
       let k = it.category;
