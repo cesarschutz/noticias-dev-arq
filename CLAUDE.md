@@ -56,7 +56,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 
 - **home** (default): edição do dia mais recente — hero, top3, feed, ferramentas
 - **cat:{chave}**: agregado de todas as notícias de uma categoria através das edições
-- **tool:{chave}**: agregado de menções + releases oficiais de uma ferramenta
+- **tool:{chave}**: feed completo da ferramenta — releases, notícias, dicas, tutoriais e curiosidades (seções distintas)
 - **deep link**: `?d=YYYY-MM-DD&u=<hash>` abre direto uma notícia
 
 ### Lazy-load inteligente
@@ -103,9 +103,11 @@ Além dos campos básicos, a skill gera (todos opcionais):
 ### `data/{YYYY-MM-DD}.json`
 Raiz: `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601), `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`, `sources[]`.
 
-Item de `top3[]`/`news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`. Opcionais: `urgent`, `new`, `star`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`. Só em `top3[]`: `image`.
+Item de `top3[]`/`news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`. Opcionais: `urgent`, `new`, `star`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`, `image`.
 
-Item de `tools[]`: `name`, `icon`, `version`, `description`, `url`.
+Item de `tools[]`: obrigatórios `tool_key`, `name`, `kind`, `headline`, `source`, `url`. `version` obrigatório quando `kind === "release"`. Opcionais: `icon`, `description`, `published_at`, `image`, `tags`. `kind` ∈ `{release, news, tip, tutorial, curiosity}`.
+
+Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), `context` (opcional). `related_to` ∈ `"cat:<chave>"`, `"tool:<chave>"`, `"general"`.
 
 Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py` (edições ≥ `2026-04-18` são strict; anteriores são lenient para preservar histórico).
 
@@ -130,7 +132,7 @@ Microsoft Teams (doc), Notion (doc), IntelliJ IDEA (ide), Cursor IDE (ide), Warp
 
 Cada ferramenta tem `kind` que define a cor do border-left no sidebar — IDEs violet, DBs cyan, DevOps amber, APIs green, docs pink, arquitetura teal.
 
-A SPA tenta casar menções em `headline + summary` com os `aliases` do objeto `TOOLS` em `index.html`. Releases oficiais vêm do array `tools[]` do JSON diário.
+Cada ferramenta tem `logo` (URL) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato — sem depender de aliases em texto livre.
 
 ## O Que Atualizar Quando
 

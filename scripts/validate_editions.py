@@ -27,6 +27,8 @@ STRICT_FROM = '2026-04-18'
 
 CATEGORIES = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'}
 SEVERITIES = {'critical','high','medium','low'}
+TOOL_KEYS = {'teams','notion','intellij','cursor','warp','mongocompass','dbeaver','postman','docker','structurizr','c4'}
+KINDS = {'release','news','tip','tutorial','curiosity'}
 
 # URLs genéricas proibidas (padrões)
 GENERIC_URL_PATTERNS = [
@@ -63,6 +65,12 @@ def check_url(url, label):
             warn(f"{label}: url genérica suspeita: {url}")
             break
 
+def check_image_url(url, label):
+    if not url or not isinstance(url, str):
+        return
+    if not url.startswith('https://'):
+        warn(f"{label}: image deve ser https://: {url}")
+
 def check_item(item, label, require_star=False):
     required = ['category','category_label','category_icon','headline','summary','source','url','read_time']
     for f in required:
@@ -96,6 +104,8 @@ def check_item(item, label, require_star=False):
         except Exception:
             warn(f"{label}: published_at não é ISO 8601: {item['published_at']}")
     check_url(item.get('url'), label)
+    if item.get('image'):
+        check_image_url(item['image'], label)
 
 def validate_edition(path):
     global _lenient
@@ -131,16 +141,86 @@ def validate_edition(path):
     dup = set([u for u in urls if urls.count(u) > 1 and u])
     for d in dup:
         err(f"{name}: URL duplicada intra-edição: {d}")
-    # imagens no top3: pelo menos 2
+
+    # imagens no top3: meta 3/3 (WARN em qualquer modo)
     with_img = sum(1 for it in (ed.get('top3') or []) if it.get('image'))
-    if with_img < 2:
-        warn(f"{name}: apenas {with_img}/3 itens do top3 têm imagem")
-    # tools[] opcional, mas se presente, valida mínimo
-    for i, t in enumerate(ed.get('tools') or []):
-        for f in ('name','description','url'):
+    if with_img < 3:
+        warn(f"{name}: {with_img}/3 itens do top3 têm imagem (meta: 3/3)")
+
+    # imagens em news[]: meta ≥40% (strict)
+    news_list = ed.get('news') or []
+    if not _lenient and news_list:
+        news_with_img = sum(1 for it in news_list if it.get('image'))
+        ratio = news_with_img / len(news_list)
+        if ratio < 0.4:
+            warn(f"{name}: news[] com {news_with_img}/{len(news_list)} imagens (<40% — meta da skill)")
+
+    # cobertura de categorias (strict)
+    if not _lenient:
+        cats_present = {it.get('category') for it in (ed.get('top3') or []) + (ed.get('news') or [])}
+        missing_cats = CATEGORIES - cats_present
+        if missing_cats:
+            warn(f"{name}: categorias sem itens: {sorted(missing_cats)}")
+
+    # tools[] — validação expandida
+    tools = ed.get('tools') or []
+    tool_keys_seen = set()
+    for i, t in enumerate(tools):
+        label = f"{name}:tools[{i}]"
+        # campos mínimos sempre exigidos
+        for f in ('name','url'):
             if not t.get(f):
-                err(f"{name}:tools[{i}]: campo ausente: {f}")
-        check_url(t.get('url'), f"{name}:tools[{i}]")
+                err(f"{label}: campo ausente: {f}")
+        check_url(t.get('url'), label)
+        if t.get('image'):
+            check_image_url(t['image'], label)
+        # campos novos (strict)
+        if not _lenient:
+            tool_key = t.get('tool_key')
+            if not tool_key:
+                warn(f"{label}: tool_key ausente (novo campo obrigatório)")
+            elif tool_key not in TOOL_KEYS:
+                err(f"{label}: tool_key inválido: {tool_key}")
+            else:
+                tool_keys_seen.add(tool_key)
+            kind = t.get('kind')
+            if not kind:
+                warn(f"{label}: kind ausente (release|news|tip|tutorial|curiosity)")
+            elif kind not in KINDS:
+                err(f"{label}: kind inválido: {kind}")
+            if kind == 'release' and not t.get('version'):
+                warn(f"{label}: kind=release sem version")
+            if not t.get('headline'):
+                warn(f"{label}: headline ausente (recomendado)")
+            if not t.get('source'):
+                warn(f"{label}: source ausente (recomendado)")
+
+    # cobertura de ferramentas (strict)
+    if not _lenient:
+        if len(tools) < 11:
+            warn(f"{name}: tools[] com {len(tools)} itens (esperado 11, um por ferramenta)")
+        missing_tools = TOOL_KEYS - tool_keys_seen
+        if missing_tools:
+            warn(f"{name}: ferramentas sem item em tools[]: {sorted(missing_tools)}")
+
+    # quotes[] — opcional, mas validado se presente
+    q = ed.get('quotes')
+    if q is not None:
+        if not isinstance(q, list):
+            err(f"{name}: quotes deve ser array")
+        else:
+            if len(q) != 5:
+                warn(f"{name}: quotes com {len(q)} itens (esperado 5)")
+            valid_rel_prefix = ('cat:', 'tool:', 'general')
+            for i, qi in enumerate(q):
+                for f in ('text','author','related_to'):
+                    if not qi.get(f):
+                        err(f"{name}:quotes[{i}]: campo ausente: {f}")
+                rel = qi.get('related_to','')
+                if rel != 'general' and not (rel.startswith('cat:') or rel.startswith('tool:')):
+                    warn(f"{name}:quotes[{i}]: related_to inesperado: {rel}")
+    elif not _lenient:
+        warn(f"{name}: quotes[] ausente (esperado 5 itens por edição)")
 
 def validate_index(path):
     idx = json.load(open(path, encoding='utf-8'))

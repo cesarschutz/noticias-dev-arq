@@ -28,9 +28,15 @@ Para cada uma das 10 categorias abaixo, faça **2-3 buscas na web** (WebSearch) 
 
 Após cada WebSearch, **leia a data do artigo** (via WebFetch se não aparecer no snippet) e descarte o que estiver fora da janela — operadores de data não são confiáveis.
 
+**Cobertura obrigatória**: cada uma das 10 categorias deve ter **≥ 1 item** em `top3[]` + `news[]` combinados. Se não houver notícia fresca na janela para uma categoria, inclua **1 item evergreen de alta qualidade** (artigo InfoQ, DDD Europe talk, paper acadêmico, post de blog técnico seminal). Nunca omita uma categoria — qualidade > frescor apenas em último caso.
+
 ### 3. Verificar ferramentas
 
-Para cada ferramenta na lista de monitoramento, verifique se houve releases, changelogs ou incidentes nas últimas 48h. Use as URLs de changelog listadas abaixo.
+Para cada uma das **11 ferramentas monitoradas**, produza **obrigatoriamente 1 item em `tools[]`**. Siga a hierarquia de `kind` (veja a seção FERRAMENTAS MONITORADAS para definições completas):
+
+**`release > news > tutorial > tip > curiosity`**
+
+Pesquise tanto o changelog oficial quanto artigos externos (InfoQ, TheNewStack, HN, Reddit r/devops). Se mesmo após 3 buscas não houver conteúdo relevante recente, use `curiosity` com uma trivia **específica** daquela ferramenta — nunca genérica. Limite de 1 `curiosity` por ferramenta por mês (documentar no campo `description` por qual motivo foi necessário usar curiosidade).
 
 ### 4. Pulso social (Hacker News) e blogs de engenharia
 
@@ -57,10 +63,13 @@ Antes de chamar Write, verifique mentalmente e corrija:
 - [ ] **Sem duplicatas intra-edição**: mesma URL não aparece 2 vezes.
 - [ ] **Top3 completo**: exatamente 3 itens, cada um com `star:true`, `source`, `url`, `summary`.
 - [ ] **Diversidade top3**: pelo menos 2 categorias distintas entre os 3 (3 é ideal, 2 é aceitável se houver matéria extraordinária que justifique repetir categoria).
-- [ ] **Mínimo 15 notícias** em `news[]` + `top3[]`, cobrindo ≥5 categorias.
+- [ ] **Mínimo 15 notícias** em `news[]` + `top3[]`, cobrindo **todas as 10 categorias** (1+ por categoria).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `top3[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
-- [ ] **Imagens no top3**: pelo menos 2 dos 3 têm `image` (após a cascata de 4 tentativas).
+- [ ] **Imagens**: top3 3/3 com `image`; news[] ≥40% com `image`; tools[] com kind release/news têm `image` quando possível.
+- [ ] **`tools[]` com 11 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido.
+- [ ] **`kind === "release"` tem `version`**.
+- [ ] **`quotes[]` com 5 itens**: campos `text`, `author`, `related_to` presentes em cada um.
 
 Se algum check falhar, refaça o item antes de escrever.
 
@@ -133,9 +142,19 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ## FERRAMENTAS MONITORADAS
 
-Pesquise **tanto o changelog oficial quanto notícias, reviews, incidentes e discussões em outros veículos** (InfoQ, Hacker News, The New Stack, DevClass, Reddit r/devops, r/kubernetes etc.) sobre cada ferramenta. Use os changelogs como **ponto de partida**, mas priorize o que gerou discussão/repercussão recente — uma notícia de uma ferramenta em veículo externo de alta reputação pode valer mais que um patch note obscuro no site oficial.
+Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (11 itens). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
-Se não houver novidade relevante nas últimas 48h, **omita a ferramenta** do JSON. O campo `tools[].url` pode apontar para artigo externo, post de blog, review ou thread — não precisa ser o changelog oficial.
+| `kind` | Quando usar |
+|---|---|
+| `release` | Nova versão oficial publicada na janela. Obrigatório: `version`. |
+| `news` | Notícia externa relevante (aquisição, incidente, artigo InfoQ/TheNewStack/HN >100pts). |
+| `tutorial` | Walkthrough ou guia público (post de blog, vídeo, documentação nova) — ensina uso avançado. |
+| `tip` | Dica objetiva e acionável (atalho, flag, config oculta). Evergreen aceitável. |
+| `curiosity` | Fato histórico ou trivia **específica** da ferramenta. **Máximo 1 por ferramenta por mês.** Use só se todas as outras opções falharem; documente a razão em `description`. |
+
+**Hierarquia**: `release > news > tutorial > tip > curiosity`. Nunca omita uma ferramenta. Nunca use `curiosity` genérica ("Docker é popular porque...").
+
+Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker News, TheNewStack, Reddit r/devops). O campo `url` pode apontar para artigo externo — não precisa ser o changelog oficial.
 
 | Ferramenta | Changelog (ponto de partida) |
 |---|---|
@@ -222,11 +241,26 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   ],
   "tools": [
     {
-      "name": "Nome da Ferramenta",
-      "icon": "🧠",
-      "version": "v2026.1",
-      "description": "O que mudou nesta versão, em português.",
-      "url": "https://changelog-url.com"
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "release",
+      "version": "3.0",
+      "headline": "Cursor 3 lança Agents Window com paralelismo de agentes",
+      "description": "Resumo de 1-2 frases, perspectiva do arquiteto: o que mudou + impacto.",
+      "source": "Cursor Blog",
+      "url": "https://cursor.com/changelog/3-0",
+      "published_at": "2026-04-17T10:00:00-03:00",
+      "image": "https://url-da-og-image.com/img.jpg",
+      "tags": ["ai", "ide", "agents"]
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "author": "Martin Fowler",
+      "context": "Legibilidade como princípio de arquitetura",
+      "related_to": "cat:arqsw"
     }
   ],
   "sources": [
@@ -237,7 +271,7 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
 
 ### Campos por objeto
 
-**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`. Opcionais: `sources[]`.
+**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`, `quotes[]`. Opcionais: `sources[]`.
 
 **Item de `top3[]` / `news[]`**:
 - **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
@@ -247,9 +281,19 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   - `published_at`: ISO 8601 com timezone — quando o artigo/anúncio foi publicado pela fonte original. Permite distinguir "saiu hoje" de "ganhou destaque hoje".
   - `cves`: array de strings no formato `"CVE-YYYY-NNNNN"`. Extraia todos os CVEs citados no artigo — indexação futura.
   - `tags`: array de 2-6 strings curtas minúsculas (`"aws"`, `"kubernetes"`, `"anthropic"`). Complementa `category` com entidades/tecnologias citadas. Evite tags genéricas (`"news"`, `"update"`).
-- **Apenas em `top3[]`**: `image` (og:image — renderizada no modal reader, aspect 16:9).
+  - `image` (em `top3[]` e `news[]`): URL `https://` da imagem principal do artigo (og:image). Veja seção IMAGENS para a cascata obrigatória.
 
-**Item de `tools[]`**: `name`, `icon` (emoji), `version`, `description`, `url`.
+**Item de `tools[]`**:
+- **Obrigatórios**: `tool_key` (chave em `TOOL_KEYS`), `name`, `kind`, `headline`, `source`, `url`.
+- **Obrigatório quando `kind === "release"`**: `version`.
+- **Opcionais**: `icon` (emoji), `description` (complemento ao headline), `published_at`, `image`, `tags`.
+
+**Array `quotes[]`** (5 itens obrigatórios):
+- **Obrigatórios**: `text`, `author`, `related_to`.
+- **Opcional**: `context` (1 frase explicando o contexto da citação).
+- `related_to` deve ser `"cat:<chave>"`, `"tool:<chave>"` ou `"general"`.
+- Autores sugeridos: Martin Fowler, Simon Brown, Kent Beck, Rich Hickey, Eric Evans, Eric Brewer, Robert Martin, Werner Vogels, Ward Cunningham, DHH, Kelsey Hightower, Sam Newman, Kief Morris, Donald Knuth, Fred Brooks.
+- Pelo menos 2 das 5 quotes devem ter `related_to` relacionado às categorias ou ferramentas mais movimentadas do dia.
 
 ### Emojis: unicode literal, não escapado
 
@@ -295,7 +339,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos do top3).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `top3[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `chave_ferramenta → número de menções` (soma `tools[]` + matches em `headline+summary` dos itens de news). As chaves são as `key` do array `TOOLS` em `index.html` (`teams`, `notion`, `intellij`, `cursor`, `warp`, `mongocompass`, `dbeaver`, `postman`, `docker`, `structurizr`, `c4`).
+- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves são as `key` do array `TOOLS` em `index.html`: `teams`, `notion`, `intellij`, `cursor`, `warp`, `mongocompass`, `dbeaver`, `postman`, `docker`, `structurizr`, `c4`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
 
 ---
 
@@ -344,13 +388,18 @@ Exceção: `tools[].url` pode apontar para o changelog oficial com âncora espec
 
 ---
 
-## IMAGENS NO TOP 3
+## IMAGENS
 
-Cada item do `top3[]` **deve incluir** o campo `image` sempre que possível. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
+O campo `image` deve ser preenchido em **todo item de `top3[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards (modo cards) e os exibe em 16:9. Se não houver imagem, o card renderiza sem thumb — sem problema. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
+
+**Meta de cobertura**:
+- `top3[]`: **3/3 com imagem** (obrigatório — validator emite WARN para cada item faltando).
+- `news[]`: **≥ 40% com imagem** (validator emite WARN se abaixo).
+- `tools[]` com `kind` in `{release, news}`: **tente preencher image**. Para `tip/tutorial/curiosity` é opcional — a SPA usa o logo estático da ferramenta como fallback.
 
 ### Cascata obrigatória de tentativas (em ordem)
 
-Para cada URL do `top3[]`, faça até **4 tentativas** antes de omitir `image`:
+Aplique a cada item de `top3[]`, `news[]` e `tools[]` com `kind` in `{release, news}`. Faça até **5 tentativas** antes de omitir `image`:
 
 **Tentativa 1 — WebFetch direto no artigo**
 
@@ -371,23 +420,31 @@ Se Tentativa 1 retornou `NONE` e a URL tem cara de WordPress (TheNewStack, TechC
 
 `WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}", "Return only the value of thumbnail_url from the JSON response.")`
 
-**Tentativa 3 — serviço público de scraping (último recurso)**
+**Tentativa 3 — Microlink na URL do artigo**
 
 Se Tentativa 1 e 2 falharam, use Microlink:
 
 `WebFetch("https://api.microlink.io/?url={URL-encoded}", "Return only the value of data.image.url (ou data.logo.url se image não existir) from the JSON response.")`
 
-**Tentativa 4 — busca direta por imagem do artigo**
+**Tentativa 4 — Microlink no domínio raiz (fallback para sites sem og:image por artigo)**
+
+Se Tentativa 3 falhou, tente o domínio raiz da URL (ex.: para `https://www.oracle.com/news/...`, use `https://api.microlink.io/?url=https://www.oracle.com`):
+
+`WebFetch("https://api.microlink.io/?url={domain-raiz}", "Return data.image.url or data.logo.url from the JSON response.")`
+
+Isso resolve casos como o Oracle, que tem logo e imagem padrão no domínio mesmo quando artigos não têm og:image individual.
+
+**Tentativa 5 — busca direta por imagem**
 
 Se tudo falhou, faça uma WebSearch: `"{headline resumida em inglês}" site:{domínio} imagem`.
 
 ### Validação
 
 - URL deve começar com `https://` ou ser convertida para (`http://` → `https://`).
-- Ignore: avatares, logos, favicons, tracking pixels, anúncios (padrões como `/avatar/`, `/logo`, `pixel`, `track`, `ads`, dimensão < 300x200).
-- Se todas as 4 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 10).
+- Ignore: avatares, logos de usuario, favicons < 100px, tracking pixels, anúncios (padrões como `/avatar/`, `/user/`, `pixel`, `track`, `ads`, dimensão < 300x200).
+- Se todas as 5 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 20 para top3; < 6 em 10 para news em geral).
 
-O campo `image` é **opcional** e **só aparece no `top3[]`** — não em `news[]` nem `tools[]`.
+O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático da ferramenta como fallback — não é necessário forçar a cascata nesses casos.
 
 ---
 
@@ -395,7 +452,7 @@ O campo `image` é **opcional** e **só aparece no `top3[]`** — não em `news[
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões de ferramentas.** Se não encontrar nada relevante numa categoria, reduza — qualidade > quantidade.
-3. **Mínimo 15 notícias** no total, cobrindo pelo menos **5 categorias**.
+3. **Mínimo 15 notícias** no total, cobrindo **todas as 10 categorias** (1+ por categoria; evergreen aceitável se não houver fresco).
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
 6. **Sem duplicatas** com as 7 edições anteriores (ver passo 1).
@@ -408,8 +465,10 @@ O campo `image` é **opcional** e **só aparece no `top3[]`** — não em `news[
 10. **`read_time`**: inteiro em minutos (2-5 típico), estimado com base no tamanho de headline + summary.
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
-13. **Imagens no top3**: seguir a cascata — mínimo 2 dos 3 top3 com imagem válida.
-14. **Novos campos estruturados** (opcionais mas recomendados):
+13. **Imagens**: seguir a cascata — **3/3 top3 com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
+14. **11 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`.
+15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
+16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
     - **Severity**: para todo item com `category: "sec"` e `urgent: true`.
     - **Published_at**: quando a fonte exibe data+hora do artigo (vs. data da edição).
