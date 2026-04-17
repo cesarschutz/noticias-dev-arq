@@ -11,7 +11,12 @@ index.html → fetch('data/editions.json')  (índice com counts)
            → fetch('data/{ISO}.json')     (edição por data, sob demanda)
 ```
 
-O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas: sidebar (categorias + ferramentas), main (feed), rail (telemetria). Sem frameworks, sem build step.
+O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
+- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), categorias + ferramentas com contadores X/Y (X=dia atual, Y=total do arquivo).
+- **Main (feed)**: sem hero em home — começa direto nos destaques. Prompt-bar sticky no topo (`csr@console:~/editions/DATA $ cat DATA.json [HOJE]`) muda de cor por contexto (home=amber, cat=cor da categoria, tool=cor do tipo). Cards clicáveis abrem URL em nova aba.
+- **Rail (telemetria)**: mascote, radar de categorias, timeline de edições.
+
+Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N saved, `?` atalhos). Sem statusbar inferior. Sem frameworks, sem build step.
 
 ## Estrutura de Arquivos
 
@@ -59,14 +64,14 @@ Ao filtrar por categoria/ferramenta, a SPA usa `counts_by_category` / `counts_by
 
 ## Interações
 
-- **Busca global**: `/` ou `Ctrl/Cmd+K` abre modal com input. Indexa headlines + summary + source + tags + CVEs de todas edições carregadas. Resultados com highlight de termos e navegação por setas.
-- **Deep link**: abrir uma notícia atualiza a URL com `?d=date&u=hash`. Botão "compartilhar" copia o link. Ao acessar via esse URL, a SPA já abre o modal da notícia.
-- **Prev/Next edições**: botões `<` `>` no topbar (ou atalhos `P`/`N`) navegam entre edições adjacentes.
+- **Deep link**: URL com `?d=YYYY-MM-DD` preserva a edição aberta. Copiar link de um card usa botão dedicado (copia URL da matéria).
+- **Prev/Next edições**: botões `◀` `▶` na sidebar (ou atalhos `P`/`N`) navegam entre edições adjacentes. Em view cat/tool, escondem.
+- **Botão "→ hoje"**: aparece na sidebar quando a edição aberta não é a de hoje.
 - **Filtro**: toolbar tem chip `urgent` (atalho `U`).
 - **Ler depois**: bookmark via `localStorage` (`dpco-read-later`). Modal com ordenação (saved/date/category/urgent), export JSON e clear.
-- **Tema dark/light**: toggle na topbar ou atalho `T`.
-- **Modo cards/list**: atalhos `1` e `2`.
-- **Teclado**: `J/K` navegam cards, `O` ou `Enter` abre, `H` volta pra home do dia atual, `ESC` fecha tudo.
+- **Tema dark/light**: toggle na sidebar ou atalho `T`.
+- **Modo cards/list**: atalhos `1` (grid multi-coluna) / `2` (lista 1 coluna larga). Ambos com summary completo.
+- **Teclado**: `J/K` navegam cards, `O`/`Enter` abrem URL em nova aba, `H` volta pra home, `?` abre atalhos, `ESC` fecha modal.
 - **Mobile**: sidebar vira hamburger abaixo de 720px.
 
 ## Campos estruturados por notícia

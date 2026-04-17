@@ -14,12 +14,13 @@ Arquitetura **data-driven**: um template HTML único carrega dados de arquivos J
 ## Funcionalidades
 
 - Filtrar por **categoria** ou **ferramenta** (agrega todas as edições, lazy-load inteligente)
-- **Busca global**: `/` ou `Ctrl/Cmd+K` — indexa headlines, summary, fonte, tags e CVEs
-- **Deep link**: `?d=YYYY-MM-DD&u=<hash>` abre uma notícia específica
-- **Prev/Next**: botões ou `P`/`N` navegam entre edições
+- **Prev/Next entre edições**: botões `◀` `▶` ou `P`/`N`
+- **Botão "→ hoje"**: atalho visual pra voltar à edição do dia atual
+- **Prompt-bar sticky** no topo do main mostra contexto atual (edição/categoria/ferramenta) estilo terminal
+- **Contadores X/Y** nas categorias/ferramentas: X=quantos itens no dia atual, Y=total no arquivo
 - **Ler depois**: salvar, ordenar, exportar JSON
-- **Modal reader**: abre a matéria, CVEs clicáveis, tags, botão compartilhar
-- **Teclado**: `J`/`K` navega, `O` abre, `T` tema, `1`/`2` modo, `U` filtro urgent
+- **Cards clicáveis direto**: clique abre URL em nova aba; bookmark, copy, CVEs inline
+- **Teclado**: `J`/`K` navega, `O` abre, `T` tema, `1`/`2` modo, `U` filtro urgent, `?` atalhos
 - **Calendário** no topbar com navegação por setas
 - **RSS**: assine em `feed.xml`
 
