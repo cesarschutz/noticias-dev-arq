@@ -1894,7 +1894,7 @@ button { font-family: inherit; color: inherit; }
 
     <div class="side-section">
       <div class="side-label">
-        <span>// ferramentas</span>
+        <span>// assuntos</span>
         <span class="count" id="tool-total">30</span>
       </div>
       <div id="tools-side" role="list"></div>
@@ -2411,7 +2411,7 @@ function renderSidebar(){
              `</div>`;
     });
   });
-  // Ferramentas sem categoria (retrocompat)
+  // Assuntos sem categoria (retrocompat)
   if (toolsByCat['_other']) {
     toolsByCat['_other'].forEach(t => {
       const total = toolTotals[t.key] || 0;
@@ -2671,7 +2671,7 @@ function renderHome(){
   html += `<div id="feed"></div></section>`;
 
   if (ed.tools && ed.tools.length) {
-    html += `<section class="section"><div class="sec-head"><h2>⚒ Ferramentas <span class="tag">feed</span></h2><div class="sec-meta">${ed.tools.length} itens</div></div>`;
+    html += `<section class="section"><div class="sec-head"><h2>◉ Assuntos <span class="tag">feed</span></h2><div class="sec-meta">${ed.tools.length} itens</div></div>`;
     html += `<div class="tools-grid">` + ed.tools.map(buildToolCard).join('') + `</div></section>`;
   }
 
