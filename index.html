@@ -894,12 +894,42 @@ button { font-family: inherit; color: inherit; }
   color: var(--ink-dim);
 }
 
-/* top3 */
-.top3 {
+/* pillars */
+.pillars {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
+.pillar-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+.pillar-card:hover { border-color: var(--pillar-color, var(--amber)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+.pillar-card .strip { height: 4px; background: var(--pillar-color, var(--amber)); }
+.pillar-card.urgent .strip {
+  background: var(--red);
+  animation: critPulse 2s ease-in-out infinite;
+}
+.pillar-label {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .10em;
+  color: var(--pillar-color, var(--amber));
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  background: transparent;
+}
+/* top-card alias for backward compat (cat/tool views) */
 .top-card {
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -1391,6 +1421,17 @@ button { font-family: inherit; color: inherit; }
   color: var(--ink-dim);
   opacity: .8;
 }
+.quote-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  text-decoration: none;
+  letter-spacing: .04em;
+  transition: color .12s;
+  margin-left: auto;
+  padding: 1px 4px;
+}
+.quote-link:hover { color: var(--amber); }
 
 /* radar */
 .radar-sec { margin-bottom: 22px; }
@@ -1728,8 +1769,8 @@ button { font-family: inherit; color: inherit; }
 /* ═══ Responsive ═══ */
 @media (max-width: 1280px) {
   .shell { grid-template-columns: 240px 1fr 264px; }
-  .top3 { grid-template-columns: 1fr 1fr; }
-  .top3 .top-card:nth-child(3) { grid-column: 1 / -1; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .pillars .pillar-card:nth-child(3) { grid-column: 1 / -1; }
 }
 @media (max-width: 1080px) {
   .shell {
@@ -1740,8 +1781,8 @@ button { font-family: inherit; color: inherit; }
       "side main";
   }
   .rail { display: none; }
-  .top3 { grid-template-columns: 1fr; }
-  .top3 .top-card:nth-child(3) { grid-column: auto; }
+  .pillars { grid-template-columns: 1fr; }
+  .pillars .pillar-card:nth-child(3) { grid-column: auto; }
 }
 @media (max-width: 720px) {
   .shell {
@@ -1877,6 +1918,7 @@ button { font-family: inherit; color: inherit; }
       <div class="quote-meta">
         <span class="quote-author" id="quote-author">—</span>
         <span class="quote-pill" id="quote-pill" hidden>—</span>
+        <a id="quote-link" class="quote-link" href="#" target="_blank" rel="noopener noreferrer" hidden>↗</a>
       </div>
     </div>
 
@@ -1927,6 +1969,12 @@ const LEGACY_CAT_MAP = {
   frontend: null
 };
 
+const PILLARS = {
+  java:     { label: 'Java & JVM',             color: '#f89820', icon: '☕' },
+  aws:      { label: 'AWS',                     color: '#FF9900', icon: '🔶' },
+  distarch: { label: 'Arq. Distribuída',        color: '#818cf8', icon: '🕸' }
+};
+
 // Tipos usados para colorir card na sidebar
 const TOOL_KIND = {
   ide:    'var(--tool-ide)',
@@ -1947,19 +1995,14 @@ const TOOLS = [
   { key:'claudecode',   category:'ai',      name:'Claude Code',        aliases:['claude code','anthropic claude'],           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
   { key:'chatgpt',      category:'ai',      name:'ChatGPT',            aliases:['chatgpt','openai chatgpt','gpt-4'],         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
   { key:'vscode',       category:'ai',      name:'VS Code',            aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
+  { key:'warp',         category:'ai',      name:'Warp Terminal',      aliases:['warp terminal','warp'],                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
   // Segurança & IAM
   { key:'keycloak',     category:'sec',     name:'Keycloak',           aliases:['keycloak'],                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
-  // AWS
-  { key:'cloudwatch',   category:'aws',     name:'CloudWatch',         aliases:['cloudwatch','aws cloudwatch'],              icon:'📡', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
-  { key:'lambda',       category:'aws',     name:'Lambda',             aliases:['aws lambda','lambda function'],             icon:'λ',  kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
-  { key:'dynamodb',     category:'aws',     name:'DynamoDB',           aliases:['dynamodb','amazon dynamodb'],               icon:'🔷', kind:'db',     logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6' },
-  { key:'apigateway',   category:'aws',     name:'API Gateway',        aliases:['api gateway','aws api gateway'],            icon:'🚪', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
-  { key:'sns',          category:'aws',     name:'Amazon SNS',         aliases:['amazon sns','sns','simple notification'],   icon:'📣', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
-  { key:'sqs',          category:'aws',     name:'Amazon SQS',         aliases:['amazon sqs','sqs','simple queue'],          icon:'📬', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128' },
+  { key:'owasp',        category:'sec',     name:'OWASP',              aliases:['owasp'],                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
+  { key:'snyk',         category:'sec',     name:'Snyk',               aliases:['snyk'],                                     icon:'🔒', kind:'devops', logo:'https://cdn.simpleicons.org/snyk/4C4A73' },
   // DevOps & Plataformas
   { key:'docker',       category:'devops',  name:'Docker Desktop',     aliases:['docker desktop','docker'],                  icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
   { key:'kubernetes',   category:'devops',  name:'Kubernetes',         aliases:['kubernetes','k8s','kubectl'],               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
-  { key:'warp',         category:'devops',  name:'Warp Terminal',      aliases:['warp terminal','warp'],                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
   // Observabilidade
   { key:'dynatrace',    category:'obs',     name:'Dynatrace',          aliases:['dynatrace'],                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
   // Dados & Streaming
@@ -1972,10 +2015,9 @@ const TOOLS = [
   { key:'kafka',        category:'integ',   name:'Apache Kafka',       aliases:['apache kafka','kafka','confluent'],         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
   { key:'postman',      category:'integ',   name:'Postman',            aliases:['postman'],                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
   { key:'openapi',      category:'integ',   name:'OpenAPI',            aliases:['openapi','swagger','open api'],             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
-  // Arq. Solução
-  { key:'togaf',        category:'arqsol',  name:'TOGAF',              aliases:['togaf','the open group'],                   icon:'🏢', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=opengroup.org&sz=128' },
   // Backend & Runtimes
   { key:'intellij',     category:'backend', name:'IntelliJ IDEA',      aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
+  { key:'springboot',   category:'backend', name:'Spring Boot',        aliases:['spring boot','spring framework','spring'],  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
   { key:'gradle',       category:'backend', name:'Gradle',             aliases:['gradle'],                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
   { key:'maven',        category:'backend', name:'Apache Maven',       aliases:['apache maven','maven'],                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' }
 ];
@@ -2256,7 +2298,7 @@ function allItemsAcrossEditions(){
   Object.keys(STATE.editionsCache).forEach(date => {
     const ed = STATE.editionsCache[date];
     if (!ed) return;
-    [...(ed.top3||[]), ...(ed.news||[])].forEach(it => {
+    [...(ed.pillars||ed.top3||[]), ...(ed.news||[])].forEach(it => {
       out.push(Object.assign({}, it, { _date: date, _type: 'news' }));
     });
     (ed.tools||[]).forEach(t => {
@@ -2295,7 +2337,7 @@ function renderSidebar(){
   const catToday = {};
   const LEGACY_CAT_FWD = { cloud:'aws', db:'data', lang:'backend', frontend:null };
   if (isHome && ed) {
-    [...(ed.top3||[]), ...(ed.news||[])].forEach(it => {
+    [...(ed.pillars||ed.top3||[]), ...(ed.news||[])].forEach(it => {
       let k = it.category;
       if (k in LEGACY_CAT_FWD) k = LEGACY_CAT_FWD[k];
       if (k) catToday[k] = (catToday[k]||0) + 1;
@@ -2330,7 +2372,7 @@ function renderSidebar(){
       });
     } else {
       // Retrocompat: edições antigas sem tool_key
-      const todayNews = [...(ed.top3||[]), ...(ed.news||[])];
+      const todayNews = [...(ed.pillars||ed.top3||[]), ...(ed.news||[])];
       TOOLS.forEach(t => {
         let n = 0;
         todayNews.forEach(it => { if (matchesTool(it, t)) n++; });
@@ -2402,7 +2444,7 @@ function renderRail(){
   const eds = STATE.editionsIndex?.editions || [];
   let items;
   if (STATE.view === 'home' && STATE.currentEdition) {
-    items = [...(STATE.currentEdition.top3||[]), ...(STATE.currentEdition.news||[])];
+    items = [...(STATE.currentEdition.pillars||STATE.currentEdition.top3||[]), ...(STATE.currentEdition.news||[])];
   } else {
     items = allItemsAcrossEditions().filter(x => x._type === 'news');
   }
@@ -2454,30 +2496,99 @@ function renderRail(){
 }
 
 /* ═══ Quote do dia ═══ */
-const FALLBACK_QUOTES = [
-  { text: 'The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times.', author: 'Donald Knuth', context: 'Premature optimization', related_to: 'general' },
-  { text: 'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', author: 'Martin Fowler', context: 'Legibilidade de código', related_to: 'cat:arqsw' },
-  { text: 'The value of software architecture is that it enables change.', author: 'Martin Fowler', context: 'Arquitetura e mudança', related_to: 'cat:arqsw' },
-  { text: 'Make it work, make it right, make it fast.', author: 'Kent Beck', context: 'Processo de desenvolvimento', related_to: 'cat:backend' },
-  { text: 'A distributed system is one in which the failure of a computer you didn\'t even know existed can render your own computer unusable.', author: 'Leslie Lamport', context: 'Sistemas distribuídos', related_to: 'cat:cloud' },
-  { text: 'The C4 model isn\'t a notation to describe the solution; it\'s a way to tell the story of the solution.', author: 'Simon Brown', context: 'Diagramação de arquitetura', related_to: 'tool:c4' },
-  { text: 'Simple can be harder than complex. You have to work hard to get your thinking clean to make it simple.', author: 'Steve Jobs', context: 'Simplicidade no design', related_to: 'general' },
-  { text: 'Simplicity is prerequisite for reliability.', author: 'Edsger W. Dijkstra', context: 'Design de sistemas', related_to: 'cat:arqsol' },
-  { text: 'OO makes code understandable by encapsulating moving parts. FP makes code understandable by minimizing moving parts.', author: 'Michael Feathers', context: 'Paradigmas de programação', related_to: 'cat:lang' },
-  { text: 'Programs must be written for people to read, and only incidentally for machines to execute.', author: 'Harold Abelson', context: 'Legibilidade e manutenção', related_to: 'cat:arqsw' },
-  { text: 'Infrastructure as code means applying software engineering principles to infrastructure provisioning and management.', author: 'Kief Morris', context: 'IaC e DevOps', related_to: 'cat:devops' },
-  { text: 'Security is not a product, but a process.', author: 'Bruce Schneier', context: 'Segurança em sistemas', related_to: 'cat:sec' },
-  { text: 'Microservices: you have to solve problems in distributed systems that you didn\'t know you had.', author: 'Sam Newman', context: 'Microserviços', related_to: 'cat:arqsw' },
-  { text: 'Docker changed the way we think about deployment environments.', author: 'Solomon Hykes', context: 'Containers e portabilidade', related_to: 'tool:docker' },
-  { text: 'The best performance improvement is the transition from the nonworking state to the working state.', author: 'John Ousterhout', context: 'Performance e qualidade', related_to: 'cat:backend' }
+const STATIC_QUOTES = [
+  // Java & JVM
+  { text: 'Escreva uma vez, execute em qualquer lugar.', author: 'James Gosling', context: 'Portabilidade Java — princípio fundador da JVM', related_to: 'cat:backend', url: 'https://www.oracle.com/java/technologies/java-se-glance.html' },
+  { text: 'Java é C++ sem as armas, tacos e facas. A linguagem nasceu da necessidade de segurança e portabilidade, não de velocidade bruta.', author: 'James Gosling', context: 'Filosofia de design da linguagem Java', related_to: 'cat:backend', url: 'https://www.infoq.com/presentations/effective-api-design/' },
+  { text: 'Prefira composição a herança. A herança expõe os detalhes de implementação de uma classe pai ao filho — isso é acoplamento forte.', author: 'Joshua Bloch', context: 'Effective Java — padrão fundamental de design orientado a objetos', related_to: 'cat:backend', url: 'https://www.oreilly.com/library/view/effective-java/9780134686097/' },
+  { text: 'APIs deveriam ser fáceis de usar corretamente e difíceis de usar de forma errada. Esse princípio guia todo bom design de interface.', author: 'Joshua Bloch', context: 'How to Design a Good API and Why It Matters', related_to: 'cat:backend', url: 'https://www.infoq.com/presentations/effective-api-design/' },
+  { text: 'As threads virtuais não tornam a programação concorrente mais fácil de escrever — elas tornam o código bloqueante escalonável sem custo de threads do sistema operacional.', author: 'Ron Pressler', context: 'Project Loom — virtual threads na JVM desde Java 21', related_to: 'cat:backend', url: 'https://openjdk.org/projects/loom/' },
+  { text: 'Convenção sobre configuração liberta o desenvolvedor para focar no que realmente importa: o problema de negócio, não a infraestrutura do framework.', author: 'Rod Johnson', context: 'Filosofia do Spring Framework e do Spring Boot', related_to: 'tool:springboot', url: 'https://spring.io/blog' },
+  { text: 'O Spring Boot não é mágica — é apenas uma opinião razoável sobre como montar um projeto Java moderno, que você pode sobrescrever quando necessário.', author: 'Dave Syer', context: 'Spring Boot e autoconfiguração inteligente', related_to: 'tool:springboot', url: 'https://spring.io/projects/spring-boot' },
+  { text: 'GraalVM nativa não é apenas performance — é uma forma diferente de pensar o ciclo de vida da aplicação JVM.', author: 'Thomas Wuerthinger', context: 'GraalVM e compilação nativa ahead-of-time para Java', related_to: 'cat:backend', url: 'https://www.graalvm.org/latest/docs/introduction/' },
+  // AWS
+  { text: 'Tudo falha o tempo todo. Projete sistemas que continuem funcionando mesmo quando os componentes individuais falharem.', author: 'Werner Vogels', context: 'Resiliência e design fault-tolerant na AWS', related_to: 'cat:aws', url: 'https://aws.amazon.com/blogs/architecture/werner-vogels-10-lessons-from-10-years-of-amazon-web-services/' },
+  { text: 'Nuvem não é um destino — é uma forma de operar. A transformação real é cultural e organizacional, não tecnológica.', author: 'Andy Jassy', context: 'Transformação digital e cloud-native', related_to: 'cat:aws', url: 'https://aws.amazon.com/blogs/enterprise-strategy/' },
+  { text: 'Se você tem mais de dois times para alimentar com duas pizzas, ele é grande demais. Times pequenos entregam e decidem mais rápido.', author: 'Jeff Bezos', context: 'Two-pizza rule — base dos microserviços autônomos na Amazon', related_to: 'cat:arqsw', url: 'https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html' },
+  { text: 'APIs são mais importantes que hierarquia. O Mandato de APIs da Amazon em 2002 criou a fundação do que hoje é a AWS.', author: 'Jeff Bezos', context: 'API Mandate — a origem dos serviços web internos na Amazon', related_to: 'cat:integ', url: 'https://apievangelist.com/2012/01/12/the-secret-to-amazons-success-internal-apis/' },
+  { text: 'Migrar para a nuvem sem mudar a arquitetura é como trocar o motor de um carro sem ajustar a suspensão — você não vai usar o potencial real.', author: 'Gregor Hohpe', context: 'Cloud migration e arquitetura cloud-native', related_to: 'cat:aws', url: 'https://architectelevator.com/cloud/cloud-architect/' },
+  { text: 'Serverless não é sobre zero servidores — é sobre zero gestão de servidores. A abstração correta no nível certo.', author: 'Ben Kehoe', context: 'Filosofia serverless e abstração de infraestrutura na AWS', related_to: 'cat:aws', url: 'https://read.acloud.guru/serverless-is-about-automation-not-functions-3b5f270c1d0e' },
+  // Distributed Systems / Arq. Distribuída
+  { text: 'Um sistema distribuído é aquele em que a falha de um computador que você nem sabia que existia pode tornar o seu computador inutilizável.', author: 'Leslie Lamport', context: 'Definição clássica de sistemas distribuídos', related_to: 'cat:arqsol', url: 'https://lamport.azurewebsites.net/pubs/pubs.html' },
+  { text: 'Você não pode ter consistência e disponibilidade ao mesmo tempo em presença de partição de rede. Escolha dois, mas aceite o terceiro.', author: 'Eric Brewer', context: 'Teorema CAP — trade-offs fundamentais em sistemas distribuídos', related_to: 'cat:arqsol', url: 'https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/' },
+  { text: 'Consistência eventual não é eventual consistência — a primeira é uma promessa de convergência, a segunda é uma desculpa para não raciocinar sobre o estado.', author: 'Martin Kleppmann', context: 'Modelos de consistência em bancos de dados distribuídos', related_to: 'cat:data', url: 'https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html' },
+  { text: 'Dados não estão mortos quando são deletados. Estão mortos quando você não pode mais confiar na sua integridade.', author: 'Martin Kleppmann', context: 'Designing Data-Intensive Applications — confiabilidade de dados', related_to: 'cat:data', url: 'https://dataintensive.net/' },
+  { text: 'Idempotência não é opcional em sistemas distribuídos. É o que separa o código que funciona do código que parece funcionar.', author: 'Pat Helland', context: 'Idempotência e tolerância a falhas em microsserviços', related_to: 'cat:integ', url: 'https://queue.acm.org/detail.cfm?id=3561348' },
+  { text: 'O banco de dados não é a verdade. Ele é a projeção mais recente que você tem da verdade — o log de eventos é a fonte primária.', author: 'Pat Helland', context: 'Imutabilidade, event sourcing e CQRS', related_to: 'cat:data', url: 'https://queue.acm.org/detail.cfm?id=3561348' },
+  { text: 'Chaos engineering não é sobre destruir coisas — é sobre aprender como o sistema se comporta sob condições que você ainda não enfrentou em produção.', author: 'Casey Rosenthal', context: 'Chaos Engineering — resiliência por experimento', related_to: 'cat:arqsol', url: 'https://principlesofchaos.org/' },
+  // Architecture
+  { text: 'Qualquer tolo consegue escrever código que um computador entende. Bons programadores escrevem código que humanos entendem.', author: 'Martin Fowler', context: 'Legibilidade como qualidade primária do software', related_to: 'cat:arqsw', url: 'https://martinfowler.com/books/refactoring.html' },
+  { text: 'O valor da arquitetura de software está em habilitar mudanças — não em resistir a elas.', author: 'Martin Fowler', context: 'Arquitetura como facilitadora da evolução contínua', related_to: 'cat:arqsw', url: 'https://martinfowler.com/architecture/' },
+  { text: 'Microserviços são uma arquitetura de alto risco. Não comece com eles — chegue até eles a partir de um monolito que você entende.', author: 'Martin Fowler', context: 'Monolith First — caminho seguro para microserviços', related_to: 'cat:arqsw', url: 'https://martinfowler.com/bliki/MonolithFirst.html' },
+  { text: 'Se você não pode testar, não pode refatorar com segurança. Se não pode refatorar, o código vai apodrecer lentamente.', author: 'Martin Fowler', context: 'Testes como base da refatoração contínua e saúde do código', related_to: 'cat:arqsw', url: 'https://martinfowler.com/books/refactoring.html' },
+  { text: 'O coração do software é sua capacidade de resolver problemas do domínio. Toda técnica deveria servir a esse fim, não ao contrário.', author: 'Eric Evans', context: 'Domain-Driven Design — o domínio como centro do software', related_to: 'cat:arqsw', url: 'https://www.domainlanguage.com/ddd/' },
+  { text: 'A linguagem ubíqua não é apenas conveniência — ela é o tecido que conecta o modelo mental ao código real. Sem ela, o modelo e o código divergem.', author: 'Eric Evans', context: 'Ubiquitous Language no DDD', related_to: 'cat:arqsw', url: 'https://martinfowler.com/bliki/UbiquitousLanguage.html' },
+  { text: 'Microserviços deveriam ser tão pequenos quanto necessário e não menores. O tamanho certo é aquele que pode ser substituído em uma semana.', author: 'Sam Newman', context: 'Building Microservices — dimensionamento correto de serviços', related_to: 'cat:arqsw', url: 'https://samnewman.io/books/building_microservices/' },
+  { text: 'Você deve ser capaz de implantar um microserviço de forma independente sem coordenar com outros times. Se não puder, não são microserviços.', author: 'Sam Newman', context: 'Implantação independente como requisito fundamental de microserviços', related_to: 'cat:devops', url: 'https://samnewman.io/books/building_microservices/' },
+  { text: 'Toda decisão de arquitetura é uma troca. Se não parece uma troca, você ainda não entendeu completamente o problema.', author: 'Mark Richards', context: 'Fundamentals of Software Architecture — trade-offs como essência', related_to: 'cat:arqsol', url: 'https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/' },
+  { text: 'Empresas não são hierarquias — são redes de serviços que se comunicam por contratos. A arquitetura espelha essa realidade.', author: 'Gregor Hohpe', context: 'Enterprise Integration Patterns — arquitetura orientada a serviços', related_to: 'cat:arqsol', url: 'https://www.enterpriseintegrationpatterns.com/' },
+  { text: 'O arquiteto eficaz não define a solução — define as restrições e os princípios que guiam a solução para o lugar certo.', author: 'Gregor Hohpe', context: 'The Software Architect Elevator — papel do arquiteto sênior', related_to: 'cat:arqsol', url: 'https://architectelevator.com/' },
+  { text: 'A Lei de Conway diz que sistemas espelham a estrutura de comunicação das organizações que os criam. Use isso a seu favor ao desenhar times.', author: 'Melvin Conway', context: 'Conway\'s Law — alinhamento entre estrutura organizacional e arquitetura', related_to: 'cat:arqsw', url: 'https://www.melconway.com/Home/Conways_Law.html' },
+  { text: 'O diagrama que ninguém lê não documenta nada — cria apenas a ilusão de documentação. Diagramas devem ter audiência e propósito claros.', author: 'Simon Brown', context: 'C4 Model — diagramas práticos e úteis para arquitetos', related_to: 'tool:structurizr', url: 'https://c4model.com/' },
+  { text: 'Arquitetura como código garante que a documentação envelhece junto com o sistema, não contra ele.', author: 'Simon Brown', context: 'Structurizr DSL e diagramas como código versionado', related_to: 'tool:structurizr', url: 'https://structurizr.com/help/dsl' },
+  // Kafka / Streaming / Integration
+  { text: 'Um log é a estrutura de dados mais simples que existe — mas é o núcleo de quase todo sistema distribuído de alta escala.', author: 'Jay Kreps', context: 'The Log — a abstração central do Apache Kafka e do streaming', related_to: 'tool:kafka', url: 'https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying' },
+  { text: 'Kafka não é uma fila de mensagens. É um registro distribuído de eventos. Essa distinção muda como você modela e pensa seus sistemas.', author: 'Jay Kreps', context: 'Event log vs message queue — filosofia do Apache Kafka', related_to: 'tool:kafka', url: 'https://www.confluent.io/blog/okay-store-data-apache-kafka/' },
+  { text: 'Streaming não é sobre velocidade — é sobre reatividade. A diferença entre saber que algo aconteceu e poder agir no momento certo.', author: 'Neha Narkhede', context: 'Real-time data processing e event-driven architecture com Kafka', related_to: 'cat:integ', url: 'https://www.confluent.io/blog/event-streaming-platform-1/' },
+  { text: 'Eventos são fatos imutáveis do passado. Uma arquitetura orientada a eventos trata esses fatos como cidadãos de primeira classe.', author: 'Greg Young', context: 'Event sourcing e CQRS — arquitetura baseada em eventos', related_to: 'cat:integ', url: 'https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf' },
+  // Kubernetes / Docker / DevOps / SRE
+  { text: 'Kubernetes não é sobre containers. É sobre organizar e automatizar sistemas distribuídos em escala, de forma declarativa.', author: 'Kelsey Hightower', context: 'Kubernetes além dos containers — orquestração e automação declarativa', related_to: 'tool:kubernetes', url: 'https://github.com/kelseyhightower/kubernetes-the-hard-way' },
+  { text: 'A melhor forma de implantar software é a forma que você consegue reverter em menos de cinco minutos se algo der errado.', author: 'Kelsey Hightower', context: 'Deploy seguro, rollback rápido e confiança no pipeline', related_to: 'cat:devops', url: 'https://www.infoq.com/presentations/kubernetes-10-years/' },
+  { text: 'Containers não resolvem o problema de implantação — eles tornam o problema de implantação reproduzível e consistente entre ambientes.', author: 'Solomon Hykes', context: 'Docker e portabilidade de aplicações entre ambientes', related_to: 'tool:docker', url: 'https://blog.docker.com/' },
+  { text: 'Se causa dor, faça com mais frequência. A dor é informação — ela revela onde você precisa investir em automação e melhoria.', author: 'Jez Humble', context: 'Continuous Delivery — integração e implantação frequente reduzem risco', related_to: 'cat:devops', url: 'https://continuousdelivery.com/' },
+  { text: 'Implantações frequentes não aumentam o risco. O que aumenta o risco é implantar grandes lotes raramente com muitas mudanças acumuladas.', author: 'Jez Humble', context: 'Tamanho de lote e risco de implantação — Continuous Delivery', related_to: 'cat:devops', url: 'https://continuousdelivery.com/implementing/patterns/' },
+  { text: 'A capacidade de implantar em produção a qualquer momento é o que distingue equipes de alto desempenho de todas as demais.', author: 'Nicole Forsgren', context: 'Accelerate — métricas DORA e desempenho de DevOps', related_to: 'cat:devops', url: 'https://itrevolution.com/books/accelerate/' },
+  { text: 'SRE é o que acontece quando você pede a um engenheiro de software para resolver um problema de operações de forma permanente.', author: 'Ben Treynor Sloss', context: 'Origem do Site Reliability Engineering no Google', related_to: 'cat:devops', url: 'https://sre.google/sre-book/introduction/' },
+  { text: 'O gargalo de qualquer pipeline de entrega está onde o fluxo para. Encontre, meça, visualize e elimine — nessa ordem.', author: 'Gene Kim', context: 'The Phoenix Project — teoria das restrições aplicada ao DevOps', related_to: 'cat:devops', url: 'https://itrevolution.com/books/phoenix-project/' },
+  { text: 'Infraestrutura como código significa que seu ambiente de produção e seu ambiente de desenvolvimento são o mesmo arquivo YAML.', author: 'Kief Morris', context: 'Infrastructure as Code — reprodutibilidade de ambientes', related_to: 'cat:devops', url: 'https://infrastructure-as-code.com/book/' },
+  // Security
+  { text: 'Segurança não é um produto — é um processo. Você não instala segurança, você a pratica continuamente.', author: 'Bruce Schneier', context: 'Segurança como disciplina de engenharia contínua', related_to: 'cat:sec', url: 'https://www.schneier.com/essays/archives/2000/04/the_process_of_secur.html' },
+  { text: 'Complexidade é o inimigo da segurança. Quanto mais complexo o sistema, maior a superfície de ataque e mais difícil o raciocínio sobre ele.', author: 'Bruce Schneier', context: 'Simplicidade como princípio de segurança de sistemas', related_to: 'cat:sec', url: 'https://www.schneier.com/books/secrets-and-lies/' },
+  { text: 'Existem dois tipos de sistemas: os que foram comprometidos e os que ainda não sabem que foram comprometidos.', author: 'John Chambers', context: 'Postura de segurança defensiva e detecção proativa de intrusão', related_to: 'cat:sec', url: 'https://owasp.org/www-project-top-ten/' },
+  { text: 'Zero trust não é uma tecnologia — é uma mentalidade: nunca confie, sempre verifique, assuma comprometimento.', author: 'John Kindervag', context: 'Zero Trust Architecture — modelo de segurança para cloud e microserviços', related_to: 'cat:sec', url: 'https://www.nist.gov/publications/zero-trust-architecture' },
+  { text: 'Toda entrada é potencialmente hostil até que se prove o contrário. Valide na borda, valide no domínio, valide na persistência.', author: 'OWASP Foundation', context: 'Validação de entrada — base da segurança de aplicações web (OWASP Proactive Controls)', related_to: 'tool:owasp', url: 'https://owasp.org/www-project-proactive-controls/' },
+  { text: 'Autenticação prova quem você é. Autorização determina o que você pode fazer. Confundir os dois é a origem de muitas falhas graves de segurança.', author: 'Stian Thorgersen', context: 'IAM com Keycloak — Identity and Access Management para desenvolvedores', related_to: 'tool:keycloak', url: 'https://www.keycloak.org/documentation' },
+  { text: 'Shift-left em segurança não é sobre encontrar vulnerabilidades mais cedo — é sobre construir a mentalidade de segurança na cultura de engenharia.', author: 'Guy Podjarny', context: 'DevSecOps — segurança integrada ao pipeline de desenvolvimento com Snyk', related_to: 'tool:snyk', url: 'https://snyk.io/learn/devsecops/' },
+  // Observability
+  { text: 'Você não pode depurar um sistema que não consegue observar. Observabilidade não é opcional — é o que torna sistemas distribuídos governáveis.', author: 'Charity Majors', context: 'Observabilidade como requisito de engenharia em sistemas distribuídos', related_to: 'cat:obs', url: 'https://charity.wtf/2020/03/03/observability-is-a-many-splendored-thing/' },
+  { text: 'Métricas dizem o quê está errado. Traces dizem onde está errado. Logs dizem por quê está errado. Você precisa dos três.', author: 'Cindy Sridharan', context: 'Os três pilares da observabilidade — metrics, traces, logs', related_to: 'cat:obs', url: 'https://copyconstruct.medium.com/monitoring-and-observability-8417d1952e1c' },
+  { text: 'Alerta que você ignora é pior do que nenhum alerta. Cada falso positivo corrói sua capacidade de detectar problemas reais.', author: 'Rob Ewaschuk', context: 'My Philosophy on Alerting — princípios de alertas do Google SRE', related_to: 'cat:obs', url: 'https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/' },
+  { text: 'A diferença entre monitoramento e observabilidade é a diferença entre saber que algo está errado e ter a capacidade de entender por quê.', author: 'Cindy Sridharan', context: 'Monitoramento reativo vs observabilidade proativa em sistemas modernos', related_to: 'cat:obs', url: 'https://copyconstruct.medium.com/monitoring-and-observability-8417d1952e1c' },
+  // Data
+  { text: 'Normalização remove redundância. Desnormalização melhora consultas. Saiba qual você está fazendo e por quê — misturar sem consciência é receita para inconsistência.', author: 'Joe Celko', context: 'Trade-offs de modelagem de banco de dados relacional', related_to: 'cat:data', url: 'https://www.oreilly.com/library/view/joe-celkos-sql/9780123820228/' },
+  { text: 'PostgreSQL é o banco que continua surpreendendo — não porque é simples, mas porque é correto. Correção é a feature mais importante de um banco.', author: 'Bruce Momjian', context: 'PostgreSQL e a filosofia de correção antes de performance', related_to: 'tool:postgres', url: 'https://momjian.us/main/writings/pgsql/' },
+  // General
+  { text: 'A otimização prematura é a raiz de todo mal — não porque performance não importa, mas porque otimizar antes de medir é adivinhar.', author: 'Donald Knuth', context: 'Computer Programming as an Art — foque na corretude antes da performance', related_to: 'general', url: 'https://dl.acm.org/doi/10.1145/361604.361612' },
+  { text: 'Simplicidade é pré-requisito para confiabilidade. Um sistema que ninguém entende completamente é um sistema que ninguém controla completamente.', author: 'Edsger W. Dijkstra', context: 'EWD notes — princípio de design de sistemas confiáveis', related_to: 'general', url: 'https://www.cs.utexas.edu/~EWD/' },
+  { text: 'Funcionar é a entrada mínima. Funcionar corretamente, ser legível e ser alterável com segurança — isso é o que importa no longo prazo.', author: 'Kent Beck', context: 'TDD e qualidade de software além da funcionalidade imediata', related_to: 'cat:arqsw', url: 'https://www.oreilly.com/library/view/test-driven-development/0321146530/' },
+  { text: 'Programas são escritos para humanos lerem e apenas incidentalmente para máquinas executarem. Escreva para o próximo desenvolvedor.', author: 'Harold Abelson', context: 'SICP — legibilidade como propósito primário do código', related_to: 'cat:arqsw', url: 'https://mitpress.mit.edu/9780262543231/structure-and-interpretation-of-computer-programs/' },
+  { text: 'A IDE não faz você um programador melhor. Mas uma boa IDE remove fricção e permite que você concentre energia no problema real.', author: 'Erich Gamma', context: 'Ferramentas de desenvolvimento e produtividade do engenheiro', related_to: 'tool:intellij', url: 'https://www.jetbrains.com/lp/devecosystem-2023/' },
+  { text: 'Faça com que cada programa faça uma coisa bem. Para fazer algo novo, construa um novo programa em vez de complicar os antigos.', author: 'Ken Thompson', context: 'Filosofia Unix — base dos containers, microserviços e composabilidade', related_to: 'cat:devops', url: 'https://www.cs.bell-labs.com/who/ken/' }
 ];
 
-const LS_QUOTE_IDX = 'dpco-last-quote-idx';
-
-function currentQuotes(){
-  const q = STATE.currentEdition?.quotes;
-  return (Array.isArray(q) && q.length) ? q : FALLBACK_QUOTES;
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
+
+let _quoteDeck = [];
+let _deckIdx  = 0;
+
+function currentQuotes(){ return STATIC_QUOTES; }
 
 function labelForRelation(rel){
   if (!rel || rel === 'general') return '';
@@ -2497,9 +2608,10 @@ function renderQuote(q){
   const textEl = $('quote-text');
   const authorEl = $('quote-author');
   const pillEl = $('quote-pill');
+  const linkEl = $('quote-link');
   if (!textEl) return;
   textEl.textContent = '\u201c' + q.text + '\u201d';
-  authorEl.textContent = '— ' + q.author;
+  authorEl.textContent = '— ' + q.author + (q.context ? ' · ' + q.context : '');
   const label = labelForRelation(q.related_to);
   if (label) {
     pillEl.hidden = false;
@@ -2508,17 +2620,18 @@ function renderQuote(q){
   } else {
     pillEl.hidden = true;
   }
+  if (linkEl) {
+    if (q.url) { linkEl.href = q.url; linkEl.hidden = false; }
+    else { linkEl.hidden = true; }
+  }
 }
 
 function cycleQuote(){
-  const quotes = currentQuotes();
-  if (!quotes.length) return;
-  const lastStr = localStorage.getItem(LS_QUOTE_IDX);
-  let last = lastStr !== null ? parseInt(lastStr, 10) : -1;
-  if (isNaN(last)) last = -1;
-  const idx = (last + 1) % quotes.length;
-  localStorage.setItem(LS_QUOTE_IDX, String(idx));
-  renderQuote(quotes[idx]);
+  if (!_quoteDeck.length || _deckIdx >= _quoteDeck.length) {
+    _quoteDeck = shuffleArray(STATIC_QUOTES);
+    _deckIdx = 0;
+  }
+  renderQuote(_quoteDeck[_deckIdx++]);
 }
 
 setInterval(() => { if (!document.hidden) cycleQuote(); }, 25000);
@@ -2545,9 +2658,10 @@ function renderHome(){
 
   let html = `<div class="main-prompt" id="mainPrompt"></div>`;
 
-  if (ed.top3 && ed.top3.length) {
-    html += `<section class="section" style="margin-top:18px"><div class="sec-head"><h2>★ Destaques <span class="tag">priority:high</span></h2><div class="sec-meta">${ed.top3.length}/3 pinadas</div></div>`;
-    html += `<div class="top3">` + ed.top3.map((t, i) => buildTopCard(t, i, ed.date)).join('') + `</div></section>`;
+  const pillars = ed.pillars || ed.top3 || [];
+  if (pillars.length) {
+    html += `<section class="section" style="margin-top:18px"><div class="sec-head"><h2>◈ Pilares <span class="tag">java · aws · distarch</span></h2><div class="sec-meta">${pillars.length}/3</div></div>`;
+    html += `<div class="pillars">` + pillars.map((t, i) => buildPillarCard(t, i, ed.date)).join('') + `</div></section>`;
   }
 
   const news = (ed.news||[]).map(n => Object.assign({}, n, { _date: ed.date }));
@@ -2725,6 +2839,33 @@ function buildTopCard(item, idx, date){
   html += `<div class="badges">`;
   html += `<span class="rank">[${String(idx+1).padStart(2,'0')}]</span>`;
   html += `<span class="badge cat">${cat.l}</span>`;
+  if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
+  if (item.urgent && !item.severity) html += `<span class="badge u">CRIT</span>`;
+  if (item.breaking) html += `<span class="badge brk">BRK</span>`;
+  html += `</div>`;
+  html += `<h3 class="top-head">${esc(item.headline)}</h3>`;
+  if (item.summary) html += `<p class="top-sum">${esc(item.summary)}</p>`;
+  html += buildCveTags(item);
+  html += `<div class="top-foot">`;
+  html += `<span class="src">${esc(item.source || '—')}</span>`;
+  if (item.read_time) html += `<span class="time">~${esc(item.read_time)}min</span>`;
+  html += `<div class="row-right">${buildActionButtons(url)}</div>`;
+  html += `</div></div></div>`;
+  return html;
+}
+
+function buildPillarCard(item, idx, date){
+  const c = item.category || 'arqsw';
+  const pillarDef = PILLARS[item.pillar] || null;
+  const pillarColor = pillarDef ? pillarDef.color : 'var(--amber)';
+  const url = item.url;
+  const thumb = item.image ? `<div class="top-thumb" style="background-image:url('${escAttr(item.image)}')" role="img" aria-label="${escAttr(item.headline)}"></div>` : '';
+  let html = `<div class="pillar-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--pillar-color:${pillarColor}; --cat:var(--cat-${c});">`;
+  html += `<div class="strip" aria-hidden="true"></div>`;
+  html += thumb;
+  html += `<div class="top-body">`;
+  html += `<div class="badges">`;
+  if (pillarDef) html += `<span class="pillar-label">${pillarDef.icon} ${pillarDef.label}</span>`;
   if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
   if (item.urgent && !item.severity) html += `<span class="badge u">CRIT</span>`;
   if (item.breaking) html += `<span class="badge brk">BRK</span>`;
@@ -2927,7 +3068,7 @@ document.addEventListener('keydown', (e) => {
 function findItem(url){
   for (const d in STATE.editionsCache) {
     const ed = STATE.editionsCache[d];
-    const all = [...(ed.top3||[]), ...(ed.news||[])];
+    const all = [...(ed.pillars||ed.top3||[]), ...(ed.news||[])];
     const hit = all.find(x => x.url === url);
     if (hit) return Object.assign({}, hit, { _date: d });
   }

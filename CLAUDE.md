@@ -46,7 +46,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
 2. Pesquisa notícias via WebSearch em 10 categorias + 30 ferramentas + HN + blogs eng + pulso BR
-3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade top3)
+3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
 6. GitHub Actions (`pages.yml`) gera `feed.xml` → deploya no GitHub Pages
@@ -54,7 +54,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 
 ## Views da SPA
 
-- **home** (default): edição do dia mais recente — hero, top3, feed, ferramentas
+- **home** (default): edição do dia mais recente — hero, pillars (3 cards Java/AWS/DistArch), feed, ferramentas
 - **cat:{chave}**: agregado de todas as notícias de uma categoria através das edições
 - **tool:{chave}**: feed completo da ferramenta — releases, notícias, dicas, tutoriais e curiosidades (seções distintas)
 - **deep link**: `?d=YYYY-MM-DD&u=<hash>` abre direto uma notícia
@@ -101,9 +101,11 @@ Além dos campos básicos, a skill gera (todos opcionais):
 ```
 
 ### `data/{YYYY-MM-DD}.json`
-Raiz: `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601), `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`, `sources[]`.
+Raiz: `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601), `hero_title`, `hero_description`, `pillars[]`, `news[]`, `tools[]`, `sources[]`.
 
-Item de `top3[]`/`news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`. Opcionais: `urgent`, `new`, `star`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`, `image`.
+Item de `pillars[]`: obrigatórios `pillar` (`java`|`aws`|`distarch`), `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`, `image`. Exatamente 3 itens, um por pilar.
+
+Item de `news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`. Opcionais: `urgent`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`, `image`.
 
 Item de `tools[]`: obrigatórios `tool_key`, `name`, `kind`, `headline`, `source`, `url`. `version` obrigatório quando `kind === "release"`. Opcionais: `icon`, `description`, `published_at`, `image`, `tags`. `kind` ∈ `{release, news, tip, tutorial, curiosity}`.
 
@@ -111,7 +113,19 @@ Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), 
 
 Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py`:
 - Edições ≥ `2026-04-18` são **strict v1** (tools com `kind`/`tool_key`, imagens, quotes).
-- Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias e ferramentas v2).
+- Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias, ferramentas v2, `pillars[]` com campo `pillar`).
+
+## Pilares (`pillars[]`)
+
+Os três pilares são os destaques fixos do topo de cada edição — um por tema principal:
+
+| `pillar` | Tema | Cor | Ícone |
+|---|---|---|---|
+| `java` | Java & JVM | `#f89820` | ☕ |
+| `aws` | AWS | `#FF9900` | 🔶 |
+| `distarch` | Arquitetura Distribuída | `#818cf8` | 🕸 |
+
+Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda colorida espessa e badge de identificação. Retrocompat: edições antigas com `top3` são renderizadas normalmente.
 
 ## Categorias (taxonomia v2 — desde 2026-04-20)
 
@@ -131,7 +145,7 @@ Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_
 **Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 
-## Ferramentas monitoradas (30, agrupadas por categoria)
+## Ferramentas monitoradas (26, agrupadas por categoria)
 
 Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema da ferramenta é permitido (documentar em `description`).
 
@@ -144,16 +158,12 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 | `ai` | `claudecode` | Claude Code |
 | `ai` | `chatgpt` | ChatGPT |
 | `ai` | `vscode` | VS Code |
+| `ai` | `warp` | Warp Terminal |
 | `sec` | `keycloak` | Keycloak |
-| `aws` | `cloudwatch` | CloudWatch |
-| `aws` | `lambda` | Lambda |
-| `aws` | `dynamodb` | DynamoDB |
-| `aws` | `apigateway` | API Gateway |
-| `aws` | `sns` | Amazon SNS |
-| `aws` | `sqs` | Amazon SQS |
+| `sec` | `owasp` | OWASP |
+| `sec` | `snyk` | Snyk |
 | `devops` | `docker` | Docker Desktop |
 | `devops` | `kubernetes` | Kubernetes |
-| `devops` | `warp` | Warp Terminal |
 | `obs` | `dynatrace` | Dynatrace |
 | `data` | `postgres` | PostgreSQL |
 | `data` | `mysql` | MySQL |
@@ -163,12 +173,12 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 | `integ` | `kafka` | Apache Kafka |
 | `integ` | `postman` | Postman |
 | `integ` | `openapi` | OpenAPI |
-| `arqsol` | `togaf` | TOGAF |
 | `backend` | `intellij` | IntelliJ IDEA |
+| `backend` | `springboot` | Spring Boot |
 | `backend` | `gradle` | Gradle |
 | `backend` | `maven` | Apache Maven |
 
-**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`.
+**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
 
 ## O Que Atualizar Quando
 

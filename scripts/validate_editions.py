@@ -34,15 +34,13 @@ TOOL_KEYS_V1  = {'teams','notion','intellij','cursor','warp','mongocompass','dbe
 CATEGORIES_V2 = {'sec','ai','aws','devops','obs','data','integ','backend','arqsw','arqsol'}
 TOOL_KEYS_V2  = {
   'structurizr','whimsical','plantuml',
-  'cursor','claudecode','chatgpt','vscode',
-  'keycloak',
-  'cloudwatch','lambda','dynamodb','apigateway','sns','sqs',
-  'docker','kubernetes','warp',
+  'cursor','claudecode','chatgpt','vscode','warp',
+  'keycloak','owasp','snyk',
+  'docker','kubernetes',
   'dynatrace',
   'postgres','mysql','mongocompass','dbeaver','databricks',
   'kafka','postman','openapi',
-  'togaf',
-  'intellij','gradle','maven'
+  'intellij','springboot','gradle','maven'
 }
 
 # União: aceita ambos (validator decide por data)
@@ -146,24 +144,37 @@ def validate_edition(path):
     for f in ('date','weekday','formatted_date','generated_at','hero_title','hero_description'):
         if f not in ed:
             err(f"{name}: campo raiz ausente: {f}")
-    if 'top3' not in ed or not isinstance(ed['top3'], list):
-        err(f"{name}: top3 ausente ou inválido")
-    elif len(ed['top3']) != 3:
-        warn(f"{name}: top3 com {len(ed['top3'])} itens (esperado 3)")
+    # pillars[] — novo campo obrigatório (aceita top3 legado)
+    pillars = ed.get('pillars') or ed.get('top3') or []
+    pillars_key = 'pillars' if 'pillars' in ed else ('top3' if 'top3' in ed else 'pillars')
+    if not pillars or not isinstance(pillars, list):
+        err(f"{name}: pillars ausente ou inválido")
+    elif len(pillars) != 3:
+        warn(f"{name}: pillars com {len(pillars)} itens (esperado 3)")
     if 'news' not in ed or not isinstance(ed.get('news'), list):
         err(f"{name}: news ausente")
-    total = len(ed.get('top3') or []) + len(ed.get('news') or [])
+    total = len(pillars) + len(ed.get('news') or [])
     if total < 15:
         warn(f"{name}: total de notícias {total} < 15 (mínimo da skill)")
-    cats = set()
+    pillar_keys_seen = set()
     urls = []
-    for i, it in enumerate(ed.get('top3') or []):
-        check_item(it, f"{name}:top3[{i}]", require_star=True)
-        cats.add(it.get('category'))
+    for i, it in enumerate(pillars):
+        label = f"{name}:{pillars_key}[{i}]"
+        check_item(it, label, require_star=False)
+        # valida campo pillar (obrigatório em edições >= STRICT_FROM_V2)
+        pk = it.get('pillar')
+        if _strict_v2:
+            if not pk:
+                err(f"{label}: campo 'pillar' ausente (java|aws|distarch)")
+            elif pk not in ('java', 'aws', 'distarch'):
+                err(f"{label}: pillar inválido '{pk}' (esperado java|aws|distarch)")
+            else:
+                pillar_keys_seen.add(pk)
         urls.append(it.get('url'))
-    # diversidade top3: ≥2 categorias distintas
-    if len(cats) < 2:
-        err(f"{name}: top3 precisa de ≥2 categorias distintas (tem {len(cats)})")
+    # todos os 3 pilares devem estar presentes (strict_v2)
+    if _strict_v2 and len(pillar_keys_seen) < 3:
+        missing_p = {'java','aws','distarch'} - pillar_keys_seen
+        err(f"{name}: pilares faltando em pillars[]: {sorted(missing_p)}")
     for i, it in enumerate(ed.get('news') or []):
         check_item(it, f"{name}:news[{i}]")
         urls.append(it.get('url'))
@@ -172,10 +183,10 @@ def validate_edition(path):
     for d in dup:
         err(f"{name}: URL duplicada intra-edição: {d}")
 
-    # imagens no top3: meta 3/3 (WARN em qualquer modo)
-    with_img = sum(1 for it in (ed.get('top3') or []) if it.get('image'))
+    # imagens nos pillars: meta 3/3 (WARN em qualquer modo)
+    with_img = sum(1 for it in pillars if it.get('image'))
     if with_img < 3:
-        warn(f"{name}: {with_img}/3 itens do top3 têm imagem (meta: 3/3)")
+        warn(f"{name}: {with_img}/3 pillars têm imagem (meta: 3/3)")
 
     # imagens em news[]: meta ≥40% (strict)
     news_list = ed.get('news') or []

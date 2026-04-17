@@ -18,7 +18,7 @@ Regra da janela:
 **Mapa de duplicatas — obrigatório**. Monte um Set de URLs já publicadas nas **últimas 7 edições** (não só `editions.json`, que contém só highlights):
 
 1. Leia `data/editions.json` e pegue as 7 datas mais recentes de `editions[]`.
-2. Para cada data, leia `data/{date}.json` e colete todas as URLs de `top3[]`, `news[]` e `tools[]`.
+2. Para cada data, leia `data/{date}.json` e colete todas as URLs de `pillars[]` (ou `top3[]` em edições legadas), `news[]` e `tools[]`.
 3. Esse Set é a sua **blocklist**. Qualquer candidata com URL idêntica é descartada **sem exceção**.
 4. Também descarte candidatas com headline quase idêntica (normalize: lowercase, remove pontuação, Levenshtein ≥ 85% de similaridade a alguma headline do Set) — proteção contra mesma notícia em URL diferente (ex.: mesmo comunicado em blog e em release).
 
@@ -28,7 +28,7 @@ Para cada uma das 10 categorias abaixo, faça **2-3 buscas na web** (WebSearch) 
 
 Após cada WebSearch, **leia a data do artigo** (via WebFetch se não aparecer no snippet) e descarte o que estiver fora da janela — operadores de data não são confiáveis.
 
-**Cobertura obrigatória**: cada uma das **10 categorias** deve ter **≥ 1 item** em `top3[]` + `news[]` combinados. As categorias são: `sec` (Segurança & IAM), `ai` (IA & LLMs), `aws` (AWS), `devops` (DevOps & Plataformas), `obs` (Observabilidade), `data` (Dados & Streaming), `integ` (Integração & Eventos), `backend` (Backend & Runtimes), `arqsw` (Arq. Software), `arqsol` (Arq. Solução). Se não houver notícia fresca na janela para uma categoria, inclua **1 item evergreen de alta qualidade** (artigo InfoQ, DDD Europe talk, paper acadêmico, post de blog técnico seminal). Nunca omita uma categoria — qualidade > frescor apenas em último caso.
+**Cobertura obrigatória**: cada uma das **10 categorias** deve ter **≥ 1 item** em `pillars[]` + `news[]` combinados. As categorias são: `sec` (Segurança & IAM), `ai` (IA & LLMs), `aws` (AWS), `devops` (DevOps & Plataformas), `obs` (Observabilidade), `data` (Dados & Streaming), `integ` (Integração & Eventos), `backend` (Backend & Runtimes), `arqsw` (Arq. Software), `arqsol` (Arq. Solução). Se não houver notícia fresca na janela para uma categoria, inclua **1 item evergreen de alta qualidade** (artigo InfoQ, DDD Europe talk, paper acadêmico, post de blog técnico seminal). Nunca omita uma categoria — qualidade > frescor apenas em último caso.
 
 ### 3. Verificar ferramentas
 
@@ -56,7 +56,7 @@ Faça **1 busca dedicada** ao ecossistema brasileiro: `site:tabnews.com.br OR si
 
 ### 6. Montar JSON da edição
 
-Monte o arquivo JSON do dia seguindo o schema especificado abaixo. Selecione os **3 destaques** (top3) com base nos critérios de priorização.
+Monte o arquivo JSON do dia seguindo o schema especificado abaixo. Selecione os **3 pilares** (`pillars[]`) — um por tema principal: Java/JVM, AWS e Arquitetura Distribuída. Veja as queries e critérios específicos de cada pilar na seção "PILARES PRINCIPAIS" abaixo.
 
 ### 7. Sanity checks antes de escrever
 
@@ -65,13 +65,12 @@ Antes de chamar Write, verifique mentalmente e corrija:
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug ou âncora. Nenhuma é homepage de vendor.
 - [ ] **Sem duplicatas** com a blocklist do passo 1 (URLs e headlines quase idênticas).
 - [ ] **Sem duplicatas intra-edição**: mesma URL não aparece 2 vezes.
-- [ ] **Top3 completo**: exatamente 3 itens, cada um com `star:true`, `source`, `url`, `summary`.
-- [ ] **Diversidade top3**: pelo menos 2 categorias distintas entre os 3 (3 é ideal, 2 é aceitável se houver matéria extraordinária que justifique repetir categoria).
-- [ ] **Mínimo 15 notícias** em `news[]` + `top3[]`, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`).
+- [ ] **Pillars completo**: exatamente 3 itens em `pillars[]`, um com `pillar:"java"`, um com `pillar:"aws"`, um com `pillar:"distarch"`. Cada item obrigatoriamente com `source`, `url`, `summary`.
+- [ ] **Mínimo 15 notícias** em `news[]` + `pillars[]`, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
-- [ ] **Campos obrigatórios** por item de `top3[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
-- [ ] **Imagens**: top3 3/3 com `image`; news[] ≥40% com `image`; tools[] com kind release/news têm `image` quando possível.
-- [ ] **`tools[]` com 30 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `keycloak`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `docker`, `kubernetes`, `warp`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `togaf`, `intellij`, `gradle`, `maven`).
+- [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
+- [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥40% com `image`; tools[] com kind release/news têm `image` quando possível.
+- [ ] **`tools[]` com 26 itens**: cada `tool_key` aparece exatamente 1 vez, `kind` válido, `tool_key` válido (`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`).
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens**: campos `text`, `author`, `related_to` presentes em cada um.
 
@@ -154,9 +153,93 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ---
 
+## PILARES PRINCIPAIS
+
+Os três pilares são o **coração editorial de cada edição** — o leitor abre o DevPulse e vê primeiro essas três histórias. Cada pilar deve ter a notícia/insight **mais relevante do dia** dentro do seu domínio. Dedique pesquisa extra a esses três antes de qualquer outra coisa.
+
+Cada item de `pillars[]` leva o campo obrigatório `pillar: "java" | "aws" | "distarch"` além de todos os campos normais de uma notícia (`category`, `headline`, `summary`, `source`, `url`, `read_time`, `image` obrigatório).
+
+---
+
+### ☕ Pilar Java & JVM (`pillar: "java"`)
+
+**Domínio**: tudo que envolve o ecossistema Java — linguagem, plataforma JVM, frameworks, build tools e práticas de desenvolvimento. O leitor é um arquiteto/desenvolvedor Java sênior que usa Spring Boot no dia a dia.
+
+**O que buscar (prioridade decrescente):**
+1. **Releases** — JDK, Spring Boot, Spring Framework, Quarkus, Micronaut, Gradle, Maven, IntelliJ IDEA, GraalVM
+2. **JVM & Performance** — virtual threads, Project Loom, Project Panama, ZGC, G1 GC tuning, JIT improvements
+3. **Ecosystem news** — Jakarta EE, MicroProfile, JetBrains announcements, Eclipse Foundation
+4. **Práticas & Arquitetura Java** — design patterns no contexto Java, hexagonal/clean architecture com Spring, modular monolith, Java + Kafka, Java + cloud-native
+5. **Conteúdo técnico profundo** — posts de blog de engenharia de empresas que usam Java em escala (LinkedIn, Netflix, Uber, Mercado Livre)
+
+**Queries sugeridas:**
+- `"Spring Boot" OR "Spring Framework" OR "JDK" OR "GraalVM" release OR update site:spring.io OR site:openjdk.org`
+- `"Java" OR "JVM" OR "virtual threads" OR "Project Loom" news site:infoq.com`
+- `"Java" OR "Spring Boot" architecture OR performance blog post this week`
+- `"Quarkus" OR "Micronaut" OR "Helidon" release OR feature`
+- `"Gradle" OR "Maven" OR "IntelliJ IDEA" update OR release`
+
+**`category` recomendada**: `backend` (na maioria dos casos). Use `arqsw` para padrões arquiteturais, `data` para Java + banco/streaming.
+
+---
+
+### 🔶 Pilar AWS (`pillar: "aws"`)
+
+**Domínio**: toda a plataforma AWS — serviços, lançamentos, boas práticas arquiteturais, posts do blog oficial e incidentes. O leitor usa AWS extensivamente e quer saber de qualquer novidade relevante, seja ela Compute, Data, Integração ou Segurança.
+
+**Sub-áreas de busca** (cubra pelo menos 2 nas suas queries; escolha a notícia mais impactante para o pilar):
+
+#### Compute & Serverless
+Execução de workloads: EC2, Lambda, Fargate, ECS, EKS, App Runner, Batch, lightsail.
+- `site:aws.amazon.com/about-aws/whats-new compute OR serverless OR lambda OR fargate`
+- `"AWS Lambda" OR "AWS Fargate" OR "EC2" release OR feature OR update`
+
+#### Data, Integração & Eventos
+Bancos, streaming e mensageria: DynamoDB, RDS, Aurora, S3, Kinesis, SNS, SQS, EventBridge, Step Functions, API Gateway, AppSync.
+- `"DynamoDB" OR "Aurora" OR "API Gateway" OR "SNS" OR "SQS" OR "EventBridge" AWS update OR feature`
+- `"AWS" data OR integration OR events announcement site:aws.amazon.com`
+
+#### Segurança & Identidade
+IAM, Cognito, WAF, GuardDuty, Security Hub, Shield, Secrets Manager, Certificate Manager.
+- `"AWS IAM" OR "Amazon Cognito" OR "GuardDuty" OR "AWS WAF" update OR release OR vulnerability`
+
+#### Arquitetura & Well-Architected
+Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost optimization, re:Invent sessions, reference architectures.
+- `site:aws.amazon.com/blogs/architecture new post`
+- `"AWS Well-Architected" OR "landing zone" OR "reference architecture" OR "re:Invent" 2026`
+- `"AWS" best practice OR case study OR "lessons learned" site:infoq.com`
+
+**`category`**: sempre `aws`.
+
+---
+
+### 🕸 Pilar Arquitetura Distribuída (`pillar: "distarch"`)
+
+**Domínio**: sistemas distribuídos em produção — padrões, trade-offs, incidentes reais, ferramentas e práticas que arquitetos precisam para projetar e operar sistemas de alta escala e resiliência.
+
+**O que buscar (prioridade decrescente):**
+1. **Incidentes & post-mortems** — outages de grandes empresas, análises de falhas em sistemas distribuídos, RCAs públicos
+2. **Padrões & decisões arquiteturais** — saga, CQRS, event sourcing, circuit breaker, sidecar, service mesh, API gateway patterns, cell-based architecture
+3. **Consistência & Consenso** — eventual consistency, idempotência, two-phase commit, distributed transactions, CAP/PACELC na prática
+4. **Microserviços & Plataforma** — decomposição de monolito, strangler fig, contratos de API, versioning, platform engineering, internal developer platform
+5. **Confiabilidade & Escalabilidade** — chaos engineering, SLO/SLI em produção, load shedding, backpressure, retry storms
+6. **Engineering blogs** — Netflix, Uber, Airbnb, Stripe, LinkedIn, Cloudflare, Discord publicam regularmente sobre esses temas
+
+**Queries sugeridas:**
+- `"distributed systems" OR "microservices" OR "event-driven" architecture post site:infoq.com OR site:blog.bytebytego.com`
+- `"outage" OR "post-mortem" OR "incident" distributed system OR cloud 2026`
+- Netflix OR Uber OR Stripe OR Discord OR Cloudflare "engineering blog" architecture OR distributed 2026
+- `"eventual consistency" OR "idempotency" OR "saga pattern" OR "CQRS" article OR post`
+- `"platform engineering" OR "internal developer platform" OR "service mesh" news`
+- `"chaos engineering" OR "SLO" OR "resilience" OR "circuit breaker" production`
+
+**`category` recomendada**: `arqsol` ou `arqsw` (arquitetura de solução para decisões de alto nível, arquitetura de software para padrões de código). Use `devops` para SRE/chaos/platform. Use `integ` para event-driven patterns + Kafka. Use `obs` para observabilidade em sistemas distribuídos.
+
+---
+
 ## FERRAMENTAS MONITORADAS
 
-Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**30 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**26 itens**). O campo `tool_key` identifica a ferramenta — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -170,6 +253,30 @@ Toda edição deve ter **exatamente 1 item por ferramenta** em `tools[]` (**30 i
 
 Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker News, TheNewStack, Reddit r/devops). O campo `url` pode apontar para artigo externo — não precisa ser o changelog oficial.
 
+### Política de conteúdo indireto (obrigatório quando não há notícia direta)
+
+Se após buscar changelog + artigos externos **não houver nada relevante direto sobre a ferramenta**, você **deve** trazer conteúdo do ecossistema/domínio da ferramenta — **isso é preferível a `curiosity` genérica**. Documente no campo `description` por que o conteúdo é indireto.
+
+Exemplos por ferramenta (não exaustivos — use o mesmo raciocínio para qualquer outra):
+
+| Ferramenta | Conteúdo direto (preferido) | Conteúdo indireto aceito |
+|---|---|---|
+| `postman` | Novo recurso, release, artigo sobre a plataforma | REST API design, HTTP/2, contratos OpenAPI, testes de endpoint, mocking de API |
+| `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO enterprise |
+| `docker` | Nova versão Desktop, mudança de licensing, CVE | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens |
+| `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, service mesh, kubelet, etcd |
+| `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium |
+| `owasp` | Novo projeto, atualização Top 10, ferramenta nova | Vulnerabilidade web relevante (XSS, SQLi, SSRF), boas práticas de AppSec |
+| `snyk` | Release, novo scanner, incidente de supply chain | DevSecOps, SBOM, dependency confusion, container scanning |
+| `structurizr` | Release, nova feature DSL | Arquitetura como código, C4 Model, diagramas de sistema, ADRs |
+| `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, performance de build, dependency management |
+| `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
+| `dynatrace` | Release, novo integração | OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s |
+| `databricks` | Release, novo recurso | Delta Lake, lakehouse architecture, Apache Spark, MLflow, Unity Catalog |
+| `openapi` | Spec update, novo tooling | API-first design, AsyncAPI, GraphQL vs REST, contract testing |
+| `plantuml` | Release | Diagramas como código, Mermaid, C4, modelagem UML em CI/CD |
+| `whimsical` | Release | Diagramas de arquitetura, wireframing, colaboração assíncrona |
+
 | `tool_key` | Ferramenta | Categoria | Changelog / Blog |
 |---|---|---|---|
 | `structurizr` | Structurizr | `arqsw` | https://structurizr.com/changelog |
@@ -180,15 +287,11 @@ Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker Ne
 | `chatgpt` | ChatGPT | `ai` | https://help.openai.com/en/articles/6825453-chatgpt-release-notes |
 | `vscode` | VS Code | `ai` | https://code.visualstudio.com/updates |
 | `keycloak` | Keycloak | `sec` | https://www.keycloak.org/docs/latest/release_notes/ |
-| `cloudwatch` | CloudWatch | `aws` | https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/DocumentHistory.html |
-| `lambda` | Lambda | `aws` | https://docs.aws.amazon.com/lambda/latest/dg/lambda-whats-new.html |
-| `dynamodb` | DynamoDB | `aws` | https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WhatsNew.html |
-| `apigateway` | API Gateway | `aws` | https://docs.aws.amazon.com/apigateway/latest/developerguide/history.html |
-| `sns` | Amazon SNS | `aws` | https://docs.aws.amazon.com/sns/latest/dg/sns-release-notes.html |
-| `sqs` | Amazon SQS | `aws` | https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-release-notes.html |
+| `owasp` | OWASP | `sec` | https://owasp.org/news/ |
+| `snyk` | Snyk | `sec` | https://updates.snyk.io/ |
 | `docker` | Docker Desktop | `devops` | https://docs.docker.com/desktop/release-notes/ |
 | `kubernetes` | Kubernetes | `devops` | https://kubernetes.io/releases/ |
-| `warp` | Warp Terminal | `devops` | https://docs.warp.dev/getting-started/changelog |
+| `warp` | Warp Terminal | `ai` | https://docs.warp.dev/getting-started/changelog |
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
 | `mysql` | MySQL | `data` | https://dev.mysql.com/doc/relnotes/mysql/en/ |
@@ -198,8 +301,8 @@ Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker Ne
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads |
 | `postman` | Postman | `integ` | https://www.postman.com/release-notes/ |
 | `openapi` | OpenAPI | `integ` | https://www.openapis.org/news |
-| `togaf` | TOGAF | `arqsol` | https://www.opengroup.org/togaf |
 | `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
+| `springboot` | Spring Boot | `backend` | https://spring.io/blog |
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
 
@@ -235,23 +338,47 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   "generated_at": "2026-04-17T06:00:00-03:00",
   "hero_title": "Título curto e impactante (max ~60 chars)",
   "hero_description": "2-3 frases sintetizando os temas principais do dia.",
-  "top3": [
+  "pillars": [
     {
-      "category": "sec",
-      "category_label": "Segurança",
-      "category_icon": "🔐",
-      "severity": "critical",
-      "urgent": true,
-      "star": true,
-      "breaking": false,
+      "pillar": "java",
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
       "source": "Nome da Fonte",
       "url": "https://url-real-verificada.com/artigo",
       "published_at": "2026-04-17T04:20:00-03:00",
       "read_time": 4,
-      "cves": ["CVE-2026-12345"],
-      "tags": ["aws", "bedrock", "anthropic"],
+      "tags": ["spring-boot", "java", "jvm"],
+      "image": "https://url-da-imagem-og-image-do-artigo.com/img.jpg"
+    },
+    {
+      "pillar": "aws",
+      "category": "aws",
+      "category_label": "AWS",
+      "category_icon": "🔶",
+      "headline": "Manchete em português brasileiro",
+      "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
+      "source": "AWS Blog",
+      "url": "https://url-real-verificada.com/artigo",
+      "published_at": "2026-04-17T04:20:00-03:00",
+      "read_time": 3,
+      "tags": ["aws", "serverless"],
+      "image": "https://url-da-imagem-og-image-do-artigo.com/img.jpg"
+    },
+    {
+      "pillar": "distarch",
+      "category": "arqsol",
+      "category_label": "Arq. Solução",
+      "category_icon": "🗺️",
+      "headline": "Manchete em português brasileiro",
+      "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
+      "source": "Nome da Fonte",
+      "url": "https://url-real-verificada.com/artigo",
+      "published_at": "2026-04-17T04:20:00-03:00",
+      "read_time": 5,
+      "tags": ["distributed-systems", "microservices"],
       "image": "https://url-da-imagem-og-image-do-artigo.com/img.jpg"
     }
   ],
@@ -304,9 +431,9 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
 
 ### Campos por objeto
 
-**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`, `quotes[]`. Opcionais: `sources[]`.
+**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `pillars[]`, `news[]`, `tools[]`, `quotes[]`. Opcionais: `sources[]`.
 
-**Item de `top3[]` / `news[]`**:
+\*\*Item de `pillars[]` / `news[]`\*\*:
 - **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - **Booleans opcionais** (default `false`): `urgent`, `star`, `breaking`.
 - **Opcionais estruturados**:
@@ -314,7 +441,7 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   - `published_at`: ISO 8601 com timezone — quando o artigo/anúncio foi publicado pela fonte original. Permite distinguir "saiu hoje" de "ganhou destaque hoje".
   - `cves`: array de strings no formato `"CVE-YYYY-NNNNN"`. Extraia todos os CVEs citados no artigo — indexação futura.
   - `tags`: array de 2-6 strings curtas minúsculas (`"aws"`, `"kubernetes"`, `"anthropic"`). Complementa `category` com entidades/tecnologias citadas. Evite tags genéricas (`"news"`, `"update"`).
-  - `image` (em `top3[]` e `news[]`): URL `https://` da imagem principal do artigo (og:image). Veja seção IMAGENS para a cascata obrigatória.
+  - `image` (em `pillars[]` e `news[]`): URL `https://` da imagem principal do artigo (og:image). Veja seção IMAGENS para a cascata obrigatória.
 
 **Item de `tools[]`**:
 - **Obrigatórios**: `tool_key` (chave em `TOOL_KEYS`), `name`, `kind`, `headline`, `source`, `url`.
@@ -369,29 +496,29 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 ```
 
 - Array `editions` ordenado do mais recente para o mais antigo.
-- Cada edição tem exatamente 3 highlights (os mesmos do top3).
+- Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
-- `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `top3[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `keycloak`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `docker`, `kubernetes`, `warp`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `togaf`, `intellij`, `gradle`, `maven`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
+- `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
+- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`. Como toda edição tem 1 item por ferramenta, todos os valores devem ser `1`. Omita chaves com 0 se por algum motivo a ferramenta não tiver item (mas isso não deve ocorrer).
 
 ---
 
 ## CRITÉRIOS DE PRIORIZAÇÃO
 
-Para decidir **quais** notícias entram no `top3`, **qual notícia representa cada categoria** no feed principal e **qual notícia principal de cada ferramenta**, calcule mentalmente um score ponderado:
+Para decidir **quais** notícias entram nos `pillars[]`, **qual notícia representa cada categoria** no feed principal e **qual notícia principal de cada ferramenta**, calcule mentalmente um score ponderado:
 
 | Critério | Peso | Como medir |
 |---|---|---|
 | **Impacto arquitetural** | 30% | CVE ≥ 7.0 ou zero-day em exploração ativa; adição ao KEV da CISA; breaking change; GA/deprecation de produto relevante; major release com impacto de ecossistema. |
-| **Convergência de fontes** | 25% | Mesmo fato central coberto em **≥ 2 veículos independentes de reputação**. Obrigatório para top3. |
+| **Convergência de fontes** | 25% | Mesmo fato central coberto em **≥ 2 veículos independentes de reputação**. Obrigatório para pillars. |
 | **Sinal social (Hacker News)** | 20% | Notícia **aparece na primeira página do Hacker News** nas últimas 24h com ≥ 50 pontos. Boost automático se passar de 200 pontos ou comentários > 100. |
 | **Frescor** | 10% | Publicado **dentro da janela**. Bônus se ≤ 6h atrás. |
-| **Diversidade no Top 3** | 10% | Os 3 itens do top3 devem ter **pelo menos 2 categorias distintas** (ideal: 3). Se 2 candidatas top forem da mesma categoria e a terceira candidata estiver com score muito inferior, é aceitável repetir — documente a exceção em `hero_description`. |
+| **Diversidade no Top 3** | 10% | Os 3 pilares devem ter **pelo menos 2 categorias distintas** (ideal: 3). Se 2 candidatas top forem da mesma categoria e a terceira candidata estiver com score muito inferior, é aceitável repetir — documente a exceção em `hero_description`. |
 | **Autoridade da fonte** | 5% | Fonte na lista "FONTES PREFERIDAS" ou primária (changelog oficial, blog do vendor, CVE detail). |
 
 ### Aplicação
 
-1. **Top 3 do dia**: 3 candidatas de maior score, com pelo menos 2 categorias distintas. Cada top3 precisa de: impacto arquitetural **OU** forte sinal social (HN ≥ 100pts), E convergência de ≥ 2 fontes.
+1. **Top 3 do dia**: 3 candidatas de maior score, com pelo menos 2 categorias distintas. Cada pillar precisa de: impacto arquitetural **OU** forte sinal social (HN ≥ 100pts), E convergência de ≥ 2 fontes.
 2. **Principal de cada categoria**: a de maior score dentro da categoria.
 3. **Principal de cada ferramenta**: maior score entre notícias/releases que mencionam a ferramenta.
 
@@ -401,7 +528,7 @@ Para decidir **quais** notícias entram no `top3`, **qual notícia representa ca
 
 ## URL OBRIGATORIAMENTE ESPECÍFICA
 
-Toda `url` (em `top3[]`, `news[]` e `tools[]`) **deve apontar ao artigo, post ou release específico** que é descrito no resumo. **Nunca** a listagens, newsrooms, homepages ou páginas índice.
+Toda `url` (em `pillars[]`, `news[]` e `tools[]`) **deve apontar ao artigo, post ou release específico** que é descrito no resumo. **Nunca** a listagens, newsrooms, homepages ou páginas índice.
 
 ### Padrões proibidos (exemplos)
 
@@ -423,16 +550,16 @@ Exceção: `tools[].url` pode apontar para o changelog oficial com âncora espec
 
 ## IMAGENS
 
-O campo `image` deve ser preenchido em **todo item de `top3[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards (modo cards) e os exibe em 16:9. Se não houver imagem, o card renderiza sem thumb — sem problema. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
+O campo `image` deve ser preenchido em **todo item de `pillars[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards (modo cards) e os exibe em 16:9. Se não houver imagem, o card renderiza sem thumb — sem problema. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
 
 **Meta de cobertura**:
-- `top3[]`: **3/3 com imagem** (obrigatório — validator emite WARN para cada item faltando).
+- `pillars[]`: **3/3 com imagem** (obrigatório — validator emite WARN para cada item faltando).
 - `news[]`: **≥ 40% com imagem** (validator emite WARN se abaixo).
 - `tools[]` com `kind` in `{release, news}`: **tente preencher image**. Para `tip/tutorial/curiosity` é opcional — a SPA usa o logo estático da ferramenta como fallback.
 
 ### Cascata obrigatória de tentativas (em ordem)
 
-Aplique a cada item de `top3[]`, `news[]` e `tools[]` com `kind` in `{release, news}`. Faça até **5 tentativas** antes de omitir `image`:
+Aplique a cada item de `pillars[]`, `news[]` e `tools[]` com `kind` in `{release, news}`. Faça até **5 tentativas** antes de omitir `image`:
 
 **Tentativa 1 — WebFetch direto no artigo**
 
@@ -475,9 +602,9 @@ Se tudo falhou, faça uma WebSearch: `"{headline resumida em inglês}" site:{dom
 
 - URL deve começar com `https://` ou ser convertida para (`http://` → `https://`).
 - Ignore: avatares, logos de usuario, favicons < 100px, tracking pixels, anúncios (padrões como `/avatar/`, `/user/`, `pixel`, `track`, `ads`, dimensão < 300x200).
-- Se todas as 5 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 20 para top3; < 6 em 10 para news em geral).
+- Se todas as 5 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 20 para pillars; < 6 em 10 para news em geral).
 
-O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático da ferramenta como fallback — não é necessário forçar a cascata nesses casos.
+O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático da ferramenta como fallback — não é necessário forçar a cascata nesses casos.
 
 ---
 
@@ -493,13 +620,13 @@ O campo `image` pode aparecer em `top3[]`, `news[]` e `tools[]`. Para itens de `
 8. **Português brasileiro** em todo o conteúdo. Termos técnicos em inglês são aceitáveis.
 9. **Badges de status**:
     - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages, supply chain attacks.
-    - `"star": true` → destaque editorial; **apenas nos itens de `top3[]`**.
+    - `"star": true` → destaque editorial; **não usado em `pillars[]`**.
     - `"breaking": true` → mudanças que quebram backward compatibility.
 10. **`read_time`**: inteiro em minutos (2-5 típico), estimado com base no tamanho de headline + summary.
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
-13. **Imagens**: seguir a cascata — **3/3 top3 com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
-14. **30 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo direto, é permitido conteúdo **indireto do ecossistema** da ferramenta (documentar em `description`).
+13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
+14. **26 itens em `tools[]`**: um por ferramenta, `tool_key` único. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo direto, é permitido conteúdo **indireto do ecossistema** da ferramenta (documentar em `description`).
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
