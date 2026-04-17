@@ -14,7 +14,7 @@ index.html → fetch('data/editions.json')  (índice com counts)
 O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
 - **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), categorias + ferramentas com contadores X/Y (X=dia atual, Y=total do arquivo).
 - **Main (feed)**: sem hero em home — começa direto nos destaques. Prompt-bar sticky no topo (`csr@console:~/editions/DATA $ cat DATA.json [HOJE]`) muda de cor por contexto (home=amber, cat=cor da categoria, tool=cor do tipo). Cards clicáveis abrem URL em nova aba.
-- **Rail (telemetria)**: mascote, radar de categorias, timeline de edições.
+- **Rail (telemetria)**: quote do dia (rotação a cada 25s, 5 por edição), radar de categorias, timeline de edições.
 
 Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N saved, `?` atalhos). Sem statusbar inferior. Sem frameworks, sem build step.
 
@@ -45,7 +45,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 10 categorias + 11 ferramentas + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 10 categorias + 16 ferramentas + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade top3)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -109,30 +109,52 @@ Item de `tools[]`: obrigatórios `tool_key`, `name`, `kind`, `headline`, `source
 
 Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), `context` (opcional). `related_to` ∈ `"cat:<chave>"`, `"tool:<chave>"`, `"general"`.
 
-Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py` (edições ≥ `2026-04-18` são strict; anteriores são lenient para preservar histórico).
+Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py`:
+- Edições ≥ `2026-04-18` são **strict v1** (tools com `kind`/`tool_key`, imagens, quotes).
+- Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias e ferramentas v2).
 
-## Categorias
+## Categorias (taxonomia v2 — desde 2026-04-20)
 
-| Chave | CSS Var | Label | Ícone |
-|-------|---------|-------|-------|
-| sec | `--cat-sec` | Segurança | 🔐 |
-| ai | `--cat-ai` | IA & LLMs | 🤖 |
-| cloud | `--cat-cloud` | Cloud | ☁️ |
-| devops | `--cat-devops` | DevOps | ⚙️ |
-| backend | `--cat-backend` | Backend | 🔧 |
-| frontend | `--cat-frontend` | Frontend | 🖥️ |
-| db | `--cat-db` | Bancos | 🗄️ |
-| lang | `--cat-lang` | Linguagens | 🛠️ |
-| arqsw | `--cat-arqsw` | Arq. Software | 🏛️ |
-| arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ |
+| Chave | CSS Var | Label | Ícone | Escopo |
+|-------|---------|-------|-------|--------|
+| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust |
+| ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
+| cloud | `--cat-cloud` | Cloud & Infra | ☁️ | AWS/Azure/GCP + IaC (Terraform/Pulumi/OpenTofu) |
+| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, CI/CD, GitOps, platform engineering |
+| obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Grafana, Datadog |
+| data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
+| integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, schemas |
+| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, frameworks server-side |
+| arqsw | `--cat-arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs |
+| arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ | Integração enterprise, landing zones, reference architectures |
 
-## Ferramentas monitoradas (11)
+**Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
+- `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 
-Microsoft Teams (doc), Notion (doc), IntelliJ IDEA (ide), Cursor IDE (ide), Warp Terminal (ide), MongoDB Compass (db), DBeaver (db), Postman (api), Docker Desktop (devops), Structurizr (arch), C4 Model (arch).
+## Ferramentas monitoradas (16, agrupadas por categoria)
 
-Cada ferramenta tem `kind` que define a cor do border-left no sidebar — IDEs violet, DBs cyan, DevOps amber, APIs green, docs pink, arquitetura teal.
+Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato.
 
-Cada ferramenta tem `logo` (URL) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato — sem depender de aliases em texto livre.
+| Categoria | `tool_key` | Nome |
+|---|---|---|
+| `arqsw` | `structurizr` | Structurizr |
+| `ai` | `cursor` | Cursor IDE |
+| `ai` | `claudecode` | Claude Code |
+| `sec` | `keycloak` | Keycloak |
+| `cloud` | `terraform` | Terraform |
+| `devops` | `docker` | Docker Desktop |
+| `devops` | `kubernetes` | Kubernetes |
+| `devops` | `ghactions` | GitHub Actions |
+| `devops` | `warp` | Warp Terminal |
+| `obs` | `grafana` | Grafana |
+| `data` | `postgres` | PostgreSQL |
+| `data` | `mongocompass` | MongoDB Compass |
+| `data` | `dbeaver` | DBeaver |
+| `integ` | `kafka` | Apache Kafka |
+| `integ` | `postman` | Postman |
+| `backend` | `intellij` | IntelliJ IDEA |
+
+**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`.
 
 ## O Que Atualizar Quando
 
@@ -142,14 +164,25 @@ Cada ferramenta tem `logo` (URL) e `kind` (tipo visual) no mapa `TOOLS` em `inde
 - Se adicionar/renomear classes CSS de categoria, atualize o mapa `CAT` no JS
 
 ### Adicionar/remover uma categoria
-1. Adicione a chave em `CAT` no JS de `index.html`
-2. Adicione variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
-3. Atualize a tabela em `skills/devpulse-daily.md`, neste CLAUDE.md e em `scripts/validate_editions.py` (set `CATEGORIES`)
+1. Consulte as **regras de classificação** abaixo antes de decidir
+2. Adicione/remova a chave em `CAT` no JS de `index.html`
+3. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
+4. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
+5. Atualize `STRICT_FROM_V2` no validator para a data da primeira edição com a nova taxonomia
 
 ### Adicionar/remover uma ferramenta monitorada
-1. Adicione entrada no array `TOOLS` do JS em `index.html` (com `aliases` e `kind`)
-2. Atualize a tabela em `skills/devpulse-daily.md` (changelog URL)
-3. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool)
+1. Consulte as **regras de classificação** abaixo antes de decidir
+2. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`)
+3. Atualize a tabela em `skills/devpulse-daily.md` (seção "FERRAMENTAS MONITORADAS")
+4. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
+5. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
+
+### Como classificar uma adição (ferramenta, categoria ou tag)
+1. **Tem site + changelog/releases?** → candidata a `TOOLS`. Deve: ter logo estável; publicar release/news ≥1×/mês; ser relevante para **arquiteto de software/solução** (modelagem, decisão técnica, integração, operação) — chat, e-mail e gestão de tarefas ficam fora; encaixar em **uma** categoria com campo `category` obrigatório.
+2. **Tema editorial coerente, não uma ferramenta?** → candidata a `CAT`. Deve: produzir ≥1 notícia/semana; ter fontes reconhecíveis; ter escopo ortogonal às existentes. Se for recorte de categoria existente, vira **tag**.
+3. **Genérico ou transversal?** → **tag** em `tags[]`, sem alterar taxonomia.
+4. **Remoção**: categoria/ferramenta que precisa de >3 `curiosity`/mês para cumprir cobertura mínima está em zona de morte.
+5. **Em dúvida, perguntar** antes de alterar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
 
 ### Alterar queries de pesquisa
 - Edite em `skills/devpulse-daily.md` na seção "Categorias e Queries"

@@ -20,14 +20,27 @@ from urllib.parse import urlparse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'data')
 
-# Data a partir da qual a skill nova está em vigor. Edições anteriores são
-# validadas em modo "lenient" (erros viram warnings), para não quebrar CI
-# retroativamente em conteúdo gerado antes desta revisão.
-STRICT_FROM = '2026-04-18'
+# Cutoffs de strictness:
+# STRICT_FROM  — v1 da skill (tools com kind/tool_key, imagens, quotes).
+# STRICT_FROM_V2 — v2 da taxonomia (categorias + ferramentas novas).
+STRICT_FROM    = '2026-04-18'
+STRICT_FROM_V2 = '2026-04-20'
 
-CATEGORIES = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'}
+# Taxonomia v1 (legacy — aceita como warning em strict_v2)
+CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol'}
+TOOL_KEYS_V1  = {'teams','notion','intellij','cursor','warp','mongocompass','dbeaver','postman','docker','structurizr','c4'}
+
+# Taxonomia v2 (exigida a partir de STRICT_FROM_V2)
+CATEGORIES_V2 = {'sec','ai','cloud','devops','obs','data','integ','backend','arqsw','arqsol'}
+TOOL_KEYS_V2  = {'structurizr','cursor','claudecode','keycloak','terraform','docker',
+                  'kubernetes','ghactions','warp','grafana','postgres','mongocompass',
+                  'dbeaver','kafka','postman','intellij'}
+
+# União: aceita ambos (validator decide por data)
+CATEGORIES = CATEGORIES_V1 | CATEGORIES_V2
+TOOL_KEYS  = TOOL_KEYS_V1  | TOOL_KEYS_V2
+
 SEVERITIES = {'critical','high','medium','low'}
-TOOL_KEYS = {'teams','notion','intellij','cursor','warp','mongocompass','dbeaver','postman','docker','structurizr','c4'}
 KINDS = {'release','news','tip','tutorial','curiosity'}
 
 # URLs genéricas proibidas (padrões)
@@ -42,7 +55,8 @@ GENERIC_URL_PATTERNS = [
 
 errors = []
 warnings = []
-_lenient = False  # definido por validate_edition conforme data
+_lenient    = False  # definido por validate_edition conforme data
+_strict_v2  = False  # True para edições >= STRICT_FROM_V2
 
 def err(msg):
     if _lenient: warnings.append('(legacy) ' + msg)
@@ -76,8 +90,13 @@ def check_item(item, label, require_star=False):
     for f in required:
         if f not in item or item[f] in (None, ''):
             err(f"{label}: campo obrigatório ausente: {f}")
-    if item.get('category') not in CATEGORIES:
-        err(f"{label}: category inválida: {item.get('category')}")
+    cat = item.get('category')
+    valid_cats = CATEGORIES_V2 if _strict_v2 else CATEGORIES
+    if cat not in valid_cats:
+        if _strict_v2 and cat in CATEGORIES_V1:
+            err(f"{label}: category '{cat}' pertence à taxonomia v1 — use a equivalente v2 (data→data, lang→backend, frontend→obs/integ/backend)")
+        else:
+            err(f"{label}: category inválida: {cat}")
     sev = item.get('severity')
     if sev is not None and sev not in SEVERITIES:
         err(f"{label}: severity inválida: {sev}")
@@ -108,11 +127,13 @@ def check_item(item, label, require_star=False):
         check_image_url(item['image'], label)
 
 def validate_edition(path):
-    global _lenient
+    global _lenient, _strict_v2
     ed = json.load(open(path, encoding='utf-8'))
     name = os.path.basename(path)
+    edition_date = ed.get('date') or ''
     # detecta legacy: edições anteriores ao cutoff viram warnings
-    _lenient = (ed.get('date') or '') < STRICT_FROM
+    _lenient   = edition_date < STRICT_FROM
+    _strict_v2 = edition_date >= STRICT_FROM_V2
     for f in ('date','weekday','formatted_date','generated_at','hero_title','hero_description'):
         if f not in ed:
             err(f"{name}: campo raiz ausente: {f}")
@@ -158,7 +179,8 @@ def validate_edition(path):
     # cobertura de categorias (strict)
     if not _lenient:
         cats_present = {it.get('category') for it in (ed.get('top3') or []) + (ed.get('news') or [])}
-        missing_cats = CATEGORIES - cats_present
+        expected_cats = CATEGORIES_V2 if _strict_v2 else CATEGORIES_V1
+        missing_cats = expected_cats - cats_present
         if missing_cats:
             warn(f"{name}: categorias sem itens: {sorted(missing_cats)}")
 
@@ -177,10 +199,14 @@ def validate_edition(path):
         # campos novos (strict)
         if not _lenient:
             tool_key = t.get('tool_key')
+            valid_keys = TOOL_KEYS_V2 if _strict_v2 else TOOL_KEYS
             if not tool_key:
                 warn(f"{label}: tool_key ausente (novo campo obrigatório)")
-            elif tool_key not in TOOL_KEYS:
-                err(f"{label}: tool_key inválido: {tool_key}")
+            elif tool_key not in valid_keys:
+                if _strict_v2 and tool_key in TOOL_KEYS_V1:
+                    err(f"{label}: tool_key '{tool_key}' pertence à taxonomia v1 — use a equivalente v2")
+                else:
+                    err(f"{label}: tool_key inválido: {tool_key}")
             else:
                 tool_keys_seen.add(tool_key)
             kind = t.get('kind')
@@ -197,9 +223,10 @@ def validate_edition(path):
 
     # cobertura de ferramentas (strict)
     if not _lenient:
-        if len(tools) < 11:
-            warn(f"{name}: tools[] com {len(tools)} itens (esperado 11, um por ferramenta)")
-        missing_tools = TOOL_KEYS - tool_keys_seen
+        expected = TOOL_KEYS_V2 if _strict_v2 else TOOL_KEYS_V1
+        if len(tools) < len(expected):
+            warn(f"{name}: tools[] com {len(tools)} itens (esperado {len(expected)}, um por ferramenta)")
+        missing_tools = expected - tool_keys_seen
         if missing_tools:
             warn(f"{name}: ferramentas sem item em tools[]: {sorted(missing_tools)}")
 
