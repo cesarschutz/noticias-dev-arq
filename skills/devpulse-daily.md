@@ -155,13 +155,6 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   "generated_at": "06:00",
   "hero_title": "Título curto e impactante (max ~60 chars)",
   "hero_description": "2-3 frases sintetizando os temas principais do dia.",
-  "stats": {
-    "total": 25,
-    "categories": 11,
-    "tools": 4,
-    "urgent": 7,
-    "new": 6
-  },
   "top3": [
     {
       "category": "sec",
@@ -209,6 +202,16 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
   ]
 }
 ```
+
+### Campos por objeto
+
+**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at`, `hero_title`, `hero_description`, `top3[]`, `news[]`, `tools[]`. Campos opcionais: `sources[]` (não é renderizado pela SPA atual mas pode ser útil em futuras seções).
+
+**Item de `top3[]` / `news[]`**: `category` (chave curta), `category_label` (rótulo pt-BR), `category_icon` (emoji), `urgent`, `new`, `star`, `breaking` (booleans), `headline`, `summary`, `source`, `url`, `read_time` (número, minutos). Apenas em `top3[]`: `image` (og:image — renderizada no modal reader, aspect 16:9).
+
+**Item de `tools[]`**: `name`, `icon` (emoji), `version`, `description`, `url`.
+
+> **Campo opcional `stats`**: em edições antigas existe um objeto `stats: { total, categories, tools, urgent, new }`. A SPA atual **não consome** esse campo (calcula tudo dinamicamente). Pode ser omitido em novas edições. Se incluir, mantenha os números corretos.
 
 ### Chaves de categoria válidas
 
@@ -372,23 +375,24 @@ O campo `image` é **opcional** e **só aparece no `top3[]`** — não em `news[
 3. **Mínimo 15 notícias** no total, cobrindo pelo menos **5 categorias** diferentes.
 4. **Top 3 destaques** devem ser de categorias diferentes **obrigatoriamente** e devem atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**: seguir a seção "URL OBRIGATORIAMENTE ESPECÍFICA". URL genérica = descarte da notícia.
-6. **Contagens corretas**: `stats.total` = `top3.length + news.length`, `stats.urgent` = contagem real de `urgent:true`, etc.
-7. **Sem duplicatas** com a edição do dia anterior (verifique `data/editions.json`).
-8. **Perspectiva do arquiteto**: resumos devem explicar o que é + por que importa + o que o arquiteto deve fazer.
-9. **Português brasileiro** em todo o conteúdo (headlines, summaries, descriptions). Termos técnicos em inglês são aceitáveis.
-10. **Badges de status**:
-    - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages, supply chain attacks
-    - `"new": true` → notícias das últimas 6 horas ou lançamentos novos
-    - `"star": true` → apenas nos 3 destaques (top3)
-    - `"breaking": true` → mudanças que quebram backward compatibility
-11. **`read_time`**: estimar com base no tamanho da headline + summary (2-5 minutos típico).
-12. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
-13. **Imagens no top3**: tente capturar `og:image` via `WebFetch` para cada um dos 3 itens (ver seção "IMAGENS NO TOP 3"). Campo opcional — omita se não encontrar.
+6. **Sem duplicatas** com a edição do dia anterior (verifique `data/editions.json`).
+7. **Perspectiva do arquiteto**: resumos devem explicar o que é + por que importa + o que o arquiteto deve fazer.
+8. **Português brasileiro** em todo o conteúdo (headlines, summaries, descriptions). Termos técnicos em inglês são aceitáveis.
+9. **Badges de status** (todos opcionais, default `false`):
+    - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages, supply chain attacks. Renderizado como barra/badge vermelho pulsante nos cards.
+    - `"new": true` → notícias das últimas 6 horas ou lançamentos novos. Badge amber "NEW".
+    - `"star": true` → destaque editorial; deve aparecer **apenas nos itens de `top3[]`**. Aparece como "★ STAR" no modal reader.
+    - `"breaking": true` → mudanças que quebram backward compatibility. Badge violet/magenta "BRK".
+10. **`read_time`**: inteiro em minutos (2-5 típico), estimado com base no tamanho de headline + summary.
+11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante. É o título gigante no topo do feed.
+12. **`hero_description`**: 2-3 frases resumindo o dia. Aparece abaixo do hero_title.
+13. **Imagens no top3**: tente capturar `og:image` via `WebFetch` para cada um dos 3 itens (ver seção "IMAGENS NO TOP 3"). A SPA renderiza a imagem no **modal reader** em aspect 16:9, com `onerror` que esconde se a URL quebrar. Campo opcional — omita se não encontrar, mas vale insistir.
+14. **Mesmo item pode reaparecer em dias diferentes**: se a cobertura rolou ao longo de vários dias (ex.: CVE crítico que ganha novos detalhes), é aceitável que uma notícia relacionada apareça em 2-3 edições consecutivas — mas com `headline`+`url` distintos (ângulo/fonte diferente). Itens com URL idêntica são considerados duplicata.
 
 ---
 
 ## FORMATO DE SAÍDA
 
-Gere APENAS os arquivos JSON. Não gere HTML — os templates HTML já existem e carregam os JSONs automaticamente.
+Gere APENAS os arquivos JSON (`data/{YYYY-MM-DD}.json` + `data/editions.json` atualizado). Não gere HTML — o template `index.html` já carrega os JSONs sob demanda e renderiza a SPA automaticamente.
 
-Após gerar os JSONs, faça commit e push para que o GitHub Pages atualize automaticamente.
+Após gerar os JSONs, um LaunchAgent local detecta a mudança em `data/` e executa `push.sh` para o GitHub Pages deployar automaticamente. **Não rode `git push` manualmente na execução da skill** — o sandbox não tem acesso de rede e o push acontece por fora.

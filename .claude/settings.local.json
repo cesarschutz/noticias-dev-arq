@@ -60,7 +60,14 @@
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8091/index.html)",
       "Bash(curl -s http://localhost:8091/data/editions.json)",
       "Bash(lsof -ti:8091)",
-      "Bash(xargs -r kill)"
+      "Bash(xargs -r kill)",
+      "mcp__claude_ai_PIXA__models",
+      "mcp__claude_ai_PIXA__generate_media",
+      "mcp__claude_ai_PIXA__get_job_status",
+      "mcp__claude_ai_PIXA__assets",
+      "Bash(curl -sL -o console-texture.svg \"https://assets.pixelcut.app/org/5d22ff2f-e4bc-4a94-9da5-cc3a25c719ad/media/4a1a6518-3f6a-49eb-855e-c64bcb0653b1_1776392427.jpg?Expires=1776478939&KeyName=px-assets-key-1&Signature=-bKV7B9tdsYA9plS9e6rCwLi4dI=\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o console-texture.svg \"https://assets.pixelcut.app/org/5d22ff2f-e4bc-4a94-9da5-cc3a25c719ad/media/4a1a6518-3f6a-49eb-855e-c64bcb0653b1_1776392427.jpg?Expires=1776478965&KeyName=px-assets-key-1&Signature=AD4TYZBfmtDEGXM9i-dpEnauiBc=\")",
+      "Bash(curl -sI http://localhost:8765/console-ops.html)"
     ]
   }
 }
