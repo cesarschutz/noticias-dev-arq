@@ -1,6 +1,15 @@
 {
-  "last_generated": "2026-04-16T06:00:00-03:00",
+  "last_generated": "2026-04-17T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-17",
+      "summary": "Anthropic lança Claude Opus 4.7 em GA com salto em coding e visão, Oracle anuncia conexão OCI↔AWS via Interconnect multicloud e OpenAI libera GPT-5.4-Cyber a defensores verificados.",
+      "highlights": [
+        { "title": "Anthropic lança Claude Opus 4.7 em GA com salto em coding, visão e agentes", "url": "https://www.anthropic.com/news/claude-opus-4-7" },
+        { "title": "Oracle vai plugar OCI no AWS Interconnect multicloud: conexão privada OCI↔AWS chega em 2026", "url": "https://www.oracle.com/news/announcement/oracle-and-aws-collaborate-to-expand-multicloud-networking-2026-04-16/" },
+        { "title": "OpenAI lança GPT-5.4-Cyber e expande Trusted Access for Cyber a milhares de defensores", "url": "https://thehackernews.com/2026/04/openai-launches-gpt-54-cyber-with.html" }
+      ]
+    },
     {
       "date": "2026-04-16",
       "summary": "AWS lança Interconnect multicloud em GA com Google Cloud, Anthropic redesenha Claude Code com sessões paralelas e Routines, e Adobe corrige zero-day no Acrobat Reader explorado desde novembro.",
