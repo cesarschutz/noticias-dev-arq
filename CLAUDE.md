@@ -56,7 +56,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 11 categorias + 36 assuntos fixos + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 12 categorias + 37 assuntos fixos + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -180,24 +180,26 @@ Os três pilares são os destaques fixos do topo de cada edição — um por tem
 
 Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda colorida espessa e badge de identificação. Retrocompat: edições antigas com `top3` são renderizadas normalmente.
 
-## Categorias (taxonomia v2 — desde 2026-04-20)
+## Categorias (taxonomia v3 — desde 2026-04-19)
 
 | Chave | CSS Var | Label | Ícone | Escopo |
 |-------|---------|-------|-------|--------|
 | sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust |
 | ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
 | aws | `--cat-aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, etc. |
-| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, platform engineering, SRE |
+| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, Argo CD, Istio, platform engineering, SRE |
 | obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
 | integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
 | backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
-| arqsw | `--cat-arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs, Whimsical, PlantUML |
-| arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| design | `--cat-design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
+| enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
 | fintech | `--cat-fintech` | Fintech & Pagamentos | 💳 | Cartões de crédito, Visa, cooperativas de crédito, Pix, Open Finance, DREX, PCI DSS, payment rails |
 
-**Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
+**Chaves legadas** (mapeadas em runtime para a nova taxonomia):
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
+- `arqsw` → `design`, `arqsol` → `enterprise`
 
 ## Conceito fundamental: Categorias vs. Assuntos Fixos
 
@@ -229,13 +231,13 @@ Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recen
 
 A diferença prática:
 - **Assunto Fixo**: Git, Kafka, Kubernetes — tecnologias que queremos SEMPRE cobertas, com pelo menos 1 item/dia, com logo na sidebar e view dedicada.
-- **Sub-tópico de categoria**: "Microsserviços" dentro de `arqsw`, "SAML" dentro de `sec` — aparecem quando há notícia, sem cobertura obrigatória diária.
+- **Sub-tópico de categoria**: "SAML" dentro de `sec`, "TOGAF" dentro de `enterprise` — aparecem quando há notícia, sem cobertura obrigatória diária.
 
 Se o usuário não souber a diferença, explique e aguarde a decisão antes de modificar qualquer arquivo.
 
 ---
 
-## Assuntos Fixos monitorados (36, agrupados por grupo do rail)
+## Assuntos Fixos monitorados (37, agrupados por grupo do rail)
 
 Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
@@ -250,8 +252,6 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 | Ferramentas de Trabalho | `warp` | Warp Terminal | `ai` |
 | Ferramentas de Trabalho | `intellij` | IntelliJ IDEA | `backend` |
 | Ferramentas de Trabalho | `postman` | Postman | `integ` |
-| Ferramentas de Trabalho | `dbeaver` | DBeaver | `data` |
-| Ferramentas de Trabalho | `mongocompass` | MongoDB Compass | `data` |
 | Plataformas & Infra | `git` | Git | `devops` |
 | Plataformas & Infra | `github` | GitHub | `devops` |
 | Plataformas & Infra | `docker` | Docker | `devops` |
@@ -259,18 +259,21 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 | Plataformas & Infra | `terraform` | Terraform | `devops` |
 | Plataformas & Infra | `helm` | Helm | `devops` |
 | Plataformas & Infra | `ghactions` | GitHub Actions | `devops` |
+| Plataformas & Infra | `argocd` | Argo CD | `devops` |
+| Plataformas & Infra | `istio` | Istio | `devops` |
 | Dados & Mensageria | `postgres` | PostgreSQL | `data` |
 | Dados & Mensageria | `mysql` | MySQL | `data` |
 | Dados & Mensageria | `databricks` | Databricks | `data` |
 | Dados & Mensageria | `kafka` | Apache Kafka | `integ` |
 | Dados & Mensageria | `openapi` | OpenAPI | `integ` |
 | Dados & Mensageria | `redis` | Redis | `data` |
-| Arquitetura & Design | `structurizr` | Structurizr | `arqsw` |
-| Arquitetura & Design | `whimsical` | Whimsical | `arqsw` |
-| Arquitetura & Design | `plantuml` | PlantUML | `arqsw` |
+| Arquitetura & Design | `structurizr` | Structurizr | `design` |
 | Arquitetura & Design | `springboot` | Spring Boot | `backend` |
 | Arquitetura & Design | `gradle` | Gradle | `backend` |
 | Arquitetura & Design | `maven` | Apache Maven | `backend` |
+| Arquitetura & Design | `microservices` | Microsserviços | `distarch` |
+| Arquitetura & Design | `ddd` | DDD | `design` |
+| Arquitetura & Design | `cloudnative` | Cloud Native | `distarch` |
 | Segurança & Obs | `cve` | CVEs & Vulnerabilidades | `sec` |
 | Segurança & Obs | `keycloak` | Keycloak | `sec` |
 | Segurança & Obs | `owasp` | OWASP | `sec` |
@@ -280,7 +283,7 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 | Linguagens & Runtimes | `javascript` | JavaScript / TS | `backend` |
 | Linguagens & Runtimes | `python` | Python | `backend` |
 
-**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
+**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
 
 ## O Que Atualizar Quando
 
@@ -307,7 +310,7 @@ Fontes genéricas (Medium sem autor, "top 10 tools", DZone sem filtragem de qual
 3. Adicione/remova a chave em `CAT` no JS de `index.html`
 4. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
 5. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
-6. Atualize `STRICT_FROM_V2` no validator para a data da primeira edição com a nova taxonomia
+6. Atualize `STRICT_FROM_V3` no validator para a data da primeira edição com a nova taxonomia (atualmente `2026-04-19`)
 
 ### Adicionar/remover um Assunto Fixo
 1. **Perguntar ao usuário** se é Assunto Fixo ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
@@ -323,9 +326,9 @@ Fontes genéricas (Medium sem autor, "top 10 tools", DZone sem filtragem de qual
 **Sempre perguntar ao usuário qual dos três tipos é antes de implementar.**
 
 1. **Assunto Fixo** → vai para o array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto (modelagem, operação, integração, decisão técnica); encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: a skill busca conteúdo sobre ele TODOS OS DIAS, direto ou indireto.
-2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes (não é sub-tópico de outra). Se for recorte de categoria existente (ex.: "Microsserviços" dentro de `arqsw`), vira **tag**, não categoria.
+2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes (não é sub-tópico de outra). Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria.
 3. **Tag** → `tags[]` nos itens de `news[]`. Para assuntos transversais ou sub-tópicos que aparecem esporadicamente. Não muda a taxonomia.
-4. **Remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição.
+4. **Remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição. Removidos em v3: `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
 5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
 
 ### Alterar queries de pesquisa

@@ -25,17 +25,17 @@ Arquitetura **data-driven**: um template HTML único carrega dados de arquivos J
 
 ## Categorias cobertas
 
-Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade · Dados & Streaming · Integração & Eventos · Backend & Runtimes · Arq. Software · Arq. Solução · Fintech & Pagamentos.
+Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade · Dados & Streaming · Integração & Eventos · Backend & Runtimes · Design & Padrões · Arq. Corporativa · Sist. Distribuídos · Fintech & Pagamentos.
 
 ## Assuntos fixos monitorados
 
-**Ferramentas de trabalho**: Cursor IDE · Claude Code · ChatGPT · VS Code · Warp Terminal · IntelliJ IDEA · Postman · DBeaver · MongoDB Compass
+**Ferramentas de trabalho**: Cursor IDE · Claude Code · ChatGPT · VS Code · Warp Terminal · IntelliJ IDEA · Postman
 
-**Plataformas & Infra**: Git · GitHub · Docker · Kubernetes · Terraform · Helm · GitHub Actions
+**Plataformas & Infra**: Git · GitHub · Docker · Kubernetes · Terraform · Helm · GitHub Actions · Argo CD · Istio
 
 **Dados & Mensageria**: PostgreSQL · MySQL · Databricks · Apache Kafka · OpenAPI · Redis
 
-**Arquitetura & Design**: Structurizr · Whimsical · PlantUML · Spring Boot · Gradle · Apache Maven
+**Arquitetura & Design**: Structurizr · Spring Boot · Gradle · Apache Maven · Microsserviços · DDD · Cloud Native
 
 **Segurança & Obs**: CVEs & Vulnerabilidades · Keycloak · OWASP · Dynatrace · Grafana
 

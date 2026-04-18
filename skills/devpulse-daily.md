@@ -56,7 +56,7 @@ Para **assuntos** em `tools[]` — regra dos 10 mínimos:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 11 categorias e 36 assuntos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 12 categorias e 37 assuntos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -75,7 +75,7 @@ O objetivo principal é usar a literatura técnica para dizer o que QA, desenvol
   "text": "texto da frase em português",
   "author": "Nome do autor",
   "context": "Uma frase de contexto — o que é, de onde vem, relevância",
-  "related_to": "cat:arqsw",
+  "related_to": "cat:design",
   "url": "https://url-real-e-verificada.com/artigo-especifico"
 }
 ```
@@ -99,8 +99,9 @@ O objetivo principal é usar a literatura técnica para dizer o que QA, desenvol
 - `"Observabilidade não é um painel bonito — é a capacidade de fazer perguntas que você ainda não sabia que precisaria fazer."` — Charity Majors
 
 **Distribuição mínima por categoria:**
-- `cat:arqsw` — 10+ frases (DDD, Clean Architecture, C4, padrões, testes, refatoração, dívida técnica — tom provocador aqui)
-- `cat:arqsol` — 8+ frases (trade-offs reais, buzzwords expostos, Conway's Law, TOGAF na prática)
+- `cat:design` — 10+ frases (DDD, Clean Architecture, C4, padrões, testes, refatoração, dívida técnica — tom provocador aqui)
+- `cat:enterprise` — 6+ frases (trade-offs reais, buzzwords expostos, Conway's Law, TOGAF na prática)
+- `cat:distarch` — 6+ frases (microsserviços mal feitos, eventual consistency, post-mortems, cloud-native na prática)
 - `cat:backend` — 8+ frases (Java, Spring, JVM, performance, "otimização prematura", code quality)
 - `cat:integ` — 6+ frases (APIs quebradas, versionamento ignorado, event-driven mal implementado)
 - `cat:devops` — 8+ frases (deploy com medo, rollback inexistente, "funciona no meu ambiente", CI/CD teatro)
@@ -532,13 +533,13 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **PCI Perspectives** (`blog.pcisecuritystandards.org`) — PCI DSS updates, segurança em pagamentos, compliance.
 - **Mundo Coop / OCB** (`mundocoop.com.br`, `somoscooperativismo.coop.br`) — cooperativismo de crédito BR, Unicred, Sicoob, Sicredi.
 
-**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 11 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
+**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 12 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
 ### 3. Verificar assuntos monitorados
 
 **Regra dos 10 mínimos** — aplicada assim:
 
-1. **Busca recente**: para cada um dos 36 assuntos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um assunto, **não inclua** — não force conteúdo vazio.
+1. **Busca recente**: para cada um dos 37 assuntos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um assunto, **não inclua** — não force conteúdo vazio.
 
 2. **Contagem**: após varrer todos os assuntos, conte quantos têm pelo menos 1 item.
 
@@ -584,7 +585,7 @@ Antes de chamar Write:
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
-- [ ] **`tools[]`**: todos os 36 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `dynatrace`, `grafana`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
+- [ ] **`tools[]`**: todos os 37 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
@@ -690,23 +691,29 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `site:blog.jetbrains.com IntelliJ OR Kotlin OR Gradle OR Java`
 - `site:dzone.com java OR "spring boot" OR backend OR microservices`
 
-### 🏛️ Arquitetura de Software (`arqsw`)
+### 🏛️ Design & Padrões (`design`)
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
-- `"hexagonal architecture" OR "clean architecture" OR "event storming" news`
+- `"hexagonal architecture" OR "clean architecture" OR "event storming" OR "refactoring" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
 - `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture OR "design pattern"`
-- `site:highscalability.com` (estudos de caso reais de arquitetura em escala)
-- `site:queue.acm.org architecture OR "distributed systems" OR "system design"`
 - `site:thoughtworks.com/radar` (Tech Radar — referência bimestral de adoção de tecnologia)
+- `site:domainlanguage.com OR site:ddd-community.com` (DDD, Ubiquitous Language, Bounded Context)
 
-### 🗺️ Arquitetura de Solução (`arqsol`)
-- `"solution architecture" OR "enterprise architecture" reference OR pattern`
-- `"cloud architecture" OR "multi-cloud" OR "service mesh" OR "API gateway"`
-- `"system design" site:blog.bytebytego.com OR site:highscalability.com`
+### 🗺️ Arquitetura Corporativa (`enterprise`)
+- `"enterprise architecture" OR "solution architecture" reference OR pattern OR TOGAF`
+- `"landing zone" OR "reference architecture" OR "API gateway" OR "multi-cloud" pattern`
 - Netflix OR Airbnb OR Uber OR Stripe "engineering blog" architecture post
 - `site:architectelevator.com` (Gregor Hohpe — arquitetura corporativa)
 - `site:aws.amazon.com/architecture OR site:learn.microsoft.com/azure/architecture OR site:cloud.google.com/architecture` (reference architectures multi-cloud)
-- `site:thoughtworks.com/radar` (Tech Radar — decisões de adoção por arquitetos)
+
+### 🕸 Sistemas Distribuídos (`distarch`)
+- `"distributed systems" OR "microservices" pattern OR "event-driven" architecture article`
+- `"service mesh" OR "Istio" OR "Envoy" OR "API gateway" pattern OR release`
+- `"saga pattern" OR "CQRS" OR "event sourcing" OR "eventual consistency" article`
+- `"cloud native" OR "CNCF" OR "platform engineering" OR "cell-based architecture" news`
+- `"outage" OR "post-mortem" OR "incident report" distributed OR cloud 2026`
+- `site:highscalability.com` (estudos de caso reais de arquitetura em escala)
+- `site:queue.acm.org architecture OR "distributed systems" OR "system design"`
 
 ### 💳 Fintech & Pagamentos (`fintech`)
 - `"credit card" OR "payment network" OR "Visa" technology OR API news`
@@ -751,7 +758,7 @@ Cada item de `pillars[]` leva o campo obrigatório `pillar: "java" | "aws" | "di
 - `"Quarkus" OR "Micronaut" OR "Helidon" release OR feature`
 - `"Gradle" OR "Maven" OR "IntelliJ IDEA" update OR release`
 
-**`category` recomendada**: `backend` (na maioria dos casos). Use `arqsw` para padrões arquiteturais, `data` para Java + banco/streaming.
+**`category` recomendada**: `backend` (na maioria dos casos). Use `design` para padrões arquiteturais, `data` para Java + banco/streaming.
 
 ---
 
@@ -805,13 +812,13 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 - `"platform engineering" OR "internal developer platform" OR "service mesh" news`
 - `"chaos engineering" OR "SLO" OR "resilience" OR "circuit breaker" production`
 
-**`category` recomendada**: `arqsol` ou `arqsw` (arquitetura de solução para decisões de alto nível, arquitetura de software para padrões de código). Use `devops` para SRE/chaos/platform. Use `integ` para event-driven patterns + Kafka. Use `obs` para observabilidade em sistemas distribuídos.
+**`category` recomendada**: `distarch` (padrão). Use `enterprise` para decisões de alto nível e arquitetura corporativa. Use `design` para padrões de código/DDD. Use `devops` para SRE/chaos/platform engineering. Use `integ` para event-driven patterns + Kafka. Use `obs` para observabilidade em sistemas distribuídos.
 
 ---
 
 ## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 assuntos fixos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**37 assuntos fixos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -823,19 +830,20 @@ Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 a
 
 ### Dois tipos de assunto fixo — hierarquia de `kind` diferente
 
-Os 36 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
+Os 37 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
 
 **Ferramentas com release** (têm changelog e versionamento próprio):
-`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
+`structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
 
 → Hierarquia: **`release` (quando saiu nova versão na janela) > `news` > `tutorial` > `tip` > `curiosity`**
 → Use `kind: "release"` **apenas** quando uma versão concreta foi lançada na janela de busca. Se não houve release, use `news`/`tip`/`tutorial`.
 
 **Temas/domínios** (não versionalizam software, ou releases são esporádicos):
-`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`
+`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`, `microservices`, `ddd`, `cloudnative`
 
 → Hierarquia: **`news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`**
 → `release` só quando uma versão da linguagem/spec foi publicada (ex: JDK 25, ECMAScript 2025, OpenAPI 4.0). O dia-a-dia é `news` e `tip`.
+→ Para `microservices`, `ddd` e `cloudnative`: use sempre `news` ou `tutorial` — são assuntos que não versionam.
 
 **Nunca omita um assunto fixo. Nunca use `curiosity` genérica** ("Docker é popular porque...").
 
@@ -897,9 +905,7 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 
 | `tool_key` | Assunto Fixo | Categoria | Changelog / Blog |
 |---|---|---|---|
-| `structurizr` | Structurizr | `arqsw` | https://structurizr.com/changelog |
-| `whimsical` | Whimsical | `arqsw` | https://whimsical.com/changelog |
-| `plantuml` | PlantUML | `arqsw` | https://plantuml.com/changes |
+| `structurizr` | Structurizr | `design` | https://structurizr.com/changelog |
 | `cursor` | Cursor IDE | `ai` | https://www.cursor.com/changelog |
 | `claudecode` | Claude Code | `ai` | https://docs.anthropic.com/en/release-notes/claude-code |
 | `chatgpt` | ChatGPT | `ai` | https://help.openai.com/en/articles/6825453-chatgpt-release-notes |
@@ -915,8 +921,6 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
 | `mysql` | MySQL | `data` | https://dev.mysql.com/doc/relnotes/mysql/en/ |
-| `mongocompass` | MongoDB Compass | `data` | https://www.mongodb.com/docs/compass/current/release-notes/ |
-| `dbeaver` | DBeaver | `data` | https://dbeaver.io/download/ |
 | `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/index.html |
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads |
 | `postman` | Postman | `integ` | https://www.postman.com/release-notes/ |
@@ -931,8 +935,13 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases · https://developer.hashicorp.com/terraform/language/upgrade-guides |
 | `helm` | Helm | `devops` | https://github.com/helm/helm/releases · https://helm.sh/blog/ |
 | `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/ · https://github.com/actions/runner/releases |
+| `argocd` | Argo CD | `devops` | https://github.com/argoproj/argo-cd/releases · https://blog.argoproj.io/ |
+| `istio` | Istio | `devops` | https://istio.io/latest/news/releases/ · https://istio.io/latest/blog/ |
 | `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
 | `grafana` | Grafana | `obs` | https://grafana.com/blog/ · https://github.com/grafana/grafana/releases |
+| `microservices` | Microsserviços | `distarch` | https://microservices.io/ · https://martinfowler.com/articles/microservices.html · https://www.infoq.com/microservices/ |
+| `ddd` | DDD | `design` | https://domainlanguage.com/ · https://martinfowler.com/bliki/DomainDrivenDesign.html · https://ddd-crew.github.io/ |
+| `cloudnative` | Cloud Native | `distarch` | https://www.cncf.io/blog/ · https://thenewstack.io/cloud-native/ · https://www.infoq.com/cloud-native/ |
 
 **Exemplos de buscas complementares** para cada assunto fixo:
 - `"{Assunto}" site:infoq.com OR site:thenewstack.io`
@@ -997,9 +1006,9 @@ As fontes abaixo estão detalhadas na seção "Fontes de alta reputação" acima
     },
     {
       "pillar": "distarch",
-      "category": "arqsol",
-      "category_label": "Arq. Solução",
-      "category_icon": "🗺️",
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
       "source": "Nome da Fonte",
@@ -1047,7 +1056,7 @@ As fontes abaixo estão detalhadas na seção "Fontes de alta reputação" acima
       "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
       "author": "Martin Fowler",
       "context": "Legibilidade como princípio de arquitetura",
-      "related_to": "cat:arqsw"
+      "related_to": "cat:design"
     }
   ],
   "sources": [
@@ -1086,20 +1095,22 @@ As fontes abaixo estão detalhadas na seção "Fontes de alta reputação" acima
 
 Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura do diff e cópia manual. O JSON.stringify do Claude já faz isso corretamente — só garanta que não haja dupla serialização.
 
-### Chaves de categoria válidas (taxonomia v2 — a partir de 2026-04-20)
+### Chaves de categoria válidas (taxonomia v3 — a partir de 2026-04-19)
 
 | Chave | Label | Ícone | Escopo |
 |---|---|---|---|
 | `sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust |
 | `ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools (Cursor, ChatGPT, Claude) |
 | `aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, API Gateway, etc. |
-| `devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, platform engineering, SRE |
+| `devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, Argo CD, Istio, platform engineering, SRE |
 | `obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog |
 | `data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
 | `integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
 | `backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
-| `arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs, Whimsical, PlantUML |
-| `arqsol` | Arq. Solução | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| `design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
+| `enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| `distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
+| `fintech` | Fintech & Pagamentos | 💳 | Cartões, Pix, Open Finance, DREX, PCI DSS, payment rails |
 
 ---
 
@@ -1126,7 +1137,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`. Valor real de itens gerados (mínimo `1` por assunto fixo em ambos os modos). Omita chaves com 0.
+- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v3): `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`. Valor real de itens gerados (mínimo `1` por assunto fixo em ambos os modos). Omita chaves com 0.
 
 ---
 
@@ -1271,7 +1282,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões.** Se não encontrar nada relevante numa categoria ou assunto fixo, reduza — qualidade > quantidade.
-3. **Mínimo 15 notícias** no total, cobrindo **todas as 11 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`, `fintech`) com 1+ por categoria; evergreen aceitável se não houver fresco.
+3. **Mínimo 15 notícias** no total, cobrindo **todas as 12 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`) com 1+ por categoria; evergreen aceitável se não houver fresco.
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
 6. **Sem duplicatas** com as 7 edições anteriores (ver passo 1).
@@ -1285,7 +1296,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
 13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; **≥80% de news[] com imagem** (Tentativa 5 com Google favicon é garantia final); tools[] com kind release/news devem ter image quando possível.
-14. **31 assuntos em `tools[]`**: mínimo 1 item por assunto (ambos os modos). Traga mais se encontrar conteúdo de qualidade — sem teto. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use conteúdo mais antigo ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
+14. **37 assuntos em `tools[]`**: mínimo 1 item por assunto (ambos os modos). Traga mais se encontrar conteúdo de qualidade — sem teto. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use conteúdo mais antigo ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
@@ -1307,7 +1318,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 Critérios de decisão:
 
 1. **Assunto Fixo** → candidato se: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto de software/solução; encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: busca diária, direto ou indireto.
-2. **Categoria** → candidata se: tema editorial amplo e coerente; produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes. Se for recorte de categoria existente (ex.: "Microsserviços" dentro de `arqsw`), vira **tag**, não categoria nova.
+2. **Categoria** → candidata se: tema editorial amplo e coerente; produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes. Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria nova.
 3. **Tag** → para qualquer coisa transversal ou sub-específica que não justifica cobertura diária obrigatória.
 4. **Critério de remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição.
 5. **Quando em dúvida, perguntar ao usuário** antes de alterar taxonomia — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
