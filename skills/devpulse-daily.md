@@ -463,6 +463,7 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 
 **Fontes de alta reputação — consulte ativamente em cada edição**:
 - **ByteByteGo** (`blog.bytebytego.com`) — system design, arquitetura distribuída, padrões de backend, data engineering. Uma das melhores fontes para `arqsw`, `arqsol`, `backend`, `integ`, `data`.
+- **Baeldung** (`baeldung.com`) — tutoriais técnicos profundos de Java, Spring Boot, Spring Security, Kotlin, REST, testes. Fonte primária para `backend` e `arqsw`. Publica artigos novos diariamente.
 - **InfoQ** (`infoq.com`) — cobertura técnica profunda em Java, arquitetura, cloud, DevOps, AI.
 - **The New Stack** (`thenewstack.io`) — DevOps, Kubernetes, cloud-native, platform engineering.
 - **Martin Fowler** (`martinfowler.com`) — padrões arquiteturais, refactoring, DDD.
@@ -609,12 +610,13 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Go" OR "Rust" OR "Node.js" language OR runtime release`
 - `"microservices" OR "distributed systems" pattern OR architecture`
 - `site:blog.bytebytego.com backend OR "system design" OR API`
+- `site:baeldung.com "spring boot" OR "spring security" OR "java" new article`
 
 ### 🏛️ Arquitetura de Software (`arqsw`)
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
 - `"hexagonal architecture" OR "clean architecture" OR "event storming" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
-- `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture`
+- `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com OR site:baeldung.com architecture OR "design pattern"`
 
 ### 🗺️ Arquitetura de Solução (`arqsol`)
 - `"solution architecture" OR "enterprise architecture" reference OR pattern`
