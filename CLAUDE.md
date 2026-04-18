@@ -276,20 +276,34 @@ Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo v
 - Dados JSON não precisam mudar
 - Se adicionar/renomear classes CSS de categoria, atualize o mapa `CAT` no JS
 
+### Pesquisar fontes antes de adicionar (OBRIGATÓRIO)
+
+**Toda vez que um novo Assunto Fixo ou Categoria for adicionado**, antes de implementar qualquer arquivo, faça uma pesquisa real (WebSearch) para identificar as melhores fontes daquele tema:
+
+1. `"best [tema] blogs" OR "top [tema] resources" site:reddit.com`
+2. `"[tema] newsletter" most popular 2024 OR 2025`
+3. `"[tema] blog" developers OR architects`
+
+Com os resultados, identifique o **blog oficial** (changelog, release notes), o **blog editorial de referência** (#1 mais citado pela comunidade) e **1-2 fontes complementares de autoridade**. Adicione essas fontes à seção "Fontes de alta reputação" e às queries da categoria correspondente em `skills/devpulse-daily.md` **antes de fazer o commit**.
+
+Fontes genéricas (Medium sem autor, "top 10 tools", DZone sem filtragem de qualidade) não devem ser adicionadas como fontes primárias.
+
 ### Adicionar/remover uma categoria
 1. Consulte as **regras de classificação** abaixo antes de decidir
-2. Adicione/remova a chave em `CAT` no JS de `index.html`
-3. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
-4. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
-5. Atualize `STRICT_FROM_V2` no validator para a data da primeira edição com a nova taxonomia
+2. **Pesquise as melhores fontes** do tema (ver protocolo acima)
+3. Adicione/remova a chave em `CAT` no JS de `index.html`
+4. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
+5. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
+6. Atualize `STRICT_FROM_V2` no validator para a data da primeira edição com a nova taxonomia
 
 ### Adicionar/remover um Assunto Fixo
 1. **Perguntar ao usuário** se é Assunto Fixo ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
-2. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`)
-3. Atualize a tabela em `skills/devpulse-daily.md` (seção "ASSUNTOS FIXOS MONITORADOS")
-4. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
-5. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
-6. Atualize a tabela neste CLAUDE.md (seção "Assuntos Fixos monitorados")
+2. **Pesquise as melhores fontes** do assunto (ver protocolo acima) — changelog oficial, blog editorial, fontes complementares
+3. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`)
+4. Atualize a tabela em `skills/devpulse-daily.md` (seção "ASSUNTOS FIXOS MONITORADOS") com o changelog e fontes encontradas
+5. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
+6. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
+7. Atualize a tabela neste CLAUDE.md (seção "Assuntos Fixos monitorados")
 
 ### Como classificar uma adição (Assunto Fixo, Categoria ou tag)
 

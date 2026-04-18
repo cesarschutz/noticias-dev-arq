@@ -462,24 +462,63 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - Conteúdo de autores reconhecidos na área (Fowler, Kleppmann, Hohpe, Newman, etc.).
 
 **Fontes de alta reputação — consulte ativamente em cada edição**:
-- **ByteByteGo** (`blog.bytebytego.com`) — system design, arquitetura distribuída, padrões de backend, data engineering. Uma das melhores fontes para `arqsw`, `arqsol`, `backend`, `integ`, `data`.
-- **Baeldung** (`baeldung.com`) — tutoriais técnicos profundos de Java, Spring Boot, Spring Security, Kotlin, REST, testes. Fonte primária para `backend` e `arqsw`. Publica artigos novos diariamente.
-- **InfoQ** (`infoq.com`) — cobertura técnica profunda em Java, arquitetura, cloud, DevOps, AI.
-- **The New Stack** (`thenewstack.io`) — DevOps, Kubernetes, cloud-native, platform engineering.
-- **Martin Fowler** (`martinfowler.com`) — padrões arquiteturais, refactoring, DDD.
+
+*🔐 Segurança & IAM*
+- **The Hacker News** (`thehackernews.com`) — #1 em notícias de segurança, 8M+ leitores/mês. CVEs, breaches, malware.
+- **BleepingComputer** (`bleepingcomputer.com`) — cobertura rápida e técnica de CVEs, patches, ransomware.
+- **Krebs on Security** (`krebsonsecurity.com`) — investigações aprofundadas de breaches e supply chain.
+- **SANS Internet Storm Center** (`isc.sans.edu`) — diários de incidentes, honeypots, vulnerabilidades ativas.
+- **CISA Advisories** (`cisa.gov/cybersecurity-advisories`) — alertas oficiais de CVEs explorados ativamente.
+
+*🤖 IA & LLMs*
+- **Simon Willison's Weblog** (`simonwillison.net`) — rastreamento diário de lançamentos AI, LLMs, tools. Referência para `ai`.
+- **OpenAI Blog** (`openai.com/blog`) — lançamentos de modelos, pesquisa, APIs. Publicação irregular mas de alta relevância.
+- **Anthropic News** (`anthropic.com/news`) — Claude releases, políticas, pesquisa de segurança em AI.
+- **Google DeepMind Blog** (`deepmind.google/blog`) — pesquisa fundamental, modelos Gemini, benchmarks.
+- **HuggingFace Blog** (`huggingface.co/blog`) — modelos open source, datasets, papers práticos, community. Essencial para AI open.
+
+*🔶 AWS*
+- **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — padrões oficiais, case studies, Well-Architected.
+- **AWS What's New** (`aws.amazon.com/about-aws/whats-new`) — todos os lançamentos de serviços em tempo real.
+- **Last Week in AWS** (`lastweekinaws.com`) — curadoria semanal com análise crítica dos anúncios AWS.
+
+*⚙️ DevOps & Plataformas*
+- **Kubernetes Blog** (`kubernetes.io/blog`) — #1 oficial. Releases, KEPs, deprecations, segurança.
+- **CNCF Blog** (`cncf.io/blog`) — Helm, ArgoCD, Istio, OpenTelemetry, Flux — projetos CNCF em geral.
+- **The New Stack** (`thenewstack.io`) — DevOps, Kubernetes, cloud-native, platform engineering. Diária.
+
+*📈 Observabilidade*
+- **Grafana Labs Blog** (`grafana.com/blog`) — #1 para obs. Loki, Tempo, Mimir, Prometheus, OTel. 2-3 posts/semana.
+- **OpenTelemetry Blog** (`opentelemetry.io/blog`) — spec oficial, novos sinais, adoção por vendors. Padrão da indústria.
+
+*🗄️ Dados & Streaming*
+- **Confluent Blog** (`confluent.io/blog`) — Kafka, event streaming, CDC, schema registry. Referência para `integ` e `data`.
+- **Databricks Blog** (`databricks.com/blog`) — Delta Lake, lakehouse, Spark, MLflow, Unity Catalog.
+
+*🔌 Integração & Eventos*
+- **AsyncAPI Initiative** (`asyncapi.com/blog`) — spec oficial para APIs event-driven, roadmap, tooling.
+- **Confluent Blog** (`confluent.io/blog`) — ver acima (Kafka, EDA, CDC).
+
+*🔧 Backend & Runtimes*
+- **Baeldung** (`baeldung.com`) — tutoriais profundos de Java, Spring Boot, Spring Security, REST. Diário.
+- **Spring Blog** (`spring.io/blog`) — oficial Spring Framework, Spring Boot, Spring Cloud. Releases e posts de engenharia.
+- **JetBrains Blog** (`blog.jetbrains.com`) — IntelliJ IDEA, Kotlin, Gradle. Referência para tooling JVM.
+- **Inside Java** (`inside.java`) — JDK, JVM, Project Loom/Valhalla em profundidade.
+- **DZone** (`dzone.com`) — artigos práticos em Java, DevOps, cloud. Volume alto, filtrar por qualidade.
+
+*🏛️ Arquitetura de Software*
+- **ByteByteGo** (`blog.bytebytego.com`) — system design, arquitetura distribuída, padrões. ~500k assinantes. Semanal.
+- **Martin Fowler** (`martinfowler.com`) — DDD, refactoring, padrões. AUTORIDADE máxima.
+- **InfoQ** (`infoq.com`) — cobertura profunda em arquitetura, Java, cloud, AI. Newsletter 300k+ assinantes.
+- **High Scalability** (`highscalability.com`) — estudos de caso reais (Netflix, Amazon, WhatsApp).
+- **ACM Queue** (`queue.acm.org`) — artigos acadêmico-práticos sobre sistemas distribuídos e bancos.
+- **ThoughtWorks Tech Radar** (`thoughtworks.com/radar`) — referência bimestral para decisões de adoção de tecnologia. LEITURA OBRIGATÓRIA para arquitetos.
+
+*🗺️ Arquitetura de Solução*
 - **Architect Elevator** (`architectelevator.com`) — arquitetura corporativa, Gregor Hohpe.
-- **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — referência para pilar AWS.
-- **Inside Java** (`inside.java`) — conteúdo profundo sobre JDK e JVM.
-- **Krebs on Security** (`krebsonsecurity.com`) — investigações aprofundadas de breaches, ransomware, supply chain. Referência jornalística para `sec`.
-- **BleepingComputer** (`bleepingcomputer.com`) — CVEs, patches, malware, vulnerabilidades com cobertura rápida e técnica. Referência para `sec`.
-- **SANS Internet Storm Center** (`isc.sans.edu`) — diários de incidentes, honeypots, vulnerabilidades ativas. Referência para `sec`.
-- **High Scalability** (`highscalability.com`) — estudos de caso reais de arquitetura em escala (Netflix, Amazon, WhatsApp). Referência para `arqsol` e `arqsw`.
-- **ACM Queue** (`queue.acm.org`) — artigos acadêmico-práticos sobre sistemas distribuídos, bancos de dados, concorrência. Alta autoridade para `arqsw` e `arqsol`.
-- **Simon Willison's Weblog** (`simonwillison.net`) — rastreamento de lançamentos, AI, LLMs, Python, ferramentas de dev. Referência para `ai`.
-- **Last Week in AWS** (`lastweekinaws.com`) — curadoria semanal de anúncios AWS com análise crítica. Referência para `aws`.
-- **Confluent Blog** (`confluent.io/blog`) — Kafka, streaming, event-driven architecture, schema registry. Referência para `integ` e `data`.
-- **DZone** (`dzone.com`) — artigos técnicos práticos em Java, DevOps, cloud, arquitetura. Referência para `backend`.
-- **JetBrains Blog** (`blog.jetbrains.com`) — IntelliJ IDEA, Kotlin, Gradle, IDEs e ferramentas de dev. Referência para `backend`.
+- **AWS Architecture Center** (`aws.amazon.com/architecture`) — reference architectures, blueprints, Well-Architected.
+- **Azure Architecture Center** (`learn.microsoft.com/azure/architecture`) — cloud design patterns, reference architectures multi-cloud.
+- **Google Cloud Architecture** (`cloud.google.com/architecture`) — best practices, reference architectures GCP.
 
 **Cobertura obrigatória**: cada categoria deve ter itens em `pillars[]` + `news[]` combinados. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
@@ -583,7 +622,9 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Claude" OR "GPT" OR "Gemini" OR "Llama" new model OR update`
 - `"AI agent" OR "MCP" OR "Model Context Protocol" OR "RAG" OR "LangChain"`
 - `"Cursor" OR "Claude Code" OR "GitHub Copilot" AI coding tool update`
-- `site:simonwillison.net` (rastreamento de lançamentos AI, LLMs, Python tools)
+- `site:simonwillison.net` (rastreamento diário de lançamentos AI/LLMs)
+- `site:openai.com/blog OR site:anthropic.com/news OR site:deepmind.google/blog`
+- `site:huggingface.co/blog model OR release OR dataset OR agent`
 
 ### 🔶 AWS (`aws`)
 - `site:aws.amazon.com/about-aws/whats-new new service OR launch`
@@ -597,20 +638,25 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Docker Desktop" release OR update`
 - `"GitHub Actions" new feature OR workflow OR runner update`
 - `"GitOps" OR "ArgoCD" OR "Flux" OR "platform engineering" news`
+- `site:kubernetes.io/blog` (releases oficiais, KEPs, deprecations)
+- `site:cncf.io/blog kubernetes OR helm OR argocd OR istio OR "platform engineering"`
 
 ### 📈 Observabilidade (`obs`)
 - `"OpenTelemetry" release OR update OR adoption`
 - `"Grafana" OR "Datadog" OR "Dynatrace" new feature OR release`
 - `"distributed tracing" OR "observability" OR "SLO" OR "SLI" best practice OR news`
 - `"Prometheus" OR "Loki" OR "Tempo" update OR release`
+- `site:grafana.com/blog` (#1 fonte de observabilidade — Loki, Tempo, Mimir, OTel)
+- `site:opentelemetry.io/blog` (spec oficial OTel, novos sinais, adoção)
 
 ### 🗄️ Dados & Streaming (`data`)
-- `"PostgreSQL" OR "MongoDB" OR "Redis" release OR update`
+- `"PostgreSQL" OR "Valkey" OR "Redis" OR "MongoDB" release OR update` (Valkey = fork Redis pós-mudança de licença 2024)
 - `"Kafka" OR "Pulsar" OR "Flink" streaming data update`
 - `"DynamoDB" OR "Aurora" OR "Cosmos DB" OR "Snowflake" new feature`
 - `"data lakehouse" OR "dbt" OR "CDC" OR "vector database" news`
 - `site:blog.bytebytego.com database OR "data engineering" OR streaming`
 - `site:confluent.io/blog data OR streaming OR CDC OR lakehouse`
+- `site:databricks.com/blog "delta lake" OR lakehouse OR spark OR CDC`
 
 ### 🔌 Integração & Eventos (`integ`)
 - `"Apache Kafka" release OR update OR incident`
@@ -619,6 +665,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"iPaaS" OR "n8n" OR "Confluent" OR "MuleSoft" release OR news`
 - `site:blog.bytebytego.com API OR "event-driven" OR integration`
 - `site:confluent.io/blog kafka OR streaming OR "schema registry" OR EDA`
+- `site:asyncapi.com/blog` (spec oficial para APIs assíncronas/event-driven)
 
 ### 🔧 Backend & Runtimes (`backend`)
 - `"Spring Boot" OR "Spring Framework" OR "Quarkus" OR "Micronaut" release`
@@ -627,24 +674,27 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"microservices" OR "distributed systems" pattern OR architecture`
 - `site:blog.bytebytego.com backend OR "system design" OR API`
 - `site:baeldung.com "spring boot" OR "spring security" OR "java" new article`
-- `site:dzone.com java OR "spring boot" OR backend OR microservices`
+- `site:spring.io/blog` (oficial Spring — releases, engineering posts)
 - `site:blog.jetbrains.com IntelliJ OR Kotlin OR Gradle OR Java`
+- `site:dzone.com java OR "spring boot" OR backend OR microservices`
 
 ### 🏛️ Arquitetura de Software (`arqsw`)
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
 - `"hexagonal architecture" OR "clean architecture" OR "event storming" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
-- `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com OR site:baeldung.com architecture OR "design pattern"`
+- `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture OR "design pattern"`
 - `site:highscalability.com` (estudos de caso reais de arquitetura em escala)
 - `site:queue.acm.org architecture OR "distributed systems" OR "system design"`
+- `site:thoughtworks.com/radar` (Tech Radar — referência bimestral de adoção de tecnologia)
 
 ### 🗺️ Arquitetura de Solução (`arqsol`)
 - `"solution architecture" OR "enterprise architecture" reference OR pattern`
 - `"cloud architecture" OR "multi-cloud" OR "service mesh" OR "API gateway"`
-- `"system design" site:blog.bytebytego.com OR site:dzone.com`
+- `"system design" site:blog.bytebytego.com OR site:highscalability.com`
 - Netflix OR Airbnb OR Uber OR Stripe "engineering blog" architecture post
-- `site:highscalability.com` (estudos de caso em escala — WhatsApp, Amazon, Netflix)
-- `site:queue.acm.org "system design" OR "enterprise" OR "solution architecture"`
+- `site:architectelevator.com` (Gregor Hohpe — arquitetura corporativa)
+- `site:aws.amazon.com/architecture OR site:learn.microsoft.com/azure/architecture OR site:cloud.google.com/architecture` (reference architectures multi-cloud)
+- `site:thoughtworks.com/radar` (Tech Radar — decisões de adoção por arquitetos)
 
 ---
 
@@ -840,16 +890,16 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 
 ## FONTES PREFERIDAS
 
-Priorize estas fontes ao pesquisar e atribuir credibilidade:
+As fontes abaixo estão detalhadas na seção "Fontes de alta reputação" acima. Use esta tabela como referência rápida de credibilidade ao selecionar itens:
 
-**Segurança:** The Hacker News, BleepingComputer, Tenable, CISA, NVD
-**IA:** TechCrunch, The Verge, Anthropic Blog, OpenAI Blog, Google AI Blog, Axios
-**Cloud:** AWS What's New, AWS Blog, Azure Blog, Google Cloud Blog
-**DevOps:** Kubernetes Blog, CNCF Blog, Docker Blog, HashiCorp Blog
-**Geral:** Hacker News, InfoQ, The New Stack, Dev.to, GitHub Blog
-**Eng Blogs:** Netflix, Uber, Airbnb, Shopify, Stripe, Meta, Cloudflare
-**Arquitetura:** Martin Fowler, Simon Brown, InfoQ Architecture
-**Brasil (opcional):** Tabnews, iMasters, CTO.tech
+| Tier | O que representa | Exemplos |
+|---|---|---|
+| **Tier 1 — Oficial/Primária** | Changelog, release notes, blog do vendor, CVE oficial | kubernetes.io/blog, spring.io/blog, opentelemetry.io/blog, nvd.nist.gov, cisa.gov, openai.com/blog, anthropic.com/news |
+| **Tier 2 — Autoridade editorial** | Jornalismo técnico independente, autores reconhecidos, newsletters referência | InfoQ, The New Stack, Martin Fowler, ByteByteGo, ThoughtWorks Radar, Simon Willison, Baeldung, Krebs on Security, Grafana Blog |
+| **Tier 3 — Comunidade & agregadores** | HN front page ≥50pts, engineering blogs de big tech, Reddit r/devops r/java r/kubernetes | Netflix TechBlog, Cloudflare Blog, Uber Engineering, GitHub Trending, highscalability.com |
+| **Evitar** | Marketing disfarçado de conteúdo, "top 10 tools", comparações genéricas sem substância | DZone (filtrar), Medium aleatório, posts sem autor identificado |
+
+**Brasil (opcional):** `tabnews.com.br`, `imasters.com.br`, `cto.tech` — incluir só se relevante para arquitetos.
 
 ---
 
