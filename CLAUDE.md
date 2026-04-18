@@ -127,8 +127,7 @@ Dois perfis de assunto fixo no campo `kind`:
 Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), `context` (opcional). `related_to` ∈ `"cat:<chave>"`, `"tool:<chave>"`, `"general"`.
 
 Schema completo em `skills/csr-news-daily.md`. Validação em `scripts/validate_editions.py`:
-- Edições ≥ `2026-04-18` são **strict v1** (tools com `kind`/`tool_key`, imagens, quotes).
-- Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias, ferramentas v2, `pillars[]` com campo `pillar`).
+- Edições ≥ `2026-04-18` são **strict v5** (taxonomia completa — 13 categorias, 42 tool_keys, `pillars[]` com campo `pillar`, `kind`/`tool_key` obrigatórios em `tools[]`).
 
 ### `data/java-versions/index.json`
 ```json
@@ -180,7 +179,7 @@ Os três pilares são os destaques fixos do topo de cada edição — um por tem
 
 Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda colorida espessa e badge de identificação. Retrocompat: edições antigas com `top3` são renderizadas normalmente.
 
-## Categorias (taxonomia v3 — desde 2026-04-19)
+## Categorias (taxonomia v5 — desde 2026-04-18)
 
 | Chave | CSS Var | Label | Ícone | Escopo |
 |-------|---------|-------|-------|--------|
