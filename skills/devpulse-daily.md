@@ -788,13 +788,29 @@ Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**31 a
 
 | `kind` | Quando usar |
 |---|---|
-| `release` | Nova versão oficial publicada na janela. Obrigatório: `version`. |
+| `release` | Nova versão oficial publicada na janela. **Obrigatório**: `version`. |
 | `news` | Notícia externa relevante (aquisição, incidente, artigo InfoQ/TheNewStack/HN >100pts). |
 | `tutorial` | Walkthrough ou guia público (post de blog, vídeo, documentação nova) — ensina uso avançado. |
 | `tip` | Dica objetiva e acionável (atalho, flag, config oculta). Evergreen aceitável. |
 | `curiosity` | Fato histórico ou trivia **específica** do assunto. **Máximo 1 por assunto fixo por mês.** Use só se todas as outras opções falharem; documente a razão em `description`. |
 
-**Hierarquia**: `release > news > tutorial > tip > curiosity`. Nunca omita um assunto fixo. Nunca use `curiosity` genérica ("Docker é popular porque...").
+### Dois tipos de assunto fixo — hierarquia de `kind` diferente
+
+Os 31 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
+
+**Ferramentas com release** (têm changelog e versionamento próprio):
+`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
+
+→ Hierarquia: **`release` (quando saiu nova versão na janela) > `news` > `tutorial` > `tip` > `curiosity`**
+→ Use `kind: "release"` **apenas** quando uma versão concreta foi lançada na janela de busca. Se não houve release, use `news`/`tip`/`tutorial`.
+
+**Temas/domínios** (não versionalizam software, ou releases são esporádicos):
+`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`
+
+→ Hierarquia: **`news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`**
+→ `release` só quando uma versão da linguagem/spec foi publicada (ex: JDK 25, ECMAScript 2025, OpenAPI 4.0). O dia-a-dia é `news` e `tip`.
+
+**Nunca omita um assunto fixo. Nunca use `curiosity` genérica** ("Docker é popular porque...").
 
 ### Protocolo especial: `tool_key: "cve"`
 

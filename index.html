@@ -3178,19 +3178,23 @@ function renderTool(key){
     }).sort((a,b) => (b._date||'').localeCompare(a._date||''))
   );
 
-  const releases = toolItems.filter(x => (x.kind||'release') === 'release');
-  const others   = toolItems.filter(x => (x.kind||'release') !== 'release');
+  const releases = toolItems.filter(x => x.kind === 'release');
+  const others   = toolItems.filter(x => x.kind !== 'release');
 
   const tcolor = TOOL_KIND[tool.kind] || 'var(--cyan)';
   const totalDates = new Set(toolItems.map(i=>i._date)).size;
   let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: ${tcolor}; margin-top:18px">`;
+  const isNewsTopic = tool.kind === 'news';
+  const lede = isNewsTopic
+    ? `Feed completo de <b>${esc(tool.name)}</b>: notícias, dicas, tutoriais e curiosidades de todas as edições.`
+    : `Feed completo de <b>${esc(tool.name)}</b>: quando há release, aparece primeiro; senão, notícias, dicas e tutoriais do ecossistema.`;
   html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Assunto Fixo</span>${tool.icon} ${esc(tool.name)}</div>`;
-  html += `<p class="ctx-hero-lede">Feed completo de <b>${esc(tool.name)}</b>: releases oficiais, notícias, tutoriais, dicas e curiosidades de todas as edições.</p>`;
+  html += `<p class="ctx-hero-lede">${lede}</p>`;
   html += `<div class="ctx-hero-meta">`;
   html += `<span><span class="mk">total</span> <span class="mv">${toolItems.length} itens</span></span>`;
-  html += `<span><span class="mk">releases</span> <span class="mv">${releases.length}</span></span>`;
-  html += `<span><span class="mk">outros</span> <span class="mv">${others.length}</span></span>`;
+  if (!isNewsTopic) html += `<span><span class="mk">releases</span> <span class="mv">${releases.length}</span></span>`;
+  html += `<span><span class="mk">notícias/tips</span> <span class="mv">${others.length}</span></span>`;
   html += `<span><span class="mk">edições</span> <span class="mv">${totalDates}</span></span>`;
   html += `</div></section>`;
 
@@ -3426,8 +3430,8 @@ function buildCard(item){
 function buildToolCard(t){
   const toolDef = TOOLS.find(x => x.key === t.tool_key) ||
                   TOOLS.find(x => x.aliases.some(a => (t.name||'').toLowerCase().includes(a)));
-  const k = t.kind || 'release';
-  const bk = TOOL_KIND_BADGE[k] || TOOL_KIND_BADGE.release;
+  const k = t.kind || 'news';
+  const bk = TOOL_KIND_BADGE[k] || TOOL_KIND_BADGE.news;
   const logoUrl = (STATE.mode === 'cards') ? (t.image || toolDef?.logo) : null;
   const hasThumb = !!logoUrl;
   const kindClass = 'tk-' + k;
