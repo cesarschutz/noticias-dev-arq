@@ -1763,6 +1763,11 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .dp-cell.has-edition { color: var(--ink); background: var(--surface); cursor: pointer; }
 .dp-cell.has-edition:hover { background: var(--amber); color: var(--bg-deep); }
+.sidebar.ctx-agg .dp-panel,
+.sidebar.ctx-agg .dp-panel * { cursor: pointer; }
+.sidebar.ctx-agg .dp-cell.has-edition:hover { background: var(--surface); color: var(--ink); }
+.sidebar.ctx-agg .dp-cell.current:hover { background: var(--amber); color: var(--bg-deep); }
+.sidebar.ctx-agg .dp-cell.dp-today:not(.current):hover { background: transparent; color: var(--cyan); }
 .dp-cell.current { background: var(--amber); color: var(--bg-deep); font-weight: 700; }
 .dp-cell.dp-today:not(.current) { border: 1px solid var(--cyan); color: var(--cyan); border-radius: 3px; }
 
