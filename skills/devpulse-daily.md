@@ -329,13 +329,25 @@ Python 3.8 a 3.13 (6 versões). Status de referência:
 | 3.12 | active | 2028-10 |
 | 3.13 | active | 2029-10 |
 
-**Antes de gerar, verifique quais já existem** — gere apenas os arquivos ausentes.
+**Antes de gerar qualquer arquivo, verifique quais já existem:**
+
+1. Tente ler `data/python-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
+2. Para cada versão de 3.8 a 3.13, verifique se `data/python-versions/python-{N}.json` já existe (listado no index ou lido diretamente).
+3. **Gere apenas os arquivos ausentes.** Se `python-3.12.json` já existe, pule-o — não reescreva.
+4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
 
 Fontes: `https://docs.python.org/3.{N}/whatsnew/3.{N}.html` + `https://peps.python.org/`
 
 ##### Execuções normais — auto-update Python
 
-A cada execução, verifique `https://www.python.org/downloads/` se há versão nova. Se `latest_stable` mudou, gere o arquivo da nova versão e atualize o `index.json`.
+A cada execução, após gerar a edição do dia:
+
+1. Leia `data/python-versions/index.json` e pegue `latest_stable`.
+2. Verifique se há versão nova em `https://www.python.org/downloads/`.
+3. Se a versão encontrada for maior que `latest_stable`:
+   a. Gere `data/python-versions/python-{N}.json` para a nova versão com todos os PEPs de destaque.
+   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest_stable` e `last_updated`.
+4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
 
 ---
 
@@ -393,13 +405,25 @@ Descrições em PT-BR. Inclua **todas as proposals Stage 4** aprovadas naquela e
 
 ES2015 (ES6) a ES2024 — 10 versões. Arquivo: `js-es2015.json`, `js-es2016.json`, …, `js-es2024.json`.
 
-**Antes de gerar, verifique quais já existem** — gere apenas os arquivos ausentes.
+**Antes de gerar qualquer arquivo, verifique quais já existem:**
+
+1. Tente ler `data/js-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
+2. Para cada versão ES2015 a ES2024, verifique se `data/js-versions/js-es{YYYY}.json` já existe (listado no index ou lido diretamente).
+3. **Gere apenas os arquivos ausentes.** Se `js-es2021.json` já existe, pule-o — não reescreva.
+4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
 
 Fontes: `https://github.com/tc39/proposals/blob/main/finished-proposals.md` + MDN + `https://exploringjs.com/`
 
 ##### Execuções normais — auto-update JS
 
-Verifique anualmente (junho/julho) se há nova edição ECMAScript aprovada pelo Ecma GA. Se `latest` mudou, gere o arquivo da nova versão e atualize o `index.json`.
+A cada execução, após gerar a edição do dia:
+
+1. Leia `data/js-versions/index.json` e pegue `latest`.
+2. Verifique se há nova edição ECMAScript aprovada: consulte `https://tc39.es/ecma262/` ou `https://github.com/tc39/ecma262/releases` (nova edição sai tipicamente em junho/julho).
+3. Se a versão encontrada for maior que `latest`:
+   a. Gere `data/js-versions/js-es{YYYY}.json` para a nova edição com todas as proposals Stage 4 aprovadas.
+   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest` e `last_updated`.
+4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
 
 ---
 
