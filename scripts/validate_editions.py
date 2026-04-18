@@ -28,9 +28,9 @@ DATA = os.path.join(ROOT, 'data')
 # STRICT_FROM_V5 — v5 da taxonomia (+eventdriven/apifirst/resiliency/springcloud/quarkus/lambda/dynamodb; -warp/-postman; 42 tools).
 STRICT_FROM    = '2026-04-18'
 STRICT_FROM_V2 = '2026-04-17'
-STRICT_FROM_V3 = '2026-04-19'
-STRICT_FROM_V4 = '2026-04-19'
-STRICT_FROM_V5 = '2026-04-19'
+STRICT_FROM_V3 = '2026-04-18'
+STRICT_FROM_V4 = '2026-04-18'
+STRICT_FROM_V5 = '2026-04-18'
 
 # Taxonomia v1 (legacy — aceita como warning em strict_v2/v3)
 CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol','obs','data','integ'}
@@ -362,7 +362,8 @@ def validate_index(path):
             warn(f"editions.json: last_generated não é ISO 8601: {idx['last_generated']}")
     eds = idx.get('editions') or []
     if not eds:
-        err('editions.json: editions vazio')
+        warn('editions.json: editions vazio (primeira execução)')
+        return
     dates = [e.get('date') for e in eds]
     if dates != sorted(dates, reverse=True):
         warn('editions.json: editions[] não ordenadas desc por data')
