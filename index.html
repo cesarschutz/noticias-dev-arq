@@ -1125,10 +1125,15 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .top-thumb {
   width: 100%;
   aspect-ratio: 16/9;
-  background: var(--bg-deep) center/cover no-repeat;
   border-bottom: 1px solid var(--rule);
   position: relative;
   overflow: hidden;
+  background: var(--bg-deep);
+}
+.top-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
 }
 .top-thumb::after {
   content: '';
@@ -1300,9 +1305,15 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   width: calc(100% + 28px);
   margin: -12px -14px 0;
   aspect-ratio: 16/9;
-  background: var(--bg-deep) center/cover no-repeat;
   border-bottom: 1px solid var(--rule);
   flex-shrink: 0;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+.card-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
 }
 .feed-list .card-thumb { display: none; }
 .card.urgent { border-left-color: var(--red); }
@@ -3174,7 +3185,7 @@ function buildTopCard(item, idx, date){
   const c = item.category || 'arqsw';
   const cat = CAT[c] || {l:c};
   const url = item.url;
-  const thumb = item.image ? `<div class="top-thumb" style="background-image:url('${escAttr(item.image)}')" role="img" aria-label="${escAttr(item.headline)}"></div>` : '';
+  const thumb = item.image ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
   let html = `<div class="top-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--cat: var(--cat-${c});">`;
   html += `<div class="strip" aria-hidden="true"></div>`;
   html += thumb;
@@ -3202,7 +3213,7 @@ function buildPillarCard(item, idx, date){
   const pillarDef = PILLARS[item.pillar] || null;
   const pillarColor = pillarDef ? pillarDef.color : 'var(--amber)';
   const url = item.url;
-  const thumb = item.image ? `<div class="top-thumb" style="background-image:url('${escAttr(item.image)}')" role="img" aria-label="${escAttr(item.headline)}"></div>` : '';
+  const thumb = item.image ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
   let html = `<div class="pillar-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--pillar-color:${pillarColor}; --cat:var(--cat-${c});">`;
   html += `<div class="strip" aria-hidden="true"></div>`;
   html += thumb;
@@ -3231,7 +3242,7 @@ function buildCard(item){
   const date = item._date || STATE.currentDate;
   const showThumb = STATE.mode === 'cards' && !!item.image;
   const thumbHtml = showThumb
-    ? `<div class="card-thumb" style="background-image:url('${escAttr(item.image)}')" role="img" aria-label="${escAttr(item.headline)}"></div>`
+    ? `<div class="card-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
     : '';
   let html = `<div class="card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" data-cat="${c}" role="link" tabindex="0" style="--cat: var(--cat-${c});">`;
   html += thumbHtml;
