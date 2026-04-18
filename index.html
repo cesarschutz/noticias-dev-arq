@@ -881,10 +881,12 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   border-left-color: var(--k, var(--amber));
 }
 .ch-emoji {
-  font-size: 13px;
+  width: 14px; height: 14px;
   flex-shrink: 0;
-  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
 }
+.ch-emoji svg { stroke: var(--k, currentColor); opacity: 0.8; }
+.ch-item.active .ch-emoji svg { opacity: 1; }
 .ch-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--k, var(--ink-faint));
@@ -934,7 +936,19 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   grid-column: 1 / -1;
 }
 .tool-cat-header:first-child { margin-top: 0; }
-.tool-cat-icon { font-size: 13px; }
+.tool-cat-icon {
+  width: 13px; height: 13px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.tool-cat-icon svg { stroke: var(--k, currentColor); opacity: 0.9; }
+.ch-tool-logo {
+  width: 14px; height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  object-fit: contain;
+  opacity: 0.85;
+}
 .tool-cat-name { color: var(--k, var(--ink-dim)); }
 #tools-side {
   display: grid;
@@ -2118,6 +2132,23 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 (function(){
 'use strict';
 
+/* ═══ Ícones de categoria (Lucide Icons, MIT) ═══ */
+const CAT_ICONS = {
+  sec:     '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  ai:      '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  aws:     '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
+  devops:  '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  obs:     '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+  data:    '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  integ:   '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+  backend: '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
+  arqsw:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
+};
+function iconSvg(paths, size=14){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">${paths}</svg>`;
+}
+
 /* ═══ Categorias e ferramentas ═══ */
 const CAT = {
   sec:     { l:'sec',     lf:'Segurança & IAM',        i:'🔐' },
@@ -2551,7 +2582,7 @@ function renderSidebar(){
     const tday = catToday[k] || 0;
     const active = STATE.view === 'cat:' + k ? 'active' : '';
     return `<div class="ch-item ${active}" data-filter-type="cat" data-filter-key="${k}" role="button" tabindex="0" style="--k: var(--cat-${k})">` +
-           `<span class="ch-emoji" aria-hidden="true">${CAT[k].i}</span>` +
+           `<span class="ch-emoji">${iconSvg(CAT_ICONS[k] || '', 14)}</span>` +
            `<span class="ch-name">${CAT[k].lf}</span>` +
            `</div>`;
   }).join('');
@@ -2592,15 +2623,15 @@ function renderSidebar(){
     if (!catTools || catTools.length === 0) return;
     const catDef = CAT[catKey];
     toolsHtml += `<div class="tool-cat-header" style="--k: var(--cat-${catKey})">` +
-                 `<span class="tool-cat-icon" aria-hidden="true">${catDef.i}</span>` +
+                 `<span class="tool-cat-icon">${iconSvg(CAT_ICONS[catKey] || '', 13)}</span>` +
                  `<span class="tool-cat-name">${catDef.lf}</span>` +
                  `</div>`;
     catTools.forEach(t => {
-      const total = toolTotals[t.key] || 0;
-      const tday = toolToday[t.key] || 0;
       const active = STATE.view === 'tool:' + t.key ? 'active' : '';
       const color = `var(--cat-${catKey})`;
+      const logoHtml = t.logo ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
       toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" style="--k: ${color}">` +
+             logoHtml +
              `<span class="ch-name">${t.name}</span>` +
              `</div>`;
     });
@@ -2981,7 +3012,7 @@ function renderCategory(key){
 
   let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: var(--cat-${key}); margin-top:18px">`;
-  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Categoria</span>${cat.i} ${esc(cat.lf)}</div>`;
+  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Categoria</span>${iconSvg(CAT_ICONS[key] || '', 26)} ${esc(cat.lf)}</div>`;
   html += `<p class="ctx-hero-lede">Arquivo histórico de todas as notícias da categoria <b>${esc(cat.lf)}</b> em todas as edições indexadas, agrupadas por data.</p>`;
   html += `<div class="ctx-hero-meta">`;
   html += `<span><span class="mk">total</span> <span class="mv">${items.length} notícias</span></span>`;
@@ -3229,7 +3260,10 @@ function renderTool(key){
   const lede = isNewsTopic
     ? `Feed completo de <b>${esc(tool.name)}</b>: notícias, dicas, tutoriais e curiosidades de todas as edições.`
     : `Feed completo de <b>${esc(tool.name)}</b>: quando há release, aparece primeiro; senão, notícias, dicas e tutoriais do ecossistema.`;
-  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Assunto Fixo</span>${tool.icon} ${esc(tool.name)}</div>`;
+  const heroLogoHtml = tool.logo
+    ? `<img src="${escAttr(tool.logo)}" alt="" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0" onerror="this.style.display='none'">`
+    : iconSvg(CAT_ICONS[tool.category] || '', 26);
+  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Assunto Fixo</span>${heroLogoHtml} ${esc(tool.name)}</div>`;
   html += `<p class="ctx-hero-lede">${lede}</p>`;
   html += `<div class="ctx-hero-meta">`;
   html += `<span><span class="mk">total</span> <span class="mv">${toolItems.length} itens</span></span>`;
