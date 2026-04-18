@@ -303,6 +303,50 @@ Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CA
 >
 > **Fonte de verdade**: este `CLAUDE.md`. Se mudar qualquer regra editorial (cobertura, taxonomia, schema), sincronize os **3 documentos humanos** no mesmo commit: `README.md`, `CLAUDE.md`, `skills/csr-news-daily.md`. Divergência entre eles é bug — sempre rodar `python3 scripts/validate_editions.py` antes do commit.
 
+### Mapa: o que aparece na tela e de onde vem
+
+Toda mudança em categorias, tópicos, linguagens ou links de pesquisa impacta múltiplos lugares ao mesmo tempo. Use este mapa para não esquecer nenhum:
+
+| O que aparece na tela | Onde fica no código | O que muda na skill |
+|---|---|---|
+| **Sidebar esquerda — lista de categorias** | `CAT` em `index.html` (chave, label, ícone emoji) | Seção "Categorias e Queries" + fontes |
+| **Sidebar — cor de destaque ao filtrar** | `--cat-{chave}` em `:root` e `[data-theme="light"]` de `index.html` | — |
+| **Sidebar — ícone SVG de categoria** | `CAT_ICONS` em `index.html` (path SVG) | — |
+| **Rail direito — grupos Tópicos/Ferramentas/Linguagens** | `TOOL_GROUPS` e array `TOOLS` em `index.html` | Seção "TÓPICOS MONITORADOS" + conteúdo indireto |
+| **Rail — logo de tópico/ferramenta** | campo `logo` na entrada `TOOLS` de `index.html` | — |
+| **About page — "N categorias"** | hardcoded em `index.html` (`ab-stat-n`) | Contagens em MODO NORMAL e PRIMEIRA EXECUÇÃO |
+| **About page — "N tópicos"** | hardcoded em `index.html` (`ab-stat-n`) | Idem |
+| **Prompt-bar sticky (cor por contexto)** | calculado via `CAT[key]` e `TOOLS[key]` em `index.html` | — |
+| **Filtro `cat:{chave}` e `tool:{chave}` via URL** | `CAT` e `TOOLS` em `index.html` | — |
+| **Feed diário (home)** | JSON `data/YYYY-MM-DD.json` gerado pela skill | Queries, fontes, cobertura obrigatória |
+| **README — lista de categorias e tópicos** | `README.md` (seções "Categorias cobertas" e "Assuntos fixos") | — |
+| **Validador** | `CATEGORIES_V{n}` e `TOOL_KEYS_V{n}` em `validate_editions.py` | — |
+
+**Regra prática**: se mudar qualquer coisa nesta tabela — seja na skill, seja no JSON, seja na taxonomia — percorra a coluna "Onde fica no código" e atualize todos os campos afetados em `index.html` e nos demais arquivos. Não existe mudança "só na skill" que não tenha reflexo visual.
+
+---
+
+### Classificar uma adição nova — Claude deve fazer isso PROATIVAMENTE
+
+**Toda vez que o usuário mencionar algo novo que possa ser adicionado ao projeto** (uma ferramenta, tecnologia, tema, linguagem, blog, framework — qualquer coisa), Claude deve **imediatamente**:
+
+1. **Propor a classificação** explicando as diferenças e recomendando qual se aplica:
+
+   | Tipo | Compromisso | Onde aparece | Critério principal |
+   |---|---|---|---|
+   | **Categoria** | 1 item/dia obrigatório no feed, aparece na sidebar esquerda com cor e ícone | `CAT`, CSS var, `CAT_ICONS`, sidebar, About page | Tema amplo com ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às 13 categorias existentes |
+   | **Tópico** | 1 item/dia obrigatório em `tools[]`, aparece no rail direito com logo e view dedicada | `TOOLS`, rail, About page | Tecnologia/produto com changelog próprio, ≥1 release/mês, relevante para arquiteto |
+   | **Linguagem** | Igual ao Tópico + dados de versão em `data/{lang}-versions/` | Idem + seção dedicada de fontes na skill | Linguagem de programação com releases e ecossistema próprios |
+   | **Sub-categoria / tag** | Aparece em `tags[]` quando há notícia — sem compromisso diário | `tags[]` em `news[]` | Sub-tópico de categoria existente (ex: "SAML" dentro de `sec`); não precisa de cobertura diária garantida |
+
+2. **Pesquisar as melhores fontes** sobre o tema (ver protocolo "Pesquisar fontes antes de adicionar" abaixo) antes de qualquer implementação.
+
+3. **Aguardar confirmação** do usuário antes de modificar qualquer arquivo.
+
+Nunca implemente silenciosamente sem passar pela classificação. Se o usuário não souber a diferença, explique e apresente os impactos de cada opção.
+
+---
+
 ### Alterar o design visual
 - Edite `index.html` (CSS + HTML no mesmo arquivo)
 - Dados JSON não precisam mudar
