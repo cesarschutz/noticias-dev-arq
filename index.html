@@ -418,6 +418,44 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .verse-text-wrap.v-out { animation: verseOut .4s ease forwards; }
 .verse-text-wrap.v-in  { animation: verseIn  .4s ease forwards; }
 
+/* ═══ CVE View ═══ */
+.cve-hero {
+  background: color-mix(in srgb, var(--sev-critical, #ff4444) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--sev-critical, #ff4444) 30%, transparent);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 18px 0 8px;
+}
+.cve-hero-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.cve-hero-icon { font-size:22px; line-height:1; }
+.cve-hero-title { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700; color:var(--fg); }
+.cve-hero-subtitle { font-size:10px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; letter-spacing:.04em; }
+.cve-lede { font-size:12.5px; color:var(--ink-soft); line-height:1.65; margin:0 0 14px; }
+.cve-lede b { color:var(--fg); }
+.cve-links { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+.cve-links a {
+  font-family:'JetBrains Mono',monospace; font-size:10.5px;
+  color:var(--cyan); text-decoration:none; border:1px solid var(--cyan);
+  border-radius:4px; padding:3px 9px;
+  transition: background .15s, color .15s;
+}
+.cve-links a:hover { background:var(--cyan); color:#000; }
+.cve-sev-bar { display:flex; gap:6px; flex-wrap:wrap; }
+.cve-sev-btn {
+  font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700;
+  padding:3px 10px; border-radius:4px; border:1px solid var(--rule);
+  background:transparent; color:var(--ink-soft); cursor:pointer;
+  transition: all .15s;
+}
+.cve-sev-btn:hover { border-color:var(--fg); color:var(--fg); }
+.cve-sev-btn.active { color:#000; }
+.cve-sev-btn[data-sev=""]       { border-color:var(--ink-soft); }
+.cve-sev-btn[data-sev=""].active{ background:var(--ink-soft); }
+.cve-sev-btn[data-sev="critical"].active { background:#ff4444; border-color:#ff4444; }
+.cve-sev-btn[data-sev="high"].active     { background:#ff8c42; border-color:#ff8c42; }
+.cve-sev-btn[data-sev="medium"].active   { background:#f0c040; border-color:#f0c040; }
+.cve-sev-btn[data-sev="low"].active      { background:#6ed6a0; border-color:#6ed6a0; color:#000; }
+
 /* ═══ Topbar ═══ */
 .topbar {
   grid-area: top;
@@ -2069,6 +2107,7 @@ const TOOLS = [
   { key:'vscode',       category:'ai',      name:'VS Code',            aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
   { key:'warp',         category:'ai',      name:'Warp Terminal',      aliases:['warp terminal','warp'],                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
   // Segurança & IAM
+  { key:'cve',          category:'sec',     name:'CVEs & Vulnerabilidades', aliases:['cve','nvd','vulnerability','vuln','cvss'], icon:'🚨', kind:'news',  logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128' },
   { key:'keycloak',     category:'sec',     name:'Keycloak',           aliases:['keycloak'],                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
   { key:'owasp',        category:'sec',     name:'OWASP',              aliases:['owasp'],                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
   // DevOps & Plataformas
@@ -2114,6 +2153,7 @@ const STATE = {
   view: 'home',
   mode: localStorage.getItem('dpco-mode') || 'cards',
   filter: { urgent: false },
+  cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
   readLater: JSON.parse(localStorage.getItem('dpco-read-later') || '[]'),
   rlSort: localStorage.getItem('dpco-rl-sort') || 'saved',
   startedAt: Date.now(),
@@ -2804,11 +2844,11 @@ function renderCategory(key){
 }
 
 function renderTool(key){
+  if (key === 'cve') return renderCVEView();
   const tool = TOOLS.find(t => t.key === key);
   if (!tool) return renderHome();
   const all = allItemsAcrossEditions();
 
-  // Prioridade: itens com tool_key explícito; retrocompat: fallback por alias em .name
   const toolItems = applyFilters(
     all.filter(x => {
       if (x._type !== 'tool') return false;
@@ -2824,7 +2864,7 @@ function renderTool(key){
   const totalDates = new Set(toolItems.map(i=>i._date)).size;
   let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: ${tcolor}; margin-top:18px">`;
-  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Ferramenta</span>${tool.icon} ${esc(tool.name)}</div>`;
+  html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Assunto Fixo</span>${tool.icon} ${esc(tool.name)}</div>`;
   html += `<p class="ctx-hero-lede">Feed completo de <b>${esc(tool.name)}</b>: releases oficiais, notícias, tutoriais, dicas e curiosidades de todas as edições.</p>`;
   html += `<div class="ctx-hero-meta">`;
   html += `<span><span class="mk">total</span> <span class="mv">${toolItems.length} itens</span></span>`;
@@ -2834,7 +2874,7 @@ function renderTool(key){
   html += `</div></section>`;
 
   if (!toolItems.length) {
-    html += `<div class="no-items">→ nenhum item para esta ferramenta ainda</div>`;
+    html += `<div class="no-items">→ nenhum item para este assunto ainda</div>`;
     $('main-inner').innerHTML = html;
     updateMainPrompt();
     return;
@@ -2852,6 +2892,76 @@ function renderTool(key){
 
   $('main-inner').innerHTML = html;
   updateMainPrompt();
+}
+
+function renderCVEView(){
+  const all = allItemsAcrossEditions();
+  // Agrega tool_key:cve + qualquer news/pillar com cves[]
+  const f = STATE.cveFilter;
+  const allCve = all.filter(x => {
+    const isCveTool = x._type === 'tool' && (x.tool_key === 'cve' || x.cves?.length);
+    const isCveNews = (x._type === 'news' || x._type === 'pillar') && x.cves?.length;
+    return isCveTool || isCveNews;
+  }).sort((a,b) => {
+    const sord = {critical:0,high:1,medium:2,low:3};
+    const sa = sord[a.severity]??4, sb = sord[b.severity]??4;
+    if (sa !== sb) return sa - sb;
+    return (b._date||'').localeCompare(a._date||'');
+  });
+  const filtered = f ? allCve.filter(x => x.severity === f) : allCve;
+
+  const counts = {critical:0,high:0,medium:0,low:0,total:allCve.length};
+  allCve.forEach(x => { if (counts[x.severity] !== undefined) counts[x.severity]++; });
+
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
+
+  // Header educativo
+  html += `<div class="cve-hero">`;
+  html += `<div class="cve-hero-top">`;
+  html += `<span class="cve-hero-icon">🚨</span>`;
+  html += `<div><div class="cve-hero-title">CVEs & Vulnerabilidades</div>`;
+  html += `<div class="cve-hero-subtitle">Common Vulnerabilities and Exposures</div></div>`;
+  html += `</div>`;
+  html += `<p class="cve-lede">Um <b>CVE</b> é um identificador único e público para uma vulnerabilidade de segurança conhecida em software, hardware ou firmware. O programa é mantido pelo <b>MITRE</b> e os dados são enriquecidos pelo <b>NVD</b> (National Vulnerability Database) do <b>NIST</b>, que adiciona pontuação <b>CVSS</b> (0–10), impacto, vetor de ataque e status de patch. O catálogo <b>CISA KEV</b> lista as vulnerabilidades que já estão sendo exploradas ativamente — essas exigem atenção imediata de qualquer arquiteto responsável por sistemas em produção.</p>`;
+  html += `<div class="cve-links">`;
+  html += `<a href="https://nvd.nist.gov/" target="_blank" rel="noopener">📊 NVD — NIST</a>`;
+  html += `<a href="https://cve.mitre.org/" target="_blank" rel="noopener">🏛 CVE — MITRE</a>`;
+  html += `<a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">🛡 CISA KEV</a>`;
+  html += `<a href="https://www.first.org/cvss/" target="_blank" rel="noopener">📐 CVSS Calculator</a>`;
+  html += `</div>`;
+  html += `<div class="cve-sev-bar">`;
+  html += `<button class="cve-sev-btn${!f?' active':''}" data-sev="">Todos <span style="opacity:.7">${counts.total}</span></button>`;
+  html += `<button class="cve-sev-btn${f==='critical'?' active':''}" data-sev="critical">Critical <span style="opacity:.7">${counts.critical}</span></button>`;
+  html += `<button class="cve-sev-btn${f==='high'?' active':''}" data-sev="high">High <span style="opacity:.7">${counts.high}</span></button>`;
+  html += `<button class="cve-sev-btn${f==='medium'?' active':''}" data-sev="medium">Medium <span style="opacity:.7">${counts.medium}</span></button>`;
+  html += `<button class="cve-sev-btn${f==='low'?' active':''}" data-sev="low">Low <span style="opacity:.7">${counts.low}</span></button>`;
+  html += `</div>`;
+  html += `</div>`;
+
+  if (!filtered.length) {
+    html += `<div class="no-items">→ nenhum CVE registrado${f ? ' com severidade ' + f : ''} ainda</div>`;
+    $('main-inner').innerHTML = html;
+    updateMainPrompt();
+    document.querySelectorAll('.cve-sev-btn').forEach(btn => {
+      btn.addEventListener('click', () => { STATE.cveFilter = btn.dataset.sev || null; renderCVEView(); });
+    });
+    return;
+  }
+
+  html += `<section class="section" style="margin-top:0">`;
+  html += `<div class="sec-head"><h2>Vulnerabilidades <span class="tag">CVE</span></h2><div class="sec-meta">${filtered.length} itens${f?' · '+f:''}</div></div>`;
+  // Usa buildCard para news e buildToolCard para tool items
+  html += `<div class="${STATE.mode === 'list' ? 'news-list' : 'news-grid'}">`;
+  filtered.forEach(item => {
+    html += item._type === 'tool' ? buildToolCard(item) : buildCard(item);
+  });
+  html += `</div></section>`;
+
+  $('main-inner').innerHTML = html;
+  updateMainPrompt();
+  document.querySelectorAll('.cve-sev-btn').forEach(btn => {
+    btn.addEventListener('click', () => { STATE.cveFilter = btn.dataset.sev || null; renderCVEView(); });
+  });
 }
 
 function buildToolbar(){
@@ -2876,7 +2986,8 @@ function buildToolbar(){
 function currentViewLabel(){
   if (STATE.view === 'home') return 'edição de hoje';
   if (STATE.view.startsWith('cat:')) { const k=STATE.view.slice(4); return 'categoria · ' + (CAT[k]?.lf||k); }
-  if (STATE.view.startsWith('tool:')){ const k=STATE.view.slice(5); const t=TOOLS.find(x=>x.key===k); return 'ferramenta · ' + (t?t.name:k); }
+  if (STATE.view === 'tool:cve') return 'CVEs & Vulnerabilidades';
+  if (STATE.view.startsWith('tool:')){ const k=STATE.view.slice(5); const t=TOOLS.find(x=>x.key===k); return 'assunto · ' + (t?t.name:k); }
   return STATE.view;
 }
 

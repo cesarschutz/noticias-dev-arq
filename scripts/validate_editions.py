@@ -35,7 +35,7 @@ CATEGORIES_V2 = {'sec','ai','aws','devops','obs','data','integ','backend','arqsw
 TOOL_KEYS_V2  = {
   'structurizr','whimsical','plantuml',
   'cursor','claudecode','chatgpt','vscode','warp',
-  'keycloak','owasp',
+  'cve','keycloak','owasp',
   'git','github','docker','kubernetes',
   'dynatrace',
   'postgres','mysql','mongocompass','dbeaver','databricks',

@@ -180,7 +180,7 @@ Se o usuário não souber a diferença, explique e aguarde a decisão antes de m
 
 ---
 
-## Assuntos Fixos monitorados (30, agrupados por categoria)
+## Assuntos Fixos monitorados (31, agrupados por categoria)
 
 Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
@@ -194,6 +194,7 @@ Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo v
 | `ai` | `chatgpt` | ChatGPT |
 | `ai` | `vscode` | VS Code |
 | `ai` | `warp` | Warp Terminal |
+| `sec` | `cve` | CVEs & Vulnerabilidades |
 | `sec` | `keycloak` | Keycloak |
 | `sec` | `owasp` | OWASP |
 | `devops` | `git` | Git |
