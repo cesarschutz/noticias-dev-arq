@@ -70,7 +70,9 @@
       "Bash(curl -sI http://localhost:8765/console-ops.html)",
       "Bash(python3)",
       "Bash(python3 scripts/validate_editions.py)",
-      "Bash(python3 scripts/generate_feed.py)"
+      "Bash(python3 scripts/generate_feed.py)",
+      "mcp__f26d270c-993a-4601-80d6-4a564846da66__models",
+      "mcp__f26d270c-993a-4601-80d6-4a564846da66__generate_media"
     ]
   }
 }
