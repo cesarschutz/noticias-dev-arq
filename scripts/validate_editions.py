@@ -25,10 +25,12 @@ DATA = os.path.join(ROOT, 'data')
 # STRICT_FROM_V2 — v2 da taxonomia (arqsw/arqsol ainda válidos, 36 tools).
 # STRICT_FROM_V3 — v3 da taxonomia (design/enterprise/distarch; 37 tools, sem dbeaver/mongocompass/whimsical/plantuml).
 # STRICT_FROM_V4 — v4 da taxonomia (rebrand CsR News; +categoria testing; 13 categorias).
+# STRICT_FROM_V5 — v5 da taxonomia (+eventdriven/apifirst/resiliency/springcloud/quarkus/lambda/dynamodb; -warp/-postman; 42 tools).
 STRICT_FROM    = '2026-04-18'
 STRICT_FROM_V2 = '2026-04-17'
 STRICT_FROM_V3 = '2026-04-19'
 STRICT_FROM_V4 = '2026-04-19'
+STRICT_FROM_V5 = '2026-04-19'
 
 # Taxonomia v1 (legacy — aceita como warning em strict_v2/v3)
 CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol','obs','data','integ'}
@@ -68,9 +70,17 @@ TOOL_KEYS_V3  = {
 CATEGORIES_V4 = CATEGORIES_V3 | {'testing'}
 TOOL_KEYS_V4  = TOOL_KEYS_V3  # tool_keys não mudaram nesta versão
 
+# Taxonomia v5 — +eventdriven/apifirst/resiliency/springcloud/quarkus/lambda/dynamodb; -warp/-postman
+CATEGORIES_V5 = CATEGORIES_V4  # categorias inalteradas
+TOOL_KEYS_V5  = (TOOL_KEYS_V4 - {'warp','postman'}) | {
+  'eventdriven','apifirst','resiliency',
+  'springcloud','quarkus',
+  'lambda','dynamodb',
+}
+
 # União: aceita tudo (validator decide por data)
-CATEGORIES = CATEGORIES_V1 | CATEGORIES_V2 | CATEGORIES_V3 | CATEGORIES_V4
-TOOL_KEYS  = TOOL_KEYS_V1  | TOOL_KEYS_V2  | TOOL_KEYS_V3  | TOOL_KEYS_V4
+CATEGORIES = CATEGORIES_V1 | CATEGORIES_V2 | CATEGORIES_V3 | CATEGORIES_V4 | CATEGORIES_V5
+TOOL_KEYS  = TOOL_KEYS_V1  | TOOL_KEYS_V2  | TOOL_KEYS_V3  | TOOL_KEYS_V4  | TOOL_KEYS_V5
 
 SEVERITIES = {'critical','high','medium','low'}
 KINDS = {'release','news','tip','tutorial','curiosity'}
@@ -91,6 +101,7 @@ _lenient    = False  # definido por validate_edition conforme data
 _strict_v2  = False  # True para edições >= STRICT_FROM_V2
 _strict_v3  = False  # True para edições >= STRICT_FROM_V3
 _strict_v4  = False  # True para edições >= STRICT_FROM_V4 (testing category)
+_strict_v5  = False  # True para edições >= STRICT_FROM_V5 (+42 topics, -warp/-postman)
 
 def err(msg):
     if _lenient: warnings.append('(legacy) ' + msg)
@@ -125,7 +136,9 @@ def check_item(item, label, require_star=False):
         if f not in item or item[f] in (None, ''):
             err(f"{label}: campo obrigatório ausente: {f}")
     cat = item.get('category')
-    if _strict_v4:
+    if _strict_v5:
+        valid_cats = CATEGORIES_V5
+    elif _strict_v4:
         valid_cats = CATEGORIES_V4
     elif _strict_v3:
         valid_cats = CATEGORIES_V3
@@ -170,7 +183,7 @@ def check_item(item, label, require_star=False):
         check_image_url(item['image'], label)
 
 def validate_edition(path):
-    global _lenient, _strict_v2, _strict_v3, _strict_v4
+    global _lenient, _strict_v2, _strict_v3, _strict_v4, _strict_v5
     with open(path, encoding='utf-8') as f:
         ed = json.load(f)
     name = os.path.basename(path)
@@ -180,6 +193,7 @@ def validate_edition(path):
     _strict_v2 = edition_date >= STRICT_FROM_V2
     _strict_v3 = edition_date >= STRICT_FROM_V3
     _strict_v4 = edition_date >= STRICT_FROM_V4
+    _strict_v5 = edition_date >= STRICT_FROM_V5
     for f in ('date','weekday','formatted_date','generated_at','hero_title','hero_description'):
         if f not in ed:
             err(f"{name}: campo raiz ausente: {f}")
@@ -237,9 +251,11 @@ def validate_edition(path):
 
     # cobertura de categorias (strict)
     if not _lenient:
-        top_items = ed.get('pillars') if (_strict_v2 or _strict_v3 or _strict_v4) else (ed.get('top3') or [])
+        top_items = ed.get('pillars') if (_strict_v2 or _strict_v3 or _strict_v4 or _strict_v5) else (ed.get('top3') or [])
         cats_present = {it.get('category') for it in (top_items or []) + (ed.get('news') or [])}
-        if _strict_v4:
+        if _strict_v5:
+            expected_cats = CATEGORIES_V5
+        elif _strict_v4:
             expected_cats = CATEGORIES_V4
         elif _strict_v3:
             expected_cats = CATEGORIES_V3
@@ -266,7 +282,9 @@ def validate_edition(path):
         # campos novos (strict)
         if not _lenient:
             tool_key = t.get('tool_key')
-            if _strict_v4:
+            if _strict_v5:
+                valid_keys = TOOL_KEYS_V5
+            elif _strict_v4:
                 valid_keys = TOOL_KEYS_V4
             elif _strict_v3:
                 valid_keys = TOOL_KEYS_V3
@@ -297,7 +315,9 @@ def validate_edition(path):
 
     # cobertura de ferramentas (strict)
     if not _lenient:
-        if _strict_v4:
+        if _strict_v5:
+            expected = TOOL_KEYS_V5
+        elif _strict_v4:
             expected = TOOL_KEYS_V4
         elif _strict_v3:
             expected = TOOL_KEYS_V3

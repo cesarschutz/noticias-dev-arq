@@ -56,7 +56,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 13 categorias + 37 tópicos + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 13 categorias + 42 tópicos + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/csr-news-push.log`)
@@ -252,50 +252,57 @@ Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CA
 | Grupo do rail | `tool_key` | Nome | Categoria editorial |
 |---|---|---|---|
 | **Tópicos** (alfabético) | | | |
+| Tópicos | `apifirst` | API-First | `integ` |
 | Tópicos | `cloudnative` | Cloud Native | `distarch` |
 | Tópicos | `cve` | CVEs & Vulnerabilidades | `sec` |
 | Tópicos | `ddd` | DDD | `design` |
+| Tópicos | `eventdriven` | Event-Driven | `distarch` |
 | Tópicos | `microservices` | Microsserviços | `distarch` |
 | Tópicos | `owasp` | OWASP | `sec` |
-| **Ferramentas — AI & Produtividade** (alfabético) | | | |
+| Tópicos | `resiliency` | Resiliência | `distarch` |
+| **Ferramentas — AI & IDEs** (alfabético) | | | |
 | Ferramentas | `chatgpt` | ChatGPT | `ai` |
 | Ferramentas | `claudecode` | Claude Code | `ai` |
 | Ferramentas | `cursor` | Cursor IDE | `ai` |
 | Ferramentas | `intellij` | IntelliJ IDEA | `backend` |
-| Ferramentas | `postman` | Postman | `integ` |
 | Ferramentas | `vscode` | VS Code | `ai` |
-| Ferramentas | `warp` | Warp Terminal | `ai` |
-| **Ferramentas — DevOps & Infra** (alfabético) | | | |
+| **Ferramentas — Git & CI/CD** (alfabético) | | | |
 | Ferramentas | `argocd` | Argo CD | `devops` |
-| Ferramentas | `docker` | Docker | `devops` |
 | Ferramentas | `ghactions` | GitHub Actions | `devops` |
 | Ferramentas | `git` | Git | `devops` |
 | Ferramentas | `github` | GitHub | `devops` |
 | Ferramentas | `helm` | Helm | `devops` |
+| **Ferramentas — Containers & Infra** (alfabético) | | | |
+| Ferramentas | `docker` | Docker | `devops` |
 | Ferramentas | `istio` | Istio | `devops` |
 | Ferramentas | `kubernetes` | Kubernetes | `devops` |
+| Ferramentas | `lambda` | AWS Lambda | `aws` |
 | Ferramentas | `terraform` | Terraform | `devops` |
 | **Ferramentas — Dados & Integração** (alfabético) | | | |
 | Ferramentas | `databricks` | Databricks | `data` |
+| Ferramentas | `dynamodb` | Amazon DynamoDB | `aws` |
 | Ferramentas | `kafka` | Apache Kafka | `integ` |
 | Ferramentas | `mysql` | MySQL | `data` |
 | Ferramentas | `openapi` | OpenAPI | `integ` |
 | Ferramentas | `postgres` | PostgreSQL | `data` |
 | Ferramentas | `redis` | Redis | `data` |
-| **Ferramentas — Backend, Design, Seg & Obs** (alfabético) | | | |
+| **Ferramentas — Obs & Segurança** (alfabético) | | | |
 | Ferramentas | `dynatrace` | Dynatrace | `obs` |
 | Ferramentas | `grafana` | Grafana | `obs` |
-| Ferramentas | `gradle` | Gradle | `backend` |
 | Ferramentas | `keycloak` | Keycloak | `sec` |
+| **Ferramentas — Backend & Design** (alfabético) | | | |
+| Ferramentas | `gradle` | Gradle | `backend` |
 | Ferramentas | `maven` | Apache Maven | `backend` |
+| Ferramentas | `quarkus` | Quarkus | `backend` |
 | Ferramentas | `springboot` | Spring Boot | `backend` |
+| Ferramentas | `springcloud` | Spring Cloud | `backend` |
 | Ferramentas | `structurizr` | Structurizr | `design` |
 | **Linguagens** (alfabético) | | | |
 | Linguagens | `java` | Java & JVM | `backend` |
 | Linguagens | `javascript` | JavaScript / TS | `backend` |
 | Linguagens | `python` | Python | `backend` |
 
-**Tópicos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
+**Tópicos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`, `warp`, `postman`.
 
 ## O Que Atualizar Quando
 
@@ -404,7 +411,7 @@ Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily
    - Tabela de changelogs em "TÓPICOS MONITORADOS" com changelog oficial e fontes
    - Tabela de conteúdo indireto (seção "Conteúdo indireto" / "Ecossistema como fallback")
    - Distinção "Ferramentas com release" vs "Temas/domínios" (hierarquia de `kind` em FASE 5A)
-   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 5A (Assuntos+AI: `cloudnative`/`cve`/`ddd`/`microservices`/`owasp`/`chatgpt`/`claudecode`/`cursor`/`intellij`/`postman`/`vscode`/`warp`), FASE 5B (DevOps), FASE 5C (Dados+Integ), FASE 5D (Backend+Obs+Seg+Design), FASE 5E (Linguagens): adicione/remova o tópico na linha do grupo correto
+   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 5A (Assuntos+AI: `apifirst`/`cloudnative`/`cve`/`ddd`/`eventdriven`/`microservices`/`owasp`/`resiliency`/`chatgpt`/`claudecode`/`cursor`/`intellij`/`vscode`), FASE 5B (DevOps+Lambda: adiciona `lambda`), FASE 5C (Dados+Integ: adiciona `dynamodb`), FASE 5D (Backend+Obs+Seg+Design: adiciona `quarkus`/`springcloud`), FASE 5E (Linguagens): adicione/remova o tópico na linha do grupo correto
    - **4 locais** onde a lista de `tool_key` aparece: sanity check FASE 7, whitelist evergreen FASE 5A, schema `counts_by_tool`, Regras de Qualidade #14
    - Queries específicas em "CATEGORIAS E QUERIES DE PESQUISA"
 7. `scripts/validate_editions.py`: adicione a `TOOL_KEYS_V{n}`

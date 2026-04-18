@@ -29,13 +29,17 @@ Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade 
 
 ## Assuntos fixos monitorados
 
-**Ferramentas de trabalho**: Cursor IDE · Claude Code · ChatGPT · VS Code · Warp Terminal · IntelliJ IDEA · Postman
+**Tópicos**: API-First · Cloud Native · CVEs & Vulnerabilidades · DDD · Event-Driven · Microsserviços · OWASP · Resiliência
 
-**Plataformas & Infra**: Git · GitHub · Docker · Kubernetes · Terraform · Helm · GitHub Actions · Argo CD · Istio
+**Ferramentas — AI & IDEs**: Cursor IDE · Claude Code · ChatGPT · VS Code · IntelliJ IDEA
 
-**Dados & Mensageria**: PostgreSQL · MySQL · Databricks · Apache Kafka · OpenAPI · Redis
+**Ferramentas — Git & CI/CD**: Argo CD · GitHub Actions · Git · GitHub · Helm
 
-**Arquitetura & Design**: Structurizr · Spring Boot · Gradle · Apache Maven · Microsserviços · DDD · Cloud Native
+**Ferramentas — Containers & Infra**: Docker · Istio · Kubernetes · AWS Lambda · Terraform
+
+**Dados & Integração**: PostgreSQL · MySQL · Databricks · Amazon DynamoDB · Apache Kafka · OpenAPI · Redis
+
+**Backend & Design**: Spring Boot · Spring Cloud · Quarkus · Gradle · Apache Maven · Structurizr
 
 **Segurança & Obs**: CVEs & Vulnerabilidades · Keycloak · OWASP · Dynatrace · Grafana
 

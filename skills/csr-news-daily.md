@@ -26,7 +26,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
 - `news[]`: **mínimo 1, máximo 3 itens por categoria** (13 categorias = mínimo 13, máximo 39 itens).
-- `tools[]`: **1 item obrigatório para cada um dos 37 tópicos** (tópicos + ferramentas + linguagens). Se não houver conteúdo fresco, use evergreen — nunca omita.
+- `tools[]`: **1 item obrigatório para cada um dos 42 tópicos** (tópicos + ferramentas + linguagens). Se não houver conteúdo fresco, use evergreen — nunca omita.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -39,7 +39,7 @@ Para cada **categoria** sem item em `news[]`:
 - **Nunca passe de 3 itens por categoria** — priorize diversidade sobre volume.
 
 Para **tópicos** em `tools[]` — **1 obrigatório por tópico**:
-1. Busque conteúdo recente (desde a última edição) para cada um dos 37 tópicos.
+1. Busque conteúdo recente (desde a última edição) para cada um dos 42 tópicos.
 2. Se encontrar conteúdo fresco relevante: inclua. Múltiplos itens do mesmo tópico são bem-vindos se houver qualidade.
 3. Se não encontrar conteúdo fresco para um tópico: use evergreen — artigo clássico, tutorial fundamental, documentação relevante. **Nunca omita** um tópico. **Nunca repita URLs das últimas 7 edições**.
 
@@ -53,7 +53,7 @@ Para **tópicos** em `tools[]` — **1 obrigatório por tópico**:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 13 categorias e 37 tópicos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 13 categorias e 42 tópicos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -646,11 +646,11 @@ Candidatos do HN/blogs que não foram capturados nas FASES 3A-3C podem ser adici
 
 ---
 
-### FASE 5A — Tópicos: Assuntos + Ferramentas AI (12 tópicos)
+### FASE 5A — Tópicos: Assuntos + Ferramentas AI (13 tópicos)
 
-**Tópicos desta fase**: `cloudnative` · `cve` · `ddd` · `microservices` · `owasp` · `chatgpt` · `claudecode` · `cursor` · `intellij` · `postman` · `vscode` · `warp`
+**Tópicos desta fase**: `apifirst` · `cloudnative` · `cve` · `ddd` · `eventdriven` · `microservices` · `owasp` · `resiliency` · `chatgpt` · `claudecode` · `cursor` · `intellij` · `vscode`
 
-**Regra: 1 item obrigatório por tópico — todos os 37, sem exceção.**
+**Regra: 1 item obrigatório por tópico — todos os 42, sem exceção.**
 
 Para cada tópico:
 1. Busque conteúdo publicado desde `last_generated` (changelog oficial + artigos externos).
@@ -658,14 +658,19 @@ Para cada tópico:
 3. Se não encontrar: use a whitelist evergreen curada abaixo. **Nunca omita** um tópico.
 
 **Whitelist evergreen curada** (use antes de improvisar — nunca repita URL das últimas 7 edições):
+- `apifirst`: apistylebook.com · google.aip.dev · swagger.io/resources/articles/best-practices-in-api-design
 - `cloudnative`: cncf.io/blog · 12factor.net
 - `cve`/`owasp`: owasp.org/www-project-top-ten · cheatsheetseries.owasp.org
 - `ddd`: domainlanguage.com/ddd/reference · ddd-crew.github.io · martinfowler.com/bliki/BoundedContext.html
+- `eventdriven`: martinfowler.com/articles/201701-event-driven.html · martinfowler.com/eaaDev/EventSourcing.html · eventmodeling.org
 - `microservices`: martinfowler.com/articles/microservices.html · martinfowler.com/bliki/MonolithFirst.html · microservices.io
+- `resiliency`: resilience4j.readme.io · martinfowler.com/bliki/CircuitBreaker.html · aws.amazon.com/builders-library/avoiding-fallback-in-distributed-systems
 - `distarch`: sre.google/sre-book · highscalability.com
 - `design`: martinfowler.com/bliki/CQRS.html · martinfowler.com/eaaCatalog
 - `kafka`: engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying · developer.confluent.io/learn-kafka
 - `kubernetes`: kubernetes.io/docs/concepts/overview · github.com/kelseyhightower/kubernetes-the-hard-way
+- `lambda`: docs.aws.amazon.com/lambda/latest/dg/best-practices.html · aws.amazon.com/builders-library/challenges-with-distributed-systems
+- `dynamodb`: docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html · aws.amazon.com/blogs/database
 - `docker`: docs.docker.com/guides
 - `java`: inside.java · baeldung.com
 - `javascript`: tc39.es/proposals · 2ality.com
@@ -675,20 +680,22 @@ Para cada tópico:
 - `postgres`: postgresql.org/docs/current
 - `openapi`: spec.openapis.org/oas/latest.html
 - `springboot`: spring.io/guides
+- `springcloud`: spring.io/projects/spring-cloud · spring.io/guides/gs/circuit-breaker
+- `quarkus`: quarkus.io/guides · quarkus.io/blog
 - `structurizr`: c4model.com · structurizr.com/help
 
 Hierarquia de `kind` por perfil:
-- **Ferramentas com release** (cursor, claudecode, chatgpt, vscode, warp, intellij, postman, structurizr, docker, kubernetes, terraform, helm, ghactions, argocd, istio, dynatrace, grafana, gradle, maven, springboot, keycloak, postgres, mysql, databricks, redis, kafka, openapi): `release` > `news` > `tutorial` > `tip` > `curiosity`
-- **Temas/domínios** (cloudnative, cve, ddd, microservices, owasp, git, github, java, javascript, python): `news` > `tutorial` > `tip` > `release` (só versões de spec) > `curiosity`
+- **Ferramentas com release** (cursor, claudecode, chatgpt, vscode, intellij, structurizr, docker, kubernetes, terraform, helm, ghactions, argocd, istio, dynatrace, grafana, gradle, maven, springboot, springcloud, quarkus, lambda, dynamodb, keycloak, postgres, mysql, databricks, redis, kafka, openapi): `release` > `news` > `tutorial` > `tip` > `curiosity`
+- **Temas/domínios** (apifirst, cloudnative, cve, ddd, eventdriven, microservices, owasp, resiliency, git, github, java, javascript, python): `news` > `tutorial` > `tip` > `release` (só versões de spec) > `curiosity`
 - Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por tópico por mês.
 
 **Ao fim da FASE 5A**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
 
 ---
 
-### FASE 5B — Ferramentas: DevOps (9 tópicos)
+### FASE 5B — Ferramentas: DevOps + AWS compute (11 tópicos)
 
-**Tópicos desta fase**: `argocd` · `docker` · `ghactions` · `git` · `github` · `helm` · `istio` · `kubernetes` · `terraform`
+**Tópicos desta fase**: `argocd` · `docker` · `ghactions` · `git` · `github` · `helm` · `istio` · `kubernetes` · `lambda` · `terraform`
 
 Mesmas regras e hierarquia de `kind` da FASE 5A.
 
@@ -696,9 +703,9 @@ Mesmas regras e hierarquia de `kind` da FASE 5A.
 
 ---
 
-### FASE 5C — Ferramentas: Dados + Integração (6 tópicos)
+### FASE 5C — Ferramentas: Dados + Integração (7 tópicos)
 
-**Tópicos desta fase**: `databricks` · `kafka` · `mysql` · `openapi` · `postgres` · `redis`
+**Tópicos desta fase**: `databricks` · `dynamodb` · `kafka` · `mysql` · `openapi` · `postgres` · `redis`
 
 Mesmas regras.
 
@@ -706,9 +713,9 @@ Mesmas regras.
 
 ---
 
-### FASE 5D — Ferramentas: Backend + Obs + Seg + Design (7 tópicos)
+### FASE 5D — Ferramentas: Backend + Obs + Seg + Design (9 tópicos)
 
-**Tópicos desta fase**: `dynatrace` · `grafana` · `gradle` · `keycloak` · `maven` · `springboot` · `structurizr`
+**Tópicos desta fase**: `dynatrace` · `grafana` · `gradle` · `keycloak` · `maven` · `quarkus` · `springboot` · `springcloud` · `structurizr`
 
 Mesmas regras.
 
@@ -758,7 +765,7 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **Campos obrigatórios** em `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3; news[] ≥80%.
-- [ ] **`tools[]` chaves válidas**: `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`.
+- [ ] **`tools[]` chaves válidas (42)**: `apifirst`, `cloudnative`, `cve`, `ddd`, `eventdriven`, `microservices`, `owasp`, `resiliency`, `chatgpt`, `claudecode`, `cursor`, `intellij`, `vscode`, `argocd`, `docker`, `ghactions`, `git`, `github`, `helm`, `istio`, `kubernetes`, `lambda`, `terraform`, `databricks`, `dynamodb`, `kafka`, `mysql`, `openapi`, `postgres`, `redis`, `dynatrace`, `grafana`, `gradle`, `keycloak`, `maven`, `quarkus`, `springboot`, `springcloud`, `structurizr`, `java`, `javascript`, `python`.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Diversidade de fonte**: nenhum domínio aparece em >3 itens por edição.
@@ -1072,7 +1079,7 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ## TÓPICOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por tópico** em `tools[]` (**37 tópicos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o tópico no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por tópico** em `tools[]` (**42 tópicos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o tópico no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -1084,20 +1091,20 @@ Toda edição deve ter **ao menos 1 item por tópico** em `tools[]` (**37 tópic
 
 ### Dois tipos de tópico — hierarquia de `kind` diferente
 
-Os 37 tópicos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
+Os 42 tópicos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
 
 **Ferramentas com release** (têm changelog e versionamento próprio):
-`structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
+`structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `intellij`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `lambda`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `databricks`, `dynamodb`, `kafka`, `openapi`, `springboot`, `springcloud`, `quarkus`, `gradle`, `maven`
 
 → Hierarquia: **`release` (quando saiu nova versão na janela) > `news` > `tutorial` > `tip` > `curiosity`**
 → Use `kind: "release"` **apenas** quando uma versão concreta foi lançada na janela de busca. Se não houve release, use `news`/`tip`/`tutorial`.
 
 **Temas/domínios** (não versionalizam software, ou releases são esporádicos):
-`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`, `microservices`, `ddd`, `cloudnative`
+`apifirst`, `cve`, `owasp`, `openapi`, `java`, `javascript`, `python`, `microservices`, `ddd`, `cloudnative`, `eventdriven`, `resiliency`
 
 → Hierarquia: **`news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`**
 → `release` só quando uma versão da linguagem/spec foi publicada (ex: JDK 25, ECMAScript 2025, OpenAPI 4.0). O dia-a-dia é `news` e `tip`.
-→ Para `microservices`, `ddd` e `cloudnative`: use sempre `news` ou `tutorial` — são tópicos que não versionam.
+→ Para `apifirst`, `microservices`, `ddd`, `cloudnative`, `eventdriven`, `resiliency`: use sempre `news` ou `tutorial` — são tópicos que não versionam software.
 
 **Nunca omita um tópico. Nunca use `curiosity` genérica** ("Docker é popular porque...").
 
@@ -1131,7 +1138,13 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 
 | Assunto Fixo | Conteúdo direto (preferido) | Conteúdo indireto aceito |
 |---|---|---|
-| `postman` | Novo recurso, release, artigo sobre a plataforma | REST API design, HTTP/2, contratos OpenAPI, testes de endpoint, mocking de API |
+| `apifirst` | Post de design de APIs, RFC HTTP, versionamento de API | REST constraints, API governance, OpenAPI spec, API lifecycle, contract-first design |
+| `eventdriven` | Post sobre EDA, Event Sourcing, CQRS, domain events | Async messaging patterns, saga, outbox pattern, CDC, Kafka + EDA juntos |
+| `resiliency` | Artigo sobre circuit breaker, bulkhead, chaos engineering | Timeout/retry tuning, post-mortem de outage, SRE practices, fallback strategies |
+| `lambda` | AWS Lambda release, nova feature, artigo AWS | Serverless patterns, cold start, event-driven com Lambda, Lambda Layers, API GW integration |
+| `dynamodb` | DynamoDB release, nova feature, best practices AWS | NoSQL data modeling, single-table design, GSI/LSI, DynamoDB Streams, cost optimization |
+| `springcloud` | Release Spring Cloud, nova feature, guia de uso | Config Server, Gateway, Circuit Breaker, Service Discovery, distributed tracing com Sleuth |
+| `quarkus` | Release Quarkus, nova feature, artigo sobre performance | GraalVM native image, reactive programming, Panache, Kubernetes-native Java, Quarkus vs Spring |
 | `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO enterprise |
 | `docker` | Release Engine/Desktop, mudança de licensing, CVE, nova feature Compose | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens, Docker Hub |
 | `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, service mesh, kubelet, etcd |
@@ -1159,43 +1172,48 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 
 | `tool_key` | Tópico | Categoria | Changelog / Blog |
 |---|---|---|---|
-| `structurizr` | Structurizr | `design` | https://structurizr.com/changelog |
-| `cursor` | Cursor IDE | `ai` | https://www.cursor.com/changelog |
-| `claudecode` | Claude Code | `ai` | https://docs.anthropic.com/en/release-notes/claude-code |
-| `chatgpt` | ChatGPT | `ai` | https://help.openai.com/en/articles/6825453-chatgpt-release-notes |
-| `vscode` | VS Code | `ai` | https://code.visualstudio.com/updates |
+| `apifirst` | API-First | `integ` | https://apistylebook.com/ · https://google.aip.dev/ · https://www.infoq.com/api-design/ |
+| `cloudnative` | Cloud Native | `distarch` | https://www.cncf.io/blog/ · https://thenewstack.io/cloud-native/ · https://www.infoq.com/cloud-native/ |
 | `cve` | CVEs & Vulnerabilidades | `sec` | https://nvd.nist.gov/vuln/full-listing · https://www.cisa.gov/known-exploited-vulnerabilities-catalog · https://www.bleepingcomputer.com/tag/cve/ |
-| `keycloak` | Keycloak | `sec` | https://www.keycloak.org/docs/latest/release_notes/ |
+| `ddd` | DDD | `design` | https://domainlanguage.com/ · https://martinfowler.com/bliki/DomainDrivenDesign.html · https://ddd-crew.github.io/ |
+| `eventdriven` | Event-Driven | `distarch` | https://martinfowler.com/articles/201701-event-driven.html · https://eventmodeling.org/ · https://www.infoq.com/event-driven-architecture/ |
+| `microservices` | Microsserviços | `distarch` | https://microservices.io/ · https://martinfowler.com/articles/microservices.html · https://www.infoq.com/microservices/ |
 | `owasp` | OWASP | `sec` | https://owasp.org/news/ |
+| `resiliency` | Resiliência | `distarch` | https://resilience4j.readme.io/ · https://martinfowler.com/bliki/CircuitBreaker.html · https://aws.amazon.com/builders-library/ |
+| `chatgpt` | ChatGPT | `ai` | https://help.openai.com/en/articles/6825453-chatgpt-release-notes |
+| `claudecode` | Claude Code | `ai` | https://docs.anthropic.com/en/release-notes/claude-code |
+| `cursor` | Cursor IDE | `ai` | https://www.cursor.com/changelog |
+| `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
+| `vscode` | VS Code | `ai` | https://code.visualstudio.com/updates |
+| `argocd` | Argo CD | `devops` | https://github.com/argoproj/argo-cd/releases · https://blog.argoproj.io/ |
+| `docker` | Docker | `devops` | https://docs.docker.com/engine/release-notes/ · https://docs.docker.com/desktop/release-notes/ |
+| `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/ · https://github.com/actions/runner/releases |
 | `git` | Git | `devops` | https://github.blog/ · https://git-scm.com/docs |
 | `github` | GitHub | `devops` | https://github.blog/ · https://github.com/orgs/github/discussions |
-| `docker` | Docker | `devops` | https://docs.docker.com/engine/release-notes/ · https://docs.docker.com/desktop/release-notes/ · https://hub.docker.com/search |
+| `helm` | Helm | `devops` | https://github.com/helm/helm/releases · https://helm.sh/blog/ |
+| `istio` | Istio | `devops` | https://istio.io/latest/news/releases/ · https://istio.io/latest/blog/ |
 | `kubernetes` | Kubernetes | `devops` | https://kubernetes.io/releases/ |
-| `warp` | Warp Terminal | `ai` | https://docs.warp.dev/getting-started/changelog |
-| `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
-| `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
-| `mysql` | MySQL | `data` | https://dev.mysql.com/doc/relnotes/mysql/en/ |
+| `lambda` | AWS Lambda | `aws` | https://aws.amazon.com/releasenotes/?tag=aws-lambda · https://aws.amazon.com/builders-library/ |
+| `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases · https://developer.hashicorp.com/terraform/language/upgrade-guides |
 | `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/index.html |
+| `dynamodb` | Amazon DynamoDB | `aws` | https://aws.amazon.com/releasenotes/?tag=amazon-dynamodb · https://aws.amazon.com/blogs/database/ |
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads |
-| `postman` | Postman | `integ` | https://www.postman.com/release-notes/ |
+| `mysql` | MySQL | `data` | https://dev.mysql.com/doc/relnotes/mysql/en/ |
 | `openapi` | OpenAPI | `integ` | https://www.openapis.org/news |
+| `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ |
+| `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
+| `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
+| `grafana` | Grafana | `obs` | https://grafana.com/blog/ · https://github.com/grafana/grafana/releases |
+| `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
+| `keycloak` | Keycloak | `sec` | https://www.keycloak.org/docs/latest/release_notes/ |
+| `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
+| `quarkus` | Quarkus | `backend` | https://quarkus.io/blog/ · https://github.com/quarkusio/quarkus/releases |
+| `springboot` | Spring Boot | `backend` | https://spring.io/blog |
+| `springcloud` | Spring Cloud | `backend` | https://spring.io/blog · https://github.com/spring-cloud/spring-cloud-release/releases |
+| `structurizr` | Structurizr | `design` | https://structurizr.com/changelog |
 | `java` | Java & JVM | `backend` | https://openjdk.org/projects/ · https://inside.java/ · https://dev.java/ |
 | `javascript` | JavaScript / TS | `backend` | https://tc39.es/proposals/ · https://nodejs.org/en/blog · https://deno.com/blog |
 | `python` | Python | `backend` | https://www.python.org/downloads/ · https://discuss.python.org/ · https://peps.python.org/ |
-| `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
-| `springboot` | Spring Boot | `backend` | https://spring.io/blog |
-| `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
-| `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
-| `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases · https://developer.hashicorp.com/terraform/language/upgrade-guides |
-| `helm` | Helm | `devops` | https://github.com/helm/helm/releases · https://helm.sh/blog/ |
-| `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/ · https://github.com/actions/runner/releases |
-| `argocd` | Argo CD | `devops` | https://github.com/argoproj/argo-cd/releases · https://blog.argoproj.io/ |
-| `istio` | Istio | `devops` | https://istio.io/latest/news/releases/ · https://istio.io/latest/blog/ |
-| `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
-| `grafana` | Grafana | `obs` | https://grafana.com/blog/ · https://github.com/grafana/grafana/releases |
-| `microservices` | Microsserviços | `distarch` | https://microservices.io/ · https://martinfowler.com/articles/microservices.html · https://www.infoq.com/microservices/ |
-| `ddd` | DDD | `design` | https://domainlanguage.com/ · https://martinfowler.com/bliki/DomainDrivenDesign.html · https://ddd-crew.github.io/ |
-| `cloudnative` | Cloud Native | `distarch` | https://www.cncf.io/blog/ · https://thenewstack.io/cloud-native/ · https://www.infoq.com/cloud-native/ |
 
 **Exemplos de buscas complementares** para cada assunto fixo:
 - `"{Assunto}" site:infoq.com OR site:thenewstack.io`
@@ -1392,7 +1410,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v3): `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`. Valor real de itens gerados (mínimo `1` por assunto fixo em ambos os modos). Omita chaves com 0.
+- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v5 — 42 tópicos): `apifirst`, `cloudnative`, `cve`, `ddd`, `eventdriven`, `microservices`, `owasp`, `resiliency`, `chatgpt`, `claudecode`, `cursor`, `intellij`, `vscode`, `argocd`, `docker`, `ghactions`, `git`, `github`, `helm`, `istio`, `kubernetes`, `lambda`, `terraform`, `databricks`, `dynamodb`, `kafka`, `mysql`, `openapi`, `postgres`, `redis`, `dynatrace`, `grafana`, `gradle`, `keycloak`, `maven`, `quarkus`, `springboot`, `springcloud`, `structurizr`, `java`, `javascript`, `python`. Valor real de itens gerados (mínimo `1` por assunto fixo em ambos os modos). Omita chaves com 0.
 
 ---
 
