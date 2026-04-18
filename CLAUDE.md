@@ -12,7 +12,7 @@ index.html → fetch('data/editions.json')  (índice com counts)
 ```
 
 O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
-- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), categorias + assuntos fixos com contadores X/Y (X=dia atual, Y=total do arquivo).
+- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), calendário de edições, categorias e assuntos fixos agrupados por grupo do rail.
 - **Main (feed)**: sem hero em home — começa direto nos destaques. Prompt-bar sticky no topo (`csr@console:~/editions/DATA $ cat DATA.json [HOJE]`) muda de cor por contexto (home=amber, cat=cor da categoria, tool=cor do tipo). Cards clicáveis abrem URL em nova aba.
 - **Rail (telemetria)**: quote do dia (rotação a cada 25s, 5 por edição), radar de categorias, timeline de edições.
 
@@ -56,7 +56,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 10 categorias + 28 assuntos fixos + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 11 categorias + 36 assuntos fixos + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -82,7 +82,7 @@ Ao filtrar por categoria/assunto fixo, a SPA usa `counts_by_category` / `counts_
 - **Ler depois**: bookmark via `localStorage` (`dpco-read-later`). Modal com ordenação (saved/date/category/urgent), export JSON e clear.
 - **Tema dark/light**: toggle na sidebar ou atalho `T`.
 - **Modo cards/list**: atalhos `1` (grid multi-coluna) / `2` (lista 1 coluna larga). Ambos com summary completo.
-- **Teclado**: `J/K` navegam cards, `O`/`Enter` abrem URL em nova aba, `H` volta pra home, `?` abre atalhos, `ESC` fecha modal.
+- **Teclado**: `T` tema, `1`/`2` modo cards/list, `U` filtro urgent, `P`/`N` prev/next edição, `ESC` fecha modal.
 - **Mobile**: sidebar vira hamburger abaixo de 720px.
 
 ## Campos estruturados por notícia
@@ -209,7 +209,7 @@ Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padr
 - Cobertura: **mínimo 1, máximo 3 itens por categoria por edição** (em `news[]` + `pillars[]` combinados).
 - Se não houver notícia recente: usa evergreen clássico/importante, sem repetir URLs de edições anteriores.
 - Não é garantido que **todo sub-tópico** de uma categoria apareça todo dia — isso é normal. O que importa é que a categoria como um todo tenha cobertura.
-- Aparecem na sidebar com contador X/Y (X = itens no dia, Y = total no arquivo).
+- Aparecem na sidebar listadas por chave.
 - View: `cat:{chave}` agrega TODAS as notícias daquela categoria através das edições.
 
 ### Assuntos Fixos (`TOOLS` no código, `tool_key` no JSON)
@@ -217,7 +217,7 @@ Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recen
 
 - Cobertura mínima: **≥ 10 assuntos com conteúdo por edição** (não 1 por assunto — a meta é o total).
 - Se recente < 10 assuntos: completa com evergreen clássico/importante dos assuntos que faltam, sem repetir URLs de edições anteriores.
-- Aparecem na sidebar agrupados pela sua categoria, com contador X/Y.
+- Aparecem na sidebar agrupados por grupo do rail.
 - View: `tool:{chave}` exibe TODOS os itens daquele assunto através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
 - O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "assunto fixo".
 

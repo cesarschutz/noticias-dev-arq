@@ -24,7 +24,7 @@ DATA = os.path.join(ROOT, 'data')
 # STRICT_FROM  — v1 da skill (tools com kind/tool_key, imagens, quotes).
 # STRICT_FROM_V2 — v2 da taxonomia (categorias + ferramentas novas).
 STRICT_FROM    = '2026-04-18'
-STRICT_FROM_V2 = '2026-04-20'
+STRICT_FROM_V2 = '2026-04-17'
 
 # Taxonomia v1 (legacy — aceita como warning em strict_v2)
 CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','arqsw','arqsol','obs','data','integ'}
@@ -136,7 +136,8 @@ def check_item(item, label, require_star=False):
 
 def validate_edition(path):
     global _lenient, _strict_v2
-    ed = json.load(open(path, encoding='utf-8'))
+    with open(path, encoding='utf-8') as f:
+        ed = json.load(f)
     name = os.path.basename(path)
     edition_date = ed.get('date') or ''
     # detecta legacy: edições anteriores ao cutoff viram warnings
@@ -272,7 +273,8 @@ def validate_edition(path):
         warn(f"{name}: quotes[] ausente (esperado 5 itens por edição)")
 
 def validate_index(path):
-    idx = json.load(open(path, encoding='utf-8'))
+    with open(path, encoding='utf-8') as f:
+        idx = json.load(f)
     if 'last_generated' not in idx:
         err('editions.json: last_generated ausente')
     else:

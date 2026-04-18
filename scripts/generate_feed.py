@@ -53,7 +53,8 @@ def main():
     idx_path = os.path.join(DATA, 'editions.json')
     if not os.path.exists(idx_path):
         raise SystemExit('editions.json não encontrado')
-    idx = json.load(open(idx_path, encoding='utf-8'))
+    with open(idx_path, encoding='utf-8') as f:
+        idx = json.load(f)
     eds = idx.get('editions') or []
     items = []
     for e in eds[:30]:  # últimas 30
@@ -61,7 +62,8 @@ def main():
         p = os.path.join(DATA, date + '.json')
         if not os.path.exists(p):
             continue
-        full = json.load(open(p, encoding='utf-8'))
+        with open(p, encoding='utf-8') as f:
+            full = json.load(f)
         items.append(build_item(e, full))
 
     last_built = format_datetime(parse_iso(idx.get('last_generated') or datetime.now(timezone.utc).isoformat()))

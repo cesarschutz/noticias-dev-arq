@@ -930,18 +930,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   flex-shrink: 0;
 }
 .ch-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ch-count {
-  font-size: 10px; color: var(--ink-dim);
-  padding: 1px 5px; border-radius: 3px;
-  background: var(--surface);
-  min-width: 22px; text-align: center;
-  flex-shrink: 0;
-}
-.ch-item.active .ch-count { background: rgba(255,176,32,.18); color: var(--amber); }
-.ch-count .ch-sep { color: var(--ink-faint); margin: 0 1px; }
-.ch-count .ch-today { color: var(--amber); font-weight: 700; }
-.ch-count .ch-total { color: var(--ink-dim); }
-
 /* all (home) */
 .ch-item.all-item {
   font-weight: 700;
@@ -1466,10 +1454,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   flex: 1;
 }
 /* .card.is-read removido: sem tracking de lida/não-lida */
-.card.keyboard-focus {
-  outline: 2px solid var(--amber);
-  outline-offset: 2px;
-}
 .card-tags {
   display: flex; flex-wrap: wrap; gap: 3px;
   font-family: 'JetBrains Mono', monospace;
@@ -2487,9 +2471,8 @@ const STATE = {
   filter: { urgent: false },
   cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
   readLater: JSON.parse(localStorage.getItem('dpco-read-later') || '[]'),
-  rlSort: localStorage.getItem('dpco-rl-sort') || 'saved',
-  startedAt: Date.now(),
-  kbIdx: -1
+  readLaterSort: localStorage.getItem('dpco-rl-sort') || 'saved',
+  startedAt: Date.now()
 };
 
 /* ═══ Utilidades ═══ */
@@ -2744,12 +2727,12 @@ async function loadAll(){
   await loadDates(eds.map(e => e.date));
 }
 // Lazy load inteligente: só baixa edições que têm o filtro (usando counts_by_*)
-function legacyCatKeys(key) {
+function catWithAliases(key) {
   const revMap = { aws: ['cloud'], data: ['db'], backend: ['lang'] };
   return [key, ...(revMap[key] || [])];
 }
 async function loadForCategory(key){
-  const keys = legacyCatKeys(key);
+  const keys = catWithAliases(key);
   const eds = STATE.editionsIndex?.editions || [];
   const dates = eds.filter(e => keys.some(k => e.counts_by_category?.[k] > 0) || !e.counts_by_category).map(e => e.date);
   await loadDates(dates);
@@ -2808,11 +2791,6 @@ function renderSidebar(){
       if (k in LEGACY_CAT_MAP) k = LEGACY_CAT_MAP[k];
       if (k) catToday[k] = (catToday[k]||0) + 1;
     });
-  }
-
-  function fmtCount(today, total, showTodayNumerator) {
-    if (!showTodayNumerator) return `${total}`;
-    return `<span class="ch-today">${today}</span><span class="ch-sep">/</span><span class="ch-total">${total}</span>`;
   }
 
   cats.innerHTML = Object.keys(CAT).map(k => {
@@ -3083,7 +3061,6 @@ setInterval(() => { if (!document.hidden) cycleQuote(); }, 300000);
 
 /* ═══ Main render ═══ */
 function renderMain(){
-  STATE.kbIdx = -1;
   if (STATE.view === 'about') return renderAbout();
   if (STATE.view === 'home') return renderHome();
   if (STATE.view === 'rl') return renderReadLater();
@@ -3210,11 +3187,11 @@ function renderReadLater(){
   html += `</div></section>`;
 
   html += `<div class="rl-view-bar">`;
-  html += `<select id="rlSort" aria-label="Ordenar por">`;
-  html += `<option value="saved" ${STATE.rlSort==='saved'?'selected':''}>salvos recentes</option>`;
-  html += `<option value="date" ${STATE.rlSort==='date'?'selected':''}>data edição</option>`;
-  html += `<option value="category" ${STATE.rlSort==='category'?'selected':''}>categoria</option>`;
-  html += `<option value="urgent" ${STATE.rlSort==='urgent'?'selected':''}>urgentes</option>`;
+  html += `<select id="readLaterSort" aria-label="Ordenar por">`;
+  html += `<option value="saved" ${STATE.readLaterSort==='saved'?'selected':''}>salvos recentes</option>`;
+  html += `<option value="date" ${STATE.readLaterSort==='date'?'selected':''}>data edição</option>`;
+  html += `<option value="category" ${STATE.readLaterSort==='category'?'selected':''}>categoria</option>`;
+  html += `<option value="urgent" ${STATE.readLaterSort==='urgent'?'selected':''}>urgentes</option>`;
   html += `</select>`;
   html += `<button id="rlExport" class="rl-view-btn">export</button>`;
   html += `<button id="rlClear" class="rl-view-btn">clear</button>`;
@@ -3263,10 +3240,10 @@ function renderReadLater(){
       renderReadLater();
     };
   });
-  const sortEl = $('rlSort');
+  const sortEl = $('readLaterSort');
   if (sortEl) sortEl.onchange = (e) => {
-    STATE.rlSort = e.target.value;
-    localStorage.setItem('dpco-rl-sort', STATE.rlSort);
+    STATE.readLaterSort = e.target.value;
+    localStorage.setItem('dpco-rl-sort', STATE.readLaterSort);
     renderReadLater();
   };
   if ($('rlExport')) $('rlExport').onclick = exportReadLater;
@@ -3331,7 +3308,7 @@ function formatGeneratedAt(raw){
 function renderCategory(key){
   const cat = CAT[key];
   if (!cat) return renderHome();
-  const validKeys = new Set(legacyCatKeys(key));
+  const validKeys = new Set(catWithAliases(key));
   const items = applyFilters(
     allItemsAcrossEditions()
       .filter(x => x._type === 'news' && validKeys.has(x.category))
@@ -3739,33 +3716,6 @@ function buildCveTags(item){
   return parts.length ? `<div class="card-tags">${parts.join('')}</div>` : '';
 }
 
-function buildTopCard(item, idx, date){
-  const c = item.category || 'arqsw';
-  const cat = CAT[c] || {l:c};
-  const url = item.url;
-  const thumb = item.image ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
-  let html = `<div class="top-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--cat: var(--cat-${c});">`;
-  html += `<div class="strip" aria-hidden="true"></div>`;
-  html += thumb;
-  html += `<div class="top-body">`;
-  html += `<div class="badges">`;
-  html += `<span class="rank">[${String(idx+1).padStart(2,'0')}]</span>`;
-  html += `<span class="badge cat">${cat.l}</span>`;
-  if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
-  if (item.urgent && !item.severity) html += `<span class="badge u">CRIT</span>`;
-  if (item.breaking) html += `<span class="badge brk">BRK</span>`;
-  html += `</div>`;
-  html += `<h3 class="top-head">${esc(item.headline)}</h3>`;
-  if (item.summary) html += `<p class="top-sum">${esc(item.summary)}</p>`;
-  html += buildCveTags(item);
-  html += `<div class="top-foot">`;
-  html += `<span class="src">${esc(item.source || '—')}</span>`;
-  if (item.read_time) html += `<span class="time">~${esc(item.read_time)}min</span>`;
-  html += `<div class="row-right">${buildActionButtons(url)}</div>`;
-  html += `</div></div></div>`;
-  return html;
-}
-
 function buildPillarCard(item, idx, date){
   const c = item.category || 'arqsw';
   const pillarDef = PILLARS[item.pillar] || null;
@@ -4002,7 +3952,7 @@ $('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') close
 
 /* ═══ Read-later ═══ */
 function sortReadLater(items){
-  const sort = STATE.rlSort;
+  const sort = STATE.readLaterSort;
   const arr = items.slice();
   if (sort === 'category') arr.sort((a,b) => (a.category||'').localeCompare(b.category||''));
   else if (sort === 'urgent') arr.sort((a,b) => (b.urgent?1:0) - (a.urgent?1:0));

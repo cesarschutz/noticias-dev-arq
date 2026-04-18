@@ -319,16 +319,17 @@ Descrições em PT-BR. Inclua **todos os PEPs de destaque** da versão (What's N
 
 ##### Versões a cobrir na primeira execução
 
-Python 3.8 a 3.13 (6 versões). Status de referência:
+Python 3.8 a 3.14 (7 versões). Status de referência:
 
 | Versão | Status | EOL |
 |--------|--------|-----|
 | 3.8 | eol | 2024-10 |
-| 3.9 | security | 2025-10 |
+| 3.9 | eol | 2025-10 |
 | 3.10 | security | 2026-10 |
-| 3.11 | active | 2027-10 |
+| 3.11 | security | 2027-10 |
 | 3.12 | active | 2028-10 |
 | 3.13 | active | 2029-10 |
+| 3.14 | active | 2030-10 |
 
 **Antes de gerar qualquer arquivo, verifique quais já existem:**
 
@@ -583,7 +584,7 @@ Antes de chamar Write:
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
-- [ ] **`tools[]`**: todos os 31 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
+- [ ] **`tools[]`**: todos os 36 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `dynatrace`, `grafana`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
@@ -810,7 +811,7 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 assuntos fixos** no total — ambos os modos: mínimo 1 por assunto, sem teto máximo). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 assuntos fixos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -822,7 +823,7 @@ Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 a
 
 ### Dois tipos de assunto fixo — hierarquia de `kind` diferente
 
-Os 31 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
+Os 36 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
 
 **Ferramentas com release** (têm changelog e versionamento próprio):
 `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
@@ -1015,7 +1016,6 @@ As fontes abaixo estão detalhadas na seção "Fontes de alta reputação" acima
       "category_label": "Cloud",
       "category_icon": "☁️",
       "urgent": false,
-      "star": false,
       "breaking": false,
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo na perspectiva do arquiteto.",
