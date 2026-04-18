@@ -461,6 +461,15 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - Posts de blogs de engenharia de empresas reconhecidas (Netflix, Cloudflare, Stripe, Uber, Airbnb).
 - Conteúdo de autores reconhecidos na área (Fowler, Kleppmann, Hohpe, Newman, etc.).
 
+**Fontes de alta reputação — consulte ativamente em cada edição**:
+- **ByteByteGo** (`blog.bytebytego.com`) — system design, arquitetura distribuída, padrões de backend, data engineering. Uma das melhores fontes para `arqsw`, `arqsol`, `backend`, `integ`, `data`.
+- **InfoQ** (`infoq.com`) — cobertura técnica profunda em Java, arquitetura, cloud, DevOps, AI.
+- **The New Stack** (`thenewstack.io`) — DevOps, Kubernetes, cloud-native, platform engineering.
+- **Martin Fowler** (`martinfowler.com`) — padrões arquiteturais, refactoring, DDD.
+- **Architect Elevator** (`architectelevator.com`) — arquitetura corporativa, Gregor Hohpe.
+- **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — referência para pilar AWS.
+- **Inside Java** (`inside.java`) — conteúdo profundo sobre JDK e JVM.
+
 **Cobertura obrigatória**: cada categoria deve ter itens em `pillars[]` + `news[]` combinados. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
 ### 3. Verificar assuntos monitorados
@@ -585,24 +594,27 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Kafka" OR "Pulsar" OR "Flink" streaming data update`
 - `"DynamoDB" OR "Aurora" OR "Cosmos DB" OR "Snowflake" new feature`
 - `"data lakehouse" OR "dbt" OR "CDC" OR "vector database" news`
+- `site:blog.bytebytego.com database OR "data engineering" OR streaming`
 
 ### 🔌 Integração & Eventos (`integ`)
 - `"Apache Kafka" release OR update OR incident`
 - `"REST API" OR "GraphQL" OR "gRPC" OR "AsyncAPI" specification update`
 - `"event-driven architecture" OR "EDA" OR "event sourcing" news OR article`
 - `"iPaaS" OR "n8n" OR "Confluent" OR "MuleSoft" release OR news`
+- `site:blog.bytebytego.com API OR "event-driven" OR integration`
 
 ### 🔧 Backend & Runtimes (`backend`)
 - `"Spring Boot" OR "Spring Framework" OR "Quarkus" OR "Micronaut" release`
 - `"Java" OR "JDK" OR "GraalVM" OR "virtual threads" update OR release`
 - `"Go" OR "Rust" OR "Node.js" language OR runtime release`
 - `"microservices" OR "distributed systems" pattern OR architecture`
+- `site:blog.bytebytego.com backend OR "system design" OR API`
 
 ### 🏛️ Arquitetura de Software (`arqsw`)
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
 - `"hexagonal architecture" OR "clean architecture" OR "event storming" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
-- site:martinfowler.com OR site:infoq.com architecture new article
+- `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture`
 
 ### 🗺️ Arquitetura de Solução (`arqsol`)
 - `"solution architecture" OR "enterprise architecture" reference OR pattern`
