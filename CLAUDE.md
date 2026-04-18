@@ -205,16 +205,17 @@ Esta distinção é crítica — afeta como a skill pesquisa, como o JSON é ger
 ### Categorias (`CAT`)
 Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padrões e sub-tópicos. Em `sec`, por exemplo, podem aparecer CVEs, Keycloak, Auth0, OWASP, SAML, zero-trust — qualquer coisa do universo de segurança.
 
-- Cobertura mínima: **≥ 1 item por categoria por edição** (em `news[]` + `pillars[]` combinados).
+- Cobertura: **mínimo 1, máximo 3 itens por categoria por edição** (em `news[]` + `pillars[]` combinados).
+- Se não houver notícia recente: usa evergreen clássico/importante, sem repetir URLs de edições anteriores.
 - Não é garantido que **todo sub-tópico** de uma categoria apareça todo dia — isso é normal. O que importa é que a categoria como um todo tenha cobertura.
 - Aparecem na sidebar com contador X/Y (X = itens no dia, Y = total no arquivo).
 - View: `cat:{chave}` agrega TODAS as notícias daquela categoria através das edições.
 
 ### Assuntos Fixos (`TOOLS` no código, `tool_key` no JSON)
-Tecnologias ou temas **específicos** monitorados com compromisso diário. Para cada assunto fixo, a skill **sempre** encontra algo — direto ou indireto — todos os dias.
+Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recente para cada um — se não houver, pula.
 
-- Cobertura mínima: **≥ 1 item por assunto fixo por edição** (em `tools[]`). Na primeira execução: ≥ 5.
-- Se não há nada novo na janela de tempo, usa conteúdo indireto do ecossistema ou evergreen importante.
+- Cobertura mínima: **≥ 10 assuntos com conteúdo por edição** (não 1 por assunto — a meta é o total).
+- Se recente < 10 assuntos: completa com evergreen clássico/importante dos assuntos que faltam, sem repetir URLs de edições anteriores.
 - Aparecem na sidebar agrupados pela sua categoria, com contador X/Y.
 - View: `tool:{chave}` exibe TODOS os itens daquele assunto através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
 - O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "assunto fixo".

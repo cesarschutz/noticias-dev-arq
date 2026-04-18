@@ -25,8 +25,8 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
-- `news[]`: **mínimo 1 item por categoria** (10 categorias). Traga quantos achar de boa qualidade — sem limite máximo.
-- `tools[]` (assuntos): **mínimo 1 item por assunto** (36 assuntos). Traga quantos encontrar.
+- `news[]`: **mínimo 1, máximo 3 itens por categoria** (10 categorias = mínimo 10, máximo 30 itens).
+- `tools[]` (assuntos): **mínimo 10 assuntos com conteúdo** no total (não por assunto — ver regra abaixo).
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -34,13 +34,14 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 Para cada **categoria** sem item em `news[]`:
 - Faça busca adicional com queries mais amplas.
-- Se ainda assim não houver nada relevante na janela, use **conteúdo evergreen de alta qualidade** — artigos seminais do InfoQ, posts de Martin Fowler, Gregor Hohpe, architectelevator.com, ByteByteGo, documentação oficial. Coisas que **todo arquiteto deveria conhecer**, mesmo que não sejam recentes.
-- **Nunca omita uma categoria** — qualidade acima de quantidade, mas 1 item por categoria é obrigatório.
+- Se ainda não houver nada relevante na janela, use **conteúdo evergreen de alta qualidade** — artigos seminais do InfoQ, posts de Martin Fowler, Gregor Hohpe, architectelevator.com, ByteByteGo, documentação oficial.
+- **Nunca omita uma categoria** — mínimo 1 item por categoria é obrigatório.
+- **Nunca passe de 3 itens por categoria** — priorize diversidade sobre volume.
 
-Para cada **assunto** sem item em `tools[]`:
-- Use conteúdo indireto do ecossistema (ver seção ASSUNTOS FIXOS MONITORADOS).
-- Se ainda não houver, use **evergreen importante** — tutoriais clássicos, conceitos fundamentais sobre aquele assunto (ex.: para `git`: modelo de objetos do Git; para `kafka`: log distribuído e consumer groups).
-- **Nunca omita um assunto** — 1 item por assunto é obrigatório.
+Para **assuntos** em `tools[]` — regra dos 10 mínimos:
+1. Busque conteúdo recente (desde a última edição) para cada assunto. Se não houver nada relevante, pule — não é obrigatório ter todos.
+2. Conte quantos assuntos têm pelo menos 1 item. Se **≥ 10**, está ótimo — não force os demais.
+3. Se **< 10**, complete com clássicos/evergreen dos assuntos que faltam até atingir 10. Critérios de seleção para completar: artigo muito acessado, tutorial fundamental, conteúdo clássico da área. **Nunca repita URLs já usadas em edições anteriores** — especialmente nos evergreens buscados de período mais antigo.
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
@@ -520,29 +521,29 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Azure Architecture Center** (`learn.microsoft.com/azure/architecture`) — cloud design patterns, reference architectures multi-cloud.
 - **Google Cloud Architecture** (`cloud.google.com/architecture`) — best practices, reference architectures GCP.
 
-**Cobertura obrigatória**: cada categoria deve ter itens em `pillars[]` + `news[]` combinados. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
+**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
 ### 3. Verificar assuntos monitorados
 
-Para cada um dos **28 assuntos** (campo `tools[]` no JSON), produza:
-- **Ambos os modos**: **mínimo 1 item por assunto**. Traga quantos encontrar de qualidade — sem limite máximo. Se não houver conteúdo fresco na janela de tempo, use conteúdo mais antigo ou evergreen (ver protocolo de fallback abaixo).
+**Regra dos 10 mínimos** — aplicada assim:
 
-Siga a hierarquia de `kind`: **`release > news > tutorial > tip > curiosity`**
+1. **Busca recente**: para cada um dos 36 assuntos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um assunto, **não inclua** — não force conteúdo vazio.
 
-Pesquise changelog oficial + artigos externos (InfoQ, TheNewStack, HN, Reddit).
+2. **Contagem**: após varrer todos os assuntos, conte quantos têm pelo menos 1 item.
 
-**Protocolo de fallback quando não há conteúdo fresco suficiente** (aplica a AMBOS os modos):
+3. **Completar se < 10**: se menos de 10 assuntos têm conteúdo, selecione assuntos que faltam e busque um clássico/evergreen importante para cada um até atingir 10. Critérios de seleção do evergreen:
+   - Muito acessado ou citado na comunidade técnica.
+   - Em site de autoridade (documentação oficial, InfoQ, martinfowler.com, architectelevator.com, blog de engenharia reconhecida).
+   - Ensina algo fundamental (modelo interno, boas práticas, anti-pattern clássico).
+   - **Nunca use**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
+   - **Verificar dedup**: antes de incluir qualquer evergreen, confirme que a URL não foi usada em nenhuma das últimas 7 edições.
 
-1. **Tente conteúdo indireto do ecossistema**: se não há nada direto sobre o assunto fixo na janela de tempo, traga conteúdo relacionado ao domínio — exemplos na seção ASSUNTOS FIXOS MONITORADOS. Documente em `description`.
+4. **Se ≥ 10**: não force os assuntos restantes — uma edição enxuta com 10-15 assuntos é melhor do que 36 com conteúdo forçado.
 
-2. **Se ainda insuficiente, use evergreen de alta qualidade**: artigos, tutoriais, posts ou documentação que **todo arquiteto deveria conhecer** sobre aquele assunto — mesmo que não seja recente. Critérios do evergreen:
-   - É frequentemente citado ou linkado na comunidade técnica.
-   - Está em site de autoridade (documentação oficial, InfoQ, martinfowler.com, architectelevator.com, blog de engenharia de empresa reconhecida).
-   - Ensina algo fundamental sobre a ferramenta (modelo interno, boas práticas, anti-patterns conhecidos).
-   - **Nunca use como evergreen**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
-   - Use `kind: "tutorial"` ou `kind: "tip"` para evergreen; só use `kind: "curiosity"` como último recurso — e nunca genérico.
-
-3. **Máximo 1 `curiosity` genérica por assunto por mês** — preferir sempre os outros kinds.
+Siga a hierarquia de `kind` por tipo de assunto:
+- **Ferramentas com release**: `release` (se saiu versão na janela) > `news` > `tutorial` > `tip` > `curiosity`
+- **Temas/domínios** (`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`): `news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`
+- Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por assunto por mês.
 
 ### 4. Pulso social (Hacker News) e blogs de engenharia
 
