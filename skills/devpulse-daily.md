@@ -27,7 +27,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Meta de conteúdo** — muito maior que o normal, para popular o arquivo inicial:
 - `news[]`: **mínimo 5 itens por categoria** (10 categorias × 5 = 50 notícias mínimas em `news[]`).
 - `news[]`: **mínimo 5 itens por categoria** (10 categorias × 5 = 50 notícias mínimas em `news[]`).
-- `tools[]` (assuntos): **mínimo 5 itens por assunto** — 28 assuntos × 5 = 140 itens mínimos em `tools[]`. Múltiplos itens por `tool_key` são permitidos e esperados neste modo.
+- `tools[]` (assuntos): **mínimo 5 itens por assunto** — 27 assuntos × 5 = 135 itens mínimos em `tools[]`. Múltiplos itens por `tool_key` são permitidos e esperados neste modo.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -56,7 +56,7 @@ Para cada **assunto** (`tool_key`), conte os itens em `tools[]`:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 28 assuntos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 27 assuntos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -235,13 +235,13 @@ Antes de chamar Write:
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
 - [ ] **Cobertura de categorias**: todas as 10 categorias com ≥ 1 item em `pillars[]` + `news[]`. No MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por categoria em `news[]`.
-- [ ] **Cobertura de assuntos**: todos os 28 assuntos representados em `tools[]`. No MODO NORMAL: 1 item por assunto. No MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos).
+- [ ] **Cobertura de assuntos**: todos os 27 assuntos representados em `tools[]`. No MODO NORMAL: 1 item por assunto. No MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos).
 - [ ] **Volume mínimo `news[]`**: 15 (modo normal ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias) / 50 em `news[]` (primeira execução).
 - [ ] **Fallback aplicado**: para qualquer categoria ou assunto abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥40% com `image`.
-- [ ] **`tools[]`**: todos os 28 `tool_key` presentes. No MODO NORMAL: cada `tool_key` 1 vez. No MODO PRIMEIRA EXECUÇÃO: múltiplos permitidos. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`.
+- [ ] **`tools[]`**: todos os 28 `tool_key` presentes. No MODO NORMAL: cada `tool_key` 1 vez. No MODO PRIMEIRA EXECUÇÃO: múltiplos permitidos. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
@@ -426,7 +426,7 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**28 assuntos fixos** no total — MODO NORMAL: 28 itens, um por assunto; MODO PRIMEIRA EXECUÇÃO: ≥ 5 por assunto). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**27 assuntos fixos** no total — MODO NORMAL: 27 itens, um por assunto; MODO PRIMEIRA EXECUÇÃO: ≥ 5 por assunto). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -454,7 +454,6 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, service mesh, kubelet, etcd |
 | `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium |
 | `owasp` | Novo projeto, atualização Top 10, nova guia | Vulnerabilidade web relevante (XSS, SQLi, SSRF), boas práticas de AppSec |
-| `snyk` | Release, novo scanner, incidente de supply chain | DevSecOps, SBOM, dependency confusion, container scanning |
 | `structurizr` | Release, nova feature DSL | Arquitetura como código, C4 Model, diagramas de sistema, ADRs |
 | `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, performance de build, dependency management |
 | `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
@@ -477,7 +476,6 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `vscode` | VS Code | `ai` | https://code.visualstudio.com/updates |
 | `keycloak` | Keycloak | `sec` | https://www.keycloak.org/docs/latest/release_notes/ |
 | `owasp` | OWASP | `sec` | https://owasp.org/news/ |
-| `snyk` | Snyk | `sec` | https://updates.snyk.io/ |
 | `git` | Git | `devops` | https://github.blog/ · https://git-scm.com/docs |
 | `github` | GitHub | `devops` | https://github.blog/ · https://github.com/orgs/github/discussions |
 | `docker` | Docker Desktop | `devops` | https://docs.docker.com/desktop/release-notes/ |
@@ -690,7 +688,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`. No MODO NORMAL, valor `1` por assunto fixo. No MODO PRIMEIRA EXECUÇÃO, valor ≥ `5` por assunto fixo. Omita chaves com 0.
+- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`. No MODO NORMAL, valor `1` por assunto fixo. No MODO PRIMEIRA EXECUÇÃO, valor ≥ `5` por assunto fixo. Omita chaves com 0.
 
 ---
 
@@ -817,7 +815,7 @@ O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens d
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
 13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
-14. **28 assuntos em `tools[]`**: MODO NORMAL: 1 item por assunto (`tool_key` único). MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos). Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use **conteúdo indireto do ecossistema** ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
+14. **27 assuntos em `tools[]`**: MODO NORMAL: 1 item por assunto (`tool_key` único). MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos). Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use **conteúdo indireto do ecossistema** ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
