@@ -145,7 +145,7 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 **Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 
-## Ferramentas monitoradas (26, agrupadas por categoria)
+## Ferramentas monitoradas (28, agrupadas por categoria)
 
 Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema da ferramenta é permitido (documentar em `description`).
 
@@ -162,6 +162,8 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 | `sec` | `keycloak` | Keycloak |
 | `sec` | `owasp` | OWASP |
 | `sec` | `snyk` | Snyk |
+| `devops` | `git` | Git |
+| `devops` | `github` | GitHub |
 | `devops` | `docker` | Docker Desktop |
 | `devops` | `kubernetes` | Kubernetes |
 | `obs` | `dynatrace` | Dynatrace |

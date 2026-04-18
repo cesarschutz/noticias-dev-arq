@@ -36,7 +36,7 @@ TOOL_KEYS_V2  = {
   'structurizr','whimsical','plantuml',
   'cursor','claudecode','chatgpt','vscode','warp',
   'keycloak','owasp','snyk',
-  'docker','kubernetes',
+  'git','github','docker','kubernetes',
   'dynatrace',
   'postgres','mysql','mongocompass','dbeaver','databricks',
   'kafka','postman','openapi',
