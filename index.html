@@ -350,24 +350,59 @@ button { font-family: inherit; color: inherit; }
   z-index: 2;
 }
 
+/* quote nav */
+.quote-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+.quote-nav-btn {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 13px;
+  line-height: 1;
+  width: 20px; height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .12s, border-color .12s;
+}
+.quote-nav-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+
+/* verse nav */
+.verse-nav-btn {
+  background: none;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color .12s;
+}
+.verse-nav-btn:hover { color: var(--cyan); }
+
 /* verse footer */
 .verse-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  height: 44px;
+  height: 36px;
   background: var(--bg-deep);
   border-top: 1px solid var(--rule);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 14px;
-  padding: 0 20px;
+  gap: 10px;
+  padding: 0 10px;
   z-index: 100;
   overflow: hidden;
 }
 .verse-symbol {
   flex-shrink: 0;
-  width: 16px; height: 22px;
+  width: 12px; height: 17px;
   color: var(--cyan);
   opacity: .8;
 }
@@ -1625,26 +1660,33 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 
 /* quote do dia */
 .quote-box {
-  padding: 14px 14px 12px;
-  background: var(--surface);
-  border: 1px dashed var(--rule);
-  border-radius: 4px;
+  padding: 12px 14px 4px;
+  background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--cyan) 5%, var(--surface)) 100%);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--cyan);
+  border-radius: 6px;
   margin-bottom: 20px;
+  overflow: hidden;
+}
+.quote-mark {
+  font-size: 48px;
+  line-height: 0.8;
+  color: var(--cyan);
+  opacity: .22;
+  font-family: Georgia, serif;
+  float: left;
+  margin-right: 6px;
+  margin-top: 2px;
+  pointer-events: none;
+  user-select: none;
 }
 .quote-text {
   font-size: 12.5px;
   font-style: italic;
   color: var(--ink);
-  line-height: 1.5;
-  min-height: 60px;
-}
-.quote-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
+  line-height: 1.6;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 .quote-author {
   font-family: 'JetBrains Mono', monospace;
@@ -1652,30 +1694,27 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   letter-spacing: .06em;
   color: var(--cyan);
   text-shadow: var(--glow-c);
+  padding-left: 2px;
+  margin-bottom: 10px;
 }
-.quote-pill {
+.quote-meta {
+  padding: 7px 8px 9px;
+  border-top: 1px solid var(--rule);
+  border-radius: 0 0 4px 4px;
+  transition: background .15s;
+  line-height: 1.2;
+}
+.quote-meta.is-link { cursor: pointer; }
+.quote-meta.is-link:hover { background: color-mix(in srgb, var(--cyan) 9%, transparent); }
+.quote-context {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid currentColor;
-  background: var(--bg-deep);
-  color: var(--ink-dim);
-  opacity: .8;
-}
-.quote-link {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
   color: var(--ink-faint);
-  text-decoration: none;
   letter-spacing: .04em;
-  transition: color .12s;
-  margin-left: auto;
-  padding: 1px 4px;
+  line-height: 1.2;
+  display: block;
+  white-space: normal;
 }
-.quote-link:hover { color: var(--amber); }
 
 /* theme button discreto no topbar */
 .tb-theme {
@@ -2128,11 +2167,15 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   <!-- TELEMETRY RAIL -->
   <aside class="rail" aria-label="Telemetria">
     <div class="quote-box" id="quote-box" aria-live="polite">
+      <div class="quote-nav">
+        <button class="quote-nav-btn" onclick="prevQuote()" title="Anterior">‹</button>
+        <button class="quote-nav-btn" onclick="nextQuote()" title="Próxima">›</button>
+      </div>
+      <div class="quote-mark">"</div>
       <div class="quote-text" id="quote-text">—</div>
-      <div class="quote-meta">
-        <span class="quote-author" id="quote-author">—</span>
-        <span class="quote-pill" id="quote-pill" hidden>—</span>
-        <a id="quote-link" class="quote-link" href="#" target="_blank" rel="noopener noreferrer" hidden>↗</a>
+      <div class="quote-author" id="quote-author">—</div>
+      <div class="quote-meta" id="quote-meta">
+        <span class="quote-context" id="quote-context"></span>
       </div>
     </div>
 
@@ -2858,39 +2901,24 @@ let _deckIdx  = 0;
 
 function currentQuotes(){ return _allQuotes.length ? _allQuotes : STATIC_QUOTES_LEGACY; }
 
-function labelForRelation(rel){
-  if (!rel || rel === 'general') return '';
-  if (rel.startsWith('cat:')) return CAT[rel.slice(4)]?.lf || rel.slice(4);
-  if (rel.startsWith('tool:')) return TOOLS.find(t => t.key === rel.slice(5))?.name || rel.slice(5);
-  return '';
-}
-
-function classForRelation(rel){
-  if (!rel || rel === 'general') return '';
-  if (rel.startsWith('cat:')) return 'rel-cat-' + rel.slice(4);
-  if (rel.startsWith('tool:')) return 'rel-tool';
-  return '';
-}
-
 function renderQuote(q){
   const textEl = $('quote-text');
   const authorEl = $('quote-author');
-  const pillEl = $('quote-pill');
-  const linkEl = $('quote-link');
+  const ctxEl = $('quote-context');
+  const metaEl = $('quote-meta');
   if (!textEl) return;
   textEl.textContent = '\u201c' + q.text + '\u201d';
-  authorEl.textContent = '— ' + q.author + (q.context ? ' · ' + q.context : '');
-  const label = labelForRelation(q.related_to);
-  if (label) {
-    pillEl.hidden = false;
-    pillEl.textContent = label;
-    pillEl.className = 'quote-pill ' + classForRelation(q.related_to);
-  } else {
-    pillEl.hidden = true;
-  }
-  if (linkEl) {
-    if (q.url) { linkEl.href = q.url; linkEl.hidden = false; }
-    else { linkEl.hidden = true; }
+  authorEl.textContent = '— ' + q.author;
+  if (ctxEl) ctxEl.textContent = q.context || '';
+  if (metaEl) metaEl.hidden = !q.context && !q.url;
+  if (metaEl) {
+    if (q.url) {
+      metaEl.classList.add('is-link');
+      metaEl.onclick = () => window.open(q.url, '_blank', 'noopener noreferrer');
+    } else {
+      metaEl.classList.remove('is-link');
+      metaEl.onclick = null;
+    }
   }
 }
 
@@ -2903,8 +2931,16 @@ function cycleQuote(){
   }
   renderQuote(_quoteDeck[_deckIdx++]);
 }
+function prevQuote(){
+  const pool = currentQuotes();
+  if (!pool.length) return;
+  if (!_quoteDeck.length) { _quoteDeck = shuffleArray(pool); _deckIdx = _quoteDeck.length; }
+  _deckIdx = (_deckIdx - 2 + _quoteDeck.length) % _quoteDeck.length;
+  renderQuote(_quoteDeck[_deckIdx++]);
+}
+function nextQuote(){ cycleQuote(); }
 
-setInterval(() => { if (!document.hidden) cycleQuote(); }, 25000);
+setInterval(() => { if (!document.hidden) cycleQuote(); }, 300000);
 
 /* ═══ Main render ═══ */
 function renderMain(){
@@ -4033,7 +4069,7 @@ function initVerses(){
       _verseDeck = shuffleArray(_verses);
       _verseIdx = 0;
       showVerse();
-      setInterval(() => { if (!document.hidden) cycleVerse(); }, 30000);
+      setInterval(() => { if (!document.hidden) cycleVerse(); }, 300000);
     })
     .catch(() => {});
 }
@@ -4075,12 +4111,14 @@ function showVerse(){
 
 function cycleVerse(){
   _verseIdx++;
-  if (_verseIdx >= _verseDeck.length) {
-    _verseDeck = shuffleArray(_verses);
-    _verseIdx = 0;
-  }
+  if (_verseIdx >= _verseDeck.length) { _verseDeck = shuffleArray(_verses); _verseIdx = 0; }
   showVerse();
 }
+function prevVerse(){
+  _verseIdx = (_verseIdx - 2 + _verseDeck.length) % _verseDeck.length;
+  showVerse();
+}
+function nextVerse(){ cycleVerse(); }
 
 function initQuotes(){
   fetch('data/quotes.json')
@@ -4105,10 +4143,12 @@ initQuotes();
 
 <!-- VERSE FOOTER -->
 <footer class="verse-bar" id="verse-bar" aria-live="polite">
+  <button class="verse-nav-btn" onclick="prevVerse()" title="Versículo anterior">‹</button>
   <a class="verse-text-wrap" id="verse-wrap" target="_blank" rel="noopener noreferrer" title="Abrir versículo na Bíblia">
     <span class="verse-text" id="verse-text">—</span>
     <span class="verse-ref" id="verse-ref"></span>
   </a>
+  <button class="verse-nav-btn" onclick="nextVerse()" title="Próximo versículo">›</button>
   <!-- Cruz latina — símbolo cristão / Igreja Metodista -->
   <a id="verse-cross-link" class="verse-cross-link" target="_blank" rel="noopener noreferrer" title="Abrir versículo na Bíblia">
     <svg class="verse-symbol" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
