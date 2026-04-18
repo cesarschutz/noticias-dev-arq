@@ -24,27 +24,23 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
-**Meta de conteúdo** — muito maior que o normal, para popular o arquivo inicial:
-- `news[]`: **mínimo 5 itens por categoria** (10 categorias × 5 = 50 notícias mínimas em `news[]`).
-- `news[]`: **mínimo 5 itens por categoria** (10 categorias × 5 = 50 notícias mínimas em `news[]`).
-- `tools[]` (assuntos): **mínimo 5 itens por assunto** — 31 assuntos × 5 = 155 itens mínimos em `tools[]`. Múltiplos itens por `tool_key` são permitidos e esperados neste modo.
+**Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
+- `news[]`: **mínimo 1 item por categoria** (10 categorias). Traga quantos achar de boa qualidade — sem limite máximo.
+- `tools[]` (assuntos): **mínimo 1 item por assunto** (31 assuntos). Traga quantos encontrar.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
 **Verificação obrigatória após coleta** — antes de escrever qualquer arquivo:
 
-Para cada **categoria**, conte os itens em `news[]`:
-- Se alguma categoria tiver **< 5 itens**, faça buscas adicionais:
-  - Use queries mais amplas: variações do tema, termos relacionados, artigos populares dos últimos 7 dias.
-  - Priorize artigos mais acessados, mais comentados no HN, mais compartilhados, de fontes de autoridade.
-  - Se ainda não atingir 5, use **conteúdo evergreen de alta qualidade** — artigos seminais do InfoQ, papers, posts de Martin Fowler, Gregor Hohpe, architectelevator.com, ByteByteGo, documentação oficial de referência. Esses artigos devem ser coisas que **todo arquiteto deveria conhecer**, mesmo que não sejam recentes.
-  - **Nunca force conteúdo irrelevante** — qualidade acima de quantidade.
+Para cada **categoria** sem item em `news[]`:
+- Faça busca adicional com queries mais amplas.
+- Se ainda assim não houver nada relevante na janela, use **conteúdo evergreen de alta qualidade** — artigos seminais do InfoQ, posts de Martin Fowler, Gregor Hohpe, architectelevator.com, ByteByteGo, documentação oficial. Coisas que **todo arquiteto deveria conhecer**, mesmo que não sejam recentes.
+- **Nunca omita uma categoria** — qualidade acima de quantidade, mas 1 item por categoria é obrigatório.
 
-Para cada **assunto** (`tool_key`), conte os itens em `tools[]`:
-- Se algum assunto tiver **< 5 itens**, faça buscas adicionais:
-  - Varie os tipos: `release`, `news`, `tutorial`, `tip`, `curiosity`.
-  - Use conteúdo indireto do ecossistema (ver seção FERRAMENTAS MONITORADAS).
-  - Se ainda não atingir 5, inclua **conteúdo evergreen importante** — tutoriais clássicos, posts de referência, conceitos fundamentais sobre aquele assunto fixo que todo arquiteto deve conhecer (ex.: para `git`: o modelo de objetos do Git, branching strategies, Git internals; para `kafka`: o conceito de log distribuído, consumer groups, offset management).
+Para cada **assunto** sem item em `tools[]`:
+- Use conteúdo indireto do ecossistema (ver seção ASSUNTOS FIXOS MONITORADOS).
+- Se ainda não houver, use **evergreen importante** — tutoriais clássicos, conceitos fundamentais sobre aquele assunto (ex.: para `git`: modelo de objetos do Git; para `kafka`: log distribuído e consumer groups).
+- **Nunca omita um assunto** — 1 item por assunto é obrigatório.
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
@@ -446,8 +442,7 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 ### 3. Verificar assuntos monitorados
 
 Para cada um dos **28 assuntos** (campo `tools[]` no JSON), produza:
-- **MODO PRIMEIRA EXECUÇÃO**: **mínimo 5 itens por assunto** (múltiplos `tool_key` idênticos são permitidos).
-- **MODO NORMAL**: **mínimo 1 item por assunto**.
+- **Ambos os modos**: **mínimo 1 item por assunto**. Traga quantos encontrar de qualidade — sem limite máximo. Se não houver conteúdo fresco na janela de tempo, use conteúdo mais antigo ou evergreen (ver protocolo de fallback abaixo).
 
 Siga a hierarquia de `kind`: **`release > news > tutorial > tip > curiosity`**
 
@@ -487,14 +482,14 @@ Antes de chamar Write:
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
-- [ ] **Cobertura de categorias**: todas as 10 categorias com ≥ 1 item em `pillars[]` + `news[]`. No MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por categoria em `news[]`.
-- [ ] **Cobertura de assuntos**: todos os 31 assuntos representados em `tools[]`. No MODO NORMAL: 1 item por assunto. No MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos).
-- [ ] **Volume mínimo `news[]`**: 15 (modo normal ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias) / 50 em `news[]` (primeira execução).
+- [ ] **Cobertura de categorias**: todas as 10 categorias com ≥ 1 item em `pillars[]` + `news[]` (ambos os modos). Se não houver conteúdo fresco, usar evergreen de qualidade.
+- [ ] **Cobertura de assuntos**: todos os 31 assuntos com ≥ 1 item em `tools[]` (ambos os modos). Se não houver conteúdo fresco, usar conteúdo mais antigo ou evergreen.
+- [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
 - [ ] **Fallback aplicado**: para qualquer categoria ou assunto abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
-- [ ] **`tools[]`**: todos os 28 `tool_key` presentes. No MODO NORMAL: cada `tool_key` 1 vez. No MODO PRIMEIRA EXECUÇÃO: múltiplos permitidos. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
+- [ ] **`tools[]`**: todos os 31 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
@@ -679,7 +674,7 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**31 assuntos fixos** no total — MODO NORMAL: 31 itens, um por assunto; MODO PRIMEIRA EXECUÇÃO: ≥ 5 por assunto). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**31 assuntos fixos** no total — ambos os modos: mínimo 1 por assunto, sem teto máximo). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -969,7 +964,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`. No MODO NORMAL, valor `1` por assunto fixo. No MODO PRIMEIRA EXECUÇÃO, valor ≥ `5` por assunto fixo. Omita chaves com 0.
+- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`. Valor real de itens gerados (mínimo `1` por assunto fixo em ambos os modos). Omita chaves com 0.
 
 ---
 
@@ -1128,7 +1123,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
 13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; **≥80% de news[] com imagem** (Tentativa 5 com Google favicon é garantia final); tools[] com kind release/news devem ter image quando possível.
-14. **31 assuntos em `tools[]`**: MODO NORMAL: 1 item por assunto (`tool_key` único). MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos). Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use **conteúdo indireto do ecossistema** ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
+14. **31 assuntos em `tools[]`**: mínimo 1 item por assunto (ambos os modos). Traga mais se encontrar conteúdo de qualidade — sem teto. Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use conteúdo mais antigo ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):
     - **CVEs**: sempre extrair para notícias de segurança. A SPA futuramente indexará isso.
