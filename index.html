@@ -3803,8 +3803,11 @@ function goToday(){
 /* ═══ Deep link (data + view) ═══ */
 function setDeepLink(view, date){
   const p = new URLSearchParams();
-  if (date) p.set('d', date);
-  if (view && view !== 'home') p.set('v', view);
+  if (!view || view === 'home') {
+    if (date) p.set('d', date);
+  } else {
+    p.set('v', view);
+  }
   const qs = p.toString();
   history.replaceState(null, '', qs ? '?' + qs : location.pathname);
 }
