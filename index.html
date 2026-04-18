@@ -1316,7 +1316,22 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   box-sizing: border-box;
   display: block;
 }
-.feed-list .card-thumb { display: none; }
+.feed-list .card { flex-direction: row; align-items: flex-start; gap: 12px; }
+.feed-list .card-thumb {
+  width: 72px; height: 50px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--bg-deep);
+  border: 1px solid var(--rule-soft);
+  margin: 0;
+  aspect-ratio: unset;
+}
+.feed-list .card-thumb img {
+  padding: 0;
+  object-fit: cover; object-position: center;
+}
+.feed-list .card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .card.urgent { border-left-color: var(--red); }
 .card.urgent::before {
   content: 'CRIT';
@@ -3424,12 +3439,14 @@ function buildCard(item){
   const cat = CAT[c] || {l:c};
   const url = item.url;
   const date = item._date || STATE.currentDate;
-  const showThumb = STATE.mode === 'cards' && !!item.image;
+  const isList = STATE.mode === 'list';
+  const showThumb = !!item.image;
   const thumbHtml = showThumb
     ? `<div class="card-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
     : '';
   let html = `<div class="card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" data-cat="${c}" role="link" tabindex="0" style="--cat: var(--cat-${c});">`;
   html += thumbHtml;
+  if (isList) html += `<div class="card-body">`;
   html += `<div class="card-head">`;
   html += `<span class="cat-tag">[${cat.l}]</span>`;
   if (date) html += `<span class="date-tag">${esc(date)}</span>`;
@@ -3443,7 +3460,9 @@ function buildCard(item){
   html += `<span class="src">${esc(item.source || '—')}</span>`;
   if (item.read_time) html += `<span class="time">~${esc(item.read_time)}min</span>`;
   html += `<div class="row-right">${buildActionButtons(url)}</div>`;
-  html += `</div></div>`;
+  html += `</div>`;
+  if (isList) html += `</div>`;
+  html += `</div>`;
   return html;
 }
 
