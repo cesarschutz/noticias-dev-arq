@@ -25,7 +25,7 @@
       "Bash(xattr -d com.apple.quarantine /Users/cesar.schutz/Downloads/noticias-arq/push.sh)",
       "Bash(xattr -l /Users/cesar.schutz/Downloads/noticias-arq/push.sh)",
       "Bash(xattr -c /Users/cesar.schutz/Downloads/noticias-arq/push.sh)",
-      "Bash(> /tmp/devpulse-push.log)",
+      "Bash(> /tmp/csr-news-push.log)",
       "Bash(python3 -m http.server 8081)",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "mcp__Claude_Preview__preview_start",

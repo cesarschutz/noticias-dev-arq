@@ -1,4 +1,4 @@
-# DevPulse — Arquivo Diário do Arquiteto
+# CsR News — Arquivo Diário do Arquiteto
 
 Curadoria diária de notícias técnicas para arquitetos de software e solução, gerada automaticamente por IA e publicada no GitHub Pages.
 
@@ -7,7 +7,7 @@ Curadoria diária de notícias técnicas para arquitetos de software e solução
 Arquitetura **data-driven**: um template HTML único carrega dados de arquivos JSON via `fetch()`.
 
 - **SPA** (`index.html`): console ops single-file — topbar + sidebar + main + rail. Dark/light, cards/list, busca global, deep links.
-- **Dados** (`data/*.json`): gerados diariamente pela skill `skills/devpulse-daily.md`
+- **Dados** (`data/*.json`): gerados diariamente pela skill `skills/csr-news-daily.md`
 - **RSS** (`feed.xml`): gerado pelo CI antes do deploy
 - **Deploy**: push para `main` → GitHub Actions → GitHub Pages
 
@@ -25,7 +25,7 @@ Arquitetura **data-driven**: um template HTML único carrega dados de arquivos J
 
 ## Categorias cobertas
 
-Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade · Dados & Streaming · Integração & Eventos · Backend & Runtimes · Design & Padrões · Arq. Corporativa · Sist. Distribuídos · Fintech & Pagamentos.
+Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade · Dados & Streaming · Integração & Eventos · Backend & Runtimes · **Testes & Qualidade** · Design & Padrões · Arq. Corporativa · Sist. Distribuídos · Fintech & Pagamentos.
 
 ## Assuntos fixos monitorados
 
@@ -67,7 +67,7 @@ data/python-versions/        → PEPs por versão Python (3.8–atual)
 data/js-versions/            → Features por edição ECMAScript (ES2015–atual)
 data/quotes.json             → Frases de autores técnicos (gerado na 1ª execução)
 data/verses.json             → Versículos de Jesus em PT-BR (gerado na 1ª execução)
-skills/devpulse-daily.md     → Skill para geração diária
+skills/csr-news-daily.md     → Skill para geração diária
 scripts/validate_editions.py → Validador de schema + URLs + duplicatas
 scripts/generate_feed.py     → Gerador RSS 2.0
 .github/workflows/           → CI (deploy + validação)

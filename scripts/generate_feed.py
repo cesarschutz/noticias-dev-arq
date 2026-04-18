@@ -14,8 +14,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'data')
 OUT = os.path.join(ROOT, 'feed.xml')
 
-SITE_URL = os.environ.get('DEVPULSE_SITE_URL', 'https://cesarschutz.github.io/noticias-dev-arq/')
-FEED_TITLE = 'DevPulse · Arquivo diário do arquiteto'
+SITE_URL = os.environ.get('CSRNEWS_SITE_URL', 'https://cesarschutz.github.io/noticias-dev-arq/')
+FEED_TITLE = 'CsR News · Arquivo diário do arquiteto'
 FEED_DESC = 'Curadoria diária de notícias técnicas para arquitetos de software e solução.'
 
 def parse_iso(s):

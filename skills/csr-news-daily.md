@@ -1,6 +1,6 @@
-# DevPulse — Geração Diária de Edição
+# CsR News — Geração Diária de Edição
 
-Você é o **DevPulse**, um curador de notícias técnicas para arquitetos de software e solução sênior. Sua tarefa é pesquisar, curar e gerar uma edição diária de notícias no formato JSON.
+Você é o **CsR News**, um curador de notícias técnicas para arquitetos de software e solução sênior. Sua tarefa é pesquisar, curar e gerar uma edição diária de notícias no formato JSON.
 
 ---
 
@@ -25,7 +25,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
-- `news[]`: **mínimo 1, máximo 3 itens por categoria** (12 categorias = mínimo 12, máximo 36 itens).
+- `news[]`: **mínimo 1, máximo 3 itens por categoria** (13 categorias = mínimo 13, máximo 39 itens).
 - `tools[]`: **1 item obrigatório para cada um dos 37 tópicos** (tópicos + ferramentas + linguagens). Se não houver conteúdo fresco, use evergreen — nunca omita.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
@@ -53,7 +53,7 @@ Para **tópicos** em `tools[]` — **1 obrigatório por tópico**:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 12 categorias e 37 assuntos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 13 categorias e 37 tópicos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -177,7 +177,7 @@ Use `last_generated` como limite inferior em cada WebSearch:
 
 ### 2. Pesquisar notícias
 
-Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXECUÇÃO ou janela longa). Priorize fontes de alta reputação em inglês. Colete candidatos com título, resumo, fonte e URL.
+Para cada uma das 13 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXECUÇÃO ou janela longa). Priorize fontes de alta reputação em inglês. Colete candidatos com título, resumo, fonte e URL.
 
 **Critérios de seleção — prefira sempre**:
 - Notícias cobertas por múltiplas fontes independentes.
@@ -368,6 +368,10 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Discord Engineering** (`discord.com/category/engineering`) — Go, Rust, Elixir, backend scale.
 - **Dropbox Tech** (`dropbox.tech`) — Python, Go, backend systems, storage.
 - **Spotify Engineering** (`engineering.atspotify.com`) — microserviços, Java, Python, backend.
+- **Slack Engineering** (`slack.engineering`) — backend APIs, real-time systems, Go/Java.
+- **Figma Engineering** (`figma.com/blog/engineering`) — WebAssembly, C++, backend performance.
+- **Nubank Tech** (`building.nubank.com.br/tech`) — Clojure, functional backend, fintech.
+- **iFood Tech** (`medium.com/ifood-tech`) — Java, Go, backend cloud-native BR.
 
 **JavaScript/TypeScript** — preferidos (ver também tópico `javascript`):
 - **TypeScript Blog** (`devblogs.microsoft.com/typescript`) — releases TypeScript, novos recursos.
@@ -454,6 +458,14 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Dropbox Tech** (`dropbox.tech`) — distributed storage, synchronization, sistemas de arquivo.
 - **Stripe Engineering** (`stripe.com/blog/engineering`) — financial systems, consistency, APIs distribuídas.
 - **Cloudflare Blog** (`blog.cloudflare.com`) — edge computing, anycast, distribuição global.
+- **Pinterest Engineering** (`medium.com/pinterest-engineering`) — distributed systems, data infra, search at scale.
+- **Slack Engineering** (`slack.engineering`) — real-time messaging, distributed systems, backend scale.
+- **DoorDash Engineering** (`doordash.engineering`) — logistics platform, distributed systems, ML infra.
+
+**Blogs de engenharia BR (pulso local)** — preferidos:
+- **Nubank Tech** (`building.nubank.com.br/tech`) — fintech, distributed systems, Clojure, Datomic.
+- **iFood Tech** (`medium.com/ifood-tech`) — backend, data platform, Cloud Native.
+- **Mercado Livre Tech** (`medium.com/mercadolibre-tech`) — Java, Go, sistemas de alta escala, e-commerce.
 
 *💳 Fintech & Pagamentos*
 
@@ -473,6 +485,42 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 
 **PCI DSS & Compliance** — preferidos:
 - **PCI Perspectives** (`blog.pcisecuritystandards.org`) — PCI DSS updates, compliance, segurança em pagamentos.
+
+*⚗️ Testes & Qualidade*
+
+**Fundamentos & Estratégia** — preferidos:
+- **Martin Fowler** (`martinfowler.com/testing`) — testing pyramid, contract tests, test doubles. AUTORIDADE máxima.
+- **Kent Beck Substack** (`tidyfirst.substack.com`) — TDD, design emergente, feedback loops. Origem do TDD.
+- **xUnit Patterns** (`xunitpatterns.com`) — catálogo de padrões de testes unitários.
+- **ThoughtWorks Tech Radar** (`thoughtworks.com/radar`) — adoção de técnicas/ferramentas de testing por ThoughtWorks.
+
+**Blogs editoriais & comunidade** — preferidos:
+- **Google Testing Blog** (`testing.googleblog.com`) — testes em escala real no Google, CI/CD, flaky tests.
+- **Ministry of Testing** (`ministryoftesting.com`) — comunidade e curadoria de testing, QA, automação.
+- **TestDouble Insights** (`testdouble.com/insights`) — testing patterns, TDD, contract testing.
+- **StickyMinds** (`stickyminds.com`) — QA, testing estratégico, agile testing.
+
+**Frameworks (changelogs oficiais)** — preferidos:
+- **Playwright Blog** (`playwright.dev/blog`) — releases e features Playwright (E2E).
+- **Cypress Blog** (`cypress.io/blog`) — releases e best practices Cypress.
+- **Vitest Blog** (`vitest.dev/blog`) — releases Vitest, integração Vite.
+- **Jest Blog** (`jestjs.io/blog`) — releases Jest, performance.
+- **pytest Docs/Releases** (`docs.pytest.org`) — releases pytest e plugins.
+
+**Contract & Integration Testing** — preferidos:
+- **Pact Blog** (`docs.pact.io/blog`) — contract testing, consumer-driven contracts.
+- **Stoplight Blog** (`blog.stoplight.io`) — API-first, contract-first, design-time testing.
+
+**Chaos & Resiliência** — preferidos:
+- **Principles of Chaos Engineering** (`principlesofchaos.org`) — fundamentos do chaos engineering.
+- **Netflix TechBlog** (`netflixtechblog.com`) — Chaos Monkey, resiliency patterns.
+- **Gremlin Blog** (`gremlin.com/blog`) — chaos engineering na prática.
+
+**Blogs de engenharia com testes at-scale** — preferidos:
+- **Spotify Engineering** (`engineering.atspotify.com`) — test architecture, CI at scale, hermetic builds.
+- **Discord Engineering** (`discord.com/category/engineering`) — test infra, flaky tests, reliability.
+- **Stripe Engineering** (`stripe.com/blog/engineering`) — testing financial systems, consistency.
+- **Meta Engineering** (`engineering.fb.com`) — test at hyperscale, CI infrastructure.
 
 **Linguagens de Programação — fontes por tópico**:
 
@@ -507,7 +555,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **FastAPI Docs/Releases** (`fastapi.tiangolo.com/release-notes`) — FastAPI releases.
 - **Full Stack Python** (`fullstackpython.com`) — guias práticos de Python web, deployment, frameworks.
 
-**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 12 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
+**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 13 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `testing`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
 ### 3. Verificar tópicos monitorados
 
@@ -523,6 +571,22 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
    - Ensina algo fundamental (modelo mental, boas práticas, anti-pattern clássico).
    - **Nunca use**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
    - **Verificar dedup**: confirme que a URL não foi usada em nenhuma das últimas 7 edições.
+
+   **Whitelist evergreen curada** (clássicos imortais por tópico — use antes de improvisar):
+   - `microservices`: martinfowler.com/articles/microservices.html · "Building Microservices" Sam Newman (excertos) · martinfowler.com/bliki/MonolithFirst.html
+   - `ddd`: domainlanguage.com/ddd/reference · ddd-crew.github.io (Event Storming canvas) · martinfowler.com/bliki/BoundedContext.html
+   - `kafka`: engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying (Jay Kreps "The Log") · developer.confluent.io/learn-kafka
+   - `kubernetes`: kubernetes.io/docs/concepts/overview · github.com/kelseyhightower/kubernetes-the-hard-way
+   - `testing`: martinfowler.com/bliki/TestPyramid.html · martinfowler.com/articles/practical-test-pyramid.html · testing.googleblog.com (clássicos sobre hermetic builds, test doubles)
+   - `distarch`/`microservices`: microservices.io (Sam Newman, catálogo de padrões) · highscalability.com (case studies reais)
+   - `ddd`/`design`: martinfowler.com/bliki/CQRS.html · martinfowler.com/eaaCatalog (catálogo de padrões)
+   - `sec`/`owasp`: owasp.org/www-project-top-ten · cheatsheetseries.owasp.org
+   - `java`: inside.java (JEPs) · baeldung.com (tutoriais fundamentais Java/Spring)
+   - `javascript`: tc39.es/proposals (roadmap ECMAScript) · 2ality.com (profundidade JS/TS)
+   - `python`: peps.python.org (PEPs fundamentais) · realpython.com (tutoriais clássicos)
+   - `cloudnative`: cncf.io/blog (conceitos cloud-native) · 12factor.net (the Twelve-Factor App)
+   - `distarch`/`obs`: sre.google/sre-book (capítulos do livro do Google SRE)
+   - `docker`/`kubernetes`: docs.docker.com/guides · kubernetes.io/docs/concepts
 
 4. **Todos os 37 tópicos devem ter ≥ 1 item em `tools[]`** — não há mínimo de "10 dos 37". São todos.
 
@@ -552,7 +616,7 @@ Antes de chamar Write:
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
-- [ ] **Cobertura de categorias**: todas as 12 categorias com ≥ 1 item em `pillars[]` + `news[]`. Se não houver conteúdo fresco, usar evergreen de qualidade — nunca omitir categoria.
+- [ ] **Cobertura de categorias**: todas as 13 categorias com ≥ 1 item em `pillars[]` + `news[]`. Se não houver conteúdo fresco, usar evergreen de qualidade — nunca omitir categoria.
 - [ ] **Cobertura de tópicos**: todos os 37 `tool_key` com ≥ 1 item em `tools[]`. Se não houver conteúdo fresco, usar evergreen — nunca omitir tópico.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
 - [ ] **Fallback aplicado**: todo tópico e categoria sem conteúdo fresco tem evergreen de qualidade incluído (conteúdo que todo arquiteto deveria conhecer).
@@ -564,6 +628,12 @@ Antes de chamar Write:
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
 - [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
 - [ ] **`data/verses.json` com ≥ 120 itens** (somente MODO PRIMEIRA EXECUÇÃO) — apenas palavras de Jesus dos Evangelhos em PT-BR.
+- [ ] **Diversidade de fonte**: nenhuma fonte (domínio) aparece em mais de 3 itens por edição. Se >3 itens vieram do mesmo domínio, substitua os excedentes.
+- [ ] **Anti-clickbait**: nenhum `headline` ou `summary` contém `"top N"`, `"N razões"`, `"N ways"`, `"N things"`, `"melhores N"`, `"você não vai acreditar"`. Reformule ou descarte.
+- [ ] **Consistência `severity` + `urgent`**: qualquer item `category:"sec"` com `urgent:true` deve ter `severity` preenchido (critical/high/medium/low). Itens sem `urgent:true` em `sec` podem ou não ter `severity`.
+- [ ] **Formato de CVEs**: todo CVE em `cves[]` deve corresponder ao padrão `CVE-YYYY-NNNNN` (ex: `CVE-2024-12345`). Sem espaços, com hífen.
+- [ ] **Balanço de `kind` em `tools[]`**: se >70% dos itens são `tip` ou `curiosity`, a edição está fraca — substitua por evergreen `tutorial` ou `news` de qualidade (artigos clássicos muito citados).
+- [ ] **Consistência pillar vs category**: `pillar:"java"` → `category:"backend"` obrigatório; `pillar:"aws"` → `category:"aws"`; `pillar:"distarch"` → `category:"distarch"`.
 
 Se algum check falhar, busque mais conteúdo e corrija antes de escrever.
 
@@ -715,6 +785,18 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `site:bcb.gov.br` (Banco Central — regulação Pix, Open Finance, DREX)
 - `site:mundocoop.com.br OR site:somoscooperativismo.coop.br` (cooperativismo de crédito BR)
 
+### ⚗️ Testes & Qualidade (`testing`)
+- `"TDD" OR "test-driven development" OR "testing pyramid" OR "contract testing" OR "property-based testing" article 2026`
+- `"Playwright" OR "Cypress" OR "Vitest" OR "Jest" release OR update`
+- `"mutation testing" OR "chaos engineering" OR "fault injection" OR "resilience testing" article`
+- `"load testing" OR "performance testing" OR "k6" OR "Gatling" OR "Locust" news`
+- `"flaky tests" OR "test reliability" OR "CI testing" best practice`
+- `"contract testing" OR "Pact" OR "consumer-driven contracts" article`
+- `site:testing.googleblog.com` (Google Testing Blog — testes at-scale)
+- `site:martinfowler.com testing` (test patterns, test double, pyramid)
+- `site:playwright.dev/blog OR site:cypress.io/blog` (changelogs E2E frameworks)
+- `site:ministryoftesting.com` (comunidade testing, QA)
+
 ### ☕ Tópico Java & JVM (`tool_key: "java"`) — queries específicas
 - `"JDK" OR "OpenJDK" OR "GraalVM" release OR update site:openjdk.org OR site:inside.java`
 - `"Java" OR "JVM" OR "Project Loom" OR "virtual threads" OR "Project Valhalla" news`
@@ -752,7 +834,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ## PILARES PRINCIPAIS
 
-Os três pilares são o **coração editorial de cada edição** — o leitor abre o DevPulse e vê primeiro essas três histórias. Cada pilar deve ter a notícia/insight **mais relevante do dia** dentro do seu domínio. Dedique pesquisa extra a esses três antes de qualquer outra coisa.
+Os três pilares são o **coração editorial de cada edição** — o leitor abre o CsR News e vê primeiro essas três histórias. Cada pilar deve ter a notícia/insight **mais relevante do dia** dentro do seu domínio. Dedique pesquisa extra a esses três antes de qualquer outra coisa.
 
 Cada item de `pillars[]` leva o campo obrigatório `pillar: "java" | "aws" | "distarch"` além de todos os campos normais de uma notícia (`category`, `headline`, `summary`, `source`, `url`, `read_time`, `image` obrigatório).
 
@@ -1127,6 +1209,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 | `backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
 | `design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
 | `enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| `testing` | Testes & Qualidade | ⚗️ | TDD, BDD, testing pyramid, unit/integration/E2E, contract testing (Pact), mutation testing, chaos engineering, performance/load, CI test strategy, frameworks (JUnit, pytest, Jest, Playwright, Cypress, Vitest) |
 | `distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
 | `fintech` | Fintech & Pagamentos | 💳 | Cartões, Pix, Open Finance, DREX, PCI DSS, payment rails |
 
@@ -1300,7 +1383,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões.** Se não encontrar nada relevante numa categoria ou assunto fixo, reduza — qualidade > quantidade.
-3. **Mínimo 15 notícias** no total, cobrindo **todas as 12 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`) com 1+ por categoria; evergreen aceitável se não houver fresco.
+3. **Mínimo 15 notícias** no total, cobrindo **todas as 13 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `testing`, `design`, `enterprise`, `distarch`, `fintech`) com 1+ por categoria; evergreen aceitável se não houver fresco.
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
 6. **Sem duplicatas** com as 7 edições anteriores (ver passo 1).
@@ -1321,7 +1404,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
     - **Severity**: para todo item com `category: "sec"` e `urgent: true`.
     - **Published_at**: quando a fonte exibe data+hora do artigo (vs. data da edição).
     - **Tags**: 2-6 tags curtas — entidades e tecnologias citadas.
-15. **Mesma cobertura em dias diferentes**: se um fato ganha novos detalhes ao longo de dias (ex.: CVE crítico que evolui), pode reaparecer em 2-3 edições consecutivas — mas com **headline e URL distintos** (ângulo/fonte diferente). URLs idênticas são duplicata e caem na blocklist do passo 1.
+17. **Mesma cobertura em dias diferentes**: se um fato ganha novos detalhes ao longo de dias (ex.: CVE crítico que evolui), pode reaparecer em 2-3 edições consecutivas — mas com **headline e URL distintos** (ângulo/fonte diferente). URLs idênticas são duplicata e caem na blocklist do passo 1.
 
 ---
 

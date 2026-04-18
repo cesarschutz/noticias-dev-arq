@@ -1,4 +1,4 @@
-# DevPulse — Arquivo Diário do Arquiteto
+# CsR News — Arquivo Diário do Arquiteto
 
 Arquivo de notícias técnicas diárias para arquitetos de software/solução, hospedado no GitHub Pages.
 
@@ -23,7 +23,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ```
 ├── index.html                      # SPA single-file
 ├── assets/
-│   └── devpulse-logo.svg           # Logo (usado no boot e topbar)
+│   └── csr-news-logo.svg           # Logo (usado no boot e topbar)
 ├── data/
 │   ├── editions.json               # Índice mestre + counts por categoria/assunto fixo
 │   ├── {YYYY-MM-DD}.json           # Dados completos de cada dia
@@ -42,7 +42,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 │   ├── validate_editions.py        # Valida schema + URLs + duplicatas
 │   └── generate_feed.py            # Gera feed.xml (RSS 2.0) a partir do índice
 ├── skills/
-│   └── devpulse-daily.md           # Skill Cowork para geração diária
+│   └── csr-news-daily.md           # Skill Cowork para geração diária
 ├── .github/workflows/
 │   ├── pages.yml                   # Deploy no GitHub Pages (gera RSS antes)
 │   └── validate.yml                # Validação JSON em PRs
@@ -55,11 +55,11 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 
 ## Fluxo de Dados
 
-1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 12 categorias + 37 assuntos fixos + HN + blogs eng + pulso BR
+1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT
+2. Pesquisa notícias via WebSearch em 13 categorias + 37 tópicos + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
-5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
+5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/csr-news-push.log`)
 6. GitHub Actions (`pages.yml`) gera `feed.xml` → deploya no GitHub Pages
 7. GitHub Actions (`validate.yml`) valida JSON em PRs
 
@@ -79,7 +79,7 @@ Ao filtrar por categoria/assunto fixo, a SPA usa `counts_by_category` / `counts_
 - **Prev/Next edições**: botões `◀` `▶` na sidebar (ou atalhos `P`/`N`) navegam entre edições adjacentes. Em view cat/tool, escondem.
 - **Botão "→ hoje"**: aparece na sidebar quando a edição aberta não é a de hoje.
 - **Filtro**: toolbar tem chip `urgent` (atalho `U`).
-- **Ler depois**: bookmark via `localStorage` (`dpco-read-later`). Modal com ordenação (saved/date/category/urgent), export JSON e clear.
+- **Ler depois**: bookmark via `localStorage` (`csrn-read-later`). Modal com ordenação (saved/date/category/urgent), export JSON e clear.
 - **Tema dark/light**: toggle na sidebar ou atalho `T`.
 - **Modo cards/list**: atalhos `1` (grid multi-coluna) / `2` (lista 1 coluna larga). Ambos com summary completo.
 - **Teclado**: `T` tema, `1`/`2` modo cards/list, `U` filtro urgent, `P`/`N` prev/next edição, `ESC` fecha modal.
@@ -126,7 +126,7 @@ Dois perfis de assunto fixo no campo `kind`:
 
 Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), `context` (opcional). `related_to` ∈ `"cat:<chave>"`, `"tool:<chave>"`, `"general"`.
 
-Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py`:
+Schema completo em `skills/csr-news-daily.md`. Validação em `scripts/validate_editions.py`:
 - Edições ≥ `2026-04-18` são **strict v1** (tools com `kind`/`tool_key`, imagens, quotes).
 - Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias, ferramentas v2, `pillars[]` com campo `pillar`).
 
@@ -195,6 +195,7 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 | backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
 | integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
+| testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD, BDD, testing pyramid, unit/integration/E2E, contract testing (Pact), mutation testing, chaos engineering, performance/load, property-based testing, CI test strategy, frameworks (JUnit, pytest, Jest, Playwright, Cypress, Vitest) |
 | **Arquitetura** | | | | |
 | design | `--cat-design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
 | distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
@@ -222,8 +223,8 @@ Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padr
 ### Tópicos (`TOOLS` no código, `tool_key` no JSON)
 Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recente para cada um — se não houver, pula.
 
-- Cobertura mínima: **≥ 10 tópicos com conteúdo por edição** (não 1 por tópico — a meta é o total).
-- Se recente < 10 tópicos: completa com evergreen clássico/importante dos tópicos que faltam, sem repetir URLs de edições anteriores.
+- Cobertura mínima: **1 item obrigatório por tópico, todos os 37, sem exceção**.
+- Se não encontrar conteúdo fresco para um tópico: usar evergreen clássico/importante daquele tópico, sem repetir URLs de edições anteriores.
 - Aparecem no rail (coluna direita) agrupados em 3 seções: Tópicos, Ferramentas, Linguagens.
 - View: `tool:{chave}` exibe TODOS os itens daquele tópico através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
 - O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "tópico".
@@ -298,14 +299,18 @@ Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CA
 
 ## O Que Atualizar Quando
 
+> **Princípio universal**: antes de adicionar QUALQUER item novo (categoria, tópico, linguagem), **pesquise os melhores sites sobre o tema** (ver protocolo abaixo). Só depois, atualize TODOS os arquivos listados.
+>
+> **Fonte de verdade**: este `CLAUDE.md`. Se mudar qualquer regra editorial (cobertura, taxonomia, schema), sincronize os **3 documentos humanos** no mesmo commit: `README.md`, `CLAUDE.md`, `skills/csr-news-daily.md`. Divergência entre eles é bug — sempre rodar `python3 scripts/validate_editions.py` antes do commit.
+
 ### Alterar o design visual
 - Edite `index.html` (CSS + HTML no mesmo arquivo)
 - Dados JSON não precisam mudar
-- Se adicionar/renomear classes CSS de categoria, atualize o mapa `CAT` no JS
+- Se adicionar/renomear classes CSS de categoria, atualize `CAT` e `CAT_ICONS` no JS
 
 ### Pesquisar fontes antes de adicionar (OBRIGATÓRIO)
 
-**Toda vez que um novo Tópico, Categoria ou Linguagem for adicionado**, antes de implementar qualquer arquivo, faça uma pesquisa real (WebSearch) para identificar as melhores fontes daquele tema:
+**Toda vez que um novo Tópico, Categoria ou Linguagem for adicionado**, ANTES de implementar, faça uma pesquisa real (WebSearch) para identificar as melhores fontes:
 
 1. `"best [tema] blogs" OR "top [tema] resources" site:reddit.com`
 2. `"[tema] newsletter" most popular 2024 OR 2025`
@@ -316,44 +321,64 @@ Com os resultados, identifique:
 - O **blog editorial de referência** (#1 mais citado pela comunidade)
 - **Sub-tópicos do tema** e os melhores sites para cada um
 
-Adicione essas fontes na seção correspondente da skill (`skills/devpulse-daily.md`) seguindo o padrão:
-- Em **Categorias**: adicione um bloco de sub-tópicos com os sites preferidos, dentro da seção da categoria no bloco "Fontes de alta reputação"
-- Em **Tópicos/Ferramentas**: adicione na tabela de changelogs (seção "TÓPICOS MONITORADOS") e nas queries específicas do tópico (seção "CATEGORIAS E QUERIES DE PESQUISA")
-- Em **Linguagens**: adicione na seção "Linguagens de Programação — fontes por tópico" e nas queries específicas
+Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily.md`):
+- **Categorias**: bloco de sub-tópicos com sites preferidos em "Fontes de alta reputação"
+- **Tópicos/Ferramentas**: tabela de changelogs (seção "TÓPICOS MONITORADOS") + queries específicas (seção "CATEGORIAS E QUERIES")
+- **Linguagens**: seção "Linguagens de Programação — fontes por tópico" + queries dedicadas
 
-**Lembre sempre**: os sites são **sugestões e preferências** — se não houver conteúdo no período da edição nos sites preferidos, a skill pode buscar em outros sites. Se encontrar algo de qualidade em outro site, inclua normalmente. Os sites preferidos são o ponto de partida, não uma restrição.
-
-Fontes genéricas (Medium sem autor, "top 10 tools", DZone sem filtragem de qualidade) não devem ser adicionadas como fontes primárias.
+**Os sites são sugestões e preferências** — se não encontrar conteúdo nos sites preferidos, pesquise em outros. Qualidade sempre prevalece sobre a fonte. Fontes genéricas (Medium sem autor, "top 10 tools") nunca como fontes primárias.
 
 ### Adicionar/remover uma categoria
+
+> **PESQUISA DE FONTES ANTES** — ver protocolo acima.
+
 1. Consulte as **regras de classificação** abaixo antes de decidir
-2. **Pesquise as melhores fontes** do tema (ver protocolo acima) — incluindo sub-tópicos da categoria
-3. Adicione/remova a chave em `CAT` no JS de `index.html`
-4. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
-5. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
-6. Atualize `STRICT_FROM_V3` no validator para a data da primeira edição com a nova taxonomia (atualmente `2026-04-19`)
+2. `index.html`: adicione chave em `CAT`, SVG path em `CAT_ICONS`, variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
+3. `index.html` **About page**: atualize o stat hardcoded `"N categorias"` (linha com `ab-stat-n`)
+4. `README.md`: atualize a lista de categorias cobertas (seção "Categorias cobertas")
+5. `CLAUDE.md`: atualize a tabela de categorias (esta seção)
+6. `skills/csr-news-daily.md`: seção "Categorias e Queries" (novo bloco), fontes na seção "Fontes de alta reputação", Regras de Qualidade #3 (lista literal das categorias), contagem em MODO PRIMEIRA EXECUÇÃO e MODO NORMAL, distribuição de quotes por categoria
+7. `scripts/validate_editions.py`: adicione à constante `CATEGORIES_V{n}` e incremente `STRICT_FROM_V{n}` para a data da primeira edição com a nova taxonomia
+8. Se **removida**: adicione à seção "Chaves legadas" em `CLAUDE.md` e ao `LEGACY_CAT_MAP` em `index.html` se houver edições antigas com a chave
 
 ### Adicionar/remover um Tópico
+
+> **PESQUISA DE FONTES ANTES** — ver protocolo acima.
+
 1. **Perguntar ao usuário** se é Tópico ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
-2. **Pesquise as melhores fontes** do tópico (ver protocolo acima) — changelog oficial, blog editorial, fontes complementares por sub-tópico
-3. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`, `group` = `subjects`/`tools`/`lang`)
-4. Atualize a tabela em `skills/devpulse-daily.md` (seção "TÓPICOS MONITORADOS") com o changelog e fontes encontradas
-5. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
-6. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
-7. Atualize a tabela neste CLAUDE.md (seção "Tópicos monitorados")
+2. `index.html`: adicione entrada no array `TOOLS` (com `aliases`, `kind`, `category`, `logo`, `group` = `subjects`/`tools`/`lang`)
+3. `index.html` **About page**: atualize o stat hardcoded `"N tópicos"` (linha com `ab-stat-n`)
+4. `README.md`: atualize a lista de assuntos fixos monitorados (seção "Assuntos fixos monitorados")
+5. `CLAUDE.md`: atualize a tabela de tópicos monitorados (esta seção abaixo)
+6. `skills/csr-news-daily.md`:
+   - Tabela de changelogs em "TÓPICOS MONITORADOS" com changelog oficial e fontes
+   - Tabela de conteúdo indireto (seção "Conteúdo indireto" / "Ecossistema como fallback")
+   - Distinção "Ferramentas com release" vs "Temas/domínios" (adicionar ao grupo correto)
+   - **4 locais** onde a lista de `tool_key` aparece: sanity check §7, subgrupos de tipos, schema `counts_by_tool`, Regras de Qualidade #14
+   - Queries específicas em "CATEGORIAS E QUERIES DE PESQUISA"
+7. `scripts/validate_editions.py`: adicione a `TOOL_KEYS_V{n}`
+8. Se **removido**: mova para "Tópicos legados" na tabela abaixo
+
+### Adicionar uma Linguagem de Programação
+
+> **PESQUISA DE FONTES ANTES** — ver protocolo acima. Linguagens têm mais peso: precisam de changelog oficial, blog de release, newsletter dedicada, tutoriais e fontes por sub-tópico (performance, web, async, tooling).
+
+1. Todos os passos de "Adicionar Tópico" acima
+2. `skills/csr-news-daily.md`: adicione seção dedicada em "Linguagens de Programação — fontes por tópico" com fontes top-tier
+3. Se a linguagem tiver versioning relevante para arquitetos: criar `data/{lang}-versions/index.json` e `{lang}-{N}.json` (modelo: `data/java-versions/`)
 
 ### Como classificar uma adição (Tópico, Categoria ou tag)
 
 **Sempre perguntar ao usuário qual dos três tipos é antes de implementar.**
 
-1. **Tópico** → vai para o array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto (modelagem, operação, integração, decisão técnica); encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: a skill busca conteúdo sobre ele TODOS OS DIAS, direto ou indireto.
-2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes (não é sub-tópico de outra). Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria.
-3. **Tag** → `tags[]` nos itens de `news[]`. Para tópicos transversais ou sub-tópicos que aparecem esporadicamente. Não muda a taxonomia.
-4. **Remoção**: Tópico ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição. Removidos em v3: `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
-5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
+1. **Tópico** → array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto; encaixa em uma categoria. Compromisso: skill busca conteúdo TODOS OS DIAS.
+2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes. Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria.
+3. **Tag** → `tags[]` em `news[]`. Tópicos transversais que aparecem esporadicamente. Não muda taxonomia.
+4. **Remoção**: Tópico/categoria que precisa de >3 `curiosity`/mês para cobertura mínima → avaliar substituição.
+5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, cutoff).
 
 ### Alterar queries de pesquisa
-- Edite em `skills/devpulse-daily.md` na seção "Categorias e Queries"
+- Edite em `skills/csr-news-daily.md` na seção "Categorias e Queries"
 
 ### Testar localmente
 ```bash
@@ -372,7 +397,7 @@ python3 scripts/generate_feed.py
 - Conteúdo de texto em português brasileiro
 - Caminhos relativos (funciona no GitHub Pages com subpath)
 - JSON com indentação de 2 espaços, emojis em UTF-8 literal (não escapados)
-- `localStorage` usa prefixo `dpco-` (DevPulse Console Ops)
+- `localStorage` usa prefixo `csrn-` (CsR News)
 
 ## Deploy
 

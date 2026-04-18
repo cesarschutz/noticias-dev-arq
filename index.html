@@ -21,14 +21,14 @@
 <meta name="twitter:title" content="CsR News">
 <meta name="twitter:description" content="Curadoria diária de notícias técnicas para arquitetos.">
 
-<link rel="icon" href="assets/devpulse-logo.svg">
+<link rel="icon" href="assets/csr-news-logo.svg">
 <link rel="alternate" type="application/rss+xml" title="CsR News · Edições" href="feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════
-   DEVPULSE CONSOLE OPS — Terminal layout × Mission palette
+   CSR NEWS CONSOLE OPS — Terminal layout × Mission palette
    ═══════════════════════════════════════════════════════ */
 :root, [data-theme="dark"] {
   --bg:         #060A10;
@@ -75,6 +75,7 @@
   --cat-enterprise:#FF9F45;
   --cat-distarch:  #818cf8;
   --cat-fintech:  #F0B429;
+  --cat-testing:  #84cc16;
   /* legacy aliases — mantidas para edições antigas */
   --cat-arqsw:    var(--cat-design);
   --cat-arqsol:   var(--cat-enterprise);
@@ -146,6 +147,7 @@
   --cat-enterprise:#C2570A;
   --cat-distarch:  #4F46E5;
   --cat-fintech:  #B7791F;
+  --cat-testing:  #5a7a09;
   /* legacy aliases */
   --cat-arqsw:    var(--cat-design);
   --cat-arqsol:   var(--cat-enterprise);
@@ -1720,7 +1722,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   overflow: hidden;
 }
 .ab-hero::before {
-  content: 'DevPulse';
+  content: 'CsR News';
   position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
   font-size: 88px; font-family: 'JetBrains Mono', monospace;
   color: var(--cyan); opacity: .04; pointer-events: none;
@@ -2241,7 +2243,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 <div class="boot" id="boot">
   <div class="boot-inner">
     <div class="boot-logo">
-      <img src="assets/devpulse-logo.svg" alt="CsR News">
+      <img src="assets/csr-news-logo.svg" alt="CsR News">
       <div>
         <div class="bt">CsR News</div>
         <div class="bs">mission control for architects</div>
@@ -2259,7 +2261,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <div class="logo-wrap">
-      <img src="assets/devpulse-logo.svg" alt="">
+      <img src="assets/csr-news-logo.svg" alt="">
       <div class="logo-txt">
         <span class="host">CsR News</span>
       </div>
@@ -2361,6 +2363,7 @@ const CAT_ICONS = {
   enterprise:'<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
   distarch: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
   fintech:  '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+  testing:  '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
   /* legacy — edições anteriores podem ter category:'arqsw'/'arqsol' */
   arqsw:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
   arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
@@ -2389,6 +2392,7 @@ const CAT = {
   backend:    { l:'backend',    lf:'Backend & Runtimes',     i:'🔧' },
   data:       { l:'data',       lf:'Dados & Streaming',      i:'🗄' },
   integ:      { l:'integ',      lf:'Integração & Eventos',   i:'🔌' },
+  testing:    { l:'testing',    lf:'Testes & Qualidade',     i:'⚗️' },
   // ── Arquitetura ──────────────────────────────────────────────────────────
   design:     { l:'design',     lf:'Design & Padrões',       i:'🏛' },
   distarch:   { l:'distarch',   lf:'Sist. Distribuídos',     i:'🕸' },
@@ -2483,11 +2487,11 @@ const STATE = {
   currentDate: null,
   currentEdition: null,
   view: 'about',
-  mode: localStorage.getItem('dpco-mode') || 'cards',
+  mode: localStorage.getItem('csrn-mode') || 'cards',
   filter: { urgent: false },
   cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
-  readLater: JSON.parse(localStorage.getItem('dpco-read-later') || '[]'),
-  readLaterSort: localStorage.getItem('dpco-rl-sort') || 'saved',
+  readLater: JSON.parse(localStorage.getItem('csrn-read-later') || '[]'),
+  readLaterSort: localStorage.getItem('csrn-rl-sort') || 'saved',
   startedAt: Date.now()
 };
 
@@ -2518,7 +2522,7 @@ function toggleReadLater(item){
     STATE.readLater.splice(i, 1);
     toast('✗ removido de "ler depois"');
   }
-  localStorage.setItem('dpco-read-later', JSON.stringify(STATE.readLater));
+  localStorage.setItem('csrn-read-later', JSON.stringify(STATE.readLater));
   updateRlBadge();
 }
 function updateRlBadge(){
@@ -2541,7 +2545,7 @@ function toast(msg, ms){
 
 /* ═══ Theme ═══ */
 function initTheme(){
-  const saved = localStorage.getItem('dpco-theme') || 'dark';
+  const saved = localStorage.getItem('csrn-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', saved);
   updateThemeIcon(saved);
   $('themeBtn').onclick = toggleTheme;
@@ -2550,7 +2554,7 @@ function toggleTheme(){
   const cur = document.documentElement.getAttribute('data-theme');
   const next = cur === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('dpco-theme', next);
+  localStorage.setItem('csrn-theme', next);
   updateThemeIcon(next);
 }
 function updateThemeIcon(theme){
@@ -2673,7 +2677,7 @@ function bootStep(i, data){
     setTimeout(() => {
       $('boot').classList.add('gone');
       setTimeout(() => $('boot').remove(), 600);
-      sessionStorage.setItem('dpco-booted', '1');
+      sessionStorage.setItem('csrn-booted', '1');
     }, 280);
     return;
   }
@@ -3124,12 +3128,12 @@ function renderAbout(){
 
     <!-- Hero -->
     <div class="ab-hero">
-      <div class="ab-hero-prompt">$ cat README.about · DevPulse Arquivo</div>
-      <h1 class="ab-hero-title">DevPulse · Arquivo Diário do Arquiteto</h1>
+      <div class="ab-hero-prompt">$ cat README.about · CsR News Arquivo</div>
+      <h1 class="ab-hero-title">CsR News · Arquivo Diário do Arquiteto</h1>
       <p class="ab-hero-sub">Noticiário técnico curado e gerado diariamente às 6h BRT, pensado para arquitetos de software e solução que precisam se manter atualizados sem ruído.</p>
       <div class="ab-stats">
         <div class="ab-stat"><span class="ab-stat-n">${totalEditions || '—'}</span><span class="ab-stat-l">edições</span></div>
-        <div class="ab-stat"><span class="ab-stat-n">12</span><span class="ab-stat-l">categorias</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">13</span><span class="ab-stat-l">categorias</span></div>
         <div class="ab-stat"><span class="ab-stat-n">37</span><span class="ab-stat-l">tópicos</span></div>
         <div class="ab-stat"><span class="ab-stat-n">6h</span><span class="ab-stat-l">BRT · diário</span></div>
         <div class="ab-stat"><span class="ab-stat-n">5</span><span class="ab-stat-l">frases/edição</span></div>
@@ -3259,7 +3263,7 @@ function renderReadLater(){
   const sortEl = $('readLaterSort');
   if (sortEl) sortEl.onchange = (e) => {
     STATE.readLaterSort = e.target.value;
-    localStorage.setItem('dpco-rl-sort', STATE.readLaterSort);
+    localStorage.setItem('csrn-rl-sort', STATE.readLaterSort);
     renderReadLater();
   };
   if ($('rlExport')) $('rlExport').onclick = exportReadLater;
@@ -3267,7 +3271,7 @@ function renderReadLater(){
     if (!STATE.readLater.length) return;
     if (!confirm('Limpar toda a lista "ler depois"?')) return;
     STATE.readLater = [];
-    localStorage.setItem('dpco-read-later', JSON.stringify(STATE.readLater));
+    localStorage.setItem('csrn-read-later', JSON.stringify(STATE.readLater));
     updateRlBadge();
     renderReadLater();
   };
@@ -3913,7 +3917,7 @@ document.addEventListener('click', (e) => {
   const modeBtn = e.target.closest('.mode-btn');
   if (modeBtn) {
     STATE.mode = modeBtn.dataset.mode;
-    localStorage.setItem('dpco-mode', STATE.mode);
+    localStorage.setItem('csrn-mode', STATE.mode);
     renderMain();
     return;
   }
@@ -4133,7 +4137,7 @@ document.addEventListener('keydown', (e) => {
 
 /* ═══ Init ═══ */
 async function init(){
-  const alreadyBooted = sessionStorage.getItem('dpco-booted') === '1';
+  const alreadyBooted = sessionStorage.getItem('csrn-booted') === '1';
   if (alreadyBooted) {
     skipBoot();
   } else {

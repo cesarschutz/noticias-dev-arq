@@ -1,15 +1,16 @@
 #!/bin/bash
-# DevPulse — Commit e push de novas edições
+# CsR News — Commit e push de novas edições
 # Rode após o Cowork gerar os JSONs:
 #   cd ~/Downloads/noticias-arq && ./push.sh
 #
-# Pode ser chamado por LaunchAgent. Log em ~/Library/Logs/devpulse-push.log com rotação simples.
+# Pode ser chamado por LaunchAgent. Log em ~/Library/Logs/csr-news-push.log com rotação simples.
+# NOTA: Se renomear o Label do LaunchAgent local, rodar: launchctl unload/load do .plist em ~/Library/LaunchAgents/
 
 set -u
 cd "$(dirname "$0")" || exit 1
 
 LOG_DIR="$HOME/Library/Logs"
-LOG_FILE="$LOG_DIR/devpulse-push.log"
+LOG_FILE="$LOG_DIR/csr-news-push.log"
 mkdir -p "$LOG_DIR"
 
 # Rotação simples: se > 1MB, arquiva
@@ -19,7 +20,7 @@ fi
 
 log() { printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$LOG_FILE"; }
 
-log "─── DevPulse push iniciado ───"
+log "─── CsR News push iniciado ───"
 
 # Verifica se há mudanças em data/
 if git diff --quiet data/ && git diff --cached --quiet data/ && [ -z "$(git ls-files --others --exclude-standard data/)" ]; then
@@ -36,7 +37,7 @@ fi
 log "→ Edição detectada: $LATEST"
 
 git add data/
-if ! git commit -m "feat: DevPulse edição de $LATEST" >>"$LOG_FILE" 2>&1; then
+if ! git commit -m "feat: CsR News edição de $LATEST" >>"$LOG_FILE" 2>&1; then
   log "✗ Falha no commit (veja log acima)"
   exit 1
 fi
