@@ -54,6 +54,17 @@ Para cada assunto (`tool_key`), verifique se encontrou ao menos 1 item em `tools
 
 O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 26 assuntos do sistema.
 
+**Tom obrigatório — "pílulas difíceis de engolir":**
+
+O objetivo principal é usar a literatura técnica para dizer o que QA, desenvolvedores, gestores e times em geral **não gostam de ouvir** — mas que os melhores autores já disseram com clareza. Pense em frases que:
+- Deixam QA nervoso ("testes manuais são dívida técnica disfarçada de trabalho")
+- Incomodam devs que evitam refatorar ("código que você tem medo de mudar é código que você não entende")
+- Confrontam gestores que cortam qualidade ("mover mais rápido quebrando coisas é uma ilusão — você paga a conta com juros")
+- Desafiam times que "resolveram" arquitetura com buzzwords ("microserviço não resolveu seu problema de acoplamento — só o tornou distribuído")
+- Expõem práticas ruins que todos fazem mas ninguém admite ("se você só testa em produção, produção é o seu ambiente de teste")
+
+**Misture os dois estilos** — cerca de 60% de frases provocadoras/difíceis e 40% de frases clássicas motivacionais de acordo com as categorias. As provocadoras devem sempre ter embasamento em literatura real (livro, paper, talk, post de autor reconhecido).
+
 **Formato de cada item:**
 ```json
 {
@@ -74,23 +85,32 @@ O arquivo `data/quotes.json` contém frases de referência de autores do setor t
 - Exemplos de URLs aceitáveis: `https://martinfowler.com/bliki/MonolithFirst.html`, `https://dataintensive.net/`, `https://principlesofchaos.org/`
 - Exemplos de URLs **proibidas**: `https://aws.amazon.com/`, `https://kafka.apache.org/`, `https://spring.io/`
 
+**Exemplos do tom provocador esperado (use como referência de estilo, não copie):**
+- `"Se você tem medo de implantar na sexta-feira, o problema não é a sexta — é o seu processo de implantação."` — Jez Humble
+- `"Dívida técnica não é ruim. Dívida técnica que ninguém sabe que existe é."` — Martin Fowler
+- `"Teste manual repetitivo não é garantia de qualidade — é postergação de automação."` — Lisa Crispin
+- `"Todo mundo quer escalabilidade. Ninguém quer pagar o preço em complexidade que ela exige."` — Martin Kleppmann
+- `"Você não tem um problema de microserviços. Você tem um problema de domínio que agora está espalhado em 30 serviços."` — Sam Newman
+- `"Zero-trust significa que você não confia nem na sua própria rede interna. Se isso incomoda alguém, esse alguém nunca leu um relatório de breach."` — John Kindervag
+- `"Observabilidade não é um painel bonito — é a capacidade de fazer perguntas que você ainda não sabia que precisaria fazer."` — Charity Majors
+
 **Distribuição mínima por categoria:**
-- `cat:arqsw` — 10+ frases (DDD, Clean Architecture, C4, padrões, Martin Fowler, Eric Evans, Sam Newman, Simon Brown)
-- `cat:arqsol` — 8+ frases (Gregor Hohpe, Mark Richards, arquitetura enterprise, TOGAF, trade-offs)
-- `cat:backend` — 8+ frases (Java, Spring, JVM, Joshua Bloch, James Gosling, performance, GraalVM)
-- `cat:integ` — 6+ frases (Kafka, APIs REST, event-driven, Jay Kreps, Pat Helland, Roy Fielding)
-- `cat:devops` — 8+ frases (Kubernetes, Docker, CI/CD, SRE, Jez Humble, Nicole Forsgren, Gene Kim, Kelsey Hightower)
-- `cat:sec` — 6+ frases (zero-trust, Bruce Schneier, OWASP, IAM, Keycloak, DevSecOps)
-- `cat:obs` — 5+ frases (Charity Majors, Cindy Sridharan, três pilares, alertas)
-- `cat:data` — 6+ frases (Martin Kleppmann, streaming, PostgreSQL, modelagem)
-- `cat:ai` — 6+ frases (LLMs, agentes, RAG, ferramentas de AI coding, Cursor, Claude Code)
-- `cat:aws` — 5+ frases (Werner Vogels, serverless, cloud-native, Well-Architected)
-- `general` — 5+ frases (Knuth, Dijkstra, Kent Beck, princípios universais)
+- `cat:arqsw` — 10+ frases (DDD, Clean Architecture, C4, padrões, testes, refatoração, dívida técnica — tom provocador aqui)
+- `cat:arqsol` — 8+ frases (trade-offs reais, buzzwords expostos, Conway's Law, TOGAF na prática)
+- `cat:backend` — 8+ frases (Java, Spring, JVM, performance, "otimização prematura", code quality)
+- `cat:integ` — 6+ frases (APIs quebradas, versionamento ignorado, event-driven mal implementado)
+- `cat:devops` — 8+ frases (deploy com medo, rollback inexistente, "funciona no meu ambiente", CI/CD teatro)
+- `cat:sec` — 6+ frases (segurança como afterthought, senhas em código, zero-trust ignorado)
+- `cat:obs` — 5+ frases (alertas ignorados, logs sem estrutura, "sabemos quando o cliente reclama")
+- `cat:data` — 6+ frases (consistência eventual mal entendida, schema sem versão, migrations de terror)
+- `cat:ai` — 6+ frases (IA não substitui raciocínio, alucinação como problema de produto, hype vs realidade)
+- `cat:aws` — 5+ frases (lift-and-shift sem mudança, custos de cloud surpresa, serverless mal aplicado)
+- `general` — 5+ frases (verdades universais sobre software que continuam sendo ignoradas)
 - Por assuntos específicos (`tool:*`) — pelo menos 1 por assunto monitorado
 
-**Autores a incluir (mínimo):** Martin Fowler, Eric Evans, Sam Newman, Gregor Hohpe, Mark Richards, Simon Brown, Martin Kleppmann, Jay Kreps, Pat Helland, Kelsey Hightower, Jez Humble, Nicole Forsgren, Gene Kim, Bruce Schneier, John Kindervag, Charity Majors, Cindy Sridharan, Joshua Bloch, James Gosling, Roy Fielding, Werner Vogels, Rich Hickey, Donald Knuth, Edsger Dijkstra, Kent Beck.
+**Autores a incluir (mínimo):** Martin Fowler, Eric Evans, Sam Newman, Gregor Hohpe, Mark Richards, Simon Brown, Martin Kleppmann, Jay Kreps, Pat Helland, Kelsey Hightower, Jez Humble, Nicole Forsgren, Gene Kim, Bruce Schneier, John Kindervag, Charity Majors, Cindy Sridharan, Joshua Bloch, James Gosling, Roy Fielding, Werner Vogels, Rich Hickey, Donald Knuth, Edsger Dijkstra, Kent Beck, Lisa Crispin, Robert C. Martin, Michael Feathers.
 
-**Tradução**: frases originalmente em inglês devem ser traduzidas para **português brasileiro** de forma fluente — não literal. A tradução deve soar natural para um arquiteto brasileiro.
+**Tradução**: frases originalmente em inglês devem ser traduzidas para **português brasileiro** de forma fluente — não literal. A tradução deve soar natural e com o punch original preservado.
 
 ---
 

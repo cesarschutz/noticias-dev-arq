@@ -367,6 +367,21 @@ button { font-family: inherit; color: inherit; }
   color: var(--cyan);
   opacity: .8;
 }
+.verse-cross-link {
+  display: flex; align-items: center;
+  flex-shrink: 0;
+  opacity: .8;
+  transition: opacity .2s;
+  color: var(--cyan);
+}
+.verse-cross-link:hover { opacity: 1; }
+a.verse-text-wrap {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+a.verse-text-wrap:hover .verse-text { color: var(--fg); }
+a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(--cyan); }
 .verse-text-wrap {
   display: flex;
   align-items: baseline;
@@ -3556,18 +3571,36 @@ function initVerses(){
     .catch(() => {});
 }
 
+function verseRefToUrl(ref) {
+  const BK = { 'Mateus':'MAT', 'Marcos':'MRK', 'Lucas':'LUK', 'João':'JHN' };
+  const m = ref.match(/^([^\d]+?)\s+(\d+):(\d+)/);
+  if (!m) return null;
+  const book = BK[m[1].trim()];
+  if (!book) return null;
+  return `https://www.bible.com/pt/bible/129/${book}.${m[2]}.${m[3]}.NVI`;
+}
+
 function showVerse(){
   if (!_verseDeck.length) return;
   const v = _verseDeck[_verseIdx];
   const wrap = $('verse-wrap');
   const textEl = $('verse-text');
   const refEl = $('verse-ref');
+  const crossLink = $('verse-cross-link');
   if (!wrap) return;
   wrap.classList.remove('v-in');
   wrap.classList.add('v-out');
   setTimeout(() => {
     textEl.textContent = '\u201c' + v.text + '\u201d';
     refEl.textContent = v.ref;
+    const url = verseRefToUrl(v.ref);
+    if (url) {
+      wrap.href = url;
+      if (crossLink) crossLink.href = url;
+    } else {
+      wrap.removeAttribute('href');
+      if (crossLink) crossLink.removeAttribute('href');
+    }
     wrap.classList.remove('v-out');
     wrap.classList.add('v-in');
   }, 420);
@@ -3605,15 +3638,17 @@ initQuotes();
 
 <!-- VERSE FOOTER -->
 <footer class="verse-bar" id="verse-bar" aria-live="polite">
-  <div class="verse-text-wrap" id="verse-wrap">
+  <a class="verse-text-wrap" id="verse-wrap" target="_blank" rel="noopener noreferrer" title="Abrir versículo na Bíblia">
     <span class="verse-text" id="verse-text">—</span>
     <span class="verse-ref" id="verse-ref"></span>
-  </div>
+  </a>
   <!-- Cruz latina — símbolo cristão / Igreja Metodista -->
-  <svg class="verse-symbol" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect x="6.5" y="0" width="3" height="22" rx="1" fill="currentColor"/>
-    <rect x="0"   y="6" width="16" height="3" rx="1" fill="currentColor"/>
-  </svg>
+  <a id="verse-cross-link" class="verse-cross-link" target="_blank" rel="noopener noreferrer" title="Abrir versículo na Bíblia">
+    <svg class="verse-symbol" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="6.5" y="0" width="3" height="22" rx="1" fill="currentColor"/>
+      <rect x="0"   y="6" width="16" height="3" rx="1" fill="currentColor"/>
+    </svg>
+  </a>
 </footer>
 </body>
 </html>
