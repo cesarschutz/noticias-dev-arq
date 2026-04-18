@@ -44,114 +44,10 @@ Para **tópicos** em `tools[]` — **1 obrigatório por tópico**:
 3. Se não encontrar conteúdo fresco para um tópico: use evergreen — artigo clássico, tutorial fundamental, documentação relevante. **Nunca omita** um tópico. **Nunca repita URLs das últimas 7 edições**.
 
 **Arquivos a criar do zero** (em ordem):
-1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
-2. `data/verses.json` — 100+ versículos de Jesus dos Evangelhos em português (ver protocolo abaixo).
-3. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-4. `data/{YYYY-MM-DD}.json` — edição do dia.
+1. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
+2. `data/{YYYY-MM-DD}.json` — edição do dia.
 
----
-
-#### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
-
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 13 categorias e 42 tópicos do sistema.
-
-**Tom obrigatório — "pílulas difíceis de engolir":**
-
-O objetivo principal é usar a literatura técnica para dizer o que QA, desenvolvedores, gestores e times em geral **não gostam de ouvir** — mas que os melhores autores já disseram com clareza. Pense em frases que:
-- Deixam QA nervoso ("testes manuais são dívida técnica disfarçada de trabalho")
-- Incomodam devs que evitam refatorar ("código que você tem medo de mudar é código que você não entende")
-- Confrontam gestores que cortam qualidade ("mover mais rápido quebrando coisas é uma ilusão — você paga a conta com juros")
-- Desafiam times que "resolveram" arquitetura com buzzwords ("microserviço não resolveu seu problema de acoplamento — só o tornou distribuído")
-- Expõem práticas ruins que todos fazem mas ninguém admite ("se você só testa em produção, produção é o seu ambiente de teste")
-
-**Misture os dois estilos** — cerca de 60% de frases provocadoras/difíceis e 40% de frases clássicas motivacionais de acordo com as categorias. As provocadoras devem sempre ter embasamento em literatura real (livro, paper, talk, post de autor reconhecido).
-
-**Formato de cada item:**
-```json
-{
-  "text": "texto da frase em português",
-  "author": "Nome do autor",
-  "context": "Uma frase de contexto — o que é, de onde vem, relevância",
-  "related_to": "cat:design",
-  "url": "https://url-real-e-verificada.com/artigo-especifico"
-}
-```
-
-**Campo `related_to`**: use `"cat:<chave>"` para categorias, `"tool:<tool_key>"` para assuntos específicos, ou `"general"` para transversais.
-
-**Regras obrigatórias para `url`:**
-- **NUNCA invente URLs** — cada URL deve ser real e acessível.
-- Use WebSearch para encontrar a URL; prefira sempre resultados que já mostram o título e trecho do artigo no snippet, confirmando que é o conteúdo certo.
-- URLs devem ser **específicas**: artigos, posts de blog, papers, docs de versão — não homepages nem raízes de seção.
-- **Releases obrigatoriamente apontam para a release específica**: o path deve conter um número de versão, tag ou data (`/releases/tag/v1.2.3`, `/changelog/2026-04-18`, `/release-notes/1.18.0`). PROIBIDO: `/releases/`, `/changelog/`, `/release-notes/` sem slug específico — isso é raiz de índice, não a notícia.
-- **O artigo deve tratar PRINCIPALMENTE do tópico reportado**: se o artigo é sobre X mas menciona Y de passagem e você o usa para cobrir Y, descarte e busque outro. A URL é evidência do item — não uma referência tangencial.
-- **Profundidade mínima de path**: a URL deve ter ao menos um slug significativo após o domínio e a seção (`/blog/post-slug`, não apenas `/blog/`).
-- Exemplos de URLs aceitáveis: `https://martinfowler.com/bliki/MonolithFirst.html`, `https://github.com/docker/docker/releases/tag/v26.1.0`, `https://kubernetes.io/blog/2026/04/18/new-feature/`
-- Exemplos de URLs **proibidas**: `https://aws.amazon.com/`, `https://kafka.apache.org/`, `https://spring.io/`, `https://docs.docker.com/engine/release-notes/` (raiz do changelog), `https://github.com/kubernetes/kubernetes/releases` (lista, não release específica)
-
-**Exemplos do tom provocador esperado (use como referência de estilo, não copie):**
-- `"Se você tem medo de implantar na sexta-feira, o problema não é a sexta — é o seu processo de implantação."` — Jez Humble
-- `"Dívida técnica não é ruim. Dívida técnica que ninguém sabe que existe é."` — Martin Fowler
-- `"Teste manual repetitivo não é garantia de qualidade — é postergação de automação."` — Lisa Crispin
-- `"Todo mundo quer escalabilidade. Ninguém quer pagar o preço em complexidade que ela exige."` — Martin Kleppmann
-- `"Você não tem um problema de microserviços. Você tem um problema de domínio que agora está espalhado em 30 serviços."` — Sam Newman
-- `"Zero-trust significa que você não confia nem na sua própria rede interna. Se isso incomoda alguém, esse alguém nunca leu um relatório de breach."` — John Kindervag
-- `"Observabilidade não é um painel bonito — é a capacidade de fazer perguntas que você ainda não sabia que precisaria fazer."` — Charity Majors
-
-**Distribuição mínima por categoria:**
-- `cat:design` — 10+ frases (DDD, Clean Architecture, C4, padrões, testes, refatoração, dívida técnica — tom provocador aqui)
-- `cat:enterprise` — 6+ frases (trade-offs reais, buzzwords expostos, Conway's Law, TOGAF na prática)
-- `cat:distarch` — 6+ frases (microsserviços mal feitos, eventual consistency, post-mortems, cloud-native na prática)
-- `cat:backend` — 8+ frases (Java, Spring, JVM, performance, "otimização prematura", code quality)
-- `cat:integ` — 6+ frases (APIs quebradas, versionamento ignorado, event-driven mal implementado)
-- `cat:devops` — 8+ frases (deploy com medo, rollback inexistente, "funciona no meu ambiente", CI/CD teatro)
-- `cat:sec` — 6+ frases (segurança como afterthought, senhas em código, zero-trust ignorado)
-- `cat:obs` — 5+ frases (alertas ignorados, logs sem estrutura, "sabemos quando o cliente reclama")
-- `cat:data` — 6+ frases (consistência eventual mal entendida, schema sem versão, migrations de terror)
-- `cat:ai` — 6+ frases (IA não substitui raciocínio, alucinação como problema de produto, hype vs realidade)
-- `cat:aws` — 5+ frases (lift-and-shift sem mudança, custos de cloud surpresa, serverless mal aplicado)
-- `general` — 5+ frases (verdades universais sobre software que continuam sendo ignoradas)
-- Por assuntos específicos (`tool:*`) — pelo menos 1 por assunto monitorado
-
-**Autores a incluir (mínimo):** Martin Fowler, Eric Evans, Sam Newman, Gregor Hohpe, Mark Richards, Simon Brown, Martin Kleppmann, Jay Kreps, Pat Helland, Kelsey Hightower, Jez Humble, Nicole Forsgren, Gene Kim, Bruce Schneier, John Kindervag, Charity Majors, Cindy Sridharan, Joshua Bloch, James Gosling, Roy Fielding, Werner Vogels, Rich Hickey, Donald Knuth, Edsger Dijkstra, Kent Beck, Lisa Crispin, Robert C. Martin, Michael Feathers.
-
-**Tradução**: frases originalmente em inglês devem ser traduzidas para **português brasileiro** de forma fluente — não literal. A tradução deve soar natural e com o punch original preservado.
-
----
-
-#### PROTOCOLO: Gerar `data/verses.json` (primeira execução)
-
-O arquivo `data/verses.json` contém versículos de Jesus dos Evangelhos, exibidos no rodapé da SPA a cada 30 segundos.
-
-**Formato de cada item:**
-```json
-{ "text": "texto do versículo em português", "ref": "João 3:16" }
-```
-
-**Gere 120 ou mais versículos**, exclusivamente palavras de Jesus (discursos, parábolas, declarações diretas) dos quatro Evangelhos: Mateus, Marcos, Lucas e João.
-
-**Fontes de referência** — use textos das seguintes traduções:
-- **Almeida Revista e Corrigida (ARC)** — versão clássica, mais usada no Brasil.
-- **Nova Versão Internacional (NVI)** — linguagem contemporânea.
-- **João Ferreira de Almeida (ARA)** — versão de referência.
-
-**Distribuição recomendada:**
-- João: 40+ versículos (especialmente os discursos do Sermão do Aposento Alto, João 14-17, e os "Eu Sou")
-- Mateus: 40+ versículos (Sermão da Montanha, Mateus 5-7, parábolas, comissão)
-- Lucas: 20+ versículos (parábolas únicas de Lucas, discursos)
-- Marcos: 10+ versículos (frases diretas e concisas de Marcos)
-
-**Temas a cobrir obrigatoriamente:**
-- Os 7 "Eu Sou" de João (pão da vida, luz, porta, bom pastor, ressurreição, caminho/verdade/vida, videira)
-- Bem-aventuranças completas (Mateus 5:3-11)
-- O Grande Mandamento (Mateus 22:37-40)
-- A Grande Comissão (Mateus 28:18-20)
-- Promessas do Paráclito / Espírito Santo (João 14-16)
-- Oração Sumo Sacerdotal (João 17) — frases principais
-- Parábolas: filho pródigo (Lucas 15), bom samaritano (Lucas 10), sementes, talentos
-- Declarações sobre fé, oração, perdão, amor ao próximo
-
-**NÃO inclua:** versículos de outros autores bíblicos (Paulo, Pedro, João apóstolo em suas cartas), apenas as palavras diretas de Jesus nos Evangelhos.
+> `data/quotes.json` e `data/verses.json` **já existem no repositório — nunca criar, nunca modificar, nunca apagar**. Use-os como estão.
 
 ---
 
@@ -773,8 +669,6 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Consistência `severity`+`urgent`**: item `category:"sec"` com `urgent:true` → `severity` obrigatório.
 - [ ] **Formato CVE**: `CVE-YYYY-NNNNN`. Sem espaços, com hífen.
 - [ ] **Balanço de `kind`**: >70% de `tip`+`curiosity` em `tools[]` = edição fraca. Substitua com evergreen `tutorial`/`news`.
-- [ ] **`data/quotes.json` com ≥80 itens** (MODO PRIMEIRA EXECUÇÃO).
-- [ ] **`data/verses.json` com ≥120 itens** (MODO PRIMEIRA EXECUÇÃO).
 
 Se algum check falhar: busque mais conteúdo e corrija. Só então salve.
 
@@ -812,10 +706,8 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
 
 *MODO PRIMEIRA EXECUÇÃO — ordem de escrita:*
-1. `data/quotes.json` (≥80 frases)
-2. `data/verses.json` (≥120 versículos)
-3. `data/editions.json` (com primeira edição)
-4. `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
+1. `data/editions.json` (com primeira edição)
+2. `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
 
 **NÃO faça git push** — o LaunchAgent em `push.sh` detecta a mudança e envia automaticamente.
 

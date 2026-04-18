@@ -27,8 +27,8 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ├── data/
 │   ├── editions.json               # Índice mestre + counts por categoria/assunto fixo
 │   ├── {YYYY-MM-DD}.json           # Dados completos de cada dia
-│   ├── quotes.json                 # 80+ frases de autores técnicos (gerado na 1ª execução)
-│   ├── verses.json                 # 120+ versículos de Jesus em PT-BR (gerado na 1ª execução)
+│   ├── quotes.json                 # 80+ frases de autores técnicos (fixo no repositório — nunca recriar)
+│   ├── verses.json                 # 120+ versículos de Jesus em PT-BR (fixo no repositório — nunca recriar)
 │   ├── java-versions/
 │   │   ├── index.json              # Índice de versões Java (atualizado a cada execução)
 │   │   └── java-{N}.json           # JEPs e detalhes — Java 11 até atual
