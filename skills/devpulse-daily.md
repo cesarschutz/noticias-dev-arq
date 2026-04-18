@@ -43,8 +43,90 @@ Para cada assunto (`tool_key`), verifique se encontrou ao menos 1 item em `tools
 - Se faltou algum, faça busca adicional para ele ou use conteúdo indireto do ecossistema (ver seção FERRAMENTAS MONITORADAS).
 
 **Arquivos a criar do zero** (em ordem):
-1. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-2. `data/{YYYY-MM-DD}.json` — edição do dia.
+1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
+2. `data/verses.json` — 100+ versículos de Jesus dos Evangelhos em português (ver protocolo abaixo).
+3. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
+4. `data/{YYYY-MM-DD}.json` — edição do dia.
+
+---
+
+#### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
+
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 26 assuntos do sistema.
+
+**Formato de cada item:**
+```json
+{
+  "text": "texto da frase em português",
+  "author": "Nome do autor",
+  "context": "Uma frase de contexto — o que é, de onde vem, relevância",
+  "related_to": "cat:arqsw",
+  "url": "https://url-real-e-verificada.com/artigo-especifico"
+}
+```
+
+**Campo `related_to`**: use `"cat:<chave>"` para categorias, `"tool:<tool_key>"` para assuntos específicos, ou `"general"` para transversais.
+
+**Regras obrigatórias para `url`:**
+- **NUNCA invente URLs** — cada URL deve ser real e acessível.
+- Use WebSearch para confirmar que a URL existe antes de incluí-la.
+- URLs devem ser **específicas**: artigos, livros, papers, posts — não homepages de vendor.
+- Exemplos de URLs aceitáveis: `https://martinfowler.com/bliki/MonolithFirst.html`, `https://dataintensive.net/`, `https://principlesofchaos.org/`
+- Exemplos de URLs **proibidas**: `https://aws.amazon.com/`, `https://kafka.apache.org/`, `https://spring.io/`
+
+**Distribuição mínima por categoria:**
+- `cat:arqsw` — 10+ frases (DDD, Clean Architecture, C4, padrões, Martin Fowler, Eric Evans, Sam Newman, Simon Brown)
+- `cat:arqsol` — 8+ frases (Gregor Hohpe, Mark Richards, arquitetura enterprise, TOGAF, trade-offs)
+- `cat:backend` — 8+ frases (Java, Spring, JVM, Joshua Bloch, James Gosling, performance, GraalVM)
+- `cat:integ` — 6+ frases (Kafka, APIs REST, event-driven, Jay Kreps, Pat Helland, Roy Fielding)
+- `cat:devops` — 8+ frases (Kubernetes, Docker, CI/CD, SRE, Jez Humble, Nicole Forsgren, Gene Kim, Kelsey Hightower)
+- `cat:sec` — 6+ frases (zero-trust, Bruce Schneier, OWASP, IAM, Keycloak, DevSecOps)
+- `cat:obs` — 5+ frases (Charity Majors, Cindy Sridharan, três pilares, alertas)
+- `cat:data` — 6+ frases (Martin Kleppmann, streaming, PostgreSQL, modelagem)
+- `cat:ai` — 6+ frases (LLMs, agentes, RAG, ferramentas de AI coding, Cursor, Claude Code)
+- `cat:aws` — 5+ frases (Werner Vogels, serverless, cloud-native, Well-Architected)
+- `general` — 5+ frases (Knuth, Dijkstra, Kent Beck, princípios universais)
+- Por assuntos específicos (`tool:*`) — pelo menos 1 por assunto monitorado
+
+**Autores a incluir (mínimo):** Martin Fowler, Eric Evans, Sam Newman, Gregor Hohpe, Mark Richards, Simon Brown, Martin Kleppmann, Jay Kreps, Pat Helland, Kelsey Hightower, Jez Humble, Nicole Forsgren, Gene Kim, Bruce Schneier, John Kindervag, Charity Majors, Cindy Sridharan, Joshua Bloch, James Gosling, Roy Fielding, Werner Vogels, Rich Hickey, Donald Knuth, Edsger Dijkstra, Kent Beck.
+
+**Tradução**: frases originalmente em inglês devem ser traduzidas para **português brasileiro** de forma fluente — não literal. A tradução deve soar natural para um arquiteto brasileiro.
+
+---
+
+#### PROTOCOLO: Gerar `data/verses.json` (primeira execução)
+
+O arquivo `data/verses.json` contém versículos de Jesus dos Evangelhos, exibidos no rodapé da SPA a cada 30 segundos.
+
+**Formato de cada item:**
+```json
+{ "text": "texto do versículo em português", "ref": "João 3:16" }
+```
+
+**Gere 120 ou mais versículos**, exclusivamente palavras de Jesus (discursos, parábolas, declarações diretas) dos quatro Evangelhos: Mateus, Marcos, Lucas e João.
+
+**Fontes de referência** — use textos das seguintes traduções:
+- **Almeida Revista e Corrigida (ARC)** — versão clássica, mais usada no Brasil.
+- **Nova Versão Internacional (NVI)** — linguagem contemporânea.
+- **João Ferreira de Almeida (ARA)** — versão de referência.
+
+**Distribuição recomendada:**
+- João: 40+ versículos (especialmente os discursos do Sermão do Aposento Alto, João 14-17, e os "Eu Sou")
+- Mateus: 40+ versículos (Sermão da Montanha, Mateus 5-7, parábolas, comissão)
+- Lucas: 20+ versículos (parábolas únicas de Lucas, discursos)
+- Marcos: 10+ versículos (frases diretas e concisas de Marcos)
+
+**Temas a cobrir obrigatoriamente:**
+- Os 7 "Eu Sou" de João (pão da vida, luz, porta, bom pastor, ressurreição, caminho/verdade/vida, videira)
+- Bem-aventuranças completas (Mateus 5:3-11)
+- O Grande Mandamento (Mateus 22:37-40)
+- A Grande Comissão (Mateus 28:18-20)
+- Promessas do Paráclito / Espírito Santo (João 14-16)
+- Oração Sumo Sacerdotal (João 17) — frases principais
+- Parábolas: filho pródigo (Lucas 15), bom samaritano (Lucas 10), sementes, talentos
+- Declarações sobre fé, oração, perdão, amor ao próximo
+
+**NÃO inclua:** versículos de outros autores bíblicos (Paulo, Pedro, João apóstolo em suas cartas), apenas as palavras diretas de Jesus nos Evangelhos.
 
 ---
 
@@ -125,18 +207,22 @@ Antes de chamar Write:
 - [ ] **`tools[]` com 26 itens**: cada `tool_key` aparece exatamente 1 vez. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
+- [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
+- [ ] **`data/verses.json` com ≥ 120 itens** (somente MODO PRIMEIRA EXECUÇÃO) — apenas palavras de Jesus dos Evangelhos em PT-BR.
 
 Se algum check falhar, busque mais conteúdo e corrija antes de escrever.
 
 ### 8. Salvar arquivos
 
 **MODO PRIMEIRA EXECUÇÃO:**
-1. Crie `data/editions.json` do zero com a estrutura:
+1. Escreva `data/quotes.json` — array de 80+ frases geradas conforme protocolo acima.
+2. Escreva `data/verses.json` — array de 120+ versículos de Jesus conforme protocolo acima.
+3. Crie `data/editions.json` do zero com a estrutura:
    ```json
    { "last_generated": "<ISO timestamp agora>", "editions": [ <entrada da edição de hoje> ] }
    ```
-2. Escreva `data/editions.json` **PRIMEIRO**.
-3. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
+4. Escreva `data/editions.json`.
+5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
 
 **MODO NORMAL:**
 1. Leia `data/editions.json`.

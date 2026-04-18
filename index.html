@@ -2553,7 +2553,9 @@ function renderRail(){
 }
 
 /* ═══ Quote do dia ═══ */
-const STATIC_QUOTES = [
+// Quotes carregadas de data/quotes.json — geradas pela skill na primeira execução
+let _allQuotes = [];
+const STATIC_QUOTES_LEGACY = [
   // Java & JVM
   { text: 'Escreva uma vez, execute em qualquer lugar.', author: 'James Gosling', context: 'Portabilidade Java — princípio fundador da JVM', related_to: 'cat:backend', url: 'https://www.oracle.com/java/technologies/java-se-glance.html' },
   { text: 'Java é C++ sem as armas, tacos e facas. A linguagem nasceu da necessidade de segurança e portabilidade, não de velocidade bruta.', author: 'James Gosling', context: 'Filosofia de design da linguagem Java', related_to: 'cat:backend', url: 'https://www.infoq.com/presentations/effective-api-design/' },
@@ -2645,7 +2647,7 @@ function shuffleArray(arr) {
 let _quoteDeck = [];
 let _deckIdx  = 0;
 
-function currentQuotes(){ return STATIC_QUOTES; }
+function currentQuotes(){ return _allQuotes.length ? _allQuotes : STATIC_QUOTES_LEGACY; }
 
 function labelForRelation(rel){
   if (!rel || rel === 'general') return '';
@@ -2684,8 +2686,10 @@ function renderQuote(q){
 }
 
 function cycleQuote(){
+  const pool = currentQuotes();
+  if (!pool.length) return;
   if (!_quoteDeck.length || _deckIdx >= _quoteDeck.length) {
-    _quoteDeck = shuffleArray(STATIC_QUOTES);
+    _quoteDeck = shuffleArray(pool);
     _deckIdx = 0;
   }
   renderQuote(_quoteDeck[_deckIdx++]);
@@ -3578,8 +3582,23 @@ function cycleVerse(){
   showVerse();
 }
 
+function initQuotes(){
+  fetch('data/quotes.json')
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data) && data.length) {
+        _allQuotes = data;
+        _quoteDeck = [];
+        _deckIdx = 0;
+        cycleQuote();
+      }
+    })
+    .catch(() => {});
+}
+
 init();
 initVerses();
+initQuotes();
 
 })();
 </script>
