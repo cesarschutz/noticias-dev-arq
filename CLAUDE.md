@@ -184,17 +184,22 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 
 | Chave | CSS Var | Label | Ícone | Escopo |
 |-------|---------|-------|-------|--------|
-| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust; SBOM, Sigstore, SLSA, supply chain; Vault, secrets mgmt; Falco, Trivy, container security |
+| **Transversal / Hot** | | | | |
 | ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
+| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust; SBOM, Sigstore, SLSA, supply chain; Vault, secrets mgmt; Falco, Trivy, container security |
+| **Plataforma & Infraestrutura** | | | | |
 | aws | `--cat-aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, etc. |
 | devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, Argo CD, Istio, platform engineering, SRE |
 | obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog; SLO/SLI/error budgets; eBPF, profiling contínuo; incident management, on-call, post-mortems |
+| **Desenvolvimento** | | | | |
+| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
 | integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
-| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
+| **Arquitetura** | | | | |
 | design | `--cat-design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
-| enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures; Team Topologies, Conway's Law; IDP/Backstage, developer portal; FinOps, cloud governance; API governance, API strategy |
 | distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
+| enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures; Team Topologies, Conway's Law; IDP/Backstage, developer portal; FinOps, cloud governance; API governance, API strategy |
+| **Domínio** | | | | |
 | fintech | `--cat-fintech` | Fintech & Pagamentos | 💳 | Cartões de crédito, Visa, cooperativas de crédito, Pix, Open Finance, DREX, PCI DSS, payment rails |
 
 **Chaves legadas** (mapeadas em runtime para a nova taxonomia):
@@ -245,40 +250,46 @@ Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CA
 
 | Grupo do rail | `tool_key` | Nome | Categoria editorial |
 |---|---|---|---|
-| Tópicos | `microservices` | Microsserviços | `distarch` |
-| Tópicos | `ddd` | DDD | `design` |
+| **Tópicos** (alfabético) | | | |
 | Tópicos | `cloudnative` | Cloud Native | `distarch` |
 | Tópicos | `cve` | CVEs & Vulnerabilidades | `sec` |
+| Tópicos | `ddd` | DDD | `design` |
+| Tópicos | `microservices` | Microsserviços | `distarch` |
 | Tópicos | `owasp` | OWASP | `sec` |
-| Ferramentas | `cursor` | Cursor IDE | `ai` |
-| Ferramentas | `claudecode` | Claude Code | `ai` |
+| **Ferramentas — AI & Produtividade** (alfabético) | | | |
 | Ferramentas | `chatgpt` | ChatGPT | `ai` |
-| Ferramentas | `vscode` | VS Code | `ai` |
-| Ferramentas | `warp` | Warp Terminal | `ai` |
+| Ferramentas | `claudecode` | Claude Code | `ai` |
+| Ferramentas | `cursor` | Cursor IDE | `ai` |
 | Ferramentas | `intellij` | IntelliJ IDEA | `backend` |
 | Ferramentas | `postman` | Postman | `integ` |
+| Ferramentas | `vscode` | VS Code | `ai` |
+| Ferramentas | `warp` | Warp Terminal | `ai` |
+| **Ferramentas — DevOps & Infra** (alfabético) | | | |
+| Ferramentas | `argocd` | Argo CD | `devops` |
+| Ferramentas | `docker` | Docker | `devops` |
+| Ferramentas | `ghactions` | GitHub Actions | `devops` |
 | Ferramentas | `git` | Git | `devops` |
 | Ferramentas | `github` | GitHub | `devops` |
-| Ferramentas | `docker` | Docker | `devops` |
+| Ferramentas | `helm` | Helm | `devops` |
+| Ferramentas | `istio` | Istio | `devops` |
 | Ferramentas | `kubernetes` | Kubernetes | `devops` |
 | Ferramentas | `terraform` | Terraform | `devops` |
-| Ferramentas | `helm` | Helm | `devops` |
-| Ferramentas | `ghactions` | GitHub Actions | `devops` |
-| Ferramentas | `argocd` | Argo CD | `devops` |
-| Ferramentas | `istio` | Istio | `devops` |
-| Ferramentas | `postgres` | PostgreSQL | `data` |
-| Ferramentas | `mysql` | MySQL | `data` |
+| **Ferramentas — Dados & Integração** (alfabético) | | | |
 | Ferramentas | `databricks` | Databricks | `data` |
 | Ferramentas | `kafka` | Apache Kafka | `integ` |
+| Ferramentas | `mysql` | MySQL | `data` |
 | Ferramentas | `openapi` | OpenAPI | `integ` |
+| Ferramentas | `postgres` | PostgreSQL | `data` |
 | Ferramentas | `redis` | Redis | `data` |
-| Ferramentas | `structurizr` | Structurizr | `design` |
-| Ferramentas | `springboot` | Spring Boot | `backend` |
-| Ferramentas | `gradle` | Gradle | `backend` |
-| Ferramentas | `maven` | Apache Maven | `backend` |
-| Ferramentas | `keycloak` | Keycloak | `sec` |
+| **Ferramentas — Backend, Design, Seg & Obs** (alfabético) | | | |
 | Ferramentas | `dynatrace` | Dynatrace | `obs` |
 | Ferramentas | `grafana` | Grafana | `obs` |
+| Ferramentas | `gradle` | Gradle | `backend` |
+| Ferramentas | `keycloak` | Keycloak | `sec` |
+| Ferramentas | `maven` | Apache Maven | `backend` |
+| Ferramentas | `springboot` | Spring Boot | `backend` |
+| Ferramentas | `structurizr` | Structurizr | `design` |
+| **Linguagens** (alfabético) | | | |
 | Linguagens | `java` | Java & JVM | `backend` |
 | Linguagens | `javascript` | JavaScript / TS | `backend` |
 | Linguagens | `python` | Python | `backend` |
