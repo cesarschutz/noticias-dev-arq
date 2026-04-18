@@ -25,8 +25,8 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
-- `news[]`: **mínimo 1, máximo 3 itens por categoria** (11 categorias = mínimo 11, máximo 33 itens).
-- `tools[]` (tópicos): **mínimo 10 tópicos com conteúdo** no total (não por tópico — ver regra abaixo).
+- `news[]`: **mínimo 1, máximo 3 itens por categoria** (12 categorias = mínimo 12, máximo 36 itens).
+- `tools[]`: **1 item obrigatório para cada um dos 37 tópicos** (tópicos + ferramentas + linguagens). Se não houver conteúdo fresco, use evergreen — nunca omita.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -38,10 +38,10 @@ Para cada **categoria** sem item em `news[]`:
 - **Nunca omita uma categoria** — mínimo 1 item por categoria é obrigatório.
 - **Nunca passe de 3 itens por categoria** — priorize diversidade sobre volume.
 
-Para **tópicos** em `tools[]` — regra dos 10 mínimos:
-1. Busque conteúdo recente (desde a última edição) para cada tópico. Se não houver nada relevante, pule — não é obrigatório ter todos.
-2. Conte quantos tópicos têm pelo menos 1 item. Se **≥ 10**, está ótimo — não force os demais.
-3. Se **< 10**, complete com clássicos/evergreen dos tópicos que faltam até atingir 10. Critérios de seleção para completar: artigo muito acessado, tutorial fundamental, conteúdo clássico da área. **Nunca repita URLs já usadas em edições anteriores** — especialmente nos evergreens buscados de período mais antigo.
+Para **tópicos** em `tools[]` — **1 obrigatório por tópico**:
+1. Busque conteúdo recente (desde a última edição) para cada um dos 37 tópicos.
+2. Se encontrar conteúdo fresco relevante: inclua. Múltiplos itens do mesmo tópico são bem-vindos se houver qualidade.
+3. Se não encontrar conteúdo fresco para um tópico: use evergreen — artigo clássico, tutorial fundamental, documentação relevante. **Nunca omita** um tópico. **Nunca repita URLs das últimas 7 edições**.
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
@@ -467,20 +467,20 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 
 ### 3. Verificar tópicos monitorados
 
-**Regra dos 10 mínimos** — aplicada assim:
+**Regra: 1 obrigatório por tópico** — todos os 37, sem exceção.
 
-1. **Busca recente**: para cada um dos 37 tópicos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um tópico, **não inclua** — não force conteúdo vazio.
+1. **Busca recente**: para cada um dos 37 tópicos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos).
 
-2. **Contagem**: após varrer todos os tópicos, conte quantos têm pelo menos 1 item.
+2. **Se encontrar conteúdo fresco**: inclua. Mais de 1 item por tópico é permitido se houver qualidade.
 
-3. **Completar se < 10**: se menos de 10 tópicos têm conteúdo, selecione tópicos que faltam e busque um clássico/evergreen importante para cada um até atingir 10. Critérios de seleção do evergreen:
+3. **Se não encontrar conteúdo fresco**: use um evergreen — artigo muito acessado, tutorial fundamental, documentação relevante do site preferido do tópico. Critérios:
    - Muito acessado ou citado na comunidade técnica.
    - Em site de autoridade (documentação oficial, InfoQ, martinfowler.com, architectelevator.com, blog de engenharia reconhecida).
-   - Ensina algo fundamental (modelo interno, boas práticas, anti-pattern clássico).
+   - Ensina algo fundamental (modelo mental, boas práticas, anti-pattern clássico).
    - **Nunca use**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
-   - **Verificar dedup**: antes de incluir qualquer evergreen, confirme que a URL não foi usada em nenhuma das últimas 7 edições.
+   - **Verificar dedup**: confirme que a URL não foi usada em nenhuma das últimas 7 edições.
 
-4. **Se ≥ 10**: não force os tópicos restantes — uma edição enxuta com 10-15 tópicos é melhor do que 36 com conteúdo forçado.
+4. **Todos os 37 tópicos devem ter ≥ 1 item em `tools[]`** — não há mínimo de "10 dos 37". São todos.
 
 Siga a hierarquia de `kind` por tipo de tópico:
 - **Ferramentas com release**: `release` (se saiu versão na janela) > `news` > `tutorial` > `tip` > `curiosity`
@@ -508,10 +508,10 @@ Antes de chamar Write:
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
-- [ ] **Cobertura de categorias**: todas as 11 categorias com ≥ 1 item em `pillars[]` + `news[]` (ambos os modos). Se não houver conteúdo fresco, usar evergreen de qualidade.
-- [ ] **Cobertura de tópicos**: mínimo 10 tópicos com ≥ 1 item em `tools[]`. Se < 10, completar com clássicos/evergreen sem repetir URLs das últimas 7 edições.
+- [ ] **Cobertura de categorias**: todas as 12 categorias com ≥ 1 item em `pillars[]` + `news[]`. Se não houver conteúdo fresco, usar evergreen de qualidade — nunca omitir categoria.
+- [ ] **Cobertura de tópicos**: todos os 37 `tool_key` com ≥ 1 item em `tools[]`. Se não houver conteúdo fresco, usar evergreen — nunca omitir tópico.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
-- [ ] **Fallback aplicado**: para qualquer categoria ou tópico abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
+- [ ] **Fallback aplicado**: todo tópico e categoria sem conteúdo fresco tem evergreen de qualidade incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
