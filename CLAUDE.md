@@ -252,7 +252,7 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 | Ferramentas de Trabalho | `mongocompass` | MongoDB Compass | `data` |
 | Plataformas & Infra | `git` | Git | `devops` |
 | Plataformas & Infra | `github` | GitHub | `devops` |
-| Plataformas & Infra | `docker` | Docker Desktop | `devops` |
+| Plataformas & Infra | `docker` | Docker | `devops` |
 | Plataformas & Infra | `kubernetes` | Kubernetes | `devops` |
 | Plataformas & Infra | `terraform` | Terraform | `devops` |
 | Plataformas & Infra | `helm` | Helm | `devops` |

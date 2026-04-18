@@ -844,7 +844,7 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 |---|---|---|
 | `postman` | Novo recurso, release, artigo sobre a plataforma | REST API design, HTTP/2, contratos OpenAPI, testes de endpoint, mocking de API |
 | `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO enterprise |
-| `docker` | Nova versão Desktop, mudança de licensing, CVE | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens |
+| `docker` | Release Engine/Desktop, mudança de licensing, CVE, nova feature Compose | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens, Docker Hub |
 | `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, service mesh, kubelet, etcd |
 | `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium |
 | `owasp` | Novo projeto, atualização Top 10, nova guia | Vulnerabilidade web relevante (XSS, SQLi, SSRF), boas práticas de AppSec |
@@ -882,7 +882,7 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `owasp` | OWASP | `sec` | https://owasp.org/news/ |
 | `git` | Git | `devops` | https://github.blog/ · https://git-scm.com/docs |
 | `github` | GitHub | `devops` | https://github.blog/ · https://github.com/orgs/github/discussions |
-| `docker` | Docker Desktop | `devops` | https://docs.docker.com/desktop/release-notes/ |
+| `docker` | Docker | `devops` | https://docs.docker.com/engine/release-notes/ · https://docs.docker.com/desktop/release-notes/ · https://hub.docker.com/search |
 | `kubernetes` | Kubernetes | `devops` | https://kubernetes.io/releases/ |
 | `warp` | Warp Terminal | `ai` | https://docs.warp.dev/getting-started/changelog |
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
