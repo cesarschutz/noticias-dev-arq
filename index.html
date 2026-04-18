@@ -1172,7 +1172,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   color: inherit;
   text-decoration: none;
 }
-.pillar-card:hover { border-color: var(--pillar-color, var(--amber)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+.pillar-card:hover { border-color: color-mix(in srgb, var(--pillar-color, var(--amber)) 55%, transparent); border-top-color: var(--pillar-color, var(--amber)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18); }
 .pillar-card .strip { height: 4px; background: var(--pillar-color, var(--amber)); }
 .pillar-card.urgent .strip {
   background: var(--red);
@@ -1188,8 +1188,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   border: 1px solid currentColor;
   border-radius: 3px;
   background: transparent;
-}
-/* top-card alias for backward compat (cat/tool views) */
+}/* top-card alias for backward compat (cat/tool views) */
 .top-card {
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -1202,7 +1201,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   color: inherit;
   text-decoration: none;
 }
-.top-card:hover { border-color: var(--amber); transform: translateY(-1px); }
+.top-card:hover { border-color: color-mix(in srgb, var(--cat, var(--amber)) 55%, transparent); border-left-color: var(--cat, var(--amber)); transform: translateY(-1px); }
 .top-card .strip { height: 3px; background: var(--cat, var(--amber)); }
 .top-card.urgent .strip {
   background: var(--red);
@@ -1392,7 +1391,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   text-decoration: none;
   overflow: hidden;
 }
-.card:hover { background: var(--surface-hi); border-color: var(--amber); border-left-color: var(--cat, var(--amber)); }
+.card:hover { background: var(--surface-hi); border-color: color-mix(in srgb, var(--cat, var(--amber)) 55%, transparent); border-left-color: var(--cat, var(--amber)); }
 .card-thumb {
   width: calc(100% + 28px);
   margin: -12px -14px 0;
@@ -1527,6 +1526,18 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   letter-spacing: .12em;
 }
 .date-group .dg-count { color: var(--ink-dim); font-size: 10px; }
+.cat-group-head {
+  margin: 22px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .10em;
+  color: var(--k, var(--ink-soft));
+  display: flex; align-items: center; gap: 8px;
+}
+.cat-group-head::after { content: ''; flex: 1; border-bottom: 1px solid color-mix(in srgb, var(--k, var(--rule)) 28%, transparent); }
+.cat-group-head .cgh-icon { display: flex; align-items: center; flex-shrink: 0; }
+.cat-group-head .cgh-icon svg { stroke: var(--k, currentColor); }
+.cat-group-head .cgh-count { color: var(--ink-dim); font-size: 9px; font-weight: 400; letter-spacing: .04em; }
 
 /* tools */
 .tools-grid {
@@ -2449,9 +2460,9 @@ const LEGACY_CAT_MAP = {
 };
 
 const PILLARS = {
-  java:     { label: 'Java & JVM',             color: '#f89820', icon: '☕' },
-  aws:      { label: 'AWS',                     color: '#FF9900', icon: '🔶' },
-  distarch: { label: 'Arq. Distribuída',        color: '#818cf8', icon: '🕸' }
+  java:     { label: 'Java & JVM',        color: '#f89820', catKey: 'backend' },
+  aws:      { label: 'AWS',               color: '#FF9900', catKey: 'aws'     },
+  distarch: { label: 'Sist. Distribuídos', color: '#818cf8', catKey: 'distarch' }
 };
 
 // Tipos usados para colorir card na sidebar
@@ -2858,7 +2869,7 @@ function renderSidebar(){
     });
   }
 
-  cats.innerHTML = Object.keys(CAT).map(k => {
+  cats.innerHTML = Object.keys(CAT).sort((a,b) => CAT[a].lf.localeCompare(CAT[b].lf, 'pt-BR')).map(k => {
     const total = catTotals[k] || 0;
     const tday = catToday[k] || 0;
     const active = STATE.view === 'cat:' + k ? 'active' : '';
@@ -2908,10 +2919,11 @@ function renderSidebar(){
                  `<span class="tool-cat-icon">${iconSvg(CAT_ICONS[gDef.icon] || '', 13)}</span>` +
                  `<span class="tool-cat-name">${gDef.label}</span>` +
                  `</div>`;
+    const sortedTools = groupTools.slice().sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     if (groupKey === 'tools') {
       // Renderiza sub-grupos de ferramentas com separador discreto
       const bySubgroup = {};
-      groupTools.forEach(t => {
+      sortedTools.forEach(t => {
         const sg = t.subgroup || '_other';
         if (!bySubgroup[sg]) bySubgroup[sg] = [];
         bySubgroup[sg].push(t);
@@ -2932,7 +2944,7 @@ function renderSidebar(){
       });
       if (bySubgroup['_other']) bySubgroup['_other'].forEach(renderTool);
     } else {
-      groupTools.forEach(t => {
+      sortedTools.forEach(t => {
         const active = STATE.view === 'tool:' + t.key ? 'active' : '';
         const logoHtml = t.logo
           ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
@@ -3303,7 +3315,7 @@ function renderReadLater(){
       html += `<div class="rl-item-body">`;
       html += `<div class="rl-item-title">${esc(it.headline)}</div>`;
       html += `<div class="rl-item-meta">`;
-      html += `<span class="c" style="color:var(--cat-${c},var(--cyan))">[${cat.l}]</span>`;
+      html += `<span class="c" style="color:var(--cat-${c},var(--cyan))">${cat.lf || cat.l}</span>`;
       html += `<span class="d">${esc(it._date || '')}</span>`;
       html += `<span>${esc(it.source || '')}</span>`;
       if (it.urgent) html += `<span style="color:var(--red);font-weight:700">! URG</span>`;
@@ -3382,7 +3394,7 @@ function renderHome(){
 
   $('main-inner').innerHTML = html;
   updateMainPrompt();
-  renderFeed(filtered);
+  renderFeed(filtered, { groupByCat: true });
 }
 
 function formatGeneratedAt(raw){
@@ -3819,7 +3831,7 @@ function buildPillarCard(item, idx, date){
   html += thumb;
   html += `<div class="top-body">`;
   html += `<div class="badges">`;
-  if (pillarDef) html += `<span class="pillar-label">${pillarDef.icon} ${pillarDef.label}</span>`;
+  if (pillarDef) html += `<span class="pillar-label">${pillarDef.label}</span>`;
   if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
   if (item.urgent && !item.severity) html += `<span class="badge u">CRIT</span>`;
   if (item.breaking) html += `<span class="badge brk">BRK</span>`;
@@ -3849,7 +3861,7 @@ function buildCard(item){
   html += thumbHtml;
   if (isList) html += `<div class="card-body">`;
   html += `<div class="card-head">`;
-  html += `<span class="cat-tag">[${cat.l}]</span>`;
+  html += `<span class="cat-tag">${cat.lf || cat.l}</span>`;
   if (date) html += `<span class="date-tag">${esc(date)}</span>`;
   if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
   if (item.breaking) html += `<span class="dot-brk">▲ BRK</span>`;
@@ -3921,6 +3933,25 @@ function renderFeed(items, opts){
       html += `<div class="feed-${STATE.mode}">${groups[d].map(buildCard).join('')}</div>`;
     });
     feed.classList.remove('feed-cards','feed-list');
+  } else if (opts.groupByCat) {
+    const catOrder = Object.keys(CAT).sort((a,b) => CAT[a].lf.localeCompare(CAT[b].lf, 'pt-BR'));
+    const byCategory = {};
+    items.forEach(it => {
+      const k = it.category || 'backend';
+      (byCategory[k] = byCategory[k] || []).push(it);
+    });
+    catOrder.forEach(k => {
+      const catItems = byCategory[k];
+      if (!catItems || !catItems.length) return;
+      const catDef = CAT[k] || { lf: k, i: '' };
+      html += `<div class="cat-group-head" style="--k:var(--cat-${k})">` +
+              `<span class="cgh-icon">${iconSvg(CAT_ICONS[k]||'', 13)}</span>` +
+              `<span>${catDef.lf}</span>` +
+              `<span class="cgh-count">${catItems.length}</span>` +
+              `</div>`;
+      html += `<div class="feed-${STATE.mode}">${catItems.map(buildCard).join('')}</div>`;
+    });
+    feed.classList.remove('feed-cards','feed-list');
   } else {
     html = items.map(buildCard).join('');
   }
@@ -3957,17 +3988,11 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // card/top-card click: abre URL em nova aba
-  const card = e.target.closest('.top-card, .card');
-  if (card) {
+  // card/top-card/pillar-card click: abre URL em nova aba
+  const card = e.target.closest('.top-card, .card, .pillar-card');
+  if (card && !e.target.closest('[data-filter-type], [data-act], .mini-btn')) {
     const url = card.dataset.url;
-    if (url) {
-      if (e.metaKey || e.ctrlKey || e.button === 1) {
-        window.open(url, '_blank', 'noopener');
-      } else {
-        window.open(url, '_blank', 'noopener');
-      }
-    }
+    if (url) window.open(url, '_blank', 'noopener');
     return;
   }
 
@@ -4017,7 +4042,7 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     goToEdition(e.target.dataset.goto);
   }
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.top-card, .card')) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.top-card, .card, .pillar-card')) {
     e.preventDefault();
     window.open(e.target.dataset.url, '_blank', 'noopener');
   }
