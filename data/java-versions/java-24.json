@@ -1,0 +1,191 @@
+{
+  "version": "24",
+  "release_date": "2025-03-18",
+  "lts": false,
+  "oracle_support_until": "2025-09",
+  "summary": "Java 24 (não-LTS) entrega 24 JEPs, com destaque para avanços em Project Loom (Structured Concurrency em segundo preview), Project Amber (Flexible Constructor Bodies, Primitive Types in Patterns) e Generational Shenandoah GC. Também finaliza a preparação para quantum-safe crypto com ML-KEM e ML-DSA.",
+  "links": [
+    {
+      "label": "OpenJDK 24",
+      "url": "https://openjdk.org/projects/jdk/24/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/24/release-notes"
+    },
+    {
+      "label": "Baeldung: Java 24 Features",
+      "url": "https://www.baeldung.com/java-24-features"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 404,
+      "title": "Generational Shenandoah (Experimental)",
+      "status": "Standard",
+      "description": "Torna o coletor Shenandoah geracional por padrão em modo experimental, reduzindo CPU e memória em cargas de longa duração.",
+      "url": "https://openjdk.org/jeps/404"
+    },
+    {
+      "number": 450,
+      "title": "Compact Object Headers (Experimental)",
+      "status": "Standard",
+      "description": "Reduz headers de objetos de 96-128 bits para 64 bits no HotSpot, diminuindo footprint de heap em cargas Java intensivas.",
+      "url": "https://openjdk.org/jeps/450"
+    },
+    {
+      "number": 472,
+      "title": "Prepare to Restrict the Use of JNI",
+      "status": "Standard",
+      "description": "Começa a emitir warnings para uso de JNI, preparando a transição para FFM API do Project Panama.",
+      "url": "https://openjdk.org/jeps/472"
+    },
+    {
+      "number": 475,
+      "title": "Late Barrier Expansion for G1",
+      "status": "Standard",
+      "description": "Simplifica implementação do G1 GC movendo expansão de barreiras para tempo de compilação, reduzindo complexidade do C2.",
+      "url": "https://openjdk.org/jeps/475"
+    },
+    {
+      "number": 478,
+      "title": "Key Derivation Function API (Preview)",
+      "status": "Preview",
+      "description": "Nova API para KDFs (HKDF, Argon2), base para protocolos seguros modernos como TLS 1.3.",
+      "url": "https://openjdk.org/jeps/478"
+    },
+    {
+      "number": 479,
+      "title": "Remove the Windows 32-bit x86 Port",
+      "status": "Standard",
+      "description": "Remove port Windows x86 32-bit, simplificando manutenção do JDK.",
+      "url": "https://openjdk.org/jeps/479"
+    },
+    {
+      "number": 483,
+      "title": "Ahead-of-Time Class Loading & Linking",
+      "status": "Standard",
+      "description": "Permite carregar e linkar classes durante AOT, reduzindo tempo de warmup de aplicações Java.",
+      "url": "https://openjdk.org/jeps/483"
+    },
+    {
+      "number": 484,
+      "title": "Class-File API",
+      "status": "Standard",
+      "description": "API padrão para parsing, geração e transformação de arquivos .class, substituindo ASM e outras libs de terceiros.",
+      "url": "https://openjdk.org/jeps/484"
+    },
+    {
+      "number": 485,
+      "title": "Stream Gatherers",
+      "status": "Standard",
+      "description": "Estende Stream API com operações intermediárias customizadas (gatherers), viabilizando windowing, scan, folding.",
+      "url": "https://openjdk.org/jeps/485"
+    },
+    {
+      "number": 486,
+      "title": "Permanently Disable the Security Manager",
+      "status": "Standard",
+      "description": "Desativa definitivamente o SecurityManager; chamadas a System.setSecurityManager lançam UnsupportedOperationException.",
+      "url": "https://openjdk.org/jeps/486"
+    },
+    {
+      "number": 487,
+      "title": "Scoped Values (4th Preview)",
+      "status": "Preview",
+      "description": "Alternativa moderna a ThreadLocal, imutável e com escopo léxico, essencial para virtual threads.",
+      "url": "https://openjdk.org/jeps/487"
+    },
+    {
+      "number": 488,
+      "title": "Primitive Types in Patterns, instanceof, and switch (2nd Preview)",
+      "status": "Preview",
+      "description": "Permite usar tipos primitivos em pattern matching, instanceof e switch, completando o pattern matching unificado.",
+      "url": "https://openjdk.org/jeps/488"
+    },
+    {
+      "number": 489,
+      "title": "Vector API (9th Incubator)",
+      "status": "Incubator",
+      "description": "SIMD portátil para Java — cálculos vetoriais que compilam para instruções nativas da CPU.",
+      "url": "https://openjdk.org/jeps/489"
+    },
+    {
+      "number": 490,
+      "title": "ZGC: Remove Non-Generational Mode",
+      "status": "Standard",
+      "description": "Remove modo não-geracional do ZGC, deixando apenas o generacional como padrão.",
+      "url": "https://openjdk.org/jeps/490"
+    },
+    {
+      "number": 491,
+      "title": "Synchronize Virtual Threads without Pinning",
+      "status": "Standard",
+      "description": "Permite virtual threads usarem synchronized sem pinnar o carrier thread, removendo gargalo crítico do Loom.",
+      "url": "https://openjdk.org/jeps/491"
+    },
+    {
+      "number": 492,
+      "title": "Flexible Constructor Bodies (3rd Preview)",
+      "status": "Preview",
+      "description": "Permite código antes da chamada super()/this(), simplificando validação de argumentos em construtores.",
+      "url": "https://openjdk.org/jeps/492"
+    },
+    {
+      "number": 493,
+      "title": "Linking Run-Time Images without JMODs",
+      "status": "Standard",
+      "description": "jlink pode criar imagens runtime sem precisar dos arquivos JMOD, reduzindo tamanho do JDK em 25%.",
+      "url": "https://openjdk.org/jeps/493"
+    },
+    {
+      "number": 494,
+      "title": "Module Import Declarations (2nd Preview)",
+      "status": "Preview",
+      "description": "Permite importar todos os pacotes exportados de um módulo com uma linha (ex: import module java.base).",
+      "url": "https://openjdk.org/jeps/494"
+    },
+    {
+      "number": 495,
+      "title": "Simple Source Files and Instance Main Methods (4th Preview)",
+      "status": "Preview",
+      "description": "Simplifica código Java de introdução — elimina boilerplate de classe e String[] args no método main.",
+      "url": "https://openjdk.org/jeps/495"
+    },
+    {
+      "number": 496,
+      "title": "Quantum-Resistant Module-Lattice-Based Key Encapsulation (ML-KEM)",
+      "status": "Standard",
+      "description": "Implementa ML-KEM (FIPS 203), algoritmo pós-quântico de encapsulamento de chaves padronizado pelo NIST.",
+      "url": "https://openjdk.org/jeps/496"
+    },
+    {
+      "number": 497,
+      "title": "Quantum-Resistant Module-Lattice-Based Digital Signature (ML-DSA)",
+      "status": "Standard",
+      "description": "Implementa ML-DSA (FIPS 204), algoritmo pós-quântico de assinatura digital padronizado pelo NIST.",
+      "url": "https://openjdk.org/jeps/497"
+    },
+    {
+      "number": 498,
+      "title": "Warn upon Use of Memory-Access Methods in sun.misc.Unsafe",
+      "status": "Standard",
+      "description": "Emite warnings em runtime quando métodos de memory access de sun.misc.Unsafe são usados, preparando remoção.",
+      "url": "https://openjdk.org/jeps/498"
+    },
+    {
+      "number": 499,
+      "title": "Structured Concurrency (4th Preview)",
+      "status": "Preview",
+      "description": "API para tratar múltiplas tarefas concorrentes como uma unidade de trabalho, simplificando error handling e cancelamento.",
+      "url": "https://openjdk.org/jeps/499"
+    },
+    {
+      "number": 501,
+      "title": "Deprecate the 32-bit x86 Port for Removal",
+      "status": "Standard",
+      "description": "Marca port x86 32-bit para remoção em versões futuras, consolidando foco em 64-bit.",
+      "url": "https://openjdk.org/jeps/501"
+    }
+  ]
+}

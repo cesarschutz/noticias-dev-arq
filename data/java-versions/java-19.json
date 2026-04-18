@@ -1,0 +1,68 @@
+{
+  "version": "19",
+  "release_date": "2022-09-20",
+  "lts": false,
+  "oracle_support_until": "2023-03",
+  "summary": "Java 19 (não-LTS) é a estreia de Virtual Threads (preview), Record Patterns (preview) e Structured Concurrency (incubator) — o marco inicial do Project Loom em produção.",
+  "links": [
+    {
+      "label": "OpenJDK 19",
+      "url": "https://openjdk.org/projects/jdk/19/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/19/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 405,
+      "title": "Record Patterns (Preview)",
+      "status": "Preview",
+      "description": "Primeira preview de desestruturação de records em pattern matching.",
+      "url": "https://openjdk.org/jeps/405"
+    },
+    {
+      "number": 422,
+      "title": "Linux/RISC-V Port",
+      "status": "Standard",
+      "description": "Port oficial da JVM para Linux em arquitetura RISC-V.",
+      "url": "https://openjdk.org/jeps/422"
+    },
+    {
+      "number": 424,
+      "title": "Foreign Function & Memory API (Preview)",
+      "status": "Preview",
+      "description": "Unificação das APIs Foreign Linker e Foreign Memory, primeira preview.",
+      "url": "https://openjdk.org/jeps/424"
+    },
+    {
+      "number": 425,
+      "title": "Virtual Threads (Preview)",
+      "status": "Preview",
+      "description": "Estreia! Primeira preview de threads leves do Project Loom — marco histórico da JVM.",
+      "url": "https://openjdk.org/jeps/425"
+    },
+    {
+      "number": 426,
+      "title": "Vector API (Fourth Incubator)",
+      "status": "Incubator",
+      "description": "Quarta incubator da Vector API.",
+      "url": "https://openjdk.org/jeps/426"
+    },
+    {
+      "number": 427,
+      "title": "Pattern Matching for switch (Third Preview)",
+      "status": "Preview",
+      "description": "Terceira preview com mais refinamentos.",
+      "url": "https://openjdk.org/jeps/427"
+    },
+    {
+      "number": 428,
+      "title": "Structured Concurrency (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator de structured concurrency, complementando virtual threads.",
+      "url": "https://openjdk.org/jeps/428"
+    }
+  ]
+}

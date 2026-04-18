@@ -1,0 +1,131 @@
+{
+  "version": "14",
+  "release_date": "2020-03-17",
+  "lts": false,
+  "oracle_support_until": "2020-09",
+  "summary": "Java 14 (não-LTS) torna switch expressions final, entrega Records (preview) e Pattern Matching for instanceof (preview), além de NullPointerException helpful messages.",
+  "links": [
+    {
+      "label": "OpenJDK 14",
+      "url": "https://openjdk.org/projects/jdk/14/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/14/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 305,
+      "title": "Pattern Matching for instanceof (Preview)",
+      "status": "Preview",
+      "description": "Primeira preview.",
+      "url": "https://openjdk.org/jeps/305"
+    },
+    {
+      "number": 343,
+      "title": "Packaging Tool (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator do jpackage.",
+      "url": "https://openjdk.org/jeps/343"
+    },
+    {
+      "number": 345,
+      "title": "NUMA-Aware Memory Allocation for G1",
+      "status": "Standard",
+      "description": "G1 melhora performance em máquinas NUMA alocando memória próxima do core.",
+      "url": "https://openjdk.org/jeps/345"
+    },
+    {
+      "number": 349,
+      "title": "JFR Event Streaming",
+      "status": "Standard",
+      "description": "Java Flight Recorder expõe eventos em streaming para observabilidade contínua.",
+      "url": "https://openjdk.org/jeps/349"
+    },
+    {
+      "number": 352,
+      "title": "Non-Volatile Mapped Byte Buffers",
+      "status": "Standard",
+      "description": "Suporte a memória não-volátil (NVRAM, Optane) via MappedByteBuffer.",
+      "url": "https://openjdk.org/jeps/352"
+    },
+    {
+      "number": 358,
+      "title": "Helpful NullPointerExceptions",
+      "status": "Standard",
+      "description": "NPEs agora indicam EXATAMENTE qual variável era null — enorme ganho em debugging.",
+      "url": "https://openjdk.org/jeps/358"
+    },
+    {
+      "number": 359,
+      "title": "Records (Preview)",
+      "status": "Preview",
+      "description": "Primeira preview de records.",
+      "url": "https://openjdk.org/jeps/359"
+    },
+    {
+      "number": 361,
+      "title": "Switch Expressions",
+      "status": "Standard",
+      "description": "Final! switch como expressão com arrow syntax — sem fall-through por padrão.",
+      "url": "https://openjdk.org/jeps/361"
+    },
+    {
+      "number": 362,
+      "title": "Deprecate the Solaris and SPARC Ports",
+      "status": "Standard",
+      "description": "Marca Solaris/SPARC para remoção.",
+      "url": "https://openjdk.org/jeps/362"
+    },
+    {
+      "number": 363,
+      "title": "Remove the Concurrent Mark Sweep (CMS) Garbage Collector",
+      "status": "Standard",
+      "description": "Remove CMS GC — use G1 ou ZGC.",
+      "url": "https://openjdk.org/jeps/363"
+    },
+    {
+      "number": 364,
+      "title": "ZGC on macOS",
+      "status": "Standard",
+      "description": "ZGC disponível no macOS.",
+      "url": "https://openjdk.org/jeps/364"
+    },
+    {
+      "number": 365,
+      "title": "ZGC on Windows",
+      "status": "Standard",
+      "description": "ZGC disponível no Windows.",
+      "url": "https://openjdk.org/jeps/365"
+    },
+    {
+      "number": 366,
+      "title": "Deprecate the ParallelScavenge + SerialOld GC Combination",
+      "status": "Standard",
+      "description": "Marca combinação rara de GC para remoção.",
+      "url": "https://openjdk.org/jeps/366"
+    },
+    {
+      "number": 367,
+      "title": "Remove the Pack200 Tools and API",
+      "status": "Standard",
+      "description": "Remove Pack200 (ferramenta de compressão de JARs obsoleta).",
+      "url": "https://openjdk.org/jeps/367"
+    },
+    {
+      "number": 368,
+      "title": "Text Blocks (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview de text blocks.",
+      "url": "https://openjdk.org/jeps/368"
+    },
+    {
+      "number": 370,
+      "title": "Foreign-Memory Access API (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator da FMA API.",
+      "url": "https://openjdk.org/jeps/370"
+    }
+  ]
+}

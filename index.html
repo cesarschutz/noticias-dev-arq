@@ -61,6 +61,7 @@
   --panel-bg: linear-gradient(180deg, rgba(13,20,32,.75), rgba(6,10,16,.85));
   --panel-bg-deep: linear-gradient(180deg, rgba(13,20,32,.9), rgba(13,20,32,.75));
   --panel-stat: rgba(2,5,10,.9);
+  --dot-tex: radial-gradient(circle, rgba(148,185,220,.13) 1px, transparent 1px) 0 0 / 22px 22px;
 
   --cat-sec:      #EF4444;
   --cat-ai:       #A78BFA;
@@ -160,12 +161,13 @@
   --bg-grad:    radial-gradient(ellipse at 20% 0%, rgba(14,116,144,.07), transparent 55%),
                 radial-gradient(ellipse at 90% 100%, rgba(109,74,191,.06), transparent 50%),
                 #EDF1F7;
+  --dot-tex: radial-gradient(circle, rgba(14,116,144,.11) 1px, transparent 1px) 0 0 / 22px 22px;
 }
 
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html,body { height: 100%; }
 body {
-  background: var(--bg-grad);
+  background: var(--dot-tex), var(--bg-grad);
   color: var(--ink);
   font-family: 'Inter Tight', sans-serif;
   font-size: 14.5px;
@@ -568,7 +570,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* ═══ Topbar ═══ */
 .topbar {
   grid-area: top;
-  background: var(--panel-bg-deep);
+  background: var(--dot-tex), var(--panel-bg-deep);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--rule);
@@ -782,7 +784,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* ═══ Sidebar ═══ */
 .sidebar {
   grid-area: side;
-  background: var(--panel-bg);
+  background: var(--dot-tex), var(--panel-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-right: 1px solid var(--rule);
@@ -1583,7 +1585,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* ═══ Telemetry rail ═══ */
 .rail {
   grid-area: rail;
-  background: var(--panel-bg);
+  background: var(--dot-tex), var(--panel-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-left: 1px solid var(--rule);

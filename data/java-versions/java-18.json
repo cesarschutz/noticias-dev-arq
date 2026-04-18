@@ -1,0 +1,82 @@
+{
+  "version": "18",
+  "release_date": "2022-03-22",
+  "lts": false,
+  "oracle_support_until": "2022-09",
+  "summary": "Java 18 (não-LTS) traz UTF-8 como charset padrão, Simple Web Server, Code Snippets em Javadoc e iterações de features de LTS futuro.",
+  "links": [
+    {
+      "label": "OpenJDK 18",
+      "url": "https://openjdk.org/projects/jdk/18/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/18/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 400,
+      "title": "UTF-8 by Default",
+      "status": "Standard",
+      "description": "UTF-8 torna-se charset padrão do Java — fim de bugs de charset em arquivos e I/O.",
+      "url": "https://openjdk.org/jeps/400"
+    },
+    {
+      "number": 408,
+      "title": "Simple Web Server",
+      "status": "Standard",
+      "description": "Command-line tool jwebserver para servir arquivos estáticos — útil para desenvolvimento e teste.",
+      "url": "https://openjdk.org/jeps/408"
+    },
+    {
+      "number": 413,
+      "title": "Code Snippets in Java API Documentation",
+      "status": "Standard",
+      "description": "Nova tag @snippet para incluir exemplos de código em Javadoc, com validação pelo compilador.",
+      "url": "https://openjdk.org/jeps/413"
+    },
+    {
+      "number": 416,
+      "title": "Reimplement Core Reflection with Method Handles",
+      "status": "Standard",
+      "description": "Reescreve core reflection usando MethodHandles, simplificando a JVM e melhorando performance.",
+      "url": "https://openjdk.org/jeps/416"
+    },
+    {
+      "number": 417,
+      "title": "Vector API (Third Incubator)",
+      "status": "Incubator",
+      "description": "Terceira incubator da Vector API.",
+      "url": "https://openjdk.org/jeps/417"
+    },
+    {
+      "number": 418,
+      "title": "Internet-Address Resolution SPI",
+      "status": "Standard",
+      "description": "SPI para resolução de endereços, permitindo plugar DNS resolvers customizados (ex: DoH).",
+      "url": "https://openjdk.org/jeps/418"
+    },
+    {
+      "number": 419,
+      "title": "Foreign Function & Memory API (Second Incubator)",
+      "status": "Incubator",
+      "description": "Segunda incubator da FFM API.",
+      "url": "https://openjdk.org/jeps/419"
+    },
+    {
+      "number": 420,
+      "title": "Pattern Matching for switch (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview com ajustes finos.",
+      "url": "https://openjdk.org/jeps/420"
+    },
+    {
+      "number": 421,
+      "title": "Deprecate Finalization for Removal",
+      "status": "Standard",
+      "description": "Marca finalize() para remoção — use try-with-resources ou Cleaner.",
+      "url": "https://openjdk.org/jeps/421"
+    }
+  ]
+}

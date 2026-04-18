@@ -1,0 +1,117 @@
+{
+  "version": "15",
+  "release_date": "2020-09-15",
+  "lts": false,
+  "oracle_support_until": "2021-03",
+  "summary": "Java 15 (não-LTS) entrega Text Blocks (final), Hidden Classes, ZGC production-ready e primeira preview de Sealed Classes.",
+  "links": [
+    {
+      "label": "OpenJDK 15",
+      "url": "https://openjdk.org/projects/jdk/15/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/15/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 339,
+      "title": "Edwards-Curve Digital Signature Algorithm (EdDSA)",
+      "status": "Standard",
+      "description": "Implementa EdDSA (Ed25519, Ed448) — assinaturas modernas mais rápidas que ECDSA.",
+      "url": "https://openjdk.org/jeps/339"
+    },
+    {
+      "number": 360,
+      "title": "Sealed Classes (Preview)",
+      "status": "Preview",
+      "description": "Primeira preview de sealed classes.",
+      "url": "https://openjdk.org/jeps/360"
+    },
+    {
+      "number": 371,
+      "title": "Hidden Classes",
+      "status": "Standard",
+      "description": "Classes não-descobríveis por outras classes — útil para frameworks que geram proxies dinâmicos.",
+      "url": "https://openjdk.org/jeps/371"
+    },
+    {
+      "number": 372,
+      "title": "Remove the Nashorn JavaScript Engine",
+      "status": "Standard",
+      "description": "Remove engine JavaScript Nashorn — use GraalJS.",
+      "url": "https://openjdk.org/jeps/372"
+    },
+    {
+      "number": 373,
+      "title": "Reimplement the Legacy DatagramSocket API",
+      "status": "Standard",
+      "description": "Reescreve DatagramSocket com implementação moderna, preparando para Project Loom.",
+      "url": "https://openjdk.org/jeps/373"
+    },
+    {
+      "number": 374,
+      "title": "Disable and Deprecate Biased Locking",
+      "status": "Standard",
+      "description": "Desativa biased locking por padrão — otimização antiga que perdeu valor.",
+      "url": "https://openjdk.org/jeps/374"
+    },
+    {
+      "number": 375,
+      "title": "Pattern Matching for instanceof (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview.",
+      "url": "https://openjdk.org/jeps/375"
+    },
+    {
+      "number": 377,
+      "title": "ZGC: A Scalable Low-Latency Garbage Collector",
+      "status": "Standard",
+      "description": "ZGC sai de experimental — GC de baixa latência (sub-ms) pronto para produção.",
+      "url": "https://openjdk.org/jeps/377"
+    },
+    {
+      "number": 378,
+      "title": "Text Blocks",
+      "status": "Standard",
+      "description": "Final! Text blocks com \"\"\" — strings multilinha idiomáticas.",
+      "url": "https://openjdk.org/jeps/378"
+    },
+    {
+      "number": 379,
+      "title": "Shenandoah: A Low-Pause-Time Garbage Collector",
+      "status": "Standard",
+      "description": "Shenandoah sai de experimental — GC alternativo de baixa pausa.",
+      "url": "https://openjdk.org/jeps/379"
+    },
+    {
+      "number": 381,
+      "title": "Remove the Solaris and SPARC Ports",
+      "status": "Standard",
+      "description": "Remove ports Solaris e SPARC — foco em Linux/macOS/Windows.",
+      "url": "https://openjdk.org/jeps/381"
+    },
+    {
+      "number": 383,
+      "title": "Foreign-Memory Access API (Second Incubator)",
+      "status": "Incubator",
+      "description": "Segunda incubator da FMA API.",
+      "url": "https://openjdk.org/jeps/383"
+    },
+    {
+      "number": 384,
+      "title": "Records (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview de records.",
+      "url": "https://openjdk.org/jeps/384"
+    },
+    {
+      "number": 385,
+      "title": "Deprecate RMI Activation for Removal",
+      "status": "Standard",
+      "description": "Marca RMI Activation para remoção (removido em Java 17).",
+      "url": "https://openjdk.org/jeps/385"
+    }
+  ]
+}

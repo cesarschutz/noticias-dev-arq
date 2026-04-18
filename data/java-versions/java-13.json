@@ -1,0 +1,54 @@
+{
+  "version": "13",
+  "release_date": "2019-09-17",
+  "lts": false,
+  "oracle_support_until": "2020-03",
+  "summary": "Java 13 (não-LTS) introduz Text Blocks (preview) e continua evolução de Switch Expressions, com melhorias em ZGC e CDS.",
+  "links": [
+    {
+      "label": "OpenJDK 13",
+      "url": "https://openjdk.org/projects/jdk/13/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/13/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 350,
+      "title": "Dynamic CDS Archives",
+      "status": "Standard",
+      "description": "Permite gerar AppCDS dinamicamente ao final da execução.",
+      "url": "https://openjdk.org/jeps/350"
+    },
+    {
+      "number": 351,
+      "title": "ZGC: Uncommit Unused Memory",
+      "status": "Standard",
+      "description": "ZGC devolve memória não-usada ao SO.",
+      "url": "https://openjdk.org/jeps/351"
+    },
+    {
+      "number": 353,
+      "title": "Reimplement the Legacy Socket API",
+      "status": "Standard",
+      "description": "Reescreve implementação de Socket/ServerSocket.",
+      "url": "https://openjdk.org/jeps/353"
+    },
+    {
+      "number": 354,
+      "title": "Switch Expressions (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview com yield.",
+      "url": "https://openjdk.org/jeps/354"
+    },
+    {
+      "number": 355,
+      "title": "Text Blocks (Preview)",
+      "status": "Preview",
+      "description": "Primeira preview de text blocks.",
+      "url": "https://openjdk.org/jeps/355"
+    }
+  ]
+}

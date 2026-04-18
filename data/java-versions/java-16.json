@@ -1,0 +1,138 @@
+{
+  "version": "16",
+  "release_date": "2021-03-16",
+  "lts": false,
+  "oracle_support_until": "2021-09",
+  "summary": "Java 16 (não-LTS) finaliza Records e Pattern Matching for instanceof, migra build OpenJDK para Git e moderniza muito do JDK interno.",
+  "links": [
+    {
+      "label": "OpenJDK 16",
+      "url": "https://openjdk.org/projects/jdk/16/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/16/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 338,
+      "title": "Vector API (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator da Vector API.",
+      "url": "https://openjdk.org/jeps/338"
+    },
+    {
+      "number": 347,
+      "title": "Enable C++14 Language Features",
+      "status": "Standard",
+      "description": "Permite C++14 no código da JVM, modernizando desenvolvimento interno.",
+      "url": "https://openjdk.org/jeps/347"
+    },
+    {
+      "number": 357,
+      "title": "Migrate from Mercurial to Git",
+      "status": "Standard",
+      "description": "OpenJDK migra de Mercurial para Git — marco histórico.",
+      "url": "https://openjdk.org/jeps/357"
+    },
+    {
+      "number": 369,
+      "title": "Migrate to GitHub",
+      "status": "Standard",
+      "description": "OpenJDK passa a usar GitHub como forge principal.",
+      "url": "https://openjdk.org/jeps/369"
+    },
+    {
+      "number": 376,
+      "title": "ZGC: Concurrent Thread-Stack Processing",
+      "status": "Standard",
+      "description": "ZGC processa thread stacks concorrentemente, eliminando última pausa significativa.",
+      "url": "https://openjdk.org/jeps/376"
+    },
+    {
+      "number": 380,
+      "title": "Unix-Domain Socket Channels",
+      "status": "Standard",
+      "description": "Suporte nativo a Unix-domain sockets via SocketChannel/ServerSocketChannel.",
+      "url": "https://openjdk.org/jeps/380"
+    },
+    {
+      "number": 386,
+      "title": "Alpine Linux Port",
+      "status": "Standard",
+      "description": "Port oficial para Alpine Linux (musl libc), ideal para containers minimal.",
+      "url": "https://openjdk.org/jeps/386"
+    },
+    {
+      "number": 387,
+      "title": "Elastic Metaspace",
+      "status": "Standard",
+      "description": "Metaspace devolve memória não usada ao SO mais agressivamente.",
+      "url": "https://openjdk.org/jeps/387"
+    },
+    {
+      "number": 388,
+      "title": "Windows/AArch64 Port",
+      "status": "Standard",
+      "description": "Port para Windows em ARM64.",
+      "url": "https://openjdk.org/jeps/388"
+    },
+    {
+      "number": 389,
+      "title": "Foreign Linker API (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator do Foreign Linker — parte do Project Panama.",
+      "url": "https://openjdk.org/jeps/389"
+    },
+    {
+      "number": 390,
+      "title": "Warnings for Value-Based Classes",
+      "status": "Standard",
+      "description": "Warnings ao sincronizar em value-based classes (Integer, Optional), preparação para Valhalla.",
+      "url": "https://openjdk.org/jeps/390"
+    },
+    {
+      "number": 392,
+      "title": "Packaging Tool",
+      "status": "Standard",
+      "description": "jpackage final — empacota apps Java em DMG, MSI, DEB etc.",
+      "url": "https://openjdk.org/jeps/392"
+    },
+    {
+      "number": 393,
+      "title": "Foreign-Memory Access API (Third Incubator)",
+      "status": "Incubator",
+      "description": "Terceira incubator da Foreign-Memory Access API.",
+      "url": "https://openjdk.org/jeps/393"
+    },
+    {
+      "number": 394,
+      "title": "Pattern Matching for instanceof",
+      "status": "Standard",
+      "description": "Final! if (obj instanceof String s) — sem cast explícito.",
+      "url": "https://openjdk.org/jeps/394"
+    },
+    {
+      "number": 395,
+      "title": "Records",
+      "status": "Standard",
+      "description": "Final! Records como classes imutáveis concisas — game-changer para DTOs.",
+      "url": "https://openjdk.org/jeps/395"
+    },
+    {
+      "number": 396,
+      "title": "Strongly Encapsulate JDK Internals by Default",
+      "status": "Standard",
+      "description": "Encapsulamento forte passa a ser padrão (antes era permit).",
+      "url": "https://openjdk.org/jeps/396"
+    },
+    {
+      "number": 397,
+      "title": "Sealed Classes (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview de sealed classes.",
+      "url": "https://openjdk.org/jeps/397"
+    }
+  ]
+}

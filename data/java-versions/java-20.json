@@ -1,0 +1,68 @@
+{
+  "version": "20",
+  "release_date": "2023-03-21",
+  "lts": false,
+  "oracle_support_until": "2023-09",
+  "summary": "Java 20 (não-LTS) entrega Scoped Values (incubator), iterações de Pattern Matching for switch, Record Patterns e Virtual Threads, servindo como trampolim para o LTS 21.",
+  "links": [
+    {
+      "label": "OpenJDK 20",
+      "url": "https://openjdk.org/projects/jdk/20/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/20/release-notes"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 429,
+      "title": "Scoped Values (Incubator)",
+      "status": "Incubator",
+      "description": "Primeira incubator de Scoped Values.",
+      "url": "https://openjdk.org/jeps/429"
+    },
+    {
+      "number": 432,
+      "title": "Record Patterns (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview de record patterns.",
+      "url": "https://openjdk.org/jeps/432"
+    },
+    {
+      "number": 433,
+      "title": "Pattern Matching for switch (Fourth Preview)",
+      "status": "Preview",
+      "description": "Quarta preview com sintaxe refinada.",
+      "url": "https://openjdk.org/jeps/433"
+    },
+    {
+      "number": 434,
+      "title": "Foreign Function & Memory API (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview da FFM API.",
+      "url": "https://openjdk.org/jeps/434"
+    },
+    {
+      "number": 436,
+      "title": "Virtual Threads (Second Preview)",
+      "status": "Preview",
+      "description": "Segunda preview de virtual threads, antes de estabilizar em Java 21.",
+      "url": "https://openjdk.org/jeps/436"
+    },
+    {
+      "number": 437,
+      "title": "Structured Concurrency (Second Incubator)",
+      "status": "Incubator",
+      "description": "Segunda incubator de structured concurrency.",
+      "url": "https://openjdk.org/jeps/437"
+    },
+    {
+      "number": 438,
+      "title": "Vector API (Fifth Incubator)",
+      "status": "Incubator",
+      "description": "Quinta incubator da Vector API.",
+      "url": "https://openjdk.org/jeps/438"
+    }
+  ]
+}

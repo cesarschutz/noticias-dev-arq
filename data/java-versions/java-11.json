@@ -1,0 +1,142 @@
+{
+  "version": "11",
+  "release_date": "2018-09-25",
+  "lts": true,
+  "oracle_support_until": "2032-01",
+  "summary": "Java 11 foi a primeira LTS pós-Java 8, entregou HTTP Client final, var em lambdas, ZGC experimental, Epsilon GC e iniciou o fim de Applets e Java Web Start.",
+  "links": [
+    {
+      "label": "OpenJDK 11",
+      "url": "https://openjdk.org/projects/jdk/11/"
+    },
+    {
+      "label": "Release Notes",
+      "url": "https://jdk.java.net/11/release-notes"
+    },
+    {
+      "label": "Baeldung: Java 11 New Features",
+      "url": "https://www.baeldung.com/java-11-new-features"
+    }
+  ],
+  "jeps": [
+    {
+      "number": 181,
+      "title": "Nest-Based Access Control",
+      "status": "Standard",
+      "description": "Formaliza nest mates no bytecode, evitando bridge methods para acesso a private de inner classes.",
+      "url": "https://openjdk.org/jeps/181"
+    },
+    {
+      "number": 309,
+      "title": "Dynamic Class-File Constants",
+      "status": "Standard",
+      "description": "Entrada de constant pool CONSTANT_Dynamic para constantes resolvidas dinamicamente.",
+      "url": "https://openjdk.org/jeps/309"
+    },
+    {
+      "number": 315,
+      "title": "Improve Aarch64 Intrinsics",
+      "status": "Standard",
+      "description": "Melhora performance em ARM64.",
+      "url": "https://openjdk.org/jeps/315"
+    },
+    {
+      "number": 318,
+      "title": "Epsilon: A No-Op Garbage Collector",
+      "status": "Standard",
+      "description": "GC que não coleta — útil para benchmarks e apps de vida curta.",
+      "url": "https://openjdk.org/jeps/318"
+    },
+    {
+      "number": 320,
+      "title": "Remove the Java EE and CORBA Modules",
+      "status": "Standard",
+      "description": "Remove módulos Java EE (JAX-WS, JAXB etc.) e CORBA — agora externos.",
+      "url": "https://openjdk.org/jeps/320"
+    },
+    {
+      "number": 321,
+      "title": "HTTP Client (Standard)",
+      "status": "Standard",
+      "description": "Final! HttpClient no pacote java.net.http — cliente HTTP/2 moderno nativo.",
+      "url": "https://openjdk.org/jeps/321"
+    },
+    {
+      "number": 323,
+      "title": "Local-Variable Syntax for Lambda Parameters",
+      "status": "Standard",
+      "description": "Permite var em lambda parameters: (var x, var y) -> x + y.",
+      "url": "https://openjdk.org/jeps/323"
+    },
+    {
+      "number": 324,
+      "title": "Key Agreement with Curve25519 and Curve448",
+      "status": "Standard",
+      "description": "Suporte a key agreement X25519/X448 (RFC 7748).",
+      "url": "https://openjdk.org/jeps/324"
+    },
+    {
+      "number": 327,
+      "title": "Unicode 10",
+      "status": "Standard",
+      "description": "Atualiza suporte para Unicode 10.",
+      "url": "https://openjdk.org/jeps/327"
+    },
+    {
+      "number": 328,
+      "title": "Flight Recorder",
+      "status": "Standard",
+      "description": "Java Flight Recorder (JFR) open-sourced — perfilamento de baixo overhead.",
+      "url": "https://openjdk.org/jeps/328"
+    },
+    {
+      "number": 329,
+      "title": "ChaCha20 and Poly1305 Cryptographic Algorithms",
+      "status": "Standard",
+      "description": "Implementa cifras ChaCha20 e ChaCha20-Poly1305 (RFC 7539).",
+      "url": "https://openjdk.org/jeps/329"
+    },
+    {
+      "number": 330,
+      "title": "Launch Single-File Source-Code Programs",
+      "status": "Standard",
+      "description": "java Hello.java executa sem compilar — ótimo para scripts.",
+      "url": "https://openjdk.org/jeps/330"
+    },
+    {
+      "number": 331,
+      "title": "Low-Overhead Heap Profiling",
+      "status": "Standard",
+      "description": "Heap profiling de baixo overhead via JVMTI.",
+      "url": "https://openjdk.org/jeps/331"
+    },
+    {
+      "number": 332,
+      "title": "Transport Layer Security (TLS) 1.3",
+      "status": "Standard",
+      "description": "Suporte a TLS 1.3 — handshake mais rápido e mais seguro.",
+      "url": "https://openjdk.org/jeps/332"
+    },
+    {
+      "number": 333,
+      "title": "ZGC: A Scalable Low-Latency Garbage Collector (Experimental)",
+      "status": "Standard",
+      "description": "Estreia experimental do ZGC.",
+      "url": "https://openjdk.org/jeps/333"
+    },
+    {
+      "number": 335,
+      "title": "Deprecate the Nashorn JavaScript Engine",
+      "status": "Standard",
+      "description": "Marca Nashorn para remoção (removido em 15).",
+      "url": "https://openjdk.org/jeps/335"
+    },
+    {
+      "number": 336,
+      "title": "Deprecate the Pack200 Tools and API",
+      "status": "Standard",
+      "description": "Marca Pack200 para remoção (removido em 14).",
+      "url": "https://openjdk.org/jeps/336"
+    }
+  ]
+}
