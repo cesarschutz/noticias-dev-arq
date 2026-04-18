@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gera feed.xml (RSS 2.0) a partir de data/editions.json.
 
-Uma entrada por edição diária, agrupando top3 como bullets no body.
+Uma entrada por edição diária, agrupando os highlights como bullets no body.
 """
 import html
 import json

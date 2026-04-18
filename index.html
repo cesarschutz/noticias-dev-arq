@@ -739,7 +739,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   border: none;
   color: var(--ink-dim);
   cursor: pointer;
-  padding: 0 10px !important;
+  padding: 0 10px;
   display: inline-flex; align-items: center;
   transition: color .15s;
 }
@@ -1971,39 +1971,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .rb-val .delta.up { color: var(--red); }
 .rb-val .delta.down { color: var(--green); }
 
-/* rail timeline */
-.tl-list { display: flex; flex-direction: column; gap: 2px; }
-.tl-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 5px 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  color: var(--ink-soft);
-  cursor: pointer;
-  border-left: 2px solid transparent;
-  transition: all .12s;
-  border-radius: 0 3px 3px 0;
-}
-.tl-item:hover { background: var(--surface); color: var(--ink); }
-.tl-item.active {
-  background: linear-gradient(90deg, rgba(53,215,135,.14), transparent 85%);
-  color: var(--green);
-  border-left-color: var(--green);
-  text-shadow: var(--glow-g);
-}
-.tl-item.active::before {
-  content: '▸';
-  color: var(--green);
-  text-shadow: var(--glow-g);
-  margin-right: 4px;
-  animation: pulse 2s ease-in-out infinite;
-}
-.tl-date { font-weight: 500; }
-.tl-meta {
-  font-size: 9px; color: var(--ink-faint);
-  padding: 1px 5px; border: 1px solid var(--rule-soft); border-radius: 3px;
-}
-.tl-item.active .tl-meta { color: var(--green); border-color: rgba(53,215,135,.3); }
 
 /* ═══ Date picker ═══ */
 .dp-panel {
@@ -2374,10 +2341,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
     <div class="radar-sec" aria-hidden="true">
       <div class="radar-bars" id="radar-bars"></div>
     </div>
-    <div class="radar-sec" aria-hidden="true">
-      <span id="ed-count" style="display:none"></span>
-      <div id="tl-list" style="display:none"></div>
-    </div>
   </aside>
 
 </div>
@@ -2691,7 +2654,7 @@ function updateSideNavDate(){
 function updateAggContext(){
   const sb = $('sidebar');
   if (!sb) return;
-  sb.classList.toggle('ctx-agg', STATE.view !== 'home');
+  sb.classList.toggle('ctx-agg', STATE.view !== 'home' && STATE.view !== 'about');
   const rlBtn = $('readLaterBtn');
   if (rlBtn) rlBtn.classList.toggle('rl-active', STATE.view === 'rl');
 }
@@ -2827,10 +2790,9 @@ function renderSidebar(){
   // Totals (todas edições do índice)
   const catTotals = {};
   const toolTotals = {};
-  const CAT_LEGACY_FWD = { cloud:'aws', db:'data', lang:'backend', frontend:null };
   (STATE.editionsIndex?.editions || []).forEach(e => {
     Object.entries(e.counts_by_category || {}).forEach(([k,v]) => {
-      const kk = (k in CAT_LEGACY_FWD) ? CAT_LEGACY_FWD[k] : k;
+      const kk = (k in LEGACY_CAT_MAP) ? LEGACY_CAT_MAP[k] : k;
       if (kk) catTotals[kk] = (catTotals[kk] || 0) + v;
     });
     Object.entries(e.counts_by_tool || {}).forEach(([k,v]) => {
@@ -2840,11 +2802,10 @@ function renderSidebar(){
 
   // Counts do dia atual (apenas em home); legacy keys mapeadas para o novo nome
   const catToday = {};
-  const LEGACY_CAT_FWD = { cloud:'aws', db:'data', lang:'backend', frontend:null };
   if (isHome && ed) {
     [...(ed.pillars||ed.top3||[]), ...(ed.news||[])].forEach(it => {
       let k = it.category;
-      if (k in LEGACY_CAT_FWD) k = LEGACY_CAT_FWD[k];
+      if (k in LEGACY_CAT_MAP) k = LEGACY_CAT_MAP[k];
       if (k) catToday[k] = (catToday[k]||0) + 1;
     });
   }
@@ -2928,7 +2889,6 @@ function renderSidebar(){
   updateMainPrompt();
   updateSideNavDate();
   updateAggContext();
-  updatePrevNextButtons();
 }
 
 /* ═══ Rail render ═══ */
@@ -2981,13 +2941,6 @@ function renderRail(){
            `<span class="rb-val">${counts[k]} ${delta}</span></div>`;
   }).join('') || '<div style="color:var(--ink-dim);font-size:10px">sem dados</div>';
 
-  $('ed-count').textContent = eds.length;
-  $('tl-list').innerHTML = eds.slice(0, 12).map(e => {
-    const isCurr = e.date === STATE.currentDate && STATE.view === 'home';
-    return `<div class="tl-item ${isCurr ? 'active' : ''}" data-goto="${e.date}" role="button" tabindex="0">` +
-           `<span class="tl-date">${e.date}</span>` +
-           `<span class="tl-meta">${(e.highlights||[]).length}</span></div>`;
-  }).join('');
 }
 
 /* ═══ Quote do dia ═══ */
@@ -3361,7 +3314,6 @@ function renderHome(){
   $('main-inner').innerHTML = html;
   updateMainPrompt();
   renderFeed(filtered);
-  attachToolbar();
 }
 
 function formatGeneratedAt(raw){
@@ -3403,7 +3355,6 @@ function renderCategory(key){
   $('main-inner').innerHTML = html;
   updateMainPrompt();
   renderFeed(items, { groupByDate: true });
-  attachToolbar();
 }
 
 /* ═══ Java Versions ═══ */
@@ -3717,22 +3668,15 @@ function renderCVEView(){
 
   if (!filtered.length) {
     html += `<div class="no-items">→ nenhum CVE registrado${f ? ' com severidade ' + f : ''} ainda</div>`;
-    $('main-inner').innerHTML = html;
-    updateMainPrompt();
-    document.querySelectorAll('.cve-sev-btn').forEach(btn => {
-      btn.addEventListener('click', () => { STATE.cveFilter = btn.dataset.sev || null; renderCVEView(); });
+  } else {
+    html += `<section class="section" style="margin-top:0">`;
+    html += `<div class="sec-head"><h2>Vulnerabilidades <span class="tag">CVE</span></h2><div class="sec-meta">${filtered.length} itens${f?' · '+f:''}</div></div>`;
+    html += `<div class="${STATE.mode === 'list' ? 'news-list' : 'news-grid'}">`;
+    filtered.forEach(item => {
+      html += item._type === 'tool' ? buildToolCard(item) : buildCard(item);
     });
-    return;
+    html += `</div></section>`;
   }
-
-  html += `<section class="section" style="margin-top:0">`;
-  html += `<div class="sec-head"><h2>Vulnerabilidades <span class="tag">CVE</span></h2><div class="sec-meta">${filtered.length} itens${f?' · '+f:''}</div></div>`;
-  // Usa buildCard para news e buildToolCard para tool items
-  html += `<div class="${STATE.mode === 'list' ? 'news-list' : 'news-grid'}">`;
-  filtered.forEach(item => {
-    html += item._type === 'tool' ? buildToolCard(item) : buildCard(item);
-  });
-  html += `</div></section>`;
 
   $('main-inner').innerHTML = html;
   updateMainPrompt();
@@ -4049,7 +3993,6 @@ function findItem(url){
   return null;
 }
 
-function attachToolbar(){ /* nada além — mode text usa CSS active */ }
 
 /* ═══ Reader modal ═══ */
 function closeModal(){
@@ -4057,7 +4000,7 @@ function closeModal(){
 }
 $('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
 
-/* ═══ Read-later modal ═══ */
+/* ═══ Read-later ═══ */
 function sortReadLater(items){
   const sort = STATE.rlSort;
   const arr = items.slice();
@@ -4066,82 +4009,6 @@ function sortReadLater(items){
   else if (sort === 'date') arr.sort((a,b) => (b._date||'').localeCompare(a._date||''));
   else arr.sort((a,b) => (b._savedAt||0) - (a._savedAt||0));
   return arr;
-}
-function openReadLater(){
-  const modal = $('modal');
-  const body = $('modal-body');
-  const items = sortReadLater(STATE.readLater);
-  let html = `<div class="modal-head">`;
-  html += `<span class="modal-prompt" style="color:var(--amber);text-shadow:var(--glow-a)">⎘</span>`;
-  html += `<span class="modal-title">ler_depois.log — ${items.length} itens</span>`;
-  html += `<button class="modal-close">ESC</button>`;
-  html += `</div>`;
-  html += `<div class="rl-sub">`;
-  html += `<div>Itens salvos para ler com calma depois.</div>`;
-  html += `<div class="rl-sub-actions">`;
-  html += `<select id="rlSort" aria-label="Ordenar por">`;
-  html += `<option value="saved" ${STATE.rlSort==='saved'?'selected':''}>salvos recentes</option>`;
-  html += `<option value="date" ${STATE.rlSort==='date'?'selected':''}>data edição</option>`;
-  html += `<option value="category" ${STATE.rlSort==='category'?'selected':''}>categoria</option>`;
-  html += `<option value="urgent" ${STATE.rlSort==='urgent'?'selected':''}>urgentes</option>`;
-  html += `</select>`;
-  html += `<button id="rlExport" title="Exportar JSON">export</button>`;
-  html += `<button id="rlClear" title="Limpar tudo">clear</button>`;
-  html += `</div></div>`;
-  html += `<div class="modal-content"><div class="rl-list">`;
-  if (!items.length) {
-    html += `<div class="empty-inline">→ nenhum item salvo ainda.<br>Clique no ícone <b>⎘</b> nos cards ou no botão "salvar p/ ler depois" dentro de uma notícia.</div>`;
-  } else {
-    items.forEach(it => {
-      const c = it.category || 'arqsw';
-      const cat = CAT[c] || {l:c};
-      html += `<a class="rl-item" data-url="${escAttr(it.url)}" data-date="${escAttr(it._date||'')}">`;
-      html += `<div class="rl-item-title">${esc(it.headline)}</div>`;
-      html += `<div class="rl-item-meta">`;
-      html += `<span class="c">[${cat.l}]</span>`;
-      html += `<span class="d">${esc(it._date || '')}</span>`;
-      html += `<span>${esc(it.source || '')}</span>`;
-      if (it.urgent) html += `<span style="color:var(--red);font-weight:700">! URG</span>`;
-      html += `</div>`;
-      html += `<button class="rl-remove" data-rm="${escAttr(it.url)}" title="Remover" aria-label="Remover">×</button>`;
-      html += `</a>`;
-    });
-  }
-  html += `</div></div>`;
-
-  body.innerHTML = html;
-  modal.classList.add('open');
-  body.querySelector('.modal-close').onclick = closeModal;
-  body.querySelectorAll('.rl-item').forEach(it => {
-    it.onclick = (e) => {
-      if (e.target.closest('.rl-remove')) return;
-      window.open(it.dataset.url, '_blank', 'noopener');
-      closeModal();
-    };
-  });
-  body.querySelectorAll('.rl-remove').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const url = btn.dataset.rm;
-      const item = STATE.readLater.find(x => x.url === url);
-      if (item) toggleReadLater(item);
-      openReadLater();
-    };
-  });
-  $('rlSort').onchange = (e) => {
-    STATE.rlSort = e.target.value;
-    localStorage.setItem('dpco-rl-sort', STATE.rlSort);
-    openReadLater();
-  };
-  $('rlExport').onclick = exportReadLater;
-  $('rlClear').onclick = () => {
-    if (!STATE.readLater.length) return;
-    if (!confirm('Limpar toda a lista "ler depois"?')) return;
-    STATE.readLater = [];
-    localStorage.setItem('dpco-read-later', JSON.stringify(STATE.readLater));
-    updateRlBadge();
-    openReadLater();
-  };
 }
 function exportReadLater(){
   const blob = new Blob([JSON.stringify(STATE.readLater, null, 2)], { type: 'application/json' });
@@ -4251,7 +4118,6 @@ function nextEdition(){
   if (idx <= 0) return;
   goToEdition(eds[idx - 1].date);
 }
-function updatePrevNextButtons(){}
 
 function goToday(){
   const eds = STATE.editionsIndex?.editions || [];

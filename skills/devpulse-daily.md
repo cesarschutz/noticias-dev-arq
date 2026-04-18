@@ -445,7 +445,7 @@ Use `last_generated` como limite inferior em cada WebSearch:
 
 **Blocklist de duplicatas** — obrigatório:
 1. Leia `data/editions.json` e pegue as 7 datas mais recentes de `editions[]`.
-2. Para cada data, leia `data/{date}.json` e colete todas as URLs de `pillars[]` (ou `top3[]` em edições legadas), `news[]` e `tools[]`.
+2. Para cada data, leia `data/{date}.json` e colete todas as URLs de `pillars[]`, `news[]` e `tools[]`.
 3. Esse Set é a **blocklist**. Qualquer candidata com URL idêntica é descartada sem exceção.
 4. Descarte também candidatas com headline quase idêntica (normalize: lowercase, remove pontuação, similaridade ≥ 85% a alguma headline do Set).
 

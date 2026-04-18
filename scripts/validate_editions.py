@@ -199,7 +199,8 @@ def validate_edition(path):
 
     # cobertura de categorias (strict)
     if not _lenient:
-        cats_present = {it.get('category') for it in (ed.get('top3') or []) + (ed.get('news') or [])}
+        top_items = ed.get('pillars') if _strict_v2 else (ed.get('top3') or [])
+        cats_present = {it.get('category') for it in (top_items or []) + (ed.get('news') or [])}
         expected_cats = CATEGORIES_V2 if _strict_v2 else CATEGORIES_V1
         missing_cats = expected_cats - cats_present
         if missing_cats:
