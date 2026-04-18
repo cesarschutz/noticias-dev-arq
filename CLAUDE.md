@@ -241,47 +241,47 @@ Se o usuário não souber a diferença, explique e aguarde a decisão antes de m
 
 Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
-> **Distinção importante**: `group` define onde o assunto aparece no rail (agrupamento por papel no trabalho do arquiteto). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
+> **Distinção importante**: `group` define onde o assunto aparece no rail (`subjects` = temas conceituais, `tools` = produtos de software, `lang` = linguagens). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
 
 | Grupo do rail | `tool_key` | Nome | Categoria editorial |
 |---|---|---|---|
-| Ferramentas de Trabalho | `cursor` | Cursor IDE | `ai` |
-| Ferramentas de Trabalho | `claudecode` | Claude Code | `ai` |
-| Ferramentas de Trabalho | `chatgpt` | ChatGPT | `ai` |
-| Ferramentas de Trabalho | `vscode` | VS Code | `ai` |
-| Ferramentas de Trabalho | `warp` | Warp Terminal | `ai` |
-| Ferramentas de Trabalho | `intellij` | IntelliJ IDEA | `backend` |
-| Ferramentas de Trabalho | `postman` | Postman | `integ` |
-| Plataformas & Infra | `git` | Git | `devops` |
-| Plataformas & Infra | `github` | GitHub | `devops` |
-| Plataformas & Infra | `docker` | Docker | `devops` |
-| Plataformas & Infra | `kubernetes` | Kubernetes | `devops` |
-| Plataformas & Infra | `terraform` | Terraform | `devops` |
-| Plataformas & Infra | `helm` | Helm | `devops` |
-| Plataformas & Infra | `ghactions` | GitHub Actions | `devops` |
-| Plataformas & Infra | `argocd` | Argo CD | `devops` |
-| Plataformas & Infra | `istio` | Istio | `devops` |
-| Dados & Mensageria | `postgres` | PostgreSQL | `data` |
-| Dados & Mensageria | `mysql` | MySQL | `data` |
-| Dados & Mensageria | `databricks` | Databricks | `data` |
-| Dados & Mensageria | `kafka` | Apache Kafka | `integ` |
-| Dados & Mensageria | `openapi` | OpenAPI | `integ` |
-| Dados & Mensageria | `redis` | Redis | `data` |
-| Arquitetura & Design | `structurizr` | Structurizr | `design` |
-| Arquitetura & Design | `springboot` | Spring Boot | `backend` |
-| Arquitetura & Design | `gradle` | Gradle | `backend` |
-| Arquitetura & Design | `maven` | Apache Maven | `backend` |
-| Arquitetura & Design | `microservices` | Microsserviços | `distarch` |
-| Arquitetura & Design | `ddd` | DDD | `design` |
-| Arquitetura & Design | `cloudnative` | Cloud Native | `distarch` |
-| Segurança & Obs | `cve` | CVEs & Vulnerabilidades | `sec` |
-| Segurança & Obs | `keycloak` | Keycloak | `sec` |
-| Segurança & Obs | `owasp` | OWASP | `sec` |
-| Segurança & Obs | `dynatrace` | Dynatrace | `obs` |
-| Segurança & Obs | `grafana` | Grafana | `obs` |
-| Linguagens & Runtimes | `java` | Java & JVM | `backend` |
-| Linguagens & Runtimes | `javascript` | JavaScript / TS | `backend` |
-| Linguagens & Runtimes | `python` | Python | `backend` |
+| Assuntos | `microservices` | Microsserviços | `distarch` |
+| Assuntos | `ddd` | DDD | `design` |
+| Assuntos | `cloudnative` | Cloud Native | `distarch` |
+| Assuntos | `cve` | CVEs & Vulnerabilidades | `sec` |
+| Assuntos | `owasp` | OWASP | `sec` |
+| Ferramentas | `cursor` | Cursor IDE | `ai` |
+| Ferramentas | `claudecode` | Claude Code | `ai` |
+| Ferramentas | `chatgpt` | ChatGPT | `ai` |
+| Ferramentas | `vscode` | VS Code | `ai` |
+| Ferramentas | `warp` | Warp Terminal | `ai` |
+| Ferramentas | `intellij` | IntelliJ IDEA | `backend` |
+| Ferramentas | `postman` | Postman | `integ` |
+| Ferramentas | `git` | Git | `devops` |
+| Ferramentas | `github` | GitHub | `devops` |
+| Ferramentas | `docker` | Docker | `devops` |
+| Ferramentas | `kubernetes` | Kubernetes | `devops` |
+| Ferramentas | `terraform` | Terraform | `devops` |
+| Ferramentas | `helm` | Helm | `devops` |
+| Ferramentas | `ghactions` | GitHub Actions | `devops` |
+| Ferramentas | `argocd` | Argo CD | `devops` |
+| Ferramentas | `istio` | Istio | `devops` |
+| Ferramentas | `postgres` | PostgreSQL | `data` |
+| Ferramentas | `mysql` | MySQL | `data` |
+| Ferramentas | `databricks` | Databricks | `data` |
+| Ferramentas | `kafka` | Apache Kafka | `integ` |
+| Ferramentas | `openapi` | OpenAPI | `integ` |
+| Ferramentas | `redis` | Redis | `data` |
+| Ferramentas | `structurizr` | Structurizr | `design` |
+| Ferramentas | `springboot` | Spring Boot | `backend` |
+| Ferramentas | `gradle` | Gradle | `backend` |
+| Ferramentas | `maven` | Apache Maven | `backend` |
+| Ferramentas | `keycloak` | Keycloak | `sec` |
+| Ferramentas | `dynatrace` | Dynatrace | `obs` |
+| Ferramentas | `grafana` | Grafana | `obs` |
+| Linguagens | `java` | Java & JVM | `backend` |
+| Linguagens | `javascript` | JavaScript / TS | `backend` |
+| Linguagens | `python` | Python | `backend` |
 
 **Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
 
