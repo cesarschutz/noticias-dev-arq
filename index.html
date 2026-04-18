@@ -2275,21 +2275,24 @@ function updateMainPrompt(){
     today = STATE.currentDate && isToday(STATE.currentDate) ? '1' : '';
   } else if (v.startsWith('cat:')) {
     const k = v.slice(4);
+    const catDef = CAT[k];
+    const fullName = catDef ? catDef.lf : k;
     color = `var(--cat-${k})`;
-    path = `~/archive/categories/${k}`;
-    cmd = `grep --category=${k}`;
+    path = `~/editions/categories/${k}`;
+    cmd = `grep --category="${fullName}"`;
   } else if (v.startsWith('tool:')) {
     const k = v.slice(5);
     const t = TOOLS.find(x => x.key === k);
+    const fullName = t ? t.name : k;
     color = TOOL_KIND[t?.kind] || 'var(--cyan)';
-    path = `~/archive/tools/${k}`;
-    cmd = `grep --tool="${k}"`;
+    path = `~/editions/tools/${k}`;
+    cmd = `grep --tool="${fullName}"`;
   }
   el.style.setProperty('--mp-color', color);
   el.innerHTML =
     `<span class="leader">❯</span> ` +
-    `<span class="u">csr</span>@<span class="h">console</span>:<span class="p">${esc(path)}</span> ` +
-    `<span class="d">$</span><span class="cmd">${esc(cmd)}</span><span class="cursor-i"></span>` +
+    `<span class="u">csr.news</span>@<span class="h">archive</span> <span class="p">${esc(path)}</span> ` +
+    `<span class="d">%</span><span class="cmd">${esc(cmd)}</span><span class="cursor-i"></span>` +
     (today ? ` <span class="mp-today">[HOJE]</span>` : '');
 }
 
