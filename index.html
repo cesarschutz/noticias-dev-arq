@@ -1716,6 +1716,192 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   white-space: normal;
 }
 
+/* ─── About page ─────────────────────────────────────────────────────── */
+.about-page { max-width: 900px; margin: 0 auto; padding: 0 4px 60px; }
+
+.ab-hero {
+  padding: 32px 24px 28px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--cyan);
+  border-radius: 8px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--cyan) 6%, var(--surface)) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.ab-hero::before {
+  content: 'DevPulse';
+  position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+  font-size: 88px; font-family: 'JetBrains Mono', monospace;
+  color: var(--cyan); opacity: .04; pointer-events: none;
+  letter-spacing: -.04em; line-height: 1;
+}
+.ab-hero-prompt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--cyan); opacity: .7;
+  letter-spacing: .08em; margin-bottom: 12px;
+}
+.ab-hero-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700;
+  color: var(--fg); margin: 0 0 10px;
+  letter-spacing: -.01em;
+}
+.ab-hero-sub {
+  font-size: 13px; color: var(--ink-soft);
+  line-height: 1.6; margin: 0 0 24px;
+  max-width: 540px;
+}
+.ab-stats {
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+.ab-stat {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px 18px;
+  background: var(--bg-deep);
+  border: 1px solid var(--rule); border-radius: 6px;
+  min-width: 70px;
+}
+.ab-stat-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700; color: var(--cyan);
+  text-shadow: var(--glow-c); line-height: 1;
+}
+.ab-stat-l {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--ink-faint); letter-spacing: .06em;
+  margin-top: 4px;
+}
+
+.ab-section { margin-bottom: 48px; }
+.ab-section-hd {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 6px;
+}
+.ab-section-hd-icon { color: var(--cyan); flex-shrink: 0; }
+.ab-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--cyan);
+  text-shadow: var(--glow-c);
+}
+.ab-section-rule {
+  flex: 1; height: 1px; background: linear-gradient(to right, var(--cyan), transparent);
+  opacity: .3;
+}
+
+.ab-2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 20px;
+}
+@media (max-width: 640px) { .ab-2col { grid-template-columns: 1fr; } }
+
+.ab-explain-box {
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+.ab-explain-box h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; color: var(--fg);
+  margin: 0 0 10px; letter-spacing: .04em;
+}
+.ab-explain-box p {
+  font-size: 12px; color: var(--ink-soft); line-height: 1.65;
+  margin: 0;
+}
+.ab-rule-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+  padding: 3px 8px; border-radius: 3px;
+  border: 1px solid; margin-top: 10px; letter-spacing: .04em;
+}
+.ab-rule-chip.amber { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 40%, transparent); }
+.ab-rule-chip.cyan  { color: var(--cyan);  border-color: color-mix(in srgb, var(--cyan) 40%, transparent); }
+.ab-rule-chip.violet{ color: var(--violet);border-color: color-mix(in srgb, var(--violet) 40%, transparent); }
+
+/* category grid */
+.ab-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 10px;
+}
+.ab-cat-card {
+  padding: 14px 14px 12px;
+  background: color-mix(in srgb, var(--k, var(--surface)) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--k, var(--rule)) 30%, var(--rule));
+  border-radius: 8px;
+  cursor: pointer; transition: border-color .15s, background .15s;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ab-cat-card:hover {
+  background: color-mix(in srgb, var(--k, var(--surface)) 16%, var(--surface));
+  border-color: color-mix(in srgb, var(--k, var(--rule)) 60%, var(--rule));
+}
+.ab-cat-icon { color: var(--k, var(--cyan)); }
+.ab-cat-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; font-weight: 700; color: var(--fg);
+  letter-spacing: .02em;
+}
+.ab-cat-rule {
+  font-size: 9px; color: var(--ink-faint);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: .04em;
+}
+
+/* tool groups */
+.ab-group {
+  margin-bottom: 20px;
+}
+.ab-group-hd {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.ab-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 6px;
+}
+.ab-tool-tile {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: space-between;
+  padding: 10px 6px 8px;
+  min-height: 80px;
+  background: color-mix(in srgb, var(--k, var(--surface)) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--k, var(--rule)) 25%, var(--rule));
+  border-radius: 10px;
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.ab-tool-tile:hover {
+  background: color-mix(in srgb, var(--k, var(--surface)) 22%, var(--surface));
+  border-color: color-mix(in srgb, var(--k, var(--rule)) 55%, var(--rule));
+}
+.ab-tool-logo { width: 36px; height: 36px; object-fit: contain; }
+.ab-tool-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px; text-align: center; color: var(--ink-soft);
+  letter-spacing: .02em; line-height: 1.2;
+}
+
+/* quote & verse mockups */
+.ab-mockup {
+  padding: 14px 16px 12px;
+  background: var(--bg-deep);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-size: 11px; color: var(--ink-dim);
+  font-family: 'IBM Plex Sans', sans-serif; font-style: italic;
+  line-height: 1.6;
+}
+.ab-mockup-ref {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--cyan); font-style: normal;
+  letter-spacing: .06em; margin-top: 8px;
+}
+/* ─── /About page ─────────────────────────────────────────────────────── */
+
 /* theme button discreto no topbar */
 .tb-theme {
   background: transparent;
@@ -2333,7 +2519,7 @@ const STATE = {
   editionsCache: {},         // date -> edition json
   currentDate: null,
   currentEdition: null,
-  view: 'home',
+  view: 'about',
   mode: localStorage.getItem('dpco-mode') || 'cards',
   filter: { urgent: false },
   cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
@@ -2945,10 +3131,119 @@ setInterval(() => { if (!document.hidden) cycleQuote(); }, 300000);
 /* ═══ Main render ═══ */
 function renderMain(){
   STATE.kbIdx = -1;
+  if (STATE.view === 'about') return renderAbout();
   if (STATE.view === 'home') return renderHome();
   if (STATE.view === 'rl') return renderReadLater();
   if (STATE.view.startsWith('cat:')) return renderCategory(STATE.view.slice(4));
   if (STATE.view.startsWith('tool:')) return renderTool(STATE.view.slice(5));
+}
+
+function renderAbout(){
+  const el = $('main-inner');
+  const totalEditions = STATE.editionsIndex?.editions?.length || 0;
+
+  function secHd(iconPaths, label){
+    return `<div class="ab-section-hd">
+      <span class="ab-section-hd-icon">${iconSvg(iconPaths, 16)}</span>
+      <span class="ab-section-title">${label}</span>
+      <span class="ab-section-rule"></span>
+    </div>`;
+  }
+
+  // ── Categorias ──
+  const catCards = Object.entries(CAT).map(([key, cat]) => `
+    <div class="ab-cat-card" style="--k:var(--cat-${key})" onclick="setView('cat:${key}')">
+      <div class="ab-cat-icon">${iconSvg(CAT_ICONS[key] || '', 20)}</div>
+      <div class="ab-cat-name">${cat.lf}</div>
+      <div class="ab-cat-rule">min 1 · max 3 / edição</div>
+    </div>`).join('');
+
+  // ── Assuntos fixos ──
+  const toolGroups = Object.entries(TOOL_GROUPS).map(([gk, g]) => {
+    const tiles = TOOLS.filter(t => t.group === gk).map(t => {
+      const domain = (() => { try { return new URL(t.url||'https://example.com').hostname; } catch(e){ return 'example.com'; } })();
+      const fb = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+      return `<div class="ab-tool-tile" style="--k:var(--cat-${t.category})" onclick="setView('tool:${t.key}')" title="${t.name}">
+        <img class="ab-tool-logo" src="${t.logo}" onerror="this.src='${fb}'" alt="${t.name}">
+        <span class="ab-tool-name">${t.name}</span>
+      </div>`;
+    }).join('');
+    return `<div class="ab-group">
+      <div class="ab-group-hd" style="color:${g.color}">${iconSvg(CAT_ICONS[g.icon]||'',12)} ${g.label}</div>
+      <div class="ab-tool-grid">${tiles}</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `<div class="about-page">
+
+    <!-- Hero -->
+    <div class="ab-hero">
+      <div class="ab-hero-prompt">$ cat README.about · DevPulse Arquivo</div>
+      <h1 class="ab-hero-title">DevPulse · Arquivo Diário do Arquiteto</h1>
+      <p class="ab-hero-sub">Noticiário técnico curado e gerado diariamente às 6h BRT, pensado para arquitetos de software e solução que precisam se manter atualizados sem ruído.</p>
+      <div class="ab-stats">
+        <div class="ab-stat"><span class="ab-stat-n">${totalEditions || '—'}</span><span class="ab-stat-l">edições</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">11</span><span class="ab-stat-l">categorias</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">36</span><span class="ab-stat-l">assuntos</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">6h</span><span class="ab-stat-l">BRT · diário</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">5</span><span class="ab-stat-l">frases/edição</span></div>
+      </div>
+    </div>
+
+    <!-- Categorias -->
+    <section class="ab-section">
+      ${secHd(CAT_ICONS.arqsol, 'Categorias')}
+      <div class="ab-2col" style="margin-bottom:18px">
+        <div class="ab-explain-box">
+          <h3>O que são?</h3>
+          <p>Temas editoriais amplos que cobrem o universo do arquiteto. Cada edição garante cobertura de todas as categorias ativas.</p>
+          <span class="ab-rule-chip amber">▲ mínimo 1 item / categoria / dia</span>
+        </div>
+        <div class="ab-explain-box">
+          <h3>Como funciona a seleção?</h3>
+          <p>Se não houver notícia recente, o sistema busca um evergreen relevante de edições anteriores — sem repetir URLs já publicadas nos últimos 7 dias.</p>
+          <span class="ab-rule-chip cyan">▼ máximo 3 itens / categoria / dia</span>
+        </div>
+      </div>
+      <div class="ab-cat-grid">${catCards}</div>
+    </section>
+
+    <!-- Assuntos Fixos -->
+    <section class="ab-section">
+      ${secHd(CAT_ICONS.devops, 'Assuntos Fixos')}
+      <div class="ab-2col" style="margin-bottom:18px">
+        <div class="ab-explain-box">
+          <h3>O que são?</h3>
+          <p>Tecnologias e ferramentas monitoradas ativamente. O sistema busca conteúdo novo em cada um deles a cada edição. Cada assunto tem view dedicada na sidebar com histórico completo.</p>
+          <span class="ab-rule-chip violet">◆ 36 assuntos · agrupados por papel</span>
+        </div>
+        <div class="ab-explain-box">
+          <h3>Regra de cobertura</h3>
+          <p>Cada edição garante <b>mínimo 10 assuntos com conteúdo</b>. Se conteúdo direto for escasso, o sistema completa com conteúdo indireto do ecossistema do assunto — sem repetir URLs recentes.</p>
+          <span class="ab-rule-chip amber">▲ mínimo 10 assuntos / edição</span>
+        </div>
+      </div>
+      ${toolGroups}
+    </section>
+
+    <!-- Frases e versículos -->
+    <section class="ab-section">
+      ${secHd(CAT_ICONS.ai, 'Frases & Versículos')}
+      <div class="ab-2col">
+        <div class="ab-explain-box">
+          <h3>Frases de autores técnicos</h3>
+          <p>Cada edição carrega 5 frases de autores de referência — livros, talks, ensaios. Elas rotacionam no rail a cada 5 minutos. Clicando no bloco do autor você acessa a fonte original do contexto citado.</p>
+          <span class="ab-rule-chip cyan">5 frases · rotação a cada 5 min</span>
+        </div>
+        <div class="ab-explain-box">
+          <h3>Versículos de Jesus</h3>
+          <p>Um versículo das palavras de Jesus (Evangelhos, em PT-BR) exibido no rodapé da tela, com link para a Bíblia online. Também rotaciona a cada 5 minutos e pode ser navegado com os botões ‹ ›.</p>
+          <span class="ab-rule-chip violet">rodapé · link para a Bíblia</span>
+        </div>
+      </div>
+    </section>
+
+  </div>`;
 }
 
 function renderReadLater(){
@@ -3970,7 +4265,9 @@ function goToday(){
 /* ═══ Deep link (data + view) ═══ */
 function setDeepLink(view, date){
   const p = new URLSearchParams();
-  if (!view || view === 'home') {
+  if (!view || view === 'about') {
+    // about = URL limpa sem parâmetros
+  } else if (view === 'home') {
     if (date) p.set('d', date);
   } else {
     p.set('v', view);
@@ -3982,6 +4279,7 @@ async function applyInitialDeepLink(){
   const params = new URLSearchParams(location.search);
   const d = params.get('d');
   const v = params.get('v');
+  if (!d && !v) return; // sem parâmetros → fica na about page
   if (d) {
     const eds = STATE.editionsIndex?.editions || [];
     if (eds.some(e => e.date === d)) await goToEdition(d);
@@ -4041,6 +4339,8 @@ async function init(){
   // events
   $('readLaterBtn').onclick = () => setView('rl');
   $('hamburgerBtn').onclick = toggleSidebar;
+  document.querySelector('.logo-wrap').onclick = () => setView('about');
+  document.querySelector('.logo-wrap').style.cursor = 'pointer';
   $('ghRepoBtn').onclick = () => window.open('https://github.com/cesarschutz/noticias-dev-arq', '_blank', 'noopener');
 
   // refresh last-updated a cada 60s
