@@ -81,10 +81,13 @@ O objetivo principal é usar a literatura técnica para dizer o que QA, desenvol
 
 **Regras obrigatórias para `url`:**
 - **NUNCA invente URLs** — cada URL deve ser real e acessível.
-- Use WebSearch para confirmar que a URL existe antes de incluí-la.
-- URLs devem ser **específicas**: artigos, livros, papers, posts — não homepages de vendor.
-- Exemplos de URLs aceitáveis: `https://martinfowler.com/bliki/MonolithFirst.html`, `https://dataintensive.net/`, `https://principlesofchaos.org/`
-- Exemplos de URLs **proibidas**: `https://aws.amazon.com/`, `https://kafka.apache.org/`, `https://spring.io/`
+- Use WebSearch para encontrar a URL; prefira sempre resultados que já mostram o título e trecho do artigo no snippet, confirmando que é o conteúdo certo.
+- URLs devem ser **específicas**: artigos, posts de blog, papers, docs de versão — não homepages nem raízes de seção.
+- **Releases obrigatoriamente apontam para a release específica**: o path deve conter um número de versão, tag ou data (`/releases/tag/v1.2.3`, `/changelog/2026-04-18`, `/release-notes/1.18.0`). PROIBIDO: `/releases/`, `/changelog/`, `/release-notes/` sem slug específico — isso é raiz de índice, não a notícia.
+- **O artigo deve tratar PRINCIPALMENTE do tópico reportado**: se o artigo é sobre X mas menciona Y de passagem e você o usa para cobrir Y, descarte e busque outro. A URL é evidência do item — não uma referência tangencial.
+- **Profundidade mínima de path**: a URL deve ter ao menos um slug significativo após o domínio e a seção (`/blog/post-slug`, não apenas `/blog/`).
+- Exemplos de URLs aceitáveis: `https://martinfowler.com/bliki/MonolithFirst.html`, `https://github.com/docker/docker/releases/tag/v26.1.0`, `https://kubernetes.io/blog/2026/04/18/new-feature/`
+- Exemplos de URLs **proibidas**: `https://aws.amazon.com/`, `https://kafka.apache.org/`, `https://spring.io/`, `https://docs.docker.com/engine/release-notes/` (raiz do changelog), `https://github.com/kubernetes/kubernetes/releases` (lista, não release específica)
 
 **Exemplos do tom provocador esperado (use como referência de estilo, não copie):**
 - `"Se você tem medo de implantar na sexta-feira, o problema não é a sexta — é o seu processo de implantação."` — Jez Humble
@@ -744,7 +747,8 @@ Meta: `pillars[]` 3/3 com `image`; `news[]` ≥80% com `image`.
 
 Verifique todos os itens antes de declarar a edição concluída:
 
-- [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
+- [ ] **URLs específicas**: nenhuma termina em `/blog/`, `/releases`, `/changelog`, `/news/` sem slug específico. Nenhuma é homepage de vendor. Releases têm número de versão ou tag no path.
+- [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que pillars[], todos os `kind:"release"` e 5 top news[] não são soft-404 nem páginas irrelevantes ao tópico reportado.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou intra-edição.
 - [ ] **Pillars completo**: exatamente 3 itens — `pillar:"java"`, `pillar:"aws"`, `pillar:"distarch"`. Todos com `source`, `url`, `summary`, `image`.
 - [ ] **Consistência pillar vs category**: `pillar:"java"` → `category:"backend"`; `pillar:"aws"` → `category:"aws"`; `pillar:"distarch"` → `category:"distarch"`.
@@ -766,6 +770,30 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **`data/verses.json` com ≥120 itens** (MODO PRIMEIRA EXECUÇÃO).
 
 Se algum check falhar: busque mais conteúdo e corrija. Só então salve.
+
+### FASE 7.1 — Verificação obrigatória de links (antes de salvar)
+
+Execute WebFetch nos seguintes items **nesta ordem de prioridade**:
+
+1. Todos os 3 itens de `pillars[]` (100% obrigatório)
+2. Todos os itens de `tools[]` com `kind:"release"` (100% obrigatório — são os mais propensos a raízes de changelog)
+3. Os 5 primeiros itens de `news[]` ordenados por prioridade: `sec` e `ai` primeiro
+
+Para cada URL, execute:
+```
+WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo principal é sobre [TÓPICO QUE VOCÊ ESTÁ REPORTANDO]? A página contém palavras como '404', 'not found', 'page not found', 'doesn't exist', 'no longer available'? Responda em 3 linhas.")
+```
+
+**Critérios de rejeição — substitua a URL se qualquer um for verdadeiro:**
+
+| Sintoma | Diagnóstico | Ação |
+|---|---|---|
+| Resposta contém "404", "not found", "page not found", "doesn't exist", "no longer available", "this page has moved" | Soft-404 (retornou 200 mas é página de erro) | Busque URL alternativa via WebSearch ou substitua por evergreen |
+| Título da página é completamente diferente do tópico reportado | Link irrelevante / raiz de seção | Busque URL específica do artigo |
+| Página é homepage ou lista/índice sem conteúdo do item | URL muito genérica | Desça um nível: busque o post/release específico |
+| WebFetch retorna erro ou timeout | URL possivelmente inválida ou bloqueada | Tente uma vez mais; se falhar, substitua por fonte alternativa verificada |
+
+**Regra prática**: se o WebFetch não confirmar que a página é principalmente sobre o que você reportou, a URL está errada — não a notícia. Busque outra URL para o mesmo conteúdo antes de descartar o item.
 
 **Salvar arquivos finais:**
 
