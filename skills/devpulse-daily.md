@@ -234,7 +234,12 @@ Descrição: 2-3 linhas em PT-BR explicando **o que muda** e **por que importa p
 
 ##### Primeira execução — versões 11 a 24
 
-Gere **14 arquivos** individuais (java-11 até java-24) + o `index.json`.
+Versões a cobrir: Java 11 a 24 (14 versões no total). **Antes de gerar qualquer arquivo, verifique quais já existem:**
+
+1. Tente ler `data/java-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
+2. Para cada versão de 11 a 24, verifique se `data/java-versions/java-{N}.json` já existe (se está listado no index ou se o arquivo pode ser lido).
+3. **Gere apenas os arquivos ausentes.** Se `java-21.json` já existe, pule-o — não reescreva.
+4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
 
 Fontes obrigatórias por versão:
 - `https://openjdk.org/projects/jdk/{N}/` — lista oficial de JEPs
