@@ -46,11 +46,8 @@ Para **assuntos** em `tools[]` — regra dos 10 mínimos:
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
 2. `data/verses.json` — 100+ versículos de Jesus dos Evangelhos em português (ver protocolo abaixo).
-3. `data/java-versions/index.json` + `java-{N}.json` para Java 11–24 (ver protocolo abaixo).
-4. `data/python-versions/index.json` + `python-{N}.json` para Python 3.8–3.13 (ver protocolo abaixo).
-5. `data/js-versions/index.json` + `js-es{YYYY}.json` para ECMAScript ES2015–ES2024 (ver protocolo abaixo).
-6. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-7. `data/{YYYY-MM-DD}.json` — edição do dia.
+3. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
+4. `data/{YYYY-MM-DD}.json` — edição do dia.
 
 ---
 
@@ -152,281 +149,6 @@ O arquivo `data/verses.json` contém versículos de Jesus dos Evangelhos, exibid
 - Declarações sobre fé, oração, perdão, amor ao próximo
 
 **NÃO inclua:** versículos de outros autores bíblicos (Paulo, Pedro, João apóstolo em suas cartas), apenas as palavras diretas de Jesus nos Evangelhos.
-
----
-
-#### PROTOCOLO: Gerar `data/java-versions/` (primeira execução e auto-update)
-
-A SPA exibe uma seção "Versões Java" dentro da view `tool:java`, mostrando cards clicáveis para cada versão com modal de JEPs detalhados. Os dados ficam em arquivos separados por versão.
-
-##### Estrutura de arquivos
-
-```
-data/java-versions/
-  index.json          ← índice mestre, atualizado toda vez
-  java-11.json
-  java-17.json
-  java-21.json
-  java-24.json
-  ...
-```
-
-##### Schema: `data/java-versions/index.json`
-
-```json
-{
-  "last_updated": "2026-04-17T06:00:00-03:00",
-  "latest_ga": "24",
-  "versions": [
-    {
-      "version": "21",
-      "release_date": "2023-09-19",
-      "lts": true,
-      "oracle_support_until": "2031-09",
-      "jep_count": 15
-    }
-  ]
-}
-```
-
-Mantenha `versions[]` ordenado do mais recente para o mais antigo.
-
-##### Schema: `data/java-versions/java-{N}.json`
-
-```json
-{
-  "version": "21",
-  "release_date": "2023-09-19",
-  "lts": true,
-  "oracle_support_until": "2031-09",
-  "summary": "Java 21 é uma versão LTS com 15 JEPs, destacando Virtual Threads (Project Loom), Sequenced Collections e Pattern Matching consolidado.",
-  "links": [
-    { "label": "Release Notes", "url": "https://openjdk.org/projects/jdk/21/" },
-    { "label": "JEPs listados", "url": "https://openjdk.org/projects/jdk/21/#Features" },
-    { "label": "Baeldung: What's new in Java 21", "url": "https://www.baeldung.com/java-lts-21-new-features" },
-    { "label": "Inside Java Podcast", "url": "https://inside.java/tag/jdk21/" }
-  ],
-  "jeps": [
-    {
-      "number": 444,
-      "title": "Virtual Threads",
-      "status": "Standard",
-      "description": "Threads leves gerenciadas pela JVM que eliminam o modelo thread-por-requisição de plataforma. Permitem concorrência massiva em I/O sem bloquear threads do OS, sem alterar a API existente de java.lang.Thread.",
-      "url": "https://openjdk.org/jeps/444"
-    }
-  ]
-}
-```
-
-Campos obrigatórios por JEP: `number`, `title`, `status`, `description`, `url`.
-`status` ∈ `Standard | Preview | Incubator | Removed`.
-Descrição: 2-3 linhas em PT-BR explicando **o que muda** e **por que importa para o arquiteto**.
-
-##### LTS: referência de suporte Oracle GA
-
-| Versão | LTS | Oracle GA suporte até |
-|--------|-----|----------------------|
-| 11 | ✅ | 2026-09 |
-| 17 | ✅ | 2029-09 |
-| 21 | ✅ | 2031-09 |
-| 25 (futura) | ✅ | 2032+ |
-| Demais (12-16, 18-20, 22-24) | ❌ STS | ~6 meses após lançamento |
-
-##### Primeira execução — versões 11 a 24
-
-Versões a cobrir: Java 11 a 24 (14 versões no total). **Antes de gerar qualquer arquivo, verifique quais já existem:**
-
-1. Tente ler `data/java-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
-2. Para cada versão de 11 a 24, verifique se `data/java-versions/java-{N}.json` já existe (se está listado no index ou se o arquivo pode ser lido).
-3. **Gere apenas os arquivos ausentes.** Se `java-21.json` já existe, pule-o — não reescreva.
-4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
-
-Fontes obrigatórias por versão:
-- `https://openjdk.org/projects/jdk/{N}/` — lista oficial de JEPs
-- `https://openjdk.org/jeps/{número}` — detalhes de cada JEP
-- Artigo editorial consolidado: Baeldung (`baeldung.com/java-lts-{N}-new-features`), Inside Java, InfoQ Java roundup
-
-Atenção ao gerar:
-- Inclua **todos os JEPs com Feature tag** da versão (não apenas os mais famosos).
-- Para Java 11: inclua remoções de APIs legadas (Applet, JAXB movido para Jakarta EE) — esses são JEPs de remoção, use `status: "Removed"`.
-- Para versões de Preview/Incubator, marque corretamente o `status`.
-- Descrições sempre em PT-BR.
-
-##### Execuções normais — auto-update
-
-A cada execução normal, após gerar a edição do dia:
-
-1. Leia `data/java-versions/index.json` e pegue `latest_ga`.
-2. Verifique se há nova versão GA consultando `https://openjdk.org/projects/jdk/` (campo "GA" na tabela de releases ativas).
-3. Se a versão encontrada for maior que `latest_ga`:
-   a. Gere `data/java-versions/java-{N}.json` para a nova versão com todos os JEPs.
-   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest_ga` e `last_updated`.
-4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
-
----
-
-#### PROTOCOLO: Gerar `data/python-versions/` (primeira execução e auto-update)
-
-A SPA exibe versões Python dentro da view `tool:python`, com painel inline expansível listando PEPs de cada versão.
-
-##### Schema: `data/python-versions/index.json`
-
-```json
-{
-  "last_updated": "2026-04-17T06:00:00-03:00",
-  "latest_stable": "3.13",
-  "versions": [
-    {
-      "version": "3.13",
-      "release_date": "2024-10-07",
-      "status": "active",
-      "eol_date": "2029-10",
-      "pep_count": 8
-    }
-  ]
-}
-```
-
-`status` ∈ `active` (suporte completo) | `security` (apenas patches de segurança) | `eol` (fim de vida).
-Ordenar `versions[]` do mais recente para o mais antigo.
-
-##### Schema: `data/python-versions/python-{N}.json`
-
-```json
-{
-  "version": "3.13",
-  "release_date": "2024-10-07",
-  "status": "active",
-  "eol_date": "2029-10",
-  "summary": "Python 3.13 traz free-threading experimental, novo REPL interativo e melhorias de performance no compilador.",
-  "links": [
-    { "label": "What's New in Python 3.13", "url": "https://docs.python.org/3.13/whatsnew/3.13.html" },
-    { "label": "PEP Index", "url": "https://peps.python.org/" }
-  ],
-  "features": [
-    {
-      "number": "PEP 703",
-      "title": "Free-threading CPython (experimental)",
-      "status": "Standard",
-      "description": "Permite rodar CPython sem o GIL em modo experimental, habilitando paralelismo real em threads. Ativado com flag --disable-gil no build. Muda o modelo de concorrência para casos CPU-bound com múltiplos threads.",
-      "url": "https://peps.python.org/pep-0703/"
-    }
-  ]
-}
-```
-
-Campos obrigatórios por feature: `number` (ex.: `"PEP 703"`), `title`, `status`, `description`, `url`.
-Descrições em PT-BR. Inclua **todos os PEPs de destaque** da versão (What's New oficial).
-
-##### Versões a cobrir na primeira execução
-
-Python 3.8 a 3.14 (7 versões). Status de referência:
-
-| Versão | Status | EOL |
-|--------|--------|-----|
-| 3.8 | eol | 2024-10 |
-| 3.9 | eol | 2025-10 |
-| 3.10 | security | 2026-10 |
-| 3.11 | security | 2027-10 |
-| 3.12 | active | 2028-10 |
-| 3.13 | active | 2029-10 |
-| 3.14 | active | 2030-10 |
-
-**Antes de gerar qualquer arquivo, verifique quais já existem:**
-
-1. Tente ler `data/python-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
-2. Para cada versão de 3.8 a 3.13, verifique se `data/python-versions/python-{N}.json` já existe (listado no index ou lido diretamente).
-3. **Gere apenas os arquivos ausentes.** Se `python-3.12.json` já existe, pule-o — não reescreva.
-4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
-
-Fontes: `https://docs.python.org/3.{N}/whatsnew/3.{N}.html` + `https://peps.python.org/`
-
-##### Execuções normais — auto-update Python
-
-A cada execução, após gerar a edição do dia:
-
-1. Leia `data/python-versions/index.json` e pegue `latest_stable`.
-2. Verifique se há versão nova em `https://www.python.org/downloads/`.
-3. Se a versão encontrada for maior que `latest_stable`:
-   a. Gere `data/python-versions/python-{N}.json` para a nova versão com todos os PEPs de destaque.
-   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest_stable` e `last_updated`.
-4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
-
----
-
-#### PROTOCOLO: Gerar `data/js-versions/` (primeira execução e auto-update)
-
-A SPA exibe versões ECMAScript dentro da view `tool:javascript`, com painel inline expansível listando features de cada edição.
-
-##### Schema: `data/js-versions/index.json`
-
-```json
-{
-  "last_updated": "2026-04-17T06:00:00-03:00",
-  "latest": "ES2024",
-  "versions": [
-    {
-      "version": "ES2024",
-      "year": 2024,
-      "release_date": "2024-06-26",
-      "feature_count": 8
-    }
-  ]
-}
-```
-
-Ordenar `versions[]` do mais recente para o mais antigo.
-
-##### Schema: `data/js-versions/js-es{YYYY}.json`
-
-```json
-{
-  "version": "ES2024",
-  "year": 2024,
-  "release_date": "2024-06-26",
-  "summary": "ECMAScript 2024 adiciona Promise.withResolvers, ArrayBuffer redimensionável, Object.groupBy e melhorias em expressões regulares.",
-  "links": [
-    { "label": "Especificação ECMA-262", "url": "https://tc39.es/ecma262/" },
-    { "label": "TC39 Proposals", "url": "https://github.com/tc39/proposals/blob/main/finished-proposals.md" },
-    { "label": "MDN: What's new ES2024", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects" }
-  ],
-  "features": [
-    {
-      "title": "Promise.withResolvers()",
-      "status": "Standard",
-      "description": "Cria uma Promise e expõe resolve/reject como propriedades do objeto retornado, eliminando o padrão verboso de capturar os callbacks no construtor. Simplifica código assíncrono onde o controle da Promise precisa ser passado para outro escopo.",
-      "url": "https://tc39.es/proposal-promise-with-resolvers/"
-    }
-  ]
-}
-```
-
-Campos obrigatórios por feature: `title`, `status`, `description`, `url`. `number`/`stage` são opcionais.
-Descrições em PT-BR. Inclua **todas as proposals Stage 4** aprovadas naquela edição.
-
-##### Versões a cobrir na primeira execução
-
-ES2015 (ES6) a ES2024 — 10 versões. Arquivo: `js-es2015.json`, `js-es2016.json`, …, `js-es2024.json`.
-
-**Antes de gerar qualquer arquivo, verifique quais já existem:**
-
-1. Tente ler `data/js-versions/index.json`. Se existir, extraia a lista de versões já presentes em `versions[].version`.
-2. Para cada versão ES2015 a ES2024, verifique se `data/js-versions/js-es{YYYY}.json` já existe (listado no index ou lido diretamente).
-3. **Gere apenas os arquivos ausentes.** Se `js-es2021.json` já existe, pule-o — não reescreva.
-4. Ao final, atualize (ou crie) o `index.json` adicionando as entradas das versões recém-geradas e mantendo as já existentes.
-
-Fontes: `https://github.com/tc39/proposals/blob/main/finished-proposals.md` + MDN + `https://exploringjs.com/`
-
-##### Execuções normais — auto-update JS
-
-A cada execução, após gerar a edição do dia:
-
-1. Leia `data/js-versions/index.json` e pegue `latest`.
-2. Verifique se há nova edição ECMAScript aprovada: consulte `https://tc39.es/ecma262/` ou `https://github.com/tc39/ecma262/releases` (nova edição sai tipicamente em junho/julho).
-3. Se a versão encontrada for maior que `latest`:
-   a. Gere `data/js-versions/js-es{YYYY}.json` para a nova edição com todas as proposals Stage 4 aprovadas.
-   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest` e `last_updated`.
-4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
 
 ---
 
@@ -627,6 +349,9 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"security advisory" OR "supply chain attack" OR "CVSS 9"`
 - `"Keycloak" OR "Auth0" OR "OIDC" OR "SAML" release OR vulnerability OR update`
 - `"zero-trust" OR "IAM" OR "identity provider" update OR incident`
+- `"SBOM" OR "Sigstore" OR "SLSA" OR "software supply chain" security 2026`
+- `"HashiCorp Vault" OR "secrets management" OR "secret rotation" update OR best practice`
+- `"Falco" OR "Trivy" OR "container security" OR "image scanning" OR "runtime security" news`
 - `site:krebsonsecurity.com breach OR ransomware OR supply chain`
 - `site:isc.sans.edu diary` (diários recentes do ISC SANS)
 
@@ -657,10 +382,13 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 ### 📈 Observabilidade (`obs`)
 - `"OpenTelemetry" release OR update OR adoption`
 - `"Grafana" OR "Datadog" OR "Dynatrace" new feature OR release`
-- `"distributed tracing" OR "observability" OR "SLO" OR "SLI" best practice OR news`
-- `"Prometheus" OR "Loki" OR "Tempo" update OR release`
+- `"distributed tracing" OR "observability" OR "SLO" OR "SLI" OR "error budget" best practice OR news`
+- `"Prometheus" OR "Loki" OR "Tempo" OR "Mimir" update OR release`
+- `"eBPF" OR "continuous profiling" OR "Parca" OR "Pyroscope" observability news`
+- `"incident management" OR "on-call" OR "PagerDuty" OR "Opsgenie" OR "post-mortem" best practice`
 - `site:grafana.com/blog` (#1 fonte de observabilidade — Loki, Tempo, Mimir, OTel)
 - `site:opentelemetry.io/blog` (spec oficial OTel, novos sinais, adoção)
+- `site:charity.wtf OR site:honeycomb.io/blog` (Charity Majors — observabilidade e SLO na prática)
 
 ### 🗄️ Dados & Streaming (`data`)
 - `"PostgreSQL" OR "Valkey" OR "Redis" OR "MongoDB" release OR update` (Valkey = fork Redis pós-mudança de licença 2024)
@@ -701,9 +429,14 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 
 ### 🗺️ Arquitetura Corporativa (`enterprise`)
 - `"enterprise architecture" OR "solution architecture" reference OR pattern OR TOGAF`
-- `"landing zone" OR "reference architecture" OR "API gateway" OR "multi-cloud" pattern`
-- Netflix OR Airbnb OR Uber OR Stripe "engineering blog" architecture post
+- `"landing zone" OR "reference architecture" OR "multi-cloud" OR "cloud governance" pattern`
+- `"Team Topologies" OR "Conway's Law" OR "platform team" OR "stream-aligned team" news OR case study`
+- `"Internal Developer Platform" OR "IDP" OR "Backstage" OR "developer portal" OR "golden path" update`
+- `"FinOps" OR "cloud cost" OR "cloud governance" OR "cost optimization" architecture`
+- `"API governance" OR "API strategy" OR "API portal" OR "API monetization" enterprise`
+- Netflix OR Airbnb OR Uber OR Stripe "engineering blog" architecture OR platform post
 - `site:architectelevator.com` (Gregor Hohpe — arquitetura corporativa)
+- `site:teamtopologies.com/blog` (Team Topologies — estrutura de times e arquitetura)
 - `site:aws.amazon.com/architecture OR site:learn.microsoft.com/azure/architecture OR site:cloud.google.com/architecture` (reference architectures multi-cloud)
 
 ### 🕸 Sistemas Distribuídos (`distarch`)
