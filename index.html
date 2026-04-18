@@ -1331,10 +1331,10 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .mode-btn:hover:not(.active) { color: var(--amber); }
 .mode-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; display: block; }
 
-/* feed - cards mode */
+/* feed - cards mode: mínimo 3 colunas em telas normais */
 .feed-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 10px;
 }
 .card {
