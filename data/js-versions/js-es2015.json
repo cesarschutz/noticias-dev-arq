@@ -1,0 +1,96 @@
+{
+  "version": "ES2015",
+  "year": 2015,
+  "release_date": "2015-06-17",
+  "summary": "ECMAScript 2015 (ES6) foi o maior salto da história do JavaScript: classes, modules, let/const, arrow functions, Promises, Map/Set, destructuring, template literals, Proxies e generators. Fundamento de todo JS moderno.",
+  "links": [
+    { "label": "Especificação ES2015", "url": "https://tc39.es/ecma262/2015/" },
+    { "label": "MDN ES6 Features", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015_support_in_Mozilla" }
+  ],
+  "features": [
+    {
+      "title": "let e const",
+      "status": "Standard",
+      "description": "Declarações de variáveis com escopo de bloco (diferente de var, que é function-scoped). const previne reatribuição. Elimina hoisting traiçoeiro e TDZ dá erros claros.",
+      "url": "https://tc39.es/ecma262/2015/#sec-let-and-const-declarations"
+    },
+    {
+      "title": "Arrow functions",
+      "status": "Standard",
+      "description": "'x => x * 2' como sintaxe curta para funções. Não tem próprio 'this' — herda do escopo — resolvendo dor histórica de callbacks em OOP.",
+      "url": "https://tc39.es/ecma262/2015/#sec-arrow-function-definitions"
+    },
+    {
+      "title": "Classes",
+      "status": "Standard",
+      "description": "'class C extends Base { constructor() { super(); } method() {} }'. Sugar syntactic sobre prototypes, mas torna OOP idiomático e entendível para devs vindos de Java/C#.",
+      "url": "https://tc39.es/ecma262/2015/#sec-class-definitions"
+    },
+    {
+      "title": "Template literals",
+      "status": "Standard",
+      "description": "Backticks permitem interpolação (`Olá ${nome}`) e strings multilinha. Tagged templates habilitam DSLs (styled-components, GraphQL queries).",
+      "url": "https://tc39.es/ecma262/2015/#sec-template-literals"
+    },
+    {
+      "title": "Destructuring",
+      "status": "Standard",
+      "description": "'const {name, age} = user' e 'const [first, ...rest] = arr' extraem valores em um passo. Idiomático em React props, Redux actions, imports.",
+      "url": "https://tc39.es/ecma262/2015/#sec-destructuring-assignment"
+    },
+    {
+      "title": "Default e rest parameters",
+      "status": "Standard",
+      "description": "'function f(x = 10, ...args)' define defaults e captura variadic. Substitui 'x = x || 10' (que falha com 0) e 'arguments' (que não é array).",
+      "url": "https://tc39.es/ecma262/2015/#sec-function-definitions"
+    },
+    {
+      "title": "Spread operator",
+      "status": "Standard",
+      "description": "'[...a, ...b]', 'f(...args)' expandem iteráveis em arrays, argumentos. Simplifica merge, clone e apply.",
+      "url": "https://tc39.es/ecma262/2015/#prod-SpreadElement"
+    },
+    {
+      "title": "ES Modules (import/export)",
+      "status": "Standard",
+      "description": "'import { x } from \"mod\"', 'export default y'. Sintaxe estática que permite tree-shaking — base de todo bundler moderno (Webpack, Vite, esbuild).",
+      "url": "https://tc39.es/ecma262/2015/#sec-modules"
+    },
+    {
+      "title": "Promises",
+      "status": "Standard",
+      "description": "Classe Promise nativa para código assíncrono com .then()/.catch(). Substitui callback hell e prepara terreno para async/await em ES2017.",
+      "url": "https://tc39.es/ecma262/2015/#sec-promise-objects"
+    },
+    {
+      "title": "Map e Set",
+      "status": "Standard",
+      "description": "Estruturas de dados nativas para coleções com chaves de qualquer tipo (Map) e valores únicos (Set). Preservam ordem de inserção — substitui hacks com objetos e arrays.",
+      "url": "https://tc39.es/ecma262/2015/#sec-keyed-collections"
+    },
+    {
+      "title": "Generators (function*)",
+      "status": "Standard",
+      "description": "'function* gen() { yield x }' cria iteradores com pause/resume. Base para lazy evaluation, coroutines e foi prototype inicial de async/await.",
+      "url": "https://tc39.es/ecma262/2015/#sec-generator-function-definitions"
+    },
+    {
+      "title": "Symbols",
+      "status": "Standard",
+      "description": "Tipo primitivo novo para chaves únicas. Habilita Symbol.iterator (interface de iteráveis), Symbol.asyncIterator e meta-programação sem colisão de nomes.",
+      "url": "https://tc39.es/ecma262/2015/#sec-symbol-constructor"
+    },
+    {
+      "title": "Proxy e Reflect",
+      "status": "Standard",
+      "description": "Proxy intercepta operações fundamentais (get, set, apply). Reflect expõe as operações como funções. Base para Vue.js reatividade, ORMs, validação declarativa.",
+      "url": "https://tc39.es/ecma262/2015/#sec-proxy-objects"
+    },
+    {
+      "title": "for...of loop",
+      "status": "Standard",
+      "description": "Itera valores de qualquer iterável (Array, Map, Set, String, custom) via Symbol.iterator. Substitui for-in (que itera chaves) e forEach (sem break).",
+      "url": "https://tc39.es/ecma262/2015/#sec-for-in-and-for-of-statements"
+    }
+  ]
+}

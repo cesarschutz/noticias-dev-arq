@@ -1,0 +1,98 @@
+{
+  "version": "3.14",
+  "release_date": "2025-10-07",
+  "status": "active",
+  "eol_date": "2030-10",
+  "summary": "Python 3.14 marca a oficialização do free-threading (sem GIL) como modo suportado, introduz t-strings para processamento customizado e avaliação diferida de anotações — mudanças profundas no modelo de concorrência e semântica de tipos.",
+  "links": [
+    { "label": "What's New in Python 3.14", "url": "https://docs.python.org/3/whatsnew/3.14.html" },
+    { "label": "PEP 745 - Release Schedule", "url": "https://peps.python.org/pep-0745/" },
+    { "label": "Release Python 3.14", "url": "https://www.python.org/downloads/release/python-3140/" }
+  ],
+  "features": [
+    {
+      "number": "PEP 779",
+      "title": "Free-threaded Python oficialmente suportado",
+      "status": "Standard",
+      "description": "Free-threading (CPython sem GIL) deixa de ser experimental e passa a ser oficialmente suportado. Permite paralelismo real entre threads em workloads CPU-bound sem serialização global — mudança de paradigma para arquiteturas de concorrência em Python.",
+      "url": "https://peps.python.org/pep-0779/"
+    },
+    {
+      "number": "PEP 649",
+      "title": "Avaliação diferida de anotações",
+      "status": "Standard",
+      "description": "Anotações de tipo passam a ser avaliadas sob demanda em vez de no momento da definição da função. Resolve referências circulares em type hints e elimina necessidade de 'from __future__ import annotations' em código moderno.",
+      "url": "https://peps.python.org/pep-0649/"
+    },
+    {
+      "number": "PEP 750",
+      "title": "Template String Literals (t-strings)",
+      "status": "Standard",
+      "description": "Nova sintaxe t'...' para criar templates estruturados processáveis programaticamente — diferente de f-strings, que são avaliadas imediatamente. Abre porta para SQL seguro, HTML escapado e DSLs sem string interpolation vulnerável.",
+      "url": "https://peps.python.org/pep-0750/"
+    },
+    {
+      "number": "PEP 734",
+      "title": "Múltiplos interpretadores na stdlib",
+      "status": "Standard",
+      "description": "Módulo 'interpreters' agora faz parte da biblioteca padrão, permitindo rodar múltiplos interpretadores Python isolados no mesmo processo. Alternativa leve a multiprocessing quando isolamento de estado é necessário.",
+      "url": "https://peps.python.org/pep-0734/"
+    },
+    {
+      "number": "PEP 784",
+      "title": "Módulo compression.zstd",
+      "status": "Standard",
+      "description": "Suporte nativo ao algoritmo Zstandard via módulo compression.zstd. Padroniza uma API única para compressão e permite substituir bibliotecas externas (zstandard, python-zstd) por stdlib.",
+      "url": "https://peps.python.org/pep-0784/"
+    },
+    {
+      "number": "PEP 768",
+      "title": "Interface de debugger externo zero-overhead",
+      "status": "Standard",
+      "description": "Novo ponto de extensão que permite debuggers externos inspecionarem processos CPython sem overhead quando inativos. Fundamental para ferramentas como py-spy, austin e debuggers IDE modernos.",
+      "url": "https://peps.python.org/pep-0768/"
+    },
+    {
+      "number": "PEP 758",
+      "title": "Except sem parênteses em múltiplas exceções",
+      "status": "Standard",
+      "description": "Permite 'except ValueError, TypeError:' em lugar do obrigatório 'except (ValueError, TypeError):'. Pequena mudança de sintaxe que reduz ruído visual em blocos de tratamento de exceções.",
+      "url": "https://peps.python.org/pep-0758/"
+    },
+    {
+      "number": "PEP 765",
+      "title": "Proibir return/break/continue em finally",
+      "status": "Standard",
+      "description": "Gera SyntaxWarning quando finally tem return, break ou continue — padrão que silenciosamente engole exceções. Prepara para SyntaxError em versão futura.",
+      "url": "https://peps.python.org/pep-0765/"
+    },
+    {
+      "number": "PEP 741",
+      "title": "Python Configuration C API",
+      "status": "Standard",
+      "description": "Nova API C para configuração do interpretador que substitui múltiplas APIs legacy (PyConfig, _PyRuntimeState manual). Melhora a integração de Python embutido em aplicações nativas.",
+      "url": "https://peps.python.org/pep-0741/"
+    },
+    {
+      "number": "PEP 761",
+      "title": "Descontinuação de assinaturas PGP para releases",
+      "status": "Standard",
+      "description": "Releases oficiais de CPython deixam de ser assinados via PGP, sendo substituídos por Sigstore. Alinha Python ao padrão moderno de supply-chain security adotado por npm, PyPI e outros.",
+      "url": "https://peps.python.org/pep-0761/"
+    },
+    {
+      "number": "JIT",
+      "title": "JIT experimental em binários oficiais",
+      "status": "Preview",
+      "description": "Release binários oficiais de macOS e Windows agora incluem um JIT compiler experimental baseado em copy-and-patch. Ganhos geométricos de 3-5% em benchmarks, com melhorias focadas em loops quentes.",
+      "url": "https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-jit-compiler"
+    },
+    {
+      "number": "Android",
+      "title": "Binários oficiais para Android",
+      "status": "Standard",
+      "description": "Primeira vez que cpython.org publica binários oficiais Python para Android. Abre porta para embarcados, apps mobile híbridos e pipelines de CI/CD que executam Python em dispositivos Android.",
+      "url": "https://docs.python.org/3.14/whatsnew/3.14.html"
+    }
+  ]
+}

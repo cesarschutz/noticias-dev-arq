@@ -1,0 +1,61 @@
+{
+  "version": "3.9",
+  "release_date": "2020-10-05",
+  "status": "eol",
+  "eol_date": "2025-10",
+  "summary": "Python 3.9 introduziu dict union operators, type hints com generics nativos em list/dict, anotações relaxadas de decorators e um novo parser PEG. Fim de vida em outubro de 2025 — migrar urgentemente.",
+  "links": [
+    { "label": "What's New in Python 3.9", "url": "https://docs.python.org/3.9/whatsnew/3.9.html" }
+  ],
+  "features": [
+    {
+      "number": "PEP 584",
+      "title": "Dict union operators (| e |=)",
+      "status": "Standard",
+      "description": "dict1 | dict2 retorna um novo dict com chaves de ambos. dict1 |= dict2 atualiza in-place. Alternativa limpa a {**d1, **d2} e dict.update().",
+      "url": "https://peps.python.org/pep-0584/"
+    },
+    {
+      "number": "PEP 585",
+      "title": "Generics nativos em coleções padrão",
+      "status": "Standard",
+      "description": "Agora pode-se usar list[int] em vez de List[int] em type hints — sem import de typing. Passo importante rumo à deprecação de typing.List, typing.Dict etc.",
+      "url": "https://peps.python.org/pep-0585/"
+    },
+    {
+      "number": "PEP 614",
+      "title": "Relaxamento de decoradores",
+      "status": "Standard",
+      "description": "Decoradores agora aceitam qualquer expressão válida, não apenas nomes e chamadas. Permite @buttons[0].clicked, @decorator_factory(config=x).method etc.",
+      "url": "https://peps.python.org/pep-0614/"
+    },
+    {
+      "number": "PEP 617",
+      "title": "Novo parser PEG",
+      "status": "Standard",
+      "description": "Parser CPython substituído por um novo baseado em PEG — mais flexível para evolução futura da linguagem. Essa mudança destrava recursos como pattern matching em 3.10.",
+      "url": "https://peps.python.org/pep-0617/"
+    },
+    {
+      "number": "PEP 616",
+      "title": "str.removeprefix e str.removesuffix",
+      "status": "Standard",
+      "description": "Métodos str.removeprefix('foo_') e str.removesuffix('_bar') removem prefixos/sufixos exatos. Evitam bug comum com str.lstrip('foo_') que remove caracteres individualmente.",
+      "url": "https://peps.python.org/pep-0616/"
+    },
+    {
+      "number": "zoneinfo",
+      "title": "Módulo zoneinfo",
+      "status": "Standard",
+      "description": "Suporte nativo a timezones IANA via zoneinfo.ZoneInfo('America/Sao_Paulo'). Substitui pytz como solução padrão, com integração nativa ao datetime.",
+      "url": "https://docs.python.org/3.9/library/zoneinfo.html"
+    },
+    {
+      "number": "PEP 615",
+      "title": "IANA Time Zone Database",
+      "status": "Standard",
+      "description": "zoneinfo usa a tzdata do sistema operacional quando disponível, com fallback para pacote tzdata do PyPI. Evita problemas de timezone desatualizada em containers.",
+      "url": "https://peps.python.org/pep-0615/"
+    }
+  ]
+}

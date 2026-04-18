@@ -1,0 +1,75 @@
+{
+  "version": "3.11",
+  "release_date": "2022-10-24",
+  "status": "security",
+  "eol_date": "2027-10",
+  "summary": "Python 3.11 ficou conhecido como 'o release da performance': de 10% a 60% mais rápido em workloads típicos via Faster CPython, exceptions groups, e sintaxe mais rica de type hints. Ainda amplamente usado em produção.",
+  "links": [
+    { "label": "What's New in Python 3.11", "url": "https://docs.python.org/3.11/whatsnew/3.11.html" }
+  ],
+  "features": [
+    {
+      "number": "Faster CPython",
+      "title": "Faster CPython — 10-60% mais rápido",
+      "status": "Standard",
+      "description": "Inicialização de frames otimizada, inline caching adaptativo e especialização de bytecode resultam em ganhos de 10-60% em benchmarks típicos. Primeira grande vitória do projeto Faster CPython iniciado por Guido e Mark Shannon.",
+      "url": "https://docs.python.org/3.11/whatsnew/3.11.html#faster-cpython"
+    },
+    {
+      "number": "PEP 654",
+      "title": "Exception Groups e except*",
+      "status": "Standard",
+      "description": "ExceptionGroup agrupa múltiplas exceções simultâneas (comum em tasks assíncronas e TaskGroup). Sintaxe 'except*' permite capturar subconjuntos do grupo. Base técnica para TaskGroups no asyncio.",
+      "url": "https://peps.python.org/pep-0654/"
+    },
+    {
+      "number": "PEP 657",
+      "title": "Tracebacks com localização exata",
+      "status": "Standard",
+      "description": "Tracebacks agora mostram com marcadores '^^^' exatamente qual expressão causou a exceção, não apenas a linha. Mudança ergonômica enorme para debugging de expressões complexas.",
+      "url": "https://peps.python.org/pep-0657/"
+    },
+    {
+      "number": "PEP 678",
+      "title": "Notas em exceptions",
+      "status": "Standard",
+      "description": "Método Exception.add_note(str) permite anexar informação contextual a exceções sem envolvê-las. Útil em chamadas de pipeline onde você quer agregar contexto de cada etapa sem perder a exception original.",
+      "url": "https://peps.python.org/pep-0678/"
+    },
+    {
+      "number": "PEP 680",
+      "title": "tomllib na stdlib",
+      "status": "Standard",
+      "description": "Módulo tomllib (somente leitura) adicionado à biblioteca padrão. Torna parsing de pyproject.toml e outros arquivos TOML zero-dependency — crítico para tooling de packaging Python.",
+      "url": "https://peps.python.org/pep-0680/"
+    },
+    {
+      "number": "PEP 646",
+      "title": "Variadic Generics",
+      "status": "Standard",
+      "description": "TypeVarTuple permite generics parametrizados por número arbitrário de tipos — fundamental para bibliotecas numéricas (NumPy, PyTorch) tiparem shape de arrays de forma precisa.",
+      "url": "https://peps.python.org/pep-0646/"
+    },
+    {
+      "number": "PEP 673",
+      "title": "Self type em type hints",
+      "status": "Standard",
+      "description": "typing.Self permite que um método declare 'retorna uma instância da própria classe' sem precisar de forward reference string. Simplifica dramaticamente type hints de builders e fluent APIs.",
+      "url": "https://peps.python.org/pep-0673/"
+    },
+    {
+      "number": "PEP 655",
+      "title": "Required e NotRequired em TypedDict",
+      "status": "Standard",
+      "description": "Permite marcar chaves individuais de um TypedDict como obrigatórias ou opcionais — evita ter que criar duas TypedDicts ou usar total=False de forma inflexível.",
+      "url": "https://peps.python.org/pep-0655/"
+    },
+    {
+      "number": "PEP 681",
+      "title": "@dataclass_transform",
+      "status": "Standard",
+      "description": "Decorator para bibliotecas de ORM/validação declararem que sua classe se comporta como @dataclass. Permite que type checkers entendam Pydantic, SQLModel, attrs e outras bibliotecas sem hardcoding.",
+      "url": "https://peps.python.org/pep-0681/"
+    }
+  ]
+}

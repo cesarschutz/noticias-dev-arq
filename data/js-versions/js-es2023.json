@@ -1,0 +1,41 @@
+{
+  "version": "ES2023",
+  "year": 2023,
+  "release_date": "2023-06-27",
+  "summary": "ECMAScript 2023 priorizou métodos não-mutantes para Array (toSorted, toReversed, toSpliced), shebang #! em scripts e WeakMap com chaves Symbol. Muita coisa pequena, mas com grande impacto em código funcional.",
+  "links": [
+    { "label": "TC39 Finished Proposals", "url": "https://github.com/tc39/proposals/blob/main/finished-proposals.md" }
+  ],
+  "features": [
+    {
+      "title": "Array by copy — toSorted, toReversed, toSpliced, with",
+      "status": "Standard",
+      "description": "Arrays ganham versões imutáveis dos métodos mutantes: toSorted(), toReversed(), toSpliced(), with(i, v). Retornam novo array sem modificar o original — crítico para código funcional e React.",
+      "url": "https://tc39.es/proposal-change-array-by-copy/"
+    },
+    {
+      "title": "findLast() e findLastIndex()",
+      "status": "Standard",
+      "description": "Array.prototype.findLast() e findLastIndex() buscam a partir do fim do array. Substituem o padrão '[...arr].reverse().find()' que aloca um array temporário.",
+      "url": "https://tc39.es/proposal-array-find-from-last/"
+    },
+    {
+      "title": "Hashbang (#!) em scripts",
+      "status": "Standard",
+      "description": "Formaliza o tratamento de '#!/usr/bin/env node' na primeira linha de arquivos .js como comentário. Já funcionava na prática, mas agora é parte da especificação.",
+      "url": "https://tc39.es/proposal-hashbang/"
+    },
+    {
+      "title": "Symbols como chaves WeakMap / WeakSet",
+      "status": "Standard",
+      "description": "WeakMap e WeakSet agora aceitam Symbols como chaves, não apenas objetos. Útil para marcar metadata em symbols privados sem vazamento de memória.",
+      "url": "https://tc39.es/proposal-symbols-as-weakmap-keys/"
+    },
+    {
+      "title": "Array and TypedArray findLast",
+      "status": "Standard",
+      "description": "Métodos de busca reversa, complementando o findLast do item acima para TypedArrays — importante para processamento de buffers binários.",
+      "url": "https://github.com/tc39/proposal-array-find-from-last"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "last_updated": "2026-04-17T06:00:00-03:00",
+  "latest": "ES2024",
+  "versions": [
+    {
+      "version": "ES2024",
+      "year": 2024,
+      "release_date": "2024-06-26",
+      "feature_count": 8
+    },
+    {
+      "version": "ES2023",
+      "year": 2023,
+      "release_date": "2023-06-27",
+      "feature_count": 5
+    },
+    {
+      "version": "ES2022",
+      "year": 2022,
+      "release_date": "2022-06-22",
+      "feature_count": 9
+    },
+    {
+      "version": "ES2021",
+      "year": 2021,
+      "release_date": "2021-06-22",
+      "feature_count": 6
+    },
+    {
+      "version": "ES2020",
+      "year": 2020,
+      "release_date": "2020-06-16",
+      "feature_count": 8
+    },
+    {
+      "version": "ES2019",
+      "year": 2019,
+      "release_date": "2019-06-25",
+      "feature_count": 8
+    },
+    {
+      "version": "ES2018",
+      "year": 2018,
+      "release_date": "2018-06-27",
+      "feature_count": 7
+    },
+    {
+      "version": "ES2017",
+      "year": 2017,
+      "release_date": "2017-06-27",
+      "feature_count": 5
+    },
+    {
+      "version": "ES2016",
+      "year": 2016,
+      "release_date": "2016-06-17",
+      "feature_count": 2
+    },
+    {
+      "version": "ES2015",
+      "year": 2015,
+      "release_date": "2015-06-17",
+      "feature_count": 14
+    }
+  ]
+}

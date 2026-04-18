@@ -1,0 +1,47 @@
+{
+  "version": "ES2021",
+  "year": 2021,
+  "release_date": "2021-06-22",
+  "summary": "ECMAScript 2021 trouxe operadores de atribuição lógica (??=, ||=, &&=), String.replaceAll, WeakRefs e Promise.any — além de separadores numéricos (_) para legibilidade.",
+  "links": [
+    { "label": "TC39 Finished Proposals", "url": "https://github.com/tc39/proposals/blob/main/finished-proposals.md" }
+  ],
+  "features": [
+    {
+      "title": "Logical assignment operators (??=, ||=, &&=)",
+      "status": "Standard",
+      "description": "Operadores 'a ??= b', 'a ||= b', 'a &&= b' combinam avaliação lógica com atribuição. 'config.timeout ??= 5000' substitui 'if (config.timeout == null) config.timeout = 5000'.",
+      "url": "https://github.com/tc39/proposal-logical-assignment"
+    },
+    {
+      "title": "String.prototype.replaceAll()",
+      "status": "Standard",
+      "description": "Substitui todas ocorrências de uma substring sem precisar de regex global. Elimina o hack /pattern/g quando tudo o que você precisa é trocar texto literal.",
+      "url": "https://github.com/tc39/proposal-string-replaceall"
+    },
+    {
+      "title": "Promise.any()",
+      "status": "Standard",
+      "description": "Retorna a primeira Promise resolvida entre várias — ignora rejeições. Útil para race conditions onde você quer o 'primeiro sucesso' (ex.: fallback de CDNs).",
+      "url": "https://github.com/tc39/proposal-promise-any"
+    },
+    {
+      "title": "WeakRef e FinalizationRegistry",
+      "status": "Standard",
+      "description": "WeakRef permite referência fraca a um objeto (não impede GC). FinalizationRegistry notifica quando objeto é coletado. Ferramentas avançadas para caches e cleanup.",
+      "url": "https://github.com/tc39/proposal-weakrefs"
+    },
+    {
+      "title": "Numeric separators (1_000_000)",
+      "status": "Standard",
+      "description": "Underscores separam grupos de dígitos em literais numéricos: 1_000_000, 0xFF_FF, 1_000.000_001. Apenas legibilidade — ignorados em runtime.",
+      "url": "https://github.com/tc39/proposal-numeric-separator"
+    },
+    {
+      "title": "Intl.ListFormat, Intl.DateTimeFormat dateStyle/timeStyle",
+      "status": "Standard",
+      "description": "APIs de internacionalização expandidas. Intl.ListFormat gera 'Maçã, Banana e Laranja' localizado. DateTimeFormat ganha shortcuts dateStyle/timeStyle.",
+      "url": "https://github.com/tc39/proposal-intl-list-format"
+    }
+  ]
+}

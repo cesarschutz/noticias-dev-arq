@@ -1,0 +1,68 @@
+{
+  "last_generated": "2026-04-17T06:00:00-03:00",
+  "editions": [
+    {
+      "date": "2026-04-17",
+      "summary": "Dia marcado por três eventos-chave: Dynatrace fecha a compra da Bindplane centralizando o controle da pipeline OpenTelemetry, Cursor 3 ressignifica a IDE como painel de agentes paralelos, e uma falha CVSS 9.8 no nginx-ui expõe mais de 2.600 instâncias à tomada de servidor sem autenticação.",
+      "counts_by_category": {
+        "sec": 4,
+        "ai": 4,
+        "aws": 4,
+        "devops": 4,
+        "obs": 4,
+        "data": 3,
+        "integ": 2,
+        "backend": 4,
+        "arqsw": 3,
+        "arqsol": 3
+      },
+      "counts_by_tool": {
+        "structurizr": 1,
+        "whimsical": 1,
+        "plantuml": 1,
+        "cursor": 1,
+        "claudecode": 1,
+        "chatgpt": 1,
+        "vscode": 1,
+        "warp": 1,
+        "cve": 1,
+        "keycloak": 1,
+        "owasp": 1,
+        "git": 1,
+        "github": 1,
+        "docker": 1,
+        "kubernetes": 1,
+        "dynatrace": 1,
+        "postgres": 1,
+        "mysql": 1,
+        "mongocompass": 1,
+        "dbeaver": 1,
+        "databricks": 1,
+        "kafka": 1,
+        "postman": 1,
+        "openapi": 1,
+        "java": 1,
+        "javascript": 1,
+        "python": 1,
+        "intellij": 1,
+        "springboot": 1,
+        "gradle": 1,
+        "maven": 1
+      },
+      "highlights": [
+        {
+          "title": "IntelliJ IDEA 2026.1 chega com suporte a Java 26, debugger para virtual threads e Git worktrees nativos",
+          "url": "https://blog.jetbrains.com/idea/2026/03/intellij-idea-2026-1/"
+        },
+        {
+          "title": "AWS Interconnect GA: conectividade multicloud privada e last-mile viram serviços gerenciados",
+          "url": "https://mwpro.co.uk/blog/2026/04/15/aws-announces-general-availability-of-aws-interconnect-multicloud/"
+        },
+        {
+          "title": "Dynatrace conclui aquisição da Bindplane e toma a tap da telemetria OpenTelemetry",
+          "url": "https://www.dynatrace.com/news/blog/dynatrace-to-acquire-bindplane-telemetry-pipeline/"
+        }
+      ]
+    }
+  ]
+}
