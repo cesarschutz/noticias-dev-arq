@@ -777,114 +777,23 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .sidebar::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
 
 /* sidebar controles (topo) */
-.side-controls {
-  padding: 12px 12px 14px;
-  border-bottom: 1px solid var(--rule);
-  background: var(--bg-deep);
-  position: relative;
-  transition: opacity .15s ease;
-}
-.sidebar.ctx-agg .side-controls .side-nav-row,
-.sidebar.ctx-agg .side-controls .side-nav-row * { opacity: .45; }
-.sidebar.ctx-agg .side-controls #prevEdBtn,
-.sidebar.ctx-agg .side-controls #nextEdBtn { pointer-events: none; visibility: hidden; }
-.sidebar.ctx-agg .side-controls #snTodayBadge { display: none !important; }
 
-.side-nav-row {
-  display: flex; align-items: center; gap: 4px;
-  margin-bottom: 8px;
-  position: relative;
-}
-.sn-btn {
-  width: 28px; height: 28px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
+/* rl-menu: "ler depois" como item de menu antes das categorias */
+.rl-menu-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
   cursor: pointer;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--ink-soft);
-  display: grid; place-items: center;
-  transition: all .12s;
-  flex-shrink: 0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  line-height: 1;
+  border-left: 2px solid transparent;
+  transition: all .12s ease;
+  user-select: none;
 }
-.sn-btn:hover:not(:disabled) { border-color: var(--amber); color: var(--amber); text-shadow: var(--glow-a); }
-.sn-btn:disabled { opacity: .3; cursor: not-allowed; }
-
-.sn-date {
-  flex: 1;
-  min-width: 0;
-  height: 28px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  color: var(--ink);
-  cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 0 8px;
-  transition: all .12s;
-}
-.sn-date:hover { border-color: var(--amber); color: var(--amber); }
-.sn-date #dpLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sn-today-badge {
-  color: var(--green);
-  text-shadow: var(--glow-g);
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .08em;
-  flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
-}
-.sn-go-today {
-  width: 100%;
-  margin-top: 6px;
-  padding: 5px;
-  background: var(--amber);
-  color: var(--bg-deep);
-  border: none;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: .04em;
-}
-.sn-go-today:hover { background: transparent; color: var(--amber); outline: 1px solid var(--amber); }
-
-.sidebar .side-controls { position: sticky; top: 0; z-index: 10; }
-
-.side-actions {
-  display: flex; flex-direction: row; gap: 4px;
-}
-.sa-btn {
-  padding: 6px 9px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  color: var(--ink-soft);
-  cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  display: flex; align-items: center; gap: 6px;
-  transition: all .12s;
-  flex: 1;
-  min-width: 0;
-}
-.sa-btn:hover { border-color: var(--amber); color: var(--amber); }
-.sa-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
-.sa-btn span { flex: 1; text-align: left; }
-.sa-btn kbd {
-  padding: 0 4px;
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  font-size: 9px;
-  color: var(--ink-dim);
-  background: var(--bg-deep);
-}
-.sa-btn .rl-badge {
+.rl-menu-item:hover { background: var(--surface); color: var(--ink); }
+.rl-menu-item svg { flex-shrink: 0; }
+.rl-menu-name { flex: 1; }
+.rl-badge {
   min-width: 16px; padding: 0 4px;
   border-radius: 8px;
   background: var(--amber);
@@ -893,8 +802,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   font-size: 9px;
   text-align: center;
 }
-.sa-btn .rl-badge:empty { display: none; }
-.sa-btn.icon-only { justify-content: center; padding: 6px; }
+.rl-badge:empty { display: none; }
 
 .side-section { margin-top: 14px; flex-shrink: 0; padding-bottom: 6px; }
 
@@ -965,22 +873,30 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .tool-cat-header {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 7px 6px 3px;
-  font-size: 9px;
+  gap: 6px;
+  padding: 9px 8px 4px;
+  font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
-  text-transform: uppercase;
-  letter-spacing: .06em;
   color: var(--k, var(--ink-dim));
   border-top: 1px solid var(--rule-soft);
   margin-top: 4px;
   pointer-events: none;
   user-select: none;
+  grid-column: 1 / -1;
 }
 .tool-cat-header:first-child { margin-top: 0; border-top: none; }
-.tool-cat-icon { font-size: 11px; }
-.tool-cat-name { color: var(--k, var(--ink-dim)); opacity: .8; }
-.ch-item.ch-tool { padding-left: 14px; }
+.tool-cat-icon { font-size: 13px; }
+.tool-cat-name { color: var(--k, var(--ink-dim)); }
+#tools-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.ch-item.ch-tool {
+  padding: 4px 8px;
+  font-size: 10.5px;
+  border-left: none;
+  border-bottom: none;
+}
 
 /* ═══ Main ═══ */
 .main {
@@ -1649,30 +1565,29 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .quote-link:hover { color: var(--amber); }
 
-/* rail theme toggle */
-.rail-theme-row {
-  display: flex; align-items: center; justify-content: flex-end;
-  padding: 0 0 10px;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 14px;
-}
-.rail-theme-btn {
-  padding: 4px 10px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  color: var(--ink-soft);
+/* theme button discreto no topbar */
+.tb-theme {
+  background: transparent;
+  border: none;
+  color: var(--ink-dim);
   cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  display: flex; align-items: center; gap: 5px;
-  transition: all .12s;
+  padding: 0 8px;
+  display: inline-flex; align-items: center;
+  transition: color .15s;
+  opacity: .6;
 }
-.rail-theme-btn:hover { border-color: var(--amber); color: var(--amber); }
-.rail-theme-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+.tb-theme:hover { color: var(--amber); opacity: 1; }
 
 /* rail assuntos section */
 .rail-tools-sec { margin-top: 4px; }
+.rail-tools-title {
+  padding: 0 6px 6px;
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
 
 /* radar (mantido para não quebrar refs no JS, mas oculto) */
 .radar-sec { display: none; }
@@ -1754,34 +1669,14 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .tl-item.active .tl-meta { color: var(--green); border-color: rgba(53,215,135,.3); }
 
 /* ═══ Date picker ═══ */
-.dp-wrap { position: relative; flex-shrink: 0; }
 .dp-panel {
-  background: var(--bg-deep);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 10px;
   display: block;
-  margin: 6px 0 10px;
+  margin: 12px 10px 4px;
+  padding: 12px 10px 10px;
+  background: var(--surface);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
 }
-/* .dp-panel.open mantido por retrocompat mas não usado mais */
-.dp-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-}
-.dp-head b { color: var(--amber); }
-.dp-nav { display: flex; gap: 4px; }
-.dp-nav button {
-  width: 22px; height: 22px;
-  background: var(--bg-deep);
-  border: 1px solid var(--rule);
-  color: var(--ink-soft);
-  cursor: pointer;
-  border-radius: 3px;
-  display: grid; place-items: center;
-}
-.dp-nav button:hover { color: var(--amber); border-color: var(--amber); }
 .dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .dp-dow {
   font-family: 'JetBrains Mono', monospace;
@@ -2061,6 +1956,9 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
       <span class="tb-chunk live-dot" aria-hidden="true">●</span>
       <span class="tb-chunk"><b id="sbx-clock">--:--</b></span>
       <span class="tb-chunk">↻ <b id="sbx-updated">há —</b></span>
+      <button class="tb-theme" id="themeBtn" aria-label="Alternar tema" title="Alternar tema">
+        <svg viewBox="0 0 24 24" id="themeIco" aria-hidden="true" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
       <button class="tb-gh" id="ghRepoBtn" aria-label="Abrir repositório no GitHub" title="Repositório no GitHub">
         <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.02c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.79.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
       </button>
@@ -2069,31 +1967,17 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 
   <!-- SIDEBAR (cockpit: controles + cats + tools + base) -->
   <aside class="sidebar" id="sidebar" aria-label="Navegação lateral">
-    <div class="side-controls">
-      <div class="side-nav-row" id="sideNavRow">
-        <button class="sn-btn" id="prevEdBtn" aria-label="Edição anterior" title="Edição anterior (P)">◂</button>
-        <button class="sn-date" id="dpBtn" aria-label="Escolher data" aria-haspopup="dialog">
-          <span id="dpLabel">—</span>
-          <span class="sn-today-badge" id="snTodayBadge" hidden>[HOJE]</span>
-        </button>
-        <button class="sn-btn" id="nextEdBtn" aria-label="Próxima edição" title="Próxima edição (N)">▸</button>
-        <button class="sn-go-today" id="goTodayBtn" title="Ir para a edição de hoje (H)" hidden>→ hoje</button>
-      </div>
-      <div class="dp-wrap" id="dpWrap">
-        <div class="dp-panel" id="dpPanel" role="dialog" aria-label="Calendário de edições"></div>
-      </div>
-      <div class="side-actions">
-        <button class="sa-btn" id="readLaterBtn" aria-label="Ler depois" title="Ler depois (B)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          <span>ler depois</span><span class="rl-badge" id="rlBadge" aria-live="polite"></span>
-        </button>
-      </div>
+    <div class="dp-panel" id="dpPanel" aria-label="Calendário de edições"></div>
+
+    <div class="rl-menu-item" id="readLaterBtn" role="button" tabindex="0" aria-label="Ler depois">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="11" height="11" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span class="rl-menu-name">ler depois</span>
+      <span class="rl-badge" id="rlBadge" aria-live="polite"></span>
     </div>
 
     <div class="side-section">
       <div class="side-label">
         <span>// categorias</span>
-        <span class="count" id="cat-total">10</span>
       </div>
       <div id="channels" role="list"></div>
     </div>
@@ -2110,17 +1994,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 
   <!-- TELEMETRY RAIL -->
   <aside class="rail" aria-label="Telemetria">
-    <div class="rail-title">
-      <span>// telemetry</span>
-    </div>
-
-    <div class="rail-theme-row">
-      <button class="rail-theme-btn" id="themeBtn" aria-label="Alternar tema" title="Alternar tema (T)">
-        <svg viewBox="0 0 24 24" id="themeIco" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        <span id="themeLabel">tema</span>
-      </button>
-    </div>
-
     <div class="quote-box" id="quote-box" aria-live="polite">
       <div class="quote-text" id="quote-text">—</div>
       <div class="quote-meta">
@@ -2131,10 +2004,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
     </div>
 
     <div class="rail-tools-sec">
-      <div class="rail-title">
-        <span>// assuntos</span>
-        <span class="count" id="tool-total">31</span>
-      </div>
+      <div class="rail-tools-title">// assuntos</div>
       <div id="tools-side" role="list"></div>
     </div>
 
@@ -2588,7 +2458,6 @@ function renderSidebar(){
     return `<div class="ch-item ${active}" data-filter-type="cat" data-filter-key="${k}" role="button" tabindex="0" style="--k: var(--cat-${k})">` +
            `<span class="ch-dot" aria-hidden="true"></span>` +
            `<span class="ch-name">${CAT[k].lf}</span>` +
-           `<span class="ch-count">${fmtCount(tday, total, isHome)}</span>` +
            `</div>`;
   }).join('');
 
@@ -2637,9 +2506,7 @@ function renderSidebar(){
       const active = STATE.view === 'tool:' + t.key ? 'active' : '';
       const color = `var(--cat-${catKey})`;
       toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" style="--k: ${color}">` +
-             `<span class="ch-dot" style="background:var(--surface-3);border:1px solid ${color};display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;font-size:8px;box-shadow:none;" aria-hidden="true">${t.icon}</span>` +
              `<span class="ch-name">${t.name}</span>` +
-             `<span class="ch-count">${fmtCount(tday, total, isHome)}</span>` +
              `</div>`;
     });
   });
@@ -2650,16 +2517,12 @@ function renderSidebar(){
       const tday = toolToday[t.key] || 0;
       const active = STATE.view === 'tool:' + t.key ? 'active' : '';
       toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" style="--k: var(--cyan)">` +
-             `<span class="ch-dot" aria-hidden="true">${t.icon}</span>` +
              `<span class="ch-name">${t.name}</span>` +
-             `<span class="ch-count">${fmtCount(tday, total, isHome)}</span>` +
              `</div>`;
     });
   }
   tools.innerHTML = toolsHtml;
 
-  $('cat-total').textContent = Object.keys(CAT).length;
-  $('tool-total').textContent = TOOLS.length;
 
   // sincronizar contextuais
   updateMainPrompt();
@@ -3723,8 +3586,7 @@ function renderDp(){
   (STATE.editionsIndex?.editions || []).forEach(e => editionsSet[e.date] = true);
   const todayIso = new Date().toISOString().slice(0,10);
 
-  let html = `<div class="dp-head"><b>${monthLabel}</b><div class="dp-nav"><button id="dpPrev" aria-label="Mês anterior">‹</button><button id="dpNext" aria-label="Próximo mês">›</button></div></div>`;
-  html += `<div class="dp-grid">`;
+  let html = `<div class="dp-grid">`;
   ['D','S','T','Q','Q','S','S'].forEach(d => html += `<div class="dp-dow">${d}</div>`);
   for (let i = 0; i < startDow; i++) html += `<div class="dp-cell"></div>`;
   for (let day = 1; day <= lastDay; day++) {
@@ -3736,8 +3598,6 @@ function renderDp(){
   }
   html += `</div>`;
   panel.innerHTML = html;
-  $('dpPrev').onclick = () => { dpMonth--; if (dpMonth < 0){ dpMonth = 11; dpYear--; } renderDp(); };
-  $('dpNext').onclick = () => { dpMonth++; if (dpMonth > 11){ dpMonth = 0; dpYear++; } renderDp(); };
   panel.querySelectorAll('.dp-cell.has-edition').forEach(c => {
     c.onclick = () => goToEdition(c.dataset.date);
   });
@@ -3788,12 +3648,7 @@ function nextEdition(){
   if (idx <= 0) return;
   goToEdition(eds[idx - 1].date);
 }
-function updatePrevNextButtons(){
-  const eds = STATE.editionsIndex?.editions || [];
-  const idx = eds.findIndex(e => e.date === STATE.currentDate);
-  $('prevEdBtn').disabled = idx < 0 || idx >= eds.length - 1 || STATE.view !== 'home';
-  $('nextEdBtn').disabled = idx <= 0 || STATE.view !== 'home';
-}
+function updatePrevNextButtons(){}
 
 function goToday(){
   const eds = STATE.editionsIndex?.editions || [];
@@ -3877,11 +3732,7 @@ async function init(){
 
   // events
   $('readLaterBtn').onclick = openReadLater;
-  $('dpBtn').onclick = () => syncCalToDate(STATE.currentDate);
-  $('prevEdBtn').onclick = prevEdition;
-  $('nextEdBtn').onclick = nextEdition;
   $('hamburgerBtn').onclick = toggleSidebar;
-  $('goTodayBtn').onclick = goToday;
   $('ghRepoBtn').onclick = () => window.open('https://github.com/cesarschutz/noticias-dev-arq', '_blank', 'noopener');
 
   // refresh last-updated a cada 60s
