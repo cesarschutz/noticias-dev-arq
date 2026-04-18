@@ -63,19 +63,23 @@
   --panel-stat: rgba(2,5,10,.9);
   --dot-tex: radial-gradient(circle, rgba(148,185,220,.13) 1px, transparent 1px) 0 0 / 22px 22px;
 
-  --cat-sec:      #EF4444;
-  --cat-ai:       #A78BFA;
-  --cat-aws:      #FF9900;
-  --cat-devops:   #F59E0B;
-  --cat-obs:      #9B7BFF;
-  --cat-data:     #38BDF8;
-  --cat-integ:    #2DD4BF;
-  --cat-backend:  #22C55E;
-  --cat-design:    #C084FC;
-  --cat-enterprise:#FF9F45;
-  --cat-distarch:  #818cf8;
-  --cat-fintech:  #F0B429;
-  --cat-testing:  #84cc16;
+  --cat-sec:      #EF4444;   /* vermelho   — perigo/segurança */
+  --cat-ai:       #A78BFA;   /* violeta    — AI/neural */
+  --cat-aws:      #FF9900;   /* laranja    — brand AWS */
+  --cat-devops:   #3b82f6;   /* azul       — pipelines/confiança */
+  --cat-obs:      #f59e0b;   /* âmbar      — dashboards/alertas */
+  --cat-data:     #38BDF8;   /* azul-claro — fluxos de dados */
+  --cat-integ:    #2DD4BF;   /* teal       — conexões/APIs */
+  --cat-backend:  #22C55E;   /* verde      — código/runtime */
+  --cat-design:   #f472b6;   /* rosa       — design/criatividade */
+  --cat-enterprise:#94a3b8;  /* slate      — corporativo/neutro */
+  --cat-distarch: #6366f1;   /* índigo     — sistemas distribuídos */
+  --cat-fintech:  #10b981;   /* esmeralda  — pagamentos/dinheiro */
+  --cat-testing:  #84cc16;   /* lima       — qualidade/lab */
+  /* rail group headers (direita) */
+  --rail-lang:    #e879f9;   /* fúcsia     — linguagens = expressivo */
+  --rail-topics:  #22d3ee;   /* ciano      — tópicos = conhecimento */
+  --rail-tools:   #fb923c;   /* laranja-suave — ferramentas = ofício */
   /* legacy aliases — mantidas para edições antigas */
   --cat-arqsw:    var(--cat-design);
   --cat-arqsol:   var(--cat-enterprise);
@@ -138,16 +142,20 @@
   --cat-sec:      #B91C3C;
   --cat-ai:       #6D28D9;
   --cat-aws:      #C46B00;
-  --cat-devops:   #B0590C;
-  --cat-obs:      #5B21B6;
+  --cat-devops:   #1d4ed8;   /* azul escuro */
+  --cat-obs:      #b45309;   /* âmbar escuro */
   --cat-data:     #0E7490;
   --cat-integ:    #0F766E;
   --cat-backend:  #166534;
-  --cat-design:    #7C3AED;
-  --cat-enterprise:#C2570A;
-  --cat-distarch:  #4F46E5;
-  --cat-fintech:  #B7791F;
+  --cat-design:   #be185d;   /* rosa escuro */
+  --cat-enterprise:#475569;  /* slate escuro */
+  --cat-distarch: #4338ca;   /* índigo escuro */
+  --cat-fintech:  #065f46;   /* esmeralda escuro */
   --cat-testing:  #5a7a09;
+  /* rail group headers */
+  --rail-lang:    #a21caf;   /* fúcsia escuro */
+  --rail-topics:  #0e7490;   /* ciano escuro */
+  --rail-tools:   #c2410c;   /* laranja escuro */
   /* legacy aliases */
   --cat-arqsw:    var(--cat-design);
   --cat-arqsol:   var(--cat-enterprise);
@@ -959,16 +967,23 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 8px 4px;
+  padding: 9px 10px 5px 8px;
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
   color: var(--k, var(--ink-dim));
+  opacity: .65;
   margin-top: 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid color-mix(in srgb, var(--k, var(--ink-faint)) 18%, transparent);
   pointer-events: none;
   user-select: none;
   grid-column: 1 / -1;
 }
 .tool-cat-header:first-child { margin-top: 0; }
+.tool-cat-header.has-active {
+  opacity: 1;
+  border-bottom: 2px solid color-mix(in srgb, var(--k, var(--ink-faint)) 55%, transparent);
+}
 .tool-cat-icon {
   width: 13px; height: 13px;
   display: flex; align-items: center; justify-content: center;
@@ -1917,6 +1932,17 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   text-transform: uppercase;
   font-family: 'JetBrains Mono', monospace;
 }
+.tool-subgroup-header {
+  padding: 7px 8px 2px;
+  font-size: 8.5px;
+  letter-spacing: .16em;
+  color: var(--ink-dim);
+  opacity: .55;
+  font-family: 'JetBrains Mono', monospace;
+  grid-column: 1 / -1;
+  pointer-events: none;
+  user-select: none;
+}
 
 /* radar (mantido para não quebrar refs no JS, mas oculto) */
 .radar-sec { display: none; }
@@ -2325,7 +2351,6 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
     </div>
 
     <div class="rail-tools-sec">
-      <div class="rail-tools-title">// monitorados</div>
       <div id="tools-side" role="list"></div>
     </div>
 
@@ -2364,6 +2389,10 @@ const CAT_ICONS = {
   distarch: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
   fintech:  '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
   testing:  '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+  /* rail group icons — não correspondem a nenhuma categoria */
+  'rail-lang':   '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  'rail-topics': '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>',
+  'rail-tools':  '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   /* legacy — edições anteriores podem ter category:'arqsw'/'arqsol' */
   arqsw:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
   arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
@@ -2374,9 +2403,17 @@ function iconSvg(paths, size=14){
 
 /* ═══ Grupos do rail de assuntos (independente das categorias editoriais) ═══ */
 const TOOL_GROUPS = {
-  subjects: { label: 'Tópicos',     icon: 'design',  color: 'var(--cat-distarch)' },
-  tools:    { label: 'Ferramentas', icon: 'devops',  color: 'var(--cat-devops)' },
-  lang:     { label: 'Linguagens',  icon: 'backend', color: 'var(--cat-backend)' },
+  lang:     { label: 'Linguagens',  icon: 'rail-lang',   color: 'var(--rail-lang)' },
+  subjects: { label: 'Tópicos',     icon: 'rail-topics', color: 'var(--rail-topics)' },
+  tools:    { label: 'Ferramentas', icon: 'rail-tools',  color: 'var(--rail-tools)' },
+};
+const TOOL_SUBGROUPS = {
+  'ai-ide':     'AI & IDEs',
+  'gitci':      'Git & CI/CD',
+  'containers': 'Containers & Infra',
+  'dados':      'Dados & Integração',
+  'bknd':       'Backend & Design',
+  'obs-seg':    'Obs & Segurança',
 };
 
 /* ═══ Categorias e ferramentas ═══ */
@@ -2435,38 +2472,41 @@ const TOOLS = [
   { key:'microservices',group:'subjects', category:'distarch',name:'Microsserviços',          aliases:['microservices','microsserviços','microservice','microsserviço'],             icon:'🔀', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128' },
   { key:'owasp',        group:'subjects', category:'sec',     name:'OWASP',                   aliases:['owasp'],                                                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
   // ── Ferramentas — AI & Produtividade (ordem alfabética) ──────────────────
-  { key:'chatgpt',      group:'tools',    category:'ai',      name:'ChatGPT',                 aliases:['chatgpt','openai chatgpt','gpt-4'],                                         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
-  { key:'claudecode',   group:'tools',    category:'ai',      name:'Claude Code',             aliases:['claude code','anthropic claude'],                                           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
-  { key:'cursor',       group:'tools',    category:'ai',      name:'Cursor IDE',              aliases:['cursor ide','cursor'],                                                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
-  { key:'intellij',     group:'tools',    category:'backend', name:'IntelliJ IDEA',           aliases:['intellij','jetbrains idea'],                                                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
-  { key:'postman',      group:'tools',    category:'integ',   name:'Postman',                 aliases:['postman'],                                                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
-  { key:'vscode',       group:'tools',    category:'ai',      name:'VS Code',                 aliases:['visual studio code','vscode','vs code'],                                    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
-  { key:'warp',         group:'tools',    category:'ai',      name:'Warp Terminal',           aliases:['warp terminal','warp'],                                                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
-  // ── Ferramentas — DevOps & Infra (ordem alfabética) ──────────────────────
-  { key:'argocd',       group:'tools',    category:'devops',  name:'Argo CD',                 aliases:['argocd','argo cd','argo','gitops'],                                         icon:'🔄', kind:'news',   logo:'https://cdn.simpleicons.org/argo/EF7B4D' },
-  { key:'docker',       group:'tools',    category:'devops',  name:'Docker',                  aliases:['docker desktop','docker','docker engine','docker compose','docker hub'],    icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
-  { key:'ghactions',    group:'tools',    category:'devops',  name:'GitHub Actions',          aliases:['github actions','gh actions','gha'],                                        icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/githubactions/2088FF' },
-  { key:'git',          group:'tools',    category:'devops',  name:'Git',                     aliases:['git','git version control'],                                                icon:'🌿', kind:'devops', logo:'https://cdn.simpleicons.org/git/F05032' },
-  { key:'github',       group:'tools',    category:'devops',  name:'GitHub',                  aliases:['github','github actions','gh'],                                             icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
-  { key:'helm',         group:'tools',    category:'devops',  name:'Helm',                    aliases:['helm','helm chart','helmfile'],                                             icon:'⎈',  kind:'news',   logo:'https://cdn.simpleicons.org/helm/277A9F' },
-  { key:'istio',        group:'tools',    category:'devops',  name:'Istio',                   aliases:['istio','service mesh','istio service mesh'],                                icon:'🕸', kind:'news',   logo:'https://cdn.simpleicons.org/istio/466BB0' },
-  { key:'kubernetes',   group:'tools',    category:'devops',  name:'Kubernetes',              aliases:['kubernetes','k8s','kubectl'],                                               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
-  { key:'terraform',    group:'tools',    category:'devops',  name:'Terraform',               aliases:['terraform','opentofu','hcl'],                                               icon:'🏗', kind:'news',   logo:'https://cdn.simpleicons.org/terraform/7B42BC' },
+  { key:'chatgpt',      group:'tools',    subgroup:'ai-ide', category:'ai',      name:'ChatGPT',                 aliases:['chatgpt','openai chatgpt','gpt-4'],                                         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
+  { key:'claudecode',   group:'tools',    subgroup:'ai-ide', category:'ai',      name:'Claude Code',             aliases:['claude code','anthropic claude'],                                           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'cursor',       group:'tools',    subgroup:'ai-ide', category:'ai',      name:'Cursor IDE',              aliases:['cursor ide','cursor'],                                                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
+  { key:'intellij',     group:'tools',    subgroup:'ai-ide', category:'backend', name:'IntelliJ IDEA',           aliases:['intellij','jetbrains idea'],                                                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
+  { key:'postman',      group:'tools',    subgroup:'ai-ide', category:'integ',   name:'Postman',                 aliases:['postman'],                                                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
+  { key:'vscode',       group:'tools',    subgroup:'ai-ide', category:'ai',      name:'VS Code',                 aliases:['visual studio code','vscode','vs code'],                                    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
+  { key:'warp',         group:'tools',    subgroup:'ai-ide', category:'ai',      name:'Warp Terminal',           aliases:['warp terminal','warp'],                                                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
+  // ── Ferramentas — Git & CI/CD ─────────────────────────────────────────────
+  { key:'argocd',       group:'tools',    subgroup:'gitci',      category:'devops',  name:'Argo CD',                 aliases:['argocd','argo cd','argo','gitops'],                                         icon:'🔄', kind:'news',   logo:'https://cdn.simpleicons.org/argo/EF7B4D' },
+  { key:'ghactions',    group:'tools',    subgroup:'gitci',      category:'devops',  name:'GitHub Actions',          aliases:['github actions','gh actions','gha'],                                        icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/githubactions/2088FF' },
+  { key:'git',          group:'tools',    subgroup:'gitci',      category:'devops',  name:'Git',                     aliases:['git','git version control'],                                                icon:'🌿', kind:'devops', logo:'https://cdn.simpleicons.org/git/F05032' },
+  { key:'github',       group:'tools',    subgroup:'gitci',      category:'devops',  name:'GitHub',                  aliases:['github','github actions','gh'],                                             icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
+  { key:'helm',         group:'tools',    subgroup:'gitci',      category:'devops',  name:'Helm',                    aliases:['helm','helm chart','helmfile'],                                             icon:'⎈',  kind:'news',   logo:'https://cdn.simpleicons.org/helm/277A9F' },
+  // ── Ferramentas — Containers & Infra ──────────────────────────────────────
+  { key:'docker',       group:'tools',    subgroup:'containers', category:'devops',  name:'Docker',                  aliases:['docker desktop','docker','docker engine','docker compose','docker hub'],    icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
+  { key:'istio',        group:'tools',    subgroup:'containers', category:'devops',  name:'Istio',                   aliases:['istio','service mesh','istio service mesh'],                                icon:'🕸', kind:'news',   logo:'https://cdn.simpleicons.org/istio/466BB0' },
+  { key:'kubernetes',   group:'tools',    subgroup:'containers', category:'devops',  name:'Kubernetes',              aliases:['kubernetes','k8s','kubectl'],                                               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
+  { key:'terraform',    group:'tools',    subgroup:'containers', category:'devops',  name:'Terraform',               aliases:['terraform','opentofu','hcl'],                                               icon:'🏗', kind:'news',   logo:'https://cdn.simpleicons.org/terraform/7B42BC' },
   // ── Ferramentas — Dados & Integração (ordem alfabética) ──────────────────
-  { key:'databricks',   group:'tools',    category:'data',    name:'Databricks',              aliases:['databricks'],                                                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
-  { key:'kafka',        group:'tools',    category:'integ',   name:'Apache Kafka',            aliases:['apache kafka','kafka','confluent'],                                         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
-  { key:'mysql',        group:'tools',    category:'data',    name:'MySQL',                   aliases:['mysql'],                                                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
-  { key:'openapi',      group:'tools',    category:'integ',   name:'OpenAPI',                 aliases:['openapi','swagger','open api'],                                             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
-  { key:'postgres',     group:'tools',    category:'data',    name:'PostgreSQL',              aliases:['postgresql','postgres'],                                                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
-  { key:'redis',        group:'tools',    category:'data',    name:'Redis',                   aliases:['redis','redis cache','valkey'],                                             icon:'🔴', kind:'news',   logo:'https://cdn.simpleicons.org/redis/DC382D' },
+  { key:'databricks',   group:'tools',    subgroup:'dados',   category:'data',    name:'Databricks',              aliases:['databricks'],                                                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
+  { key:'kafka',        group:'tools',    subgroup:'dados',   category:'integ',   name:'Apache Kafka',            aliases:['apache kafka','kafka','confluent'],                                         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
+  { key:'mysql',        group:'tools',    subgroup:'dados',   category:'data',    name:'MySQL',                   aliases:['mysql'],                                                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
+  { key:'openapi',      group:'tools',    subgroup:'dados',   category:'integ',   name:'OpenAPI',                 aliases:['openapi','swagger','open api'],                                             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
+  { key:'postgres',     group:'tools',    subgroup:'dados',   category:'data',    name:'PostgreSQL',              aliases:['postgresql','postgres'],                                                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
+  { key:'redis',        group:'tools',    subgroup:'dados',   category:'data',    name:'Redis',                   aliases:['redis','redis cache','valkey'],                                             icon:'🔴', kind:'news',   logo:'https://cdn.simpleicons.org/redis/DC382D' },
   // ── Ferramentas — Backend, Design, Seg & Obs (ordem alfabética) ──────────
-  { key:'dynatrace',    group:'tools',    category:'obs',     name:'Dynatrace',               aliases:['dynatrace'],                                                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
-  { key:'grafana',      group:'tools',    category:'obs',     name:'Grafana',                 aliases:['grafana','grafana labs'],                                                   icon:'🟠', kind:'news',   logo:'https://cdn.simpleicons.org/grafana/F46800' },
-  { key:'gradle',       group:'tools',    category:'backend', name:'Gradle',                  aliases:['gradle'],                                                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
-  { key:'keycloak',     group:'tools',    category:'sec',     name:'Keycloak',                aliases:['keycloak'],                                                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
-  { key:'maven',        group:'tools',    category:'backend', name:'Apache Maven',            aliases:['apache maven','maven'],                                                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' },
-  { key:'springboot',   group:'tools',    category:'backend', name:'Spring Boot',             aliases:['spring boot','spring framework','spring'],                                  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
-  { key:'structurizr',  group:'tools',    category:'design',  name:'Structurizr',             aliases:['structurizr'],                                                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  // ── Ferramentas — Obs & Segurança ─────────────────────────────────────────
+  { key:'dynatrace',    group:'tools',    subgroup:'obs-seg', category:'obs',     name:'Dynatrace',               aliases:['dynatrace'],                                                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
+  { key:'grafana',      group:'tools',    subgroup:'obs-seg', category:'obs',     name:'Grafana',                 aliases:['grafana','grafana labs'],                                                   icon:'🟠', kind:'news',   logo:'https://cdn.simpleicons.org/grafana/F46800' },
+  { key:'keycloak',     group:'tools',    subgroup:'obs-seg', category:'sec',     name:'Keycloak',                aliases:['keycloak'],                                                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
+  // ── Ferramentas — Backend & Design ────────────────────────────────────────
+  { key:'gradle',       group:'tools',    subgroup:'bknd',    category:'backend', name:'Gradle',                  aliases:['gradle'],                                                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
+  { key:'maven',        group:'tools',    subgroup:'bknd',    category:'backend', name:'Apache Maven',            aliases:['apache maven','maven'],                                                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' },
+  { key:'springboot',   group:'tools',    subgroup:'bknd',    category:'backend', name:'Spring Boot',             aliases:['spring boot','spring framework','spring'],                                  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
+  { key:'structurizr',  group:'tools',    subgroup:'bknd',    category:'design',  name:'Structurizr',             aliases:['structurizr'],                                                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
   // ── Linguagens (ordem alfabética) ────────────────────────────────────────
   { key:'java',         group:'lang',     category:'backend', name:'Java & JVM',              aliases:['java','jdk','jvm','openjdk','quarkus'],                                     icon:'☕', kind:'news',   logo:'https://cdn.simpleicons.org/openjdk/ffffff' },
   { key:'javascript',   group:'lang',     category:'backend', name:'JavaScript / TS',         aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'],        icon:'🟨', kind:'news',   logo:'https://cdn.simpleicons.org/javascript/F7DF1E' },
@@ -2852,25 +2892,52 @@ function renderSidebar(){
     if (!toolsByGroup[g]) toolsByGroup[g] = [];
     toolsByGroup[g].push(t);
   });
+  const subgroupOrder = ['ai-ide', 'gitci', 'containers', 'dados', 'obs-seg', 'bknd'];
   let toolsHtml = '';
   Object.keys(TOOL_GROUPS).forEach(groupKey => {
     const groupTools = toolsByGroup[groupKey];
     if (!groupTools || groupTools.length === 0) return;
     const gDef = TOOL_GROUPS[groupKey];
-    toolsHtml += `<div class="tool-cat-header" style="--k: ${gDef.color}">` +
+    const groupHasActive = groupTools.some(t => STATE.view === 'tool:' + t.key);
+    toolsHtml += `<div class="tool-cat-header${groupHasActive ? ' has-active' : ''}" style="--k: ${gDef.color}">` +
                  `<span class="tool-cat-icon">${iconSvg(CAT_ICONS[gDef.icon] || '', 13)}</span>` +
                  `<span class="tool-cat-name">${gDef.label}</span>` +
                  `</div>`;
-    groupTools.forEach(t => {
-      const active = STATE.view === 'tool:' + t.key ? 'active' : '';
-      const logoHtml = t.logo
-        ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
-        : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
-      toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
-             logoHtml +
-             `<span class="ch-name">${t.name}</span>` +
-             `</div>`;
-    });
+    if (groupKey === 'tools') {
+      // Renderiza sub-grupos de ferramentas com separador discreto
+      const bySubgroup = {};
+      groupTools.forEach(t => {
+        const sg = t.subgroup || '_other';
+        if (!bySubgroup[sg]) bySubgroup[sg] = [];
+        bySubgroup[sg].push(t);
+      });
+      const renderTool = (t) => {
+        const active = STATE.view === 'tool:' + t.key ? 'active' : '';
+        const logoHtml = t.logo
+          ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
+          : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
+        toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
+               logoHtml + `<span class="ch-name">${t.name}</span></div>`;
+      };
+      subgroupOrder.forEach(sgKey => {
+        const sgTools = bySubgroup[sgKey];
+        if (!sgTools || sgTools.length === 0) return;
+        toolsHtml += `<div class="tool-subgroup-header">// ${TOOL_SUBGROUPS[sgKey]}</div>`;
+        sgTools.forEach(renderTool);
+      });
+      if (bySubgroup['_other']) bySubgroup['_other'].forEach(renderTool);
+    } else {
+      groupTools.forEach(t => {
+        const active = STATE.view === 'tool:' + t.key ? 'active' : '';
+        const logoHtml = t.logo
+          ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
+          : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
+        toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
+               logoHtml +
+               `<span class="ch-name">${t.name}</span>` +
+               `</div>`;
+      });
+    }
   });
   if (toolsByGroup['_other']) {
     toolsByGroup['_other'].forEach(t => {

@@ -396,6 +396,7 @@ Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily
 
 1. **Perguntar ao usuário** se é Tópico ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
 2. `index.html`: adicione entrada no array `TOOLS` (com `aliases`, `kind`, `category`, `logo`, `group` = `subjects`/`tools`/`lang`)
+   - **Se `group:'tools'`** — defina também `subgroup`: escolha entre os 4 sub-grupos existentes (`ai-prod`, `devops`, `dados`, `backend`) ou crie um novo se nenhum se encaixar (adicione a `TOOL_SUBGROUPS` e insira a chave na lista `subgroupOrder` da função de render). Para `group:'subjects'` ou `group:'lang'` não há sub-grupos por enquanto.
 3. `index.html` **About page**: atualize o stat hardcoded `"N tópicos"` (linha com `ab-stat-n`)
 4. `README.md`: atualize a lista de assuntos fixos monitorados (seção "Assuntos fixos monitorados")
 5. `CLAUDE.md`: atualize a tabela de tópicos monitorados (esta seção abaixo)
