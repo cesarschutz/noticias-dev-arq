@@ -4284,6 +4284,9 @@ async function init(){
     renderSidebar();
     renderRail();
     renderDp();
+    // re-renderiza main se estiver em view de agregado (cat/tool) para mostrar dados completos
+    const v = STATE.view;
+    if (v.startsWith('cat:') || v.startsWith('tool:')) renderMain();
   });
 
   // aplica deep link se presente
