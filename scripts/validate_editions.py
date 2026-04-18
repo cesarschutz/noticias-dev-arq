@@ -31,7 +31,7 @@ CATEGORIES_V1 = {'sec','ai','cloud','devops','backend','frontend','db','lang','a
 TOOL_KEYS_V1  = {'teams','notion','intellij','cursor','warp','mongocompass','dbeaver','postman','docker','structurizr','c4'}
 
 # Taxonomia v2 (exigida a partir de STRICT_FROM_V2)
-CATEGORIES_V2 = {'sec','ai','aws','devops','obs','data','integ','backend','arqsw','arqsol'}
+CATEGORIES_V2 = {'sec','ai','aws','devops','obs','data','integ','backend','arqsw','arqsol','fintech'}
 TOOL_KEYS_V2  = {
   'structurizr','whimsical','plantuml',
   'cursor','claudecode','chatgpt','vscode','warp',

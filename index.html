@@ -73,6 +73,7 @@
   --cat-backend:  #22C55E;
   --cat-arqsw:    #C084FC;
   --cat-arqsol:   #FF9F45;
+  --cat-fintech:  #F0B429;
   /* legacy aliases — mantidas para edições antigas */
   --cat-cloud:    #FF9900;
   --cat-frontend: #EC4899;
@@ -140,6 +141,7 @@
   --cat-backend:  #166534;
   --cat-arqsw:    #7C3AED;
   --cat-arqsol:   #C2570A;
+  --cat-fintech:  #B7791F;
   /* legacy aliases */
   --cat-cloud:    #C46B00;
   --cat-frontend: #BE185D;
@@ -2174,7 +2176,8 @@ const CAT_ICONS = {
   integ:   '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
   backend: '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
   arqsw:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-  arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
+  arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+  fintech: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>'
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">${paths}</svg>`;
@@ -2201,7 +2204,8 @@ const CAT = {
   integ:   { l:'integ',   lf:'Integração & Eventos',   i:'🔌' },
   backend: { l:'backend', lf:'Backend & Runtimes',     i:'🔧' },
   arqsw:   { l:'arq.sw',  lf:'Arq. Software',          i:'🏛' },
-  arqsol:  { l:'arq.sol', lf:'Arq. Solução',           i:'🗺' }
+  arqsol:  { l:'arq.sol', lf:'Arq. Solução',           i:'🗺' },
+  fintech: { l:'fintech', lf:'Fintech & Pagamentos',   i:'💳' }
 };
 
 // Redirecionamento de chaves legadas para a nova taxonomia

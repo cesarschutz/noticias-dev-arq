@@ -194,6 +194,7 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 | backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
 | arqsw | `--cat-arqsw` | Arq. Software | 🏛️ | DDD, padrões, C4, Clean/Hex, microsserviços, ADRs, Whimsical, PlantUML |
 | arqsol | `--cat-arqsol` | Arq. Solução | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures |
+| fintech | `--cat-fintech` | Fintech & Pagamentos | 💳 | Cartões de crédito, Visa, cooperativas de crédito, Pix, Open Finance, DREX, PCI DSS, payment rails |
 
 **Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)

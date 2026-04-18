@@ -25,7 +25,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
-- `news[]`: **mínimo 1, máximo 3 itens por categoria** (10 categorias = mínimo 10, máximo 30 itens).
+- `news[]`: **mínimo 1, máximo 3 itens por categoria** (11 categorias = mínimo 11, máximo 33 itens).
 - `tools[]` (assuntos): **mínimo 10 assuntos com conteúdo** no total (não por assunto — ver regra abaixo).
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
@@ -56,7 +56,7 @@ Para **assuntos** em `tools[]` — regra dos 10 mínimos:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 36 assuntos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 11 categorias e 36 assuntos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -453,7 +453,7 @@ Use `last_generated` como limite inferior em cada WebSearch:
 
 ### 2. Pesquisar notícias
 
-Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXECUÇÃO ou janela longa). Priorize fontes de alta reputação em inglês. Colete candidatos com título, resumo, fonte e URL.
+Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXECUÇÃO ou janela longa). Priorize fontes de alta reputação em inglês. Colete candidatos com título, resumo, fonte e URL.
 
 **Critérios de seleção — prefira sempre**:
 - Notícias cobertas por múltiplas fontes independentes.
@@ -521,7 +521,17 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Azure Architecture Center** (`learn.microsoft.com/azure/architecture`) — cloud design patterns, reference architectures multi-cloud.
 - **Google Cloud Architecture** (`cloud.google.com/architecture`) — best practices, reference architectures GCP.
 
-**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
+*💳 Fintech & Pagamentos*
+- **PYMNTS.com** (`pymnts.com`) — #1 em breaking news de pagamentos, cartões e fintech. Cobertura diária de Visa, Mastercard, emissores, cooperativas.
+- **Payments Dive** (`paymentsdive.com`) — análise profunda do setor de pagamentos, cartões de crédito, regulação.
+- **Fintech Futures** (`fintechfutures.com`) — paytech, open banking, fintech global. 2-3 posts/dia.
+- **Finsiders Brasil** (`finsidersbrasil.com.br`) — fintech BR, crédito digital, cooperativas de crédito, regulação BACEN.
+- **Visa Perspectives** (`corporate.visa.com/en/sites/visa-perspectives`) — tendências Visa, inovação em pagamentos, agentic commerce.
+- **Banco Central do Brasil** (`bcb.gov.br`) — regulação oficial Pix, Open Finance, DREX, resolução CMN.
+- **PCI Perspectives** (`blog.pcisecuritystandards.org`) — PCI DSS updates, segurança em pagamentos, compliance.
+- **Mundo Coop / OCB** (`mundocoop.com.br`, `somoscooperativismo.coop.br`) — cooperativismo de crédito BR, Unicred, Sicoob, Sicredi.
+
+**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 11 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
 ### 3. Verificar assuntos monitorados
 
@@ -566,8 +576,8 @@ Antes de chamar Write:
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
-- [ ] **Cobertura de categorias**: todas as 10 categorias com ≥ 1 item em `pillars[]` + `news[]` (ambos os modos). Se não houver conteúdo fresco, usar evergreen de qualidade.
-- [ ] **Cobertura de assuntos**: todos os 31 assuntos com ≥ 1 item em `tools[]` (ambos os modos). Se não houver conteúdo fresco, usar conteúdo mais antigo ou evergreen.
+- [ ] **Cobertura de categorias**: todas as 11 categorias com ≥ 1 item em `pillars[]` + `news[]` (ambos os modos). Se não houver conteúdo fresco, usar evergreen de qualidade.
+- [ ] **Cobertura de assuntos**: mínimo 10 assuntos com ≥ 1 item em `tools[]`. Se < 10, completar com clássicos/evergreen sem repetir URLs das últimas 7 edições.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
 - [ ] **Fallback aplicado**: para qualquer categoria ou assunto abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
@@ -696,6 +706,21 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `site:architectelevator.com` (Gregor Hohpe — arquitetura corporativa)
 - `site:aws.amazon.com/architecture OR site:learn.microsoft.com/azure/architecture OR site:cloud.google.com/architecture` (reference architectures multi-cloud)
 - `site:thoughtworks.com/radar` (Tech Radar — decisões de adoção por arquitetos)
+
+### 💳 Fintech & Pagamentos (`fintech`)
+- `"credit card" OR "payment network" OR "Visa" technology OR API news`
+- `"cooperativa de crédito" OR "fintech" Brasil notícias`
+- `"open finance" OR "Pix" OR "DREX" Banco Central Brasil`
+- `"PCI DSS" compliance OR news OR update`
+- `"payment rails" OR "embedded finance" OR "tokenização" news`
+- `site:pymnts.com` (breaking news em pagamentos, cartões, fintech — alta frequência)
+- `site:paymentsdive.com` (análise profunda de pagamentos e emissores de cartão)
+- `site:fintechfutures.com` (paytech, open banking, fintech global)
+- `site:finsidersbrasil.com.br` (fintech BR, cooperativas, crédito digital)
+- `site:corporate.visa.com/en/sites/visa-perspectives` (Visa trends e inovações)
+- `site:blog.pcisecuritystandards.org` (PCI SSC — padrões de segurança em pagamentos)
+- `site:bcb.gov.br` (Banco Central — regulação Pix, Open Finance, DREX)
+- `site:mundocoop.com.br OR site:somoscooperativismo.coop.br` (cooperativismo de crédito BR)
 
 ---
 
@@ -1246,7 +1271,7 @@ Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
 2. **Não invente notícias, URLs ou versões.** Se não encontrar nada relevante numa categoria ou assunto fixo, reduza — qualidade > quantidade.
-3. **Mínimo 15 notícias** no total, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`) com 1+ por categoria; evergreen aceitável se não houver fresco.
+3. **Mínimo 15 notícias** no total, cobrindo **todas as 11 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`, `fintech`) com 1+ por categoria; evergreen aceitável se não houver fresco.
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
 6. **Sem duplicatas** com as 7 edições anteriores (ver passo 1).
