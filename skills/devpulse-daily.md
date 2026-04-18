@@ -346,7 +346,7 @@ Antes de chamar Write:
 - [ ] **Fallback aplicado**: para qualquer categoria ou assunto abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
-- [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥40% com `image`.
+- [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
 - [ ] **`tools[]`**: todos os 28 `tool_key` presentes. No MODO NORMAL: cada `tool_key` 1 vez. No MODO PRIMEIRA EXECUÇÃO: múltiplos permitidos. Chaves válidas: `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`.
 - [ ] **`kind === "release"` tem `version`**.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
@@ -873,61 +873,93 @@ Exceção: `tools[].url` pode apontar para o changelog oficial com âncora espec
 
 ## IMAGENS
 
-O campo `image` deve ser preenchido em **todo item de `pillars[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards (modo cards) e os exibe em 16:9. Se não houver imagem, o card renderiza sem thumb — sem problema. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
+O campo `image` deve ser preenchido em **todo item de `pillars[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards (modo cards) e os exibe em 16:9. Se não houver imagem, o card renderiza sem thumb. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**. Se voltar sem imagem, é porque desistiu cedo demais.
 
 **Meta de cobertura**:
-- `pillars[]`: **3/3 com imagem** (obrigatório — validator emite WARN para cada item faltando).
-- `news[]`: **≥ 40% com imagem** (validator emite WARN se abaixo).
-- `tools[]` com `kind` in `{release, news}`: **tente preencher image**. Para `tip/tutorial/curiosity` é opcional — a SPA usa o logo estático do assunto fixo como fallback.
+- `pillars[]`: **3/3 com imagem** (obrigatório).
+- `news[]`: **≥ 80% com imagem** (meta elevada — a cascata garante isso se seguida).
+- `tools[]` com `kind` in `{release, news}`: **≥ 60% com image**. Para `tip/tutorial/curiosity` é opcional.
 
-### Cascata obrigatória de tentativas (em ordem)
+### Cascata obrigatória de imagens (executar em ordem, parar na primeira que funcionar)
 
-Aplique a cada item de `pillars[]`, `news[]` e `tools[]` com `kind` in `{release, news}`. Faça até **5 tentativas** antes de omitir `image`:
+Aplique a **cada item** de `pillars[]`, `news[]` e `tools[]` com `kind` in `{release, news}`.
 
-**Tentativa 1 — WebFetch direto no artigo**
+---
 
-Chame `WebFetch(url, prompt)` com este prompt literal:
-> "Extract the main image URL for this article. Look for, in order:
-> 1. `<meta property='og:image'>` or `<meta property='og:image:secure_url'>`
-> 2. `<meta name='twitter:image'>` or `<meta name='twitter:image:src'>`
-> 3. `<link rel='image_src' href='...'>`
-> 4. `<meta itemprop='image'>` (schema.org)
-> 5. Inside JSON-LD `<script type='application/ld+json'>`, the `image` field (may be a string, object with `url`, or array)
-> 6. The first `<img>` inside `<article>`, `<main>` or `<figure>` with width > 400px and that is NOT an avatar, logo, icon, ad, or tracking pixel
->
-> Return ONLY the absolute image URL (must start with `https://`). If the URL is relative (starts with `/`), prefix with the article's domain. If nothing valid is found, return the literal string `NONE`."
+**Tentativa 1 — Microlink API (a mais confiável e rápida)**
 
-**Tentativa 2 — oembed (para sites WordPress)**
+```
+WebFetch("https://api.microlink.io/?url={URL-encoded-da-noticia}",
+  "Return ONLY the value of data.image.url from the JSON. If data.image is null or missing, return data.logo.url. If both are null, return NONE.")
+```
 
-Se Tentativa 1 retornou `NONE` e a URL tem cara de WordPress (TheNewStack, TechCrunch, The Verge, InfoWorld, Wired e a maioria dos blogs de empresa), faça:
+O Microlink extrai og:image, twitter:image e screenshot automaticamente. É a tentativa mais rápida — **sempre tente primeiro**.
 
-`WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}", "Return only the value of thumbnail_url from the JSON response.")`
+Se retornar uma URL `https://`, use-a. Se retornar `NONE` ou erro HTTP, passe para Tentativa 2.
 
-**Tentativa 3 — Microlink na URL do artigo**
+---
 
-Se Tentativa 1 e 2 falharam, use Microlink:
+**Tentativa 2 — WebFetch direto no artigo**
 
-`WebFetch("https://api.microlink.io/?url={URL-encoded}", "Return only the value of data.image.url (ou data.logo.url se image não existir) from the JSON response.")`
+```
+WebFetch(url_da_noticia,
+  "Extract the main image URL. Look for in order:
+   1. <meta property='og:image'> or <meta property='og:image:secure_url'>
+   2. <meta name='twitter:image'> or <meta name='twitter:image:src'>
+   3. <link rel='image_src' href='...'>
+   4. Inside JSON-LD <script type='application/ld+json'>, the image field
+   5. First <img> inside <article> or <figure> with src containing no 'avatar','icon','pixel','ad'
+   Return ONLY the absolute https:// URL, or NONE.")
+```
 
-**Tentativa 4 — Microlink no domínio raiz (fallback para sites sem og:image por artigo)**
+Se a URL retornada for relativa (começa com `/`), prefixe com o domínio do artigo.
 
-Se Tentativa 3 falhou, tente o domínio raiz da URL (ex.: para `https://www.oracle.com/news/...`, use `https://api.microlink.io/?url=https://www.oracle.com`):
+---
 
-`WebFetch("https://api.microlink.io/?url={domain-raiz}", "Return data.image.url or data.logo.url from the JSON response.")`
+**Tentativa 3 — oembed WordPress**
 
-Isso resolve casos como o Oracle, que tem logo e imagem padrão no domínio mesmo quando artigos não têm og:image individual.
+Se a URL tem cara de WordPress (TheNewStack, TechCrunch, InfoWorld, Wired, maioria dos blogs de empresa):
 
-**Tentativa 5 — busca direta por imagem**
+```
+WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}",
+  "Return only the value of thumbnail_url from this JSON.")
+```
 
-Se tudo falhou, faça uma WebSearch: `"{headline resumida em inglês}" site:{domínio} imagem`.
+---
 
-### Validação
+**Tentativa 4 — Microlink no domínio raiz**
 
-- URL deve começar com `https://` ou ser convertida para (`http://` → `https://`).
-- Ignore: avatares, logos de usuario, favicons < 100px, tracking pixels, anúncios (padrões como `/avatar/`, `/user/`, `pixel`, `track`, `ads`, dimensão < 300x200).
-- Se todas as 5 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 20 para pillars; < 6 em 10 para news em geral).
+```
+WebFetch("https://api.microlink.io/?url={protocolo+domínio-raiz}",
+  "Return data.image.url or data.logo.url from the JSON.")
+```
 
-O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático do assunto fixo como fallback — não é necessário forçar a cascata nesses casos.
+Resolve casos como Oracle, Red Hat, Apache, que têm logo padrão no domínio mesmo sem og:image por artigo.
+
+---
+
+**Tentativa 5 — Google Favicon (GARANTIDO, sempre funciona)**
+
+Se todas as anteriores falharem, **nunca omita image**. Use o favicon ampliado do domínio:
+
+```
+image: "https://www.google.com/s2/favicons?domain={domínio-sem-path}&sz=256"
+```
+
+Exemplo: para `https://www.infoq.com/articles/...`, use `https://www.google.com/s2/favicons?domain=infoq.com&sz=256`.
+
+Esta URL **sempre retorna uma imagem** (o ícone do site a 256×256). Não é uma foto de destaque, mas é melhor do que o card sem thumb. Use como último recurso para `pillars[]` e `news[]`.
+
+Para `tools[]` com `kind` in `{tip, tutorial, curiosity}`, pode omitir — a SPA usa o logo estático do assunto fixo.
+
+---
+
+### Validação de imagens
+
+- URL deve começar com `https://`.
+- Ignore: avatares, tracking pixels, imagens < 300px de largura (exceto Google favicon da Tentativa 5).
+- `http://` → converta para `https://` antes de salvar.
+- Omita `image` **somente** se todas as 5 tentativas falharam E o item é de `tools[]` com `kind` in `{tip, tutorial, curiosity}`.
 
 ---
 
@@ -948,7 +980,7 @@ O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens d
 10. **`read_time`**: inteiro em minutos (2-5 típico), estimado com base no tamanho de headline + summary.
 11. **`hero_title`**: máximo ~60 caracteres, cobrindo os 2-3 temas principais do dia de forma impactante.
 12. **`hero_description`**: 2-3 frases resumindo o dia.
-13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; ≥40% de news[] com imagem; tools[] com kind release/news devem ter image quando possível.
+13. **Imagens**: seguir a cascata — **3/3 pillars com imagem**; **≥80% de news[] com imagem** (Tentativa 5 com Google favicon é garantia final); tools[] com kind release/news devem ter image quando possível.
 14. **31 assuntos em `tools[]`**: MODO NORMAL: 1 item por assunto (`tool_key` único). MODO PRIMEIRA EXECUÇÃO: ≥ 5 itens por assunto (múltiplos `tool_key` permitidos). Hierarquia de kind: `release > news > tutorial > tip > curiosity`. Se não houver conteúdo fresco, use **conteúdo indireto do ecossistema** ou **evergreen importante** — documentar em `description`. Nunca omita um assunto.
 15. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
 16. **Novos campos estruturados** (opcionais mas recomendados):

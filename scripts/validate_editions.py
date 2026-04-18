@@ -189,13 +189,13 @@ def validate_edition(path):
     if with_img < 3:
         warn(f"{name}: {with_img}/3 pillars têm imagem (meta: 3/3)")
 
-    # imagens em news[]: meta ≥40% (strict)
+    # imagens em news[]: meta ≥80% (strict) — cascata com Google favicon garante
     news_list = ed.get('news') or []
     if not _lenient and news_list:
         news_with_img = sum(1 for it in news_list if it.get('image'))
         ratio = news_with_img / len(news_list)
-        if ratio < 0.4:
-            warn(f"{name}: news[] com {news_with_img}/{len(news_list)} imagens (<40% — meta da skill)")
+        if ratio < 0.8:
+            warn(f"{name}: news[] com {news_with_img}/{len(news_list)} imagens (<80% — meta da skill; usar Google favicon como fallback)")
 
     # cobertura de categorias (strict)
     if not _lenient:
