@@ -44,7 +44,7 @@ Para cada **assunto** (`tool_key`), conte os itens em `tools[]`:
 - Se algum assunto tiver **< 5 itens**, faça buscas adicionais:
   - Varie os tipos: `release`, `news`, `tutorial`, `tip`, `curiosity`.
   - Use conteúdo indireto do ecossistema (ver seção FERRAMENTAS MONITORADAS).
-  - Se ainda não atingir 5, inclua **conteúdo evergreen importante** — tutoriais clássicos, posts de referência, conceitos fundamentais sobre aquela ferramenta que todo arquiteto deve conhecer (ex.: para `git`: o modelo de objetos do Git, branching strategies, Git internals; para `kafka`: o conceito de log distribuído, consumer groups, offset management).
+  - Se ainda não atingir 5, inclua **conteúdo evergreen importante** — tutoriais clássicos, posts de referência, conceitos fundamentais sobre aquele assunto fixo que todo arquiteto deve conhecer (ex.: para `git`: o modelo de objetos do Git, branching strategies, Git internals; para `kafka`: o conceito de log distribuído, consumer groups, offset management).
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
@@ -202,7 +202,7 @@ Pesquise changelog oficial + artigos externos (InfoQ, TheNewStack, HN, Reddit).
 
 **Protocolo de fallback quando não há conteúdo fresco suficiente** (aplica a AMBOS os modos):
 
-1. **Tente conteúdo indireto do ecossistema**: se não há nada direto sobre a ferramenta na janela de tempo, traga conteúdo relacionado ao domínio — exemplos na seção FERRAMENTAS MONITORADAS. Documente em `description`.
+1. **Tente conteúdo indireto do ecossistema**: se não há nada direto sobre o assunto fixo na janela de tempo, traga conteúdo relacionado ao domínio — exemplos na seção ASSUNTOS FIXOS MONITORADOS. Documente em `description`.
 
 2. **Se ainda insuficiente, use evergreen de alta qualidade**: artigos, tutoriais, posts ou documentação que **todo arquiteto deveria conhecer** sobre aquele assunto — mesmo que não seja recente. Critérios do evergreen:
    - É frequentemente citado ou linkado na comunidade técnica.
@@ -424,9 +424,9 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ---
 
-## FERRAMENTAS MONITORADAS
+## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto** em `tools[]` (**28 assuntos** no total — MODO NORMAL: 28 itens, um por assunto; MODO PRIMEIRA EXECUÇÃO: ≥ 5 por assunto). O campo `tool_key` identifica o assunto — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**28 assuntos fixos** no total — MODO NORMAL: 28 itens, um por assunto; MODO PRIMEIRA EXECUÇÃO: ≥ 5 por assunto). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -434,26 +434,26 @@ Toda edição deve ter **ao menos 1 item por assunto** em `tools[]` (**28 assunt
 | `news` | Notícia externa relevante (aquisição, incidente, artigo InfoQ/TheNewStack/HN >100pts). |
 | `tutorial` | Walkthrough ou guia público (post de blog, vídeo, documentação nova) — ensina uso avançado. |
 | `tip` | Dica objetiva e acionável (atalho, flag, config oculta). Evergreen aceitável. |
-| `curiosity` | Fato histórico ou trivia **específica** da ferramenta. **Máximo 1 por ferramenta por mês.** Use só se todas as outras opções falharem; documente a razão em `description`. |
+| `curiosity` | Fato histórico ou trivia **específica** do assunto. **Máximo 1 por assunto fixo por mês.** Use só se todas as outras opções falharem; documente a razão em `description`. |
 
-**Hierarquia**: `release > news > tutorial > tip > curiosity`. Nunca omita uma ferramenta. Nunca use `curiosity` genérica ("Docker é popular porque...").
+**Hierarquia**: `release > news > tutorial > tip > curiosity`. Nunca omita um assunto fixo. Nunca use `curiosity` genérica ("Docker é popular porque...").
 
 Pesquise **tanto o changelog oficial quanto artigos externos** (InfoQ, Hacker News, TheNewStack, Reddit r/devops). O campo `url` pode apontar para artigo externo — não precisa ser o changelog oficial.
 
 ### Política de conteúdo indireto (obrigatório quando não há notícia direta)
 
-Se após buscar changelog + artigos externos **não houver nada relevante direto sobre a ferramenta**, você **deve** trazer conteúdo do ecossistema/domínio da ferramenta — **isso é preferível a `curiosity` genérica**. Documente no campo `description` por que o conteúdo é indireto.
+Se após buscar changelog + artigos externos **não houver nada relevante direto sobre o assunto fixo**, você **deve** trazer conteúdo do ecossistema/domínio — **isso é preferível a `curiosity` genérica**. Documente no campo `description` por que o conteúdo é indireto.
 
-Exemplos por ferramenta (não exaustivos — use o mesmo raciocínio para qualquer outra):
+Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qualquer outro):
 
-| Ferramenta | Conteúdo direto (preferido) | Conteúdo indireto aceito |
+| Assunto Fixo | Conteúdo direto (preferido) | Conteúdo indireto aceito |
 |---|---|---|
 | `postman` | Novo recurso, release, artigo sobre a plataforma | REST API design, HTTP/2, contratos OpenAPI, testes de endpoint, mocking de API |
 | `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO enterprise |
 | `docker` | Nova versão Desktop, mudança de licensing, CVE | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens |
 | `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, service mesh, kubelet, etcd |
 | `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium |
-| `owasp` | Novo projeto, atualização Top 10, ferramenta nova | Vulnerabilidade web relevante (XSS, SQLi, SSRF), boas práticas de AppSec |
+| `owasp` | Novo projeto, atualização Top 10, nova guia | Vulnerabilidade web relevante (XSS, SQLi, SSRF), boas práticas de AppSec |
 | `snyk` | Release, novo scanner, incidente de supply chain | DevSecOps, SBOM, dependency confusion, container scanning |
 | `structurizr` | Release, nova feature DSL | Arquitetura como código, C4 Model, diagramas de sistema, ADRs |
 | `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, performance de build, dependency management |
@@ -466,7 +466,7 @@ Exemplos por ferramenta (não exaustivos — use o mesmo raciocínio para qualqu
 | `git` | Release, novo comando, nova feature | Branching strategies (Git Flow, trunk-based), rebase vs merge, Git internals, monorepos, hooks, LFS |
 | `github` | Release, nova feature, GitHub Actions update | CI/CD com Actions, GitHub Copilot, code review culture, branch protection, CODEOWNERS, Dependabot, security advisories |
 
-| `tool_key` | Ferramenta | Categoria | Changelog / Blog |
+| `tool_key` | Assunto Fixo | Categoria | Changelog / Blog |
 |---|---|---|---|
 | `structurizr` | Structurizr | `arqsw` | https://structurizr.com/changelog |
 | `whimsical` | Whimsical | `arqsw` | https://whimsical.com/changelog |
@@ -497,10 +497,10 @@ Exemplos por ferramenta (não exaustivos — use o mesmo raciocínio para qualqu
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
 
-**Exemplos de buscas complementares** para cada ferramenta:
-- `"{Ferramenta}" site:infoq.com OR site:thenewstack.io`
-- `"{Ferramenta}" news OR review OR incident OR outage`
-- `"{Ferramenta}" site:news.ycombinator.com`
+**Exemplos de buscas complementares** para cada assunto fixo:
+- `"{Assunto}" site:infoq.com OR site:thenewstack.io`
+- `"{Assunto}" news OR review OR incident OR outage`
+- `"{Assunto}" site:news.ycombinator.com`
 
 ---
 
@@ -644,7 +644,7 @@ Priorize estas fontes ao pesquisar e atribuir credibilidade:
 - **Opcional**: `context` (1 frase explicando o contexto da citação).
 - `related_to` deve ser `"cat:<chave>"`, `"tool:<chave>"` ou `"general"`.
 - Autores sugeridos: Martin Fowler, Simon Brown, Kent Beck, Rich Hickey, Eric Evans, Eric Brewer, Robert Martin, Werner Vogels, Ward Cunningham, DHH, Kelsey Hightower, Sam Newman, Kief Morris, Donald Knuth, Fred Brooks.
-- Pelo menos 2 das 5 quotes devem ter `related_to` relacionado às categorias ou ferramentas mais movimentadas do dia.
+- Pelo menos 2 das 5 quotes devem ter `related_to` relacionado às categorias ou assuntos fixos mais movimentados do dia.
 
 ### Emojis: unicode literal, não escapado
 
@@ -690,13 +690,13 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. Facilita leitura d
 - Cada edição tem exatamente 3 highlights (os mesmos dos pillars).
 - `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
 - `counts_by_category`: mapa `chave_categoria → número de itens naquela edição` (soma `pillars[]` + `news[]`). Omita categorias com 0. A SPA usa isso para lazy-load inteligente (só baixa edições que têm conteúdo da categoria filtrada).
-- `counts_by_tool`: mapa `chave_ferramenta → número de itens em tools[]` para essa ferramenta. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`. No MODO NORMAL, valor `1` por ferramenta. No MODO PRIMEIRA EXECUÇÃO, valor ≥ `5` por ferramenta. Omita chaves com 0.
+- `counts_by_tool`: mapa `tool_key → número de itens em tools[]` para aquele assunto fixo. As chaves válidas (v2): `structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `owasp`, `snyk`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `openapi`, `intellij`, `springboot`, `gradle`, `maven`. No MODO NORMAL, valor `1` por assunto fixo. No MODO PRIMEIRA EXECUÇÃO, valor ≥ `5` por assunto fixo. Omita chaves com 0.
 
 ---
 
 ## CRITÉRIOS DE PRIORIZAÇÃO
 
-Para decidir **quais** notícias entram nos `pillars[]`, **qual notícia representa cada categoria** no feed principal e **qual notícia principal de cada ferramenta**, calcule mentalmente um score ponderado:
+Para decidir **quais** notícias entram nos `pillars[]`, **qual notícia representa cada categoria** no feed principal e **qual item principal de cada assunto fixo**, calcule mentalmente um score ponderado:
 
 | Critério | Peso | Como medir |
 |---|---|---|
@@ -711,7 +711,7 @@ Para decidir **quais** notícias entram nos `pillars[]`, **qual notícia represe
 
 1. **Top 3 do dia**: 3 candidatas de maior score, com pelo menos 2 categorias distintas. Cada pillar precisa de: impacto arquitetural **OU** forte sinal social (HN ≥ 100pts), E convergência de ≥ 2 fontes.
 2. **Principal de cada categoria**: a de maior score dentro da categoria.
-3. **Principal de cada ferramenta**: maior score entre notícias/releases que mencionam a ferramenta.
+3. **Principal de cada assunto fixo**: maior score entre notícias/releases que mencionam o assunto.
 
 **Não invente convergência nem sinais.** Se um fato só aparece em uma fonte e não tem sinal social, fica em `news[]`.
 
@@ -746,7 +746,7 @@ O campo `image` deve ser preenchido em **todo item de `pillars[]`, `news[]` e `t
 **Meta de cobertura**:
 - `pillars[]`: **3/3 com imagem** (obrigatório — validator emite WARN para cada item faltando).
 - `news[]`: **≥ 40% com imagem** (validator emite WARN se abaixo).
-- `tools[]` com `kind` in `{release, news}`: **tente preencher image**. Para `tip/tutorial/curiosity` é opcional — a SPA usa o logo estático da ferramenta como fallback.
+- `tools[]` com `kind` in `{release, news}`: **tente preencher image**. Para `tip/tutorial/curiosity` é opcional — a SPA usa o logo estático do assunto fixo como fallback.
 
 ### Cascata obrigatória de tentativas (em ordem)
 
@@ -795,14 +795,14 @@ Se tudo falhou, faça uma WebSearch: `"{headline resumida em inglês}" site:{dom
 - Ignore: avatares, logos de usuario, favicons < 100px, tracking pixels, anúncios (padrões como `/avatar/`, `/user/`, `pixel`, `track`, `ads`, dimensão < 300x200).
 - Se todas as 5 tentativas falharem, **aí sim** omita `image` — mas isso deve ser raro (< 1 em 20 para pillars; < 6 em 10 para news em geral).
 
-O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático da ferramenta como fallback — não é necessário forçar a cascata nesses casos.
+O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens de `tools[]` com `kind` in `{tip, tutorial, curiosity}`, a SPA usa o logo estático do assunto fixo como fallback — não é necessário forçar a cascata nesses casos.
 
 ---
 
 ## REGRAS DE QUALIDADE
 
 1. **Pesquise ANTES de gerar.** Toda notícia deve vir de uma busca real via WebSearch.
-2. **Não invente notícias, URLs ou versões de ferramentas.** Se não encontrar nada relevante numa categoria, reduza — qualidade > quantidade.
+2. **Não invente notícias, URLs ou versões.** Se não encontrar nada relevante numa categoria ou assunto fixo, reduza — qualidade > quantidade.
 3. **Mínimo 15 notícias** no total, cobrindo **todas as 10 categorias** (`sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`) com 1+ por categoria; evergreen aceitável se não houver fresco.
 4. **Top 3 destaques** devem ter pelo menos 2 categorias distintas e atender aos CRITÉRIOS DE PRIORIZAÇÃO (convergência de fontes + impacto).
 5. **URLs específicas e verificáveis**.
@@ -830,12 +830,18 @@ O campo `image` pode aparecer em `pillars[]`, `news[]` e `tools[]`. Para itens d
 
 ## COMO CLASSIFICAR UMA ADIÇÃO
 
-Use este critério quando o usuário pedir para adicionar algo novo à taxonomia (categoria ou ferramenta).
+**Sempre perguntar ao usuário qual dos três tipos é antes de implementar.** A diferença é fundamental:
 
-1. **Tem site + changelog/releases?** → candidata a `TOOLS`. Deve: ter logo público estável; publicar release/news **≥1×/mês**; ser relevante para o trabalho de **arquiteto de software/solução** (modelagem, decisão técnica, integração, operação) — **chat, e-mail e gestão de tarefas ficam fora**; encaixar em **uma** categoria de `CAT` (campo obrigatório `category`).
-2. **Tema editorial coerente, não uma ferramenta específica?** → candidata a `CAT`. Deve: produzir **≥1 notícia/semana** (cobertura obrigatória de 1+/dia); ter fontes reconhecíveis; ter escopo **ortogonal** às existentes (um item típico cabe em uma só categoria). Se for recorte de categoria existente (ex.: "Microsserviços"), vira **tag**, não categoria.
-3. **Genérico ou transversal?** → **tag** em `tags[]`, sem alterar taxonomia.
-4. **Critério de remoção**: categoria/ferramenta que precisa de >3 `curiosity`/mês para cumprir cobertura mínima está em zona de morte — avaliar substituição.
+- **Assunto Fixo** (`tool_key` no JSON): compromisso diário — a skill SEMPRE busca algo sobre ele, direto ou indireto. Aparece na sidebar com logo, tem view dedicada (`tool:{chave}`).
+- **Categoria** (`CAT`): tema amplo — pode conter muitos sub-tópicos. Cobertura obrigatória de 1+/dia da categoria como um todo, mas não de cada sub-tópico individualmente.
+- **Tag** (`tags[]`): sub-tópico ou assunto transversal — aparece quando há notícia, sem compromisso de cobertura diária. Não muda a taxonomia.
+
+Critérios de decisão:
+
+1. **Assunto Fixo** → candidato se: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto de software/solução; encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: busca diária, direto ou indireto.
+2. **Categoria** → candidata se: tema editorial amplo e coerente; produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes. Se for recorte de categoria existente (ex.: "Microsserviços" dentro de `arqsw`), vira **tag**, não categoria nova.
+3. **Tag** → para qualquer coisa transversal ou sub-específica que não justifica cobertura diária obrigatória.
+4. **Critério de remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição.
 5. **Quando em dúvida, perguntar ao usuário** antes de alterar taxonomia — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
 
 ---

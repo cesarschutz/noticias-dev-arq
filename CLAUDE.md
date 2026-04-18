@@ -12,7 +12,7 @@ index.html → fetch('data/editions.json')  (índice com counts)
 ```
 
 O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
-- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), categorias + ferramentas com contadores X/Y (X=dia atual, Y=total do arquivo).
+- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), categorias + assuntos fixos com contadores X/Y (X=dia atual, Y=total do arquivo).
 - **Main (feed)**: sem hero em home — começa direto nos destaques. Prompt-bar sticky no topo (`csr@console:~/editions/DATA $ cat DATA.json [HOJE]`) muda de cor por contexto (home=amber, cat=cor da categoria, tool=cor do tipo). Cards clicáveis abrem URL em nova aba.
 - **Rail (telemetria)**: quote do dia (rotação a cada 25s, 5 por edição), radar de categorias, timeline de edições.
 
@@ -25,7 +25,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ├── assets/
 │   └── devpulse-logo.svg           # Logo (usado no boot e topbar)
 ├── data/
-│   ├── editions.json               # Índice mestre + counts por categoria/ferramenta
+│   ├── editions.json               # Índice mestre + counts por categoria/assunto fixo
 │   └── {YYYY-MM-DD}.json           # Dados completos de cada dia
 ├── scripts/
 │   ├── validate_editions.py        # Valida schema + URLs + duplicatas
@@ -45,7 +45,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/devpulse-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 10 categorias + 30 ferramentas + HN + blogs eng + pulso BR
+2. Pesquisa notícias via WebSearch em 10 categorias + 28 assuntos fixos + HN + blogs eng + pulso BR
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/devpulse-push.log`)
@@ -54,13 +54,13 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 
 ## Views da SPA
 
-- **home** (default): edição do dia mais recente — hero, pillars (3 cards Java/AWS/DistArch), feed, ferramentas
+- **home** (default): edição do dia mais recente — hero, pillars (3 cards Java/AWS/DistArch), feed, assuntos fixos
 - **cat:{chave}**: agregado de todas as notícias de uma categoria através das edições
-- **tool:{chave}**: feed completo da ferramenta — releases, notícias, dicas, tutoriais e curiosidades (seções distintas)
+- **tool:{chave}**: feed completo do assunto fixo — releases, notícias, dicas, tutoriais e curiosidades (seções distintas)
 - **deep link**: `?d=YYYY-MM-DD&u=<hash>` abre direto uma notícia
 
 ### Lazy-load inteligente
-Ao filtrar por categoria/ferramenta, a SPA usa `counts_by_category` / `counts_by_tool` do `editions.json` para **só baixar** as edições que têm conteúdo daquele filtro. Um loader visual fica no topo do main durante o fetch paralelo. Em background (após boot), todas as edições são pré-aquecidas em cache para busca global.
+Ao filtrar por categoria/assunto fixo, a SPA usa `counts_by_category` / `counts_by_tool` do `editions.json` para **só baixar** as edições que têm conteúdo daquele filtro. Um loader visual fica no topo do main durante o fetch paralelo. Em background (após boot), todas as edições são pré-aquecidas em cache para busca global.
 
 ## Interações
 
@@ -145,9 +145,44 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 **Chaves legadas** (presentes em edições anteriores a 2026-04-20, mapeadas em runtime):
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 
-## Ferramentas monitoradas (28, agrupadas por categoria)
+## Conceito fundamental: Categorias vs. Assuntos Fixos
 
-Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema da ferramenta é permitido (documentar em `description`).
+Esta distinção é crítica — afeta como a skill pesquisa, como o JSON é gerado e como a SPA exibe o conteúdo.
+
+### Categorias (`CAT`)
+Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padrões e sub-tópicos. Em `sec`, por exemplo, podem aparecer CVEs, Keycloak, Auth0, OWASP, SAML, zero-trust — qualquer coisa do universo de segurança.
+
+- Cobertura mínima: **≥ 1 item por categoria por edição** (em `news[]` + `pillars[]` combinados).
+- Não é garantido que **todo sub-tópico** de uma categoria apareça todo dia — isso é normal. O que importa é que a categoria como um todo tenha cobertura.
+- Aparecem na sidebar com contador X/Y (X = itens no dia, Y = total no arquivo).
+- View: `cat:{chave}` agrega TODAS as notícias daquela categoria através das edições.
+
+### Assuntos Fixos (`TOOLS` no código, `tool_key` no JSON)
+Tecnologias ou temas **específicos** monitorados com compromisso diário. Para cada assunto fixo, a skill **sempre** encontra algo — direto ou indireto — todos os dias.
+
+- Cobertura mínima: **≥ 1 item por assunto fixo por edição** (em `tools[]`). Na primeira execução: ≥ 5.
+- Se não há nada novo na janela de tempo, usa conteúdo indireto do ecossistema ou evergreen importante.
+- Aparecem na sidebar agrupados pela sua categoria, com contador X/Y.
+- View: `tool:{chave}` exibe TODOS os itens daquele assunto através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
+- O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "assunto fixo".
+
+### Quando me pedirem para adicionar algo novo — perguntar sempre
+
+**Antes de adicionar qualquer coisa nova**, perguntar ao usuário:
+
+> *"Isso deve ser um **Assunto Fixo** (monitorado diariamente, sempre aparece em `tools[]`, tem view dedicada na sidebar) ou deve ser coberto apenas como **sub-tópico de uma Categoria** existente (aparece em `news[]` quando houver notícia, sem compromisso diário)?"*
+
+A diferença prática:
+- **Assunto Fixo**: Git, Kafka, Kubernetes — tecnologias que queremos SEMPRE cobertas, com pelo menos 1 item/dia, com logo na sidebar e view dedicada.
+- **Sub-tópico de categoria**: "Microsserviços" dentro de `arqsw`, "SAML" dentro de `sec` — aparecem quando há notícia, sem cobertura obrigatória diária.
+
+Se o usuário não souber a diferença, explique e aguarde a decisão antes de modificar qualquer arquivo.
+
+---
+
+## Assuntos Fixos monitorados (28, agrupados por categoria)
+
+Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
 | Categoria | `tool_key` | Nome |
 |---|---|---|
@@ -180,7 +215,7 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 | `backend` | `gradle` | Gradle |
 | `backend` | `maven` | Apache Maven |
 
-**Ferramentas legadas** (presentes em edições anteriores, ainda navegáveis via deep link): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
+**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
 
 ## O Que Atualizar Quando
 
@@ -196,19 +231,23 @@ Cada ferramenta tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo vis
 4. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
 5. Atualize `STRICT_FROM_V2` no validator para a data da primeira edição com a nova taxonomia
 
-### Adicionar/remover uma ferramenta monitorada
-1. Consulte as **regras de classificação** abaixo antes de decidir
+### Adicionar/remover um Assunto Fixo
+1. **Perguntar ao usuário** se é Assunto Fixo ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
 2. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`)
-3. Atualize a tabela em `skills/devpulse-daily.md` (seção "FERRAMENTAS MONITORADAS")
+3. Atualize a tabela em `skills/devpulse-daily.md` (seção "ASSUNTOS FIXOS MONITORADOS")
 4. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
 5. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
+6. Atualize a tabela neste CLAUDE.md (seção "Assuntos Fixos monitorados")
 
-### Como classificar uma adição (ferramenta, categoria ou tag)
-1. **Tem site + changelog/releases?** → candidata a `TOOLS`. Deve: ter logo estável; publicar release/news ≥1×/mês; ser relevante para **arquiteto de software/solução** (modelagem, decisão técnica, integração, operação) — chat, e-mail e gestão de tarefas ficam fora; encaixar em **uma** categoria com campo `category` obrigatório.
-2. **Tema editorial coerente, não uma ferramenta?** → candidata a `CAT`. Deve: produzir ≥1 notícia/semana; ter fontes reconhecíveis; ter escopo ortogonal às existentes. Se for recorte de categoria existente, vira **tag**.
-3. **Genérico ou transversal?** → **tag** em `tags[]`, sem alterar taxonomia.
-4. **Remoção**: categoria/ferramenta que precisa de >3 `curiosity`/mês para cumprir cobertura mínima está em zona de morte.
-5. **Em dúvida, perguntar** antes de alterar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
+### Como classificar uma adição (Assunto Fixo, Categoria ou tag)
+
+**Sempre perguntar ao usuário qual dos três tipos é antes de implementar.**
+
+1. **Assunto Fixo** → vai para o array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto (modelagem, operação, integração, decisão técnica); encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: a skill busca conteúdo sobre ele TODOS OS DIAS, direto ou indireto.
+2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes (não é sub-tópico de outra). Se for recorte de categoria existente (ex.: "Microsserviços" dentro de `arqsw`), vira **tag**, não categoria.
+3. **Tag** → `tags[]` nos itens de `news[]`. Para assuntos transversais ou sub-tópicos que aparecem esporadicamente. Não muda a taxonomia.
+4. **Remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição.
+5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
 
 ### Alterar queries de pesquisa
 - Edite em `skills/devpulse-daily.md` na seção "Categorias e Queries"
