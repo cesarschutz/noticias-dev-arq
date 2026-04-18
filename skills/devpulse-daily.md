@@ -470,6 +470,16 @@ Para cada uma das 10 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Architect Elevator** (`architectelevator.com`) — arquitetura corporativa, Gregor Hohpe.
 - **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — referência para pilar AWS.
 - **Inside Java** (`inside.java`) — conteúdo profundo sobre JDK e JVM.
+- **Krebs on Security** (`krebsonsecurity.com`) — investigações aprofundadas de breaches, ransomware, supply chain. Referência jornalística para `sec`.
+- **BleepingComputer** (`bleepingcomputer.com`) — CVEs, patches, malware, vulnerabilidades com cobertura rápida e técnica. Referência para `sec`.
+- **SANS Internet Storm Center** (`isc.sans.edu`) — diários de incidentes, honeypots, vulnerabilidades ativas. Referência para `sec`.
+- **High Scalability** (`highscalability.com`) — estudos de caso reais de arquitetura em escala (Netflix, Amazon, WhatsApp). Referência para `arqsol` e `arqsw`.
+- **ACM Queue** (`queue.acm.org`) — artigos acadêmico-práticos sobre sistemas distribuídos, bancos de dados, concorrência. Alta autoridade para `arqsw` e `arqsol`.
+- **Simon Willison's Weblog** (`simonwillison.net`) — rastreamento de lançamentos, AI, LLMs, Python, ferramentas de dev. Referência para `ai`.
+- **Last Week in AWS** (`lastweekinaws.com`) — curadoria semanal de anúncios AWS com análise crítica. Referência para `aws`.
+- **Confluent Blog** (`confluent.io/blog`) — Kafka, streaming, event-driven architecture, schema registry. Referência para `integ` e `data`.
+- **DZone** (`dzone.com`) — artigos técnicos práticos em Java, DevOps, cloud, arquitetura. Referência para `backend`.
+- **JetBrains Blog** (`blog.jetbrains.com`) — IntelliJ IDEA, Kotlin, Gradle, IDEs e ferramentas de dev. Referência para `backend`.
 
 **Cobertura obrigatória**: cada categoria deve ter itens em `pillars[]` + `news[]` combinados. As 10 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `arqsw`, `arqsol`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
@@ -565,18 +575,22 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"security advisory" OR "supply chain attack" OR "CVSS 9"`
 - `"Keycloak" OR "Auth0" OR "OIDC" OR "SAML" release OR vulnerability OR update`
 - `"zero-trust" OR "IAM" OR "identity provider" update OR incident`
+- `site:krebsonsecurity.com breach OR ransomware OR supply chain`
+- `site:isc.sans.edu diary` (diários recentes do ISC SANS)
 
 ### 🤖 IA & LLMs (`ai`)
 - `"AI model" OR "LLM" release OR launch site:techcrunch.com OR site:theverge.com`
 - `"Claude" OR "GPT" OR "Gemini" OR "Llama" new model OR update`
 - `"AI agent" OR "MCP" OR "Model Context Protocol" OR "RAG" OR "LangChain"`
 - `"Cursor" OR "Claude Code" OR "GitHub Copilot" AI coding tool update`
+- `site:simonwillison.net` (rastreamento de lançamentos AI, LLMs, Python tools)
 
 ### 🔶 AWS (`aws`)
 - `site:aws.amazon.com/about-aws/whats-new new service OR launch`
 - `"AWS" announcement OR release OR GA site:aws.amazon.com OR site:awsblogs.com`
 - `"Lambda" OR "DynamoDB" OR "SQS" OR "SNS" OR "API Gateway" OR "CloudWatch" update OR incident`
 - `"AWS re:Invent" OR "AWS re:Post" OR "AWS Architecture" pattern OR blog`
+- `site:lastweekinaws.com` (curadoria semanal AWS com análise crítica)
 
 ### ⚙️ DevOps & Plataformas (`devops`)
 - `"Kubernetes" release OR deprecation OR security OR CVE`
@@ -596,6 +610,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"DynamoDB" OR "Aurora" OR "Cosmos DB" OR "Snowflake" new feature`
 - `"data lakehouse" OR "dbt" OR "CDC" OR "vector database" news`
 - `site:blog.bytebytego.com database OR "data engineering" OR streaming`
+- `site:confluent.io/blog data OR streaming OR CDC OR lakehouse`
 
 ### 🔌 Integração & Eventos (`integ`)
 - `"Apache Kafka" release OR update OR incident`
@@ -603,6 +618,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"event-driven architecture" OR "EDA" OR "event sourcing" news OR article`
 - `"iPaaS" OR "n8n" OR "Confluent" OR "MuleSoft" release OR news`
 - `site:blog.bytebytego.com API OR "event-driven" OR integration`
+- `site:confluent.io/blog kafka OR streaming OR "schema registry" OR EDA`
 
 ### 🔧 Backend & Runtimes (`backend`)
 - `"Spring Boot" OR "Spring Framework" OR "Quarkus" OR "Micronaut" release`
@@ -611,18 +627,24 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"microservices" OR "distributed systems" pattern OR architecture`
 - `site:blog.bytebytego.com backend OR "system design" OR API`
 - `site:baeldung.com "spring boot" OR "spring security" OR "java" new article`
+- `site:dzone.com java OR "spring boot" OR backend OR microservices`
+- `site:blog.jetbrains.com IntelliJ OR Kotlin OR Gradle OR Java`
 
 ### 🏛️ Arquitetura de Software (`arqsw`)
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
 - `"hexagonal architecture" OR "clean architecture" OR "event storming" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
 - `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com OR site:baeldung.com architecture OR "design pattern"`
+- `site:highscalability.com` (estudos de caso reais de arquitetura em escala)
+- `site:queue.acm.org architecture OR "distributed systems" OR "system design"`
 
 ### 🗺️ Arquitetura de Solução (`arqsol`)
 - `"solution architecture" OR "enterprise architecture" reference OR pattern`
 - `"cloud architecture" OR "multi-cloud" OR "service mesh" OR "API gateway"`
 - `"system design" site:blog.bytebytego.com OR site:dzone.com`
 - Netflix OR Airbnb OR Uber OR Stripe "engineering blog" architecture post
+- `site:highscalability.com` (estudos de caso em escala — WhatsApp, Amazon, Netflix)
+- `site:queue.acm.org "system design" OR "enterprise" OR "solution architecture"`
 
 ---
 
