@@ -215,6 +215,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 **Container Security & Runtime** — preferidos:
 - **Sysdig Blog** (`sysdig.com/blog`) — Falco, eBPF runtime security, Kubernetes security.
 - **Aqua Security Blog** (`aquasec.com/blog`) — Trivy, image scanning, runtime protection.
+- **Cloudflare Blog** (`blog.cloudflare.com`) — zero-trust, WAF, DDoS, network security, TLS. Posts de alta profundidade técnica.
 
 *🤖 IA & LLMs*
 
@@ -260,12 +261,16 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 
 **GitOps & CI/CD** — preferidos:
 - **GitHub Blog Changelog** (`github.blog/changelog`) — GitHub Actions, Copilot, Dependabot updates.
+- **GitHub Engineering** (`github.blog/engineering`) — engenharia interna do GitHub, sistemas distribuídos, Git at scale.
 - **ArgoCD Blog** (`blog.argoproj.io`) — releases e best practices Argo CD.
 - **Helm Blog** (`helm.sh/blog`) — releases e guias Helm.
 
 **Platform Engineering & SRE** — preferidos:
 - **Increment** (`increment.com`) — platform engineering, on-call, SRE. Alta qualidade editorial.
 - **Google SRE** (`sre.google/resources`) — livros e artigos de SRE do Google.
+- **Netflix TechBlog** (`netflixtechblog.com`) — engenharia de plataforma, deploy, chaos engineering, observabilidade.
+- **Uber Engineering** (`uber.com/blog/engineering`) — infra, deploy, SRE, sistemas de alta escala.
+- **Shopify Engineering** (`shopify.engineering`) — platform engineering, K8s, deploy a escala, SRE.
 
 **IaC** — preferidos:
 - **HashiCorp Blog** (`developer.hashicorp.com/blog`) — Terraform, Vault, Consul releases e best practices.
@@ -302,10 +307,15 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 **Data Lakehouse & Analytics** — preferidos:
 - **Databricks Blog** (`databricks.com/blog`) — Delta Lake, lakehouse, Spark, MLflow, Unity Catalog.
 - **dbt Blog** (`docs.getdbt.com/blog`) — dbt, analytics engineering, data mesh.
+- **Meta Engineering** (`engineering.fb.com`) — data platform, warehouse scale, Apache Spark/Presto contribuições originais.
+- **LinkedIn Engineering** (`linkedin.com/blog/engineering`) — Kafka (criadores), data infrastructure, Pinot, Samza.
 
 **Streaming & CDC** — preferidos:
 - **Confluent Blog** (`confluent.io/blog`) — Kafka, streaming, CDC, schema registry. Referência para `integ` e `data`.
 - **Debezium Blog** (`debezium.io/blog`) — CDC, connectors, change streaming.
+- **Jack VanLightly** (`jack-vanlightly.com`) — streaming, Kafka internals, RabbitMQ, sistemas de filas. Profundidade técnica excepcional.
+- **Kai Waehner Blog** (`kai-waehner.de/blog`) — Kafka, EDA, streaming analytics, casos de uso enterprise.
+- **Spotify Engineering** (`engineering.atspotify.com`) — streaming de dados, Flink, data platform, real-time analytics.
 
 **NoSQL & Cache** — preferidos:
 - **Redis Blog** (`redis.io/blog`) — releases, patterns, Valkey.
@@ -317,6 +327,8 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **AsyncAPI Initiative Blog** (`asyncapi.com/blog`) — spec oficial para APIs event-driven.
 - **Confluent Blog** (`confluent.io/blog`) — Kafka, EDA, CDC, schema registry.
 - **Solace Blog** (`solace.com/blog`) — event-driven patterns, event mesh, publish-subscribe.
+- **Kai Waehner Blog** (`kai-waehner.de/blog`) — EDA enterprise, Kafka em produção, casos de uso fintech/IoT.
+- **Stripe Engineering** (`stripe.com/blog/engineering`) — idempotência, webhooks, design de APIs de pagamento.
 
 **API Design & REST/GraphQL** — preferidos:
 - **API Evangelist** (`apievangelist.com`) — API strategy, OpenAPI, REST governance.
@@ -348,6 +360,15 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Rust Blog** (`blog.rust-lang.org`) — releases, RFCs, ecosystem Rust.
 - **Node.js Blog** (`nodejs.org/en/blog`) — releases e breaking changes Node.js.
 
+**Blogs de engenharia de empresas top (backend geral)** — preferidos para casos reais:
+- **Netflix TechBlog** (`netflixtechblog.com`) — JVM, backend systems, APIs, performance.
+- **Uber Engineering** (`uber.com/blog/engineering`) — Go, Java, distributed backend, alta escala.
+- **Meta Engineering** (`engineering.fb.com`) — PHP/Hack, C++, Rust, backend at hyperscale.
+- **Shopify Engineering** (`shopify.engineering`) — Ruby, Go, Rails, backend performance.
+- **Discord Engineering** (`discord.com/category/engineering`) — Go, Rust, Elixir, backend scale.
+- **Dropbox Tech** (`dropbox.tech`) — Python, Go, backend systems, storage.
+- **Spotify Engineering** (`engineering.atspotify.com`) — microserviços, Java, Python, backend.
+
 **JavaScript/TypeScript** — preferidos (ver também tópico `javascript`):
 - **TypeScript Blog** (`devblogs.microsoft.com/typescript`) — releases TypeScript, novos recursos.
 - **Deno Blog** (`deno.com/blog`) — Deno releases, edge runtimes, performance.
@@ -375,6 +396,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 **ADRs & Modelagem** — preferidos:
 - **Structurizr Blog/Changelog** (`structurizr.com/changelog`) — C4 model, arquitetura como código.
 - **Architecture Notes** (`architecturenotes.co`) — posts curtos e práticos de design de sistemas.
+- **GitHub Engineering** (`github.blog/engineering`) — decisões de arquitetura reais, ADRs em prática, sistemas legados.
 
 *🗺️ Arquitetura Corporativa*
 
@@ -385,6 +407,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 **Team Topologies & Platform Teams** — preferidos:
 - **Team Topologies Blog** (`teamtopologies.com/blog`) — stream-aligned teams, platform teams, Conway's Law.
 - **Platformengineering.org** (`platformengineering.org/blog`) — IDP, Backstage, golden paths.
+- **Airbnb Engineering** (`airbnb.tech`) — org design, enterprise architecture, platform teams em escala.
 
 **Cloud Architecture Multi-cloud** — preferidos:
 - **AWS Architecture Center** (`aws.amazon.com/architecture`) — reference architectures, Well-Architected.
@@ -410,11 +433,27 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 **Post-mortems & Incidentes** — preferidos:
 - **SRE Weekly** (`sreweekly.com`) — curadoria de incidentes, post-mortems, SRE.
 - **Postmortem.io** (`postmortem.io`) — banco de post-mortems públicos.
-- **Engineering blogs** — Netflix, Cloudflare, Discord, Stripe, Linear: publicam RCAs detalhados regularmente.
+- **Netflix TechBlog** (`netflixtechblog.com`) — RCAs detalhados, chaos engineering, alta disponibilidade.
+- **Cloudflare Blog** (`blog.cloudflare.com`) — incidentes de rede, DDoS, post-mortems públicos exemplares.
+- **Discord Engineering** (`discord.com/category/engineering`) — scaling incidents, post-mortems, Go/Rust.
+- **Stripe Engineering** (`stripe.com/blog/engineering`) — reliability, consistency, distributed systems RCAs.
+- **Linear Blog** (`linear.app/blog`) — post-mortems, product engineering, sistemas a escala.
 
 **Microserviços & Service Mesh** — preferidos:
 - **Microservices.io** (`microservices.io`) — Sam Newman, catálogo de padrões.
 - **The New Stack** (`thenewstack.io`) — microserviços, service mesh, cloud-native.
+
+**Blogs de engenharia de empresas top (distarch)** — preferidos para casos reais a escala:
+- **Netflix TechBlog** (`netflixtechblog.com`) — sistemas distribuídos, resiliência, chaos engineering, Hystrix.
+- **Uber Engineering** (`uber.com/blog/engineering`) — data platform, microserviços, sistemas de alta escala.
+- **Meta Engineering** (`engineering.fb.com`) — distributed consensus, Cassandra, ZooKeeper contribuições.
+- **LinkedIn Engineering** (`linkedin.com/blog/engineering`) — Kafka (criadores), Samza, sistemas de feed.
+- **Spotify Engineering** (`engineering.atspotify.com`) — microsserviços, domain-driven, plataforma de dados.
+- **Airbnb Engineering** (`airbnb.tech`) — distributed systems, data mesh, infra de alta disponibilidade.
+- **Discord Engineering** (`discord.com/category/engineering`) — Rust, Go, scaling from millions to billions.
+- **Dropbox Tech** (`dropbox.tech`) — distributed storage, synchronization, sistemas de arquivo.
+- **Stripe Engineering** (`stripe.com/blog/engineering`) — financial systems, consistency, APIs distribuídas.
+- **Cloudflare Blog** (`blog.cloudflare.com`) — edge computing, anycast, distribuição global.
 
 *💳 Fintech & Pagamentos*
 
@@ -422,6 +461,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **PYMNTS.com** (`pymnts.com`) — #1 em breaking news de pagamentos, cartões e fintech.
 - **Payments Dive** (`paymentsdive.com`) — análise profunda de pagamentos, cartões, regulação.
 - **Visa Perspectives** (`corporate.visa.com/en/sites/visa-perspectives`) — tendências Visa, agentic commerce.
+- **Stripe Engineering** (`stripe.com/blog/engineering`) — APIs de pagamento, reliability financeira, infraestrutura de billing.
 
 **Open Finance & Brasil** — preferidos:
 - **Banco Central do Brasil** (`bcb.gov.br`) — regulação oficial Pix, Open Finance, DREX, CMN.
@@ -444,6 +484,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **InfoQ Java** (`infoq.com/java`) — cobertura profunda em Java, JVM, frameworks.
 - **Baeldung** (`baeldung.com`) — tutoriais Java, Spring, JPA, REST. Diário.
 - **A Java Geek / Nicolas Fränkel** (`blog.frankel.ch`) — arquitetura com Java, Spring, programação funcional.
+- **JVM Weekly** (`jvm-weekly.com`) — newsletter semanal do ecossistema JVM: Java, Kotlin, Scala, Groovy.
 
 *🟨 JavaScript / TypeScript (`tool_key: "javascript"`)*
 - **TC39 Proposals** (`tc39.es/proposals`) — propostas ECMAScript em andamento.
@@ -453,6 +494,8 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Bun Blog** (`bun.sh/blog`) — releases Bun, performance, compatibilidade.
 - **JavaScript Weekly** (`javascriptweekly.com`) — curadoria semanal JS/TS.
 - **2ality / Dr. Axel Rauschmayer** (`2ality.com`) — profundidade em JavaScript/TypeScript moderno.
+- **Vercel Blog** (`vercel.com/blog`) — Next.js, edge runtime, React Server Components, deploy JS/TS.
+- **State of JavaScript** (`stateofjs.com`) — pesquisa anual do ecossistema JS, tendências e adoção.
 
 *🐍 Python (`tool_key: "python"`)*
 - **Python.org Blog** (`blog.python.org`) — news oficiais CPython, releases.
@@ -462,6 +505,7 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **Hynek Schlawack Blog** (`hynek.me`) — best practices, packaging, async Python.
 - **Talk Python Blog** (`talkpython.fm/blog`) — podcast + blog, Python ecosystem.
 - **FastAPI Docs/Releases** (`fastapi.tiangolo.com/release-notes`) — FastAPI releases.
+- **Full Stack Python** (`fullstackpython.com`) — guias práticos de Python web, deployment, frameworks.
 
 **Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 12 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
