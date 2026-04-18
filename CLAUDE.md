@@ -201,7 +201,7 @@ Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda c
 - `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
 - `arqsw` → `design`, `arqsol` → `enterprise`
 
-## Conceito fundamental: Categorias vs. Assuntos Fixos
+## Conceito fundamental: Categorias vs. Tópicos
 
 Esta distinção é crítica — afeta como a skill pesquisa, como o JSON é gerado e como a SPA exibe o conteúdo.
 
@@ -214,42 +214,42 @@ Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padr
 - Aparecem na sidebar listadas por chave.
 - View: `cat:{chave}` agrega TODAS as notícias daquela categoria através das edições.
 
-### Assuntos Fixos (`TOOLS` no código, `tool_key` no JSON)
+### Tópicos (`TOOLS` no código, `tool_key` no JSON)
 Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recente para cada um — se não houver, pula.
 
-- Cobertura mínima: **≥ 10 assuntos com conteúdo por edição** (não 1 por assunto — a meta é o total).
-- Se recente < 10 assuntos: completa com evergreen clássico/importante dos assuntos que faltam, sem repetir URLs de edições anteriores.
-- Aparecem na sidebar agrupados por grupo do rail.
-- View: `tool:{chave}` exibe TODOS os itens daquele assunto através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
-- O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "assunto fixo".
+- Cobertura mínima: **≥ 10 tópicos com conteúdo por edição** (não 1 por tópico — a meta é o total).
+- Se recente < 10 tópicos: completa com evergreen clássico/importante dos tópicos que faltam, sem repetir URLs de edições anteriores.
+- Aparecem no rail (coluna direita) agrupados em 3 seções: Tópicos, Ferramentas, Linguagens.
+- View: `tool:{chave}` exibe TODOS os itens daquele tópico através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
+- O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "tópico".
 
 ### Quando me pedirem para adicionar algo novo — perguntar sempre
 
 **Antes de adicionar qualquer coisa nova**, perguntar ao usuário:
 
-> *"Isso deve ser um **Assunto Fixo** (monitorado diariamente, sempre aparece em `tools[]`, tem view dedicada na sidebar) ou deve ser coberto apenas como **sub-tópico de uma Categoria** existente (aparece em `news[]` quando houver notícia, sem compromisso diário)?"*
+> *"Isso deve ser um **Tópico** (monitorado diariamente, sempre aparece em `tools[]`, tem view dedicada no rail) ou deve ser coberto apenas como **sub-tópico de uma Categoria** existente (aparece em `news[]` quando houver notícia, sem compromisso diário)?"*
 
 A diferença prática:
-- **Assunto Fixo**: Git, Kafka, Kubernetes — tecnologias que queremos SEMPRE cobertas, com pelo menos 1 item/dia, com logo na sidebar e view dedicada.
+- **Tópico**: Git, Kafka, Kubernetes — tecnologias que queremos SEMPRE cobertas, com pelo menos 1 item/dia, com logo no rail e view dedicada.
 - **Sub-tópico de categoria**: "SAML" dentro de `sec`, "TOGAF" dentro de `enterprise` — aparecem quando há notícia, sem cobertura obrigatória diária.
 
 Se o usuário não souber a diferença, explique e aguarde a decisão antes de modificar qualquer arquivo.
 
 ---
 
-## Assuntos Fixos monitorados (37, agrupados por grupo do rail)
+## Tópicos monitorados (37, agrupados por grupo do rail)
 
-Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
+Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
-> **Distinção importante**: `group` define onde o assunto aparece no rail (`subjects` = temas conceituais, `tools` = produtos de software, `lang` = linguagens). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
+> **Distinção importante**: `group` define onde o tópico aparece no rail (`subjects` = temas conceituais, `tools` = produtos de software, `lang` = linguagens). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
 
 | Grupo do rail | `tool_key` | Nome | Categoria editorial |
 |---|---|---|---|
-| Assuntos | `microservices` | Microsserviços | `distarch` |
-| Assuntos | `ddd` | DDD | `design` |
-| Assuntos | `cloudnative` | Cloud Native | `distarch` |
-| Assuntos | `cve` | CVEs & Vulnerabilidades | `sec` |
-| Assuntos | `owasp` | OWASP | `sec` |
+| Tópicos | `microservices` | Microsserviços | `distarch` |
+| Tópicos | `ddd` | DDD | `design` |
+| Tópicos | `cloudnative` | Cloud Native | `distarch` |
+| Tópicos | `cve` | CVEs & Vulnerabilidades | `sec` |
+| Tópicos | `owasp` | OWASP | `sec` |
 | Ferramentas | `cursor` | Cursor IDE | `ai` |
 | Ferramentas | `claudecode` | Claude Code | `ai` |
 | Ferramentas | `chatgpt` | ChatGPT | `ai` |
@@ -283,7 +283,7 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 | Linguagens | `javascript` | JavaScript / TS | `backend` |
 | Linguagens | `python` | Python | `backend` |
 
-**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
+**Tópicos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
 
 ## O Que Atualizar Quando
 
@@ -294,41 +294,51 @@ Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave d
 
 ### Pesquisar fontes antes de adicionar (OBRIGATÓRIO)
 
-**Toda vez que um novo Assunto Fixo ou Categoria for adicionado**, antes de implementar qualquer arquivo, faça uma pesquisa real (WebSearch) para identificar as melhores fontes daquele tema:
+**Toda vez que um novo Tópico, Categoria ou Linguagem for adicionado**, antes de implementar qualquer arquivo, faça uma pesquisa real (WebSearch) para identificar as melhores fontes daquele tema:
 
 1. `"best [tema] blogs" OR "top [tema] resources" site:reddit.com`
 2. `"[tema] newsletter" most popular 2024 OR 2025`
 3. `"[tema] blog" developers OR architects`
 
-Com os resultados, identifique o **blog oficial** (changelog, release notes), o **blog editorial de referência** (#1 mais citado pela comunidade) e **1-2 fontes complementares de autoridade**. Adicione essas fontes à seção "Fontes de alta reputação" e às queries da categoria correspondente em `skills/devpulse-daily.md` **antes de fazer o commit**.
+Com os resultados, identifique:
+- O **changelog/blog oficial** (release notes, announcements do vendor)
+- O **blog editorial de referência** (#1 mais citado pela comunidade)
+- **Sub-tópicos do tema** e os melhores sites para cada um
+
+Adicione essas fontes na seção correspondente da skill (`skills/devpulse-daily.md`) seguindo o padrão:
+- Em **Categorias**: adicione um bloco de sub-tópicos com os sites preferidos, dentro da seção da categoria no bloco "Fontes de alta reputação"
+- Em **Tópicos/Ferramentas**: adicione na tabela de changelogs (seção "TÓPICOS MONITORADOS") e nas queries específicas do tópico (seção "CATEGORIAS E QUERIES DE PESQUISA")
+- Em **Linguagens**: adicione na seção "Linguagens de Programação — fontes por tópico" e nas queries específicas
+
+**Lembre sempre**: os sites são **sugestões e preferências** — se não houver conteúdo no período da edição nos sites preferidos, a skill pode buscar em outros sites. Se encontrar algo de qualidade em outro site, inclua normalmente. Os sites preferidos são o ponto de partida, não uma restrição.
 
 Fontes genéricas (Medium sem autor, "top 10 tools", DZone sem filtragem de qualidade) não devem ser adicionadas como fontes primárias.
 
 ### Adicionar/remover uma categoria
 1. Consulte as **regras de classificação** abaixo antes de decidir
-2. **Pesquise as melhores fontes** do tema (ver protocolo acima)
+2. **Pesquise as melhores fontes** do tema (ver protocolo acima) — incluindo sub-tópicos da categoria
 3. Adicione/remova a chave em `CAT` no JS de `index.html`
 4. Adicione/remova variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
 5. Atualize a tabela em `skills/devpulse-daily.md` (seção "Categorias e Queries"), neste CLAUDE.md e em `scripts/validate_editions.py` (`CATEGORIES_V2`)
 6. Atualize `STRICT_FROM_V3` no validator para a data da primeira edição com a nova taxonomia (atualmente `2026-04-19`)
 
-### Adicionar/remover um Assunto Fixo
-1. **Perguntar ao usuário** se é Assunto Fixo ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
-2. **Pesquise as melhores fontes** do assunto (ver protocolo acima) — changelog oficial, blog editorial, fontes complementares
-3. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`)
-4. Atualize a tabela em `skills/devpulse-daily.md` (seção "ASSUNTOS FIXOS MONITORADOS") com o changelog e fontes encontradas
+### Adicionar/remover um Tópico
+1. **Perguntar ao usuário** se é Tópico ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
+2. **Pesquise as melhores fontes** do tópico (ver protocolo acima) — changelog oficial, blog editorial, fontes complementares por sub-tópico
+3. Adicione/remova entrada no array `TOOLS` do JS em `index.html` (com `aliases`, `kind`, `category`, `logo`, `group` = `subjects`/`tools`/`lang`)
+4. Atualize a tabela em `skills/devpulse-daily.md` (seção "TÓPICOS MONITORADOS") com o changelog e fontes encontradas
 5. Atualize a lista de chaves em `skills/devpulse-daily.md` (counts_by_tool + sanity checks)
 6. Atualize `TOOL_KEYS_V2` em `scripts/validate_editions.py`
-7. Atualize a tabela neste CLAUDE.md (seção "Assuntos Fixos monitorados")
+7. Atualize a tabela neste CLAUDE.md (seção "Tópicos monitorados")
 
-### Como classificar uma adição (Assunto Fixo, Categoria ou tag)
+### Como classificar uma adição (Tópico, Categoria ou tag)
 
 **Sempre perguntar ao usuário qual dos três tipos é antes de implementar.**
 
-1. **Assunto Fixo** → vai para o array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto (modelagem, operação, integração, decisão técnica); encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: a skill busca conteúdo sobre ele TODOS OS DIAS, direto ou indireto.
+1. **Tópico** → vai para o array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto (modelagem, operação, integração, decisão técnica); encaixa em uma categoria com campo `category`. Chat, e-mail e gestão de tarefas ficam fora. Compromisso: a skill busca conteúdo sobre ele TODOS OS DIAS, direto ou indireto.
 2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes (não é sub-tópico de outra). Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria.
-3. **Tag** → `tags[]` nos itens de `news[]`. Para assuntos transversais ou sub-tópicos que aparecem esporadicamente. Não muda a taxonomia.
-4. **Remoção**: Assunto Fixo ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição. Removidos em v3: `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
+3. **Tag** → `tags[]` nos itens de `news[]`. Para tópicos transversais ou sub-tópicos que aparecem esporadicamente. Não muda a taxonomia.
+4. **Remoção**: Tópico ou categoria que precisa de >3 `curiosity`/mês para atingir cobertura mínima está em zona de morte — avaliar substituição. Removidos em v3: `dbeaver`, `mongocompass`, `whimsical`, `plantuml`.
 5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, logos, cutoff).
 
 ### Alterar queries de pesquisa

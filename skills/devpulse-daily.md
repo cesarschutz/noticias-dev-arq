@@ -26,7 +26,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
 - `news[]`: **mínimo 1, máximo 3 itens por categoria** (11 categorias = mínimo 11, máximo 33 itens).
-- `tools[]` (assuntos): **mínimo 10 assuntos com conteúdo** no total (não por assunto — ver regra abaixo).
+- `tools[]` (tópicos): **mínimo 10 tópicos com conteúdo** no total (não por tópico — ver regra abaixo).
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -38,10 +38,10 @@ Para cada **categoria** sem item em `news[]`:
 - **Nunca omita uma categoria** — mínimo 1 item por categoria é obrigatório.
 - **Nunca passe de 3 itens por categoria** — priorize diversidade sobre volume.
 
-Para **assuntos** em `tools[]` — regra dos 10 mínimos:
-1. Busque conteúdo recente (desde a última edição) para cada assunto. Se não houver nada relevante, pule — não é obrigatório ter todos.
-2. Conte quantos assuntos têm pelo menos 1 item. Se **≥ 10**, está ótimo — não force os demais.
-3. Se **< 10**, complete com clássicos/evergreen dos assuntos que faltam até atingir 10. Critérios de seleção para completar: artigo muito acessado, tutorial fundamental, conteúdo clássico da área. **Nunca repita URLs já usadas em edições anteriores** — especialmente nos evergreens buscados de período mais antigo.
+Para **tópicos** em `tools[]` — regra dos 10 mínimos:
+1. Busque conteúdo recente (desde a última edição) para cada tópico. Se não houver nada relevante, pule — não é obrigatório ter todos.
+2. Conte quantos tópicos têm pelo menos 1 item. Se **≥ 10**, está ótimo — não force os demais.
+3. Se **< 10**, complete com clássicos/evergreen dos tópicos que faltam até atingir 10. Critérios de seleção para completar: artigo muito acessado, tutorial fundamental, conteúdo clássico da área. **Nunca repita URLs já usadas em edições anteriores** — especialmente nos evergreens buscados de período mais antigo.
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
@@ -186,98 +186,306 @@ Para cada uma das 11 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - Posts de blogs de engenharia de empresas reconhecidas (Netflix, Cloudflare, Stripe, Uber, Airbnb).
 - Conteúdo de autores reconhecidos na área (Fowler, Kleppmann, Hohpe, Newman, etc.).
 
-**Fontes de alta reputação — consulte ativamente em cada edição**:
+**Fontes de alta reputação — sugestões e preferências por categoria/tópico**:
+
+> **Regra geral de uso das fontes**: os sites listados abaixo são **preferidos** — comece por eles. Se não encontrar conteúdo relevante para a janela da edição nesses sites, **pesquise em outros sites** (WebSearch genérico, HN, Reddit, etc.). Se encontrar algo de qualidade em outros sites, inclua normalmente. Se não encontrar em nenhum lugar e precisar de evergreen, volte aos sites preferidos — a probabilidade de encontrar conteúdo clássico de qualidade é maior. Qualidade e relevância sempre têm precedência sobre a fonte.
 
 *🔐 Segurança & IAM*
+
+**CVEs & Patches** — preferidos para vulnerabilidades, exploits, CVSS:
 - **The Hacker News** (`thehackernews.com`) — #1 em notícias de segurança, 8M+ leitores/mês. CVEs, breaches, malware.
 - **BleepingComputer** (`bleepingcomputer.com`) — cobertura rápida e técnica de CVEs, patches, ransomware.
-- **Krebs on Security** (`krebsonsecurity.com`) — investigações aprofundadas de breaches e supply chain.
-- **SANS Internet Storm Center** (`isc.sans.edu`) — diários de incidentes, honeypots, vulnerabilidades ativas.
 - **CISA Advisories** (`cisa.gov/cybersecurity-advisories`) — alertas oficiais de CVEs explorados ativamente.
+- **NVD** (`nvd.nist.gov`) — base oficial de CVEs com CVSS score.
+
+**Supply Chain, SBOM & Sigstore** — preferidos para segurança de cadeia de fornecimento:
+- **Krebs on Security** (`krebsonsecurity.com`) — investigações aprofundadas de breaches e supply chain.
+- **SANS Internet Storm Center** (`isc.sans.edu`) — diários de incidentes, honeypots.
+- **Snyk Blog** (`snyk.io/blog`) — vulnerabilidades em dependências, supply chain, SBOM.
+- **Aqua Security Blog** (`aquasec.com/blog`) — container security, supply chain, Trivy.
+
+**Secrets & Vault** — preferidos para gestão de segredos:
+- **HashiCorp Blog** (`developer.hashicorp.com/blog`) — Vault, Boundary, Consul.
+- **GitGuardian Blog** (`blog.gitguardian.com`) — secrets em código, rotação, best practices.
+
+**Identity & Access (IAM, OIDC, Zero-trust)** — preferidos:
+- **Auth0 Blog** (`auth0.com/blog`) — OIDC, OAuth2, JWT, SSO, MFA best practices.
+- **Okta Developer** (`developer.okta.com/blog`) — identity, SAML, SCIM, zero-trust.
+
+**Container Security & Runtime** — preferidos:
+- **Sysdig Blog** (`sysdig.com/blog`) — Falco, eBPF runtime security, Kubernetes security.
+- **Aqua Security Blog** (`aquasec.com/blog`) — Trivy, image scanning, runtime protection.
 
 *🤖 IA & LLMs*
-- **Simon Willison's Weblog** (`simonwillison.net`) — rastreamento diário de lançamentos AI, LLMs, tools. Referência para `ai`.
-- **OpenAI Blog** (`openai.com/blog`) — lançamentos de modelos, pesquisa, APIs. Publicação irregular mas de alta relevância.
-- **Anthropic News** (`anthropic.com/news`) — Claude releases, políticas, pesquisa de segurança em AI.
-- **Google DeepMind Blog** (`deepmind.google/blog`) — pesquisa fundamental, modelos Gemini, benchmarks.
-- **HuggingFace Blog** (`huggingface.co/blog`) — modelos open source, datasets, papers práticos, community. Essencial para AI open.
+
+**Modelos & Pesquisa** — preferidos para lançamentos de modelos, benchmarks, papers:
+- **Simon Willison's Weblog** (`simonwillison.net`) — rastreamento diário de lançamentos AI/LLMs/tools. Referência #1 para `ai`.
+- **OpenAI Blog** (`openai.com/blog`) — GPT releases, APIs, políticas. Alta relevância quando publica.
+- **Anthropic News** (`anthropic.com/news`) — Claude releases, pesquisa de segurança em AI.
+- **Google DeepMind Blog** (`deepmind.google/blog`) — Gemini, pesquisa fundamental, benchmarks.
+- **HuggingFace Blog** (`huggingface.co/blog`) — modelos open source, datasets, pipelines. Essencial para AI open.
+
+**AI Coding Tools** — preferidos para Cursor, Copilot, Claude Code:
+- **Cursor Changelog** (`cursor.com/changelog`) — releases e features do Cursor IDE.
+- **GitHub Next** (`githubnext.com`) — pesquisa e futuro do GitHub Copilot.
+- **Sourcegraph Blog** (`about.sourcegraph.com/blog`) — Cody, AI em código, developer tools.
+
+**Agentes & MCP** — preferidos para AI agents e protocolos:
+- **LangChain Blog** (`blog.langchain.dev`) — agents, RAG, LangGraph, tooling.
+- **Anthropic MCP Docs** (`modelcontextprotocol.io`) — spec oficial do Model Context Protocol.
 
 *🔶 AWS*
-- **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — padrões oficiais, case studies, Well-Architected.
-- **AWS What's New** (`aws.amazon.com/about-aws/whats-new`) — todos os lançamentos de serviços em tempo real.
+
+**Lançamentos & Serviços** — preferidos para novidades da plataforma:
+- **AWS What's New** (`aws.amazon.com/about-aws/whats-new`) — todos os lançamentos em tempo real.
+- **AWS Architecture Blog** (`aws.amazon.com/blogs/architecture`) — padrões, case studies, Well-Architected.
 - **Last Week in AWS** (`lastweekinaws.com`) — curadoria semanal com análise crítica dos anúncios AWS.
 
+**Compute & Serverless** — preferidos:
+- `aws.amazon.com/blogs/compute` — Lambda, Fargate, ECS/EKS, Batch.
+
+**Dados & Integração AWS** — preferidos:
+- `aws.amazon.com/blogs/database` — DynamoDB, Aurora, RDS, ElastiCache.
+- `aws.amazon.com/blogs/messaging-and-targeting` — SNS, SQS, EventBridge, Step Functions.
+
+**Segurança AWS** — preferidos:
+- `aws.amazon.com/blogs/security` — IAM, Cognito, GuardDuty, WAF, Security Hub.
+
 *⚙️ DevOps & Plataformas*
+
+**Kubernetes & Container** — preferidos:
 - **Kubernetes Blog** (`kubernetes.io/blog`) — #1 oficial. Releases, KEPs, deprecations, segurança.
-- **CNCF Blog** (`cncf.io/blog`) — Helm, ArgoCD, Istio, OpenTelemetry, Flux — projetos CNCF em geral.
-- **The New Stack** (`thenewstack.io`) — DevOps, Kubernetes, cloud-native, platform engineering. Diária.
+- **CNCF Blog** (`cncf.io/blog`) — Helm, ArgoCD, Istio, OTel, Flux — projetos CNCF.
+- **The New Stack** (`thenewstack.io`) — DevOps, K8s, cloud-native, platform engineering. Diária.
+
+**GitOps & CI/CD** — preferidos:
+- **GitHub Blog Changelog** (`github.blog/changelog`) — GitHub Actions, Copilot, Dependabot updates.
+- **ArgoCD Blog** (`blog.argoproj.io`) — releases e best practices Argo CD.
+- **Helm Blog** (`helm.sh/blog`) — releases e guias Helm.
+
+**Platform Engineering & SRE** — preferidos:
+- **Increment** (`increment.com`) — platform engineering, on-call, SRE. Alta qualidade editorial.
+- **Google SRE** (`sre.google/resources`) — livros e artigos de SRE do Google.
+
+**IaC** — preferidos:
+- **HashiCorp Blog** (`developer.hashicorp.com/blog`) — Terraform, Vault, Consul releases e best practices.
+- **OpenTofu** (`opentofu.org/blog`) — fork open source do Terraform.
+
+**Service Mesh** — preferidos:
+- **Istio Blog** (`istio.io/latest/blog`) — releases, use cases, performance.
+- **Envoy Blog** (`blog.envoyproxy.io`) — proxy, service mesh foundations.
 
 *📈 Observabilidade*
-- **Grafana Labs Blog** (`grafana.com/blog`) — #1 para obs. Loki, Tempo, Mimir, Prometheus, OTel. 2-3 posts/semana.
-- **OpenTelemetry Blog** (`opentelemetry.io/blog`) — spec oficial, novos sinais, adoção por vendors. Padrão da indústria.
+
+**Tracing, Metrics, Logging** — preferidos:
+- **Grafana Labs Blog** (`grafana.com/blog`) — Loki, Tempo, Mimir, Prometheus, OTel. 2-3 posts/semana.
+- **OpenTelemetry Blog** (`opentelemetry.io/blog`) — spec oficial, novos sinais, adoção por vendors.
+- **Datadog Blog** (`datadoghq.com/blog`) — observabilidade, APM, cloud monitoring.
+
+**SLO/SLI & Incident Management** — preferidos:
+- **Charity Majors / Honeycomb** (`charity.wtf`, `honeycomb.io/blog`) — SLO na prática, observabilidade profunda.
+- **FireHydrant Blog** (`firehydrant.com/blog`) — incident management, post-mortems, on-call.
+- **PagerDuty Blog** (`response.pagerduty.com`) — on-call, escalation, incident response.
+
+**eBPF & Profiling Contínuo** — preferidos:
+- **Parca Blog** (`parca.dev/blog`) — continuous profiling open source.
+- **Pyroscope Blog** (`pyroscope.io/blog`) — flame graphs, profiling integrations.
+- **Cilium Blog** (`cilium.io/blog`) — eBPF em K8s, network observability.
 
 *🗄️ Dados & Streaming*
-- **Confluent Blog** (`confluent.io/blog`) — Kafka, event streaming, CDC, schema registry. Referência para `integ` e `data`.
+
+**Bancos Relacionais** — preferidos:
+- **PostgreSQL News** (`postgresql.org/about/newsarchive`) — releases e patches oficiais.
+- **Planet PostgreSQL** (`planet.postgresql.org`) — blog aggregator da comunidade.
+- **MySQL Blog** (`blogs.oracle.com/mysql`) — releases e features MySQL oficiais.
+
+**Data Lakehouse & Analytics** — preferidos:
 - **Databricks Blog** (`databricks.com/blog`) — Delta Lake, lakehouse, Spark, MLflow, Unity Catalog.
+- **dbt Blog** (`docs.getdbt.com/blog`) — dbt, analytics engineering, data mesh.
+
+**Streaming & CDC** — preferidos:
+- **Confluent Blog** (`confluent.io/blog`) — Kafka, streaming, CDC, schema registry. Referência para `integ` e `data`.
+- **Debezium Blog** (`debezium.io/blog`) — CDC, connectors, change streaming.
+
+**NoSQL & Cache** — preferidos:
+- **Redis Blog** (`redis.io/blog`) — releases, patterns, Valkey.
+- **MongoDB Blog** (`mongodb.com/blog`) — MongoDB releases, Atlas, Realm.
 
 *🔌 Integração & Eventos*
-- **AsyncAPI Initiative** (`asyncapi.com/blog`) — spec oficial para APIs event-driven, roadmap, tooling.
-- **Confluent Blog** (`confluent.io/blog`) — ver acima (Kafka, EDA, CDC).
+
+**Event-Driven Architecture** — preferidos:
+- **AsyncAPI Initiative Blog** (`asyncapi.com/blog`) — spec oficial para APIs event-driven.
+- **Confluent Blog** (`confluent.io/blog`) — Kafka, EDA, CDC, schema registry.
+- **Solace Blog** (`solace.com/blog`) — event-driven patterns, event mesh, publish-subscribe.
+
+**API Design & REST/GraphQL** — preferidos:
+- **API Evangelist** (`apievangelist.com`) — API strategy, OpenAPI, REST governance.
+- **Postman Blog** (`blog.postman.com`) — API testing, mocking, design-first.
+- **GraphQL Foundation** (`graphql.org/blog`) — spec, best practices, tooling.
+- **OpenAPI Blog** (`openapis.org/news`) — spec updates, tooling, roadmap.
+
+**iPaaS & Integração Enterprise** — preferidos:
+- **MuleSoft Blog** (`blogs.mulesoft.com`) — integração enterprise, API management.
+- **n8n Blog** (`n8n.io/blog`) — workflow automation, integração low-code.
 
 *🔧 Backend & Runtimes*
-- **Baeldung** (`baeldung.com`) — tutoriais profundos de Java, Spring Boot, Spring Security, REST. Diário.
-- **Spring Blog** (`spring.io/blog`) — oficial Spring Framework, Spring Boot, Spring Cloud. Releases e posts de engenharia.
-- **JetBrains Blog** (`blog.jetbrains.com`) — IntelliJ IDEA, Kotlin, Gradle. Referência para tooling JVM.
-- **Inside Java** (`inside.java`) — JDK, JVM, Project Loom/Valhalla em profundidade.
-- **DZone** (`dzone.com`) — artigos práticos em Java, DevOps, cloud. Volume alto, filtrar por qualidade.
 
-*🏛️ Arquitetura de Software*
-- **ByteByteGo** (`blog.bytebytego.com`) — system design, arquitetura distribuída, padrões. ~500k assinantes. Semanal.
+**Java & JVM** — preferidos (ver também tópico `java` em TÓPICOS MONITORADOS):
+- **Baeldung** (`baeldung.com`) — tutoriais profundos Java, Spring Boot, Spring Security, REST. Diário.
+- **Spring Blog** (`spring.io/blog`) — Spring Framework, Spring Boot, Spring Cloud releases.
+- **Inside Java** (`inside.java`) — JDK, Project Loom/Valhalla, JVM internals.
+- **Foojay.io** (`foojay.io/today`) — Friends of OpenJDK, Java ecosystem news.
+- **Java Magazine** (`blogs.oracle.com/javamagazine`) — Oracle Java Magazine, artigos técnicos profundos.
+- **Vlad Mihalcea Blog** (`vladmihalcea.com`) — JPA, Hibernate, PostgreSQL com Java.
+
+**Build Tools JVM** — preferidos:
+- **JetBrains Blog** (`blog.jetbrains.com`) — IntelliJ IDEA, Kotlin, Gradle. Tooling JVM.
+- **Gradle Blog** (`gradle.org/blog`) — releases, plugins, performance.
+- **Maven Central** (`central.sonatype.com/blog`) — gestão de dependências, releases.
+
+**Go, Rust, Node.js** — preferidos:
+- **The Go Blog** (`go.dev/blog`) — releases e features oficiais da linguagem Go.
+- **Rust Blog** (`blog.rust-lang.org`) — releases, RFCs, ecosystem Rust.
+- **Node.js Blog** (`nodejs.org/en/blog`) — releases e breaking changes Node.js.
+
+**JavaScript/TypeScript** — preferidos (ver também tópico `javascript`):
+- **TypeScript Blog** (`devblogs.microsoft.com/typescript`) — releases TypeScript, novos recursos.
+- **Deno Blog** (`deno.com/blog`) — Deno releases, edge runtimes, performance.
+- **Bun Blog** (`bun.sh/blog`) — releases Bun, benchmarks, compatibilidade Node.js.
+- **JavaScript Weekly** (`javascriptweekly.com`) — curadoria semanal JS/TS/Node.
+
+**Python** — preferidos (ver também tópico `python`):
+- **Python.org Blog** (`blog.python.org`) — news e releases oficiais CPython.
+- **Real Python** (`realpython.com`) — tutoriais aprofundados, patterns, best practices.
+- **Python Speed** (`pythonspeed.com`) — performance, profiling, packaging.
+- **Hynek Schlawack Blog** (`hynek.me`) — Python best practices, packaging, async.
+
+*🏛️ Design & Padrões*
+
+**DDD & Arquitetura de Software** — preferidos:
 - **Martin Fowler** (`martinfowler.com`) — DDD, refactoring, padrões. AUTORIDADE máxima.
-- **InfoQ** (`infoq.com`) — cobertura profunda em arquitetura, Java, cloud, AI. Newsletter 300k+ assinantes.
+- **DDD Crew** (`ddd-crew.github.io`) — event storming, bounded context canvas.
+- **Domain Language** (`domainlanguage.com`) — site oficial Eric Evans / DDD.
+
+**System Design & Padrões** — preferidos:
+- **ByteByteGo** (`blog.bytebytego.com`) — system design, padrões distribuídos, ~500k assinantes.
+- **InfoQ** (`infoq.com`) — arquitetura, Java, cloud, AI. Newsletter 300k+ assinantes.
+- **ThoughtWorks Tech Radar** (`thoughtworks.com/radar`) — referência bimestral de adoção de tecnologia.
+
+**ADRs & Modelagem** — preferidos:
+- **Structurizr Blog/Changelog** (`structurizr.com/changelog`) — C4 model, arquitetura como código.
+- **Architecture Notes** (`architecturenotes.co`) — posts curtos e práticos de design de sistemas.
+
+*🗺️ Arquitetura Corporativa*
+
+**Enterprise Architecture & TOGAF** — preferidos:
+- **Architect Elevator** (`architectelevator.com`) — Gregor Hohpe, arquitetura corporativa.
+- **The Open Group Blog** (`blog.opengroup.org`) — TOGAF, ArchiMate, enterprise architecture.
+
+**Team Topologies & Platform Teams** — preferidos:
+- **Team Topologies Blog** (`teamtopologies.com/blog`) — stream-aligned teams, platform teams, Conway's Law.
+- **Platformengineering.org** (`platformengineering.org/blog`) — IDP, Backstage, golden paths.
+
+**Cloud Architecture Multi-cloud** — preferidos:
+- **AWS Architecture Center** (`aws.amazon.com/architecture`) — reference architectures, Well-Architected.
+- **Azure Architecture Center** (`learn.microsoft.com/azure/architecture`) — design patterns, multi-cloud.
+- **Google Cloud Architecture** (`cloud.google.com/architecture`) — best practices, GCP patterns.
+
+**FinOps & Cloud Governance** — preferidos:
+- **FinOps Foundation Blog** (`finops.org/blog`) — FinOps framework, cloud cost best practices.
+- **CloudHealth Blog** (`cloudhealth.com/blog`) — cloud cost management, governance.
+
+**API Governance** — preferidos:
+- **Stoplight Blog** (`blog.stoplight.io`) — API governance, design-first, OpenAPI.
+- **API Evangelist** (`apievangelist.com`) — API strategy, governance, monetization.
+
+*🕸 Sistemas Distribuídos*
+
+**Padrões & Arquitetura** — preferidos:
 - **High Scalability** (`highscalability.com`) — estudos de caso reais (Netflix, Amazon, WhatsApp).
 - **ACM Queue** (`queue.acm.org`) — artigos acadêmico-práticos sobre sistemas distribuídos e bancos.
-- **ThoughtWorks Tech Radar** (`thoughtworks.com/radar`) — referência bimestral para decisões de adoção de tecnologia. LEITURA OBRIGATÓRIA para arquitetos.
+- **ByteByteGo** (`blog.bytebytego.com`) — system design e padrões distribuídos.
+- **Martin Fowler** (`martinfowler.com`) — padrões (saga, strangler fig, CQRS, event sourcing).
 
-*🗺️ Arquitetura de Solução*
-- **Architect Elevator** (`architectelevator.com`) — arquitetura corporativa, Gregor Hohpe.
-- **AWS Architecture Center** (`aws.amazon.com/architecture`) — reference architectures, blueprints, Well-Architected.
-- **Azure Architecture Center** (`learn.microsoft.com/azure/architecture`) — cloud design patterns, reference architectures multi-cloud.
-- **Google Cloud Architecture** (`cloud.google.com/architecture`) — best practices, reference architectures GCP.
+**Post-mortems & Incidentes** — preferidos:
+- **SRE Weekly** (`sreweekly.com`) — curadoria de incidentes, post-mortems, SRE.
+- **Postmortem.io** (`postmortem.io`) — banco de post-mortems públicos.
+- **Engineering blogs** — Netflix, Cloudflare, Discord, Stripe, Linear: publicam RCAs detalhados regularmente.
+
+**Microserviços & Service Mesh** — preferidos:
+- **Microservices.io** (`microservices.io`) — Sam Newman, catálogo de padrões.
+- **The New Stack** (`thenewstack.io`) — microserviços, service mesh, cloud-native.
 
 *💳 Fintech & Pagamentos*
-- **PYMNTS.com** (`pymnts.com`) — #1 em breaking news de pagamentos, cartões e fintech. Cobertura diária de Visa, Mastercard, emissores, cooperativas.
-- **Payments Dive** (`paymentsdive.com`) — análise profunda do setor de pagamentos, cartões de crédito, regulação.
-- **Fintech Futures** (`fintechfutures.com`) — paytech, open banking, fintech global. 2-3 posts/dia.
-- **Finsiders Brasil** (`finsidersbrasil.com.br`) — fintech BR, crédito digital, cooperativas de crédito, regulação BACEN.
-- **Visa Perspectives** (`corporate.visa.com/en/sites/visa-perspectives`) — tendências Visa, inovação em pagamentos, agentic commerce.
-- **Banco Central do Brasil** (`bcb.gov.br`) — regulação oficial Pix, Open Finance, DREX, resolução CMN.
-- **PCI Perspectives** (`blog.pcisecuritystandards.org`) — PCI DSS updates, segurança em pagamentos, compliance.
-- **Mundo Coop / OCB** (`mundocoop.com.br`, `somoscooperativismo.coop.br`) — cooperativismo de crédito BR, Unicred, Sicoob, Sicredi.
+
+**Payment Networks & Cards** — preferidos:
+- **PYMNTS.com** (`pymnts.com`) — #1 em breaking news de pagamentos, cartões e fintech.
+- **Payments Dive** (`paymentsdive.com`) — análise profunda de pagamentos, cartões, regulação.
+- **Visa Perspectives** (`corporate.visa.com/en/sites/visa-perspectives`) — tendências Visa, agentic commerce.
+
+**Open Finance & Brasil** — preferidos:
+- **Banco Central do Brasil** (`bcb.gov.br`) — regulação oficial Pix, Open Finance, DREX, CMN.
+- **Finsiders Brasil** (`finsidersbrasil.com.br`) — fintech BR, crédito digital, cooperativas, BACEN.
+- **Fintech Futures** (`fintechfutures.com`) — paytech, open banking, fintech global.
+
+**Cooperativismo de Crédito** — preferidos:
+- **Mundo Coop / OCB** (`mundocoop.com.br`, `somoscooperativismo.coop.br`) — Unicred, Sicoob, Sicredi.
+
+**PCI DSS & Compliance** — preferidos:
+- **PCI Perspectives** (`blog.pcisecuritystandards.org`) — PCI DSS updates, compliance, segurança em pagamentos.
+
+**Linguagens de Programação — fontes por tópico**:
+
+*☕ Java & JVM (`tool_key: "java"`)*
+- **Inside Java** (`inside.java`) — JEPs, Project Loom/Valhalla, JVM internals. Feed oficial da OpenJDK.
+- **OpenJDK** (`openjdk.org/projects`) — releases, JEPs, roadmap da linguagem.
+- **Java Magazine** (`blogs.oracle.com/javamagazine`) — artigos técnicos profundos Oracle.
+- **Foojay.io** (`foojay.io/today`) — Friends of OpenJDK, ecosystem news.
+- **InfoQ Java** (`infoq.com/java`) — cobertura profunda em Java, JVM, frameworks.
+- **Baeldung** (`baeldung.com`) — tutoriais Java, Spring, JPA, REST. Diário.
+- **A Java Geek / Nicolas Fränkel** (`blog.frankel.ch`) — arquitetura com Java, Spring, programação funcional.
+
+*🟨 JavaScript / TypeScript (`tool_key: "javascript"`)*
+- **TC39 Proposals** (`tc39.es/proposals`) — propostas ECMAScript em andamento.
+- **TypeScript Blog** (`devblogs.microsoft.com/typescript`) — releases TS e novos recursos.
+- **Node.js Blog** (`nodejs.org/en/blog`) — releases e breaking changes Node.js.
+- **Deno Blog** (`deno.com/blog`) — Deno releases, edge runtimes, Deno Deploy.
+- **Bun Blog** (`bun.sh/blog`) — releases Bun, performance, compatibilidade.
+- **JavaScript Weekly** (`javascriptweekly.com`) — curadoria semanal JS/TS.
+- **2ality / Dr. Axel Rauschmayer** (`2ality.com`) — profundidade em JavaScript/TypeScript moderno.
+
+*🐍 Python (`tool_key: "python"`)*
+- **Python.org Blog** (`blog.python.org`) — news oficiais CPython, releases.
+- **PEPs** (`peps.python.org`) — Python Enhancement Proposals.
+- **Real Python** (`realpython.com`) — tutoriais aprofundados e práticos.
+- **Python Speed** (`pythonspeed.com`) — performance, profiling, packaging (Itamar Turner-Trauring).
+- **Hynek Schlawack Blog** (`hynek.me`) — best practices, packaging, async Python.
+- **Talk Python Blog** (`talkpython.fm/blog`) — podcast + blog, Python ecosystem.
+- **FastAPI Docs/Releases** (`fastapi.tiangolo.com/release-notes`) — FastAPI releases.
 
 **Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 12 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
 
-### 3. Verificar assuntos monitorados
+### 3. Verificar tópicos monitorados
 
 **Regra dos 10 mínimos** — aplicada assim:
 
-1. **Busca recente**: para cada um dos 37 assuntos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um assunto, **não inclua** — não force conteúdo vazio.
+1. **Busca recente**: para cada um dos 37 tópicos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos). Se não encontrar nada relevante para um tópico, **não inclua** — não force conteúdo vazio.
 
-2. **Contagem**: após varrer todos os assuntos, conte quantos têm pelo menos 1 item.
+2. **Contagem**: após varrer todos os tópicos, conte quantos têm pelo menos 1 item.
 
-3. **Completar se < 10**: se menos de 10 assuntos têm conteúdo, selecione assuntos que faltam e busque um clássico/evergreen importante para cada um até atingir 10. Critérios de seleção do evergreen:
+3. **Completar se < 10**: se menos de 10 tópicos têm conteúdo, selecione tópicos que faltam e busque um clássico/evergreen importante para cada um até atingir 10. Critérios de seleção do evergreen:
    - Muito acessado ou citado na comunidade técnica.
    - Em site de autoridade (documentação oficial, InfoQ, martinfowler.com, architectelevator.com, blog de engenharia reconhecida).
    - Ensina algo fundamental (modelo interno, boas práticas, anti-pattern clássico).
    - **Nunca use**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
    - **Verificar dedup**: antes de incluir qualquer evergreen, confirme que a URL não foi usada em nenhuma das últimas 7 edições.
 
-4. **Se ≥ 10**: não force os assuntos restantes — uma edição enxuta com 10-15 assuntos é melhor do que 36 com conteúdo forçado.
+4. **Se ≥ 10**: não force os tópicos restantes — uma edição enxuta com 10-15 tópicos é melhor do que 36 com conteúdo forçado.
 
-Siga a hierarquia de `kind` por tipo de assunto:
+Siga a hierarquia de `kind` por tipo de tópico:
 - **Ferramentas com release**: `release` (se saiu versão na janela) > `news` > `tutorial` > `tip` > `curiosity`
 - **Temas/domínios** (`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`): `news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`
-- Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por assunto por mês.
+- Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por tópico por mês.
 
 ### 4. Pulso social (Hacker News) e blogs de engenharia
 
@@ -301,9 +509,9 @@ Antes de chamar Write:
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
 - [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
 - [ ] **Cobertura de categorias**: todas as 11 categorias com ≥ 1 item em `pillars[]` + `news[]` (ambos os modos). Se não houver conteúdo fresco, usar evergreen de qualidade.
-- [ ] **Cobertura de assuntos**: mínimo 10 assuntos com ≥ 1 item em `tools[]`. Se < 10, completar com clássicos/evergreen sem repetir URLs das últimas 7 edições.
+- [ ] **Cobertura de tópicos**: mínimo 10 tópicos com ≥ 1 item em `tools[]`. Se < 10, completar com clássicos/evergreen sem repetir URLs das últimas 7 edições.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
-- [ ] **Fallback aplicado**: para qualquer categoria ou assunto abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
+- [ ] **Fallback aplicado**: para qualquer categoria ou tópico abaixo do mínimo, evergreen de qualidade foi incluído (conteúdo que todo arquiteto deveria conhecer).
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
 - [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
@@ -463,6 +671,39 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `site:bcb.gov.br` (Banco Central — regulação Pix, Open Finance, DREX)
 - `site:mundocoop.com.br OR site:somoscooperativismo.coop.br` (cooperativismo de crédito BR)
 
+### ☕ Tópico Java & JVM (`tool_key: "java"`) — queries específicas
+- `"JDK" OR "OpenJDK" OR "GraalVM" release OR update site:openjdk.org OR site:inside.java`
+- `"Java" OR "JVM" OR "Project Loom" OR "virtual threads" OR "Project Valhalla" news`
+- `"Spring Boot" OR "Spring Framework" OR "Quarkus" OR "Micronaut" release OR update`
+- `"Gradle" OR "Maven" OR "IntelliJ IDEA" new version OR release`
+- `site:inside.java` (JEPs, JVM internals, linguagem)
+- `site:foojay.io/today` (Friends of OpenJDK — ecosystem news)
+- `site:baeldung.com java OR "spring boot"` (tutoriais práticos recentes)
+- `site:blogs.oracle.com/javamagazine` (Oracle Java Magazine)
+
+### 🟨 Tópico JavaScript / TypeScript (`tool_key: "javascript"`) — queries específicas
+- `"TypeScript" release OR update site:devblogs.microsoft.com/typescript`
+- `"Node.js" release OR breaking change site:nodejs.org OR site:nodesource.com`
+- `"Deno" OR "Bun" release OR update OR benchmark`
+- `"TC39" proposal OR stage OR ECMAScript site:tc39.es`
+- `"JavaScript" OR "TypeScript" best practice OR feature OR pattern 2026`
+- `site:devblogs.microsoft.com/typescript` (releases TypeScript)
+- `site:nodejs.org/en/blog` (releases Node.js)
+- `site:deno.com/blog` (Deno releases, edge)
+- `site:bun.sh/blog` (Bun releases, performance)
+- `site:2ality.com` (profundidade em JS/TS moderno — Dr. Axel Rauschmayer)
+
+### 🐍 Tópico Python (`tool_key: "python"`) — queries específicas
+- `"Python" release OR update site:python.org OR site:blog.python.org`
+- `"PEP" approved OR accepted site:peps.python.org`
+- `"pip" OR "uv" OR "Poetry" Python package manager update`
+- `"FastAPI" OR "Django" OR "Flask" OR "Pydantic" release OR feature`
+- `"Python" performance OR typing OR async best practice 2026`
+- `site:blog.python.org` (news oficiais CPython)
+- `site:realpython.com` (tutoriais aprofundados)
+- `site:pythonspeed.com` (performance e profiling)
+- `site:hynek.me` (best practices, packaging)
+
 ---
 
 ## PILARES PRINCIPAIS
@@ -549,9 +790,9 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ---
 
-## ASSUNTOS FIXOS MONITORADOS
+## TÓPICOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**37 assuntos fixos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por tópico** em `tools[]` (**37 tópicos**, ver regra dos 10 mínimos na seção 3). O campo `tool_key` identifica o tópico no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -561,9 +802,9 @@ Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**37 a
 | `tip` | Dica objetiva e acionável (atalho, flag, config oculta). Evergreen aceitável. |
 | `curiosity` | Fato histórico ou trivia **específica** do assunto. **Máximo 1 por assunto fixo por mês.** Use só se todas as outras opções falharem; documente a razão em `description`. |
 
-### Dois tipos de assunto fixo — hierarquia de `kind` diferente
+### Dois tipos de tópico — hierarquia de `kind` diferente
 
-Os 37 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
+Os 37 tópicos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
 
 **Ferramentas com release** (têm changelog e versionamento próprio):
 `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
@@ -576,9 +817,9 @@ Os 37 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamen
 
 → Hierarquia: **`news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`**
 → `release` só quando uma versão da linguagem/spec foi publicada (ex: JDK 25, ECMAScript 2025, OpenAPI 4.0). O dia-a-dia é `news` e `tip`.
-→ Para `microservices`, `ddd` e `cloudnative`: use sempre `news` ou `tutorial` — são assuntos que não versionam.
+→ Para `microservices`, `ddd` e `cloudnative`: use sempre `news` ou `tutorial` — são tópicos que não versionam.
 
-**Nunca omita um assunto fixo. Nunca use `curiosity` genérica** ("Docker é popular porque...").
+**Nunca omita um tópico. Nunca use `curiosity` genérica** ("Docker é popular porque...").
 
 ### Protocolo especial: `tool_key: "cve"`
 
@@ -636,7 +877,7 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `redis` | Release, nova feature, mudança de licença | Caching patterns, pub/sub, Redis Streams, Valkey (fork), cache-aside vs write-through, sessão distribuída |
 | `grafana` | Release, novo painel, integração | Grafana stack (Loki, Tempo, Mimir), dashboards as code, alerting, OpenTelemetry → Grafana, SLO tracking |
 
-| `tool_key` | Assunto Fixo | Categoria | Changelog / Blog |
+| `tool_key` | Tópico | Categoria | Changelog / Blog |
 |---|---|---|---|
 | `structurizr` | Structurizr | `design` | https://structurizr.com/changelog |
 | `cursor` | Cursor IDE | `ai` | https://www.cursor.com/changelog |
