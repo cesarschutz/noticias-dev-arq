@@ -233,45 +233,52 @@ Se o usuário não souber a diferença, explique e aguarde a decisão antes de m
 
 ---
 
-## Assuntos Fixos monitorados (31, agrupados por categoria)
+## Assuntos Fixos monitorados (36, agrupados por grupo do rail)
 
-Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
+Cada assunto fixo tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
-| Categoria | `tool_key` | Nome |
-|---|---|---|
-| `arqsw` | `structurizr` | Structurizr |
-| `arqsw` | `whimsical` | Whimsical |
-| `arqsw` | `plantuml` | PlantUML |
-| `ai` | `cursor` | Cursor IDE |
-| `ai` | `claudecode` | Claude Code |
-| `ai` | `chatgpt` | ChatGPT |
-| `ai` | `vscode` | VS Code |
-| `ai` | `warp` | Warp Terminal |
-| `sec` | `cve` | CVEs & Vulnerabilidades |
-| `sec` | `keycloak` | Keycloak |
-| `sec` | `owasp` | OWASP |
-| `devops` | `git` | Git |
-| `devops` | `github` | GitHub |
-| `devops` | `docker` | Docker Desktop |
-| `devops` | `kubernetes` | Kubernetes |
-| `obs` | `dynatrace` | Dynatrace |
-| `data` | `postgres` | PostgreSQL |
-| `data` | `mysql` | MySQL |
-| `data` | `mongocompass` | MongoDB Compass |
-| `data` | `dbeaver` | DBeaver |
-| `data` | `databricks` | Databricks |
-| `integ` | `kafka` | Apache Kafka |
-| `integ` | `postman` | Postman |
-| `integ` | `openapi` | OpenAPI |
-| `backend` | `java` | Java & JVM |
-| `backend` | `javascript` | JavaScript / TS |
-| `backend` | `python` | Python |
-| `backend` | `intellij` | IntelliJ IDEA |
-| `backend` | `springboot` | Spring Boot |
-| `backend` | `gradle` | Gradle |
-| `backend` | `maven` | Apache Maven |
+> **Distinção importante**: `group` define onde o assunto aparece no rail (agrupamento por papel no trabalho do arquiteto). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
 
-**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `terraform`, `ghactions`, `grafana`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
+| Grupo do rail | `tool_key` | Nome | Categoria editorial |
+|---|---|---|---|
+| Ferramentas de Trabalho | `cursor` | Cursor IDE | `ai` |
+| Ferramentas de Trabalho | `claudecode` | Claude Code | `ai` |
+| Ferramentas de Trabalho | `chatgpt` | ChatGPT | `ai` |
+| Ferramentas de Trabalho | `vscode` | VS Code | `ai` |
+| Ferramentas de Trabalho | `warp` | Warp Terminal | `ai` |
+| Ferramentas de Trabalho | `intellij` | IntelliJ IDEA | `backend` |
+| Ferramentas de Trabalho | `postman` | Postman | `integ` |
+| Ferramentas de Trabalho | `dbeaver` | DBeaver | `data` |
+| Ferramentas de Trabalho | `mongocompass` | MongoDB Compass | `data` |
+| Plataformas & Infra | `git` | Git | `devops` |
+| Plataformas & Infra | `github` | GitHub | `devops` |
+| Plataformas & Infra | `docker` | Docker Desktop | `devops` |
+| Plataformas & Infra | `kubernetes` | Kubernetes | `devops` |
+| Plataformas & Infra | `terraform` | Terraform | `devops` |
+| Plataformas & Infra | `helm` | Helm | `devops` |
+| Plataformas & Infra | `ghactions` | GitHub Actions | `devops` |
+| Dados & Mensageria | `postgres` | PostgreSQL | `data` |
+| Dados & Mensageria | `mysql` | MySQL | `data` |
+| Dados & Mensageria | `databricks` | Databricks | `data` |
+| Dados & Mensageria | `kafka` | Apache Kafka | `integ` |
+| Dados & Mensageria | `openapi` | OpenAPI | `integ` |
+| Dados & Mensageria | `redis` | Redis | `data` |
+| Arquitetura & Design | `structurizr` | Structurizr | `arqsw` |
+| Arquitetura & Design | `whimsical` | Whimsical | `arqsw` |
+| Arquitetura & Design | `plantuml` | PlantUML | `arqsw` |
+| Arquitetura & Design | `springboot` | Spring Boot | `backend` |
+| Arquitetura & Design | `gradle` | Gradle | `backend` |
+| Arquitetura & Design | `maven` | Apache Maven | `backend` |
+| Segurança & Obs | `cve` | CVEs & Vulnerabilidades | `sec` |
+| Segurança & Obs | `keycloak` | Keycloak | `sec` |
+| Segurança & Obs | `owasp` | OWASP | `sec` |
+| Segurança & Obs | `dynatrace` | Dynatrace | `obs` |
+| Segurança & Obs | `grafana` | Grafana | `obs` |
+| Linguagens & Runtimes | `java` | Java & JVM | `backend` |
+| Linguagens & Runtimes | `javascript` | JavaScript / TS | `backend` |
+| Linguagens & Runtimes | `python` | Python | `backend` |
+
+**Assuntos fixos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `lambda`, `dynamodb`, `apigateway`, `sns`, `sqs`, `togaf`.
 
 ## O Que Atualizar Quando
 

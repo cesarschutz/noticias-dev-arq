@@ -2180,6 +2180,16 @@ function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">${paths}</svg>`;
 }
 
+/* ═══ Grupos do rail de assuntos (independente das categorias editoriais) ═══ */
+const TOOL_GROUPS = {
+  work:     { label: 'Ferramentas de Trabalho', icon: 'ai',      color: 'var(--cat-ai)' },
+  infra:    { label: 'Plataformas & Infra',     icon: 'devops',  color: 'var(--cat-devops)' },
+  data_msg: { label: 'Dados & Mensageria',      icon: 'data',    color: 'var(--cat-data)' },
+  arch:     { label: 'Arquitetura & Design',    icon: 'arqsw',   color: 'var(--cat-arqsw)' },
+  secobs:   { label: 'Segurança & Obs',         icon: 'sec',     color: 'var(--cat-sec)' },
+  lang:     { label: 'Linguagens & Runtimes',   icon: 'backend', color: 'var(--cat-backend)' },
+};
+
 /* ═══ Categorias e ferramentas ═══ */
 const CAT = {
   sec:     { l:'sec',     lf:'Segurança & IAM',        i:'🔐' },
@@ -2219,45 +2229,48 @@ const TOOL_KIND = {
 };
 
 const TOOLS = [
-  // Arq. Software
-  { key:'structurizr',  category:'arqsw',   name:'Structurizr',       aliases:['structurizr'],                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
-  { key:'whimsical',    category:'arqsw',   name:'Whimsical',          aliases:['whimsical'],                                icon:'🎨', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=whimsical.com&sz=128' },
-  { key:'plantuml',     category:'arqsw',   name:'PlantUML',           aliases:['plantuml','plant uml'],                     icon:'🌱', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
-  // IA & LLMs
-  { key:'cursor',       category:'ai',      name:'Cursor IDE',         aliases:['cursor ide','cursor'],                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
-  { key:'claudecode',   category:'ai',      name:'Claude Code',        aliases:['claude code','anthropic claude'],           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
-  { key:'chatgpt',      category:'ai',      name:'ChatGPT',            aliases:['chatgpt','openai chatgpt','gpt-4'],         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
-  { key:'vscode',       category:'ai',      name:'VS Code',            aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
-  { key:'warp',         category:'ai',      name:'Warp Terminal',      aliases:['warp terminal','warp'],                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
-  // Segurança & IAM
-  { key:'cve',          category:'sec',     name:'CVEs & Vulnerabilidades', aliases:['cve','nvd','vulnerability','vuln','cvss'], icon:'🚨', kind:'news',  logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128' },
-  { key:'keycloak',     category:'sec',     name:'Keycloak',           aliases:['keycloak'],                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
-  { key:'owasp',        category:'sec',     name:'OWASP',              aliases:['owasp'],                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
-  // DevOps & Plataformas
-  { key:'git',          category:'devops',  name:'Git',                aliases:['git','git version control'],                icon:'🌿', kind:'devops', logo:'https://cdn.simpleicons.org/git/F05032' },
-  { key:'github',       category:'devops',  name:'GitHub',             aliases:['github','github actions','gh'],             icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
-  { key:'docker',       category:'devops',  name:'Docker Desktop',     aliases:['docker desktop','docker'],                  icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
-  { key:'kubernetes',   category:'devops',  name:'Kubernetes',         aliases:['kubernetes','k8s','kubectl'],               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
-  // Observabilidade
-  { key:'dynatrace',    category:'obs',     name:'Dynatrace',          aliases:['dynatrace'],                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
-  // Dados & Streaming
-  { key:'postgres',     category:'data',    name:'PostgreSQL',         aliases:['postgresql','postgres'],                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
-  { key:'mysql',        category:'data',    name:'MySQL',              aliases:['mysql'],                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
-  { key:'mongocompass', category:'data',    name:'MongoDB Compass',    aliases:['mongodb compass','compass','mongodb'],      icon:'🧭', kind:'db',     logo:'https://cdn.simpleicons.org/mongodb/00ed64' },
-  { key:'dbeaver',      category:'data',    name:'DBeaver',            aliases:['dbeaver'],                                  icon:'🦫', kind:'db',     logo:'https://www.google.com/s2/favicons?domain=dbeaver.io&sz=128' },
-  { key:'databricks',   category:'data',    name:'Databricks',         aliases:['databricks'],                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
-  // Integração & Eventos
-  { key:'kafka',        category:'integ',   name:'Apache Kafka',       aliases:['apache kafka','kafka','confluent'],         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
-  { key:'postman',      category:'integ',   name:'Postman',            aliases:['postman'],                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
-  { key:'openapi',      category:'integ',   name:'OpenAPI',            aliases:['openapi','swagger','open api'],             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
-  // Backend & Runtimes
-  { key:'java',         category:'backend', name:'Java & JVM',         aliases:['java','jdk','jvm','openjdk','quarkus'],     icon:'☕', kind:'news',   logo:'https://cdn.simpleicons.org/openjdk/ffffff' },
-  { key:'javascript',   category:'backend', name:'JavaScript / TS',    aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'], icon:'🟨', kind:'news', logo:'https://cdn.simpleicons.org/javascript/F7DF1E' },
-  { key:'python',       category:'backend', name:'Python',             aliases:['python','cpython','pip','uv','fastapi','django','flask'], icon:'🐍', kind:'news', logo:'https://cdn.simpleicons.org/python/3776AB' },
-  { key:'intellij',     category:'backend', name:'IntelliJ IDEA',      aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
-  { key:'springboot',   category:'backend', name:'Spring Boot',        aliases:['spring boot','spring framework','spring'],  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
-  { key:'gradle',       category:'backend', name:'Gradle',             aliases:['gradle'],                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
-  { key:'maven',        category:'backend', name:'Apache Maven',       aliases:['apache maven','maven'],                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' }
+  // Ferramentas de Trabalho
+  { key:'cursor',       group:'work',     category:'ai',      name:'Cursor IDE',              aliases:['cursor ide','cursor'],                                                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
+  { key:'claudecode',   group:'work',     category:'ai',      name:'Claude Code',             aliases:['claude code','anthropic claude'],                                           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'chatgpt',      group:'work',     category:'ai',      name:'ChatGPT',                 aliases:['chatgpt','openai chatgpt','gpt-4'],                                         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
+  { key:'vscode',       group:'work',     category:'ai',      name:'VS Code',                 aliases:['visual studio code','vscode','vs code'],                                    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
+  { key:'warp',         group:'work',     category:'ai',      name:'Warp Terminal',           aliases:['warp terminal','warp'],                                                     icon:'💻', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=warp.dev&sz=128' },
+  { key:'intellij',     group:'work',     category:'backend', name:'IntelliJ IDEA',           aliases:['intellij','jetbrains idea'],                                                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
+  { key:'postman',      group:'work',     category:'integ',   name:'Postman',                 aliases:['postman'],                                                                  icon:'📮', kind:'api',    logo:'https://cdn.simpleicons.org/postman/ff6c37' },
+  { key:'dbeaver',      group:'work',     category:'data',    name:'DBeaver',                 aliases:['dbeaver'],                                                                  icon:'🦫', kind:'db',     logo:'https://www.google.com/s2/favicons?domain=dbeaver.io&sz=128' },
+  { key:'mongocompass', group:'work',     category:'data',    name:'MongoDB Compass',         aliases:['mongodb compass','compass','mongodb'],                                      icon:'🧭', kind:'db',     logo:'https://cdn.simpleicons.org/mongodb/00ed64' },
+  // Plataformas & Infra
+  { key:'git',          group:'infra',    category:'devops',  name:'Git',                     aliases:['git','git version control'],                                                icon:'🌿', kind:'devops', logo:'https://cdn.simpleicons.org/git/F05032' },
+  { key:'github',       group:'infra',    category:'devops',  name:'GitHub',                  aliases:['github','github actions','gh'],                                             icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
+  { key:'docker',       group:'infra',    category:'devops',  name:'Docker Desktop',          aliases:['docker desktop','docker'],                                                  icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
+  { key:'kubernetes',   group:'infra',    category:'devops',  name:'Kubernetes',              aliases:['kubernetes','k8s','kubectl'],                                               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
+  { key:'terraform',    group:'infra',    category:'devops',  name:'Terraform',               aliases:['terraform','opentofu','hcl'],                                               icon:'🏗', kind:'news',   logo:'https://cdn.simpleicons.org/terraform/7B42BC' },
+  { key:'helm',         group:'infra',    category:'devops',  name:'Helm',                    aliases:['helm','helm chart','helmfile'],                                             icon:'⎈',  kind:'news',   logo:'https://cdn.simpleicons.org/helm/277A9F' },
+  { key:'ghactions',    group:'infra',    category:'devops',  name:'GitHub Actions',          aliases:['github actions','gh actions','gha'],                                        icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/githubactions/2088FF' },
+  // Dados & Mensageria
+  { key:'postgres',     group:'data_msg', category:'data',    name:'PostgreSQL',              aliases:['postgresql','postgres'],                                                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
+  { key:'mysql',        group:'data_msg', category:'data',    name:'MySQL',                   aliases:['mysql'],                                                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
+  { key:'databricks',   group:'data_msg', category:'data',    name:'Databricks',              aliases:['databricks'],                                                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
+  { key:'kafka',        group:'data_msg', category:'integ',   name:'Apache Kafka',            aliases:['apache kafka','kafka','confluent'],                                         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
+  { key:'openapi',      group:'data_msg', category:'integ',   name:'OpenAPI',                 aliases:['openapi','swagger','open api'],                                             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
+  { key:'redis',        group:'data_msg', category:'data',    name:'Redis',                   aliases:['redis','redis cache','valkey'],                                             icon:'🔴', kind:'news',   logo:'https://cdn.simpleicons.org/redis/DC382D' },
+  // Arquitetura & Design
+  { key:'structurizr',  group:'arch',     category:'arqsw',   name:'Structurizr',             aliases:['structurizr'],                                                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'whimsical',    group:'arch',     category:'arqsw',   name:'Whimsical',               aliases:['whimsical'],                                                                icon:'🎨', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=whimsical.com&sz=128' },
+  { key:'plantuml',     group:'arch',     category:'arqsw',   name:'PlantUML',                aliases:['plantuml','plant uml'],                                                     icon:'🌱', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
+  { key:'springboot',   group:'arch',     category:'backend', name:'Spring Boot',             aliases:['spring boot','spring framework','spring'],                                  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
+  { key:'gradle',       group:'arch',     category:'backend', name:'Gradle',                  aliases:['gradle'],                                                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
+  { key:'maven',        group:'arch',     category:'backend', name:'Apache Maven',            aliases:['apache maven','maven'],                                                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' },
+  // Segurança & Obs
+  { key:'cve',          group:'secobs',   category:'sec',     name:'CVEs & Vulnerabilidades', aliases:['cve','nvd','vulnerability','vuln','cvss'],                                  icon:'🚨', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128' },
+  { key:'keycloak',     group:'secobs',   category:'sec',     name:'Keycloak',                aliases:['keycloak'],                                                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
+  { key:'owasp',        group:'secobs',   category:'sec',     name:'OWASP',                   aliases:['owasp'],                                                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
+  { key:'dynatrace',    group:'secobs',   category:'obs',     name:'Dynatrace',               aliases:['dynatrace'],                                                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
+  { key:'grafana',      group:'secobs',   category:'obs',     name:'Grafana',                 aliases:['grafana','grafana labs'],                                                   icon:'🟠', kind:'news',   logo:'https://cdn.simpleicons.org/grafana/F46800' },
+  // Linguagens & Runtimes
+  { key:'java',         group:'lang',     category:'backend', name:'Java & JVM',              aliases:['java','jdk','jvm','openjdk','quarkus'],                                     icon:'☕', kind:'news',   logo:'https://cdn.simpleicons.org/openjdk/ffffff' },
+  { key:'javascript',   group:'lang',     category:'backend', name:'JavaScript / TS',         aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'],        icon:'🟨', kind:'news',   logo:'https://cdn.simpleicons.org/javascript/F7DF1E' },
+  { key:'python',       group:'lang',     category:'backend', name:'Python',                  aliases:['python','cpython','pip','uv','fastapi','django','flask'],                   icon:'🐍', kind:'news',   logo:'https://cdn.simpleicons.org/python/3776AB' },
 ];
 
 const TOOL_KIND_BADGE = {
@@ -2640,38 +2653,35 @@ function renderSidebar(){
     }
   }
 
-  // Agrupar ferramentas por categoria
-  const toolsByCat = {};
+  // Agrupar assuntos por grupo do rail (independente das categorias editoriais)
+  const toolsByGroup = {};
   TOOLS.forEach(t => {
-    const cat = t.category || '_other';
-    if (!toolsByCat[cat]) toolsByCat[cat] = [];
-    toolsByCat[cat].push(t);
+    const g = t.group || '_other';
+    if (!toolsByGroup[g]) toolsByGroup[g] = [];
+    toolsByGroup[g].push(t);
   });
   let toolsHtml = '';
-  // Iterar na ordem das categorias, pulando as sem ferramentas
-  Object.keys(CAT).forEach(catKey => {
-    const catTools = toolsByCat[catKey];
-    if (!catTools || catTools.length === 0) return;
-    const catDef = CAT[catKey];
-    toolsHtml += `<div class="tool-cat-header" style="--k: var(--cat-${catKey})">` +
-                 `<span class="tool-cat-icon">${iconSvg(CAT_ICONS[catKey] || '', 13)}</span>` +
-                 `<span class="tool-cat-name">${catDef.lf}</span>` +
+  Object.keys(TOOL_GROUPS).forEach(groupKey => {
+    const groupTools = toolsByGroup[groupKey];
+    if (!groupTools || groupTools.length === 0) return;
+    const gDef = TOOL_GROUPS[groupKey];
+    toolsHtml += `<div class="tool-cat-header" style="--k: ${gDef.color}">` +
+                 `<span class="tool-cat-icon">${iconSvg(CAT_ICONS[gDef.icon] || '', 13)}</span>` +
+                 `<span class="tool-cat-name">${gDef.label}</span>` +
                  `</div>`;
-    catTools.forEach(t => {
+    groupTools.forEach(t => {
       const active = STATE.view === 'tool:' + t.key ? 'active' : '';
-      const color = `var(--cat-${catKey})`;
-      const logoHtml = t.logo ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">` : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
-      toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${color}">` +
+      const logoHtml = t.logo
+        ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
+        : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
+      toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
              logoHtml +
              `<span class="ch-name">${t.name}</span>` +
              `</div>`;
     });
   });
-  // Assuntos sem categoria (retrocompat)
-  if (toolsByCat['_other']) {
-    toolsByCat['_other'].forEach(t => {
-      const total = toolTotals[t.key] || 0;
-      const tday = toolToday[t.key] || 0;
+  if (toolsByGroup['_other']) {
+    toolsByGroup['_other'].forEach(t => {
       const active = STATE.view === 'tool:' + t.key ? 'active' : '';
       toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" style="--k: var(--cyan)">` +
              `<span class="ch-name">${t.name}</span>` +

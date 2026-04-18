@@ -36,9 +36,9 @@ TOOL_KEYS_V2  = {
   'structurizr','whimsical','plantuml',
   'cursor','claudecode','chatgpt','vscode','warp',
   'cve','keycloak','owasp',
-  'git','github','docker','kubernetes',
-  'dynatrace',
-  'postgres','mysql','mongocompass','dbeaver','databricks',
+  'git','github','docker','kubernetes','terraform','helm','ghactions',
+  'dynatrace','grafana',
+  'postgres','mysql','mongocompass','dbeaver','databricks','redis',
   'kafka','postman','openapi',
   'java','javascript','python',
   'intellij','springboot','gradle','maven'

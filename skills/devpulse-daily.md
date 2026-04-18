@@ -26,7 +26,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 **Meta de conteúdo** — igual ao modo normal (a diferença é que não há blocklist e a janela é de 3 dias):
 - `news[]`: **mínimo 1 item por categoria** (10 categorias). Traga quantos achar de boa qualidade — sem limite máximo.
-- `tools[]` (assuntos): **mínimo 1 item por assunto** (31 assuntos). Traga quantos encontrar.
+- `tools[]` (assuntos): **mínimo 1 item por assunto** (36 assuntos). Traga quantos encontrar.
 - `pillars[]`: 3 itens — um por pilar (java, aws, distarch).
 - `quotes[]`: 5 itens.
 
@@ -55,7 +55,7 @@ Para cada **assunto** sem item em `tools[]`:
 
 #### PROTOCOLO: Gerar `data/quotes.json` (primeira execução)
 
-O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 31 assuntos do sistema.
+O arquivo `data/quotes.json` contém frases de referência de autores do setor técnico, usadas como "quote do dia" na SPA. Gere **80 ou mais** frases, distribuídas pelas 10 categorias e 36 assuntos do sistema.
 
 **Tom obrigatório — "pílulas difíceis de engolir":**
 
@@ -784,7 +784,7 @@ Posts do AWS Architecture Blog, Well-Architected Framework, landing zones, cost 
 
 ## ASSUNTOS FIXOS MONITORADOS
 
-Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**31 assuntos fixos** no total — ambos os modos: mínimo 1 por assunto, sem teto máximo). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
+Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**36 assuntos fixos** no total — ambos os modos: mínimo 1 por assunto, sem teto máximo). O campo `tool_key` identifica o assunto fixo no JSON — use as chaves abaixo (campo obrigatório). O campo `kind` classifica o tipo de conteúdo:
 
 | `kind` | Quando usar |
 |---|---|
@@ -799,7 +799,7 @@ Toda edição deve ter **ao menos 1 item por assunto fixo** em `tools[]` (**31 a
 Os 31 assuntos fixos se dividem em dois perfis. **Sempre use `kind` explicitamente** — nunca omita.
 
 **Ferramentas com release** (têm changelog e versionamento próprio):
-`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `dynatrace`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
+`structurizr`, `whimsical`, `plantuml`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `keycloak`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `dynatrace`, `grafana`, `redis`, `postgres`, `mysql`, `mongocompass`, `dbeaver`, `databricks`, `kafka`, `postman`, `intellij`, `springboot`, `gradle`, `maven`
 
 → Hierarquia: **`release` (quando saiu nova versão na janela) > `news` > `tutorial` > `tip` > `curiosity`**
 → Use `kind: "release"` **apenas** quando uma versão concreta foi lançada na janela de busca. Se não houve release, use `news`/`tip`/`tutorial`.
@@ -862,6 +862,11 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `python` | CPython release, PEP aprovada, pip/uv update | FastAPI, async Python, type hints, packaging (pyproject.toml), AI/ML libs (LangChain, Pandas, NumPy) |
 | `git` | Release, novo comando, nova feature | Branching strategies (Git Flow, trunk-based), rebase vs merge, Git internals, monorepos, hooks, LFS |
 | `github` | Release, nova feature, GitHub Actions update | CI/CD com Actions, GitHub Copilot, code review culture, branch protection, CODEOWNERS, Dependabot, security advisories |
+| `terraform` | Release, novo provider, RFC aprovada | IaC patterns, OpenTofu, Pulumi vs Terraform, módulos reutilizáveis, remote state, drift detection |
+| `helm` | Release, nova feature | Helm charts best practices, Helmfile, Kustomize vs Helm, chart testing, dependency management |
+| `ghactions` | Release runner, nova action oficial, mudança de preços | CI/CD pipelines, reusable workflows, OIDC com cloud providers, GitHub-hosted vs self-hosted runners |
+| `redis` | Release, nova feature, mudança de licença | Caching patterns, pub/sub, Redis Streams, Valkey (fork), cache-aside vs write-through, sessão distribuída |
+| `grafana` | Release, novo painel, integração | Grafana stack (Loki, Tempo, Mimir), dashboards as code, alerting, OpenTelemetry → Grafana, SLO tracking |
 
 | `tool_key` | Assunto Fixo | Categoria | Changelog / Blog |
 |---|---|---|---|
@@ -896,6 +901,11 @@ Exemplos por assunto fixo (não exaustivos — use o mesmo raciocínio para qual
 | `springboot` | Spring Boot | `backend` | https://spring.io/blog |
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/docs/history.html |
+| `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases · https://developer.hashicorp.com/terraform/language/upgrade-guides |
+| `helm` | Helm | `devops` | https://github.com/helm/helm/releases · https://helm.sh/blog/ |
+| `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/ · https://github.com/actions/runner/releases |
+| `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
+| `grafana` | Grafana | `obs` | https://grafana.com/blog/ · https://github.com/grafana/grafana/releases |
 
 **Exemplos de buscas complementares** para cada assunto fixo:
 - `"{Assunto}" site:infoq.com OR site:thenewstack.io`
