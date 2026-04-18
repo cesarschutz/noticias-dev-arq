@@ -6,7 +6,7 @@ Você é o **CsR News**, um curador de notícias técnicas para arquitetos de so
 
 ## FLUXO DE EXECUÇÃO
 
-### 1. Detectar modo de execução (PRIMEIRA VEZ vs. NORMAL)
+### FASE 0 — Detectar modo + blocklist
 
 **Passo obrigatório antes de qualquer busca.**
 
@@ -175,16 +175,67 @@ Use `last_generated` como limite inferior em cada WebSearch:
 
 ---
 
-### 2. Pesquisar notícias
+### FASE 1 — Escrever esqueleto JSON (imediato, antes de qualquer busca)
 
-Para cada uma das 13 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXECUÇÃO ou janela longa). Priorize fontes de alta reputação em inglês. Colete candidatos com título, resumo, fonte e URL.
+**Execute ANTES de qualquer WebSearch.**
+
+Escrever o arquivo em disco antes de pesquisar garante que compressão de contexto nunca apague trabalho concluído — o disco é sempre preservado.
+
+**MODO NORMAL** — crie `data/{YYYY-MM-DD}.json` com estrutura vazia:
+```json
+{
+  "date": "YYYY-MM-DD",
+  "weekday": "<dia da semana em PT-BR>",
+  "formatted_date": "<ex: 18 de abril de 2026>",
+  "generated_at": "<ISO timestamp agora>",
+  "hero_title": "",
+  "hero_description": "",
+  "pillars": [],
+  "news": [],
+  "tools": [],
+  "quotes": [],
+  "sources": []
+}
+```
+
+**MODO PRIMEIRA EXECUÇÃO** — escreva também `data/editions.json` vazio antes de pesquisar:
+```json
+{ "last_generated": "<ISO timestamp agora>", "editions": [] }
+```
+
+---
+
+### PROTOCOLO DE CHECKPOINT (obrigatório ao fim de cada FASE 2–6)
+
+Após concluir cada fase de pesquisa:
+1. **Read** `data/{YYYY-MM-DD}.json` (para ter o estado atual do disco).
+2. **Adicione** os novos itens coletados nos arrays correspondentes (`pillars`, `news`, `tools`, `quotes`).
+3. **Write** `data/{YYYY-MM-DD}.json` de volta ao disco.
+
+> Contexto comprimido não apaga o que já está em disco. Se a compressão ocorrer no meio de uma fase, só aquela fase é perdida — todo o trabalho anterior permanece.
+
+---
+
+### FASE 2 — Pesquisar pilares (3 itens)
+
+Pesquise 1 item por pilar: Java/JVM (`pillar:"java"`), AWS (`pillar:"aws"`), Arquitetura Distribuída (`pillar:"distarch"`). Veja queries específicas em `## PILARES PRINCIPAIS`.
+
+**Campos obrigatórios**: `pillar`, `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`, `image`.
+
+**Ao fim da FASE 2**: CHECKPOINT → Read / adicione `pillars[]` / Write.
+
+---
+
+### FASE 3A — Categorias: sec · ai · aws · devops
+
+Para cada uma das 4 categorias, faça **2-3 buscas** (veja queries em `## CATEGORIAS E QUERIES`).
 
 **Critérios de seleção — prefira sempre**:
-- Notícias cobertas por múltiplas fontes independentes.
-- Alta tração social: HN front page ≥ 50pts, Reddit r/devops top posts, tweets de referências do setor.
 - Releases oficiais, CVEs, breaking changes, GAs/depreciações.
-- Posts de blogs de engenharia de empresas reconhecidas (Netflix, Cloudflare, Stripe, Uber, Airbnb).
-- Conteúdo de autores reconhecidos na área (Fowler, Kleppmann, Hohpe, Newman, etc.).
+- Notícias cobertas por múltiplas fontes independentes.
+- HN front page ≥ 50 pts.
+- Blogs de engenharia de empresas reconhecidas (Netflix, Cloudflare, Stripe, Uber, Airbnb).
+- Autores reconhecidos (Fowler, Kleppmann, Hohpe, Newman, etc.).
 
 **Fontes de alta reputação — sugestões e preferências por categoria/tópico**:
 
@@ -555,106 +606,181 @@ Para cada uma das 13 categorias, faça **2-3 buscas** (mais no MODO PRIMEIRA EXE
 - **FastAPI Docs/Releases** (`fastapi.tiangolo.com/release-notes`) — FastAPI releases.
 - **Full Stack Python** (`fullstackpython.com`) — guias práticos de Python web, deployment, frameworks.
 
-**Cobertura obrigatória**: mínimo 1, máximo 3 itens por categoria em `news[]`. As 13 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `testing`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca na janela, use evergreen de alta qualidade — nunca omita uma categoria.
+**Meta por categoria (FASES 3A/3B/3C)**: mínimo 1, máximo 3 itens por categoria em `news[]` + `pillars[]`. As 13 categorias: `sec`, `ai`, `aws`, `devops`, `obs`, `data`, `integ`, `backend`, `testing`, `design`, `enterprise`, `distarch`, `fintech`. Se não houver notícia fresca, use evergreen de alta qualidade — nunca omita.
 
-### 3. Verificar tópicos monitorados
+**Ao fim da FASE 3A (sec/ai/aws/devops)**: CHECKPOINT → Read / adicione itens a `news[]` / Write.
 
-**Regra: 1 obrigatório por tópico** — todos os 37, sem exceção.
+---
 
-1. **Busca recente**: para cada um dos 37 tópicos, pesquise conteúdo publicado desde a última edição (changelog oficial + artigos externos).
+### FASE 3B — Categorias: obs · data · integ · backend · testing
 
-2. **Se encontrar conteúdo fresco**: inclua. Mais de 1 item por tópico é permitido se houver qualidade.
+Mesmas regras da FASE 3A. Cada categoria: 2-3 buscas, mínimo 1 item, máximo 3.
 
-3. **Se não encontrar conteúdo fresco**: use um evergreen — artigo muito acessado, tutorial fundamental, documentação relevante do site preferido do tópico. Critérios:
-   - Muito acessado ou citado na comunidade técnica.
-   - Em site de autoridade (documentação oficial, InfoQ, martinfowler.com, architectelevator.com, blog de engenharia reconhecida).
-   - Ensina algo fundamental (modelo mental, boas práticas, anti-pattern clássico).
-   - **Nunca use**: artigos de marketing, "top 10 tools", conteúdo genérico sem substância técnica.
-   - **Verificar dedup**: confirme que a URL não foi usada em nenhuma das últimas 7 edições.
+> ⚗️ `testing`: TDD, BDD, testing pyramid, contract testing (Pact), mutation testing, chaos engineering, performance/load, frameworks (JUnit, pytest, Jest, Playwright, Cypress, Vitest). Fontes: testing.googleblog.com, martinfowler.com/testing, ministryoftesting.com, playwright.dev/blog, testdouble.com/insights, gremlin.com/blog.
 
-   **Whitelist evergreen curada** (clássicos imortais por tópico — use antes de improvisar):
-   - `microservices`: martinfowler.com/articles/microservices.html · "Building Microservices" Sam Newman (excertos) · martinfowler.com/bliki/MonolithFirst.html
-   - `ddd`: domainlanguage.com/ddd/reference · ddd-crew.github.io (Event Storming canvas) · martinfowler.com/bliki/BoundedContext.html
-   - `kafka`: engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying (Jay Kreps "The Log") · developer.confluent.io/learn-kafka
-   - `kubernetes`: kubernetes.io/docs/concepts/overview · github.com/kelseyhightower/kubernetes-the-hard-way
-   - `testing`: martinfowler.com/bliki/TestPyramid.html · martinfowler.com/articles/practical-test-pyramid.html · testing.googleblog.com (clássicos sobre hermetic builds, test doubles)
-   - `distarch`/`microservices`: microservices.io (Sam Newman, catálogo de padrões) · highscalability.com (case studies reais)
-   - `ddd`/`design`: martinfowler.com/bliki/CQRS.html · martinfowler.com/eaaCatalog (catálogo de padrões)
-   - `sec`/`owasp`: owasp.org/www-project-top-ten · cheatsheetseries.owasp.org
-   - `java`: inside.java (JEPs) · baeldung.com (tutoriais fundamentais Java/Spring)
-   - `javascript`: tc39.es/proposals (roadmap ECMAScript) · 2ality.com (profundidade JS/TS)
-   - `python`: peps.python.org (PEPs fundamentais) · realpython.com (tutoriais clássicos)
-   - `cloudnative`: cncf.io/blog (conceitos cloud-native) · 12factor.net (the Twelve-Factor App)
-   - `distarch`/`obs`: sre.google/sre-book (capítulos do livro do Google SRE)
-   - `docker`/`kubernetes`: docs.docker.com/guides · kubernetes.io/docs/concepts
+**Ao fim da FASE 3B**: CHECKPOINT → Read / adicione itens a `news[]` / Write.
 
-4. **Todos os 37 tópicos devem ter ≥ 1 item em `tools[]`** — não há mínimo de "10 dos 37". São todos.
+---
 
-Siga a hierarquia de `kind` por tipo de tópico:
-- **Ferramentas com release**: `release` (se saiu versão na janela) > `news` > `tutorial` > `tip` > `curiosity`
-- **Temas/domínios** (`cve`, `owasp`, `openapi`, `java`, `javascript`, `python`): `news` > `tutorial` > `tip` > `release` (só para versões de spec/linguagem) > `curiosity`
-- Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por tópico por mês.
+### FASE 3C — Categorias: design · enterprise · distarch · fintech
 
-### 4. Pulso social (Hacker News) e blogs de engenharia
+Mesmas regras. Cada categoria: 2-3 buscas, mínimo 1, máximo 3 itens.
+
+**Ao fim da FASE 3C**: CHECKPOINT → Read / adicione itens a `news[]` / Write.
+
+---
+
+### FASE 4 — Pulso HN + blogs de engenharia + Brasil
 
 - **HN front page**: `WebFetch("https://news.ycombinator.com/front", "List the top 15 stories with title, external URL, points, and comments.")` — tópicos com ≥50 pts viram candidatos.
-- **Show HN**: `WebFetch("https://news.ycombinator.com/show", "...")` — dev tools e projetos.
-- **Engineering blogs**: `"engineering blog" (Netflix OR Uber OR Stripe OR Shopify OR Meta OR Airbnb OR Cloudflare) past week`.
+- **Show HN**: `WebFetch("https://news.ycombinator.com/show", "List top 15 Show HN posts with title, URL, points.")` — dev tools e projetos.
+- **Engineering blogs**: `"engineering blog" (Netflix OR Uber OR Stripe OR Shopify OR Meta OR Airbnb OR Cloudflare) past week`
+- **Pulso BR**: `site:tabnews.com.br OR site:imasters.com.br OR site:cto.tech past week` — inclua só se relevante para arquitetos.
 
-### 5. Pulso regional (Brasil)
+Candidatos do HN/blogs que não foram capturados nas FASES 3A-3C podem ser adicionados ao `news[]` de categoria relevante, desde que passem nos critérios e não estejam na blocklist.
 
-`site:tabnews.com.br OR site:imasters.com.br OR site:cto.tech past week`. Inclua só se relevante para arquitetos. Se nada relevante, omita.
+**Ao fim da FASE 4**: CHECKPOINT → Read / adicione novos itens a `news[]` / Write.
 
-### 6. Montar JSON da edição
+---
 
-Monte o JSON seguindo o schema abaixo. Selecione os **3 pilares** (`pillars[]`) — um por tema: Java/JVM, AWS, Arquitetura Distribuída. Veja queries específicas na seção PILARES PRINCIPAIS.
+### FASE 5A — Tópicos: Assuntos + Ferramentas AI (12 tópicos)
 
-### 7. Sanity checks antes de escrever
+**Tópicos desta fase**: `cloudnative` · `cve` · `ddd` · `microservices` · `owasp` · `chatgpt` · `claudecode` · `cursor` · `intellij` · `postman` · `vscode` · `warp`
 
-Antes de chamar Write:
+**Regra: 1 item obrigatório por tópico — todos os 37, sem exceção.**
+
+Para cada tópico:
+1. Busque conteúdo publicado desde `last_generated` (changelog oficial + artigos externos).
+2. Se encontrar conteúdo fresco: inclua. Múltiplos itens do mesmo tópico são bem-vindos se houver qualidade.
+3. Se não encontrar: use a whitelist evergreen curada abaixo. **Nunca omita** um tópico.
+
+**Whitelist evergreen curada** (use antes de improvisar — nunca repita URL das últimas 7 edições):
+- `cloudnative`: cncf.io/blog · 12factor.net
+- `cve`/`owasp`: owasp.org/www-project-top-ten · cheatsheetseries.owasp.org
+- `ddd`: domainlanguage.com/ddd/reference · ddd-crew.github.io · martinfowler.com/bliki/BoundedContext.html
+- `microservices`: martinfowler.com/articles/microservices.html · martinfowler.com/bliki/MonolithFirst.html · microservices.io
+- `distarch`: sre.google/sre-book · highscalability.com
+- `design`: martinfowler.com/bliki/CQRS.html · martinfowler.com/eaaCatalog
+- `kafka`: engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying · developer.confluent.io/learn-kafka
+- `kubernetes`: kubernetes.io/docs/concepts/overview · github.com/kelseyhightower/kubernetes-the-hard-way
+- `docker`: docs.docker.com/guides
+- `java`: inside.java · baeldung.com
+- `javascript`: tc39.es/proposals · 2ality.com
+- `python`: peps.python.org · realpython.com
+- `testing`: martinfowler.com/bliki/TestPyramid.html · martinfowler.com/articles/practical-test-pyramid.html · testing.googleblog.com
+- `git`: git-scm.com/book
+- `postgres`: postgresql.org/docs/current
+- `openapi`: spec.openapis.org/oas/latest.html
+- `springboot`: spring.io/guides
+- `structurizr`: c4model.com · structurizr.com/help
+
+Hierarquia de `kind` por perfil:
+- **Ferramentas com release** (cursor, claudecode, chatgpt, vscode, warp, intellij, postman, structurizr, docker, kubernetes, terraform, helm, ghactions, argocd, istio, dynatrace, grafana, gradle, maven, springboot, keycloak, postgres, mysql, databricks, redis, kafka, openapi): `release` > `news` > `tutorial` > `tip` > `curiosity`
+- **Temas/domínios** (cloudnative, cve, ddd, microservices, owasp, git, github, java, javascript, python): `news` > `tutorial` > `tip` > `release` (só versões de spec) > `curiosity`
+- Use `kind: "curiosity"` **apenas como último recurso** — máximo 1 por tópico por mês.
+
+**Ao fim da FASE 5A**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
+
+---
+
+### FASE 5B — Ferramentas: DevOps (9 tópicos)
+
+**Tópicos desta fase**: `argocd` · `docker` · `ghactions` · `git` · `github` · `helm` · `istio` · `kubernetes` · `terraform`
+
+Mesmas regras e hierarquia de `kind` da FASE 5A.
+
+**Ao fim da FASE 5B**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
+
+---
+
+### FASE 5C — Ferramentas: Dados + Integração (6 tópicos)
+
+**Tópicos desta fase**: `databricks` · `kafka` · `mysql` · `openapi` · `postgres` · `redis`
+
+Mesmas regras.
+
+**Ao fim da FASE 5C**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
+
+---
+
+### FASE 5D — Ferramentas: Backend + Obs + Seg + Design (7 tópicos)
+
+**Tópicos desta fase**: `dynatrace` · `grafana` · `gradle` · `keycloak` · `maven` · `springboot` · `structurizr`
+
+Mesmas regras.
+
+**Ao fim da FASE 5D**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
+
+---
+
+### FASE 5E — Linguagens (3 tópicos)
+
+**Tópicos desta fase**: `java` · `javascript` · `python`
+
+Perfil de `kind`: `news` > `tutorial` > `tip` > `release` (só versões de spec/linguagem) > `curiosity`.
+
+**Ao fim da FASE 5E**: CHECKPOINT → Read / adicione itens a `tools[]` / Write.
+
+---
+
+### FASE 6 — Hero + quotes + imagens pendentes
+
+**Hero**: com todo `news[]` e `tools[]` coletados, selecione o tema de maior impacto e escreva `hero_title` (máx 80 chars) e `hero_description` (2-3 frases, contexto editorial).
+
+**Quotes**: selecione ou gere 5 frases para `quotes[]`. Distribua `related_to` pelas categorias e tópicos cobertos nesta edição. Campos obrigatórios: `text`, `author`, `related_to`. Opcional: `context`.
+
+**Imagens** (cascata obrigatória para itens sem `image`):
+1. Microlink: `WebFetch("https://api.microlink.io/?url=<URL_ARTIGO>&meta=false&screenshot=false", "get og:image")` → `data.image.url`
+2. WebFetch da URL → extraia `<meta property="og:image">` manualmente.
+3. Google favicon: `https://www.google.com/s2/favicons?domain=<domínio>&sz=64` (fallback infalível).
+
+Meta: `pillars[]` 3/3 com `image`; `news[]` ≥80% com `image`.
+
+**Ao fim da FASE 6**: CHECKPOINT → Read / atualize `hero_title`, `hero_description`, `quotes[]`, imagens pendentes / Write.
+
+---
+
+### FASE 7 — Sanity checks + finalizar editions.json
+
+Verifique todos os itens antes de declarar a edição concluída:
 
 - [ ] **URLs específicas**: nenhuma termina em `/new/`, `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor.
-- [ ] **Sem duplicatas** com a blocklist (modo normal) ou sem duplicatas intra-edição (ambos os modos).
-- [ ] **Pillars completo**: exatamente 3 itens, um com `pillar:"java"`, um `pillar:"aws"`, um `pillar:"distarch"`, todos com `source`, `url`, `summary`, `image`.
-- [ ] **Cobertura de categorias**: todas as 13 categorias com ≥ 1 item em `pillars[]` + `news[]`. Se não houver conteúdo fresco, usar evergreen de qualidade — nunca omitir categoria.
-- [ ] **Cobertura de tópicos**: todos os 37 `tool_key` com ≥ 1 item em `tools[]`. Se não houver conteúdo fresco, usar evergreen — nunca omitir tópico.
-- [ ] **Volume mínimo `news[]`**: 15 (janela ≤ 24h) / 25 (1-3 dias) / 35 (> 3 dias). Traga mais se encontrar — sem teto.
-- [ ] **Fallback aplicado**: todo tópico e categoria sem conteúdo fresco tem evergreen de qualidade incluído (conteúdo que todo arquiteto deveria conhecer).
-- [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
-- [ ] **Campos obrigatórios** por item de `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
-- [ ] **Imagens**: pillars[] 3/3 com `image`; news[] ≥80% com `image` (cascata garante — Tentativa 5 com Google favicon é último recurso infalível).
-- [ ] **`tools[]`**: todos os 37 `tool_key` presentes, ≥ 1 vez cada (ambos os modos). Múltiplos itens do mesmo `tool_key` são permitidos se houver conteúdo de qualidade. Chaves válidas: `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`.
+- [ ] **Sem duplicatas** com a blocklist (modo normal) ou intra-edição.
+- [ ] **Pillars completo**: exatamente 3 itens — `pillar:"java"`, `pillar:"aws"`, `pillar:"distarch"`. Todos com `source`, `url`, `summary`, `image`.
+- [ ] **Consistência pillar vs category**: `pillar:"java"` → `category:"backend"`; `pillar:"aws"` → `category:"aws"`; `pillar:"distarch"` → `category:"distarch"`.
+- [ ] **Cobertura de categorias (13)**: sec, ai, aws, devops, obs, data, integ, backend, testing, design, enterprise, distarch, fintech — todas com ≥1 item em `pillars[]`+`news[]`. Faltando: use evergreen.
+- [ ] **Cobertura de tópicos (37)**: todos os `tool_key` com ≥1 item em `tools[]`. Faltando: use whitelist evergreen.
+- [ ] **Volume mínimo `news[]`**: 15 (janela ≤24h) / 25 (1-3 dias) / 35 (>3 dias).
 - [ ] **`kind === "release"` tem `version`**.
+- [ ] **Campos obrigatórios** em `pillars[]`/`news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`.
+- [ ] **Imagens**: pillars[] 3/3; news[] ≥80%.
+- [ ] **`tools[]` chaves válidas**: `structurizr`, `cursor`, `claudecode`, `chatgpt`, `vscode`, `warp`, `cve`, `keycloak`, `owasp`, `git`, `github`, `docker`, `kubernetes`, `terraform`, `helm`, `ghactions`, `argocd`, `istio`, `dynatrace`, `grafana`, `postgres`, `mysql`, `databricks`, `redis`, `kafka`, `postman`, `openapi`, `java`, `javascript`, `python`, `intellij`, `springboot`, `gradle`, `maven`, `microservices`, `ddd`, `cloudnative`.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
-- [ ] **`data/quotes.json` com ≥ 80 itens** (somente MODO PRIMEIRA EXECUÇÃO) — URLs verificadas, sem homepages de vendor.
-- [ ] **`data/verses.json` com ≥ 120 itens** (somente MODO PRIMEIRA EXECUÇÃO) — apenas palavras de Jesus dos Evangelhos em PT-BR.
-- [ ] **Diversidade de fonte**: nenhuma fonte (domínio) aparece em mais de 3 itens por edição. Se >3 itens vieram do mesmo domínio, substitua os excedentes.
-- [ ] **Anti-clickbait**: nenhum `headline` ou `summary` contém `"top N"`, `"N razões"`, `"N ways"`, `"N things"`, `"melhores N"`, `"você não vai acreditar"`. Reformule ou descarte.
-- [ ] **Consistência `severity` + `urgent`**: qualquer item `category:"sec"` com `urgent:true` deve ter `severity` preenchido (critical/high/medium/low). Itens sem `urgent:true` em `sec` podem ou não ter `severity`.
-- [ ] **Formato de CVEs**: todo CVE em `cves[]` deve corresponder ao padrão `CVE-YYYY-NNNNN` (ex: `CVE-2024-12345`). Sem espaços, com hífen.
-- [ ] **Balanço de `kind` em `tools[]`**: se >70% dos itens são `tip` ou `curiosity`, a edição está fraca — substitua por evergreen `tutorial` ou `news` de qualidade (artigos clássicos muito citados).
-- [ ] **Consistência pillar vs category**: `pillar:"java"` → `category:"backend"` obrigatório; `pillar:"aws"` → `category:"aws"`; `pillar:"distarch"` → `category:"distarch"`.
+- [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
+- [ ] **Diversidade de fonte**: nenhum domínio aparece em >3 itens por edição.
+- [ ] **Anti-clickbait**: nenhum `headline`/`summary` com `"top N"`, `"N razões"`, `"N ways"`, `"N things"`, `"melhores N"`, `"você não vai acreditar"`.
+- [ ] **Consistência `severity`+`urgent`**: item `category:"sec"` com `urgent:true` → `severity` obrigatório.
+- [ ] **Formato CVE**: `CVE-YYYY-NNNNN`. Sem espaços, com hífen.
+- [ ] **Balanço de `kind`**: >70% de `tip`+`curiosity` em `tools[]` = edição fraca. Substitua com evergreen `tutorial`/`news`.
+- [ ] **`data/quotes.json` com ≥80 itens** (MODO PRIMEIRA EXECUÇÃO).
+- [ ] **`data/verses.json` com ≥120 itens** (MODO PRIMEIRA EXECUÇÃO).
 
-Se algum check falhar, busque mais conteúdo e corrija antes de escrever.
+Se algum check falhar: busque mais conteúdo e corrija. Só então salve.
 
-### 8. Salvar arquivos
+**Salvar arquivos finais:**
 
-**MODO PRIMEIRA EXECUÇÃO:**
-1. Escreva `data/quotes.json` — array de 80+ frases geradas conforme protocolo acima.
-2. Escreva `data/verses.json` — array de 120+ versículos de Jesus conforme protocolo acima.
-3. Crie `data/editions.json` do zero com a estrutura:
-   ```json
-   { "last_generated": "<ISO timestamp agora>", "editions": [ <entrada da edição de hoje> ] }
-   ```
-4. Escreva `data/editions.json`.
-5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
-
-**MODO NORMAL:**
+*MODO NORMAL:*
 1. Leia `data/editions.json`.
-2. Adicione a nova edição no início de `editions[]`.
-3. Atualize `last_generated` para o timestamp atual (`YYYY-MM-DDTHH:MM:SS-03:00`).
+2. Adicione a nova edição no início de `editions[]` (com `date`, `summary`, `counts_by_category`, `counts_by_tool`, `highlights`).
+3. Atualize `last_generated`.
 4. Escreva `data/editions.json` **PRIMEIRO**.
 5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
+
+*MODO PRIMEIRA EXECUÇÃO — ordem de escrita:*
+1. `data/quotes.json` (≥80 frases)
+2. `data/verses.json` (≥120 versículos)
+3. `data/editions.json` (com primeira edição)
+4. `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
 
 **NÃO faça git push** — o LaunchAgent em `push.sh` detecta a mudança e envia automaticamente.
 

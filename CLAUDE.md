@@ -381,7 +381,12 @@ Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily
 3. `index.html` **About page**: atualize o stat hardcoded `"N categorias"` (linha com `ab-stat-n`)
 4. `README.md`: atualize a lista de categorias cobertas (seção "Categorias cobertas")
 5. `CLAUDE.md`: atualize a tabela de categorias (esta seção)
-6. `skills/csr-news-daily.md`: seção "Categorias e Queries" (novo bloco), fontes na seção "Fontes de alta reputação", Regras de Qualidade #3 (lista literal das categorias), contagem em MODO PRIMEIRA EXECUÇÃO e MODO NORMAL, distribuição de quotes por categoria
+6. `skills/csr-news-daily.md`:
+   - Seção "Categorias e Queries" (novo bloco de queries)
+   - Fontes na seção "Fontes de alta reputação" (bloco por categoria)
+   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 3A (`sec`/`ai`/`aws`/`devops`), FASE 3B (`obs`/`data`/`integ`/`backend`/`testing`) ou FASE 3C (`design`/`enterprise`/`distarch`/`fintech`): adicione/remova a categoria na linha do grupo correto
+   - Lista literal das 13 categorias em `news[]` cobertura obrigatória (perto do FASE 3A/3B/3C)
+   - Distribuição de quotes por categoria (protocolo MODO PRIMEIRA EXECUÇÃO)
 7. `scripts/validate_editions.py`: adicione à constante `CATEGORIES_V{n}` e incremente `STRICT_FROM_V{n}` para a data da primeira edição com a nova taxonomia
 8. Se **removida**: adicione à seção "Chaves legadas" em `CLAUDE.md` e ao `LEGACY_CAT_MAP` em `index.html` se houver edições antigas com a chave
 
@@ -397,8 +402,9 @@ Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily
 6. `skills/csr-news-daily.md`:
    - Tabela de changelogs em "TÓPICOS MONITORADOS" com changelog oficial e fontes
    - Tabela de conteúdo indireto (seção "Conteúdo indireto" / "Ecossistema como fallback")
-   - Distinção "Ferramentas com release" vs "Temas/domínios" (adicionar ao grupo correto)
-   - **4 locais** onde a lista de `tool_key` aparece: sanity check §7, subgrupos de tipos, schema `counts_by_tool`, Regras de Qualidade #14
+   - Distinção "Ferramentas com release" vs "Temas/domínios" (hierarquia de `kind` em FASE 5A)
+   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 5A (Assuntos+AI: `cloudnative`/`cve`/`ddd`/`microservices`/`owasp`/`chatgpt`/`claudecode`/`cursor`/`intellij`/`postman`/`vscode`/`warp`), FASE 5B (DevOps), FASE 5C (Dados+Integ), FASE 5D (Backend+Obs+Seg+Design), FASE 5E (Linguagens): adicione/remova o tópico na linha do grupo correto
+   - **4 locais** onde a lista de `tool_key` aparece: sanity check FASE 7, whitelist evergreen FASE 5A, schema `counts_by_tool`, Regras de Qualidade #14
    - Queries específicas em "CATEGORIAS E QUERIES DE PESQUISA"
 7. `scripts/validate_editions.py`: adicione a `TOOL_KEYS_V{n}`
 8. Se **removido**: mova para "Tópicos legados" na tabela abaixo

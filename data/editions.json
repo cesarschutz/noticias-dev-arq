@@ -1,0 +1,74 @@
+{
+  "last_generated": "2026-04-18T14:30:00-03:00",
+  "editions": [
+    {
+      "date": "2026-04-18",
+      "summary": "Microsoft patcheia CVE-2026-33824 (CVSS 9.8) no IKE do Windows enquanto Fortinet corre atrás de zero-day ativo (CVE-2026-35616). Cursor lança v3 com interface agent-first e Anysphere dobra a aposta em agentes paralelos. Spring Boot 4.0.5, Keycloak 26.6 e Docker Engine 29.4 completam uma semana pesada de releases.",
+      "counts_by_category": {
+        "sec": 4,
+        "ai": 3,
+        "aws": 3,
+        "devops": 3,
+        "obs": 2,
+        "data": 2,
+        "integ": 2,
+        "backend": 4,
+        "arqsw": 3,
+        "arqsol": 1,
+        "fintech": 2
+      },
+      "counts_by_tool": {
+        "structurizr": 1,
+        "whimsical": 1,
+        "plantuml": 1,
+        "cursor": 1,
+        "claudecode": 1,
+        "chatgpt": 1,
+        "vscode": 1,
+        "warp": 1,
+        "cve": 1,
+        "keycloak": 1,
+        "owasp": 1,
+        "git": 1,
+        "github": 1,
+        "docker": 1,
+        "kubernetes": 1,
+        "terraform": 1,
+        "helm": 1,
+        "ghactions": 1,
+        "dynatrace": 1,
+        "grafana": 1,
+        "postgres": 1,
+        "mysql": 1,
+        "mongocompass": 1,
+        "dbeaver": 1,
+        "databricks": 1,
+        "redis": 1,
+        "kafka": 1,
+        "postman": 1,
+        "openapi": 1,
+        "java": 1,
+        "javascript": 1,
+        "python": 1,
+        "intellij": 1,
+        "springboot": 1,
+        "gradle": 1,
+        "maven": 1
+      },
+      "highlights": [
+        {
+          "title": "Spring Boot 4.0.5 chega com Spring Framework 7.0.6 e Jakarta EE 11",
+          "url": "https://spring.io/blog/category/releases"
+        },
+        {
+          "title": "AWS Interconnect Multicloud entra em GA e redesenha conectividade entre nuvens",
+          "url": "https://mwpro.co.uk/blog/2026/04/15/aws-announces-general-availability-of-aws-interconnect-multicloud/"
+        },
+        {
+          "title": "Over-microservicing: equipe de 5 devs mantinha 47 serviços — e não era caso isolado",
+          "url": "https://elsyarifx.medium.com/over-microservicing-how-we-built-47-services-and-regretted-every-one-797f518b7abb"
+        }
+      ]
+    }
+  ]
+}
