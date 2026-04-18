@@ -40,6 +40,7 @@ TOOL_KEYS_V2  = {
   'dynatrace',
   'postgres','mysql','mongocompass','dbeaver','databricks',
   'kafka','postman','openapi',
+  'java','javascript','python',
   'intellij','springboot','gradle','maven'
 }
 

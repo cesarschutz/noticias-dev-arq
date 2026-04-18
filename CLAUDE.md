@@ -180,7 +180,7 @@ Se o usuário não souber a diferença, explique e aguarde a decisão antes de m
 
 ---
 
-## Assuntos Fixos monitorados (27, agrupados por categoria)
+## Assuntos Fixos monitorados (30, agrupados por categoria)
 
 Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
 
@@ -209,6 +209,9 @@ Cada assunto fixo tem `logo` (URL), `category` (chave de `CAT`) e `kind` (tipo v
 | `integ` | `kafka` | Apache Kafka |
 | `integ` | `postman` | Postman |
 | `integ` | `openapi` | OpenAPI |
+| `backend` | `java` | Java & JVM |
+| `backend` | `javascript` | JavaScript / TS |
+| `backend` | `python` | Python |
 | `backend` | `intellij` | IntelliJ IDEA |
 | `backend` | `springboot` | Spring Boot |
 | `backend` | `gradle` | Gradle |
