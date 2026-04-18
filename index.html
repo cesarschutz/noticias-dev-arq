@@ -828,26 +828,36 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .ch-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 6px 14px;
+  padding: 7px 12px;
+  margin: 2px 10px;
   cursor: pointer;
   font-size: 12px;
   color: var(--ink-soft);
-  border-left: 2px solid transparent;
+  border-left: 3px solid color-mix(in srgb, var(--k, var(--ink-faint)) 30%, transparent);
+  border-radius: 6px;
   transition: all .12s ease;
   user-select: none;
   position: relative;
 }
-.ch-item:hover { background: var(--surface); color: var(--ink); }
+.ch-item:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border-left-color: color-mix(in srgb, var(--k, var(--ink-faint)) 65%, transparent);
+}
 .ch-item.active {
-  background: linear-gradient(90deg, rgba(255,176,32,.14), transparent 85%);
-  color: var(--amber);
-  border-left-color: var(--amber);
+  background: color-mix(in srgb, var(--k, var(--amber)) 10%, transparent);
+  color: var(--ink);
+  border-left-color: var(--k, var(--amber));
+}
+.ch-emoji {
+  font-size: 13px;
+  flex-shrink: 0;
+  line-height: 1;
 }
 .ch-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--k, var(--ink-faint));
   flex-shrink: 0;
-  box-shadow: 0 0 4px var(--k, transparent);
 }
 .ch-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ch-count {
@@ -870,6 +880,15 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .ch-item.all-item .ch-dot { background: var(--ink); }
 .ch-item.all-item.active .ch-dot { background: var(--amber); }
 
+/* calendário dimmed em view cat/tool */
+.sidebar.ctx-agg .dp-panel {
+  opacity: 0.28;
+  cursor: pointer;
+  transition: opacity .2s;
+  pointer-events: auto;
+}
+.sidebar.ctx-agg .dp-panel:hover { opacity: 0.55; }
+
 .tool-cat-header {
   display: flex;
   align-items: center;
@@ -878,13 +897,12 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
   color: var(--k, var(--ink-dim));
-  border-top: 1px solid var(--rule-soft);
   margin-top: 4px;
   pointer-events: none;
   user-select: none;
   grid-column: 1 / -1;
 }
-.tool-cat-header:first-child { margin-top: 0; border-top: none; }
+.tool-cat-header:first-child { margin-top: 0; }
 .tool-cat-icon { font-size: 13px; }
 .tool-cat-name { color: var(--k, var(--ink-dim)); }
 #tools-side {
@@ -893,9 +911,10 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .ch-item.ch-tool {
   padding: 4px 8px;
+  margin: 1px 2px;
   font-size: 10.5px;
   border-left: none;
-  border-bottom: none;
+  border-radius: 4px;
 }
 
 /* ═══ Main ═══ */
@@ -2456,7 +2475,7 @@ function renderSidebar(){
     const tday = catToday[k] || 0;
     const active = STATE.view === 'cat:' + k ? 'active' : '';
     return `<div class="ch-item ${active}" data-filter-type="cat" data-filter-key="${k}" role="button" tabindex="0" style="--k: var(--cat-${k})">` +
-           `<span class="ch-dot" aria-hidden="true"></span>` +
+           `<span class="ch-emoji" aria-hidden="true">${CAT[k].i}</span>` +
            `<span class="ch-name">${CAT[k].lf}</span>` +
            `</div>`;
   }).join('');
@@ -3598,9 +3617,20 @@ function renderDp(){
   }
   html += `</div>`;
   panel.innerHTML = html;
-  panel.querySelectorAll('.dp-cell.has-edition').forEach(c => {
-    c.onclick = () => goToEdition(c.dataset.date);
-  });
+
+  if (STATE.view !== 'home') {
+    // Em cat/tool: clique em qualquer lugar do calendário volta pro dia que estava
+    panel.onclick = (e) => {
+      e.stopPropagation();
+      const target = STATE.currentDate || todayISO();
+      goToEdition(target);
+    };
+  } else {
+    panel.onclick = null;
+    panel.querySelectorAll('.dp-cell.has-edition').forEach(c => {
+      c.onclick = () => goToEdition(c.dataset.date);
+    });
+  }
 }
 
 /* ═══ Navigation ═══ */
@@ -3632,6 +3662,7 @@ async function setView(view){
   renderSidebar();
   renderMain();
   renderRail();
+  renderDp();
   const main = document.querySelector('.main');
   if (main) main.scrollTop = 0;
 }
