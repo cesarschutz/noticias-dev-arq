@@ -1,6 +1,69 @@
 {
-  "last_generated": "2026-04-17T06:00:00-03:00",
+  "last_generated": "2026-04-18T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-18",
+      "summary": "Sábado marcado por três movimentos estruturais: Spring Boot 4.0.5 vira primeira stable da linha 4.0 com Spring 3.5 saindo em junho, AWS estreia Elemental Inference cortando latência de vídeo vertical ao vivo para 6-10s em produção na Fox e NBC, e Cloudflare Mesh nasce como VPN identity-first pensada para agentes de IA — reposicionando Zero Trust no plano de rede de agentes.",
+      "counts_by_category": {
+        "sec": 4,
+        "ai": 3,
+        "aws": 4,
+        "devops": 3,
+        "obs": 3,
+        "data": 3,
+        "integ": 2,
+        "backend": 4,
+        "arqsw": 2,
+        "arqsol": 2
+      },
+      "counts_by_tool": {
+        "structurizr": 1,
+        "whimsical": 1,
+        "plantuml": 1,
+        "cursor": 1,
+        "claudecode": 1,
+        "chatgpt": 1,
+        "vscode": 1,
+        "warp": 1,
+        "cve": 1,
+        "keycloak": 1,
+        "owasp": 1,
+        "git": 1,
+        "github": 1,
+        "docker": 1,
+        "kubernetes": 1,
+        "dynatrace": 1,
+        "postgres": 1,
+        "mysql": 1,
+        "mongocompass": 1,
+        "dbeaver": 1,
+        "databricks": 1,
+        "kafka": 1,
+        "postman": 1,
+        "openapi": 1,
+        "java": 1,
+        "javascript": 1,
+        "python": 1,
+        "intellij": 1,
+        "springboot": 1,
+        "gradle": 1,
+        "maven": 1
+      },
+      "highlights": [
+        {
+          "title": "Spring Boot 4.0.5 chega como primeira stable da linha 4.0 com suporte estendido até dezembro/2026",
+          "url": "https://spring.io/blog/2026/03/13/spring-data-2026-0-0-M2-released/"
+        },
+        {
+          "title": "AWS Elemental Inference destrava vídeo vertical ao vivo em 6-10s para Fox Sports e NBCUniversal",
+          "url": "https://aws.amazon.com/blogs/media/how-aws-built-a-live-ai-powered-vertical-video-capability-for-fox-sports-with-aws-elemental-inference/"
+        },
+        {
+          "title": "Cloudflare Mesh nasce como VPN para agentes de IA e coloca identidade no centro da rede privada",
+          "url": "https://thenewstack.io/cloudflare-mesh-agent-networking/"
+        }
+      ]
+    },
     {
       "date": "2026-04-17",
       "summary": "Dia marcado por três eventos-chave: Dynatrace fecha a compra da Bindplane centralizando o controle da pipeline OpenTelemetry, Cursor 3 ressignifica a IDE como painel de agentes paralelos, e uma falha CVSS 9.8 no nginx-ui expõe mais de 2.600 instâncias à tomada de servidor sem autenticação.",
