@@ -26,7 +26,14 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 │   └── devpulse-logo.svg           # Logo (usado no boot e topbar)
 ├── data/
 │   ├── editions.json               # Índice mestre + counts por categoria/assunto fixo
-│   └── {YYYY-MM-DD}.json           # Dados completos de cada dia
+│   ├── {YYYY-MM-DD}.json           # Dados completos de cada dia
+│   ├── quotes.json                 # 80+ frases de autores técnicos (gerado na 1ª execução)
+│   ├── verses.json                 # 120+ versículos de Jesus em PT-BR (gerado na 1ª execução)
+│   └── java-versions/
+│       ├── index.json              # Índice de versões Java (atualizado a cada execução)
+│       ├── java-11.json            # JEPs e detalhes do Java 11
+│       ├── java-17.json            # JEPs e detalhes do Java 17
+│       └── java-{N}.json           # Uma versão por arquivo, Java 11–atual
 ├── scripts/
 │   ├── validate_editions.py        # Valida schema + URLs + duplicatas
 │   └── generate_feed.py            # Gera feed.xml (RSS 2.0) a partir do índice
@@ -114,6 +121,44 @@ Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), 
 Schema completo em `skills/devpulse-daily.md`. Validação em `scripts/validate_editions.py`:
 - Edições ≥ `2026-04-18` são **strict v1** (tools com `kind`/`tool_key`, imagens, quotes).
 - Edições ≥ `2026-04-20` são **strict v2** (taxonomia nova — categorias, ferramentas v2, `pillars[]` com campo `pillar`).
+
+### `data/java-versions/index.json`
+```json
+{
+  "last_updated": "2026-04-17T06:00:00-03:00",
+  "latest_ga": "24",
+  "versions": [
+    { "version": "21", "release_date": "2023-09-19", "lts": true, "oracle_support_until": "2031-09", "jep_count": 15 },
+    { "version": "17", "release_date": "2021-09-14", "lts": true, "oracle_support_until": "2029-09", "jep_count": 14 }
+  ]
+}
+```
+Ordenado do mais recente para o mais antigo. Atualizado pela skill a cada execução (só muda se houver versão nova GA).
+
+### `data/java-versions/java-{N}.json`
+```json
+{
+  "version": "21",
+  "release_date": "2023-09-19",
+  "lts": true,
+  "oracle_support_until": "2031-09",
+  "summary": "Descrição geral da versão em PT-BR.",
+  "links": [
+    { "label": "Release Notes", "url": "https://openjdk.org/projects/jdk/21/" },
+    { "label": "Baeldung: What's new", "url": "https://www.baeldung.com/java-lts-21-new-features" }
+  ],
+  "jeps": [
+    {
+      "number": 444,
+      "title": "Virtual Threads",
+      "status": "Standard",
+      "description": "2-3 linhas em PT-BR explicando o que muda e por que importa para o arquiteto.",
+      "url": "https://openjdk.org/jeps/444"
+    }
+  ]
+}
+```
+`status` ∈ `Standard | Preview | Incubator | Removed`. Gerado na 1ª execução (Java 11–24) e auto-atualizado quando nova versão GA é detectada.
 
 ## Pilares (`pillars[]`)
 

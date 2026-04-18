@@ -49,8 +49,9 @@ Para cada **assunto** (`tool_key`), conte os itens em `tools[]`:
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
 2. `data/verses.json` — 100+ versículos de Jesus dos Evangelhos em português (ver protocolo abaixo).
-3. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-4. `data/{YYYY-MM-DD}.json` — edição do dia.
+3. `data/java-versions/index.json` e `data/java-versions/java-{N}.json` para Java 11–24 (ver protocolo abaixo).
+4. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
+5. `data/{YYYY-MM-DD}.json` — edição do dia.
 
 ---
 
@@ -151,6 +152,111 @@ O arquivo `data/verses.json` contém versículos de Jesus dos Evangelhos, exibid
 - Declarações sobre fé, oração, perdão, amor ao próximo
 
 **NÃO inclua:** versículos de outros autores bíblicos (Paulo, Pedro, João apóstolo em suas cartas), apenas as palavras diretas de Jesus nos Evangelhos.
+
+---
+
+#### PROTOCOLO: Gerar `data/java-versions/` (primeira execução e auto-update)
+
+A SPA exibe uma seção "Versões Java" dentro da view `tool:java`, mostrando cards clicáveis para cada versão com modal de JEPs detalhados. Os dados ficam em arquivos separados por versão.
+
+##### Estrutura de arquivos
+
+```
+data/java-versions/
+  index.json          ← índice mestre, atualizado toda vez
+  java-11.json
+  java-17.json
+  java-21.json
+  java-24.json
+  ...
+```
+
+##### Schema: `data/java-versions/index.json`
+
+```json
+{
+  "last_updated": "2026-04-17T06:00:00-03:00",
+  "latest_ga": "24",
+  "versions": [
+    {
+      "version": "21",
+      "release_date": "2023-09-19",
+      "lts": true,
+      "oracle_support_until": "2031-09",
+      "jep_count": 15
+    }
+  ]
+}
+```
+
+Mantenha `versions[]` ordenado do mais recente para o mais antigo.
+
+##### Schema: `data/java-versions/java-{N}.json`
+
+```json
+{
+  "version": "21",
+  "release_date": "2023-09-19",
+  "lts": true,
+  "oracle_support_until": "2031-09",
+  "summary": "Java 21 é uma versão LTS com 15 JEPs, destacando Virtual Threads (Project Loom), Sequenced Collections e Pattern Matching consolidado.",
+  "links": [
+    { "label": "Release Notes", "url": "https://openjdk.org/projects/jdk/21/" },
+    { "label": "JEPs listados", "url": "https://openjdk.org/projects/jdk/21/#Features" },
+    { "label": "Baeldung: What's new in Java 21", "url": "https://www.baeldung.com/java-lts-21-new-features" },
+    { "label": "Inside Java Podcast", "url": "https://inside.java/tag/jdk21/" }
+  ],
+  "jeps": [
+    {
+      "number": 444,
+      "title": "Virtual Threads",
+      "status": "Standard",
+      "description": "Threads leves gerenciadas pela JVM que eliminam o modelo thread-por-requisição de plataforma. Permitem concorrência massiva em I/O sem bloquear threads do OS, sem alterar a API existente de java.lang.Thread.",
+      "url": "https://openjdk.org/jeps/444"
+    }
+  ]
+}
+```
+
+Campos obrigatórios por JEP: `number`, `title`, `status`, `description`, `url`.
+`status` ∈ `Standard | Preview | Incubator | Removed`.
+Descrição: 2-3 linhas em PT-BR explicando **o que muda** e **por que importa para o arquiteto**.
+
+##### LTS: referência de suporte Oracle GA
+
+| Versão | LTS | Oracle GA suporte até |
+|--------|-----|----------------------|
+| 11 | ✅ | 2026-09 |
+| 17 | ✅ | 2029-09 |
+| 21 | ✅ | 2031-09 |
+| 25 (futura) | ✅ | 2032+ |
+| Demais (12-16, 18-20, 22-24) | ❌ STS | ~6 meses após lançamento |
+
+##### Primeira execução — versões 11 a 24
+
+Gere **14 arquivos** individuais (java-11 até java-24) + o `index.json`.
+
+Fontes obrigatórias por versão:
+- `https://openjdk.org/projects/jdk/{N}/` — lista oficial de JEPs
+- `https://openjdk.org/jeps/{número}` — detalhes de cada JEP
+- Artigo editorial consolidado: Baeldung (`baeldung.com/java-lts-{N}-new-features`), Inside Java, InfoQ Java roundup
+
+Atenção ao gerar:
+- Inclua **todos os JEPs com Feature tag** da versão (não apenas os mais famosos).
+- Para Java 11: inclua remoções de APIs legadas (Applet, JAXB movido para Jakarta EE) — esses são JEPs de remoção, use `status: "Removed"`.
+- Para versões de Preview/Incubator, marque corretamente o `status`.
+- Descrições sempre em PT-BR.
+
+##### Execuções normais — auto-update
+
+A cada execução normal, após gerar a edição do dia:
+
+1. Leia `data/java-versions/index.json` e pegue `latest_ga`.
+2. Verifique se há nova versão GA consultando `https://openjdk.org/projects/jdk/` (campo "GA" na tabela de releases ativas).
+3. Se a versão encontrada for maior que `latest_ga`:
+   a. Gere `data/java-versions/java-{N}.json` para a nova versão com todos os JEPs.
+   b. Adicione entrada em `versions[]` do `index.json` e atualize `latest_ga` e `last_updated`.
+4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
 
 ---
 
