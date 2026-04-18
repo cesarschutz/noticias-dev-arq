@@ -1183,7 +1183,9 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .top-thumb img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
+  object-fit: contain; object-position: center;
+  padding: 6px;
+  box-sizing: border-box;
   display: block;
 }
 .top-thumb::after {
@@ -1363,7 +1365,9 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .card-thumb img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
+  object-fit: contain; object-position: center;
+  padding: 6px;
+  box-sizing: border-box;
   display: block;
 }
 .feed-list .card-thumb { display: none; }
