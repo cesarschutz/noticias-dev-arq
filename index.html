@@ -456,65 +456,114 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .cve-sev-btn[data-sev="medium"].active   { background:#f0c040; border-color:#f0c040; }
 .cve-sev-btn[data-sev="low"].active      { background:#6ed6a0; border-color:#6ed6a0; color:#000; }
 
-/* ═══ Java Versions ═══ */
-.jv-section {
-  background: color-mix(in srgb, #f89820 6%, var(--surface));
-  border: 1px solid color-mix(in srgb, #f89820 25%, transparent);
+/* ═══ Version Panel (Java · Python · JavaScript) ═══ */
+.vp-section {
   border-radius: 8px;
   padding: 18px 20px 20px;
   margin: 18px 0 8px;
+  border: 1px solid transparent;
 }
-.jv-section-head { display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
-.jv-section-title { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; color:#f89820; }
-.jv-section-sub { font-size:11px; color:var(--ink-soft); }
-.jv-grid {
+.vp-section-head { display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
+.vp-section-title { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; }
+.vp-section-sub { font-size:11px; color:var(--ink-soft); }
+.vp-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 8px;
 }
-.jv-card {
+.vp-card {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 6px;
   padding: 12px 14px;
   cursor: pointer;
-  transition: border-color .15s, transform .1s;
+  transition: border-color .15s, transform .1s, box-shadow .15s;
   display: flex; flex-direction: column; gap: 4px;
+  position: relative;
 }
-.jv-card:hover { border-color: #f89820; transform: translateY(-1px); }
-.jv-card-top { display:flex; align-items:center; justify-content:space-between; }
-.jv-version-num { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--fg); }
-.jv-badge { font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:700; padding:2px 5px; border-radius:3px; letter-spacing:.05em; }
-.jv-badge-lts { background:#1a3a1a; color:#6ed6a0; border:1px solid #6ed6a0; }
-.jv-badge-sts { background:var(--surface); color:var(--ink-soft); border:1px solid var(--rule); }
-.jv-card-date { font-size:10px; color:var(--ink-soft); }
-.jv-card-jeps { font-family:'JetBrains Mono',monospace; font-size:10px; color:#f89820; }
-.jv-card-support { font-size:9px; color:var(--ink-soft); margin-top:2px; }
-/* Modal de versão Java */
-.jv-modal-head-row { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
-.jv-modal-ver { font-family:'JetBrains Mono',monospace; font-size:28px; font-weight:700; color:#f89820; }
-.jv-modal-meta { font-size:11px; color:var(--ink-soft); margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap; }
-.jv-modal-meta b { color:var(--fg); }
-.jv-modal-summary { font-size:13px; color:var(--ink-soft); line-height:1.65; margin-bottom:14px; }
-.jv-modal-links { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
-.jv-modal-links a {
+.vp-card:hover { transform: translateY(-1px); }
+.vp-card.vp-active { box-shadow: 0 0 0 1px var(--vp-color,var(--cyan)); }
+.vp-card.vp-active::after {
+  content: '▾';
+  position: absolute; bottom: 6px; right: 8px;
+  font-size: 11px; color: var(--vp-color,var(--cyan)); opacity: .8;
+}
+.vp-card-top { display:flex; align-items:center; justify-content:space-between; }
+.vp-version-num { font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:700; color:var(--fg); line-height:1.1; }
+.vp-badge { font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:700; padding:2px 5px; border-radius:3px; letter-spacing:.05em; white-space:nowrap; }
+.vp-badge-lts  { background:#1a3a1a; color:#6ed6a0; border:1px solid #6ed6a0; }
+.vp-badge-sts  { background:var(--surface); color:var(--ink-soft); border:1px solid var(--rule); }
+.vp-badge-act  { background:#1a2e1a; color:#6ed6a0; border:1px solid #6ed6a0; }
+.vp-badge-sec  { background:#2e2a1a; color:#f0c040; border:1px solid #f0c040; }
+.vp-badge-eol  { background:var(--surface); color:var(--ink-soft); border:1px solid var(--rule); }
+.vp-badge-std  { background:var(--surface); color:var(--ink-soft); border:1px solid var(--rule); }
+.vp-card-date  { font-size:10px; color:var(--ink-soft); }
+.vp-card-count { font-family:'JetBrains Mono',monospace; font-size:10px; }
+.vp-card-sub   { font-size:9px; color:var(--ink-soft); margin-top:2px; }
+/* Inline expand panel */
+.vp-detail {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  transition: max-height .45s cubic-bezier(0.4,0,0.2,1),
+              opacity .3s ease,
+              margin-top .3s ease;
+}
+.vp-detail.vp-open {
+  max-height: 5000px;
+  opacity: 1;
+  margin-top: 14px;
+}
+.vp-detail-inner {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 18px 20px;
+  background: var(--bg-deep);
+  position: relative;
+}
+.vp-detail-inner::before {
+  content: '';
+  position: absolute; top: 0; left: 20px; right: 20px; height: 2px;
+  background: var(--vp-color, var(--cyan));
+  border-radius: 0 0 2px 2px;
+  opacity: .7;
+}
+.vp-detail-header { display:flex; align-items:center; gap:12px; margin-bottom:8px; flex-wrap:wrap; }
+.vp-detail-ver { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; }
+.vp-detail-meta { font-size:11px; color:var(--ink-soft); margin-bottom:12px; display:flex; gap:14px; flex-wrap:wrap; }
+.vp-detail-meta b { color:var(--fg); }
+.vp-detail-summary { font-size:13px; color:var(--ink-soft); line-height:1.65; margin-bottom:14px; }
+.vp-detail-links { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+.vp-detail-links a {
   font-family:'JetBrains Mono',monospace; font-size:10px;
-  color:#f89820; text-decoration:none; border:1px solid #f89820;
-  border-radius:4px; padding:3px 9px; transition:background .15s, color .15s;
+  text-decoration:none; border-radius:4px; padding:3px 9px;
+  border: 1px solid var(--vp-color,var(--cyan));
+  color: var(--vp-color,var(--cyan));
+  transition: background .15s, color .15s;
 }
-.jv-modal-links a:hover { background:#f89820; color:#000; }
-.jv-jep-list { display:flex; flex-direction:column; gap:8px; }
-.jv-jep { background:var(--surface-alt,var(--surface)); border:1px solid var(--rule); border-radius:6px; padding:10px 13px; }
-.jv-jep-top { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
-.jv-jep-num { font-family:'JetBrains Mono',monospace; font-size:10px; color:#f89820; font-weight:700; min-width:56px; }
-.jv-jep-status { font-family:'JetBrains Mono',monospace; font-size:9px; padding:1px 5px; border-radius:3px; background:var(--surface); border:1px solid var(--rule); color:var(--ink-soft); }
-.jv-jep-status.std { border-color:#6ed6a0; color:#6ed6a0; }
-.jv-jep-status.prev { border-color:#f0c040; color:#f0c040; }
-.jv-jep-status.incub { border-color:var(--cyan); color:var(--cyan); }
-.jv-jep-title { font-size:12.5px; font-weight:600; color:var(--fg); }
-.jv-jep-desc { font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
-.jv-jep-link { display:inline-block; margin-top:5px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--cyan); text-decoration:none; }
-.jv-jep-link:hover { text-decoration:underline; }
+.vp-detail-links a:hover { background: var(--vp-color,var(--cyan)); color:#000; }
+.vp-feat-list { display:flex; flex-direction:column; gap:8px; }
+.vp-feat { background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:10px 13px; }
+.vp-feat-top { display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }
+.vp-feat-num { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; min-width:52px; }
+.vp-feat-status { font-family:'JetBrains Mono',monospace; font-size:9px; padding:1px 5px; border-radius:3px; background:var(--surface); border:1px solid var(--rule); color:var(--ink-soft); }
+.vp-feat-status.std   { border-color:#6ed6a0; color:#6ed6a0; }
+.vp-feat-status.prev  { border-color:#f0c040; color:#f0c040; }
+.vp-feat-status.incub { border-color:var(--cyan); color:var(--cyan); }
+.vp-feat-status.rem   { border-color:var(--red); color:var(--red); }
+.vp-feat-title { font-size:12.5px; font-weight:600; color:var(--fg); }
+.vp-feat-desc { font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
+.vp-feat-link { display:inline-block; margin-top:5px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--cyan); text-decoration:none; }
+.vp-feat-link:hover { text-decoration:underline; }
+.vp-loading { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); padding:16px 0; text-align:center; }
+.vp-close-row { display:flex; justify-content:flex-end; margin-bottom:14px; }
+.vp-close-btn {
+  font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-soft);
+  background:transparent; border:1px solid var(--rule); border-radius:4px;
+  padding:3px 10px; cursor:pointer; transition: border-color .15s, color .15s;
+}
+.vp-close-btn:hover { border-color:var(--red); color:var(--red); }
 
 /* ═══ Topbar ═══ */
 .topbar {
@@ -2225,7 +2274,6 @@ const STATE = {
   mode: localStorage.getItem('dpco-mode') || 'cards',
   filter: { urgent: false },
   cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
-  javaVersions: null,  // index.json das versões Java (null=não carregado)
   readLater: JSON.parse(localStorage.getItem('dpco-read-later') || '[]'),
   rlSort: localStorage.getItem('dpco-rl-sort') || 'saved',
   startedAt: Date.now(),
@@ -2916,91 +2964,207 @@ function renderCategory(key){
 }
 
 /* ═══ Java Versions ═══ */
-async function loadJavaVersions(){
-  if (STATE.javaVersions) return STATE.javaVersions;
+/* ═══ Version Panel — generic (Java · Python · JavaScript) ═══ */
+const VER_CFG = {
+  java: {
+    dir: 'java-versions', prefix: 'java-',
+    icon: '☕', title: 'Versões Java', color: '#f89820',
+    featLabel: 'JEP',
+    sortVersions: vs => vs.slice().sort((a,b) => Number(b.version) - Number(a.version)),
+    cardNum:   v => `Java ${v.version}`,
+    badgeText: v => v.lts ? 'LTS' : 'STS',
+    badgeCls:  v => v.lts ? 'lts' : 'sts',
+    cardCount: v => `${v.jep_count||0} JEPs`,
+    cardSub:   v => v.lts && v.oracle_support_until ? `Oracle até ${v.oracle_support_until}` : '',
+    detailVer: d => `Java ${d.version}`,
+    detailMeta: d => [
+      d.release_date && `<b>Lançamento:</b> ${esc(d.release_date)}`,
+      d.lts && d.oracle_support_until && `<b>Suporte Oracle:</b> até ${esc(d.oracle_support_until)}`,
+      `<b>JEPs:</b> ${(d.jeps||[]).length}`,
+    ].filter(Boolean),
+    getFeatures: d => d.jeps || [],
+    featNum: f => f.number ? `JEP ${esc(f.number)}` : '',
+  },
+  javascript: {
+    dir: 'js-versions', prefix: 'js-',
+    icon: '🟨', title: 'ECMAScript / JavaScript', color: '#F7DF1E',
+    featLabel: 'Feature',
+    sortVersions: vs => vs.slice().sort((a,b) => Number(b.year||b.version) - Number(a.year||a.version)),
+    cardNum:   v => v.version || `ES${v.year}`,
+    badgeText: v => 'Standard',
+    badgeCls:  v => 'std',
+    cardCount: v => `${v.feature_count||0} features`,
+    cardSub:   v => v.year ? `${v.year}` : '',
+    detailVer: d => d.version || `ES${d.year}`,
+    detailMeta: d => [
+      d.release_date && `<b>Publicado:</b> ${esc(d.release_date)}`,
+      `<b>Features:</b> ${(d.features||[]).length}`,
+    ].filter(Boolean),
+    getFeatures: d => d.features || [],
+    featNum: f => f.stage != null ? `Stage ${esc(String(f.stage))}` : '',
+  },
+  python: {
+    dir: 'python-versions', prefix: 'python-',
+    icon: '🐍', title: 'Versões Python', color: '#3776AB',
+    featLabel: 'PEP',
+    sortVersions: vs => vs.slice().sort((a,b) => {
+      const [ma,na] = String(a.version).split('.').map(Number);
+      const [mb,nb] = String(b.version).split('.').map(Number);
+      return mb !== ma ? mb - ma : nb - na;
+    }),
+    cardNum:   v => `Python ${v.version}`,
+    badgeText: v => v.status === 'active' ? 'Ativa' : v.status === 'security' ? 'Segurança' : 'EOL',
+    badgeCls:  v => v.status === 'active' ? 'act' : v.status === 'security' ? 'sec' : 'eol',
+    cardCount: v => `${v.pep_count||v.feature_count||0} PEPs`,
+    cardSub:   v => v.eol_date ? `EOL ${v.eol_date}` : '',
+    detailVer: d => `Python ${d.version}`,
+    detailMeta: d => [
+      d.release_date && `<b>Lançamento:</b> ${esc(d.release_date)}`,
+      d.eol_date && `<b>EOL:</b> ${esc(d.eol_date)}`,
+      `<b>PEPs:</b> ${(d.features||d.peps||[]).length}`,
+    ].filter(Boolean),
+    getFeatures: d => d.features || d.peps || [],
+    featNum: f => f.number ? `${esc(String(f.number))}` : '',
+  },
+};
+
+let _verIndexCache = {};   // dir -> index.json
+let _verDetailCache = {};  // `${dir}:${id}` -> detail.json
+
+async function loadVerIndex(toolKey){
+  const cfg = VER_CFG[toolKey];
+  if (!cfg) return null;
+  if (_verIndexCache[cfg.dir]) return _verIndexCache[cfg.dir];
   try {
-    const r = await fetch('data/java-versions/index.json');
+    const r = await fetch(`data/${cfg.dir}/index.json`);
     if (!r.ok) return null;
-    STATE.javaVersions = await r.json();
-    return STATE.javaVersions;
+    _verIndexCache[cfg.dir] = await r.json();
+    return _verIndexCache[cfg.dir];
   } catch(e) { return null; }
 }
 
-async function openJavaVersionModal(versionNum){
-  const modal = $('modal');
-  const body = $('modal-body');
-  body.innerHTML = `<div class="modal-head"><span class="modal-prompt">☕</span><span class="modal-title">Carregando Java ${versionNum}…</span><button class="modal-close" onclick="closeModal()">ESC</button></div>`;
-  modal.classList.add('open');
-  let data;
+async function loadVerDetail(toolKey, versionId){
+  const cfg = VER_CFG[toolKey];
+  if (!cfg) return null;
+  const ckey = `${cfg.dir}:${versionId}`;
+  if (_verDetailCache[ckey]) return _verDetailCache[ckey];
   try {
-    const r = await fetch(`data/java-versions/java-${versionNum}.json`);
-    if (!r.ok) throw new Error('not found');
-    data = await r.json();
-  } catch(e) {
-    body.innerHTML = `<div class="modal-head"><span class="modal-prompt">☕</span><span class="modal-title">Java ${versionNum}</span><button class="modal-close" onclick="closeModal()">ESC</button></div><div class="modal-content"><p style="color:var(--ink-soft);padding:20px">Arquivo não encontrado — será gerado na próxima execução da skill.</p></div>`;
-    return;
-  }
-  const lts = data.lts;
-  const badge = lts
-    ? `<span class="jv-badge jv-badge-lts">LTS</span>`
-    : `<span class="jv-badge jv-badge-sts">STS</span>`;
-  let html = `<div class="modal-head">`;
-  html += `<span class="modal-prompt" style="color:#f89820;text-shadow:none">☕</span>`;
-  html += `<span class="modal-title">Java ${esc(data.version)}</span>`;
-  html += `<button class="modal-close" onclick="closeModal()">ESC</button>`;
-  html += `</div><div class="modal-content">`;
-  html += `<div class="jv-modal-head-row"><span class="jv-modal-ver">Java ${esc(data.version)}</span>${badge}</div>`;
-  html += `<div class="jv-modal-meta">`;
-  html += `<span><b>Lançamento:</b> ${esc(data.release_date||'—')}</span>`;
-  if (lts && data.oracle_support_until) html += `<span><b>Suporte Oracle até:</b> ${esc(data.oracle_support_until)}</span>`;
-  html += `<span><b>JEPs:</b> ${(data.jeps||[]).length}</span>`;
+    const r = await fetch(`data/${cfg.dir}/${cfg.prefix}${versionId}.json`);
+    if (!r.ok) return null;
+    _verDetailCache[ckey] = await r.json();
+    return _verDetailCache[ckey];
+  } catch(e) { return null; }
+}
+
+function buildVerDetailHtml(cfg, data){
+  const feats = cfg.getFeatures(data);
+  let html = `<div class="vp-detail-inner" style="--vp-color:${cfg.color}">`;
+  html += `<div class="vp-close-row"><button class="vp-close-btn" data-vp-close>✕ fechar</button></div>`;
+  html += `<div class="vp-detail-header">`;
+  html += `<span class="vp-detail-ver" style="color:${cfg.color}">${esc(cfg.detailVer(data))}</span>`;
+  const bc = cfg.badgeCls(data);
+  html += `<span class="vp-badge vp-badge-${bc}">${esc(cfg.badgeText(data))}</span>`;
   html += `</div>`;
-  if (data.summary) html += `<p class="jv-modal-summary">${esc(data.summary)}</p>`;
+  const metas = cfg.detailMeta(data);
+  if (metas.length) html += `<div class="vp-detail-meta"><span>${metas.join('</span><span>')}</span></div>`;
+  if (data.summary) html += `<p class="vp-detail-summary">${esc(data.summary)}</p>`;
   if ((data.links||[]).length) {
-    html += `<div class="jv-modal-links">`;
+    html += `<div class="vp-detail-links">`;
     data.links.forEach(l => { html += `<a href="${escAttr(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`; });
     html += `</div>`;
   }
-  if ((data.jeps||[]).length) {
-    html += `<div class="jv-jep-list">`;
-    data.jeps.forEach(j => {
-      const stCls = j.status === 'Standard' ? 'std' : j.status === 'Preview' ? 'prev' : j.status === 'Incubator' ? 'incub' : '';
-      html += `<div class="jv-jep">`;
-      html += `<div class="jv-jep-top"><span class="jv-jep-num">JEP ${esc(j.number)}</span><span class="jv-jep-status ${stCls}">${esc(j.status||'Standard')}</span><span class="jv-jep-title">${esc(j.title)}</span></div>`;
-      if (j.description) html += `<div class="jv-jep-desc">${esc(j.description)}</div>`;
-      if (j.url) html += `<a class="jv-jep-link" href="${escAttr(j.url)}" target="_blank" rel="noopener">→ openjdk.org/jeps/${esc(j.number)}</a>`;
+  if (feats.length) {
+    html += `<div class="vp-feat-list">`;
+    feats.forEach(f => {
+      const stLow = (f.status||'Standard').toLowerCase();
+      const stCls = stLow.startsWith('standard') ? 'std' : stLow.startsWith('preview') ? 'prev' : stLow.startsWith('incubat') ? 'incub' : stLow.startsWith('remov') ? 'rem' : '';
+      const numStr = cfg.featNum(f);
+      html += `<div class="vp-feat">`;
+      html += `<div class="vp-feat-top">`;
+      if (numStr) html += `<span class="vp-feat-num" style="color:${cfg.color}">${numStr}</span>`;
+      html += `<span class="vp-feat-status ${stCls}">${esc(f.status||'Standard')}</span>`;
+      html += `<span class="vp-feat-title">${esc(f.title)}</span>`;
+      html += `</div>`;
+      if (f.description) html += `<div class="vp-feat-desc">${esc(f.description)}</div>`;
+      if (f.url) html += `<a class="vp-feat-link" href="${escAttr(f.url)}" target="_blank" rel="noopener">→ ${esc(f.url.replace(/^https?:\/\//,'').split('/').slice(0,2).join('/'))}</a>`;
       html += `</div>`;
     });
     html += `</div>`;
   } else {
-    html += `<p style="color:var(--ink-soft);font-size:12px">Nenhum JEP registrado.</p>`;
+    html += `<p class="vp-loading">Nenhuma feature registrada.</p>`;
   }
   html += `</div>`;
-  body.innerHTML = html;
+  return html;
 }
 
-async function renderJavaSection(container){
-  const idx = await loadJavaVersions();
+async function renderVersionSection(container, toolKey){
+  const cfg = VER_CFG[toolKey];
+  if (!cfg) return;
+  const idx = await loadVerIndex(toolKey);
   if (!idx || !idx.versions || !idx.versions.length) return;
-  const versions = idx.versions.slice().sort((a,b) => Number(b.version) - Number(a.version));
-  let html = `<div class="jv-section">`;
-  html += `<div class="jv-section-head"><span class="jv-section-title">☕ Versões Java</span><span class="jv-section-sub">${versions.length} versões · clique para ver JEPs</span></div>`;
-  html += `<div class="jv-grid">`;
+  const versions = cfg.sortVersions(idx.versions);
+
+  const sectionEl = document.createElement('div');
+  sectionEl.className = 'vp-section';
+  sectionEl.style.cssText = `background:color-mix(in srgb,${cfg.color} 5%,var(--surface));border-color:color-mix(in srgb,${cfg.color} 20%,transparent);--vp-color:${cfg.color}`;
+
+  let html = `<div class="vp-section-head">`;
+  html += `<span class="vp-section-title" style="color:${cfg.color}">${cfg.icon} ${cfg.title}</span>`;
+  html += `<span class="vp-section-sub">${versions.length} versões · clique para expandir</span>`;
+  html += `</div>`;
+  html += `<div class="vp-grid">`;
   versions.forEach(v => {
-    const lts = v.lts;
-    html += `<div class="jv-card" data-jver="${escAttr(String(v.version))}">`;
-    html += `<div class="jv-card-top"><span class="jv-version-num">${esc(v.version)}</span>${lts ? '<span class="jv-badge jv-badge-lts">LTS</span>' : '<span class="jv-badge jv-badge-sts">STS</span>'}</div>`;
-    html += `<div class="jv-card-date">${esc(v.release_date||'')}</div>`;
-    html += `<div class="jv-card-jeps">${v.jep_count||0} JEPs</div>`;
-    if (lts && v.oracle_support_until) html += `<div class="jv-card-support">Oracle até ${esc(v.oracle_support_until)}</div>`;
+    const vid = String(v.version || v.year);
+    const bc = cfg.badgeCls(v);
+    html += `<div class="vp-card" data-ver="${escAttr(vid)}" style="--vp-color:${cfg.color}">`;
+    html += `<div class="vp-card-top"><span class="vp-version-num">${esc(cfg.cardNum(v))}</span>`;
+    html += `<span class="vp-badge vp-badge-${bc}">${esc(cfg.badgeText(v))}</span></div>`;
+    html += `<div class="vp-card-date">${esc(v.release_date||'')}</div>`;
+    html += `<div class="vp-card-count" style="color:${cfg.color}">${esc(cfg.cardCount(v))}</div>`;
+    const sub = cfg.cardSub(v);
+    if (sub) html += `<div class="vp-card-sub">${esc(sub)}</div>`;
     html += `</div>`;
   });
-  html += `</div></div>`;
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = html;
-  container.prepend(wrapper);
-  wrapper.querySelectorAll('.jv-card').forEach(card => {
-    card.addEventListener('click', () => openJavaVersionModal(card.dataset.jver));
+  html += `</div>`;
+  // Painel de detalhe inline (começa fechado)
+  html += `<div class="vp-detail" id="vp-detail-${toolKey}"></div>`;
+  sectionEl.innerHTML = html;
+  container.prepend(sectionEl);
+
+  let activeVer = null;
+  const detailEl = sectionEl.querySelector(`#vp-detail-${toolKey}`);
+
+  sectionEl.querySelectorAll('.vp-card').forEach(card => {
+    card.addEventListener('click', async () => {
+      const vid = card.dataset.ver;
+      if (activeVer === vid) {
+        // Toggle off
+        detailEl.classList.remove('vp-open');
+        card.classList.remove('vp-active');
+        activeVer = null;
+        return;
+      }
+      // Deactivate previous
+      sectionEl.querySelectorAll('.vp-card.vp-active').forEach(c => c.classList.remove('vp-active'));
+      card.classList.add('vp-active');
+      activeVer = vid;
+      // Show loading state
+      detailEl.innerHTML = `<div class="vp-detail-inner" style="--vp-color:${cfg.color}"><p class="vp-loading">⟳ Carregando ${esc(cfg.cardNum({version:vid,year:vid}))}…</p></div>`;
+      detailEl.classList.add('vp-open');
+      detailEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const data = await loadVerDetail(toolKey, vid);
+      if (activeVer !== vid) return; // user clicked away
+      if (!data) {
+        detailEl.innerHTML = `<div class="vp-detail-inner" style="--vp-color:${cfg.color}"><p class="vp-loading">Arquivo não encontrado — será gerado na próxima execução da skill.</p></div>`;
+      } else {
+        detailEl.innerHTML = buildVerDetailHtml(cfg, data);
+      }
+      detailEl.querySelector('[data-vp-close]')?.addEventListener('click', () => {
+        detailEl.classList.remove('vp-open');
+        card.classList.remove('vp-active');
+        activeVer = null;
+      });
+    });
   });
 }
 
@@ -3053,8 +3217,8 @@ function renderTool(key){
 
   $('main-inner').innerHTML = html;
   updateMainPrompt();
-  // Seção de versões Java (assíncrona, inserida no topo após renderizar)
-  if (key === 'java') renderJavaSection($('main-inner'));
+  // Seção de versões inline (assíncrona, inserida no topo)
+  if (VER_CFG[key]) renderVersionSection($('main-inner'), key);
 }
 
 function renderCVEView(){

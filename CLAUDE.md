@@ -29,11 +29,15 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 │   ├── {YYYY-MM-DD}.json           # Dados completos de cada dia
 │   ├── quotes.json                 # 80+ frases de autores técnicos (gerado na 1ª execução)
 │   ├── verses.json                 # 120+ versículos de Jesus em PT-BR (gerado na 1ª execução)
-│   └── java-versions/
-│       ├── index.json              # Índice de versões Java (atualizado a cada execução)
-│       ├── java-11.json            # JEPs e detalhes do Java 11
-│       ├── java-17.json            # JEPs e detalhes do Java 17
-│       └── java-{N}.json           # Uma versão por arquivo, Java 11–atual
+│   ├── java-versions/
+│   │   ├── index.json              # Índice de versões Java (atualizado a cada execução)
+│   │   └── java-{N}.json           # JEPs e detalhes — Java 11 até atual
+│   ├── python-versions/
+│   │   ├── index.json              # Índice de versões Python
+│   │   └── python-{N}.json         # PEPs e detalhes — Python 3.8 até atual
+│   └── js-versions/
+│       ├── index.json              # Índice de versões ECMAScript
+│       └── js-es{YYYY}.json        # Features — ES2015 até atual
 ├── scripts/
 │   ├── validate_editions.py        # Valida schema + URLs + duplicatas
 │   └── generate_feed.py            # Gera feed.xml (RSS 2.0) a partir do índice

@@ -49,9 +49,11 @@ Para cada **assunto** (`tool_key`), conte os itens em `tools[]`:
 **Arquivos a criar do zero** (em ordem):
 1. `data/quotes.json` — 80+ frases de autores técnicos com links verificados (ver protocolo abaixo).
 2. `data/verses.json` — 100+ versículos de Jesus dos Evangelhos em português (ver protocolo abaixo).
-3. `data/java-versions/index.json` e `data/java-versions/java-{N}.json` para Java 11–24 (ver protocolo abaixo).
-4. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-5. `data/{YYYY-MM-DD}.json` — edição do dia.
+3. `data/java-versions/index.json` + `java-{N}.json` para Java 11–24 (ver protocolo abaixo).
+4. `data/python-versions/index.json` + `python-{N}.json` para Python 3.8–3.13 (ver protocolo abaixo).
+5. `data/js-versions/index.json` + `js-es{YYYY}.json` para ECMAScript ES2015–ES2024 (ver protocolo abaixo).
+6. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
+7. `data/{YYYY-MM-DD}.json` — edição do dia.
 
 ---
 
@@ -262,6 +264,146 @@ A cada execução normal, após gerar a edição do dia:
    a. Gere `data/java-versions/java-{N}.json` para a nova versão com todos os JEPs.
    b. Adicione entrada em `versions[]` do `index.json` e atualize `latest_ga` e `last_updated`.
 4. Se não há versão nova, apenas atualize `last_updated` no `index.json` e não reescreva os arquivos de versão.
+
+---
+
+#### PROTOCOLO: Gerar `data/python-versions/` (primeira execução e auto-update)
+
+A SPA exibe versões Python dentro da view `tool:python`, com painel inline expansível listando PEPs de cada versão.
+
+##### Schema: `data/python-versions/index.json`
+
+```json
+{
+  "last_updated": "2026-04-17T06:00:00-03:00",
+  "latest_stable": "3.13",
+  "versions": [
+    {
+      "version": "3.13",
+      "release_date": "2024-10-07",
+      "status": "active",
+      "eol_date": "2029-10",
+      "pep_count": 8
+    }
+  ]
+}
+```
+
+`status` ∈ `active` (suporte completo) | `security` (apenas patches de segurança) | `eol` (fim de vida).
+Ordenar `versions[]` do mais recente para o mais antigo.
+
+##### Schema: `data/python-versions/python-{N}.json`
+
+```json
+{
+  "version": "3.13",
+  "release_date": "2024-10-07",
+  "status": "active",
+  "eol_date": "2029-10",
+  "summary": "Python 3.13 traz free-threading experimental, novo REPL interativo e melhorias de performance no compilador.",
+  "links": [
+    { "label": "What's New in Python 3.13", "url": "https://docs.python.org/3.13/whatsnew/3.13.html" },
+    { "label": "PEP Index", "url": "https://peps.python.org/" }
+  ],
+  "features": [
+    {
+      "number": "PEP 703",
+      "title": "Free-threading CPython (experimental)",
+      "status": "Standard",
+      "description": "Permite rodar CPython sem o GIL em modo experimental, habilitando paralelismo real em threads. Ativado com flag --disable-gil no build. Muda o modelo de concorrência para casos CPU-bound com múltiplos threads.",
+      "url": "https://peps.python.org/pep-0703/"
+    }
+  ]
+}
+```
+
+Campos obrigatórios por feature: `number` (ex.: `"PEP 703"`), `title`, `status`, `description`, `url`.
+Descrições em PT-BR. Inclua **todos os PEPs de destaque** da versão (What's New oficial).
+
+##### Versões a cobrir na primeira execução
+
+Python 3.8 a 3.13 (6 versões). Status de referência:
+
+| Versão | Status | EOL |
+|--------|--------|-----|
+| 3.8 | eol | 2024-10 |
+| 3.9 | security | 2025-10 |
+| 3.10 | security | 2026-10 |
+| 3.11 | active | 2027-10 |
+| 3.12 | active | 2028-10 |
+| 3.13 | active | 2029-10 |
+
+**Antes de gerar, verifique quais já existem** — gere apenas os arquivos ausentes.
+
+Fontes: `https://docs.python.org/3.{N}/whatsnew/3.{N}.html` + `https://peps.python.org/`
+
+##### Execuções normais — auto-update Python
+
+A cada execução, verifique `https://www.python.org/downloads/` se há versão nova. Se `latest_stable` mudou, gere o arquivo da nova versão e atualize o `index.json`.
+
+---
+
+#### PROTOCOLO: Gerar `data/js-versions/` (primeira execução e auto-update)
+
+A SPA exibe versões ECMAScript dentro da view `tool:javascript`, com painel inline expansível listando features de cada edição.
+
+##### Schema: `data/js-versions/index.json`
+
+```json
+{
+  "last_updated": "2026-04-17T06:00:00-03:00",
+  "latest": "ES2024",
+  "versions": [
+    {
+      "version": "ES2024",
+      "year": 2024,
+      "release_date": "2024-06-26",
+      "feature_count": 8
+    }
+  ]
+}
+```
+
+Ordenar `versions[]` do mais recente para o mais antigo.
+
+##### Schema: `data/js-versions/js-es{YYYY}.json`
+
+```json
+{
+  "version": "ES2024",
+  "year": 2024,
+  "release_date": "2024-06-26",
+  "summary": "ECMAScript 2024 adiciona Promise.withResolvers, ArrayBuffer redimensionável, Object.groupBy e melhorias em expressões regulares.",
+  "links": [
+    { "label": "Especificação ECMA-262", "url": "https://tc39.es/ecma262/" },
+    { "label": "TC39 Proposals", "url": "https://github.com/tc39/proposals/blob/main/finished-proposals.md" },
+    { "label": "MDN: What's new ES2024", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects" }
+  ],
+  "features": [
+    {
+      "title": "Promise.withResolvers()",
+      "status": "Standard",
+      "description": "Cria uma Promise e expõe resolve/reject como propriedades do objeto retornado, eliminando o padrão verboso de capturar os callbacks no construtor. Simplifica código assíncrono onde o controle da Promise precisa ser passado para outro escopo.",
+      "url": "https://tc39.es/proposal-promise-with-resolvers/"
+    }
+  ]
+}
+```
+
+Campos obrigatórios por feature: `title`, `status`, `description`, `url`. `number`/`stage` são opcionais.
+Descrições em PT-BR. Inclua **todas as proposals Stage 4** aprovadas naquela edição.
+
+##### Versões a cobrir na primeira execução
+
+ES2015 (ES6) a ES2024 — 10 versões. Arquivo: `js-es2015.json`, `js-es2016.json`, …, `js-es2024.json`.
+
+**Antes de gerar, verifique quais já existem** — gere apenas os arquivos ausentes.
+
+Fontes: `https://github.com/tc39/proposals/blob/main/finished-proposals.md` + MDN + `https://exploringjs.com/`
+
+##### Execuções normais — auto-update JS
+
+Verifique anualmente (junho/julho) se há nova edição ECMAScript aprovada pelo Ecma GA. Se `latest` mudou, gere o arquivo da nova versão e atualize o `index.json`.
 
 ---
 
