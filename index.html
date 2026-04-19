@@ -263,55 +263,12 @@
       display: flex;
       flex-direction: column;
     }
-    /* categorias: 4 cols × 4 rows preenche ~298×228px disponíveis */
-    #rule-cat-icons {
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 53px;
-    }
-    #rule-cat-icons .mini-ico {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: unset;
-    }
-
-    /* tópicos: 3 cols × 3 rows, ícones de 72px */
-    #rule-topic-icons {
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 72px;
-      align-content: start;
-    }
-    #rule-topic-icons .mini-ico {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: unset;
-    }
-
-    /* linguagens: 3 ícones de 96px, centralizados verticalmente */
-    #rule-lang-icons {
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 96px;
-      align-content: center;
-    }
-    #rule-lang-icons .mini-ico {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: unset;
-    }
-    #rule-lang-icons .mini-ico img {
-      width: 60%;
-      height: 60%;
-    }
-
-    /* ferramentas: grid plano (tamanho calculado por JS) */
-    #rule-tool-icons {
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 40px;
-    }
-    #rule-tool-icons .mini-ico {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: unset;
-    }
+    /* colunas fixas por card — alturas calculadas por JS em fitIconGrids() */
+    #rule-cat-icons   { grid-template-columns: repeat(4, 1fr); }
+    #rule-lang-icons  { grid-template-columns: repeat(3, 1fr); }
+    #rule-topic-icons { grid-template-columns: repeat(3, 1fr); }
+    #rule-tool-icons  { grid-template-columns: repeat(4, 1fr); }
+    .rule-icons .mini-ico { width: 100%; height: 100%; aspect-ratio: unset; }
     .rule-k {
       font-family: var(--mono);
       font-size: 11.5px;
@@ -348,13 +305,12 @@
     /* mini icon grid shared by all rule cards */
     .rule-icons {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
-      grid-auto-rows: 1fr;
       gap: 5px;
       margin-top: 12px;
       position: relative;
       z-index: 1;
       flex: 1;
+      min-height: 0;
     }
     .mini-ico {
       width: 100%;
@@ -942,7 +898,7 @@ function renderRuleCats() {
   const all = CATS_GROUPS.flatMap(g => g.cats).sort((a,b) => a.name.localeCompare(b.name, 'pt'));
   document.getElementById('rule-cat-icons').innerHTML = all.map(c =>
     `<div class="mini-ico" data-tip="${c.name}" style="background:color-mix(in srgb,${c.color} 15%,transparent)">
-      <svg viewBox="0 0 24 24" style="stroke:${c.color};width:12px;height:12px;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round">${c.svg}</svg>
+      <svg viewBox="0 0 24 24" style="stroke:${c.color};fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round">${c.svg}</svg>
     </div>`).join('');
 }
 
@@ -958,27 +914,41 @@ function renderRuleTopics() {
 
 function renderRuleTools() {
   const allTools = TOOL_SUBGROUPS.flatMap(g => g.tools);
-  const container = document.getElementById('rule-tool-icons');
-  container.innerHTML = allTools.map(t => miniLogo(t.name, t.logo)).join('');
-
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    const card = container.closest('.rule');
-    if (!card) return;
-    const cardH = card.clientHeight;
-    const pad = 16 + 14;
-    const sibH = Array.from(card.children)
-      .filter(el => el !== container)
-      .reduce((s, el) => s + el.getBoundingClientRect().height, 0);
-    const availH = cardH - sibH - pad;
-    const COLS = 4, GAP = 5;
-    const rows = Math.ceil(allTools.length / COLS);
-    const rowH = Math.max(30, Math.floor((availH - (rows - 1) * GAP) / rows));
-    container.style.gridAutoRows = rowH + 'px';
-  }));
+  document.getElementById('rule-tool-icons').innerHTML =
+    allTools.map(t => miniLogo(t.name, t.logo)).join('');
 }
 
 renderCats(); renderLangs(); renderTopics(); renderTools();
 renderRuleCats(); renderRuleLang(); renderRuleTopics(); renderRuleTools();
+
+function fitIconGrids() {
+  const GAP = 5;
+  const cards = [
+    {id: 'rule-cat-icons',   cols: 4},
+    {id: 'rule-lang-icons',  cols: 3, square: true},
+    {id: 'rule-topic-icons', cols: 3},
+    {id: 'rule-tool-icons',  cols: 4},
+  ];
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    cards.forEach(({id, cols, square}) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const availH = el.clientHeight;
+      const availW = el.clientWidth;
+      const items = el.querySelectorAll('.mini-ico').length;
+      if (!items || availH < 10) return;
+      const rows = Math.ceil(items / cols);
+      let rowH = Math.max(24, Math.floor((availH - (rows - 1) * GAP) / rows));
+      if (square) {
+        const colW = Math.floor((availW - (cols - 1) * GAP) / cols);
+        rowH = Math.min(rowH, colW);
+        el.style.alignContent = 'center';
+      }
+      el.style.gridAutoRows = rowH + 'px';
+    });
+  }));
+}
+fitIconGrids();
 
 
 // tooltip global
