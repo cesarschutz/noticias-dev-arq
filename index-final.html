@@ -552,6 +552,14 @@ function initUniverse() {
   const topItems = rawTop.slice(0, topCount);
   const botItems = [...rawTop.slice(topCount), ...mixed.slice(split)];
 
+  // Os últimos 2 itens de botItems (springcloud + structurizr) ficam numa fileira
+  // esparsa no rodapé. Move-os para a posição 6 (antes de microservices) para
+  // preencherem a fileira que tinha espaço vazio.
+  if (botItems.length >= 8) {
+    const orphans = botItems.splice(botItems.length - 2, 2);
+    botItems.splice(6, 0, ...orphans);
+  }
+
   // Fileira central: [flank_esq] [java, js, python] [flank_dir]
   const centerItems = [...leftFlank, ...langPool, ...rightFlank];
 
