@@ -123,13 +123,25 @@
       width: 830px;
       height: 510px;
       display: flex;
-      flex-wrap: wrap;
-      align-content: center;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
       gap: 7px;
       overflow: hidden;
       z-index: 20;
       pointer-events: none;
+    }
+    .univ-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+    }
+    .univ-center {
+      flex-wrap: nowrap;
+      justify-content: center;
     }
 
     /* ── FLOAT ANIMATION ── */
@@ -164,9 +176,9 @@
 
     /* Category: pill, right-side colored border */
     .item-cat {
-      width: max-content; padding: 10px 22px;
+      width: max-content; height: 38px; padding: 0 18px;
       border-radius: 40px; border-right: 3px solid var(--cc, var(--accent));
-      flex-direction: row; gap: 9px;
+      flex-direction: row; gap: 8px;
     }
     .item-cat:hover {
       border-color: #fff !important;
@@ -188,10 +200,10 @@
 
     /* Language: square, amber bottom border */
     .item-lang {
-      width: 108px; height: 108px; border-radius: 20px;
+      width: 88px; height: 88px; border-radius: 16px;
       border-bottom: 4px solid var(--amber);
       background: rgba(10,21,37,.85);
-      gap: 8px;
+      gap: 6px;
     }
     .item-lang:hover {
       border-color: #fff !important;
@@ -200,9 +212,9 @@
 
     /* Topic: pill, left-side green border */
     .item-topic {
-      width: max-content; padding: 9px 22px;
+      width: max-content; height: 38px; padding: 0 18px;
       border-radius: 40px; border-left: 3px solid var(--green);
-      flex-direction: row; gap: 9px;
+      flex-direction: row; gap: 8px;
     }
     .item-topic:hover {
       border-color: #fff !important;
@@ -214,7 +226,7 @@
 
     /* Tool: small circle, icon only */
     .item-tool {
-      width: 60px; height: 60px; border-radius: 50%;
+      width: 52px; height: 52px; border-radius: 50%;
       border: 1.5px solid var(--blue);
       background: #000;
     }
@@ -223,11 +235,11 @@
       box-shadow: 0 0 22px rgba(59,130,246,.5);
     }
     .item-tool .item-icon { display: flex; align-items: center; justify-content: center; }
-    .item-tool .item-icon img { width: 28px; height: 28px; object-fit: contain; }
+    .item-tool .item-icon img { width: 24px; height: 24px; object-fit: contain; }
     .item-tool .item-name { display: none; }
 
     /* Shared icon img sizing */
-    .item-lang .item-icon img { width: 36px; height: 36px; object-fit: contain; }
+    .item-lang .item-icon img { width: 30px; height: 30px; object-fit: contain; }
     .item-name { font-weight: 700; font-size: 12px; color: var(--text); }
 
     /* ── TOOLTIP ── */
@@ -504,7 +516,7 @@ const TOOL_SUBGROUPS = [
   ]},
 ];
 
-// ── UNIVERSE: CSS flex layout (container fixo, overflow:hidden) ──────────
+// ── UNIVERSE: 3 seções — top, center (langs no meio), bottom ──────────────
 function initUniverse() {
   const univ = document.getElementById('universe');
 
@@ -515,7 +527,7 @@ function initUniverse() {
   const toolPool  = [];
   TOOL_SUBGROUPS.forEach(sg => sg.tools.forEach(t => toolPool.push({ type:'tool', name:t.name, logo:t.logo })));
 
-  // Intercala cats/topics/tools, injeta langs a 40% → ficam nas linhas do meio
+  // Intercala cats/topics/tools em sequência uniforme
   const mixed = [];
   let ci=0, ti=0, toi=0;
   while (ci<catPool.length || ti<topicPool.length || toi<toolPool.length) {
@@ -524,12 +536,22 @@ function initUniverse() {
     if (ti  < topicPool.length) mixed.push(topicPool[ti++]);
     if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
   }
-  const injectAt = Math.floor(mixed.length * 0.40);
-  const seq = [...mixed.slice(0, injectAt), ...langPool, ...mixed.slice(injectAt)];
 
-  // Renderiza (CSS flexbox cuida do layout automaticamente)
-  let html = '';
-  seq.forEach(item => {
+  // Extrai 2 itens antes e 2 depois do meio para flanquear as langs
+  const mid = Math.floor(mixed.length / 2);
+  const leftFlank  = mixed.splice(mid - 2, 2);   // remove 2 itens antes do meio
+  const rightFlank = mixed.splice(mid - 2, 2);   // remove 2 itens depois (índice ajustado)
+
+  // Divide o restante em top e bottom
+  const split    = Math.floor(mixed.length / 2);
+  const topItems = mixed.slice(0, split);
+  const botItems = mixed.slice(split);
+
+  // Fileira central: [flank_esq] [java, js, python] [flank_dir]
+  const centerItems = [...leftFlank, ...langPool, ...rightFlank];
+
+  // Helper de render
+  function renderItem(item) {
     let inner = '';
     if (item.type === 'cat') {
       inner = `<div class="item-icon"><svg viewBox="0 0 24 24">${item.svg}</svg></div>`
@@ -544,11 +566,15 @@ function initUniverse() {
       inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`;
     }
     const ccAttr = item.color ? ` style="--cc:${item.color}"` : '';
-    html += `<div class="floating-item item-${item.type}"${ccAttr} data-tip="${item.name}">${inner}</div>`;
-  });
-  univ.innerHTML = html;
+    return `<div class="floating-item item-${item.type}"${ccAttr} data-tip="${item.name}">${inner}</div>`;
+  }
 
-  // Animação: duração e fase fixas por índice
+  univ.innerHTML =
+    `<div class="univ-section univ-top">${topItems.map(renderItem).join('')}</div>`+
+    `<div class="univ-section univ-center">${centerItems.map(renderItem).join('')}</div>`+
+    `<div class="univ-section univ-bottom">${botItems.map(renderItem).join('')}</div>`;
+
+  // Animação
   univ.querySelectorAll('.floating-item').forEach((el, i) => {
     el.style.setProperty('--fdur', (4 + (i % 5) * 0.9).toFixed(1) + 's');
     el.style.setProperty('--fdel', (-((i * 0.73) % 5)).toFixed(1) + 's');
