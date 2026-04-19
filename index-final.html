@@ -542,10 +542,15 @@ function initUniverse() {
   const leftFlank  = mixed.splice(mid - 2, 2);   // remove 2 itens antes do meio
   const rightFlank = mixed.splice(mid - 2, 2);   // remove 2 itens depois (índice ajustado)
 
-  // Divide o restante em top e bottom
-  const split    = Math.floor(mixed.length / 2);
-  const topItems = mixed.slice(0, split);
-  const botItems = mixed.slice(split);
+  // Divide o restante em top e bottom.
+  // Fileiras reais têm ~8 itens (pills ~130px + tools ~52px em 830px).
+  // Trunca topItems para múltiplo exato de 8 → zero fileira esparsa garantido.
+  const ROW_EST  = 8;
+  const split    = Math.floor(mixed.length * 0.44);
+  const rawTop   = mixed.slice(0, split);
+  const topCount = Math.floor(rawTop.length / ROW_EST) * ROW_EST;
+  const topItems = rawTop.slice(0, topCount);
+  const botItems = [...rawTop.slice(topCount), ...mixed.slice(split)];
 
   // Fileira central: [flank_esq] [java, js, python] [flank_dir]
   const centerItems = [...leftFlank, ...langPool, ...rightFlank];
