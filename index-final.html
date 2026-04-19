@@ -229,14 +229,14 @@
       position: relative;
       z-index: 5;
       width: 1440px;
-      padding: 60px 40px 100px 530px;
+      padding: 60px 40px 100px 500px;
     }
 
     .section {
       margin-bottom: 48px;
       background: rgba(4,8,16,.85); backdrop-filter: blur(10px);
-      padding: 36px; border-radius: 16px;
-      border: 1px solid var(--border);
+      padding: 20px; border-radius: 16px;
+      overflow: visible;
     }
     .sec-head {
       display: flex; align-items: baseline; gap: 10px;
@@ -260,40 +260,53 @@
     }
     .group-label:first-child { margin-top: 0; }
 
-    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+    .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 14px; row-gap: 70px; padding-top: 52px; }
     .cat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--cc, var(--border));
-      border-radius: 8px; padding: 14px 16px;
-      cursor: pointer;
-      opacity: 0; transform: translateY(10px);
-      transition: opacity .4s, transform .4s, box-shadow .2s;
+      position: relative;
+      background: rgba(16,18,26,.92);
+      border: 1px solid rgba(255,255,255,.08);
+      border-bottom: 4px solid var(--cc, var(--border));
+      border-radius: 22px;
+      padding: 56px 24px 24px;
+      cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .4s, transform .3s ease;
+      box-shadow:
+        inset 0 80px 50px -30px color-mix(in srgb, var(--cc,var(--accent)) 16%, transparent),
+        0 16px 36px -10px rgba(0,0,0,.6);
+      overflow: visible;
     }
     .cat-card.revealed { opacity: 1; transform: translateY(0); }
-    .cat-card:hover { transform: translateX(4px); box-shadow: -6px 0 0 var(--cc, var(--accent)); }
-    .cat-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .cat-card:hover { transform: translateY(-5px); }
     .cat-ico {
-      width: 32px; height: 32px; border-radius: 6px;
+      position: absolute;
+      top: -38px; left: 50%; transform: translateX(-50%);
+      width: 76px; height: 76px; border-radius: 18px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      background: color-mix(in srgb, var(--cc, var(--accent)) 15%, transparent);
-      flex-shrink: 0;
+      background: linear-gradient(145deg, var(--cc,var(--accent)), color-mix(in srgb, var(--cc,var(--accent)) 50%, #000));
+      box-shadow:
+        0 6px 28px color-mix(in srgb, var(--cc,var(--accent)) 60%, transparent),
+        0 2px 6px rgba(0,0,0,.5);
     }
     .cat-ico svg {
-      width: 16px; height: 16px;
-      stroke: var(--cc, var(--accent)); fill: none;
-      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+      width: 34px; height: 34px;
+      stroke: rgba(255,255,255,.95); fill: none;
+      stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
     }
-    .cat-n { font-size: 14px; font-weight: 800; }
-    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
-    .cat-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
-    .sources { display: flex; flex-wrap: wrap; gap: 5px; }
+    .cat-n { font-size: 20px; font-weight: 800; color: var(--text1); line-height: 1.1; margin-bottom: 4px; }
+    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .18em; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+    .cat-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+    .sources { display: flex; flex-wrap: wrap; gap: 5px; width: 100%; justify-content: center; }
     .src-link {
-      font-family: var(--mono); font-size: 9px; color: var(--text3);
-      border: 1px solid var(--border); border-radius: 3px;
-      padding: 2px 6px; text-decoration: none;
-      transition: color .12s, border-color .12s;
+      font-size: 9px; color: var(--text3);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 99px; padding: 4px 12px;
+      text-decoration: none;
+      transition: background .2s, color .2s, border-color .2s;
     }
-    .src-link:hover { color: var(--cc, var(--accent)); border-color: var(--cc, var(--accent)); }
+    .src-link:hover { background: rgba(255,255,255,.1); color: var(--text1); border-color: var(--cc, var(--accent)); }
 
     .mon-label { font-weight: 700; font-size: 14px; margin-bottom: 14px; }
     .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
@@ -361,10 +374,6 @@
 <div class="scroll-content">
 
   <section class="section">
-    <div class="sec-head">
-      <div class="sec-title"><span class="p">&gt;</span> Categorias cobertas <span class="badge">13</span></div>
-      <p class="sec-sub">Clique para acessar o histórico filtrado.</p>
-    </div>
     <div id="cats-container"></div>
   </section>
 
@@ -580,30 +589,20 @@ function initUniverse() {
 
 // ── BELOW FOLD ────────────────────────────────────────────────────────────
 function renderBelow() {
-  const groups = [
-    {label:'Transversal & Hot',          keys:['ai','sec']},
-    {label:'Plataforma & Infraestrutura',keys:['aws','devops','obs']},
-    {label:'Desenvolvimento',            keys:['backend','data','integ','testing']},
-    {label:'Arquitetura',                keys:['design','distarch','enterprise']},
-    {label:'Domínio',                    keys:['fintech']},
-  ];
-  const byKey = Object.fromEntries(CATS.map(c => [c.key, c]));
+  const sorted = [...CATS].sort((a,b) => a.name.localeCompare(b.name, 'pt'));
 
   document.getElementById('cats-container').innerHTML = `<div class="cat-grid">${
-    groups.map(g =>
-      `<div class="group-label">${g.label}</div>${
-        g.keys.map(k => {
-          const c = byKey[k];
-          return c ? `<div class="cat-card" style="--cc:${c.color}" onclick="location.href='home.html?cat=${c.key}'">
-            <div class="cat-head">
-              <div class="cat-ico"><svg viewBox="0 0 24 24">${c.svg}</svg></div>
-              <div><div class="cat-n">${c.name}</div><div class="cat-g">${c.group}</div></div>
-            </div>
+    [sorted].map(g =>
+      g.map(k => {
+          const c = k;
+          return `<div class="cat-card" style="--cc:${c.color}" onclick="location.href='home.html?cat=${c.key}'">
+            <div class="cat-ico"><svg viewBox="0 0 24 24">${c.svg}</svg></div>
+            <div class="cat-n">${c.name}</div>
+            <div class="cat-g">${c.group}</div>
             <p class="cat-desc">${c.desc}</p>
-            <div class="sources">${c.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener" style="--cc:${c.color}">${s.l}</a>`).join('')}</div>
-          </div>` : '';
+            <div class="sources">${c.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
+          </div>`;
         }).join('')
-      }`
     ).join('')
   }</div>`;
 
