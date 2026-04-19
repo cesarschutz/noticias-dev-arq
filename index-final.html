@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CsR News</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #040810;
+      --surface:  #0a1525;
+      --surface2: #111f35;
+      --border:   #1a2d45;
+      --border2:  #243d5a;
+      --text:     #ddeeff;
+      --text2:    #7a9abf;
+      --text3:    #3a5a7a;
+      --accent:   #2ab8e8;
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Inter Tight', sans-serif;
+      --amber:    #f59e0b;
+      --violet:   #a855f7;
+      --green:    #10b981;
+      --blue:     #3b82f6;
+      --th:       70px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-width: 1440px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── STAGE: container fixo 1440×900, tudo absoluto dentro dele ── */
+    #stage {
+      position: relative;
+      width: 1440px;
+      height: 900px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* ── MASCOT ── */
+    .fixed-mascot {
+      position: absolute;
+      top: 40px; bottom: 40px; left: 40px;
+      width: 504px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 30;
+    }
+    .fixed-mascot img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(10px 0 40px rgba(42,184,232,.15));
+    }
+
+    /* ── HERO TEXT ── */
+    .hero-text {
+      position: absolute;
+      top: calc(var(--th) + 14px);
+      left: 560px;
+      width: 856px;
+      z-index: 35;
+      pointer-events: none;
+    }
+    .hero-h1 {
+      font-size: 34px;
+      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 10px;
+    }
+    .hero-h1 .l1 { display: block; font-weight: 300; color: var(--text2); }
+    .hero-h1 .l2 { display: block; font-weight: 900; color: var(--accent); }
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65; max-width: 560px;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: absolute; top: 0; left: 0; width: 1440px; height: var(--th);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: linear-gradient(to bottom, rgba(4,8,16,.96) 0%, rgba(4,8,16,0) 100%);
+      z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 8px; }
+    .brand-csr { font-weight: 900; font-size: 26px; color: #fff; letter-spacing: -1px; }
+    .brand-news {
+      background: var(--accent); color: #000;
+      padding: 4px 10px; border-radius: 4px;
+      font-weight: 900; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .enter-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+      padding: 10px 24px; border-radius: 6px;
+      transition: all .2s;
+    }
+    .enter-btn:hover {
+      background: var(--accent); color: #000;
+      border-color: var(--accent); transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42,184,232,.3);
+    }
+
+    /* ── UNIVERSE CONTAINER — absoluto dentro do #stage ── */
+    .universe-container {
+      position: absolute;
+      left: 560px;
+      top: 225px;
+      width: 830px;
+      height: 510px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      gap: 7px;
+      overflow: hidden;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* ── FLOAT ANIMATION ── */
+    @keyframes itemFloat {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-9px); }
+    }
+
+    /* ── FLOATING ITEM BASE ── */
+    .floating-item {
+      flex-shrink: 0;
+      background: rgba(10,21,37,.65);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: border-color .2s, box-shadow .2s;
+      animation: itemFloat var(--fdur, 5s) ease-in-out infinite alternate;
+      animation-delay: var(--fdel, 0s);
+      opacity: 0;
+    }
+    .floating-item:hover {
+      transform: translateY(-4px) scale(1.1) !important;
+      animation-play-state: paused !important;
+      z-index: 50 !important;
+    }
+
+    /* ── ITEM TYPES ── */
+
+    /* Category: pill, right-side colored border */
+    .item-cat {
+      width: max-content; padding: 10px 22px;
+      border-radius: 40px; border-right: 3px solid var(--cc, var(--accent));
+      flex-direction: row; gap: 9px;
+    }
+    .item-cat:hover {
+      border-color: #fff !important;
+      box-shadow: 0 5px 22px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent);
+    }
+    .item-cat .item-icon {
+      display: flex; align-items: center;
+      color: var(--cc, var(--accent)); flex-shrink: 0;
+    }
+    .item-cat .item-icon svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .item-cat .item-name {
+      font-weight: 700; font-size: 13px;
+      color: var(--text); letter-spacing: -.02em;
+    }
+
+    /* Language: square, amber bottom border */
+    .item-lang {
+      width: 108px; height: 108px; border-radius: 20px;
+      border-bottom: 4px solid var(--amber);
+      background: rgba(10,21,37,.85);
+      gap: 8px;
+    }
+    .item-lang:hover {
+      border-color: #fff !important;
+      box-shadow: 0 10px 32px rgba(245,158,11,.35);
+    }
+
+    /* Topic: pill, left-side green border */
+    .item-topic {
+      width: max-content; padding: 9px 22px;
+      border-radius: 40px; border-left: 3px solid var(--green);
+      flex-direction: row; gap: 9px;
+    }
+    .item-topic:hover {
+      border-color: #fff !important;
+      box-shadow: 0 5px 20px rgba(16,185,129,.3);
+    }
+    .item-topic .item-icon { display: flex; align-items: center; }
+    .item-topic .item-icon img { width: 18px; height: 18px; object-fit: contain; }
+    .item-topic .item-name { font-size: 13px; font-weight: 700; letter-spacing: -.02em; }
+
+    /* Tool: small circle, icon only */
+    .item-tool {
+      width: 60px; height: 60px; border-radius: 50%;
+      border: 1.5px solid var(--blue);
+      background: #000;
+    }
+    .item-tool:hover {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 22px rgba(59,130,246,.5);
+    }
+    .item-tool .item-icon { display: flex; align-items: center; justify-content: center; }
+    .item-tool .item-icon img { width: 28px; height: 28px; object-fit: contain; }
+    .item-tool .item-name { display: none; }
+
+    /* Shared icon img sizing */
+    .item-lang .item-icon img { width: 36px; height: 36px; object-fit: contain; }
+    .item-name { font-weight: 700; font-size: 12px; color: var(--text); }
+
+    /* ── TOOLTIP ── */
+    #tip {
+      position: fixed;
+      background: rgba(17,31,53,.96); border: 1px solid var(--border2);
+      backdrop-filter: blur(8px); color: var(--text);
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      white-space: nowrap; padding: 6px 12px; border-radius: 6px;
+      pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 9999;
+    }
+
+    /* ── SCROLL CONTENT — vem após o #stage no fluxo normal ── */
+    .scroll-content {
+      position: relative;
+      z-index: 5;
+      width: 1440px;
+      padding: 60px 40px 100px 605px;
+    }
+
+    .section {
+      margin-bottom: 48px;
+      background: rgba(4,8,16,.85); backdrop-filter: blur(10px);
+      padding: 36px; border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .sec-head {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .sec-title .p { font-family: var(--mono); color: var(--accent); }
+    .badge {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      padding: 3px 8px; border-radius: 999px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text3);
+    }
+    .sec-sub { font-size: 13px; color: var(--text3); margin-left: auto; text-align: right; }
+
+    .group-label {
+      font-family: var(--mono); font-size: 10px; color: var(--text3);
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      margin: 24px 0 16px; grid-column: 1/-1;
+    }
+    .group-label:first-child { margin-top: 0; }
+
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+    .cat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--cc, var(--border));
+      border-radius: 8px; padding: 14px 16px;
+      cursor: pointer;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .4s, transform .4s, box-shadow .2s;
+    }
+    .cat-card.revealed { opacity: 1; transform: translateY(0); }
+    .cat-card:hover { transform: translateX(4px); box-shadow: -6px 0 0 var(--cc, var(--accent)); }
+    .cat-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .cat-ico {
+      width: 32px; height: 32px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      background: color-mix(in srgb, var(--cc, var(--accent)) 15%, transparent);
+      flex-shrink: 0;
+    }
+    .cat-ico svg {
+      width: 16px; height: 16px;
+      stroke: var(--cc, var(--accent)); fill: none;
+      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .cat-n { font-size: 14px; font-weight: 800; }
+    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+    .cat-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+    .sources { display: flex; flex-wrap: wrap; gap: 5px; }
+    .src-link {
+      font-family: var(--mono); font-size: 9px; color: var(--text3);
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 2px 6px; text-decoration: none;
+      transition: color .12s, border-color .12s;
+    }
+    .src-link:hover { color: var(--cc, var(--accent)); border-color: var(--cc, var(--accent)); }
+
+    .mon-label { font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+    .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
+
+    .lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 32px; }
+    .lang-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px; }
+    .lang-logo { width: 24px; height: 24px; object-fit: contain; }
+    .lang-n { font-size: 14px; font-weight: 800; }
+
+    .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-bottom: 32px; }
+    .topic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color .15s, transform .15s; }
+    .topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .topic-logo { width: 18px; height: 18px; object-fit: contain; }
+    .topic-n { font-size: 13px; font-weight: 700; }
+
+    .subgroup { margin-bottom: 20px; }
+    .subgroup-l { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: border-color .15s, transform .15s; }
+    .chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .chip img { width: 16px; height: 16px; object-fit: contain; }
+    .chip span { font-size: 12px; font-weight: 700; }
+
+    /* layout fixo — sem media queries */
+  </style>
+</head>
+<body>
+
+<div id="tip"></div>
+
+<!-- STAGE: área fixe 1440×900, todos os elementos do hero ficam aqui -->
+<div id="stage">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-csr">CsR</span>
+      <span class="brand-news">News</span>
+    </div>
+    <a class="enter-btn" href="home.html">Acessar Arquivo →</a>
+  </header>
+
+  <!-- MASCOT -->
+  <div class="fixed-mascot">
+    <img src="data/img/mascote.png" alt="CsR News Mascot">
+  </div>
+
+  <!-- HERO TEXT -->
+  <div class="hero-text">
+    <h1 class="hero-h1">
+      <span class="l1">Um arquivo vivo</span>
+      <span class="l2">da engenharia de software.</span>
+    </h1>
+    <p class="hero-sub">Releases, CVEs, padrões e tendências curados diariamente por IA — navegável por categoria, linguagem, tópico ou ferramenta.</p>
+  </div>
+
+  <!-- UNIVERSE (floating items) -->
+  <div class="universe-container" id="universe"></div>
+
+</div><!-- /#stage -->
+
+<!-- SCROLL CONTENT — abaixo do stage no fluxo normal -->
+<div class="scroll-content">
+
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-title"><span class="p">&gt;</span> Categorias cobertas <span class="badge">13</span></div>
+      <p class="sec-sub">Clique para acessar o histórico filtrado.</p>
+    </div>
+    <div id="cats-container"></div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">42</span></div>
+      <p class="sec-sub">3 linguagens · 8 tópicos · 31 ferramentas</p>
+    </div>
+    <div class="mon-label ml-amber">Linguagens</div>
+    <div class="lang-grid" id="langs"></div>
+    <div class="mon-label ml-green">Tópicos</div>
+    <div class="topic-grid" id="topics"></div>
+    <div class="mon-label ml-blue">Ferramentas</div>
+    <div id="tools"></div>
+  </section>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const CATS = [
+  {key:'ai',     name:'IA & LLMs',          color:'#a855f7', group:'Transversal', desc:'Modelos, agents, RAG, MCP e AI coding tools.',
+   svg:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+   src:[{l:'simonwillison.net',u:'https://simonwillison.net'},{l:'openai.com/blog',u:'https://openai.com/blog'},{l:'anthropic.com/news',u:'https://anthropic.com/news'}]},
+  {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust.',
+   svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+   src:[{l:'thehackernews.com',u:'https://thehackernews.com'},{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'snyk.io/blog',u:'https://snyk.io/blog'}]},
+  {key:'aws',    name:'AWS',                 color:'#f59e0b', group:'Plataforma',  desc:'Lambda, DynamoDB, SNS, SQS, Bedrock, S3, CloudWatch.',
+   svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
+   src:[{l:'aws.amazon.com/new',u:'https://aws.amazon.com/new'},{l:'aws.amazon.com/blogs/architecture',u:'https://aws.amazon.com/blogs/architecture'}]},
+  {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Kubernetes, Docker, GitOps, Argo CD, Istio.',
+   svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+   src:[{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'},{l:'cncf.io/blog',u:'https://cncf.io/blog'}]},
+  {key:'obs',    name:'Observabilidade',     color:'#eab308', group:'Plataforma',  desc:'Tracing, logging, metrics, OpenTelemetry, SLO/SLI.',
+   svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+   src:[{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'}]},
+  {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Java/Spring, Go, Node, Rust, JVM, Gradle, Maven.',
+   svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
+   src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'baeldung.com',u:'https://baeldung.com'}]},
+  {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'DBs relacionais e NoSQL, warehouses, lakehouses, streaming.',
+   svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+   src:[{l:'databricks.com/blog',u:'https://databricks.com/blog'},{l:'confluent.io/blog',u:'https://confluent.io/blog'}]},
+  {key:'integ',  name:'Integração & Eventos',color:'#14b8a6', group:'Desenvolvimento', desc:'APIs REST/GraphQL/gRPC, Kafka, EDA, OpenAPI.',
+   svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+   src:[{l:'asyncapi.com/blog',u:'https://asyncapi.com/blog'},{l:'openapis.org',u:'https://openapis.org'}]},
+  {key:'testing',name:'Testes & Qualidade',  color:'#84cc16', group:'Desenvolvimento', desc:'TDD, BDD, contract testing, chaos engineering.',
+   svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+   src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'testing.googleblog.com',u:'https://testing.googleblog.com'}]},
+  {key:'design', name:'Design & Padrões',    color:'#f472b6', group:'Arquitetura',    desc:'DDD, padrões GoF, C4, Clean/Hexagonal, ADRs.',
+   svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+   src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'blog.bytebytego.com',u:'https://blog.bytebytego.com'}]},
+  {key:'distarch',name:'Sist. Distribuídos', color:'#6366f1', group:'Arquitetura',    desc:'Microsserviços, cloud-native, service mesh, CQRS.',
+   svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+   src:[{l:'netflixtechblog.com',u:'https://netflixtechblog.com'},{l:'microservices.io',u:'https://microservices.io'}]},
+  {key:'enterprise',name:'Arq. Corporativa', color:'#94a3b8', group:'Arquitetura',    desc:'TOGAF, Team Topologies, IDP/Backstage, FinOps.',
+   svg:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+   src:[{l:'thoughtworks.com/radar',u:'https://thoughtworks.com/radar'},{l:'teamtopologies.com',u:'https://teamtopologies.com'}]},
+  {key:'fintech', name:'Fintech & Pagamentos',color:'#10b981', group:'Domínio',       desc:'Pix, Open Finance, PCI DSS, cartões, DREX.',
+   svg:'<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+   src:[{l:'pymnts.com',u:'https://pymnts.com'},{l:'bcb.gov.br',u:'https://www.bcb.gov.br'}]},
+];
+
+const LANGS = [
+  {key:'java',       name:'Java & JVM',     logo:'https://cdn.simpleicons.org/openjdk/ffffff'},
+  {key:'javascript', name:'JavaScript / TS',logo:'https://cdn.simpleicons.org/javascript/F7DF1E'},
+  {key:'python',     name:'Python',          logo:'https://cdn.simpleicons.org/python/3776AB'},
+];
+
+const TOPICS = [
+  {key:'apifirst',    name:'API-First',      logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
+  {key:'cloudnative', name:'Cloud Native',   logo:'https://cdn.simpleicons.org/cncf/ffffff'},
+  {key:'cve',         name:'CVEs & Vulns',   logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128'},
+  {key:'ddd',         name:'DDD',            logo:'https://www.google.com/s2/favicons?domain=domainlanguage.com&sz=128'},
+  {key:'eventdriven', name:'Event-Driven',   logo:'https://www.google.com/s2/favicons?domain=martinfowler.com&sz=128'},
+  {key:'microservices',name:'Microsserviços',logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128'},
+  {key:'owasp',       name:'OWASP',          logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128'},
+  {key:'resiliency',  name:'Resiliência',    logo:'https://www.google.com/s2/favicons?domain=resilience4j.readme.io&sz=128'},
+];
+
+const TOOL_SUBGROUPS = [
+  {label:'AI & IDEs', tools:[
+    {key:'chatgpt',   name:'ChatGPT',       logo:'https://cdn.simpleicons.org/openai/ffffff'},
+    {key:'claudecode',name:'Claude Code',   logo:'https://cdn.simpleicons.org/anthropic/ffffff'},
+    {key:'cursor',    name:'Cursor IDE',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128'},
+    {key:'intellij',  name:'IntelliJ IDEA', logo:'https://cdn.simpleicons.org/intellijidea/ffffff'},
+    {key:'vscode',    name:'VS Code',       logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC'},
+  ]},
+  {label:'Git & CI/CD', tools:[
+    {key:'argocd',   name:'Argo CD',        logo:'https://cdn.simpleicons.org/argo/EF7B4D'},
+    {key:'ghactions',name:'GitHub Actions', logo:'https://cdn.simpleicons.org/githubactions/2088FF'},
+    {key:'git',      name:'Git',            logo:'https://cdn.simpleicons.org/git/F05032'},
+    {key:'github',   name:'GitHub',         logo:'https://cdn.simpleicons.org/github/ffffff'},
+    {key:'helm',     name:'Helm',           logo:'https://cdn.simpleicons.org/helm/277A9F'},
+  ]},
+  {label:'Containers & Infra', tools:[
+    {key:'docker',    name:'Docker',        logo:'https://cdn.simpleicons.org/docker/2496ed'},
+    {key:'istio',     name:'Istio',         logo:'https://cdn.simpleicons.org/istio/466BB0'},
+    {key:'kubernetes',name:'Kubernetes',    logo:'https://cdn.simpleicons.org/kubernetes/326CE5'},
+    {key:'lambda',    name:'AWS Lambda',    logo:'https://cdn.simpleicons.org/awslambda/FF9900'},
+    {key:'terraform', name:'Terraform',     logo:'https://cdn.simpleicons.org/terraform/7B42BC'},
+  ]},
+  {label:'Dados & Integração', tools:[
+    {key:'databricks',name:'Databricks',    logo:'https://cdn.simpleicons.org/databricks/FF3621'},
+    {key:'dynamodb',  name:'DynamoDB',      logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6'},
+    {key:'kafka',     name:'Apache Kafka',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff'},
+    {key:'mysql',     name:'MySQL',         logo:'https://cdn.simpleicons.org/mysql/4479A1'},
+    {key:'openapi',   name:'OpenAPI',       logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
+    {key:'postgres',  name:'PostgreSQL',    logo:'https://cdn.simpleicons.org/postgresql/4169E1'},
+    {key:'redis',     name:'Redis',         logo:'https://cdn.simpleicons.org/redis/DC382D'},
+  ]},
+  {label:'Obs & Segurança', tools:[
+    {key:'dynatrace', name:'Dynatrace',     logo:'https://cdn.simpleicons.org/dynatrace/1496FF'},
+    {key:'grafana',   name:'Grafana',       logo:'https://cdn.simpleicons.org/grafana/F46800'},
+    {key:'keycloak',  name:'Keycloak',      logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128'},
+  ]},
+  {label:'Backend & Design', tools:[
+    {key:'gradle',      name:'Gradle',       logo:'https://cdn.simpleicons.org/gradle/02303A'},
+    {key:'maven',       name:'Apache Maven', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128'},
+    {key:'quarkus',     name:'Quarkus',      logo:'https://cdn.simpleicons.org/quarkus/4695EB'},
+    {key:'springboot',  name:'Spring Boot',  logo:'https://cdn.simpleicons.org/springboot/6DB33F'},
+    {key:'springcloud', name:'Spring Cloud', logo:'https://www.google.com/s2/favicons?domain=spring.io&sz=128'},
+    {key:'structurizr', name:'Structurizr',  logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128'},
+  ]},
+];
+
+// ── UNIVERSE: CSS flex layout (container fixo, overflow:hidden) ──────────
+function initUniverse() {
+  const univ = document.getElementById('universe');
+
+  // Pools por tipo
+  const catPool   = CATS.map(c => ({ type:'cat',   name:c.name, color:c.color, svg:c.svg }));
+  const langPool  = LANGS.map(l => ({ type:'lang',  name:l.name, logo:l.logo }));
+  const topicPool = TOPICS.map(t => ({ type:'topic', name:t.name, logo:t.logo }));
+  const toolPool  = [];
+  TOOL_SUBGROUPS.forEach(sg => sg.tools.forEach(t => toolPool.push({ type:'tool', name:t.name, logo:t.logo })));
+
+  // Intercala cats/topics/tools, injeta langs a 40% → ficam nas linhas do meio
+  const mixed = [];
+  let ci=0, ti=0, toi=0;
+  while (ci<catPool.length || ti<topicPool.length || toi<toolPool.length) {
+    if (ci  < catPool.length)   mixed.push(catPool[ci++]);
+    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
+    if (ti  < topicPool.length) mixed.push(topicPool[ti++]);
+    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
+  }
+  const injectAt = Math.floor(mixed.length * 0.40);
+  const seq = [...mixed.slice(0, injectAt), ...langPool, ...mixed.slice(injectAt)];
+
+  // Renderiza (CSS flexbox cuida do layout automaticamente)
+  let html = '';
+  seq.forEach(item => {
+    let inner = '';
+    if (item.type === 'cat') {
+      inner = `<div class="item-icon"><svg viewBox="0 0 24 24">${item.svg}</svg></div>`
+             +`<div class="item-name">${item.name}</div>`;
+    } else if (item.type === 'lang') {
+      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`
+             +`<div class="item-name">${item.name}</div>`;
+    } else if (item.type === 'topic') {
+      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'"></div>`
+             +`<div class="item-name">${item.name}</div>`;
+    } else {
+      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`;
+    }
+    const ccAttr = item.color ? ` style="--cc:${item.color}"` : '';
+    html += `<div class="floating-item item-${item.type}"${ccAttr} data-tip="${item.name}">${inner}</div>`;
+  });
+  univ.innerHTML = html;
+
+  // Animação: duração e fase fixas por índice
+  univ.querySelectorAll('.floating-item').forEach((el, i) => {
+    el.style.setProperty('--fdur', (4 + (i % 5) * 0.9).toFixed(1) + 's');
+    el.style.setProperty('--fdel', (-((i * 0.73) % 5)).toFixed(1) + 's');
+    setTimeout(() => {
+      el.style.transition = 'opacity .5s ease';
+      el.style.opacity = '1';
+    }, 40 + i * 18);
+  });
+}
+
+// ── BELOW FOLD ────────────────────────────────────────────────────────────
+function renderBelow() {
+  const groups = [
+    {label:'Transversal & Hot',          keys:['ai','sec']},
+    {label:'Plataforma & Infraestrutura',keys:['aws','devops','obs']},
+    {label:'Desenvolvimento',            keys:['backend','data','integ','testing']},
+    {label:'Arquitetura',                keys:['design','distarch','enterprise']},
+    {label:'Domínio',                    keys:['fintech']},
+  ];
+  const byKey = Object.fromEntries(CATS.map(c => [c.key, c]));
+
+  document.getElementById('cats-container').innerHTML = `<div class="cat-grid">${
+    groups.map(g =>
+      `<div class="group-label">${g.label}</div>${
+        g.keys.map(k => {
+          const c = byKey[k];
+          return c ? `<div class="cat-card" style="--cc:${c.color}" onclick="location.href='home.html?cat=${c.key}'">
+            <div class="cat-head">
+              <div class="cat-ico"><svg viewBox="0 0 24 24">${c.svg}</svg></div>
+              <div><div class="cat-n">${c.name}</div><div class="cat-g">${c.group}</div></div>
+            </div>
+            <p class="cat-desc">${c.desc}</p>
+            <div class="sources">${c.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener" style="--cc:${c.color}">${s.l}</a>`).join('')}</div>
+          </div>` : '';
+        }).join('')
+      }`
+    ).join('')
+  }</div>`;
+
+  document.getElementById('langs').innerHTML = LANGS.map(l =>
+    `<div class="lang-card">
+      <img class="lang-logo" src="${l.logo}" alt="${l.name}" onerror="this.style.display='none'">
+      <div class="lang-n">${l.name}</div>
+    </div>`).join('');
+
+  document.getElementById('topics').innerHTML = TOPICS.map(t =>
+    `<div class="topic-card" onclick="location.href='home.html?tool=${t.key}'">
+      <img class="topic-logo" src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
+      <span class="topic-n">${t.name}</span>
+    </div>`).join('');
+
+  document.getElementById('tools').innerHTML = TOOL_SUBGROUPS.map(sg =>
+    `<div class="subgroup">
+      <div class="subgroup-l">${sg.label}</div>
+      <div class="chips">${sg.tools.map(t =>
+        `<div class="chip" onclick="location.href='home.html?tool=${t.key}'">
+          <img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
+          <span>${t.name}</span>
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ── SCROLL REVEAL (cat cards) ─────────────────────────────────────────────
+function setupReveal() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.cat-card').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 55}ms`;
+    io.observe(el);
+  });
+}
+
+// ── TOOLTIP ───────────────────────────────────────────────────────────────
+const tip = document.getElementById('tip');
+document.addEventListener('mouseover', e => {
+  const el = e.target.closest('[data-tip]');
+  if (!el) return;
+  tip.textContent = el.dataset.tip;
+  tip.style.opacity = '1';
+});
+document.addEventListener('mousemove', e => {
+  if (tip.style.opacity !== '1') return;
+  tip.style.left = Math.min(e.clientX + 15, window.innerWidth - tip.offsetWidth - 10) + 'px';
+  tip.style.top  = (e.clientY + 15) + 'px';
+});
+document.addEventListener('mouseout', e => {
+  if (e.target.closest('[data-tip]')) tip.style.opacity = '0';
+});
+
+/* layout fixo — sem recalculo em resize */
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderBelow();
+setupReveal();
+// Aguarda fontes para medir hero-text com precisão antes de empacotar itens
+document.fonts.ready.then(() => initUniverse());
+</script>
+</body>
+</html>
