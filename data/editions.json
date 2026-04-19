@@ -1,6 +1,83 @@
 {
-  "last_generated": "2026-04-18T17:55:00-03:00",
+  "last_generated": "2026-04-19T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-19",
+      "summary": "Spring Framework 7.0.7/6.2.18, JDK 26 com HTTP/3, Kubernetes 1.36 promove DRA, Kafka 4.0.2, Cursor 2.0 e Opus 4.7 — semana cheia de GA e previews para o arquiteto.",
+      "counts_by_category": {
+        "sec": 3,
+        "ai": 2,
+        "aws": 2,
+        "devops": 2,
+        "obs": 2,
+        "data": 2,
+        "integ": 2,
+        "backend": 3,
+        "testing": 1,
+        "design": 2,
+        "enterprise": 2,
+        "distarch": 3,
+        "fintech": 2
+      },
+      "counts_by_tool": {
+        "apifirst": 1,
+        "cloudnative": 1,
+        "cve": 1,
+        "ddd": 1,
+        "eventdriven": 1,
+        "microservices": 1,
+        "owasp": 1,
+        "resiliency": 1,
+        "chatgpt": 1,
+        "claudecode": 1,
+        "cursor": 1,
+        "intellij": 1,
+        "vscode": 1,
+        "argocd": 1,
+        "docker": 1,
+        "ghactions": 1,
+        "git": 1,
+        "github": 1,
+        "helm": 1,
+        "istio": 1,
+        "kubernetes": 1,
+        "lambda": 1,
+        "terraform": 1,
+        "databricks": 1,
+        "dynamodb": 1,
+        "kafka": 1,
+        "mysql": 1,
+        "openapi": 1,
+        "postgres": 1,
+        "redis": 1,
+        "dynatrace": 1,
+        "grafana": 1,
+        "gradle": 1,
+        "keycloak": 1,
+        "maven": 1,
+        "quarkus": 1,
+        "springboot": 1,
+        "springcloud": 1,
+        "structurizr": 1,
+        "java": 1,
+        "javascript": 1,
+        "python": 1
+      },
+      "highlights": [
+        {
+          "title": "Spring Framework 7.0.7 e 6.2.18 saem com 79 correções combinadas",
+          "url": "https://spring.io/blog/2026/04/17/spring-framework-6-2-18-and-7-0-7-available-now/"
+        },
+        {
+          "title": "JDK 26 chega em 17 de março com HTTP/3 no HTTP Client e AOT Object Caching",
+          "url": "https://www.infoq.com/news/2026/03/java26-released/"
+        },
+        {
+          "title": "CVE-2026-33032 (CVSS 9.8) no nginx-ui sob exploração ativa entra no KEV",
+          "url": "https://thehackernews.com/2026/04/critical-nginx-ui-vulnerability-cve.html"
+        }
+      ]
+    },
     {
       "date": "2026-04-18",
       "summary": "Spring Boot 4.0.5 consolida Jakarta EE 11, AWS Agent Registry no Bedrock, CVE-2026-34197 do Apache ActiveMQ no KEV da CISA, Kubernetes 1.36 a caminho e Keycloak 26.6.0 — semana densa para arquitetos.",
