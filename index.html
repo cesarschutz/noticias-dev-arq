@@ -302,26 +302,15 @@
       height: 60%;
     }
 
-    /* sub-grupos dentro do card ferramentas */
-    .rule-subgroups { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; position: relative; z-index: 1; }
-    .rule-sg { display: flex; flex-direction: column; gap: 5px; }
-    .rule-sg-label {
-      font-family: var(--mono);
-      font-size: 8px;
-      color: var(--text3);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-    .rule-sg-icons { display: flex; flex-wrap: wrap; gap: 5px; }
-    .rule-sg-icons .mini-ico { width: 40px; height: 40px; }
-    .rule-sg-icons .mini-ico img { width: 60%; height: 60%; }
-
-    /* ferramentas: substitui grid genérico por flex de grupos */
+    /* ferramentas: grid plano (tamanho calculado por JS) */
     #rule-tool-icons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      grid-template-columns: unset;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 40px;
+    }
+    #rule-tool-icons .mini-ico {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: unset;
     }
     .rule-k {
       font-family: var(--mono);
@@ -968,13 +957,24 @@ function renderRuleTopics() {
 }
 
 function renderRuleTools() {
-  document.getElementById('rule-tool-icons').innerHTML =
-    TOOL_SUBGROUPS.map(g =>
-      `<div class="rule-sg">
-        <div class="rule-sg-label">${g.label}</div>
-        <div class="rule-sg-icons">${g.tools.map(t => miniLogo(t.name, t.logo)).join('')}</div>
-      </div>`
-    ).join('');
+  const allTools = TOOL_SUBGROUPS.flatMap(g => g.tools);
+  const container = document.getElementById('rule-tool-icons');
+  container.innerHTML = allTools.map(t => miniLogo(t.name, t.logo)).join('');
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const card = container.closest('.rule');
+    if (!card) return;
+    const cardH = card.clientHeight;
+    const pad = 16 + 14;
+    const sibH = Array.from(card.children)
+      .filter(el => el !== container)
+      .reduce((s, el) => s + el.getBoundingClientRect().height, 0);
+    const availH = cardH - sibH - pad;
+    const COLS = 4, GAP = 5;
+    const rows = Math.ceil(allTools.length / COLS);
+    const rowH = Math.max(30, Math.floor((availH - (rows - 1) * GAP) / rows));
+    container.style.gridAutoRows = rowH + 'px';
+  }));
 }
 
 renderCats(); renderLangs(); renderTopics(); renderTools();
