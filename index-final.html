@@ -264,21 +264,37 @@
     .cat-card {
       position: relative;
       background: rgba(16,18,26,.92);
-      border: 1px solid rgba(255,255,255,.08);
-      border-bottom: 4px solid var(--cc, var(--border));
+      border: 1px solid rgba(255,255,255,.07);
       border-radius: 22px;
       padding: 56px 24px 24px;
       cursor: pointer; text-align: center;
       display: flex; flex-direction: column; align-items: center;
       opacity: 0; transform: translateY(12px);
-      transition: opacity .4s, transform .3s ease;
+      transition: opacity .4s, transform .3s ease, box-shadow .35s ease;
       box-shadow:
-        inset 0 80px 50px -30px color-mix(in srgb, var(--cc,var(--accent)) 16%, transparent),
+        inset 0 80px 50px -30px color-mix(in srgb, var(--cc,var(--accent)) 14%, transparent),
         0 16px 36px -10px rgba(0,0,0,.6);
       overflow: visible;
     }
     .cat-card.revealed { opacity: 1; transform: translateY(0); }
     .cat-card:hover { transform: translateY(-5px); }
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      padding: 2px;
+      background: linear-gradient(
+        to top,
+        var(--cc, transparent) 0%,
+        color-mix(in srgb, var(--cc, transparent) 35%, transparent) 28%,
+        transparent 55%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
     .cat-ico {
       position: absolute;
       top: -38px; left: 50%; transform: translateX(-50%);
@@ -294,7 +310,7 @@
       stroke: rgba(255,255,255,.95); fill: none;
       stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
     }
-    .cat-n { font-size: 20px; font-weight: 800; color: var(--text1); line-height: 1.1; margin-bottom: 4px; }
+    .cat-n { font-size: 20px; font-weight: 800; color: var(--cc, var(--text1)); line-height: 1.1; margin-bottom: 4px; }
     .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .18em; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
     .cat-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
     .sources { display: flex; flex-wrap: wrap; gap: 5px; width: 100%; justify-content: center; }
