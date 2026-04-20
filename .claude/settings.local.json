@@ -72,7 +72,9 @@
       "Bash(python3 scripts/validate_editions.py)",
       "Bash(python3 scripts/generate_feed.py)",
       "mcp__f26d270c-993a-4601-80d6-4a564846da66__models",
-      "mcp__f26d270c-993a-4601-80d6-4a564846da66__generate_media"
+      "mcp__f26d270c-993a-4601-80d6-4a564846da66__generate_media",
+      "Bash(curl -s https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynamodb/dynamodb-original.svg)",
+      "Bash(curl -I \"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/openai/openai-original.svg\")"
     ]
   }
 }

@@ -65,28 +65,24 @@
 
   --cat-sec:      #EF4444;   /* vermelho   — perigo/segurança */
   --cat-ai:       #A78BFA;   /* violeta    — AI/neural */
-  --cat-aws:      #FF9900;   /* laranja    — brand AWS */
+  --cat-aiops:    #c026d3;   /* fúcsia     — AIOps/agents/LLMOps */
+  --cat-cloud:    #f59e0b;   /* âmbar      — cloud multi-vendor (AWS/Azure/GCP) */
   --cat-devops:   #3b82f6;   /* azul       — pipelines/confiança */
-  --cat-obs:      #f59e0b;   /* âmbar      — dashboards/alertas */
-  --cat-data:     #38BDF8;   /* azul-claro — fluxos de dados */
-  --cat-integ:    #2DD4BF;   /* teal       — conexões/APIs */
+  --cat-obs:      #eab308;   /* amarelo    — dashboards/alertas */
+  --cat-data:     #0ea5e9;   /* azul-claro — fluxos de dados */
+  --cat-integ:    #14b8a6;   /* teal       — conexões/APIs */
   --cat-backend:  #22C55E;   /* verde      — código/runtime */
-  --cat-design:   #f472b6;   /* rosa       — design/criatividade */
-  --cat-enterprise:#94a3b8;  /* slate      — corporativo/neutro */
-  --cat-distarch: #6366f1;   /* índigo     — sistemas distribuídos */
-  --cat-fintech:  #10b981;   /* esmeralda  — pagamentos/dinheiro */
+  --cat-frontend: #e11d48;   /* rose       — frontend/web */
   --cat-testing:  #84cc16;   /* lima       — qualidade/lab */
+  --cat-design:   #f472b6;   /* rosa       — design/criatividade */
+  --cat-distarch: #6366f1;   /* índigo     — sistemas distribuídos */
+  --cat-enterprise:#94a3b8;  /* slate      — corporativo/neutro */
+  --cat-fundamentals:#a16207;/* ocre       — base eterna */
+  --cat-fintech:  #10b981;   /* esmeralda  — pagamentos/dinheiro */
   /* rail group headers (direita) */
   --rail-lang:    #e879f9;   /* fúcsia     — linguagens = expressivo */
   --rail-topics:  #22d3ee;   /* ciano      — tópicos = conhecimento */
   --rail-tools:   #fb923c;   /* laranja-suave — ferramentas = ofício */
-  /* legacy aliases — mantidas para edições antigas */
-  --cat-arqsw:    var(--cat-design);
-  --cat-arqsol:   var(--cat-enterprise);
-  --cat-cloud:    #FF9900;
-  --cat-frontend: #EC4899;
-  --cat-db:       #38BDF8;
-  --cat-lang:     #FACC15;
 
   --tool-ide:     #A78BFA;
   --tool-db:      #38BDF8;
@@ -141,28 +137,24 @@
 
   --cat-sec:      #B91C3C;
   --cat-ai:       #6D28D9;
-  --cat-aws:      #C46B00;
+  --cat-aiops:    #a21caf;   /* fúcsia escuro */
+  --cat-cloud:    #C46B00;
   --cat-devops:   #1d4ed8;   /* azul escuro */
   --cat-obs:      #b45309;   /* âmbar escuro */
   --cat-data:     #0E7490;
   --cat-integ:    #0F766E;
   --cat-backend:  #166534;
-  --cat-design:   #be185d;   /* rosa escuro */
-  --cat-enterprise:#475569;  /* slate escuro */
-  --cat-distarch: #4338ca;   /* índigo escuro */
-  --cat-fintech:  #065f46;   /* esmeralda escuro */
+  --cat-frontend: #be123c;   /* rose escuro */
   --cat-testing:  #5a7a09;
+  --cat-design:   #be185d;   /* rosa escuro */
+  --cat-distarch: #4338ca;   /* índigo escuro */
+  --cat-enterprise:#475569;  /* slate escuro */
+  --cat-fundamentals:#78350f;/* ocre escuro */
+  --cat-fintech:  #065f46;   /* esmeralda escuro */
   /* rail group headers */
   --rail-lang:    #a21caf;   /* fúcsia escuro */
   --rail-topics:  #0e7490;   /* ciano escuro */
   --rail-tools:   #c2410c;   /* laranja escuro */
-  /* legacy aliases */
-  --cat-arqsw:    var(--cat-design);
-  --cat-arqsol:   var(--cat-enterprise);
-  --cat-cloud:    #C46B00;
-  --cat-frontend: #BE185D;
-  --cat-db:       #0E7490;
-  --cat-lang:     #854D0E;
 
   --tool-ide:     #6D28D9;
   --tool-db:      #0E7490;
@@ -2258,80 +2250,70 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 const CAT_ICONS = {
   sec:     '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
   ai:      '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
-  aws:     '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
+  aiops:   '<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>',
+  cloud:   '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
   devops:  '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
   obs:     '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
   data:    '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
   integ:   '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
   backend: '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
-  design:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-  enterprise:'<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
-  distarch: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
-  fintech:  '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
-  testing:  '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+  frontend:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+  testing: '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+  design:  '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  distarch:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+  enterprise:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  fundamentals:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  fintech: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
   /* rail group icons — não correspondem a nenhuma categoria */
-  'rail-lang':   '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-  'rail-topics': '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>',
-  'rail-tools':  '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
-  /* legacy — edições anteriores podem ter category:'arqsw'/'arqsol' */
-  arqsw:   '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-  arqsol:  '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
+  'rail-lang':  '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  'rail-tools': '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">${paths}</svg>`;
 }
 
-/* ═══ Grupos do rail de assuntos (independente das categorias editoriais) ═══ */
+/* ═══ Grupos do rail (linguagens + ferramentas) ═══ */
 const TOOL_GROUPS = {
-  lang:     { label: 'Linguagens',  icon: 'rail-lang',   color: 'var(--rail-lang)' },
-  subjects: { label: 'Tópicos',     icon: 'rail-topics', color: 'var(--rail-topics)' },
-  tools:    { label: 'Ferramentas', icon: 'rail-tools',  color: 'var(--rail-tools)' },
+  lang:  { label: 'Linguagens',  icon: 'rail-lang',  color: 'var(--rail-lang)' },
+  tools: { label: 'Ferramentas', icon: 'rail-tools', color: 'var(--rail-tools)' },
 };
 const TOOL_SUBGROUPS = {
   'ai-ide':     'AI & IDEs',
+  'ai-ops':     'AI/LLM Ops',
   'gitci':      'Git & CI/CD',
-  'containers': 'Containers & Infra',
-  'dados':      'Dados & Integração',
-  'bknd':       'Backend & Design',
+  'containers': 'Containers & IaC',
+  'mesh':       'Mesh, Proxies & Edge',
+  'dados':      'Dados & Streaming',
   'obs-seg':    'Obs & Segurança',
+  'bknd':       'Backend & Build',
+  'frontend':   'Frontend & Testing',
+  'docs':       'Design & Docs-as-code',
 };
 
-/* ═══ Categorias e ferramentas ═══ */
+/* ═══ Categorias ═══ */
 const CAT = {
-  // ── Camada transversal/hot ───────────────────────────────────────────────
+  // ── Transversal ──────────────────────────────────────────────────────────
   ai:         { l:'ai',         lf:'IA & LLMs',              i:'🤖' },
+  aiops:      { l:'aiops',      lf:'AIOps & Agents',         i:'🧠' },
   sec:        { l:'sec',        lf:'Segurança & IAM',        i:'🔐' },
   // ── Plataforma & Infraestrutura ──────────────────────────────────────────
-  aws:        { l:'aws',        lf:'AWS',                    i:'🔶' },
+  cloud:      { l:'cloud',      lf:'Cloud',                  i:'☁️' },
   devops:     { l:'devops',     lf:'DevOps & Plataformas',   i:'⚙' },
-  obs:        { l:'obs',        lf:'Observabilidade',        i:'📈' },
+  obs:        { l:'obs',        lf:'Observabilidade & SRE',  i:'📈' },
   // ── Desenvolvimento ──────────────────────────────────────────────────────
   backend:    { l:'backend',    lf:'Backend & Runtimes',     i:'🔧' },
   data:       { l:'data',       lf:'Dados & Streaming',      i:'🗄' },
   integ:      { l:'integ',      lf:'Integração & Eventos',   i:'🔌' },
   testing:    { l:'testing',    lf:'Testes & Qualidade',     i:'⚗️' },
+  frontend:   { l:'frontend',   lf:'Frontend & Web',         i:'🎨' },
   // ── Arquitetura ──────────────────────────────────────────────────────────
   design:     { l:'design',     lf:'Design & Padrões',       i:'🏛' },
   distarch:   { l:'distarch',   lf:'Sist. Distribuídos',     i:'🕸' },
   enterprise: { l:'enterprise', lf:'Arq. Corporativa',       i:'🗺' },
+  // ── Fundação ─────────────────────────────────────────────────────────────
+  fundamentals:{ l:'fundamentals', lf:'Fundamentos de Computação', i:'🧱' },
   // ── Domínio ──────────────────────────────────────────────────────────────
   fintech:    { l:'fintech',    lf:'Fintech & Pagamentos',   i:'💳' }
-};
-
-// Redirecionamento de chaves legadas para a nova taxonomia
-const LEGACY_CAT_MAP = {
-  cloud:    'aws',
-  db:       'data',
-  lang:     'backend',
-  frontend: null,
-  arqsw:    'design',
-  arqsol:   'enterprise'
-};
-
-const PILLARS = {
-  java:     { label: 'Java & JVM',        color: '#f89820', catKey: 'backend' },
-  aws:      { label: 'AWS',               color: '#FF9900', catKey: 'aws'     },
-  distarch: { label: 'Sist. Distribuídos', color: '#818cf8', catKey: 'distarch' }
 };
 
 // Tipos usados para colorir card na sidebar
@@ -2345,57 +2327,69 @@ const TOOL_KIND = {
 };
 
 const TOOLS = [
-  // ── Tópicos (temas conceituais, ordem alfabética) ─────────────────────────
-  { key:'apifirst',     group:'subjects', category:'integ',   name:'API-First',               aliases:['api-first','api design','api first','api strategy','rest design','http semantics','api governance'], icon:'🔌', kind:'news', logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
-  { key:'cloudnative',  group:'subjects', category:'distarch',name:'Cloud Native',            aliases:['cloud native','cloud-native','cncf','cloudnative'],                         icon:'☁', kind:'news',   logo:'https://cdn.simpleicons.org/cncf/ffffff' },
-  { key:'cve',          group:'subjects', category:'sec',     name:'CVEs & Vulnerabilidades', aliases:['cve','nvd','vulnerability','vuln','cvss'],                                  icon:'🚨', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128' },
-  { key:'ddd',          group:'subjects', category:'design',  name:'DDD',                     aliases:['domain-driven design','ddd','domain driven design','domain language'],      icon:'🧩', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=domainlanguage.com&sz=128' },
-  { key:'eventdriven',  group:'subjects', category:'distarch',name:'Event-Driven',             aliases:['event-driven','event driven','eda','event sourcing','event streaming','domain events'], icon:'⚡', kind:'news', logo:'https://www.google.com/s2/favicons?domain=martinfowler.com&sz=128' },
-  { key:'microservices',group:'subjects', category:'distarch',name:'Microsserviços',          aliases:['microservices','microsserviços','microservice','microsserviço'],             icon:'🔀', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128' },
-  { key:'owasp',        group:'subjects', category:'sec',     name:'OWASP',                   aliases:['owasp'],                                                                    icon:'🛡', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128' },
-  { key:'resiliency',   group:'subjects', category:'distarch',name:'Resiliência',              aliases:['resiliency','resilience','circuit breaker','fault tolerance','bulkhead','retry','resilience4j','chaos engineering'], icon:'🔁', kind:'news', logo:'https://www.google.com/s2/favicons?domain=resilience4j.readme.io&sz=128' },
-  // ── Ferramentas — AI & Produtividade (ordem alfabética) ──────────────────
-  { key:'chatgpt',      group:'tools',    subgroup:'ai-ide', category:'ai',      name:'ChatGPT',                 aliases:['chatgpt','openai chatgpt','gpt-4'],                                         icon:'💬', kind:'api',    logo:'https://cdn.simpleicons.org/openai/ffffff' },
-  { key:'claudecode',   group:'tools',    subgroup:'ai-ide', category:'ai',      name:'Claude Code',             aliases:['claude code','anthropic claude'],                                           icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
-  { key:'cursor',       group:'tools',    subgroup:'ai-ide', category:'ai',      name:'Cursor IDE',              aliases:['cursor ide','cursor'],                                                      icon:'🎯', kind:'ide',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128' },
-  { key:'intellij',     group:'tools',    subgroup:'ai-ide', category:'backend', name:'IntelliJ IDEA',           aliases:['intellij','jetbrains idea'],                                                icon:'🧠', kind:'ide',    logo:'https://cdn.simpleicons.org/intellijidea/ffffff' },
-  { key:'vscode',       group:'tools',    subgroup:'ai-ide', category:'ai',      name:'VS Code',                 aliases:['visual studio code','vscode','vs code'],                                    icon:'🖊', kind:'ide',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC' },
-  // ── Ferramentas — Git & CI/CD ─────────────────────────────────────────────
-  { key:'argocd',       group:'tools',    subgroup:'gitci',      category:'devops',  name:'Argo CD',                 aliases:['argocd','argo cd','argo','gitops'],                                         icon:'🔄', kind:'news',   logo:'https://cdn.simpleicons.org/argo/EF7B4D' },
-  { key:'ghactions',    group:'tools',    subgroup:'gitci',      category:'devops',  name:'GitHub Actions',          aliases:['github actions','gh actions','gha'],                                        icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/githubactions/2088FF' },
-  { key:'git',          group:'tools',    subgroup:'gitci',      category:'devops',  name:'Git',                     aliases:['git','git version control'],                                                icon:'🌿', kind:'devops', logo:'https://cdn.simpleicons.org/git/F05032' },
-  { key:'github',       group:'tools',    subgroup:'gitci',      category:'devops',  name:'GitHub',                  aliases:['github','github actions','gh'],                                             icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
-  { key:'helm',         group:'tools',    subgroup:'gitci',      category:'devops',  name:'Helm',                    aliases:['helm','helm chart','helmfile'],                                             icon:'⎈',  kind:'news',   logo:'https://cdn.simpleicons.org/helm/277A9F' },
-  // ── Ferramentas — Containers & Infra ──────────────────────────────────────
-  { key:'docker',       group:'tools',    subgroup:'containers', category:'devops',  name:'Docker',                  aliases:['docker desktop','docker','docker engine','docker compose','docker hub'],    icon:'🐳', kind:'devops', logo:'https://cdn.simpleicons.org/docker/2496ed' },
-  { key:'istio',        group:'tools',    subgroup:'containers', category:'devops',  name:'Istio',                   aliases:['istio','service mesh','istio service mesh'],                                icon:'🕸', kind:'news',   logo:'https://cdn.simpleicons.org/istio/466BB0' },
-  { key:'kubernetes',   group:'tools',    subgroup:'containers', category:'devops',  name:'Kubernetes',              aliases:['kubernetes','k8s','kubectl'],                                               icon:'⎈',  kind:'devops', logo:'https://cdn.simpleicons.org/kubernetes/326CE5' },
-  { key:'lambda',       group:'tools',    subgroup:'containers', category:'aws',     name:'AWS Lambda',              aliases:['aws lambda','lambda','serverless','faas','function as a service'],           icon:'λ',  kind:'news',   logo:'https://cdn.simpleicons.org/awslambda/FF9900' },
-  { key:'terraform',    group:'tools',    subgroup:'containers', category:'devops',  name:'Terraform',               aliases:['terraform','opentofu','hcl'],                                               icon:'🏗', kind:'news',   logo:'https://cdn.simpleicons.org/terraform/7B42BC' },
-  // ── Ferramentas — Dados & Integração (ordem alfabética) ──────────────────
-  { key:'databricks',   group:'tools',    subgroup:'dados',   category:'data',    name:'Databricks',              aliases:['databricks'],                                                               icon:'🔥', kind:'db',     logo:'https://cdn.simpleicons.org/databricks/FF3621' },
-  { key:'dynamodb',     group:'tools',    subgroup:'dados',   category:'aws',     name:'Amazon DynamoDB',         aliases:['dynamodb','amazon dynamodb','dynamo db'],                                    icon:'🗃', kind:'db',     logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6' },
-  { key:'kafka',        group:'tools',    subgroup:'dados',   category:'integ',   name:'Apache Kafka',            aliases:['apache kafka','kafka','confluent'],                                         icon:'📨', kind:'api',    logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
-  { key:'mysql',        group:'tools',    subgroup:'dados',   category:'data',    name:'MySQL',                   aliases:['mysql'],                                                                    icon:'🐬', kind:'db',     logo:'https://cdn.simpleicons.org/mysql/4479A1' },
-  { key:'openapi',      group:'tools',    subgroup:'dados',   category:'integ',   name:'OpenAPI',                 aliases:['openapi','swagger','open api'],                                             icon:'📋', kind:'api',    logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539' },
-  { key:'postgres',     group:'tools',    subgroup:'dados',   category:'data',    name:'PostgreSQL',              aliases:['postgresql','postgres'],                                                    icon:'🐘', kind:'db',     logo:'https://cdn.simpleicons.org/postgresql/4169E1' },
-  { key:'redis',        group:'tools',    subgroup:'dados',   category:'data',    name:'Redis',                   aliases:['redis','redis cache','valkey'],                                             icon:'🔴', kind:'news',   logo:'https://cdn.simpleicons.org/redis/DC382D' },
-  // ── Ferramentas — Backend, Design, Seg & Obs (ordem alfabética) ──────────
-  // ── Ferramentas — Obs & Segurança ─────────────────────────────────────────
-  { key:'dynatrace',    group:'tools',    subgroup:'obs-seg', category:'obs',     name:'Dynatrace',               aliases:['dynatrace'],                                                                icon:'🔭', kind:'devops', logo:'https://cdn.simpleicons.org/dynatrace/1496FF' },
-  { key:'grafana',      group:'tools',    subgroup:'obs-seg', category:'obs',     name:'Grafana',                 aliases:['grafana','grafana labs'],                                                   icon:'🟠', kind:'news',   logo:'https://cdn.simpleicons.org/grafana/F46800' },
-  { key:'keycloak',     group:'tools',    subgroup:'obs-seg', category:'sec',     name:'Keycloak',                aliases:['keycloak'],                                                                 icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
-  // ── Ferramentas — Backend & Design ────────────────────────────────────────
-  { key:'gradle',       group:'tools',    subgroup:'bknd',    category:'backend', name:'Gradle',                  aliases:['gradle'],                                                                   icon:'🐘', kind:'devops', logo:'https://cdn.simpleicons.org/gradle/02303A' },
-  { key:'maven',        group:'tools',    subgroup:'bknd',    category:'backend', name:'Apache Maven',            aliases:['apache maven','maven'],                                                     icon:'🪶', kind:'devops', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128' },
-  { key:'quarkus',      group:'tools',    subgroup:'bknd',    category:'backend', name:'Quarkus',                 aliases:['quarkus','quarkus framework'],                                              icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/quarkus/4695EB' },
-  { key:'springboot',   group:'tools',    subgroup:'bknd',    category:'backend', name:'Spring Boot',             aliases:['spring boot','spring framework','spring'],                                  icon:'🌿', kind:'api',    logo:'https://cdn.simpleicons.org/springboot/6DB33F' },
-  { key:'springcloud',  group:'tools',    subgroup:'bknd',    category:'backend', name:'Spring Cloud',            aliases:['spring cloud','spring cloud gateway','spring cloud config','spring cloud stream','spring cloud kubernetes'], icon:'☁', kind:'news', logo:'https://www.google.com/s2/favicons?domain=spring.io&sz=128' },
-  { key:'structurizr',  group:'tools',    subgroup:'bknd',    category:'design',  name:'Structurizr',             aliases:['structurizr'],                                                              icon:'📐', kind:'arch',   logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
-  // ── Linguagens (ordem alfabética) ────────────────────────────────────────
-  { key:'java',         group:'lang',     category:'backend', name:'Java & JVM',              aliases:['java','jdk','jvm','openjdk'],                                               icon:'☕', kind:'news',   logo:'https://cdn.simpleicons.org/openjdk/ffffff' },
-  { key:'javascript',   group:'lang',     category:'backend', name:'JavaScript / TS',         aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'],        icon:'🟨', kind:'news',   logo:'https://cdn.simpleicons.org/javascript/F7DF1E' },
-  { key:'python',       group:'lang',     category:'backend', name:'Python',                  aliases:['python','cpython','pip','uv','fastapi','django','flask'],                   icon:'🐍', kind:'news',   logo:'https://cdn.simpleicons.org/python/3776AB' },
+  // ── AI & IDEs ────────────────────────────────────────────────────────────
+  { key:'claudecode', group:'tools', subgroup:'ai-ide', category:'aiops',   name:'Claude Code',   aliases:['claude code','anthropic claude'],          icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'cursor',     group:'tools', subgroup:'ai-ide', category:'aiops',   name:'Cursor IDE',    aliases:['cursor ide','cursor'],                      icon:'🎯', kind:'ide',    logo:'https://cdn.simpleicons.org/cursor/00c09a' },
+  { key:'intellij',   group:'tools', subgroup:'ai-ide', category:'backend', name:'IntelliJ IDEA', aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg' },
+  { key:'vscode',     group:'tools', subgroup:'ai-ide', category:'aiops',   name:'VS Code',       aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg' },
+  // ── AI/LLM Ops ───────────────────────────────────────────────────────────
+  { key:'mcp',        group:'tools', subgroup:'ai-ops', category:'aiops',   name:'Model Context Protocol', aliases:['mcp','model context protocol','anthropic mcp'],   icon:'🔗', kind:'api',  logo:'https://www.google.com/s2/favicons?domain=modelcontextprotocol.io&sz=128' },
+  { key:'langfuse',   group:'tools', subgroup:'ai-ops', category:'aiops',   name:'Langfuse',               aliases:['langfuse','llm observability','llm evals'],       icon:'📊', kind:'news', logo:'https://www.google.com/s2/favicons?domain=langfuse.com&sz=128' },
+  { key:'ollama',     group:'tools', subgroup:'ai-ops', category:'aiops',   name:'Ollama',                 aliases:['ollama','local llm'],                              icon:'🦙', kind:'news', logo:'https://www.google.com/s2/favicons?domain=ollama.com&sz=128' },
+  { key:'langgraph',  group:'tools', subgroup:'ai-ops', category:'aiops',   name:'LangGraph',              aliases:['langgraph','langchain agents','agent graph'],      icon:'🕸', kind:'news', logo:'https://www.google.com/s2/favicons?domain=langchain.com&sz=128' },
+  // ── Git & CI/CD ──────────────────────────────────────────────────────────
+  { key:'argocd',    group:'tools', subgroup:'gitci', category:'devops',     name:'Argo CD',        aliases:['argocd','argo cd','argo','gitops'],                                                        icon:'🔄', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg' },
+  { key:'ghactions', group:'tools', subgroup:'gitci', category:'devops',     name:'GitHub Actions', aliases:['github actions','gh actions','gha'],                                                       icon:'⚡', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg' },
+  { key:'github',    group:'tools', subgroup:'gitci', category:'devops',     name:'GitHub',         aliases:['github','github actions','gh'],                                                            icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
+  { key:'helm',      group:'tools', subgroup:'gitci', category:'devops',     name:'Helm',           aliases:['helm','helm chart','helmfile'],                                                            icon:'⎈',  kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/helm/helm-original.svg' },
+  { key:'backstage', group:'tools', subgroup:'gitci', category:'enterprise', name:'Backstage',      aliases:['backstage','spotify backstage','idp','developer portal','software catalog'],               icon:'🏗', kind:'news',   logo:'https://cdn.simpleicons.org/backstage/9BF0E1' },
+  // ── Containers & IaC ─────────────────────────────────────────────────────
+  { key:'docker',     group:'tools', subgroup:'containers', category:'devops', name:'Docker',     aliases:['docker desktop','docker','docker engine','docker compose','docker hub'], icon:'🐳', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
+  { key:'kubernetes', group:'tools', subgroup:'containers', category:'devops', name:'Kubernetes', aliases:['kubernetes','k8s','kubectl'],                                          icon:'⎈',  kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
+  { key:'terraform',  group:'tools', subgroup:'containers', category:'devops', name:'Terraform',  aliases:['terraform','hcl'],                                                     icon:'🏗', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg' },
+  { key:'opentofu',   group:'tools', subgroup:'containers', category:'devops', name:'OpenTofu',   aliases:['opentofu','open tofu'],                                                icon:'🍢', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=opentofu.org&sz=128' },
+  // ── Mesh, Proxies & Edge ─────────────────────────────────────────────────
+  { key:'istio',      group:'tools', subgroup:'mesh', category:'distarch', name:'Istio',      aliases:['istio','service mesh','istio service mesh'],                                                icon:'🕸', kind:'news', logo:'https://cdn.simpleicons.org/istio/466BB0' },
+  { key:'envoy',      group:'tools', subgroup:'mesh', category:'devops',   name:'Envoy',      aliases:['envoy','envoy proxy','envoyproxy'],                                                          icon:'🛰', kind:'news', logo:'https://cdn.simpleicons.org/envoyproxy/AC6199' },
+  { key:'nginx',      group:'tools', subgroup:'mesh', category:'devops',   name:'Nginx',      aliases:['nginx','nginx plus','openresty'],                                                            icon:'🌐', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg' },
+  { key:'cloudflare', group:'tools', subgroup:'mesh', category:'cloud',    name:'Cloudflare', aliases:['cloudflare','cloudflare workers','cloudflare r2','cloudflare access','cloudflare tunnel'],    icon:'☁', kind:'news', logo:'https://cdn.simpleicons.org/cloudflare/F38020' },
+  // ── Dados & Streaming ────────────────────────────────────────────────────
+  { key:'databricks', group:'tools', subgroup:'dados', category:'data',  name:'Databricks',  aliases:['databricks'],                            icon:'🔥', kind:'db',   logo:'https://cdn.simpleicons.org/databricks/FF3621' },
+  { key:'postgres',   group:'tools', subgroup:'dados', category:'data',  name:'PostgreSQL',  aliases:['postgresql','postgres'],                 icon:'🐘', kind:'db',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
+  { key:'pgvector',   group:'tools', subgroup:'dados', category:'data',  name:'pgvector',    aliases:['pgvector','postgres vector','vector search'], icon:'🧭', kind:'db', logo:'https://www.google.com/s2/favicons?domain=github.com&sz=128' },
+  { key:'redis',      group:'tools', subgroup:'dados', category:'data',  name:'Redis',       aliases:['redis','redis cache','valkey'],          icon:'🔴', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg' },
+  { key:'kafka',      group:'tools', subgroup:'dados', category:'integ', name:'Apache Kafka',aliases:['apache kafka','kafka','confluent'],      icon:'📨', kind:'api',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
+  { key:'dbt',        group:'tools', subgroup:'dados', category:'data',  name:'dbt',         aliases:['dbt','dbt core','dbt cloud'],            icon:'🧱', kind:'news', logo:'https://cdn.simpleicons.org/dbt/FF694A' },
+  { key:'temporal',   group:'tools', subgroup:'dados', category:'distarch', name:'Temporal', aliases:['temporal','durable execution','workflow'], icon:'⏱', kind:'news', logo:'https://cdn.simpleicons.org/temporal/000000' },
+  // ── Obs & Segurança ──────────────────────────────────────────────────────
+  { key:'dynatrace',     group:'tools', subgroup:'obs-seg', category:'obs', name:'Dynatrace',     aliases:['dynatrace'],                                                   icon:'🔭', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg' },
+  { key:'datadog',       group:'tools', subgroup:'obs-seg', category:'obs', name:'Datadog',       aliases:['datadog','dd','dd-trace','datadoghq'],                         icon:'🐕', kind:'news',   logo:'https://cdn.simpleicons.org/datadog/632CA6' },
+  { key:'grafana',       group:'tools', subgroup:'obs-seg', category:'obs', name:'Grafana',       aliases:['grafana','grafana labs'],                                      icon:'🟠', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg' },
+  { key:'opentelemetry', group:'tools', subgroup:'obs-seg', category:'obs', name:'OpenTelemetry', aliases:['opentelemetry','otel','otlp','tracing','telemetry'],           icon:'📡', kind:'news',   logo:'https://cdn.simpleicons.org/opentelemetry/f5a800' },
+  { key:'prometheus',    group:'tools', subgroup:'obs-seg', category:'obs', name:'Prometheus',    aliases:['prometheus','promql','alertmanager'],                          icon:'🔥', kind:'news',   logo:'https://cdn.simpleicons.org/prometheus/E6522C' },
+  { key:'keycloak',      group:'tools', subgroup:'obs-seg', category:'sec', name:'Keycloak',      aliases:['keycloak'],                                                    icon:'🔑', kind:'api',    logo:'https://cdn.simpleicons.org/keycloak/4D9CF8' },
+  { key:'vault',         group:'tools', subgroup:'obs-seg', category:'sec', name:'Vault',         aliases:['vault','hashicorp vault','secrets manager'],                   icon:'🔒', kind:'news',   logo:'https://cdn.simpleicons.org/vault/FFEC6E' },
+  { key:'trivy',         group:'tools', subgroup:'obs-seg', category:'sec', name:'Trivy',         aliases:['trivy','aqua trivy','container scanner'],                      icon:'🛡', kind:'news',   logo:'https://cdn.simpleicons.org/aquasecurity/1904DA' },
+  // ── Backend & Build ──────────────────────────────────────────────────────
+  { key:'gradle',     group:'tools', subgroup:'bknd', category:'backend', name:'Gradle',      aliases:['gradle'],                                                  icon:'🐘', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg' },
+  { key:'maven',      group:'tools', subgroup:'bknd', category:'backend', name:'Apache Maven',aliases:['apache maven','maven'],                                    icon:'🪶', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' },
+  { key:'springboot', group:'tools', subgroup:'bknd', category:'backend', name:'Spring Boot', aliases:['spring boot','spring framework','spring','spring cloud'],  icon:'🌿', kind:'api',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
+  { key:'wasmtime',   group:'tools', subgroup:'bknd', category:'backend', name:'Wasmtime',    aliases:['wasmtime','wasi','webassembly','bytecode alliance'],        icon:'🧬', kind:'news',   logo:'https://www.google.com/s2/favicons?domain=wasmtime.dev&sz=128' },
+  // ── Frontend & Testing ───────────────────────────────────────────────────
+  { key:'nextjs',     group:'tools', subgroup:'frontend', category:'frontend', name:'Next.js',    aliases:['nextjs','next.js','vercel','app router','rsc'],          icon:'▲', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg' },
+  { key:'vite',       group:'tools', subgroup:'frontend', category:'frontend', name:'Vite',       aliases:['vite','vitejs','vite.js'],                              icon:'⚡', kind:'news', logo:'https://cdn.simpleicons.org/vite/646CFF' },
+  { key:'bun',        group:'tools', subgroup:'frontend', category:'frontend', name:'Bun',        aliases:['bun','bunjs','oven bun'],                               icon:'🥟', kind:'news', logo:'https://cdn.simpleicons.org/bun/FBF0DF' },
+  { key:'biome',      group:'tools', subgroup:'frontend', category:'frontend', name:'Biome',      aliases:['biome','biomejs','rome tools'],                         icon:'🌿', kind:'news', logo:'https://cdn.simpleicons.org/biome/60A5FA' },
+  { key:'k6',         group:'tools', subgroup:'frontend', category:'testing',  name:'Grafana k6', aliases:['k6','grafana k6','k6.io','load testing'],               icon:'⚖', kind:'news', logo:'https://www.google.com/s2/favicons?domain=k6.io&sz=128' },
+  { key:'playwright', group:'tools', subgroup:'frontend', category:'testing',  name:'Playwright', aliases:['playwright','microsoft playwright','e2e'],              icon:'🎭', kind:'news', logo:'https://cdn.simpleicons.org/playwright/2EAD33' },
+  // ── Design & Docs-as-code ────────────────────────────────────────────────
+  { key:'structurizr',group:'tools', subgroup:'docs', category:'design', name:'Structurizr', aliases:['structurizr','c4 model','.dsl','structurizr dsl'],          icon:'📐', kind:'arch', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'plantuml',   group:'tools', subgroup:'docs', category:'design', name:'PlantUML',    aliases:['plantuml','puml','uml as code'],                             icon:'🧩', kind:'news', logo:'https://cdn.simpleicons.org/plantuml/1168BD' },
+  { key:'mermaid',    group:'tools', subgroup:'docs', category:'design', name:'Mermaid',     aliases:['mermaid','mermaidjs','mermaid-js','diagrams as code'],      icon:'🌊', kind:'news', logo:'https://cdn.simpleicons.org/mermaid/FF3670' },
+  // ── Linguagens ───────────────────────────────────────────────────────────
+  { key:'java',       group:'lang', category:'backend',  name:'Java & JVM',      aliases:['java','jdk','jvm','openjdk'],                                        icon:'☕', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+  { key:'javascript', group:'lang', category:'frontend', name:'JavaScript / TS', aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'], icon:'🟨', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
+  { key:'python',     group:'lang', category:'backend',  name:'Python',          aliases:['python','cpython','pip','uv','fastapi','django','flask'],            icon:'🐍', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
 ];
 
 const TOOL_KIND_BADGE = {
@@ -2638,13 +2632,11 @@ async function loadAll(){
 }
 // Lazy load inteligente: só baixa edições que têm o filtro (usando counts_by_*)
 function catWithAliases(key) {
-  const revMap = { aws: ['cloud'], data: ['db'], backend: ['lang'], design: ['arqsw'], enterprise: ['arqsol'] };
-  return [key, ...(revMap[key] || [])];
+  return [key];
 }
 async function loadForCategory(key){
-  const keys = catWithAliases(key);
   const eds = STATE.editionsIndex?.editions || [];
-  const dates = eds.filter(e => keys.some(k => e.counts_by_category?.[k] > 0) || !e.counts_by_category).map(e => e.date);
+  const dates = eds.filter(e => e.counts_by_category?.[key] > 0 || !e.counts_by_category).map(e => e.date);
   await loadDates(dates);
 }
 async function loadForTool(key){
@@ -2659,7 +2651,7 @@ function allItemsAcrossEditions(){
   Object.keys(STATE.editionsCache).forEach(date => {
     const ed = STATE.editionsCache[date];
     if (!ed) return;
-    [...(ed.pillars||ed.top3||[]), ...(ed.news||[])].forEach(it => {
+    [...(ed.highlights||[]), ...(ed.news||[])].forEach(it => {
       out.push(Object.assign({}, it, { _date: date, _type: 'news' }));
     });
     (ed.tools||[]).forEach(t => {
@@ -2685,20 +2677,18 @@ function renderSidebar(){
   const toolTotals = {};
   (STATE.editionsIndex?.editions || []).forEach(e => {
     Object.entries(e.counts_by_category || {}).forEach(([k,v]) => {
-      const kk = (k in LEGACY_CAT_MAP) ? LEGACY_CAT_MAP[k] : k;
-      if (kk) catTotals[kk] = (catTotals[kk] || 0) + v;
+      catTotals[k] = (catTotals[k] || 0) + v;
     });
     Object.entries(e.counts_by_tool || {}).forEach(([k,v]) => {
       toolTotals[k] = (toolTotals[k] || 0) + v;
     });
   });
 
-  // Counts do dia atual (apenas em home); legacy keys mapeadas para o novo nome
+  // Counts do dia atual (apenas em home)
   const catToday = {};
   if (isHome && ed) {
-    [...(ed.pillars||ed.top3||[]), ...(ed.news||[])].forEach(it => {
-      let k = it.category;
-      if (k in LEGACY_CAT_MAP) k = LEGACY_CAT_MAP[k];
+    [...(ed.highlights||[]), ...(ed.news||[])].forEach(it => {
+      const k = it.category;
       if (k) catToday[k] = (catToday[k]||0) + 1;
     });
   }
@@ -2725,7 +2715,7 @@ function renderSidebar(){
       });
     } else {
       // Retrocompat: edições antigas sem tool_key
-      const todayNews = [...(ed.pillars||ed.top3||[]), ...(ed.news||[])];
+      const todayNews = [...(ed.highlights||[]), ...(ed.news||[])];
       TOOLS.forEach(t => {
         let n = 0;
         todayNews.forEach(it => { if (matchesTool(it, t)) n++; });
@@ -2815,7 +2805,7 @@ function renderRail(){
   const eds = STATE.editionsIndex?.editions || [];
   let items;
   if (STATE.view === 'home' && STATE.currentEdition) {
-    items = [...(STATE.currentEdition.pillars||STATE.currentEdition.top3||[]), ...(STATE.currentEdition.news||[])];
+    items = [...(STATE.currentEdition.highlights||[]), ...(STATE.currentEdition.news||[])];
   } else {
     items = allItemsAcrossEditions().filter(x => x._type === 'news');
   }
@@ -2873,33 +2863,33 @@ const STATIC_QUOTES_LEGACY = [
   { text: 'O Spring Boot não é mágica — é apenas uma opinião razoável sobre como montar um projeto Java moderno, que você pode sobrescrever quando necessário.', author: 'Dave Syer', context: 'Spring Boot e autoconfiguração inteligente', related_to: 'tool:springboot', url: 'https://spring.io/projects/spring-boot' },
   { text: 'GraalVM nativa não é apenas performance — é uma forma diferente de pensar o ciclo de vida da aplicação JVM.', author: 'Thomas Wuerthinger', context: 'GraalVM e compilação nativa ahead-of-time para Java', related_to: 'cat:backend', url: 'https://www.graalvm.org/latest/docs/introduction/' },
   // AWS
-  { text: 'Tudo falha o tempo todo. Projete sistemas que continuem funcionando mesmo quando os componentes individuais falharem.', author: 'Werner Vogels', context: 'Resiliência e design fault-tolerant na AWS', related_to: 'cat:aws', url: 'https://aws.amazon.com/blogs/architecture/werner-vogels-10-lessons-from-10-years-of-amazon-web-services/' },
-  { text: 'Nuvem não é um destino — é uma forma de operar. A transformação real é cultural e organizacional, não tecnológica.', author: 'Andy Jassy', context: 'Transformação digital e cloud-native', related_to: 'cat:aws', url: 'https://aws.amazon.com/blogs/enterprise-strategy/' },
-  { text: 'Se você tem mais de dois times para alimentar com duas pizzas, ele é grande demais. Times pequenos entregam e decidem mais rápido.', author: 'Jeff Bezos', context: 'Two-pizza rule — base dos microserviços autônomos na Amazon', related_to: 'cat:arqsw', url: 'https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html' },
+  { text: 'Tudo falha o tempo todo. Projete sistemas que continuem funcionando mesmo quando os componentes individuais falharem.', author: 'Werner Vogels', context: 'Resiliência e design fault-tolerant na AWS', related_to: 'cat:cloud', url: 'https://aws.amazon.com/blogs/architecture/werner-vogels-10-lessons-from-10-years-of-amazon-web-services/' },
+  { text: 'Nuvem não é um destino — é uma forma de operar. A transformação real é cultural e organizacional, não tecnológica.', author: 'Andy Jassy', context: 'Transformação digital e cloud-native', related_to: 'cat:cloud', url: 'https://aws.amazon.com/blogs/enterprise-strategy/' },
+  { text: 'Se você tem mais de dois times para alimentar com duas pizzas, ele é grande demais. Times pequenos entregam e decidem mais rápido.', author: 'Jeff Bezos', context: 'Two-pizza rule — base dos microserviços autônomos na Amazon', related_to: 'cat:design', url: 'https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html' },
   { text: 'APIs são mais importantes que hierarquia. O Mandato de APIs da Amazon em 2002 criou a fundação do que hoje é a AWS.', author: 'Jeff Bezos', context: 'API Mandate — a origem dos serviços web internos na Amazon', related_to: 'cat:integ', url: 'https://apievangelist.com/2012/01/12/the-secret-to-amazons-success-internal-apis/' },
-  { text: 'Migrar para a nuvem sem mudar a arquitetura é como trocar o motor de um carro sem ajustar a suspensão — você não vai usar o potencial real.', author: 'Gregor Hohpe', context: 'Cloud migration e arquitetura cloud-native', related_to: 'cat:aws', url: 'https://architectelevator.com/cloud/cloud-architect/' },
-  { text: 'Serverless não é sobre zero servidores — é sobre zero gestão de servidores. A abstração correta no nível certo.', author: 'Ben Kehoe', context: 'Filosofia serverless e abstração de infraestrutura na AWS', related_to: 'cat:aws', url: 'https://read.acloud.guru/serverless-is-about-automation-not-functions-3b5f270c1d0e' },
+  { text: 'Migrar para a nuvem sem mudar a arquitetura é como trocar o motor de um carro sem ajustar a suspensão — você não vai usar o potencial real.', author: 'Gregor Hohpe', context: 'Cloud migration e arquitetura cloud-native', related_to: 'cat:cloud', url: 'https://architectelevator.com/cloud/cloud-architect/' },
+  { text: 'Serverless não é sobre zero servidores — é sobre zero gestão de servidores. A abstração correta no nível certo.', author: 'Ben Kehoe', context: 'Filosofia serverless e abstração de infraestrutura na AWS', related_to: 'cat:cloud', url: 'https://read.acloud.guru/serverless-is-about-automation-not-functions-3b5f270c1d0e' },
   // Distributed Systems / Arq. Distribuída
-  { text: 'Um sistema distribuído é aquele em que a falha de um computador que você nem sabia que existia pode tornar o seu computador inutilizável.', author: 'Leslie Lamport', context: 'Definição clássica de sistemas distribuídos', related_to: 'cat:arqsol', url: 'https://lamport.azurewebsites.net/pubs/pubs.html' },
-  { text: 'Você não pode ter consistência e disponibilidade ao mesmo tempo em presença de partição de rede. Escolha dois, mas aceite o terceiro.', author: 'Eric Brewer', context: 'Teorema CAP — trade-offs fundamentais em sistemas distribuídos', related_to: 'cat:arqsol', url: 'https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/' },
+  { text: 'Um sistema distribuído é aquele em que a falha de um computador que você nem sabia que existia pode tornar o seu computador inutilizável.', author: 'Leslie Lamport', context: 'Definição clássica de sistemas distribuídos', related_to: 'cat:enterprise', url: 'https://lamport.azurewebsites.net/pubs/pubs.html' },
+  { text: 'Você não pode ter consistência e disponibilidade ao mesmo tempo em presença de partição de rede. Escolha dois, mas aceite o terceiro.', author: 'Eric Brewer', context: 'Teorema CAP — trade-offs fundamentais em sistemas distribuídos', related_to: 'cat:enterprise', url: 'https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/' },
   { text: 'Consistência eventual não é eventual consistência — a primeira é uma promessa de convergência, a segunda é uma desculpa para não raciocinar sobre o estado.', author: 'Martin Kleppmann', context: 'Modelos de consistência em bancos de dados distribuídos', related_to: 'cat:data', url: 'https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html' },
   { text: 'Dados não estão mortos quando são deletados. Estão mortos quando você não pode mais confiar na sua integridade.', author: 'Martin Kleppmann', context: 'Designing Data-Intensive Applications — confiabilidade de dados', related_to: 'cat:data', url: 'https://dataintensive.net/' },
   { text: 'Idempotência não é opcional em sistemas distribuídos. É o que separa o código que funciona do código que parece funcionar.', author: 'Pat Helland', context: 'Idempotência e tolerância a falhas em microsserviços', related_to: 'cat:integ', url: 'https://queue.acm.org/detail.cfm?id=3561348' },
   { text: 'O banco de dados não é a verdade. Ele é a projeção mais recente que você tem da verdade — o log de eventos é a fonte primária.', author: 'Pat Helland', context: 'Imutabilidade, event sourcing e CQRS', related_to: 'cat:data', url: 'https://queue.acm.org/detail.cfm?id=3561348' },
-  { text: 'Chaos engineering não é sobre destruir coisas — é sobre aprender como o sistema se comporta sob condições que você ainda não enfrentou em produção.', author: 'Casey Rosenthal', context: 'Chaos Engineering — resiliência por experimento', related_to: 'cat:arqsol', url: 'https://principlesofchaos.org/' },
+  { text: 'Chaos engineering não é sobre destruir coisas — é sobre aprender como o sistema se comporta sob condições que você ainda não enfrentou em produção.', author: 'Casey Rosenthal', context: 'Chaos Engineering — resiliência por experimento', related_to: 'cat:enterprise', url: 'https://principlesofchaos.org/' },
   // Architecture
-  { text: 'Qualquer tolo consegue escrever código que um computador entende. Bons programadores escrevem código que humanos entendem.', author: 'Martin Fowler', context: 'Legibilidade como qualidade primária do software', related_to: 'cat:arqsw', url: 'https://martinfowler.com/books/refactoring.html' },
-  { text: 'O valor da arquitetura de software está em habilitar mudanças — não em resistir a elas.', author: 'Martin Fowler', context: 'Arquitetura como facilitadora da evolução contínua', related_to: 'cat:arqsw', url: 'https://martinfowler.com/architecture/' },
-  { text: 'Microserviços são uma arquitetura de alto risco. Não comece com eles — chegue até eles a partir de um monolito que você entende.', author: 'Martin Fowler', context: 'Monolith First — caminho seguro para microserviços', related_to: 'cat:arqsw', url: 'https://martinfowler.com/bliki/MonolithFirst.html' },
-  { text: 'Se você não pode testar, não pode refatorar com segurança. Se não pode refatorar, o código vai apodrecer lentamente.', author: 'Martin Fowler', context: 'Testes como base da refatoração contínua e saúde do código', related_to: 'cat:arqsw', url: 'https://martinfowler.com/books/refactoring.html' },
-  { text: 'O coração do software é sua capacidade de resolver problemas do domínio. Toda técnica deveria servir a esse fim, não ao contrário.', author: 'Eric Evans', context: 'Domain-Driven Design — o domínio como centro do software', related_to: 'cat:arqsw', url: 'https://www.domainlanguage.com/ddd/' },
-  { text: 'A linguagem ubíqua não é apenas conveniência — ela é o tecido que conecta o modelo mental ao código real. Sem ela, o modelo e o código divergem.', author: 'Eric Evans', context: 'Ubiquitous Language no DDD', related_to: 'cat:arqsw', url: 'https://martinfowler.com/bliki/UbiquitousLanguage.html' },
-  { text: 'Microserviços deveriam ser tão pequenos quanto necessário e não menores. O tamanho certo é aquele que pode ser substituído em uma semana.', author: 'Sam Newman', context: 'Building Microservices — dimensionamento correto de serviços', related_to: 'cat:arqsw', url: 'https://samnewman.io/books/building_microservices/' },
+  { text: 'Qualquer tolo consegue escrever código que um computador entende. Bons programadores escrevem código que humanos entendem.', author: 'Martin Fowler', context: 'Legibilidade como qualidade primária do software', related_to: 'cat:design', url: 'https://martinfowler.com/books/refactoring.html' },
+  { text: 'O valor da arquitetura de software está em habilitar mudanças — não em resistir a elas.', author: 'Martin Fowler', context: 'Arquitetura como facilitadora da evolução contínua', related_to: 'cat:design', url: 'https://martinfowler.com/architecture/' },
+  { text: 'Microserviços são uma arquitetura de alto risco. Não comece com eles — chegue até eles a partir de um monolito que você entende.', author: 'Martin Fowler', context: 'Monolith First — caminho seguro para microserviços', related_to: 'cat:design', url: 'https://martinfowler.com/bliki/MonolithFirst.html' },
+  { text: 'Se você não pode testar, não pode refatorar com segurança. Se não pode refatorar, o código vai apodrecer lentamente.', author: 'Martin Fowler', context: 'Testes como base da refatoração contínua e saúde do código', related_to: 'cat:design', url: 'https://martinfowler.com/books/refactoring.html' },
+  { text: 'O coração do software é sua capacidade de resolver problemas do domínio. Toda técnica deveria servir a esse fim, não ao contrário.', author: 'Eric Evans', context: 'Domain-Driven Design — o domínio como centro do software', related_to: 'cat:design', url: 'https://www.domainlanguage.com/ddd/' },
+  { text: 'A linguagem ubíqua não é apenas conveniência — ela é o tecido que conecta o modelo mental ao código real. Sem ela, o modelo e o código divergem.', author: 'Eric Evans', context: 'Ubiquitous Language no DDD', related_to: 'cat:design', url: 'https://martinfowler.com/bliki/UbiquitousLanguage.html' },
+  { text: 'Microserviços deveriam ser tão pequenos quanto necessário e não menores. O tamanho certo é aquele que pode ser substituído em uma semana.', author: 'Sam Newman', context: 'Building Microservices — dimensionamento correto de serviços', related_to: 'cat:design', url: 'https://samnewman.io/books/building_microservices/' },
   { text: 'Você deve ser capaz de implantar um microserviço de forma independente sem coordenar com outros times. Se não puder, não são microserviços.', author: 'Sam Newman', context: 'Implantação independente como requisito fundamental de microserviços', related_to: 'cat:devops', url: 'https://samnewman.io/books/building_microservices/' },
-  { text: 'Toda decisão de arquitetura é uma troca. Se não parece uma troca, você ainda não entendeu completamente o problema.', author: 'Mark Richards', context: 'Fundamentals of Software Architecture — trade-offs como essência', related_to: 'cat:arqsol', url: 'https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/' },
-  { text: 'Empresas não são hierarquias — são redes de serviços que se comunicam por contratos. A arquitetura espelha essa realidade.', author: 'Gregor Hohpe', context: 'Enterprise Integration Patterns — arquitetura orientada a serviços', related_to: 'cat:arqsol', url: 'https://www.enterpriseintegrationpatterns.com/' },
-  { text: 'O arquiteto eficaz não define a solução — define as restrições e os princípios que guiam a solução para o lugar certo.', author: 'Gregor Hohpe', context: 'The Software Architect Elevator — papel do arquiteto sênior', related_to: 'cat:arqsol', url: 'https://architectelevator.com/' },
-  { text: 'A Lei de Conway diz que sistemas espelham a estrutura de comunicação das organizações que os criam. Use isso a seu favor ao desenhar times.', author: 'Melvin Conway', context: 'Conway\'s Law — alinhamento entre estrutura organizacional e arquitetura', related_to: 'cat:arqsw', url: 'https://www.melconway.com/Home/Conways_Law.html' },
+  { text: 'Toda decisão de arquitetura é uma troca. Se não parece uma troca, você ainda não entendeu completamente o problema.', author: 'Mark Richards', context: 'Fundamentals of Software Architecture — trade-offs como essência', related_to: 'cat:enterprise', url: 'https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/' },
+  { text: 'Empresas não são hierarquias — são redes de serviços que se comunicam por contratos. A arquitetura espelha essa realidade.', author: 'Gregor Hohpe', context: 'Enterprise Integration Patterns — arquitetura orientada a serviços', related_to: 'cat:enterprise', url: 'https://www.enterpriseintegrationpatterns.com/' },
+  { text: 'O arquiteto eficaz não define a solução — define as restrições e os princípios que guiam a solução para o lugar certo.', author: 'Gregor Hohpe', context: 'The Software Architect Elevator — papel do arquiteto sênior', related_to: 'cat:enterprise', url: 'https://architectelevator.com/' },
+  { text: 'A Lei de Conway diz que sistemas espelham a estrutura de comunicação das organizações que os criam. Use isso a seu favor ao desenhar times.', author: 'Melvin Conway', context: 'Conway\'s Law — alinhamento entre estrutura organizacional e arquitetura', related_to: 'cat:design', url: 'https://www.melconway.com/Home/Conways_Law.html' },
   { text: 'O diagrama que ninguém lê não documenta nada — cria apenas a ilusão de documentação. Diagramas devem ter audiência e propósito claros.', author: 'Simon Brown', context: 'C4 Model — diagramas práticos e úteis para arquitetos', related_to: 'tool:structurizr', url: 'https://c4model.com/' },
   { text: 'Arquitetura como código garante que a documentação envelhece junto com o sistema, não contra ele.', author: 'Simon Brown', context: 'Structurizr DSL e diagramas como código versionado', related_to: 'tool:structurizr', url: 'https://structurizr.com/help/dsl' },
   // Kafka / Streaming / Integration
@@ -2936,8 +2926,8 @@ const STATIC_QUOTES_LEGACY = [
   // General
   { text: 'A otimização prematura é a raiz de todo mal — não porque performance não importa, mas porque otimizar antes de medir é adivinhar.', author: 'Donald Knuth', context: 'Computer Programming as an Art — foque na corretude antes da performance', related_to: 'general', url: 'https://dl.acm.org/doi/10.1145/361604.361612' },
   { text: 'Simplicidade é pré-requisito para confiabilidade. Um sistema que ninguém entende completamente é um sistema que ninguém controla completamente.', author: 'Edsger W. Dijkstra', context: 'EWD notes — princípio de design de sistemas confiáveis', related_to: 'general', url: 'https://www.cs.utexas.edu/~EWD/' },
-  { text: 'Funcionar é a entrada mínima. Funcionar corretamente, ser legível e ser alterável com segurança — isso é o que importa no longo prazo.', author: 'Kent Beck', context: 'TDD e qualidade de software além da funcionalidade imediata', related_to: 'cat:arqsw', url: 'https://www.oreilly.com/library/view/test-driven-development/0321146530/' },
-  { text: 'Programas são escritos para humanos lerem e apenas incidentalmente para máquinas executarem. Escreva para o próximo desenvolvedor.', author: 'Harold Abelson', context: 'SICP — legibilidade como propósito primário do código', related_to: 'cat:arqsw', url: 'https://mitpress.mit.edu/9780262543231/structure-and-interpretation-of-computer-programs/' },
+  { text: 'Funcionar é a entrada mínima. Funcionar corretamente, ser legível e ser alterável com segurança — isso é o que importa no longo prazo.', author: 'Kent Beck', context: 'TDD e qualidade de software além da funcionalidade imediata', related_to: 'cat:design', url: 'https://www.oreilly.com/library/view/test-driven-development/0321146530/' },
+  { text: 'Programas são escritos para humanos lerem e apenas incidentalmente para máquinas executarem. Escreva para o próximo desenvolvedor.', author: 'Harold Abelson', context: 'SICP — legibilidade como propósito primário do código', related_to: 'cat:design', url: 'https://mitpress.mit.edu/9780262543231/structure-and-interpretation-of-computer-programs/' },
   { text: 'A IDE não faz você um programador melhor. Mas uma boa IDE remove fricção e permite que você concentre energia no problema real.', author: 'Erich Gamma', context: 'Ferramentas de desenvolvimento e produtividade do engenheiro', related_to: 'tool:intellij', url: 'https://www.jetbrains.com/lp/devecosystem-2023/' },
   { text: 'Faça com que cada programa faça uma coisa bem. Para fazer algo novo, construa um novo programa em vez de complicar os antigos.', author: 'Ken Thompson', context: 'Filosofia Unix — base dos containers, microserviços e composabilidade', related_to: 'cat:devops', url: 'https://www.cs.bell-labs.com/who/ken/' }
 ];
@@ -3068,8 +3058,8 @@ function renderAbout(){
       <p class="ab-hero-sub">Noticiário técnico curado e gerado diariamente às 6h BRT, pensado para arquitetos de software e solução que precisam se manter atualizados sem ruído.</p>
       <div class="ab-stats">
         <div class="ab-stat"><span class="ab-stat-n">${totalEditions || '—'}</span><span class="ab-stat-l">edições</span></div>
-        <div class="ab-stat"><span class="ab-stat-n">13</span><span class="ab-stat-l">categorias</span></div>
-        <div class="ab-stat"><span class="ab-stat-n">42</span><span class="ab-stat-l">tópicos</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">16</span><span class="ab-stat-l">categorias</span></div>
+        <div class="ab-stat"><span class="ab-stat-n">52</span><span class="ab-stat-l">monitorados</span></div>
         <div class="ab-stat"><span class="ab-stat-n">6h</span><span class="ab-stat-l">BRT · diário</span></div>
         <div class="ab-stat"><span class="ab-stat-n">5</span><span class="ab-stat-l">frases/edição</span></div>
       </div>
@@ -3081,26 +3071,26 @@ function renderAbout(){
       <div class="ab-2col" style="margin-bottom:18px">
         <div class="ab-explain-box">
           <h3>O que são?</h3>
-          <p>Temas editoriais amplos que cobrem o universo do arquiteto. Cada edição garante cobertura de todas as categorias ativas.</p>
-          <span class="ab-rule-chip amber">▲ mínimo 1 item / categoria / dia</span>
+          <p>Temas editoriais amplos que cobrem o universo do arquiteto. Cada edição tem cobertura flexível: categorias sem sinal do dia podem ficar vazias.</p>
+          <span class="ab-rule-chip amber">▲ mínimo 15 itens totais / dia</span>
         </div>
         <div class="ab-explain-box">
           <h3>Como funciona a seleção?</h3>
-          <p>Se não houver notícia recente, o sistema busca um evergreen relevante de edições anteriores — sem repetir URLs já publicadas nos últimos 7 dias.</p>
-          <span class="ab-rule-chip cyan">▼ máximo 3 itens / categoria / dia</span>
+          <p>Score explícito: release oficial +3, convergência +2, HN/Lobste.rs/Trending +2, Tier 1 +1, impacto arquitetural +1. Sem repetir URLs dos últimos 7 dias.</p>
+          <span class="ab-rule-chip cyan">▼ teto 3/cat (até 5 em urgent)</span>
         </div>
       </div>
       <div class="ab-cat-grid">${catCards}</div>
     </section>
 
-    <!-- Assuntos Fixos -->
+    <!-- Linguagens & Ferramentas -->
     <section class="ab-section">
-      ${secHd(CAT_ICONS.devops, 'Assuntos Fixos')}
+      ${secHd(CAT_ICONS.devops, 'Linguagens & Ferramentas')}
       <div class="ab-2col" style="margin-bottom:18px">
         <div class="ab-explain-box">
           <h3>O que são?</h3>
-          <p>Tecnologias e ferramentas monitoradas ativamente. O sistema busca conteúdo novo em cada um deles a cada edição. Cada assunto tem view dedicada na sidebar com histórico completo.</p>
-          <span class="ab-rule-chip violet">◆ 36 assuntos · agrupados por papel</span>
+          <p>3 linguagens e 49 ferramentas com release notes identificáveis, monitoradas diariamente. Cada uma tem view dedicada na sidebar com histórico completo de releases, tutoriais e notícias.</p>
+          <span class="ab-rule-chip violet">◆ 52 monitorados · agrupados por papel</span>
         </div>
         <div class="ab-explain-box">
           <h3>Regra de cobertura</h3>
@@ -3226,10 +3216,10 @@ function renderHome(){
 
   let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
 
-  const pillars = ed.pillars || ed.top3 || [];
-  if (pillars.length) {
-    html += `<section class="section" style="margin-top:18px"><div class="sec-head"><h2>◈ Pilares <span class="tag">java · aws · distarch</span></h2><div class="sec-meta">${pillars.length}/3</div></div>`;
-    html += `<div class="pillars">` + pillars.map((t, i) => buildPillarCard(t, i, ed.date)).join('') + `</div></section>`;
+  const highlights = ed.highlights || [];
+  if (highlights.length) {
+    html += `<section class="section" style="margin-top:18px"><div class="sec-head"><h2>◈ Destaques do dia <span class="tag">top ${highlights.length}</span></h2><div class="sec-meta">${highlights.length}/3</div></div>`;
+    html += `<div class="pillars">` + highlights.map((t, i) => buildHighlightCard(t, i, ed.date)).join('') + `</div></section>`;
   }
 
   const news = (ed.news||[]).map(n => Object.assign({}, n, { _date: ed.date }));
@@ -3671,18 +3661,18 @@ function buildCveTags(item){
   return parts.length ? `<div class="card-tags">${parts.join('')}</div>` : '';
 }
 
-function buildPillarCard(item, idx, date){
+function buildHighlightCard(item, idx, date){
   const c = item.category || 'backend';
-  const pillarDef = PILLARS[item.pillar] || null;
-  const pillarColor = pillarDef ? pillarDef.color : 'var(--amber)';
+  const cat = CAT[c];
+  const highlightColor = `var(--cat-${c})`;
   const url = item.url;
   const thumb = item.image ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
-  let html = `<div class="pillar-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--pillar-color:${pillarColor}; --cat:var(--cat-${c});">`;
+  let html = `<div class="pillar-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--pillar-color:${highlightColor}; --cat:var(--cat-${c});">`;
   html += `<div class="strip" aria-hidden="true"></div>`;
   html += thumb;
   html += `<div class="top-body">`;
   html += `<div class="badges">`;
-  if (pillarDef) html += `<span class="pillar-label">${pillarDef.label}</span>`;
+  html += `<span class="pillar-label">#${idx + 1} · ${esc((cat && cat.lf) || c)}</span>`;
   if (item.severity) html += `<span class="badge ${sevClass(item.severity)}">${esc(item.severity)}</span>`;
   if (item.urgent && !item.severity) html += `<span class="badge u">CRIT</span>`;
   if (item.breaking) html += `<span class="badge brk">BRK</span>`;
@@ -3902,7 +3892,7 @@ document.addEventListener('keydown', (e) => {
 function findItem(url){
   for (const d in STATE.editionsCache) {
     const ed = STATE.editionsCache[d];
-    const all = [...(ed.pillars||ed.top3||[]), ...(ed.news||[])];
+    const all = [...(ed.highlights||[]), ...(ed.news||[])];
     const hit = all.find(x => x.url === url);
     if (hit) return Object.assign({}, hit, { _date: d });
   }
@@ -4003,13 +3993,6 @@ async function goToEdition(date){
   setDeepLink('home', date);
 }
 async function setView(view){
-  // Redireciona chaves legadas (db→data, lang→backend, frontend→home)
-  if (view.startsWith('cat:')) {
-    const k = view.slice(4);
-    if (k in LEGACY_CAT_MAP) {
-      view = LEGACY_CAT_MAP[k] ? 'cat:' + LEGACY_CAT_MAP[k] : 'home';
-    }
-  }
   setLoader(true);
   if (view.startsWith('cat:')) await loadForCategory(view.slice(4));
   else if (view.startsWith('tool:')) await loadForTool(view.slice(5));

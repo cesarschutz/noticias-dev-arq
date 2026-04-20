@@ -1,18 +1,19 @@
 # CsR News — Arquivo Diário do Arquiteto
 
-Arquivo de notícias técnicas diárias para arquitetos de software/solução, hospedado no GitHub Pages.
+Arquivo de notícias técnicas diárias para arquitetos de software/solução, hospedado no GitHub Pages. Primeira versão pública (v1).
 
 ## Arquitetura
 
 O projeto separa **dados** (JSON) de **apresentação** (template HTML único):
 
 ```
-index.html → fetch('data/editions.json')  (índice com counts)
+home.html  → fetch('data/editions.json')  (índice com counts)
            → fetch('data/{ISO}.json')     (edição por data, sob demanda)
+index.html → landing pública (hero + catálogo de categorias/ferramentas)
 ```
 
-O `index.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
-- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), calendário de edições, categorias e assuntos fixos agrupados por grupo do rail.
+O `home.html` é uma SPA single-file (CSS + JS vanilla embutidos) no estilo **"console ops"** — terminal moderno com paleta marine/cyan/violet/amber. Três colunas:
+- **Sidebar esquerda (cockpit)**: nav-row (prev/next + data com badge HOJE), 2 botões inline (ler depois, tema), calendário de edições, categorias e ferramentas agrupadas por subgrupo do rail.
 - **Main (feed)**: sem hero em home — começa direto nos destaques. Prompt-bar sticky no topo (`csr@console:~/editions/DATA $ cat DATA.json [HOJE]`) muda de cor por contexto (home=amber, cat=cor da categoria, tool=cor do tipo). Cards clicáveis abrem URL em nova aba.
 - **Rail (telemetria)**: quote do dia (rotação a cada 25s, 5 por edição), radar de categorias, timeline de edições.
 
@@ -21,81 +22,77 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Estrutura de Arquivos
 
 ```
-├── index.html                      # SPA single-file
+├── home.html                       # SPA single-file (feed diário)
+├── index.html                      # Landing pública (catálogo institucional)
 ├── assets/
-│   └── csr-news-logo.svg           # Logo (usado no boot e topbar)
+│   └── csr-news-logo.svg           # Logo
 ├── data/
-│   ├── editions.json               # Índice mestre + counts por categoria/assunto fixo
-│   ├── {YYYY-MM-DD}.json           # Dados completos de cada dia
-│   ├── quotes.json                 # 80+ frases de autores técnicos (fixo no repositório — nunca recriar)
-│   ├── verses.json                 # 120+ versículos de Jesus em PT-BR (fixo no repositório — nunca recriar)
-│   ├── java-versions/
-│   │   ├── index.json              # Índice de versões Java (atualizado a cada execução)
-│   │   └── java-{N}.json           # JEPs e detalhes — Java 11 até atual
-│   ├── python-versions/
-│   │   ├── index.json              # Índice de versões Python
-│   │   └── python-{N}.json         # PEPs e detalhes — Python 3.8 até atual
-│   └── js-versions/
-│       ├── index.json              # Índice de versões ECMAScript
-│       └── js-es{YYYY}.json        # Features — ES2015 até atual
+│   ├── editions.json               # Índice mestre + counts por categoria/ferramenta
+│   ├── {YYYY-MM-DD}.json           # Edição completa do dia
+│   ├── quotes.json                 # 80+ frases (fixo — nunca recriar)
+│   ├── verses.json                 # 120+ versículos (fixo — nunca recriar)
+│   ├── java-versions/              # JEPs por versão Java
+│   ├── python-versions/            # PEPs por versão Python
+│   └── js-versions/                # Features por edição ECMAScript
 ├── scripts/
 │   ├── validate_editions.py        # Valida schema + URLs + duplicatas
-│   └── generate_feed.py            # Gera feed.xml (RSS 2.0) a partir do índice
+│   └── generate_feed.py            # Gera feed.xml
 ├── skills/
 │   └── csr-news-daily.md           # Skill Cowork para geração diária
 ├── .github/workflows/
-│   ├── pages.yml                   # Deploy no GitHub Pages (gera RSS antes)
+│   ├── pages.yml                   # Deploy no GitHub Pages
 │   └── validate.yml                # Validação JSON em PRs
-├── CLAUDE.md                       # Este arquivo
-├── README.md
-├── .gitignore                      # feed.xml é gerado pelo CI, não commitado
-├── .nojekyll                       # Desativa Jekyll no GitHub Pages
-└── push.sh                         # Script de push (chamado por LaunchAgent local)
+├── CLAUDE.md                       # Este arquivo (instruções para Claude)
+├── README.md                       # Descrição pública do projeto
+├── COMO-FUNCIONA.md                # Documentação user-friendly (como funciona + catálogos)
+└── push.sh                         # Script de push (via LaunchAgent local)
 ```
 
 ## Fluxo de Dados
 
-1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT
-2. Pesquisa notícias via WebSearch em 13 categorias + 42 tópicos + HN + blogs eng + pulso BR
-3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, diversidade pillars)
-4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`)
-5. LaunchAgent local detecta mudança em `data/` e roda `push.sh` (retry + log rotativo em `~/Library/Logs/csr-news-push.log`)
-6. GitHub Actions (`pages.yml`) gera `feed.xml` → deploya no GitHub Pages
-7. GitHub Actions (`validate.yml`) valida JSON em PRs
+1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT.
+2. Pesquisa notícias via WebSearch em **16 categorias + 3 linguagens + 49 ferramentas + HN + Lobste.rs + GitHub Trending + engenharia BR**.
+3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, verificação de links, score explícito para highlights).
+4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`).
+5. LaunchAgent local detecta mudança em `data/` e roda `push.sh`.
+6. GitHub Actions (`pages.yml`) gera `feed.xml` → deploya no GitHub Pages.
+7. GitHub Actions (`validate.yml`) valida JSON em PRs.
 
 ## Views da SPA
 
-- **home** (default): edição do dia mais recente — hero, pillars (3 cards Java/AWS/DistArch), feed, assuntos fixos
-- **cat:{chave}**: agregado de todas as notícias de uma categoria através das edições
-- **tool:{chave}**: feed completo do assunto fixo — releases, notícias, dicas, tutoriais e curiosidades (seções distintas)
-- **deep link**: `?d=YYYY-MM-DD&u=<hash>` abre direto uma notícia
+- **home** (default): edição do dia mais recente — highlights (3 cards top-ranqueados por score), feed por categoria, ferramentas/linguagens.
+- **cat:{chave}**: agregado de todas as notícias de uma categoria através das edições.
+- **tool:{chave}**: feed completo da ferramenta — releases, notícias, tutoriais (seções distintas).
+- **deep link**: `?d=YYYY-MM-DD&u=<hash>` abre direto uma notícia.
 
 ### Lazy-load inteligente
-Ao filtrar por categoria/assunto fixo, a SPA usa `counts_by_category` / `counts_by_tool` do `editions.json` para **só baixar** as edições que têm conteúdo daquele filtro. Um loader visual fica no topo do main durante o fetch paralelo. Em background (após boot), todas as edições são pré-aquecidas em cache para busca global.
+
+Ao filtrar por categoria/ferramenta, a SPA usa `counts_by_category` / `counts_by_tool` do `editions.json` para **só baixar** as edições que têm conteúdo daquele filtro.
 
 ## Interações
 
-- **Deep link**: URL com `?d=YYYY-MM-DD` preserva a edição aberta. Copiar link de um card usa botão dedicado (copia URL da matéria).
-- **Prev/Next edições**: botões `◀` `▶` na sidebar (ou atalhos `P`/`N`) navegam entre edições adjacentes. Em view cat/tool, escondem.
-- **Botão "→ hoje"**: aparece na sidebar quando a edição aberta não é a de hoje.
+- **Deep link**: URL com `?d=YYYY-MM-DD` preserva a edição aberta.
+- **Prev/Next edições**: botões `◀` `▶` ou atalhos `P`/`N`.
+- **Botão "→ hoje"**: volta para a edição do dia atual.
 - **Filtro**: toolbar tem chip `urgent` (atalho `U`).
-- **Ler depois**: bookmark via `localStorage` (`csrn-read-later`). Modal com ordenação (saved/date/category/urgent), export JSON e clear.
+- **Ler depois**: bookmark via `localStorage` (`csrn-read-later`). Modal com ordenação e export JSON.
 - **Tema dark/light**: toggle na sidebar ou atalho `T`.
-- **Modo cards/list**: atalhos `1` (grid multi-coluna) / `2` (lista 1 coluna larga). Ambos com summary completo.
-- **Teclado**: `T` tema, `1`/`2` modo cards/list, `U` filtro urgent, `P`/`N` prev/next edição, `ESC` fecha modal.
+- **Modo cards/list**: atalhos `1` (grid multi-coluna) / `2` (lista).
+- **Teclado**: `T`, `1`/`2`, `U`, `P`/`N`, `ESC`.
 - **Mobile**: sidebar vira hamburger abaixo de 720px.
 
-## Campos estruturados por notícia
+## Campos estruturados por notícia (v1)
 
-Além dos campos básicos, a skill gera (todos opcionais):
+- **`why_it_matters`** — 1 frase obrigatória em cada item de `news[]` e `tools[]`: por que importa para arquiteto sênior. Diferencial v1.
 - **`cves: []`** — CVEs citados, renderizados como pills clicáveis para NVD no modal.
-- **`severity: "critical|high|medium|low"`** — para itens de segurança, granularidade maior que o booleano `urgent`.
-- **`published_at`** — ISO 8601 do artigo original (vs. data da edição).
-- **`tags: []`** — 2-6 entidades/tecnologias, mostradas como pills nos cards.
+- **`severity: "critical|high|medium|low"`** — para itens de segurança.
+- **`published_at`** — ISO 8601 do artigo original.
+- **`tags: []`** — 2-6 entidades/tecnologias, mostradas como pills.
 
 ## JSON Schemas
 
 ### `data/editions.json`
+
 ```json
 {
   "last_generated": "2026-04-17T06:00:00-03:00",
@@ -103,8 +100,8 @@ Além dos campos básicos, a skill gera (todos opcionais):
     {
       "date": "YYYY-MM-DD",
       "summary": "1-2 frases",
-      "counts_by_category": { "sec": 3, "ai": 4, "cloud": 2 },
-      "counts_by_tool": { "cursor": 1, "docker": 1 },
+      "counts_by_category": { "sec": 3, "ai": 2, "aiops": 3, "cloud": 2 },
+      "counts_by_tool": { "cursor": 1, "langfuse": 1, "docker": 1 },
       "highlights": [{ "title": "...", "url": "..." }]
     }
   ]
@@ -112,349 +109,296 @@ Além dos campos básicos, a skill gera (todos opcionais):
 ```
 
 ### `data/{YYYY-MM-DD}.json`
-Raiz: `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601), `hero_title`, `hero_description`, `pillars[]`, `news[]`, `tools[]`, `sources[]`.
 
-Item de `pillars[]`: obrigatórios `pillar` (`java`|`aws`|`distarch`), `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`, `image`. Exatamente 3 itens, um por pilar.
+Raiz: `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601), `hero_title`, `hero_description`, `highlights[]`, `news[]`, `tools[]`, `quotes[]`, `sources[]`.
 
-Item de `news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`. Opcionais: `urgent`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`, `image`.
+Item de `highlights[]`: exatamente 3 itens, selecionados pelo score explícito (FASE 6 da skill). Cópia de item de `news[]` ou `tools[]` + `source_array: "news" | "tools"`.
 
-Item de `tools[]`: obrigatórios `tool_key`, `name`, `kind`, `headline`, `source`, `url`. `version` obrigatório quando `kind === "release"`. Opcionais: `icon`, `description`, `published_at`, `image`, `tags`. `kind` ∈ `{release, news, tip, tutorial, curiosity}`. **Nunca omitir `kind`** — não há fallback no render.
+Item de `news[]`: obrigatórios `category`, `category_label`, `category_icon`, `headline`, `summary`, `why_it_matters`, `source`, `url`, `read_time`. Opcionais: `urgent`, `breaking`, `severity`, `cves[]`, `tags[]`, `published_at`, `image`.
 
-Dois perfis de assunto fixo no campo `kind`:
-- **Ferramenta com release** (structurizr, cursor, docker, kubernetes, postgres, kafka, springboot…): prioridade `release > news > tutorial > tip > curiosity`. Use `release` quando nova versão saiu na janela; se não, use `news`/`tip`/`tutorial`.
-- **Tema/domínio** (cve, owasp, openapi, java, javascript, python): prioridade `news > tutorial > tip > release > curiosity`. `release` só para versões de linguagem/spec (ex: JDK 25, ECMAScript 2025); o dia-a-dia é `news` e `tip`.
+Item de `tools[]`: obrigatórios `tool_key`, `name`, `kind`, `headline`, `why_it_matters`, `source`, `url`. `version` obrigatório quando `kind === "release"`. Opcionais: `icon`, `description`, `published_at`, `image`, `tags`. `kind` ∈ `{release, news, tip, tutorial, curiosity}`.
+
+Hierarquia de `kind` em `tools[]`: `release > news > tutorial > tip > curiosity`. Use `curiosity` apenas como último recurso — máximo 1 por ferramenta por mês.
 
 Array `quotes[]` (5 itens/dia): `text`, `author`, `related_to` (obrigatórios), `context` (opcional). `related_to` ∈ `"cat:<chave>"`, `"tool:<chave>"`, `"general"`.
 
-Schema completo em `skills/csr-news-daily.md`. Validação em `scripts/validate_editions.py`:
-- Edições ≥ `2026-04-18` são **strict v5** (taxonomia completa — 13 categorias, 42 tool_keys, `pillars[]` com campo `pillar`, `kind`/`tool_key` obrigatórios em `tools[]`).
+Schema completo em `skills/csr-news-daily.md`. Validação em `scripts/validate_editions.py` (constantes `CATEGORIES` e `TOOL_KEYS`). Taxonomia única — sem cutoffs históricos.
 
-### `data/java-versions/index.json`
-```json
-{
-  "last_updated": "2026-04-17T06:00:00-03:00",
-  "latest_ga": "24",
-  "versions": [
-    { "version": "21", "release_date": "2023-09-19", "lts": true, "oracle_support_until": "2031-09", "jep_count": 15 },
-    { "version": "17", "release_date": "2021-09-14", "lts": true, "oracle_support_until": "2029-09", "jep_count": 14 }
-  ]
-}
-```
-Ordenado do mais recente para o mais antigo. Atualizado pela skill a cada execução (só muda se houver versão nova GA).
+## Highlights (`highlights[]`)
 
-### `data/java-versions/java-{N}.json`
-```json
-{
-  "version": "21",
-  "release_date": "2023-09-19",
-  "lts": true,
-  "oracle_support_until": "2031-09",
-  "summary": "Descrição geral da versão em PT-BR.",
-  "links": [
-    { "label": "Release Notes", "url": "https://openjdk.org/projects/jdk/21/" },
-    { "label": "Baeldung: What's new", "url": "https://www.baeldung.com/java-lts-21-new-features" }
-  ],
-  "jeps": [
-    {
-      "number": 444,
-      "title": "Virtual Threads",
-      "status": "Standard",
-      "description": "2-3 linhas em PT-BR explicando o que muda e por que importa para o arquiteto.",
-      "url": "https://openjdk.org/jeps/444"
-    }
-  ]
-}
-```
-`status` ∈ `Standard | Preview | Incubator | Removed`. Gerado na 1ª execução (Java 11–24) e auto-atualizado quando nova versão GA é detectada.
+Cada edição leva **3 destaques** escolhidos pelo **score explícito** (v1):
 
-## Pilares (`pillars[]`)
+| Sinal | Pontos |
+|---|---|
+| `kind === "release"` oficial | +3 |
+| Convergência: ≥2 fontes independentes | +2 |
+| HN ≥150 pts OU Lobste.rs top 10 OU GitHub Trending daily | +2 |
+| Blog de engenharia Tier 1 ou autor canônico | +1 |
+| Impacto arquitetural claro (CVE CVSS ≥9, breaking, GA major) | +1 |
 
-Os três pilares são os destaques fixos do topo de cada edição — um por tema principal:
+Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo. Preferir ≥2 categorias distintas — documentar exceção em `hero_description` se necessário.
 
-| `pillar` | Tema | Cor | Ícone |
-|---|---|---|---|
-| `java` | Java & JVM | `#f89820` | ☕ |
-| `aws` | AWS | `#FF9900` | 🔶 |
-| `distarch` | Arquitetura Distribuída | `#818cf8` | 🕸 |
+## Categorias (16)
 
-Cada pilar substitui o antigo `top3` — visual diferenciado no topo com borda colorida espessa e badge de identificação. Retrocompat: edições antigas com `top3` são renderizadas normalmente.
-
-## Categorias (taxonomia v5 — desde 2026-04-18)
-
-| Chave | CSS Var | Label | Ícone | Escopo |
+| Chave | CSS Var | Label | Ícone | Escopo (subcategorias) |
 |-------|---------|-------|-------|--------|
-| **Transversal / Hot** | | | | |
-| ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos, agents, RAG, MCP, AI coding tools |
-| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust; SBOM, Sigstore, SLSA, supply chain; Vault, secrets mgmt; Falco, Trivy, container security |
+| **Transversal** | | | | |
+| ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos fundacionais · Pesquisa · Releases OpenAI/Anthropic/Google/Meta/HF · Benchmarks · Papers · Multimodal · AI Safety |
+| aiops | `--cat-aiops` | AIOps & Agents | 🧠 | LLMOps · AI Agents & MCP · RAG & Vector DBs · AI Coding em produção · LLM Evals · LLM Observability · Guardrails · Agent Orchestration · Local LLM |
+| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade · Passkeys/WebAuthn · Supply Chain (SBOM/SLSA/Sigstore) · Runtime/Container Security · AI Security · Secrets Management · LGPD |
 | **Plataforma & Infraestrutura** | | | | |
-| aws | `--cat-aws` | AWS | 🔶 | Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, CloudWatch, etc. |
-| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | K8s, Docker, GitOps, Argo CD, Istio, platform engineering, SRE |
-| obs | `--cat-obs` | Observabilidade | 📈 | Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog; SLO/SLI/error budgets; eBPF, profiling contínuo; incident management, on-call, post-mortems |
+| cloud | `--cat-cloud` | Cloud | ☁️ | AWS · Azure · GCP · **CDN & Edge Delivery** · **Cloud Networking (VPC/peering)** · Well-Architected · FinOps multi-cloud |
+| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | Kubernetes & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs (Backstage) · **Edge/Proxies/Protocolos (HTTP/3, QUIC, nginx, envoy)** · Developer Productivity |
+| obs | `--cat-obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
 | **Desenvolvimento** | | | | |
-| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring, Go, Node, Rust, JVM, Gradle, Maven, frameworks server-side |
-| data | `--cat-data` | Dados & Streaming | 🗄️ | DB relacional/NoSQL, warehouse, lakehouse, streaming, CDC |
-| integ | `--cat-integ` | Integração & Eventos | 🔌 | APIs (REST/GraphQL/gRPC), Kafka, EDA, iPaaS, OpenAPI, schemas |
-| testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD, BDD, testing pyramid, unit/integration/E2E, contract testing (Pact), mutation testing, chaos engineering, performance/load, property-based testing, CI test strategy, frameworks (JUnit, pytest, Jest, Playwright, Cypress, Vitest) |
+| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring · Go · Rust · Node/Deno/Bun · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns |
+| data | `--cat-data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Kafka/Flink) · Lakehouse (Databricks/dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
+| integ | `--cat-integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
+| testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing · Chaos Engineering · Performance/Load (k6) · Mutation Testing · AI-assisted testing |
+| frontend | `--cat-frontend` | Frontend & Web | 🎨 | Frameworks SPA · Meta-frameworks · RSC & streaming SSR · Web Platform · Design Systems · Core Web Vitals · Edge Rendering · Build Tools (Vite/Bun/Biome) · a11y/i18n |
 | **Arquitetura** | | | | |
-| design | `--cat-design` | Design & Padrões | 🏛️ | DDD, padrões, C4, Clean/Hex, ADRs, Structurizr, refactoring |
-| distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems |
-| enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | TOGAF, integração enterprise, landing zones, reference architectures; Team Topologies, Conway's Law; IDP/Backstage, developer portal; FinOps, cloud governance; API governance, API strategy |
+| design | `--cat-design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Refactoring · docs-as-code |
+| distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Caching · Consistency Models · Durable Execution · Post-mortems |
+| enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | 3 eixos: Estrutura org (Team Topologies, Platform Eng, DevEx/DORA/SPACE); Governança & custos (API Governance, FinOps); Estratégia técnica (Tech Radar) |
+| **Fundação** | | | | |
+| fundamentals | `--cat-fundamentals` | Fundamentos de Computação | 🧱 | SO · Redes · Estruturas de Dados & Algoritmos · Concorrência & Paralelismo · Memory models · Teoria de filas · Performance de hardware — **sexta = deep dive (2-3 itens, autor canônico)** |
 | **Domínio** | | | | |
-| fintech | `--cat-fintech` | Fintech & Pagamentos | 💳 | Cartões de crédito, Visa, cooperativas de crédito, Pix, Open Finance, DREX, PCI DSS, payment rails |
+| fintech | `--cat-fintech` | Fintech & Pagamentos | 💳 | **Cartões & Redes (Visa/Mastercard/Elo)** · **Cooperativas (Unicred/Sicoob/Sicredi)** · Pix/Open Finance/DREX · PCI DSS · Embedded Finance/BaaS · Payment Rails |
 
-**Chaves legadas** (mapeadas em runtime para a nova taxonomia):
-- `cloud` → `aws`, `db` → `data`, `lang` → `backend`, `frontend` → home (removida)
-- `arqsw` → `design`, `arqsol` → `enterprise`
+### Regras de desempate (pertencimento duplo)
 
-## Conceito fundamental: Categorias vs. Tópicos
+- Service Mesh → `distarch` · Zero Trust → `sec` · Platform Engineering (conceito) → `enterprise` · Backstage/IDPs (produto) → `devops` · Supply Chain → `sec`
+- Kafka/Flink (tech) → `data`; EDA (padrão) → `integ` · DDD → `design`; Microsserviços → `distarch`
+- OpenAPI/GraphQL → `integ` · **MCP como protocolo → `aiops`**; como contrato API → refs em `integ`
+- **AI Agents / LangGraph / LLM em produção → `aiops`**; modelos/pesquisa → `ai`
+- **Vector DBs (pgvector, Pinecone) → `data` (casa canônica)**; aplicação em agents → `aiops`
+- **LLM Observability (Langfuse, LangSmith) → `aiops`**; AI Security → `sec`
+- AWS/Azure/GCP/CDN/Edge/DNS → `cloud`; HTTP/3, QUIC, proxies (nginx/envoy) → `devops`
+- **WebAssembly no backend (Wasmtime, Spin, WASI) → `backend`**
+- Fundamentos de SO/redes/algoritmos → `fundamentals`
 
-Esta distinção é crítica — afeta como a skill pesquisa, como o JSON é gerado e como a SPA exibe o conteúdo.
+## Conceito fundamental: Categorias, Linguagens, Ferramentas
 
-### Categorias (`CAT`)
-Temas editoriais **amplos**. Cada categoria abrange múltiplas tecnologias, padrões e sub-tópicos. Em `sec`, por exemplo, podem aparecer CVEs, Keycloak, Auth0, OWASP, SAML, zero-trust — qualquer coisa do universo de segurança.
+### Categoria (`CAT`)
 
-- Cobertura: **mínimo 1, máximo 3 itens por categoria por edição** (em `news[]` + `pillars[]` combinados).
-- Se não houver notícia recente: usa evergreen clássico/importante, sem repetir URLs de edições anteriores.
-- Não é garantido que **todo sub-tópico** de uma categoria apareça todo dia — isso é normal. O que importa é que a categoria como um todo tenha cobertura.
-- Aparecem na sidebar listadas por chave.
-- View: `cat:{chave}` agrega TODAS as notícias daquela categoria através das edições.
+Tema editorial **amplo**. Cada categoria tem subcategorias que guiam pesquisa (e populam `tags[]`) mas **não aparecem na UI**.
 
-### Tópicos (`TOOLS` no código, `tool_key` no JSON)
-Tecnologias ou temas **específicos** monitorados. A skill busca conteúdo recente para cada um — se não houver, pula.
+- Cobertura v1: **sem mínimo obrigatório por categoria** — cats sem sinal do dia podem ficar em 0 itens. Teto 3/cat (até 5 em `urgent:true` ou convergência ≥3 fontes).
+- **Mínimo total**: 15 itens/dia em `news[]` (janela ≤24h), 20 (1-3 dias), 25 (>3 dias).
+- **Sexta-feira**: `fundamentals` ganha 2-3 itens obrigatórios (1 evergreen canônico).
+- Aparecem na sidebar esquerda listadas por grupo editorial.
+- View: `cat:{chave}` agrega todas as notícias daquela categoria.
 
-- Cobertura mínima: **1 item obrigatório por tópico, todos os 37, sem exceção**.
-- Se não encontrar conteúdo fresco para um tópico: usar evergreen clássico/importante daquele tópico, sem repetir URLs de edições anteriores.
-- Aparecem no rail (coluna direita) agrupados em 3 seções: Tópicos, Ferramentas, Linguagens.
-- View: `tool:{chave}` exibe TODOS os itens daquele tópico através das edições (releases, news, tips, tutoriais, curiosidades — seções distintas).
-- O campo JSON se chama `tool_key` (nome técnico histórico que permanece no schema). O conceito é "tópico".
+### Subcategoria
+
+Recorte conceitual. **Invisível na UI** — guia queries da skill e popula `tags[]`. Sem cobertura obrigatória diária.
+
+### Linguagem (`group:'lang'` em `TOOLS`)
+
+3 itens imutáveis: `java`, `javascript`, `python`. Entram no pool de rotação dinâmica diária de `tools[]`.
+
+### Ferramenta (`group:'tools'` em `TOOLS`)
+
+Só entra se tem **release notes/changelog identificável**. Conceitos/disciplinas (SRE, DevEx, FinOps, Platform Engineering) **não são ferramentas** — viram subcategorias.
+
+- **Cobertura v1**: **rotação dinâmica** — a skill escolhe **mínimo 10 tools/dia** priorizando (a) releases/news de 3-7 dias, (b) rotação para não repetir últimas 7 edições, (c) fallback com tutorial/deep-dive relacionado de autor canônico. Sem obrigatoriedade fixa por ferramenta.
+- Aparecem no rail direito agrupadas por subgrupo.
+- View: `tool:{chave}` exibe todos os itens daquela ferramenta.
 
 ### Quando me pedirem para adicionar algo novo — perguntar sempre
 
-**Antes de adicionar qualquer coisa nova**, perguntar ao usuário:
+| Tipo | Quando é | Exemplos |
+|---|---|---|
+| **Categoria** | Tema editorial amplo, cobre múltiplas tecnologias/padrões | Um "mobile" novo, um "quantum" novo |
+| **Subcategoria** | Recorte de categoria existente, conceito/disciplina | "SAML" em `sec`, "TOGAF" em `enterprise`, "Service Mesh" em `distarch` |
+| **Ferramenta** | Produto com changelog/release notes identificável | Docker, Kubernetes, Next.js, Langfuse |
 
-> *"Isso deve ser um **Tópico** (monitorado diariamente, sempre aparece em `tools[]`, tem view dedicada no rail) ou deve ser coberto apenas como **sub-tópico de uma Categoria** existente (aparece em `news[]` quando houver notícia, sem compromisso diário)?"*
-
-A diferença prática:
-- **Tópico**: Git, Kafka, Kubernetes — tecnologias que queremos SEMPRE cobertas, com pelo menos 1 item/dia, com logo no rail e view dedicada.
-- **Sub-tópico de categoria**: "SAML" dentro de `sec`, "TOGAF" dentro de `enterprise` — aparecem quando há notícia, sem cobertura obrigatória diária.
-
-Se o usuário não souber a diferença, explique e aguarde a decisão antes de modificar qualquer arquivo.
+**Teste rápido** para decidir ferramenta vs subcategoria: *"Tem URL estável de release notes/changelog?"* — se sim, ferramenta; se não, subcategoria.
 
 ---
 
-## Tópicos monitorados (37, agrupados por grupo do rail)
+## Linguagens & Ferramentas monitoradas (52 = 3 linguagens + 49 ferramentas)
 
-Cada tópico tem `logo` (URL), `group` (grupo do rail), `category` (chave de `CAT` — para filtro editorial) e `kind` (tipo visual) no mapa `TOOLS` em `index.html`. O campo `tool_key` em cada item de `tools[]` do JSON diário garante o match exato. Se não houver conteúdo direto, conteúdo indireto do ecossistema é obrigatório (documentar em `description`).
+Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subagrupamento visual no rail), `category` (chave de `CAT`) e `kind` no array `TOOLS` em `home.html` (SPA) e em `TOOL_SUBGROUPS` de `index.html` (landing).
 
-> **Distinção importante**: `group` define onde o tópico aparece no rail (`subjects` = temas conceituais, `tools` = produtos de software, `lang` = linguagens). `category` define em qual filtro editorial o item de notícia aparece — são conceitos independentes.
+> **`group` vs `category`**: `group` define onde o item aparece no rail (`tools` vs `lang`). `category` define filtro editorial. Conceitos independentes.
 
-| Grupo do rail | `tool_key` | Nome | Categoria editorial |
+| Subgrupo rail | `tool_key` | Nome | Categoria editorial |
 |---|---|---|---|
-| **Tópicos** (alfabético) | | | |
-| Tópicos | `apifirst` | API-First | `integ` |
-| Tópicos | `cloudnative` | Cloud Native | `distarch` |
-| Tópicos | `cve` | CVEs & Vulnerabilidades | `sec` |
-| Tópicos | `ddd` | DDD | `design` |
-| Tópicos | `eventdriven` | Event-Driven | `distarch` |
-| Tópicos | `microservices` | Microsserviços | `distarch` |
-| Tópicos | `owasp` | OWASP | `sec` |
-| Tópicos | `resiliency` | Resiliência | `distarch` |
-| **Ferramentas — AI & IDEs** (alfabético) | | | |
-| Ferramentas | `chatgpt` | ChatGPT | `ai` |
-| Ferramentas | `claudecode` | Claude Code | `ai` |
-| Ferramentas | `cursor` | Cursor IDE | `ai` |
-| Ferramentas | `intellij` | IntelliJ IDEA | `backend` |
-| Ferramentas | `vscode` | VS Code | `ai` |
-| **Ferramentas — Git & CI/CD** (alfabético) | | | |
-| Ferramentas | `argocd` | Argo CD | `devops` |
-| Ferramentas | `ghactions` | GitHub Actions | `devops` |
-| Ferramentas | `git` | Git | `devops` |
-| Ferramentas | `github` | GitHub | `devops` |
-| Ferramentas | `helm` | Helm | `devops` |
-| **Ferramentas — Containers & Infra** (alfabético) | | | |
-| Ferramentas | `docker` | Docker | `devops` |
-| Ferramentas | `istio` | Istio | `devops` |
-| Ferramentas | `kubernetes` | Kubernetes | `devops` |
-| Ferramentas | `lambda` | AWS Lambda | `aws` |
-| Ferramentas | `terraform` | Terraform | `devops` |
-| **Ferramentas — Dados & Integração** (alfabético) | | | |
-| Ferramentas | `databricks` | Databricks | `data` |
-| Ferramentas | `dynamodb` | Amazon DynamoDB | `aws` |
-| Ferramentas | `kafka` | Apache Kafka | `integ` |
-| Ferramentas | `mysql` | MySQL | `data` |
-| Ferramentas | `openapi` | OpenAPI | `integ` |
-| Ferramentas | `postgres` | PostgreSQL | `data` |
-| Ferramentas | `redis` | Redis | `data` |
-| **Ferramentas — Obs & Segurança** (alfabético) | | | |
-| Ferramentas | `dynatrace` | Dynatrace | `obs` |
-| Ferramentas | `grafana` | Grafana | `obs` |
-| Ferramentas | `keycloak` | Keycloak | `sec` |
-| **Ferramentas — Backend & Design** (alfabético) | | | |
-| Ferramentas | `gradle` | Gradle | `backend` |
-| Ferramentas | `maven` | Apache Maven | `backend` |
-| Ferramentas | `quarkus` | Quarkus | `backend` |
-| Ferramentas | `springboot` | Spring Boot | `backend` |
-| Ferramentas | `springcloud` | Spring Cloud | `backend` |
-| Ferramentas | `structurizr` | Structurizr | `design` |
-| **Linguagens** (alfabético) | | | |
+| **AI & IDEs** | | | |
+| AI & IDEs | `claudecode` | Claude Code | `aiops` |
+| AI & IDEs | `cursor` | Cursor IDE | `aiops` |
+| AI & IDEs | `intellij` | IntelliJ IDEA | `backend` |
+| AI & IDEs | `vscode` | VS Code | `aiops` |
+| **AI/LLM Ops** (novo) | | | |
+| AI/LLM Ops | `mcp` | Model Context Protocol | `aiops` |
+| AI/LLM Ops | `langfuse` | Langfuse | `aiops` |
+| AI/LLM Ops | `ollama` | Ollama | `aiops` |
+| AI/LLM Ops | `langgraph` | LangGraph | `aiops` |
+| **Git & CI/CD** | | | |
+| Git & CI/CD | `argocd` | Argo CD | `devops` |
+| Git & CI/CD | `ghactions` | GitHub Actions | `devops` |
+| Git & CI/CD | `github` | GitHub | `devops` |
+| Git & CI/CD | `helm` | Helm | `devops` |
+| Git & CI/CD | `backstage` | Backstage | `enterprise` |
+| **Containers & IaC** | | | |
+| Containers & IaC | `docker` | Docker | `devops` |
+| Containers & IaC | `kubernetes` | Kubernetes | `devops` |
+| Containers & IaC | `terraform` | Terraform | `devops` |
+| Containers & IaC | `opentofu` | OpenTofu | `devops` |
+| **Mesh, Proxies & Edge** | | | |
+| Mesh, Proxies & Edge | `istio` | Istio | `distarch` |
+| Mesh, Proxies & Edge | `envoy` | Envoy | `devops` |
+| Mesh, Proxies & Edge | `nginx` | Nginx | `devops` |
+| Mesh, Proxies & Edge | `cloudflare` | Cloudflare | `cloud` |
+| **Dados & Streaming** | | | |
+| Dados & Streaming | `databricks` | Databricks | `data` |
+| Dados & Streaming | `postgres` | PostgreSQL | `data` |
+| Dados & Streaming | `pgvector` | pgvector | `data` |
+| Dados & Streaming | `redis` | Redis | `data` |
+| Dados & Streaming | `kafka` | Apache Kafka | `integ` |
+| Dados & Streaming | `dbt` | dbt | `data` |
+| Dados & Streaming | `temporal` | Temporal | `distarch` |
+| **Obs & Segurança** | | | |
+| Obs & Segurança | `dynatrace` | Dynatrace | `obs` |
+| Obs & Segurança | `datadog` | Datadog | `obs` |
+| Obs & Segurança | `grafana` | Grafana | `obs` |
+| Obs & Segurança | `opentelemetry` | OpenTelemetry | `obs` |
+| Obs & Segurança | `prometheus` | Prometheus | `obs` |
+| Obs & Segurança | `keycloak` | Keycloak | `sec` |
+| Obs & Segurança | `vault` | Vault (HashiCorp) | `sec` |
+| Obs & Segurança | `trivy` | Trivy (Aqua) | `sec` |
+| **Backend & Build** | | | |
+| Backend & Build | `gradle` | Gradle | `backend` |
+| Backend & Build | `maven` | Apache Maven | `backend` |
+| Backend & Build | `springboot` | Spring Boot (+ Spring Cloud) | `backend` |
+| Backend & Build | `wasmtime` | Wasmtime | `backend` |
+| **Frontend & Testing** | | | |
+| Frontend & Testing | `nextjs` | Next.js | `frontend` |
+| Frontend & Testing | `vite` | Vite | `frontend` |
+| Frontend & Testing | `bun` | Bun | `frontend` |
+| Frontend & Testing | `biome` | Biome | `frontend` |
+| Frontend & Testing | `k6` | Grafana k6 | `testing` |
+| Frontend & Testing | `playwright` | Playwright | `testing` |
+| **Design & Docs-as-code** | | | |
+| Design & Docs-as-code | `structurizr` | Structurizr (C4 + DSL + MCP) | `design` |
+| Design & Docs-as-code | `plantuml` | PlantUML | `design` |
+| Design & Docs-as-code | `mermaid` | Mermaid | `design` |
+| **Linguagens** | | | |
 | Linguagens | `java` | Java & JVM | `backend` |
-| Linguagens | `javascript` | JavaScript / TS | `backend` |
+| Linguagens | `javascript` | JavaScript / TS | `frontend` |
 | Linguagens | `python` | Python | `backend` |
 
-**Tópicos legados** (presentes em edições anteriores, ainda navegáveis via deep link, mas não monitorados ativamente): `teams`, `notion`, `c4`, `cloudwatch`, `apigateway`, `sns`, `sqs`, `togaf`, `dbeaver`, `mongocompass`, `whimsical`, `plantuml`, `warp`, `postman`.
+---
 
 ## O Que Atualizar Quando
 
-> **Princípio universal**: antes de adicionar QUALQUER item novo (categoria, tópico, linguagem), **pesquise os melhores sites sobre o tema** (ver protocolo abaixo). Só depois, atualize TODOS os arquivos listados.
+> **Princípio universal**: antes de adicionar QUALQUER item novo (categoria, ferramenta, linguagem), **pesquise as melhores fontes sobre o tema** (WebSearch). Só depois, atualize TODOS os arquivos afetados.
 >
-> **Fonte de verdade**: este `CLAUDE.md`. Se mudar qualquer regra editorial (cobertura, taxonomia, schema), sincronize os **3 documentos humanos** no mesmo commit: `README.md`, `CLAUDE.md`, `skills/csr-news-daily.md`. Divergência entre eles é bug — sempre rodar `python3 scripts/validate_editions.py` antes do commit.
+> **Fonte de verdade**: este `CLAUDE.md`. Se mudar regra editorial, sincronize os **3 documentos humanos** no mesmo commit: `README.md`, `CLAUDE.md`, `skills/csr-news-daily.md`. Sempre rodar `python3 scripts/validate_editions.py` antes do commit.
 
 ### Mapa: o que aparece na tela e de onde vem
 
-Toda mudança em categorias, tópicos, linguagens ou links de pesquisa impacta múltiplos lugares ao mesmo tempo. Use este mapa para não esquecer nenhum:
-
 | O que aparece na tela | Onde fica no código | O que muda na skill |
 |---|---|---|
-| **Sidebar esquerda — lista de categorias** | `CAT` em `index.html` (chave, label, ícone emoji) | Seção "Categorias e Queries" + fontes |
-| **Sidebar — cor de destaque ao filtrar** | `--cat-{chave}` em `:root` e `[data-theme="light"]` de `index.html` | — |
-| **Sidebar — ícone SVG de categoria** | `CAT_ICONS` em `index.html` (path SVG) | — |
-| **Rail direito — grupos Tópicos/Ferramentas/Linguagens** | `TOOL_GROUPS` e array `TOOLS` em `index.html` | Seção "TÓPICOS MONITORADOS" + conteúdo indireto |
-| **Rail — logo de tópico/ferramenta** | campo `logo` na entrada `TOOLS` de `index.html` | — |
-| **About page — "N categorias"** | hardcoded em `index.html` (`ab-stat-n`) | Contagens em MODO NORMAL e PRIMEIRA EXECUÇÃO |
-| **About page — "N tópicos"** | hardcoded em `index.html` (`ab-stat-n`) | Idem |
-| **Prompt-bar sticky (cor por contexto)** | calculado via `CAT[key]` e `TOOLS[key]` em `index.html` | — |
-| **Filtro `cat:{chave}` e `tool:{chave}` via URL** | `CAT` e `TOOLS` em `index.html` | — |
-| **Feed diário (home)** | JSON `data/YYYY-MM-DD.json` gerado pela skill | Queries, fontes, cobertura obrigatória |
-| **README — lista de categorias e tópicos** | `README.md` (seções "Categorias cobertas" e "Assuntos fixos") | — |
-| **Validador** | `CATEGORIES_V{n}` e `TOOL_KEYS_V{n}` em `validate_editions.py` | — |
+| **Sidebar — lista de categorias** | `CAT` em `home.html` | Seção "CATEGORIAS E QUERIES" |
+| **Sidebar — cor de destaque ao filtrar** | `--cat-{chave}` em `:root` e `[data-theme="light"]` de `home.html` | — |
+| **Sidebar — ícone SVG de categoria** | `CAT_ICONS` em `home.html` | — |
+| **Rail direito — subgrupos + ferramentas** | `TOOL_SUBGROUPS` + `TOOLS` em `home.html` | Tabela `tool_key` e política de conteúdo indireto |
+| **Rail — logo da ferramenta** | campo `logo` em `TOOLS` | — |
+| **About page — "N categorias" / "N monitorados"** | `ab-stat-n` em `home.html` | — |
+| **Landing `index.html`** | `CATS` + `TOOL_SUBGROUPS` | — |
+| **Filtro `cat:{chave}` e `tool:{chave}` via URL** | `CAT` e `TOOLS` em `home.html` | — |
+| **Feed diário (home)** | JSON `data/YYYY-MM-DD.json` gerado pela skill | Queries + fontes + regras de cobertura |
+| **README — listas de categorias e ferramentas** | `README.md` | — |
+| **Validador** | `CATEGORIES` e `TOOL_KEYS` em `validate_editions.py` | — |
 
-**Regra prática**: se mudar qualquer coisa nesta tabela — seja na skill, seja no JSON, seja na taxonomia — percorra a coluna "Onde fica no código" e atualize todos os campos afetados em `index.html` e nos demais arquivos. Não existe mudança "só na skill" que não tenha reflexo visual.
+**Regra prática**: se mudar taxonomia, percorra todos os campos desta tabela.
 
 ---
 
 ### Classificar uma adição nova — Claude deve fazer isso PROATIVAMENTE
 
-**Toda vez que o usuário mencionar algo novo que possa ser adicionado ao projeto** (uma ferramenta, tecnologia, tema, linguagem, blog, framework — qualquer coisa), Claude deve **imediatamente**:
+| Tipo | Compromisso | Onde aparece | Critério principal |
+|---|---|---|---|
+| **Categoria** | Cobertura flexível (sem mínimo obrigatório); entra na sidebar com cor e ícone | `CAT`, CSS var, `CAT_ICONS`, About page | Tema amplo com notícias de múltiplas fontes; escopo ortogonal às 16 existentes |
+| **Ferramenta** | Entra no pool de rotação dinâmica (mín. 10 tools/dia); rail direito com logo | `TOOLS`, rail, About page | Tecnologia/produto com changelog próprio |
+| **Linguagem** | Igual à Ferramenta + dados de versão em `data/{lang}-versions/` | Idem + seção dedicada na skill | Linguagem de programação com releases |
+| **Sub-categoria / tag** | Aparece em `tags[]` quando há notícia | `tags[]` em `news[]` | Sub-tópico de categoria existente |
 
-1. **Propor a classificação** explicando as diferenças e recomendando qual se aplica:
-
-   | Tipo | Compromisso | Onde aparece | Critério principal |
-   |---|---|---|---|
-   | **Categoria** | 1 item/dia obrigatório no feed, aparece na sidebar esquerda com cor e ícone | `CAT`, CSS var, `CAT_ICONS`, sidebar, About page | Tema amplo com ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às 13 categorias existentes |
-   | **Tópico** | 1 item/dia obrigatório em `tools[]`, aparece no rail direito com logo e view dedicada | `TOOLS`, rail, About page | Tecnologia/produto com changelog próprio, ≥1 release/mês, relevante para arquiteto |
-   | **Linguagem** | Igual ao Tópico + dados de versão em `data/{lang}-versions/` | Idem + seção dedicada de fontes na skill | Linguagem de programação com releases e ecossistema próprios |
-   | **Sub-categoria / tag** | Aparece em `tags[]` quando há notícia — sem compromisso diário | `tags[]` em `news[]` | Sub-tópico de categoria existente (ex: "SAML" dentro de `sec`); não precisa de cobertura diária garantida |
-
-2. **Pesquisar as melhores fontes** sobre o tema (ver protocolo "Pesquisar fontes antes de adicionar" abaixo) antes de qualquer implementação.
-
-3. **Aguardar confirmação** do usuário antes de modificar qualquer arquivo.
-
-Nunca implemente silenciosamente sem passar pela classificação. Se o usuário não souber a diferença, explique e apresente os impactos de cada opção.
+Sempre pesquisar melhores fontes (WebSearch) antes de implementar. Nunca implementar silenciosamente.
 
 ---
 
 ### Alterar o design visual
-- Edite `index.html` (CSS + HTML no mesmo arquivo)
-- Dados JSON não precisam mudar
-- Se adicionar/renomear classes CSS de categoria, atualize `CAT` e `CAT_ICONS` no JS
+
+- Edite `home.html` ou `index.html` (CSS + HTML no mesmo arquivo).
+- Dados JSON não precisam mudar.
 
 ### Pesquisar fontes antes de adicionar (OBRIGATÓRIO)
 
-**Toda vez que um novo Tópico, Categoria ou Linguagem for adicionado**, ANTES de implementar, faça uma pesquisa real (WebSearch) para identificar as melhores fontes:
-
 1. `"best [tema] blogs" OR "top [tema] resources" site:reddit.com`
-2. `"[tema] newsletter" most popular 2024 OR 2025`
+2. `"[tema] newsletter" most popular {current_year}`
 3. `"[tema] blog" developers OR architects`
 
-Com os resultados, identifique:
-- O **changelog/blog oficial** (release notes, announcements do vendor)
-- O **blog editorial de referência** (#1 mais citado pela comunidade)
-- **Sub-tópicos do tema** e os melhores sites para cada um
-
-Adicione essas fontes na seção correspondente da skill (`skills/csr-news-daily.md`):
-- **Categorias**: bloco de sub-tópicos com sites preferidos em "Fontes de alta reputação"
-- **Tópicos/Ferramentas**: tabela de changelogs (seção "TÓPICOS MONITORADOS") + queries específicas (seção "CATEGORIAS E QUERIES")
-- **Linguagens**: seção "Linguagens de Programação — fontes por tópico" + queries dedicadas
-
-**Os sites são sugestões e preferências** — se não encontrar conteúdo nos sites preferidos, pesquise em outros. Qualidade sempre prevalece sobre a fonte. Fontes genéricas (Medium sem autor, "top 10 tools") nunca como fontes primárias.
+Identifique: changelog/blog oficial, blog editorial de referência, sub-tópicos e melhores sites. Adicione fontes na skill (seção "CATEGORIAS E QUERIES" ou tabela de tools).
 
 ### Adicionar/remover uma categoria
 
-> **PESQUISA DE FONTES ANTES** — ver protocolo acima.
-
-1. Consulte as **regras de classificação** abaixo antes de decidir
-2. `index.html`: adicione chave em `CAT`, SVG path em `CAT_ICONS`, variável `--cat-{chave}` em `:root` e `[data-theme="light"]`
-3. `index.html` **About page**: atualize o stat hardcoded `"N categorias"` (linha com `ab-stat-n`)
-4. `README.md`: atualize a lista de categorias cobertas (seção "Categorias cobertas")
-5. `CLAUDE.md`: atualize a tabela de categorias (esta seção)
+1. `home.html`: chave em `CAT`, SVG em `CAT_ICONS`, variável `--cat-{chave}` em `:root` e `[data-theme="light"]`.
+2. `home.html` About page: stat `N categorias` (linha `ab-stat-n`).
+3. `index.html`: adicione em `CATS`.
+4. `README.md`: atualize a lista.
+5. `CLAUDE.md`: atualize tabela de categorias (esta seção).
 6. `skills/csr-news-daily.md`:
-   - Seção "Categorias e Queries" (novo bloco de queries)
-   - Fontes na seção "Fontes de alta reputação" (bloco por categoria)
-   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 3A (`sec`/`ai`/`aws`/`devops`), FASE 3B (`obs`/`data`/`integ`/`backend`/`testing`) ou FASE 3C (`design`/`enterprise`/`distarch`/`fintech`): adicione/remova a categoria na linha do grupo correto
-   - Lista literal das 13 categorias em `news[]` cobertura obrigatória (perto do FASE 3A/3B/3C)
-   - Distribuição de quotes por categoria (protocolo MODO PRIMEIRA EXECUÇÃO)
-7. `scripts/validate_editions.py`: adicione à constante `CATEGORIES_V{n}` e incremente `STRICT_FROM_V{n}` para a data da primeira edição com a nova taxonomia
-8. Se **removida**: adicione à seção "Chaves legadas" em `CLAUDE.md` e ao `LEGACY_CAT_MAP` em `index.html` se houver edições antigas com a chave
+   - Seção "CATEGORIAS E QUERIES" (novo bloco)
+   - Grupo FASE correto (3A/3B/3C) do FLUXO DE EXECUÇÃO
+   - Tabela de chaves válidas
+   - Regras de desempate
+7. `scripts/validate_editions.py`: adicione a `CATEGORIES`.
+8. `COMO-FUNCIONA.md`: atualize catálogo.
 
-### Adicionar/remover um Tópico
+### Adicionar/remover uma Ferramenta
 
-> **PESQUISA DE FONTES ANTES** — ver protocolo acima.
-
-1. **Perguntar ao usuário** se é Tópico ou sub-tópico de categoria (ver seção "Conceito fundamental" acima)
-2. `index.html`: adicione entrada no array `TOOLS` (com `aliases`, `kind`, `category`, `logo`, `group` = `subjects`/`tools`/`lang`)
-   - **Se `group:'tools'`** — defina também `subgroup`: escolha entre os 4 sub-grupos existentes (`ai-prod`, `devops`, `dados`, `backend`) ou crie um novo se nenhum se encaixar (adicione a `TOOL_SUBGROUPS` e insira a chave na lista `subgroupOrder` da função de render). Para `group:'subjects'` ou `group:'lang'` não há sub-grupos por enquanto.
-3. `index.html` **About page**: atualize o stat hardcoded `"N tópicos"` (linha com `ab-stat-n`)
-4. `README.md`: atualize a lista de assuntos fixos monitorados (seção "Assuntos fixos monitorados")
-5. `CLAUDE.md`: atualize a tabela de tópicos monitorados (esta seção abaixo)
+1. **Perguntar ao usuário** se é Ferramenta ou sub-tópico de categoria.
+2. `home.html`: adicione entrada em `TOOLS` (com `aliases`, `kind`, `category`, `logo`, `group:'tools'`, `subgroup`). Se subgrupo novo, adicione a `TOOL_SUBGROUPS` e à função de render.
+3. `home.html` About page: stat `N monitorados`.
+4. `index.html`: adicione em `TOOL_SUBGROUPS`.
+5. `README.md` / `CLAUDE.md`: atualize tabelas.
 6. `skills/csr-news-daily.md`:
-   - Tabela de changelogs em "TÓPICOS MONITORADOS" com changelog oficial e fontes
-   - Tabela de conteúdo indireto (seção "Conteúdo indireto" / "Ecossistema como fallback")
-   - Distinção "Ferramentas com release" vs "Temas/domínios" (hierarquia de `kind` em FASE 5A)
-   - **Grupo FASE correto** do FLUXO DE EXECUÇÃO — FASE 5A (Assuntos+AI: `apifirst`/`cloudnative`/`cve`/`ddd`/`eventdriven`/`microservices`/`owasp`/`resiliency`/`chatgpt`/`claudecode`/`cursor`/`intellij`/`vscode`), FASE 5B (DevOps+Lambda: adiciona `lambda`), FASE 5C (Dados+Integ: adiciona `dynamodb`), FASE 5D (Backend+Obs+Seg+Design: adiciona `quarkus`/`springcloud`), FASE 5E (Linguagens): adicione/remova o tópico na linha do grupo correto
-   - **4 locais** onde a lista de `tool_key` aparece: sanity check FASE 7, whitelist evergreen FASE 5A, schema `counts_by_tool`, Regras de Qualidade #14
-   - Queries específicas em "CATEGORIAS E QUERIES DE PESQUISA"
-7. `scripts/validate_editions.py`: adicione a `TOOL_KEYS_V{n}`
-8. Se **removido**: mova para "Tópicos legados" na tabela abaixo
+   - Tabela `tool_key · Categoria · Changelog` completa
+   - Política de conteúdo indireto (tabela)
+7. `scripts/validate_editions.py`: adicione a `TOOL_KEYS`.
+8. `COMO-FUNCIONA.md`: atualize catálogo.
 
 ### Adicionar uma Linguagem de Programação
 
-> **PESQUISA DE FONTES ANTES** — ver protocolo acima. Linguagens têm mais peso: precisam de changelog oficial, blog de release, newsletter dedicada, tutoriais e fontes por sub-tópico (performance, web, async, tooling).
-
-1. Todos os passos de "Adicionar Tópico" acima
-2. `skills/csr-news-daily.md`: adicione seção dedicada em "Linguagens de Programação — fontes por tópico" com fontes top-tier
-3. Se a linguagem tiver versioning relevante para arquitetos: criar `data/{lang}-versions/index.json` e `{lang}-{N}.json` (modelo: `data/java-versions/`)
-
-### Como classificar uma adição (Tópico, Categoria ou tag)
-
-**Sempre perguntar ao usuário qual dos três tipos é antes de implementar.**
-
-1. **Tópico** → array `TOOLS` + campo `tool_key` no JSON. Critérios: tem site/changelog próprio; produz conteúdo ≥1×/mês; relevante para arquiteto; encaixa em uma categoria. Compromisso: skill busca conteúdo TODOS OS DIAS.
-2. **Categoria** (`CAT`) → tema editorial amplo. Critérios: produz ≥1 notícia/semana de múltiplas fontes; escopo ortogonal às existentes. Se for recorte de categoria existente (ex.: "SAML" dentro de `sec`), vira **tag**, não categoria.
-3. **Tag** → `tags[]` em `news[]`. Tópicos transversais que aparecem esporadicamente. Não muda taxonomia.
-4. **Remoção**: Tópico/categoria que precisa de >3 `curiosity`/mês para cobertura mínima → avaliar substituição.
-5. **Em dúvida, perguntar** antes de implementar — mudanças têm custo (validator, skill, CSS vars, cutoff).
+1. Todos os passos de "Adicionar Ferramenta".
+2. `skills/csr-news-daily.md`: seção dedicada de queries.
+3. Se tiver versioning relevante: criar `data/{lang}-versions/index.json` e `{lang}-{N}.json` (modelo: `data/java-versions/`).
 
 ### Alterar queries de pesquisa
-- Edite em `skills/csr-news-daily.md` na seção "Categorias e Queries"
+
+Edite em `skills/csr-news-daily.md` na seção "CATEGORIAS E QUERIES DE PESQUISA".
 
 ### Testar localmente
+
 ```bash
 python3 -m http.server 8000
-open http://localhost:8000
-# Validação do JSON:
+open http://localhost:8000/home.html
 python3 scripts/validate_editions.py
-# Gerar feed:
 python3 scripts/generate_feed.py
 ```
 
 ## Convenções
 
-- Datas ISO 8601 (`YYYY-MM-DD`) em arquivos e campos `date`/`weekday`
-- `generated_at` e `last_generated` em ISO 8601 completo com timezone (`YYYY-MM-DDTHH:MM:SS-03:00`)
-- Conteúdo de texto em português brasileiro
-- Caminhos relativos (funciona no GitHub Pages com subpath)
-- JSON com indentação de 2 espaços, emojis em UTF-8 literal (não escapados)
-- `localStorage` usa prefixo `csrn-` (CsR News)
+- Datas ISO 8601 (`YYYY-MM-DD`) em arquivos e campos `date`/`weekday`.
+- `generated_at` e `last_generated` em ISO 8601 completo com timezone (`YYYY-MM-DDTHH:MM:SS-03:00`).
+- Conteúdo de texto em português brasileiro.
+- Caminhos relativos (funciona no GitHub Pages com subpath).
+- JSON com indentação de 2 espaços, emojis em UTF-8 literal.
+- `localStorage` usa prefixo `csrn-` (CsR News).
+- **`{current_year}`** nas queries da skill é substituído em runtime pelo ano atual.
 
 ## Deploy
 

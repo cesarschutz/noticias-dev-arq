@@ -1,56 +1,71 @@
 # CsR News — Arquivo Diário do Arquiteto
 
-Curadoria diária de notícias técnicas para arquitetos de software e solução, gerada automaticamente por IA e publicada no GitHub Pages.
+Curadoria diária de notícias técnicas para arquitetos de software e solução, gerada automaticamente por IA e publicada no GitHub Pages. Primeira versão pública (v1).
 
 ## Como funciona
 
-Arquitetura **data-driven**: um template HTML único carrega dados de arquivos JSON via `fetch()`.
+Arquitetura **data-driven**: templates HTML carregam dados de arquivos JSON via `fetch()`.
 
-- **SPA** (`index.html`): console ops single-file — topbar + sidebar + main + rail. Dark/light, cards/list, busca global, deep links.
-- **Dados** (`data/*.json`): gerados diariamente pela skill `skills/csr-news-daily.md`
-- **RSS** (`feed.xml`): gerado pelo CI antes do deploy
-- **Deploy**: push para `main` → GitHub Actions → GitHub Pages
+- **SPA** (`home.html`): console ops single-file — topbar + sidebar + main + rail. Dark/light, cards/list, busca global, deep links.
+- **Landing** (`index.html`): página institucional com catálogo de categorias e ferramentas.
+- **Dados** (`data/*.json`): gerados diariamente pela skill `skills/csr-news-daily.md`.
+- **RSS** (`feed.xml`): gerado pelo CI antes do deploy.
+- **Deploy**: push para `main` → GitHub Actions → GitHub Pages.
+
+## Diferencial v1
+
+Cada notícia e release traz o campo **`why_it_matters`** — uma frase explicando por que aquilo importa para um arquiteto sênior. Além disso, os destaques diários são escolhidos por um **score explícito** (release oficial, convergência de fontes, sinal social, autoridade da fonte, impacto arquitetural), e ferramentas entram via **rotação dinâmica** (mínimo 10/dia, priorizando updates reais dos últimos 3-7 dias).
 
 ## Funcionalidades
 
-- Filtrar por **categoria** ou **assunto fixo** (agrega todas as edições, lazy-load inteligente)
-- **Prev/Next entre edições**: botões `◀` `▶` ou `P`/`N`
-- **Botão "→ hoje"**: atalho visual para voltar à edição do dia atual
-- **Calendário na sidebar**: navegação por mês com destaque nas datas com edição disponível
-- **Prompt-bar sticky** no topo do main mostra contexto atual (edição/categoria/assunto) estilo terminal
-- **Ler depois**: salvar, ordenar, exportar JSON
-- **Cards clicáveis direto**: clique abre URL em nova aba; bookmark, copy, CVEs inline
-- **Teclado**: `T` tema, `1`/`2` modo, `U` filtro urgent, `P`/`N` prev/next edição
-- **RSS**: assine em `feed.xml`
+- Filtrar por **categoria**, **linguagem** ou **ferramenta** (agrega todas as edições, lazy-load inteligente).
+- **Prev/Next entre edições**: botões `◀` `▶` ou `P`/`N`.
+- **Botão "→ hoje"**: atalho visual para voltar à edição do dia atual.
+- **Calendário na sidebar**: navegação por mês com destaque nas datas com edição.
+- **Prompt-bar sticky** no topo do main mostra contexto atual (edição/categoria/ferramenta).
+- **Ler depois**: salvar, ordenar, exportar JSON.
+- **Cards clicáveis direto**: clique abre URL em nova aba; bookmark, copy, CVEs inline.
+- **Teclado**: `T` tema, `1`/`2` modo, `U` filtro urgent, `P`/`N` prev/next edição.
+- **RSS**: assine em `feed.xml`.
 
-## Categorias cobertas
+## Categorias cobertas (16)
 
-Segurança & IAM · IA & LLMs · AWS · DevOps & Plataformas · Observabilidade · Dados & Streaming · Integração & Eventos · Backend & Runtimes · **Testes & Qualidade** · Design & Padrões · Arq. Corporativa · Sist. Distribuídos · Fintech & Pagamentos.
+Segurança & IAM · IA & LLMs · **AIOps & Agents** (novo) · **Cloud** (AWS/Azure/GCP) · DevOps & Plataformas · Observabilidade & SRE · Backend & Runtimes · Dados & Streaming · Integração & Eventos · Testes & Qualidade · Frontend & Web · Design & Padrões · Sist. Distribuídos · Arq. Corporativa · **Fundamentos de Computação** (sexta-feira = deep dive) · Fintech & Pagamentos.
 
-## Assuntos fixos monitorados
+Cada categoria tem subcategorias internas (guiam pesquisa e populam `tags[]`, mas não aparecem na UI).
 
-**Tópicos**: API-First · Cloud Native · CVEs & Vulnerabilidades · DDD · Event-Driven · Microsserviços · OWASP · Resiliência
+## Linguagens monitoradas (3)
 
-**Ferramentas — AI & IDEs**: Cursor IDE · Claude Code · ChatGPT · VS Code · IntelliJ IDEA
+Java & JVM · JavaScript / TS · Python.
 
-**Ferramentas — Git & CI/CD**: Argo CD · GitHub Actions · Git · GitHub · Helm
+## Ferramentas monitoradas (49, só com release notes identificáveis)
 
-**Ferramentas — Containers & Infra**: Docker · Istio · Kubernetes · AWS Lambda · Terraform
+**AI & IDEs**: Claude Code · Cursor IDE · IntelliJ IDEA · VS Code
 
-**Dados & Integração**: PostgreSQL · MySQL · Databricks · Amazon DynamoDB · Apache Kafka · OpenAPI · Redis
+**AI/LLM Ops**: Model Context Protocol · Langfuse · Ollama · LangGraph
 
-**Backend & Design**: Spring Boot · Spring Cloud · Quarkus · Gradle · Apache Maven · Structurizr
+**Git & CI/CD**: Argo CD · GitHub Actions · GitHub · Helm · Backstage
 
-**Segurança & Obs**: CVEs & Vulnerabilidades · Keycloak · OWASP · Dynatrace · Grafana
+**Containers & IaC**: Docker · Kubernetes · Terraform · OpenTofu
 
-**Linguagens & Runtimes**: Java & JVM · JavaScript / TS · Python
+**Mesh, Proxies & Edge**: Istio · Envoy · Nginx · Cloudflare
+
+**Dados & Streaming**: Databricks · PostgreSQL · pgvector · Redis · Apache Kafka · dbt · Temporal
+
+**Obs & Segurança**: Dynatrace · Datadog · Grafana · OpenTelemetry · Prometheus · Keycloak · Vault · Trivy
+
+**Backend & Build**: Gradle · Apache Maven · Spring Boot (+ Spring Cloud) · Wasmtime
+
+**Frontend & Testing**: Next.js · Vite · Bun · Biome · Grafana k6 · Playwright
+
+**Design & Docs-as-code**: Structurizr · PlantUML · Mermaid
 
 ## Desenvolvimento local
 
 ```bash
 # fetch() requer servidor HTTP, não file://
 python3 -m http.server 8000
-open http://localhost:8000
+open http://localhost:8000/home.html
 
 # Validar schemas dos JSONs
 python3 scripts/validate_editions.py
@@ -62,19 +77,22 @@ python3 scripts/generate_feed.py
 ## Estrutura
 
 ```
-index.html                   → SPA (template único)
-assets/                      → Logo
-data/editions.json           → Índice + counts por categoria/assunto
-data/YYYY-MM-DD.json         → Dados de cada dia
-data/java-versions/          → JEPs por versão Java (11–atual)
-data/python-versions/        → PEPs por versão Python (3.8–atual)
-data/js-versions/            → Features por edição ECMAScript (ES2015–atual)
-data/quotes.json             → Frases de autores técnicos (gerado na 1ª execução)
-data/verses.json             → Versículos de Jesus em PT-BR (gerado na 1ª execução)
-skills/csr-news-daily.md     → Skill para geração diária
-scripts/validate_editions.py → Validador de schema + URLs + duplicatas
-scripts/generate_feed.py     → Gerador RSS 2.0
-.github/workflows/           → CI (deploy + validação)
+home.html                     → SPA (feed diário)
+index.html                    → landing (catálogo institucional)
+assets/                       → logo
+data/editions.json            → índice + counts por categoria/ferramenta
+data/YYYY-MM-DD.json          → edição de cada dia
+data/java-versions/           → JEPs por versão Java
+data/python-versions/         → PEPs por versão Python
+data/js-versions/             → features por edição ECMAScript
+data/quotes.json              → frases de autores (fixo, 80+)
+data/verses.json              → versículos em PT-BR (fixo, 120+)
+skills/csr-news-daily.md      → skill para geração diária
+scripts/validate_editions.py  → validador de schema + URLs + duplicatas
+scripts/generate_feed.py      → gerador RSS 2.0
+.github/workflows/            → CI (deploy + validação)
+CLAUDE.md                     → instruções para Claude
+COMO-FUNCIONA.md              → documentação user-friendly
 ```
 
 ## Link

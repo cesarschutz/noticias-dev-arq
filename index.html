@@ -1,957 +1,912 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CsR News — Arquivo Técnico para Arquitetos</title>
-  <meta name="description" content="Notícias técnicas diárias curadas para arquitetos de software e solução. 13 categorias, 42 tópicos monitorados, 1 edição por dia.">
+  <title>CsR News</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:          #060A10;
-      --bg2:         #0D1420;
-      --surface:     #0D1420;
-      --surface2:    #14202F;
-      --surface3:    #1A2A3E;
-      --border:      #1E2C42;
-      --border2:     #253548;
-      --text:        #E6EEF8;
-      --text2:       #8FA3BF;
-      --text3:       #4A6080;
-      --accent:      #2A9FCC;
-      --accent2:     #1A7FA0;
-      --amber:       #B07808;
-      --green:       #1A8A45;
-      --danger:      #EF4444;
-      --violet:      #7055B0;
-
-      --cat-ai:         #A78BFA;
-      --cat-sec:        #EF4444;
-      --cat-aws:        #FF9900;
-      --cat-devops:     #3b82f6;
-      --cat-obs:        #f59e0b;
-      --cat-backend:    #22C55E;
-      --cat-data:       #38BDF8;
-      --cat-integ:      #2DD4BF;
-      --cat-testing:    #84cc16;
-      --cat-design:     #f472b6;
-      --cat-distarch:   #6366f1;
-      --cat-enterprise: #94a3b8;
-      --cat-fintech:    #10b981;
-
-      --radius: 8px;
-      --mono: 'JetBrains Mono', monospace;
+      --bg:       #040810;
+      --surface:  #0a1525;
+      --surface2: #111f35;
+      --border:   #1a2d45;
+      --border2:  #243d5a;
+      --text:     #ddeeff;
+      --text2:    #7a9abf;
+      --text3:    #3a5a7a;
+      --accent:   #2ab8e8;
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Inter Tight', sans-serif;
+      --amber:    #f59e0b;
+      --violet:   #a855f7;
+      --green:    #10b981;
+      --blue:     #3b82f6;
     }
 
-    html, body {
+    body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Inter Tight', system-ui, sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      min-height: 100vh;
+      font-family: var(--sans);
+      min-width: 1440px;
       -webkit-font-smoothing: antialiased;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle, #1E2C42 1px, transparent 1px);
-      background-size: 22px 22px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.3;
-    }
-
-    .wrap {
+    /* ── STAGE: container fixo 1440×900, tudo absoluto dentro dele ── */
+    #stage {
       position: relative;
-      z-index: 1;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 16px 20px 80px;
+      width: 1440px;
+      height: 900px;
+      overflow: hidden;
+      background: var(--bg);
     }
 
-    .enter-btn {
-      display: inline-flex;
+    /* ── MASCOT ── */
+    .fixed-mascot {
+      position: fixed;
+      top: 40px; bottom: 40px; left: 40px;
+      width: 504px;
+      display: flex;
+      transition: opacity .4s ease;
       align-items: center;
-      gap: 7px;
-      background: var(--accent);
-      color: #000;
-      font-family: var(--mono);
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 9px 20px;
-      border-radius: var(--radius);
-      transition: background .15s, transform .1s;
-    }
-    .enter-btn:hover { background: var(--accent2); transform: translateY(-1px); }
-
-    /* PAGE LAYOUT — 2 colunas: esquerda (hero+cards) | direita (botão+ferramentas) */
-    .page-layout {
-      display: grid;
-      grid-template-columns: 1fr 260px;
-      gap: 10px;
-      align-items: stretch;
-      margin-bottom: 36px;
-      margin-right: -20px;
-      padding-top: 32px;
-    }
-    .col-left {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      min-width: 0;
-    }
-    .hero-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-      margin-left: -20px;
-    }
-    .col-mascot {
-      width: 300px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: flex-end;
-    }
-    .col-mascot img {
-      width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 16px 48px rgba(42,159,204,0.2));
-    }
-    .hero-text { flex: 1; min-width: 0; padding-bottom: 4px; }
-    .three-rules {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      align-items: stretch;
-      min-height: 340px;
-    }
-    .three-rules .rule { height: 100%; }
-    .col-tools {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .rule-tools-card { flex: 1; }
-    .enter-btn-full {
-      width: 100%;
       justify-content: center;
-      box-sizing: border-box;
-      flex-shrink: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .fixed-mascot img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(10px 0 40px rgba(42,184,232,.15));
     }
 
-    /* HERO BRAND */
-    .hero-brand {
-      display: flex;
-      align-items: center;
-      margin-bottom: 36px;
-    }
-    .csr-logotype {
-      display: inline-flex;
-      align-items: center;
-      gap: 0;
-      line-height: 1;
-    }
-    .csr-lt-csr {
-      font-family: 'Inter Tight', sans-serif;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -.03em;
-      color: #fff;
-      margin-right: 5px;
-    }
-    .csr-lt-news {
-      font-family: 'Inter Tight', sans-serif;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: .01em;
-      color: #fff;
-      text-transform: uppercase;
-      padding: 3px 8px 3px 7px;
-      background: #1a6fa8;
-      border-radius: 4px;
-      text-shadow: 0 1px 4px rgba(0,0,0,.5);
-    }
-
-    /* HERO TEXT */
+    /* ── HERO TEXT ── */
     .hero-text {
-      min-width: 0;
-      padding-bottom: 20px;
-    }
-    .hero-eye {
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      opacity: .8;
+      position: absolute;
+      top: 40px;
+      left: 560px;
+      width: 856px;
+      z-index: 35;
+      pointer-events: none;
     }
     .hero-h1 {
-      font-size: clamp(28px, 3.8vw, 50px);
-      line-height: 1.08;
-      letter-spacing: -.03em;
-      margin-bottom: 14px;
+      font-size: 32px;
+      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 14px;
     }
-    .hero-h1 .line1 {
-      display: block;
-      font-weight: 300;
-      color: var(--text2);
-    }
-    .hero-h1 .line2 {
-      display: block;
-      font-weight: 800;
-      color: var(--accent);
-    }
+    .hero-h1 .l1 { display: block; font-weight: 300; color: var(--text2); }
+    .hero-h1 .l2 { display: block; font-weight: 900; color: var(--accent); }
     .hero-sub {
-      font-size: 17px;
+      font-size: 13.5px;
       color: var(--text2);
-      max-width: 520px;
-      margin-bottom: 24px;
-      line-height: 1.65;
+      line-height: 1.7; max-width: 820px;
+      margin: 0;
     }
-    /* STATS */
-    .stats {
+
+
+    /* ── UNIVERSE CONTAINER — absoluto dentro do #stage ── */
+    .universe-container {
+      position: absolute;
+      left: 560px;
+      top: 240px;
+      width: 830px;
+      height: 550px;
       display: flex;
-      gap: 28px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      overflow: hidden;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .univ-section {
+      display: flex;
       flex-wrap: wrap;
       justify-content: center;
-    }
-    .stat {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 4px 0 4px 14px;
-      border-left: 2px solid var(--sc, var(--border));
-    }
-    .stat-n {
-      font-family: var(--mono);
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 4px;
-      color: var(--sc, var(--text));
-    }
-    .stat-l {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--text3);
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-
-    /* RULES (usado pelo three-rules) */
-    .rules { display: none; }
-    .rule {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 2px solid var(--rc, var(--border));
-      border-radius: var(--radius);
-      padding: 16px 16px 14px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    /* colunas fixas por card — alturas calculadas por JS em fitIconGrids() */
-    #rule-cat-icons   { grid-template-columns: repeat(4, 1fr); }
-    #rule-lang-icons  { grid-template-columns: repeat(3, 1fr); }
-    #rule-topic-icons { grid-template-columns: repeat(3, 1fr); }
-    #rule-tool-icons  { grid-template-columns: repeat(4, 1fr); }
-    .rule-icons .mini-ico { width: 100%; height: 100%; aspect-ratio: unset; }
-    .rule-k {
-      font-family: var(--mono);
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--rc, var(--text3));
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-    .rule-v {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.6;
-      margin-bottom: 2px;
-      position: relative;
-      z-index: 1;
-    }
-    /* large decorative icon — top-left */
-    .rule-wm {
-      position: absolute;
-      right: -10px;
-      top: -10px;
-      width: 80px; height: 80px;
-      pointer-events: none;
-    }
-    .rule-wm svg {
-      width: 80px; height: 80px;
-      stroke: var(--rc, white);
-      fill: none;
-      stroke-width: 1.3;
-      stroke-linecap: round; stroke-linejoin: round;
-      opacity: .15;
-    }
-    /* mini icon grid shared by all rule cards */
-    .rule-icons {
-      display: grid;
-      gap: 5px;
-      margin-top: 12px;
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      min-height: 0;
-    }
-    .mini-ico {
+      align-items: center;
+      gap: 7px;
       width: 100%;
-      aspect-ratio: 1;
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
+    }
+    .univ-center {
+      flex-wrap: nowrap;
       justify-content: center;
-      overflow: visible;
-      position: relative;
-      cursor: default;
-    }
-    .mini-ico svg {
-      width: 55%;
-      height: 55%;
-      fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round; stroke-linejoin: round;
-    }
-    .mini-ico img {
-      width: 58%;
-      height: 58%;
-      object-fit: contain;
-    }
-    /* tooltip global */
-    #tip {
-      position: fixed;
-      background: var(--surface3);
-      border: 1px solid var(--border2);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 10px;
-      white-space: nowrap;
-      padding: 4px 8px;
-      border-radius: 5px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .12s;
-      z-index: 9999;
     }
 
-    /* SECTION */
-    .section { margin-bottom: 48px; }
-    .sec-head { margin-bottom: 18px; }
-    .sec-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
+    /* ── FLOAT ANIMATION ── */
+    @keyframes itemFloat {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-9px); }
     }
-    .sec-title .prompt { font-family: var(--mono); color: var(--accent); font-size: 15px; }
-    .badge {
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text3);
-    }
-    .sec-sub { font-size: 13px; color: var(--text2); }
 
-    /* CAT GROUP LABEL */
-    .group-label {
-      font-family: var(--mono);
-      font-size: 9.5px;
-      color: var(--text3);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      margin: 22px 0 12px;
-    }
-    .group-label:first-child { margin-top: 0; }
-
-    /* CAT CARDS */
-    .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 10px;
-    }
-    .cat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--cc, var(--border));
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      cursor: pointer;
-      transition: transform .1s, box-shadow .15s;
-    }
-    .cat-card:hover {
-      transform: translateX(2px);
-      box-shadow: -4px 0 0 var(--cc, var(--accent));
-    }
-    .cat-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .cat-ico {
-      width: 30px; height: 30px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* ── FLOATING ITEM BASE ── */
+    .floating-item {
       flex-shrink: 0;
-      background: color-mix(in srgb, var(--cc, var(--accent)) 13%, transparent);
-    }
-    .cat-ico svg {
-      width: 15px; height: 15px;
-      stroke: var(--cc, var(--accent));
-      fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .cat-n { font-size: 13px; font-weight: 700; }
-    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; margin-top: 1px; }
-    .cat-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 9px; }
-    .sources { display: flex; flex-wrap: wrap; gap: 4px; }
-    .src-link {
-      font-family: var(--mono);
-      font-size: 9.5px;
-      color: var(--text3);
+      background: rgba(10,21,37,.65);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 6px;
-      text-decoration: none;
-      transition: color .12s, border-color .12s;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: border-color .2s, box-shadow .2s;
+      animation: itemFloat var(--fdur, 5s) ease-in-out infinite alternate;
+      animation-delay: var(--fdel, 0s);
+      opacity: 0;
     }
-    .src-link:hover { color: var(--cc, var(--accent)); border-color: var(--cc, var(--accent)); }
+    .floating-item:hover {
+      transform: translateY(-4px) scale(1.1) !important;
+      animation-play-state: paused !important;
+      z-index: 50 !important;
+    }
 
-    /* MONITOR */
-    .mon-section { margin-bottom: 36px; }
-    .mon-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 14px;
+    /* ── ITEM TYPES ── */
+
+    /* Category: pill, right-side colored border */
+    .item-cat {
+      width: max-content; height: 38px; padding: 0 18px;
+      border-radius: 40px; border-right: 3px solid var(--cc, var(--accent));
+      flex-direction: row; gap: 8px;
     }
-    .mon-title svg {
-      width: 14px; height: 14px;
+    .item-cat:hover {
+      border-color: #fff !important;
+      box-shadow: 0 5px 22px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent);
+    }
+    .item-cat .item-icon {
+      display: flex; align-items: center;
+      color: var(--cc, var(--accent)); flex-shrink: 0;
+    }
+    .item-cat .item-icon svg {
+      width: 16px; height: 16px;
       stroke: currentColor; fill: none;
       stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
     }
-    .mon-title.ml { color: var(--amber); }
-    .mon-title.mt { color: var(--violet); }
-    .mon-title.mf { color: var(--green); }
+    .item-cat .item-name {
+      font-weight: 700; font-size: 13px;
+      color: var(--text); letter-spacing: -.02em;
+    }
 
-    /* LANG CARDS */
-    .lang-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+    /* Language: square, colored bottom border */
+    .item-lang {
+      width: 88px; height: 88px; border-radius: 16px;
+      border-bottom: 4px solid var(--cc, var(--amber));
+      background: color-mix(in srgb, var(--cc, var(--amber)) 6%, rgba(10,21,37,.9));
+      gap: 6px;
     }
-    .lang-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
+    .item-lang:hover {
+      border-color: #fff !important;
+      box-shadow: 0 10px 32px color-mix(in srgb, var(--cc, var(--amber)) 50%, transparent);
     }
-    .lang-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .lang-logo { width: 26px; height: 26px; border-radius: 5px; object-fit: contain; background: var(--surface2); }
-    .lang-n { font-size: 13px; font-weight: 700; }
-    .lang-src { display: flex; flex-wrap: wrap; gap: 4px; }
 
-    /* TOPIC GRID */
-    .topic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 8px;
+    /* Topic: pill, left-side colored border */
+    .item-topic {
+      width: max-content; height: 38px; padding: 0 18px;
+      border-radius: 40px; border-left: 3px solid var(--cc, var(--green));
+      flex-direction: row; gap: 8px;
     }
-    .topic-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 10px 13px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      cursor: pointer;
-      transition: border-color .12s, transform .1s;
+    .item-topic:hover {
+      border-color: #fff !important;
+      box-shadow: 0 5px 20px color-mix(in srgb, var(--cc, var(--green)) 50%, transparent);
     }
-    .topic-card:hover { border-color: var(--border2); transform: translateY(-1px); }
-    .topic-logo { width: 20px; height: 20px; border-radius: 4px; object-fit: contain; background: var(--surface2); flex-shrink: 0; }
-    .topic-n { font-size: 12px; font-weight: 600; }
+    .item-topic .item-icon { display: flex; align-items: center; }
+    .item-topic .item-icon img { width: 18px; height: 18px; object-fit: contain; }
+    .item-topic .item-icon svg { width: 18px; height: 18px; color: var(--cc, var(--green)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .item-topic .item-name { font-size: 13px; font-weight: 700; letter-spacing: -.02em; }
 
-    /* TOOL SUBGROUPS */
-    .subgroup { margin-bottom: 20px; }
-    .subgroup-l {
-      font-family: var(--mono);
-      font-size: 9.5px;
-      color: var(--text3);
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+    /* Tool: small circle, icon only */
+    .item-tool {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--cc, var(--blue)) 70%, transparent);
+      background: color-mix(in srgb, var(--cc, var(--blue)) 8%, #000);
     }
-    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
-    .chip {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 7px 12px;
-      cursor: pointer;
-      transition: border-color .12s, transform .1s;
+    .item-tool:hover {
+      border-color: var(--cc, var(--accent)) !important;
+      box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
     }
-    .chip:hover { border-color: var(--border2); transform: translateY(-1px); }
-    .chip img { width: 15px; height: 15px; border-radius: 3px; object-fit: contain; background: var(--surface2); }
-    .chip span { font-size: 12px; font-weight: 600; }
+    .item-tool .item-icon { display: flex; align-items: center; justify-content: center; }
+    .item-tool .item-icon img { width: 24px; height: 24px; object-fit: contain; }
+    .item-tool .item-icon svg { width: 20px; height: 20px; color: var(--cc, var(--blue)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .item-tool .item-name { display: none; }
 
-    /* FOOTER */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* Shared icon img sizing */
+    .item-lang .item-icon img { width: 30px; height: 30px; object-fit: contain; }
+    .item-name { font-weight: 700; font-size: 12px; color: var(--text); }
+
+    /* ── TOOLTIP ── */
+    #tip {
+      position: fixed;
+      background: rgba(17,31,53,.96); border: 1px solid var(--border2);
+      backdrop-filter: blur(8px); color: var(--text);
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      white-space: nowrap; padding: 6px 12px; border-radius: 6px;
+      pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 9999;
     }
-    .footer-l { font-family: var(--mono); font-size: 10.5px; color: var(--text3); }
-    .footer-l strong { color: var(--text2); }
-    .footer-r a {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
+
+    /* ── SCROLL CONTENT — vem após o #stage no fluxo normal ── */
+    .scroll-content {
+      position: relative;
+      z-index: 5;
+      width: 1440px;
+      padding: 60px 40px 100px 500px;
+    }
+
+    .section {
+      margin-bottom: 48px;
+      background: rgba(4,8,16,.85); backdrop-filter: blur(10px);
+      padding: 20px; border-radius: 16px;
+      overflow: visible;
+    }
+    .sec-head {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .sec-title .p { font-family: var(--mono); color: var(--accent); }
+    .badge {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      padding: 3px 8px; border-radius: 999px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text3);
+    }
+    .sec-sub { font-size: 13px; color: var(--text3); margin-left: auto; text-align: right; }
+
+    .group-label {
+      font-family: var(--mono); font-size: 10px; color: var(--text3);
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      margin: 24px 0 16px; grid-column: 1/-1;
+    }
+    .group-label:first-child { margin-top: 0; }
+
+    .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 20px; row-gap: 72px; padding-top: 56px; }
+    .cat-card {
+      position: relative;
+      background: #0b0e1a;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 22px;
+      padding: 52px 28px 26px;
+      cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .4s, transform .3s ease, border-color .3s, box-shadow .35s ease;
+      overflow: visible;
+    }
+    .cat-card.revealed { opacity: 1; transform: translateY(0); }
+    .cat-card:hover {
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 36px color-mix(in srgb, var(--cc, var(--accent)) 12%, transparent),
+                  0 16px 40px -12px rgba(0,0,0,.7);
+    }
+    .cat-card::before { display: none; }
+
+    .cat-top-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 110px;
+      background: linear-gradient(to bottom,
+        color-mix(in srgb, var(--cc, var(--accent)) 22%, transparent) 0%,
+        color-mix(in srgb, var(--cc, var(--accent)) 7%, transparent) 55%,
+        transparent 100%);
+      border-radius: 22px 22px 0 0;
+      opacity: .35;
+      transition: opacity .5s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .cat-card:hover .cat-top-glow { opacity: 1; }
+
+    .cat-ico {
+      position: absolute;
+      top: -36px; left: 50%; transform: translateX(-50%);
+      width: 70px; height: 70px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      background: #09090b;
+      border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 25%, transparent),
+                  0 4px 12px rgba(0,0,0,.5);
+      transition: transform .3s ease, box-shadow .3s;
+      z-index: 10;
+    }
+    .cat-card:hover .cat-ico {
+      transform: translateX(-50%) translateY(-4px);
+      box-shadow: 0 0 38px color-mix(in srgb, var(--cc, var(--accent)) 45%, transparent),
+                  0 8px 20px rgba(0,0,0,.4);
+    }
+    .cat-ico svg {
+      width: 30px; height: 30px;
+      stroke: var(--cc, var(--accent)); fill: none;
+      stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .cat-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .cat-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.15; margin-bottom: 5px; }
+    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .2em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+    .cat-desc { font-size: 13.5px; color: var(--text2); line-height: 1.65; margin-bottom: 18px; flex: 1; }
+    .sources { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; justify-content: center; }
+    .src-link {
+      font-size: 10px; color: var(--text3);
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 99px; padding: 5px 14px;
       text-decoration: none;
-      font-weight: 700;
+      transition: background .2s, color .2s, border-color .2s;
     }
-    .footer-r a:hover { text-decoration: underline; }
+    .src-link:hover {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border-color: color-mix(in srgb, var(--cc, var(--accent)) 60%, transparent);
+    }
 
-    @media (max-width: 1100px) {
-      .page-layout { grid-template-columns: 240px 1fr 220px; }
+    .mon-label { font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+    .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
+
+    .item-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 20px; row-gap: 62px; padding-top: 42px; margin-bottom: 32px; }
+    .item-card {
+      position: relative;
+      background: #0b0e1a;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 44px 24px 22px;
+      cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      overflow: visible;
+      transition: transform .3s ease, border-color .3s, box-shadow .35s;
     }
-    @media (max-width: 860px) {
-      .page-layout { grid-template-columns: 1fr; margin-left: 0; }
-      .col-mascot { display: none; }
-      .three-rules { grid-template-columns: 1fr; }
+    .item-card.revealed { opacity: 1; transform: translateY(0); }
+    .item-card:hover {
+      transform: translateY(-5px);
+      border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
+                  0 12px 32px -10px rgba(0,0,0,.6);
     }
-    @media (max-width: 640px) {
-      .stats { gap: 16px; }
-      .lang-grid { grid-template-columns: 1fr; }
-      .hero-h1 { font-size: 28px; }
+    .item-card::before { display: none; }
+
+    .item-top-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 90px;
+      background: linear-gradient(to bottom,
+        color-mix(in srgb, var(--cc, var(--accent)) 20%, transparent) 0%,
+        color-mix(in srgb, var(--cc, var(--accent)) 6%, transparent) 55%,
+        transparent 100%);
+      border-radius: 18px 18px 0 0;
+      opacity: .35;
+      transition: opacity .5s ease;
+      pointer-events: none;
+      z-index: 0;
     }
+    .item-card:hover .item-top-glow { opacity: 1; }
+
+    .item-ico {
+      position: absolute;
+      top: -30px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 60px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      background: #09090b;
+      border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cc, var(--accent)) 22%, transparent),
+                  0 4px 12px rgba(0,0,0,.5);
+      transition: transform .3s ease, box-shadow .3s;
+      z-index: 10;
+    }
+    .item-card:hover .item-ico {
+      transform: translateX(-50%) translateY(-4px);
+      box-shadow: 0 0 34px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
+                  0 8px 18px rgba(0,0,0,.4);
+    }
+    .item-ico img { width: 26px; height: 26px; object-fit: contain; }
+    .item-ico svg { width: 26px; height: 26px; color: var(--cc, var(--accent)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+    .item-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .item-n { font-size: 15px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.1; margin-bottom: 3px; }
+    .item-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .18em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
+    .item-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+    .item-card .sources { justify-content: center; }
+
+    /* layout fixo — sem media queries */
   </style>
 </head>
 <body>
+
 <div id="tip"></div>
-<div class="wrap">
 
-  <div class="page-layout">
+<!-- STAGE: área fixe 1440×900, todos os elementos do hero ficam aqui -->
+<div id="stage">
 
-    <!-- esquerda: hero-row + 3 cards embaixo -->
-    <div class="col-left">
-      <div class="hero-row">
-        <div class="col-mascot">
-          <img src="data/img/mascote.png" alt="mascote CsR News">
-        </div>
-        <div class="hero-text">
-          <div class="hero-brand">
-            <div class="csr-logotype">
-              <span class="csr-lt-csr">CsR</span><span class="csr-lt-news">News</span>
-            </div>
-          </div>
-          <div class="hero-eye">Curadoria técnica · publicado às 6h BRT</div>
-          <h1 class="hero-h1">
-            <span class="line1">Um arquivo vivo</span>
-            <span class="line2">da engenharia de software.</span>
-          </h1>
-          <p class="hero-sub">
-            Releases, CVEs, padrões e tendências pesquisados, curados e classificados diariamente por IA — navegável por categoria, linguagem, tópico, ferramenta ou data.
-          </p>
-          <div class="stats">
-            <div class="stat" style="--sc:var(--accent)"><span class="stat-n">13</span><span class="stat-l">categorias</span></div>
-            <div class="stat" style="--sc:var(--amber)"><span class="stat-n">3</span><span class="stat-l">linguagens</span></div>
-            <div class="stat" style="--sc:var(--violet)"><span class="stat-n">8</span><span class="stat-l">tópicos</span></div>
-            <div class="stat" style="--sc:var(--green)"><span class="stat-n">31</span><span class="stat-l">ferramentas</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="three-rules">
-        <div class="rule" style="--rc:var(--accent)">
-          <div class="rule-wm"><svg viewBox="0 0 24 24"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3 8 21"/><path d="M16 3l-2 18"/></svg></div>
-          <div class="rule-k">categorias</div>
-          <div class="rule-v">Temas editoriais amplos que cobrem o ecossistema técnico de ponta a ponta — da segurança a pagamentos, de IA a arquitetura corporativa.</div>
-          <div class="rule-icons" id="rule-cat-icons"></div>
-        </div>
-        <div class="rule" style="--rc:var(--amber)">
-          <div class="rule-wm"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-          <div class="rule-k">linguagens</div>
-          <div class="rule-v">Acompanhamento profundo de cada release e evolução — JEPs, PEPs e novas features com contexto e links diretos para as fontes.</div>
-          <div class="rule-icons" id="rule-lang-icons"></div>
-        </div>
-        <div class="rule" style="--rc:var(--violet)">
-          <div class="rule-wm"><svg viewBox="0 0 24 24"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg></div>
-          <div class="rule-k">tópicos</div>
-          <div class="rule-v">Temas conceituais monitorados diariamente — DDD, Event-Driven, Cloud Native, OWASP e mais, sempre com ao menos 1 item por edição.</div>
-          <div class="rule-icons" id="rule-topic-icons"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- direita: botão no topo + card ferramentas cheio -->
-    <div class="col-tools">
-      <a class="enter-btn enter-btn-full" href="home.html">Entrar no sistema →</a>
-      <div class="rule rule-tools-card" style="--rc:var(--green)">
-        <div class="rule-wm"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-        <div class="rule-k">ferramentas</div>
-        <div class="rule-v">Releases, notícias e tutoriais das principais ferramentas da engenharia moderna — cada uma com view dedicada e histórico completo.</div>
-        <div class="rule-icons" id="rule-tool-icons"></div>
-      </div>
-    </div>
-
+  <!-- MASCOT -->
+  <div class="fixed-mascot">
+    <img src="data/img/mascote.png" alt="CsR News Mascot">
   </div>
 
+  <!-- HERO TEXT -->
+  <div class="hero-text">
+    <h1 class="hero-h1">
+      <span class="l1">Um arquivo vivo</span>
+      <span class="l2">da engenharia de software.</span>
+    </h1>
+    <p class="hero-sub">
+      Todo dia às 6h, uma IA pesquisa, filtra e organiza o que há de mais relevante
+      para arquitetos e engenheiros de software — releases de ferramentas, CVEs críticos,
+      padrões de arquitetura, tendências de cloud e muito mais.<br>
+      São <strong>16 categorias editoriais</strong> — Fundamentos de Computação, IA, AIOps & Agents, Segurança, Cloud, DevOps,
+      Observabilidade & SRE, Backend, Dados, Integração, Testes, Frontend, Design, Sistemas Distribuídos,
+      Arq. Corporativa e Fintech — mais <strong>3 linguagens</strong> (Java, JavaScript/TS, Python) e
+      <strong>49 ferramentas</strong> (Kubernetes, Kafka, Docker, Postgres, pgvector, Next.js, Cloudflare, Temporal,
+      Langfuse, MCP, Ollama, Wasmtime, Prometheus, Datadog, Vault, Trivy, Playwright, k6, Bun, Biome, Structurizr e mais).
+      Navegue por categoria, linguagem, tópico ou ferramenta — e acesse qualquer edição
+      anterior pelo calendário integrado.
+    </p>
+  </div>
+
+  <!-- UNIVERSE (floating items) -->
+  <div class="universe-container" id="universe"></div>
+
+</div><!-- /#stage -->
+
+<!-- SCROLL CONTENT — abaixo do stage no fluxo normal -->
+<div class="scroll-content">
+
   <section class="section">
-    <div class="sec-head">
-      <div class="sec-title">
-        <span class="prompt">&gt;</span>
-        Categorias cobertas
-        <span class="badge">13</span>
-      </div>
-      <p class="sec-sub">Cada notícia da edição diária é classificada em uma dessas categorias. Clique para ver o agregado histórico no sistema.</p>
-    </div>
     <div id="cats-container"></div>
   </section>
 
   <section class="section">
     <div class="sec-head">
-      <div class="sec-title">
-        <span class="prompt">&gt;</span>
-        Monitoramento ativo
-        <span class="badge">42</span>
-      </div>
-      <p class="sec-sub">3 linguagens, 8 tópicos e 31 ferramentas com cobertura diária obrigatória e view dedicada com histórico completo.</p>
+      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">52</span></div>
+      <p class="sec-sub">3 linguagens · 49 ferramentas</p>
     </div>
-
-    <div class="mon-section">
-      <div class="mon-title ml">
-        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        Linguagens <span class="badge" style="margin-left:4px">3</span>
-      </div>
-      <div class="lang-grid" id="langs"></div>
-    </div>
-
-    <div class="mon-section">
-      <div class="mon-title mt">
-        <svg viewBox="0 0 24 24"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
-        Tópicos <span class="badge" style="margin-left:4px">8</span>
-      </div>
-      <div class="topic-grid" id="topics"></div>
-    </div>
-
-    <div class="mon-section">
-      <div class="mon-title mf">
-        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        Ferramentas <span class="badge" style="margin-left:4px">31</span>
-      </div>
-      <div id="tools"></div>
-    </div>
+    <div class="mon-label ml-amber">Linguagens</div>
+    <div class="lang-grid" id="langs"></div>
+    <div class="mon-label ml-blue">Ferramentas</div>
+    <div id="tools"></div>
   </section>
 
-  <footer class="footer">
-    <div class="footer-l">CsR News &nbsp;·&nbsp; por <strong>Cesar Schutz</strong> &nbsp;·&nbsp; 1 edição/dia &nbsp;·&nbsp; GitHub Pages</div>
-    <div class="footer-r"><a href="home.html">→ Entrar no sistema</a></div>
-  </footer>
 </div>
 
 <script>
-const CATS_GROUPS = [
-  { label:'Transversal & Hot', cats:[
-    { key:'ai', name:'IA & LLMs', color:'var(--cat-ai)', group:'Transversal',
-      desc:'Modelos, agents, RAG, MCP e AI coding tools — o estado da arte de como a IA muda a stack.',
-      svg:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
-      src:[{l:'simonwillison.net',u:'https://simonwillison.net'},{l:'openai.com/blog',u:'https://openai.com/blog'},{l:'anthropic.com/news',u:'https://anthropic.com/news'},{l:'huggingface.co/blog',u:'https://huggingface.co/blog'}] },
-    { key:'sec', name:'Segurança & IAM', color:'var(--cat-sec)', group:'Transversal',
-      desc:'CVEs, zero-days, Keycloak, Auth0, OIDC, zero-trust, supply chain, SBOM, Sigstore, SLSA.',
-      svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-      src:[{l:'thehackernews.com',u:'https://thehackernews.com'},{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'snyk.io/blog',u:'https://snyk.io/blog'},{l:'owasp.org',u:'https://owasp.org'}] },
-  ]},
-  { label:'Plataforma & Infraestrutura', cats:[
-    { key:'aws', name:'AWS', color:'var(--cat-aws)', group:'Plataforma',
-      desc:'Todos os serviços AWS — Lambda, DynamoDB, SNS, SQS, Bedrock, S3, CloudWatch.',
-      svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
-      src:[{l:'aws.amazon.com/new',u:'https://aws.amazon.com/new'},{l:'aws.amazon.com/blogs/architecture',u:'https://aws.amazon.com/blogs/architecture'},{l:'lastweekinaws.com',u:'https://lastweekinaws.com'}] },
-    { key:'devops', name:'DevOps & Plataformas', color:'var(--cat-devops)', group:'Plataforma',
-      desc:'Kubernetes, Docker, GitOps, Argo CD, Istio, platform engineering, SRE, Team Topologies.',
-      svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
-      src:[{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'},{l:'cncf.io/blog',u:'https://cncf.io/blog'},{l:'hashicorp.com/blog',u:'https://hashicorp.com/blog'},{l:'argo-cd.readthedocs.io',u:'https://argo-cd.readthedocs.io'}] },
-    { key:'obs', name:'Observabilidade', color:'var(--cat-obs)', group:'Plataforma',
-      desc:'Tracing, logging, metrics, OpenTelemetry, Dynatrace, Datadog, SLO/SLI, eBPF, profiling contínuo.',
-      svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
-      src:[{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'},{l:'honeycomb.io/blog',u:'https://honeycomb.io/blog'},{l:'datadoghq.com/blog',u:'https://datadoghq.com/blog'}] },
-  ]},
-  { label:'Desenvolvimento', cats:[
-    { key:'backend', name:'Backend & Runtimes', color:'var(--cat-backend)', group:'Desenvolvimento',
-      desc:'Java/Spring, Go, Node, Rust, JVM, Gradle, Maven e frameworks server-side.',
-      svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
-      src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'baeldung.com',u:'https://baeldung.com'},{l:'foojay.io',u:'https://foojay.io'},{l:'infoq.com',u:'https://infoq.com'}] },
-    { key:'data', name:'Dados & Streaming', color:'var(--cat-data)', group:'Desenvolvimento',
-      desc:'DBs relacionais e NoSQL, warehouses, lakehouses, streaming, CDC, Databricks.',
-      svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
-      src:[{l:'planet.postgresql.org',u:'https://planet.postgresql.org'},{l:'databricks.com/blog',u:'https://databricks.com/blog'},{l:'confluent.io/blog',u:'https://confluent.io/blog'},{l:'redis.io/blog',u:'https://redis.io/blog'}] },
-    { key:'integ', name:'Integração & Eventos', color:'var(--cat-integ)', group:'Desenvolvimento',
-      desc:'APIs REST/GraphQL/gRPC, Kafka, EDA, iPaaS, OpenAPI, AsyncAPI, schemas.',
-      svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
-      src:[{l:'asyncapi.com/blog',u:'https://asyncapi.com/blog'},{l:'openapis.org',u:'https://openapis.org'},{l:'confluent.io/blog',u:'https://confluent.io/blog'},{l:'konghq.com/blog',u:'https://konghq.com/blog'}] },
-    { key:'testing', name:'Testes & Qualidade', color:'var(--cat-testing)', group:'Desenvolvimento',
-      desc:'TDD, BDD, pirâmide de testes, contract testing (Pact), chaos engineering, performance.',
-      svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
-      src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'testing.googleblog.com',u:'https://testing.googleblog.com'},{l:'ministryoftesting.com',u:'https://ministryoftesting.com'},{l:'pactflow.io/blog',u:'https://pactflow.io/blog'}] },
-  ]},
-  { label:'Arquitetura', cats:[
-    { key:'design', name:'Design & Padrões', color:'var(--cat-design)', group:'Arquitetura',
-      desc:'DDD, padrões GoF, C4, Clean/Hexagonal, ADRs, Structurizr, refactoring.',
-      svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-      src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'blog.bytebytego.com',u:'https://blog.bytebytego.com'},{l:'thoughtworks.com/radar',u:'https://thoughtworks.com/radar'},{l:'structurizr.com',u:'https://structurizr.com'}] },
-    { key:'distarch', name:'Sist. Distribuídos', color:'var(--cat-distarch)', group:'Arquitetura',
-      desc:'Microsserviços, cloud-native, service mesh, CQRS, saga, post-mortems.',
-      svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
-      src:[{l:'highscalability.com',u:'http://highscalability.com'},{l:'netflixtechblog.com',u:'https://netflixtechblog.com'},{l:'microservices.io',u:'https://microservices.io'},{l:'queue.acm.org',u:'https://queue.acm.org'}] },
-    { key:'enterprise', name:'Arq. Corporativa', color:'var(--cat-enterprise)', group:'Arquitetura',
-      desc:'TOGAF, landing zones, Team Topologies, IDP/Backstage, FinOps, API governance.',
-      svg:'<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
-      src:[{l:'thoughtworks.com/radar',u:'https://thoughtworks.com/radar'},{l:'teamtopologies.com',u:'https://teamtopologies.com'},{l:'platformengineering.org',u:'https://platformengineering.org'},{l:'infoq.com',u:'https://infoq.com'}] },
-  ]},
-  { label:'Domínio', cats:[
-    { key:'fintech', name:'Fintech & Pagamentos', color:'var(--cat-fintech)', group:'Domínio',
-      desc:'Pix, Open Finance, PCI DSS, cartões, DREX, cooperativas de crédito, payment rails.',
-      svg:'<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
-      src:[{l:'pymnts.com',u:'https://pymnts.com'},{l:'bcb.gov.br',u:'https://www.bcb.gov.br'},{l:'finsiders.com.br',u:'https://finsiders.com.br'},{l:'stripe.com/blog/engineering',u:'https://stripe.com/blog/engineering'}] },
-  ]},
+// ── DATA ──────────────────────────────────────────────────────────────────
+const CATS = [
+  {key:'ai',     name:'IA & LLMs',          color:'#a855f7', group:'Transversal', desc:'Modelos & Pesquisa: fundacionais (OpenAI, Anthropic, Google, Meta, HF), fine-tuning, multimodal, benchmarks, AI Safety. Não inclui agentes/LLMOps — ver AIOps & Agents.',
+   svg:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+   src:[{l:'simonwillison.net',u:'https://simonwillison.net'},{l:'anthropic.com/news',u:'https://anthropic.com/news'},{l:'huggingface.co/blog',u:'https://huggingface.co/blog'},{l:'eugeneyan.com',u:'https://eugeneyan.com'},{l:'latent.space',u:'https://www.latent.space'}]},
+  {key:'aiops',  name:'AIOps & Agents',      color:'#c026d3', group:'Transversal', desc:'LLMOps, AI Agents & MCP, RAG & Vector DBs, AI Coding em produção, LLM Evals & Observability (Langfuse, LangSmith), guardrails, agent orchestration, local LLM (Ollama).',
+   svg:'<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>',
+   src:[{l:'blog.langchain.dev',u:'https://blog.langchain.dev'},{l:'langfuse.com/blog',u:'https://langfuse.com/blog'},{l:'modelcontextprotocol.io',u:'https://modelcontextprotocol.io'},{l:'hamel.dev',u:'https://hamel.dev'}]},
+  {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, OWASP, Zero Trust & Identidade, Passkeys/WebAuthn, Supply Chain (SBOM/SLSA/Sigstore), AI Security, Runtime Security, Secrets Management, LGPD & Privacidade.',
+   svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+   src:[{l:'thehackernews.com',u:'https://thehackernews.com'},{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'snyk.io/blog',u:'https://snyk.io/blog'},{l:'tldrsec.com',u:'https://tldrsec.com'}]},
+  {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, CDN & edge delivery, cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
+   svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
+   src:[{l:'aws.amazon.com/about-aws/whats-new',u:'https://aws.amazon.com/about-aws/whats-new'},{l:'azure.microsoft.com/blog',u:'https://azure.microsoft.com/en-us/blog'},{l:'cloud.google.com/blog',u:'https://cloud.google.com/blog'},{l:'lastweekinaws.com',u:'https://lastweekinaws.com'}]},
+  {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Kubernetes & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs/Backstage, Edge/Proxies (HTTP/3, QUIC, nginx, envoy), Developer Productivity, AI-augmented SDLC.',
+   svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+   src:[{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'},{l:'cncf.io/blog',u:'https://cncf.io/blog'},{l:'hashicorp.com/blog',u:'https://hashicorp.com/blog'},{l:'learnk8s.io',u:'https://learnk8s.io'}]},
+  {key:'obs',    name:'Observabilidade & SRE',color:'#eab308', group:'Plataforma',  desc:'Tracing (OTel), métricas, logs, APM, SLO/SLI & Error Budgets, Incident Management, eBPF & profiling, Alerting & Noise Reduction (alert fatigue), Cost Observability.',
+   svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+   src:[{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'},{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'honeycomb.io/blog',u:'https://honeycomb.io/blog'},{l:'charity.wtf',u:'https://charity.wtf'},{l:'sre.google/workbook',u:'https://sre.google/workbook/table-of-contents'}]},
+  {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Java/Spring, Go, Rust, Node/Deno/Bun, web frameworks (Spring MVC/WebFlux, FastAPI, Express), concurrency models, WebAssembly, performance engineering (profiling, GC, p99), build tools, server-side patterns.',
+   svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
+   src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'go.dev/blog',u:'https://go.dev/blog'},{l:'blog.rust-lang.org',u:'https://blog.rust-lang.org'},{l:'shipilev.net',u:'https://shipilev.net'},{l:'matklad.github.io',u:'https://matklad.github.io'}]},
+  {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'Relacionais, NoSQL, streaming (Kafka/Flink), lakehouse (Databricks/dbt), Iceberg & Open Catalogs (Polaris, Unity), Vector DBs (casa canônica — pgvector, Pinecone), CDC, Data Contracts, Data Mesh, DuckDB.',
+   svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+   src:[{l:'databricks.com/blog',u:'https://databricks.com/blog'},{l:'confluent.io/blog',u:'https://confluent.io/blog'},{l:'iceberg.apache.org/blog',u:'https://iceberg.apache.org/blog'},{l:'jack-vanlightly.com',u:'https://jack-vanlightly.com'},{l:'jepsen.io/analyses',u:'https://jepsen.io/analyses'}]},
+  {key:'integ',  name:'Integração & Eventos',color:'#14b8a6', group:'Desenvolvimento', desc:'API design & API-First, OpenAPI, GraphQL & federation, MCP, AsyncAPI, EDA, messaging, schema evolution.',
+   svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+   src:[{l:'asyncapi.com/blog',u:'https://asyncapi.com/blog'},{l:'graphql.org/blog',u:'https://graphql.org/blog'},{l:'apollographql.com/blog',u:'https://apollographql.com/blog'},{l:'nordicapis.com',u:'https://nordicapis.com'}]},
+  {key:'testing',name:'Testes & Qualidade',  color:'#84cc16', group:'Desenvolvimento', desc:'TDD/BDD, testing pyramid, contract testing (Pact), chaos engineering, performance, test data mgmt, AI-assisted testing.',
+   svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+   src:[{l:'martinfowler.com/testing',u:'https://martinfowler.com/testing'},{l:'ministryoftesting.com',u:'https://ministryoftesting.com'},{l:'playwright.dev/blog',u:'https://playwright.dev/blog'},{l:'kentcdodds.com/blog',u:'https://kentcdodds.com/blog'}]},
+  {key:'design', name:'Design & Padrões',    color:'#f472b6', group:'Arquitetura',    desc:'DDD & Bounded Contexts, padrões GoF/Enterprise, Clean/Hexagonal, C4 Model, ADRs, refactoring, docs-as-code.',
+   svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+   src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'ddd-crew.github.io',u:'https://ddd-crew.github.io'},{l:'blog.bytebytego.com',u:'https://blog.bytebytego.com'},{l:'c4model.com',u:'https://c4model.com'}]},
+  {key:'distarch',name:'Sist. Distribuídos', color:'#6366f1', group:'Arquitetura',    desc:'Microsserviços, cloud-native, resiliência, service mesh, saga/CQRS/ES, caching (cache-aside, write-through, invalidation), outbox/inbox/idempotência, consistency models, durable execution, serverless patterns, multi-region & data residency, post-mortems, cell-based.',
+   svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+   src:[{l:'netflixtechblog.com',u:'https://netflixtechblog.com'},{l:'brooker.co.za/blog',u:'https://brooker.co.za/blog'},{l:'stripe.com/blog/engineering',u:'https://stripe.com/blog/engineering'},{l:'oskardudycz.pl',u:'https://event-driven.io'}]},
+  {key:'enterprise',name:'Arq. Corporativa', color:'#94a3b8', group:'Arquitetura',    desc:'3 eixos — (1) Estrutura organizacional: Team Topologies, Platform Eng, DevEx/DORA/SPACE, Engineering Strategy & Staff-Plus; (2) Governança & custos: API Governance, FinOps, Cost Engineering, Landing Zones, Green IT; (3) Estratégia técnica: Tech Debt & Modernization, Tech Radar.',
+   svg:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+   src:[{l:'architectelevator.com',u:'https://architectelevator.com'},{l:'teamtopologies.com/blog',u:'https://teamtopologies.com/blog'},{l:'pragmaticengineer.com',u:'https://www.pragmaticengineer.com'},{l:'thoughtworks.com/radar',u:'https://thoughtworks.com/radar'},{l:'finops.org/blog',u:'https://www.finops.org/blog'}]},
+  {key:'fintech', name:'Fintech & Pagamentos',color:'#10b981', group:'Domínio',       desc:'Cartões & Redes (Visa, Mastercard, Elo — emissão/acquiring/switching), Cooperativas de crédito (Unicred, Sicoob, Sicredi), Pix/Open Finance/DREX, PCI DSS, Embedded Finance/BaaS, Payment Rails, Fraud & Risk Systems.',
+   svg:'<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+   src:[{l:'corporate.visa.com',u:'https://corporate.visa.com/en/sites/visa-perspectives.html'},{l:'mastercard.com/news',u:'https://www.mastercard.com/news'},{l:'bcb.gov.br',u:'https://www.bcb.gov.br'},{l:'finsidersbrasil.com.br',u:'https://finsidersbrasil.com.br'},{l:'mundocoop.com.br',u:'https://www.mundocoop.com.br'},{l:'paymentsdive.com',u:'https://paymentsdive.com'}]},
+  {key:'frontend',name:'Frontend & Web',     color:'#e11d48', group:'Desenvolvimento', desc:'React/Vue/Svelte, meta-frameworks (Next/Nuxt/Astro), React Server Components & streaming SSR, Web Platform, design systems, Core Web Vitals, edge rendering, state management, build tools, a11y/i18n, Mobile cross-platform (React Native, Flutter, PWA).',
+   svg:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+   src:[{l:'web.dev',u:'https://web.dev'},{l:'developer.mozilla.org/en-US/blog',u:'https://developer.mozilla.org/en-US/blog'},{l:'vercel.com/blog',u:'https://vercel.com/blog'},{l:'tkdodo.eu/blog',u:'https://tkdodo.eu/blog'}]},
+  {key:'fundamentals',name:'Fundamentos de Computação',color:'#a16207',group:'Fundação',desc:'SO, redes (TCP/IP, DNS), estruturas de dados, algoritmos, concorrência, memory models, teoria de filas, performance de hardware — a base eterna.',
+   svg:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+   src:[{l:'queue.acm.org',u:'https://queue.acm.org'},{l:'jvns.ca',u:'https://jvns.ca'},{l:'brendangregg.com/blog',u:'https://www.brendangregg.com/blog'},{l:'danluu.com',u:'https://danluu.com'},{l:'lwn.net',u:'https://lwn.net'},{l:'paperswelove.org',u:'https://paperswelove.org'}]},
 ];
 
 const LANGS = [
-  { key:'java',       name:'Java & JVM',      logo:'https://cdn.simpleicons.org/openjdk/ffffff',
-    src:[{l:'inside.java',u:'https://inside.java'},{l:'foojay.io',u:'https://foojay.io'},{l:'baeldung.com',u:'https://baeldung.com'},{l:'jvmweekly.com',u:'https://jvmweekly.com'}] },
-  { key:'javascript', name:'JavaScript / TS', logo:'https://cdn.simpleicons.org/javascript/F7DF1E',
-    src:[{l:'tc39.es',u:'https://tc39.es'},{l:'devblogs.microsoft.com/typescript',u:'https://devblogs.microsoft.com/typescript'},{l:'javascriptweekly.com',u:'https://javascriptweekly.com'},{l:'nodejs.org/en/blog',u:'https://nodejs.org/en/blog'}] },
-  { key:'python',     name:'Python',          logo:'https://cdn.simpleicons.org/python/3776AB',
-    src:[{l:'python.org/blogs',u:'https://www.python.org/blogs'},{l:'realpython.com',u:'https://realpython.com'},{l:'talkpython.fm',u:'https://talkpython.fm'},{l:'fastapi.tiangolo.com',u:'https://fastapi.tiangolo.com'}] },
+  {key:'java',       name:'Java & JVM',     color:'#f89820', group:'Linguagem',
+   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
+   desc:'Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.',
+   src:[{l:'openjdk.org',u:'https://openjdk.org'},{l:'baeldung.com',u:'https://baeldung.com'},{l:'spring.io/blog',u:'https://spring.io/blog'}]},
+  {key:'javascript', name:'JavaScript / TS',color:'#c9a800', group:'Linguagem',
+   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+   desc:'Linguagem da web — TypeScript, Node, Deno, Bun e ecossistema frontend moderno.',
+   src:[{l:'tc39.es',u:'https://tc39.es'},{l:'nodejs.org/en/blog',u:'https://nodejs.org/en/blog'},{l:'deno.com/blog',u:'https://deno.com/blog'}]},
+  {key:'python',     name:'Python',          color:'#5b8dd9', group:'Linguagem',
+   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+   desc:'Scripts, data science, IA e automação — PyPI com 500k+ pacotes.',
+   src:[{l:'python.org/news',u:'https://python.org/news'},{l:'realpython.com',u:'https://realpython.com'},{l:'peps.python.org',u:'https://peps.python.org'}]},
 ];
 
-const TOPICS = [
-  {key:'apifirst',     name:'API-First',               logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
-  {key:'cloudnative',  name:'Cloud Native',            logo:'https://cdn.simpleicons.org/cncf/ffffff'},
-  {key:'cve',          name:'CVEs & Vulnerabilidades', logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128'},
-  {key:'ddd',          name:'DDD',                     logo:'https://www.google.com/s2/favicons?domain=domainlanguage.com&sz=128'},
-  {key:'eventdriven',  name:'Event-Driven',            logo:'https://www.google.com/s2/favicons?domain=martinfowler.com&sz=128'},
-  {key:'microservices',name:'Microsserviços',          logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128'},
-  {key:'owasp',        name:'OWASP',                   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128'},
-  {key:'resiliency',   name:'Resiliência',             logo:'https://www.google.com/s2/favicons?domain=resilience4j.readme.io&sz=128'},
-];
+// O conceito de "tópico" foi absorvido em subcategorias editoriais — sub-escopo vive em tags[] por item.
 
 const TOOL_SUBGROUPS = [
-  { label:'AI & IDEs', tools:[
-    {key:'chatgpt',    name:'ChatGPT',       logo:'https://cdn.simpleicons.org/openai/ffffff'},
-    {key:'claudecode', name:'Claude Code',   logo:'https://cdn.simpleicons.org/anthropic/ffffff'},
-    {key:'cursor',     name:'Cursor IDE',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128'},
-    {key:'intellij',   name:'IntelliJ IDEA', logo:'https://cdn.simpleicons.org/intellijidea/ffffff'},
-    {key:'vscode',     name:'VS Code',       logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC'},
+  {label:'AI & IDEs', tools:[
+    {key:'claudecode',name:'Claude Code',   color:'#d97706', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/anthropic/ffffff',
+     desc:'CLI de IA da Anthropic para engenharia de software no terminal.',
+     src:[{l:'docs.anthropic.com/en/release-notes/claude-code',u:'https://docs.anthropic.com/en/release-notes/claude-code'}]},
+    {key:'cursor',    name:'Cursor IDE',    color:'#00c09a', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/cursor/00c09a',
+     desc:'IDE com IA — autocomplete, chat e edição contextual avançada.',
+     src:[{l:'cursor.com/changelog',u:'https://cursor.com/changelog'}]},
+    {key:'intellij',  name:'IntelliJ IDEA', color:'#fe2857', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg',
+     desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.',
+     src:[{l:'blog.jetbrains.com/idea',u:'https://blog.jetbrains.com/idea'},{l:'jetbrains.com/idea/whatsnew',u:'https://jetbrains.com/idea/whatsnew'}]},
+    {key:'vscode',    name:'VS Code',       color:'#007ACC', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg',
+     desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.',
+     src:[{l:'code.visualstudio.com/updates',u:'https://code.visualstudio.com/updates'}]},
   ]},
-  { label:'Git & CI/CD', tools:[
-    {key:'argocd',    name:'Argo CD',        logo:'https://cdn.simpleicons.org/argo/EF7B4D'},
-    {key:'ghactions', name:'GitHub Actions', logo:'https://cdn.simpleicons.org/githubactions/2088FF'},
-    {key:'git',       name:'Git',            logo:'https://cdn.simpleicons.org/git/F05032'},
-    {key:'github',    name:'GitHub',         logo:'https://cdn.simpleicons.org/github/ffffff'},
-    {key:'helm',      name:'Helm',           logo:'https://cdn.simpleicons.org/helm/277A9F'},
+  {label:'AI/LLM Ops', tools:[
+    {key:'mcp',       name:'Model Context Protocol', color:'#d946ef', group:'Ferramenta',
+     svg:'<path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+     desc:'Protocolo aberto (Anthropic) para conectar agents a ferramentas/dados — spec + SDKs (TS, Python).',
+     src:[{l:'modelcontextprotocol.io',u:'https://modelcontextprotocol.io'},{l:'github.com/modelcontextprotocol/specification/releases',u:'https://github.com/modelcontextprotocol/specification/releases'}]},
+    {key:'langfuse',  name:'Langfuse',      color:'#2E7BCC', group:'Ferramenta',
+     svg:'<path d="M3 3v18h18"/><path d="m3 12 4-4 4 4 6-6 4 4"/>',
+     desc:'Observabilidade de LLMs — traces, evals, prompt management e datasets (OSS + cloud).',
+     src:[{l:'langfuse.com/blog',u:'https://langfuse.com/blog'},{l:'github.com/langfuse/langfuse/releases',u:'https://github.com/langfuse/langfuse/releases'}]},
+    {key:'ollama',    name:'Ollama',         color:'#ff6b9d', group:'Ferramenta',
+     svg:'<ellipse cx="12" cy="10" rx="7" ry="6"/><ellipse cx="9" cy="9" rx="1.2" ry="1.4"/><ellipse cx="15" cy="9" rx="1.2" ry="1.4"/><path d="M5 13c0 5 3 8 7 8s7-3 7-8"/>',
+     desc:'Executar LLMs locais (Llama, Qwen, Mistral) — API unificada, model library, GPU passthrough.',
+     src:[{l:'ollama.com/blog',u:'https://ollama.com/blog'},{l:'github.com/ollama/ollama/releases',u:'https://github.com/ollama/ollama/releases'}]},
+    {key:'langgraph', name:'LangGraph',     color:'#1C3C3C', group:'Ferramenta',
+     svg:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><line x1="7.5" y1="7.5" x2="10.5" y2="10.5"/><line x1="16.5" y1="7.5" x2="13.5" y2="10.5"/><line x1="10.5" y1="13.5" x2="7.5" y2="16.5"/><line x1="13.5" y1="13.5" x2="16.5" y2="16.5"/>',
+     desc:'Framework de agents como grafos — state machines, multi-agent, human-in-the-loop (LangChain).',
+     src:[{l:'blog.langchain.dev',u:'https://blog.langchain.dev'},{l:'github.com/langchain-ai/langgraph/releases',u:'https://github.com/langchain-ai/langgraph/releases'}]},
   ]},
-  { label:'Containers & Infra', tools:[
-    {key:'docker',     name:'Docker',     logo:'https://cdn.simpleicons.org/docker/2496ed'},
-    {key:'istio',      name:'Istio',      logo:'https://cdn.simpleicons.org/istio/466BB0'},
-    {key:'kubernetes', name:'Kubernetes', logo:'https://cdn.simpleicons.org/kubernetes/326CE5'},
-    {key:'lambda',     name:'AWS Lambda', logo:'https://cdn.simpleicons.org/awslambda/FF9900'},
-    {key:'terraform',  name:'Terraform',  logo:'https://cdn.simpleicons.org/terraform/7B42BC'},
+  {label:'Git & CI/CD', tools:[
+    {key:'argocd',   name:'Argo CD',        color:'#EF7B4D', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg',
+     desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.',
+     src:[{l:'github.com/argoproj/argo-cd/releases',u:'https://github.com/argoproj/argo-cd/releases'},{l:'blog.argoproj.io',u:'https://blog.argoproj.io'}]},
+    {key:'ghactions',name:'GitHub Actions', color:'#2088FF', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg',
+     desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.',
+     src:[{l:'github.blog/changelog',u:'https://github.blog/changelog'},{l:'github.blog/category/engineering/actions',u:'https://github.blog/category/engineering/actions'}]},
+    {key:'github',   name:'GitHub',         color:'#8b8fa8', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/github/ffffff',
+     desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.',
+     src:[{l:'github.blog',u:'https://github.blog'},{l:'github.blog/changelog',u:'https://github.blog/changelog'}]},
+    {key:'helm',     name:'Helm',           color:'#277A9F', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/helm/helm-original.svg',
+     desc:'Gerenciador de pacotes para Kubernetes — charts, releases e values.',
+     src:[{l:'helm.sh/blog',u:'https://helm.sh/blog'},{l:'github.com/helm/helm/releases',u:'https://github.com/helm/helm/releases'}]},
+    {key:'backstage', name:'Backstage',     color:'#9BF0E1', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/backstage/9BF0E1',
+     desc:'Developer portal (IDP) — catálogo de serviços, templates e golden paths.',
+     src:[{l:'backstage.io/blog',u:'https://backstage.io/blog'},{l:'github.com/backstage/backstage/releases',u:'https://github.com/backstage/backstage/releases'}]},
   ]},
-  { label:'Dados & Integração', tools:[
-    {key:'databricks', name:'Databricks',   logo:'https://cdn.simpleicons.org/databricks/FF3621'},
-    {key:'dynamodb',   name:'DynamoDB',     logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6'},
-    {key:'kafka',      name:'Apache Kafka', logo:'https://cdn.simpleicons.org/apachekafka/ffffff'},
-    {key:'mysql',      name:'MySQL',        logo:'https://cdn.simpleicons.org/mysql/4479A1'},
-    {key:'openapi',    name:'OpenAPI',      logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
-    {key:'postgres',   name:'PostgreSQL',   logo:'https://cdn.simpleicons.org/postgresql/4169E1'},
-    {key:'redis',      name:'Redis',        logo:'https://cdn.simpleicons.org/redis/DC382D'},
+  {label:'Containers & IaC', tools:[
+    {key:'docker',    name:'Docker',        color:'#2496ED', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
+     desc:'Containers — Docker Engine/Desktop, Compose e Docker Scout.',
+     src:[{l:'docker.com/blog',u:'https://www.docker.com/blog'},{l:'docs.docker.com/engine/release-notes',u:'https://docs.docker.com/engine/release-notes'}]},
+    {key:'kubernetes',name:'Kubernetes',    color:'#326CE5', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg',
+     desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.',
+     src:[{l:'kubernetes.io/releases',u:'https://kubernetes.io/releases'},{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'}]},
+    {key:'terraform', name:'Terraform',     color:'#7B42BC', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg',
+     desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.',
+     src:[{l:'github.com/hashicorp/terraform/releases',u:'https://github.com/hashicorp/terraform/releases'},{l:'developer.hashicorp.com/terraform',u:'https://developer.hashicorp.com/terraform'}]},
+    {key:'opentofu',  name:'OpenTofu',      color:'#FFDA18', group:'Ferramenta',
+     svg:'<path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/>',
+     desc:'Fork OSS do Terraform pela Linux Foundation — providers, módulos e state.',
+     src:[{l:'github.com/opentofu/opentofu/releases',u:'https://github.com/opentofu/opentofu/releases'},{l:'opentofu.org/blog',u:'https://opentofu.org/blog'}]},
   ]},
-  { label:'Obs & Segurança', tools:[
-    {key:'dynatrace', name:'Dynatrace', logo:'https://cdn.simpleicons.org/dynatrace/1496FF'},
-    {key:'grafana',   name:'Grafana',   logo:'https://cdn.simpleicons.org/grafana/F46800'},
-    {key:'keycloak',  name:'Keycloak',  logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128'},
+  {label:'Mesh, Proxies & Edge', tools:[
+    {key:'istio',     name:'Istio',         color:'#466BB0', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/istio/466BB0',
+     desc:'Service mesh — traffic management, mTLS e observabilidade.',
+     src:[{l:'istio.io/latest/news',u:'https://istio.io/latest/news'},{l:'istio.io/latest/blog',u:'https://istio.io/latest/blog'}]},
+    {key:'envoy',     name:'Envoy',         color:'#AC6199', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/envoyproxy/AC6199',
+     desc:'Proxy L7 cloud-native — base de Istio, traffic management e mTLS.',
+     src:[{l:'envoyproxy.io/news',u:'https://www.envoyproxy.io/news'},{l:'envoyproxy.io/docs',u:'https://www.envoyproxy.io/docs'}]},
+    {key:'nginx',     name:'Nginx',         color:'#009639', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg',
+     desc:'Web server e reverse proxy — caching, load balancing e TLS termination.',
+     src:[{l:'nginx.org/en/CHANGES',u:'https://nginx.org/en/CHANGES'},{l:'nginx.com/blog',u:'https://www.nginx.com/blog'}]},
+    {key:'cloudflare',name:'Cloudflare',    color:'#F38020', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/cloudflare/F38020',
+     desc:'CDN global, DNS, Workers, R2 e Zero Trust — infraestrutura de edge unificada.',
+     src:[{l:'blog.cloudflare.com',u:'https://blog.cloudflare.com'},{l:'developers.cloudflare.com/workers/platform/changelog',u:'https://developers.cloudflare.com/workers/platform/changelog'}]},
   ]},
-  { label:'Backend & Design', tools:[
-    {key:'gradle',      name:'Gradle',       logo:'https://cdn.simpleicons.org/gradle/02303A'},
-    {key:'maven',       name:'Apache Maven', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128'},
-    {key:'quarkus',     name:'Quarkus',      logo:'https://cdn.simpleicons.org/quarkus/4695EB'},
-    {key:'springboot',  name:'Spring Boot',  logo:'https://cdn.simpleicons.org/springboot/6DB33F'},
-    {key:'springcloud', name:'Spring Cloud', logo:'https://www.google.com/s2/favicons?domain=spring.io&sz=128'},
-    {key:'structurizr', name:'Structurizr',  logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128'},
+  {label:'Dados & Streaming', tools:[
+    {key:'databricks',name:'Databricks',    color:'#FF3621', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/databricks/FF3621',
+     desc:'Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.',
+     src:[{l:'docs.databricks.com/en/release-notes',u:'https://docs.databricks.com/en/release-notes'},{l:'databricks.com/blog',u:'https://databricks.com/blog'}]},
+    {key:'postgres',  name:'PostgreSQL',    color:'#4169E1', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
+     desc:'Banco relacional avançado — extensões, JSONB e replicação lógica.',
+     src:[{l:'postgresql.org/docs/release',u:'https://www.postgresql.org/docs/release'},{l:'planet.postgresql.org',u:'https://planet.postgresql.org'}]},
+    {key:'pgvector',  name:'pgvector',      color:'#336791', group:'Ferramenta',
+     svg:'<circle cx="12" cy="12" r="9"/><path d="m12 7 4 5-4 5"/><path d="m8 7 4 5-4 5"/>',
+     desc:'Extensão Postgres para vector search (HNSW, IVF) — base de RAG em Postgres.',
+     src:[{l:'github.com/pgvector/pgvector/releases',u:'https://github.com/pgvector/pgvector/releases'}]},
+    {key:'redis',     name:'Redis',         color:'#DC382D', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg',
+     desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.',
+     src:[{l:'redis.io/blog',u:'https://redis.io/blog'},{l:'github.com/redis/redis/releases',u:'https://github.com/redis/redis/releases'}]},
+    {key:'kafka',     name:'Apache Kafka',  color:'#ee7a3a', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/apachekafka/ffffff',
+     desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.',
+     src:[{l:'kafka.apache.org/blog',u:'https://kafka.apache.org/blog'},{l:'github.com/apache/kafka/releases',u:'https://github.com/apache/kafka/releases'},{l:'confluent.io/blog',u:'https://confluent.io/blog'}]},
+    {key:'dbt',       name:'dbt',           color:'#FF694A', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/dbt/FF694A',
+     desc:'Transformação de dados analíticos — SQL-first, testes, lineage.',
+     src:[{l:'docs.getdbt.com/docs/dbt-versions/core-upgrade',u:'https://docs.getdbt.com/docs/dbt-versions/core-upgrade'},{l:'docs.getdbt.com/blog',u:'https://docs.getdbt.com/blog'}]},
+    {key:'temporal',  name:'Temporal',      color:'#000000', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/temporal/000000',
+     desc:'Durable execution — workflows resilientes, retries e state machines.',
+     src:[{l:'github.com/temporalio/temporal/releases',u:'https://github.com/temporalio/temporal/releases'},{l:'temporal.io/blog',u:'https://temporal.io/blog'}]},
+  ]},
+  {label:'Obs & Segurança', tools:[
+    {key:'dynatrace',     name:'Dynatrace',      color:'#1496FF', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg',
+     desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).',
+     src:[{l:'dynatrace.com/support/help/whats-new/release-notes',u:'https://www.dynatrace.com/support/help/whats-new/release-notes'},{l:'dynatrace.com/blog',u:'https://www.dynatrace.com/blog'}]},
+    {key:'datadog',       name:'Datadog',        color:'#632CA6', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/datadog/632CA6',
+     desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.',
+     src:[{l:'docs.datadoghq.com/release_notes',u:'https://docs.datadoghq.com/release_notes'},{l:'datadoghq.com/blog',u:'https://www.datadoghq.com/blog'}]},
+    {key:'grafana',       name:'Grafana',        color:'#F46800', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg',
+     desc:'Stack de observabilidade — Grafana, Loki, Tempo, Mimir e Pyroscope.',
+     src:[{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'github.com/grafana/grafana/releases',u:'https://github.com/grafana/grafana/releases'}]},
+    {key:'opentelemetry', name:'OpenTelemetry',  color:'#425CC7', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/opentelemetry/f5a800',
+     desc:'Padrão aberto de telemetria — traces, métricas e logs unificados.',
+     src:[{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'},{l:'github.com/open-telemetry/opentelemetry-specification/releases',u:'https://github.com/open-telemetry/opentelemetry-specification/releases'}]},
+    {key:'prometheus',    name:'Prometheus',     color:'#E6522C', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/prometheus/E6522C',
+     desc:'Métricas e alertas open-source — modelo de dados dimensional, PromQL e exporters.',
+     src:[{l:'github.com/prometheus/prometheus/releases',u:'https://github.com/prometheus/prometheus/releases'},{l:'prometheus.io/blog',u:'https://prometheus.io/blog'}]},
+    {key:'keycloak',      name:'Keycloak',       color:'#4D9CF8', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/keycloak/4D9CF8',
+     desc:'IAM open-source — SSO, OIDC, SAML e federation.',
+     src:[{l:'github.com/keycloak/keycloak/releases',u:'https://github.com/keycloak/keycloak/releases'},{l:'keycloak.org/blog',u:'https://www.keycloak.org/blog'}]},
+    {key:'vault',         name:'Vault',          color:'#FFEC6E', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/vault/FFEC6E',
+     desc:'Secrets management (HashiCorp) — encriptação, rotação, dynamic secrets, PKI.',
+     src:[{l:'github.com/hashicorp/vault/releases',u:'https://github.com/hashicorp/vault/releases'},{l:'hashicorp.com/blog/products/vault',u:'https://www.hashicorp.com/blog/products/vault'}]},
+    {key:'trivy',         name:'Trivy',          color:'#1904DA', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/aquasecurity/1904DA',
+     desc:'Scanner de vulnerabilidades em containers/IaC/git (Aqua Security) — CVEs, misconfig, secrets.',
+     src:[{l:'github.com/aquasecurity/trivy/releases',u:'https://github.com/aquasecurity/trivy/releases'},{l:'aquasec.com/blog',u:'https://www.aquasec.com/blog'}]},
+  ]},
+  {label:'Backend & Build', tools:[
+    {key:'gradle',      name:'Gradle',       color:'#5ec4c4', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg',
+     desc:'Build automation moderna — build cache e convention plugins.',
+     src:[{l:'docs.gradle.org/current/release-notes.html',u:'https://docs.gradle.org/current/release-notes.html'},{l:'gradle.org/blog',u:'https://blog.gradle.org'}]},
+    {key:'maven',       name:'Apache Maven', color:'#C71A36', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg',
+     desc:'Build system Java — POM, lifecycle e Maven Central.',
+     src:[{l:'maven.apache.org/docs/history.html',u:'https://maven.apache.org/docs/history.html'},{l:'search.maven.org',u:'https://search.maven.org'}]},
+    {key:'springboot',  name:'Spring Boot',  color:'#6DB33F', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',
+     desc:'Framework Java líder — auto-config, starters e Spring Cloud (cobre Gateway/Config/Circuit Breaker).',
+     src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'github.com/spring-projects/spring-boot/releases',u:'https://github.com/spring-projects/spring-boot/releases'}]},
+    {key:'wasmtime',    name:'Wasmtime',     color:'#5a9', group:'Ferramenta',
+     svg:'<path d="M3 12h3l3-7 6 14 3-7h3"/>',
+     desc:'Runtime WebAssembly (Bytecode Alliance) para backend e edge — WASI Preview 2, componentes.',
+     src:[{l:'github.com/bytecodealliance/wasmtime/releases',u:'https://github.com/bytecodealliance/wasmtime/releases'},{l:'bytecodealliance.org/articles',u:'https://bytecodealliance.org/articles'}]},
+  ]},
+  {label:'Frontend & Testing', tools:[
+    {key:'nextjs',    name:'Next.js',       color:'#8b8fa8', group:'Ferramenta',
+     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
+     desc:'Meta-framework React — App Router, RSC, streaming SSR e edge runtime.',
+     src:[{l:'nextjs.org/blog',u:'https://nextjs.org/blog'},{l:'vercel.com/changelog',u:'https://vercel.com/changelog'}]},
+    {key:'vite',      name:'Vite',          color:'#646CFF', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/vite/646CFF',
+     desc:'Build tool e dev server frontend — ESM nativo, HMR instantâneo, plugin ecosystem.',
+     src:[{l:'github.com/vitejs/vite/releases',u:'https://github.com/vitejs/vite/releases'},{l:'vite.dev/blog',u:'https://vite.dev/blog'}]},
+    {key:'bun',       name:'Bun',           color:'#FBF0DF', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/bun/FBF0DF',
+     desc:'Runtime JS/TS moderno — bundler, test runner e package manager compatível com Node.',
+     src:[{l:'bun.sh/blog',u:'https://bun.sh/blog'},{l:'github.com/oven-sh/bun/releases',u:'https://github.com/oven-sh/bun/releases'}]},
+    {key:'biome',     name:'Biome',         color:'#60A5FA', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/biome/60A5FA',
+     desc:'Toolchain JS/TS unificado — linter + formatter rápidos em Rust (substitui ESLint+Prettier).',
+     src:[{l:'biomejs.dev/blog',u:'https://biomejs.dev/blog'},{l:'github.com/biomejs/biome/releases',u:'https://github.com/biomejs/biome/releases'}]},
+    {key:'k6',        name:'Grafana k6',    color:'#7d64ff', group:'Ferramenta',
+     svg:'<path d="M12 2v20"/><path d="M4 7v10"/><path d="M20 7v10"/><path d="M8 5v14"/><path d="M16 5v14"/>',
+     desc:'Load & performance testing open-source — scripts em JS, distributed mode, Grafana integration.',
+     src:[{l:'k6.io/blog',u:'https://k6.io/blog'},{l:'github.com/grafana/k6/releases',u:'https://github.com/grafana/k6/releases'}]},
+    {key:'playwright',name:'Playwright',    color:'#2EAD33', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/playwright/2EAD33',
+     desc:'E2E testing moderno (Microsoft) — multi-browser, auto-wait, trace viewer.',
+     src:[{l:'github.com/microsoft/playwright/releases',u:'https://github.com/microsoft/playwright/releases'},{l:'playwright.dev/blog',u:'https://playwright.dev/blog'}]},
+  ]},
+  {label:'Design & Docs-as-code', tools:[
+    {key:'structurizr', name:'Structurizr',  color:'#f472b6', group:'Ferramenta',
+     svg:'<rect x="8" y="2" width="8" height="5" rx="1"/><rect x="2" y="16" width="8" height="5" rx="1"/><rect x="14" y="16" width="8" height="5" rx="1"/><line x1="12" y1="7" x2="6" y2="16"/><line x1="12" y1="7" x2="18" y2="16"/>',
+     desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.',
+     src:[{l:'structurizr.com/changelog',u:'https://structurizr.com/changelog'},{l:'structurizr.com/blog',u:'https://structurizr.com/blog'}]},
+    {key:'plantuml',    name:'PlantUML',     color:'#1168BD', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/plantuml/1168BD',
+     desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.',
+     src:[{l:'plantuml.com/news',u:'https://plantuml.com/news'},{l:'github.com/plantuml/plantuml/releases',u:'https://github.com/plantuml/plantuml/releases'}]},
+    {key:'mermaid',     name:'Mermaid',      color:'#FF3670', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/mermaid/FF3670',
+     desc:'Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub e docs modernos.',
+     src:[{l:'github.com/mermaid-js/mermaid/releases',u:'https://github.com/mermaid-js/mermaid/releases'},{l:'mermaid-js.github.io/mermaid/news',u:'https://mermaid.js.org/community/blog.html'}]},
   ]},
 ];
 
-function ico(paths, color) {
-  return `<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:${color};fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round">${paths}</svg>`;
-}
-function srcs(arr, color) {
-  return arr.map(s => `<a class="src-link" href="${s.u}" target="_blank" rel="noopener" style="--cc:${color||'var(--accent)'}">${s.l}</a>`).join('');
+// ── UNIVERSE: 3 seções — top, center (langs no meio), bottom ──────────────
+function initUniverse() {
+  const univ = document.getElementById('universe');
+
+  // Pools por tipo
+  const catPool   = CATS.map(c => ({ type:'cat',   name:c.name, color:c.color, svg:c.svg }));
+  const langPool  = LANGS.map(l => ({ type:'lang',  name:l.name, logo:l.logo, color:l.color }));
+  const toolPool  = [];
+  TOOL_SUBGROUPS.forEach(sg => sg.tools.forEach(t => toolPool.push({ type:'tool', name:t.name, logo:t.logo, svg:t.svg, color:t.color })));
+
+  // Intercala cats/tools em sequência uniforme
+  const mixed = [];
+  let ci=0, toi=0;
+  while (ci<catPool.length || toi<toolPool.length) {
+    if (ci  < catPool.length)   mixed.push(catPool[ci++]);
+    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
+    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
+  }
+
+  // Extrai 2 itens antes e 2 depois do meio para flanquear as langs
+  const mid = Math.floor(mixed.length / 2);
+  const leftFlank  = mixed.splice(mid - 2, 2);   // remove 2 itens antes do meio
+  const rightFlank = mixed.splice(mid - 2, 2);   // remove 2 itens depois (índice ajustado)
+
+  // Divide o restante em top e bottom.
+  // Fileiras reais têm ~8 itens (pills ~130px + tools ~52px em 830px).
+  // Trunca topItems para múltiplo exato de 8 → zero fileira esparsa garantido.
+  const ROW_EST  = 8;
+  const split    = Math.floor(mixed.length * 0.44);
+  const rawTop   = mixed.slice(0, split);
+  const topCount = Math.floor(rawTop.length / ROW_EST) * ROW_EST;
+  const topItems = rawTop.slice(0, topCount);
+  const botItems = [...rawTop.slice(topCount), ...mixed.slice(split)];
+
+  // Os últimos 2 itens de botItems ficam numa fileira esparsa no rodapé.
+  // Move-os para a posição 6 (antes de microservices) para preencher o vazio.
+  if (botItems.length >= 8) {
+    const orphans = botItems.splice(botItems.length - 2, 2);
+    botItems.splice(6, 0, ...orphans);
+  }
+
+  // Extrai os últimos 10 itens de botItems como "fileira mid":
+  // aparecem ENTRE o top (2 fileiras) e o center (langs) — onde estava a linha azul.
+  // 10 itens (mix de tools 52px + pills 130px) ≈ 764px → quase preenche 830px.
+  const midItems = botItems.splice(botItems.length - 10, 10);
+
+  // Fileira central: [flank_esq] [java, js, python] [flank_dir]
+  const centerItems = [...leftFlank, ...langPool, ...rightFlank];
+
+  // Helper de render
+  function renderItem(item) {
+    let inner = '';
+    if (item.type === 'cat') {
+      inner = `<div class="item-icon"><svg viewBox="0 0 24 24">${item.svg}</svg></div>`
+             +`<div class="item-name">${item.name}</div>`;
+    } else if (item.type === 'lang') {
+      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`
+             +`<div class="item-name">${item.name}</div>`;
+    } else if (item.type === 'topic') {
+      const ico = item.svg
+        ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
+        : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'">`;
+      inner = `<div class="item-icon">${ico}</div><div class="item-name">${item.name}</div>`;
+    } else {
+      const ico = item.svg
+        ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
+        : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3">`;
+      inner = `<div class="item-icon">${ico}</div>`;
+    }
+    const ccAttr = item.color ? ` style="--cc:${item.color}"` : '';
+    return `<div class="floating-item item-${item.type}"${ccAttr} data-tip="${item.name}">${inner}</div>`;
+  }
+
+  univ.innerHTML =
+    `<div class="univ-section univ-top">${topItems.map(renderItem).join('')}</div>`+
+    `<div class="univ-section univ-mid">${midItems.map(renderItem).join('')}</div>`+
+    `<div class="univ-section univ-center">${centerItems.map(renderItem).join('')}</div>`+
+    `<div class="univ-section univ-bottom">${botItems.map(renderItem).join('')}</div>`;
+
+  // Animação
+  univ.querySelectorAll('.floating-item').forEach((el, i) => {
+    el.style.setProperty('--fdur', (4 + (i % 5) * 0.9).toFixed(1) + 's');
+    el.style.setProperty('--fdel', (-((i * 0.73) % 5)).toFixed(1) + 's');
+    setTimeout(() => {
+      el.style.transition = 'opacity .5s ease';
+      el.style.opacity = '1';
+    }, 40 + i * 18);
+  });
 }
 
-function renderCats() {
-  const all = CATS_GROUPS.flatMap(g => g.cats).sort((a,b) => a.name.localeCompare(b.name, 'pt'));
-  document.getElementById('cats-container').innerHTML =
-    `<div class="cat-grid">${all.map(cat => `
-      <div class="cat-card" style="--cc:${cat.color}" onclick="location.href='home.html?cat=${cat.key}'">
-        <div class="cat-head">
-          <div class="cat-ico">${ico(cat.svg, cat.color)}</div>
-          <div><div class="cat-n">${cat.name}</div><div class="cat-g">${cat.group}</div></div>
-        </div>
-        <p class="cat-desc">${cat.desc}</p>
-        <div class="sources">${srcs(cat.src, cat.color)}</div>
-      </div>`).join('')}</div>`;
-}
+// ── BELOW FOLD ────────────────────────────────────────────────────────────
+function renderBelow() {
+  const sorted = [...CATS].sort((a,b) => a.name.localeCompare(b.name, 'pt'));
 
-function renderLangs() {
-  document.getElementById('langs').innerHTML = LANGS.map(l => `
-    <div class="lang-card">
-      <div class="lang-head">
-        <img class="lang-logo" src="${l.logo}" alt="${l.name}" onerror="this.style.display='none'">
-        <div class="lang-n">${l.name}</div>
+  document.getElementById('cats-container').innerHTML = `<div class="cat-grid">${
+    [sorted].map(g =>
+      g.map(k => {
+          const c = k;
+          return `<div class="cat-card" style="--cc:${c.color}" onclick="location.href='home.html?cat=${c.key}'">
+            <div class="cat-top-glow"></div>
+            <div class="cat-ico"><svg viewBox="0 0 24 24">${c.svg}</svg></div>
+            <div class="cat-content">
+              <div class="cat-n">${c.name}</div>
+              <div class="cat-g">${c.group}</div>
+              <p class="cat-desc">${c.desc}</p>
+              <div class="sources">${c.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
+            </div>
+          </div>`;
+        }).join('')
+    ).join('')
+  }</div>`;
+
+  function renderItemCard(item, dest) {
+    const icoHtml = item.svg
+      ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
+      : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'">`;
+    return `<div class="item-card" style="--cc:${item.color}" onclick="location.href='home.html?tool=${item.key}'">
+      <div class="item-top-glow"></div>
+      <div class="item-ico">${icoHtml}</div>
+      <div class="item-content">
+        <div class="item-n">${item.name}</div>
+        <div class="item-g">${item.group}</div>
+        <p class="item-desc">${item.desc}</p>
+        <div class="sources">${item.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
       </div>
-      <div class="lang-src">${srcs(l.src)}</div>
-    </div>`).join('');
+    </div>`;
+  }
+
+  const sortedLangs = [...LANGS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  document.getElementById('langs').innerHTML =
+    `<div class="item-grid">${sortedLangs.map(l => renderItemCard(l)).join('')}</div>`;
+
+  const allTools = TOOL_SUBGROUPS.flatMap(sg => sg.tools).sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  document.getElementById('tools').innerHTML =
+    `<div class="item-grid">${allTools.map(t => renderItemCard(t)).join('')}</div>`;
 }
 
-function renderTopics() {
-  document.getElementById('topics').innerHTML = TOPICS.map(t => `
-    <div class="topic-card" onclick="location.href='home.html?tool=${t.key}'">
-      <img class="topic-logo" src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
-      <span class="topic-n">${t.name}</span>
-    </div>`).join('');
-}
-
-function renderTools() {
-  document.getElementById('tools').innerHTML = TOOL_SUBGROUPS.map(sg => `
-    <div class="subgroup">
-      <div class="subgroup-l">${sg.label}</div>
-      <div class="chips">${sg.tools.map(t => `
-        <div class="chip" onclick="location.href='home.html?tool=${t.key}'">
-          <img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
-          <span>${t.name}</span>
-        </div>`).join('')}</div>
-    </div>`).join('');
-}
-
-// Featured ferramentas para o card de regra (as mais reconhecíveis)
-const FEATURED_TOOLS = [
-  {name:'Kubernetes', logo:'https://cdn.simpleicons.org/kubernetes/326CE5'},
-  {name:'Docker',     logo:'https://cdn.simpleicons.org/docker/2496ed'},
-  {name:'GitHub',     logo:'https://cdn.simpleicons.org/github/ffffff'},
-  {name:'Kafka',      logo:'https://cdn.simpleicons.org/apachekafka/ffffff'},
-  {name:'PostgreSQL', logo:'https://cdn.simpleicons.org/postgresql/4169E1'},
-  {name:'Redis',      logo:'https://cdn.simpleicons.org/redis/DC382D'},
-  {name:'Spring Boot',logo:'https://cdn.simpleicons.org/springboot/6DB33F'},
-  {name:'Terraform',  logo:'https://cdn.simpleicons.org/terraform/7B42BC'},
-  {name:'Grafana',    logo:'https://cdn.simpleicons.org/grafana/F46800'},
-  {name:'VS Code',    logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC'},
-  {name:'Quarkus',    logo:'https://cdn.simpleicons.org/quarkus/4695EB'},
-  {name:'Git',        logo:'https://cdn.simpleicons.org/git/F05032'},
-];
-
-function miniLogo(name, logo, bg) {
-  return `<div class="mini-ico" data-tip="${name}" style="background:${bg||'var(--surface2)'}">
-    <img src="${logo}" alt="${name}" onerror="this.style.display='none'">
-  </div>`;
-}
-
-function renderRuleCats() {
-  const all = CATS_GROUPS.flatMap(g => g.cats).sort((a,b) => a.name.localeCompare(b.name, 'pt'));
-  document.getElementById('rule-cat-icons').innerHTML = all.map(c =>
-    `<div class="mini-ico" data-tip="${c.name}" style="background:color-mix(in srgb,${c.color} 15%,transparent)">
-      <svg viewBox="0 0 24 24" style="stroke:${c.color};fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round">${c.svg}</svg>
-    </div>`).join('');
-}
-
-function renderRuleLang() {
-  document.getElementById('rule-lang-icons').innerHTML = LANGS.map(l =>
-    miniLogo(l.name, l.logo)).join('');
-}
-
-function renderRuleTopics() {
-  document.getElementById('rule-topic-icons').innerHTML = TOPICS.map(t =>
-    miniLogo(t.name, t.logo)).join('');
-}
-
-function renderRuleTools() {
-  const allTools = TOOL_SUBGROUPS.flatMap(g => g.tools);
-  document.getElementById('rule-tool-icons').innerHTML =
-    allTools.map(t => miniLogo(t.name, t.logo)).join('');
-}
-
-renderCats(); renderLangs(); renderTopics(); renderTools();
-renderRuleCats(); renderRuleLang(); renderRuleTopics(); renderRuleTools();
-
-function fitIconGrids() {
-  const GAP = 5;
-  const cards = [
-    {id: 'rule-cat-icons',   cols: 4},
-    {id: 'rule-lang-icons',  cols: 3, square: true},
-    {id: 'rule-topic-icons', cols: 3},
-    {id: 'rule-tool-icons',  cols: 4},
-  ];
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    cards.forEach(({id, cols, square}) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const availH = el.clientHeight;
-      const availW = el.clientWidth;
-      const items = el.querySelectorAll('.mini-ico').length;
-      if (!items || availH < 10) return;
-      const rows = Math.ceil(items / cols);
-      let rowH = Math.max(24, Math.floor((availH - (rows - 1) * GAP) / rows));
-      if (square) {
-        const colW = Math.floor((availW - (cols - 1) * GAP) / cols);
-        rowH = Math.min(rowH, colW);
-        el.style.alignContent = 'center';
-      }
-      el.style.gridAutoRows = rowH + 'px';
+// ── SCROLL REVEAL (cat cards) ─────────────────────────────────────────────
+function setupReveal() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
     });
-  }));
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.cat-card, .item-card').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 55}ms`;
+    io.observe(el);
+  });
 }
-fitIconGrids();
 
-
-// tooltip global
+// ── TOOLTIP ───────────────────────────────────────────────────────────────
 const tip = document.getElementById('tip');
 document.addEventListener('mouseover', e => {
   const el = e.target.closest('[data-tip]');
@@ -960,14 +915,21 @@ document.addEventListener('mouseover', e => {
   tip.style.opacity = '1';
 });
 document.addEventListener('mousemove', e => {
-  if (!tip.style.opacity || tip.style.opacity === '0') return;
-  const x = e.clientX, y = e.clientY;
-  tip.style.left = Math.min(x - tip.offsetWidth / 2, window.innerWidth - tip.offsetWidth - 8) + 'px';
-  tip.style.top  = (y - tip.offsetHeight - 10) + 'px';
+  if (tip.style.opacity !== '1') return;
+  tip.style.left = Math.min(e.clientX + 15, window.innerWidth - tip.offsetWidth - 10) + 'px';
+  tip.style.top  = (e.clientY + 15) + 'px';
 });
 document.addEventListener('mouseout', e => {
   if (e.target.closest('[data-tip]')) tip.style.opacity = '0';
 });
+
+/* layout fixo — sem recalculo em resize */
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderBelow();
+setupReveal();
+document.fonts.ready.then(() => initUniverse());
+
 </script>
 </body>
 </html>
