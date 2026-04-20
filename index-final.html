@@ -327,24 +327,50 @@
     .mon-label { font-weight: 700; font-size: 14px; margin-bottom: 14px; }
     .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
 
-    .lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 32px; }
-    .lang-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px; }
-    .lang-logo { width: 24px; height: 24px; object-fit: contain; }
-    .lang-n { font-size: 14px; font-weight: 800; }
-
-    .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-bottom: 32px; }
-    .topic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color .15s, transform .15s; }
-    .topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .topic-logo { width: 18px; height: 18px; object-fit: contain; }
-    .topic-n { font-size: 13px; font-weight: 700; }
-
-    .subgroup { margin-bottom: 20px; }
-    .subgroup-l { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 10px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: border-color .15s, transform .15s; }
-    .chip:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .chip img { width: 16px; height: 16px; object-fit: contain; }
-    .chip span { font-size: 12px; font-weight: 700; }
+    .item-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 14px; row-gap: 50px; padding-left: 36px; margin-bottom: 32px; }
+    .item-card {
+      position: relative;
+      background: rgba(16,18,26,.92);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+      padding: 18px 20px 18px 52px;
+      cursor: pointer; text-align: left;
+      display: flex; flex-direction: column;
+      overflow: visible;
+      box-shadow:
+        inset 60px 0 40px -30px color-mix(in srgb, var(--cc,var(--accent)) 14%, transparent),
+        0 12px 28px -8px rgba(0,0,0,.5);
+    }
+    .item-card.revealed { opacity: 1; transform: translateY(0); }
+    .item-card:hover { transform: translateY(-4px); }
+    .item-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 18px; padding: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--cc, transparent) 0%,
+        color-mix(in srgb, var(--cc, transparent) 35%, transparent) 28%,
+        transparent 55%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .item-ico {
+      position: absolute;
+      left: -32px; top: 50%; transform: translateY(-50%);
+      width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, var(--cc,var(--accent)), color-mix(in srgb, var(--cc,var(--accent)) 50%, #000));
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--cc,var(--accent)) 50%, transparent), 0 2px 6px rgba(0,0,0,.5);
+    }
+    .item-ico img { width: 28px; height: 28px; object-fit: contain; }
+    .item-n { font-size: 15px; font-weight: 800; color: var(--cc, var(--text1)); line-height: 1.1; margin-bottom: 3px; }
+    .item-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .16em; text-transform: uppercase; font-weight: 600; margin-bottom: 9px; }
+    .item-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 11px; flex: 1; }
+    .item-card .sources { justify-content: flex-start; }
 
     /* layout fixo — sem media queries */
   </style>
@@ -453,65 +479,191 @@ const CATS = [
 ];
 
 const LANGS = [
-  {key:'java',       name:'Java & JVM',     logo:'https://cdn.simpleicons.org/openjdk/ffffff'},
-  {key:'javascript', name:'JavaScript / TS',logo:'https://cdn.simpleicons.org/javascript/F7DF1E'},
-  {key:'python',     name:'Python',          logo:'https://cdn.simpleicons.org/python/3776AB'},
+  {key:'java',       name:'Java & JVM',     color:'#f89820', group:'Linguagem',
+   logo:'https://cdn.simpleicons.org/openjdk/ffffff',
+   desc:'Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.',
+   src:[{l:'openjdk.org',u:'https://openjdk.org'},{l:'baeldung.com',u:'https://baeldung.com'},{l:'spring.io/blog',u:'https://spring.io/blog'}]},
+  {key:'javascript', name:'JavaScript / TS',color:'#c9a800', group:'Linguagem',
+   logo:'https://cdn.simpleicons.org/javascript/F7DF1E',
+   desc:'Linguagem da web — TypeScript, Node, Deno, Bun e ecossistema frontend moderno.',
+   src:[{l:'tc39.es',u:'https://tc39.es'},{l:'nodejs.org/en/blog',u:'https://nodejs.org/en/blog'},{l:'deno.com/blog',u:'https://deno.com/blog'}]},
+  {key:'python',     name:'Python',          color:'#5b8dd9', group:'Linguagem',
+   logo:'https://cdn.simpleicons.org/python/3776AB',
+   desc:'Scripts, data science, IA e automação — PyPI com 500k+ pacotes.',
+   src:[{l:'python.org/news',u:'https://python.org/news'},{l:'realpython.com',u:'https://realpython.com'},{l:'peps.python.org',u:'https://peps.python.org'}]},
 ];
 
 const TOPICS = [
-  {key:'apifirst',    name:'API-First',      logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
-  {key:'cloudnative', name:'Cloud Native',   logo:'https://cdn.simpleicons.org/cncf/ffffff'},
-  {key:'cve',         name:'CVEs & Vulns',   logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128'},
-  {key:'ddd',         name:'DDD',            logo:'https://www.google.com/s2/favicons?domain=domainlanguage.com&sz=128'},
-  {key:'eventdriven', name:'Event-Driven',   logo:'https://www.google.com/s2/favicons?domain=martinfowler.com&sz=128'},
-  {key:'microservices',name:'Microsserviços',logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128'},
-  {key:'owasp',       name:'OWASP',          logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128'},
-  {key:'resiliency',  name:'Resiliência',    logo:'https://www.google.com/s2/favicons?domain=resilience4j.readme.io&sz=128'},
+  {key:'apifirst',     name:'API-First',      color:'#14b8a6', group:'Tópico',
+   logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539',
+   desc:'Design-first — contratos OpenAPI/AsyncAPI definidos antes do código.',
+   src:[{l:'openapis.org',u:'https://openapis.org'},{l:'asyncapi.com',u:'https://asyncapi.com'}]},
+  {key:'cloudnative',  name:'Cloud Native',   color:'#818cf8', group:'Tópico',
+   logo:'https://cdn.simpleicons.org/cncf/ffffff',
+   desc:'CNCF landscape — containers, 12-factor apps e serverless.',
+   src:[{l:'cncf.io/blog',u:'https://cncf.io/blog'},{l:'12factor.net',u:'https://12factor.net'}]},
+  {key:'cve',          name:'CVEs & Vulns',   color:'#ef4444', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=nvd.nist.gov&sz=128',
+   desc:'Vulnerabilidades críticas e zero-days — CVSS, NVD e patch urgente.',
+   src:[{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'thehackernews.com',u:'https://thehackernews.com'}]},
+  {key:'ddd',          name:'DDD',            color:'#f472b6', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=domainlanguage.com&sz=128',
+   desc:'Bounded contexts, agregados e linguagem ubíqua — Eric Evans.',
+   src:[{l:'domainlanguage.com',u:'https://domainlanguage.com'},{l:'martinfowler.com',u:'https://martinfowler.com'}]},
+  {key:'eventdriven',  name:'Event-Driven',   color:'#14b8a6', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=martinfowler.com&sz=128',
+   desc:'EDA, CQRS, event sourcing e Saga pattern em sistemas distribuídos.',
+   src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'confluent.io/blog',u:'https://confluent.io/blog'}]},
+  {key:'microservices',name:'Microsserviços', color:'#818cf8', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=microservices.io&sz=128',
+   desc:'Decomposição em serviços — patterns, comunicação e acoplamento.',
+   src:[{l:'microservices.io',u:'https://microservices.io'},{l:'infoq.com',u:'https://infoq.com'}]},
+  {key:'owasp',        name:'OWASP',          color:'#ef4444', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=owasp.org&sz=128',
+   desc:'Top 10 de segurança web — riscos, mitigações e boas práticas.',
+   src:[{l:'owasp.org',u:'https://owasp.org'},{l:'cheatsheetseries.owasp.org',u:'https://cheatsheetseries.owasp.org'}]},
+  {key:'resiliency',   name:'Resiliência',    color:'#f59e0b', group:'Tópico',
+   logo:'https://www.google.com/s2/favicons?domain=resilience4j.readme.io&sz=128',
+   desc:'Circuit breaker, bulkhead, retry e timeout — falhas como cidadãos de primeira classe.',
+   src:[{l:'resilience4j.readme.io',u:'https://resilience4j.readme.io'},{l:'learn.microsoft.com/azure/architecture',u:'https://learn.microsoft.com/azure/architecture'}]},
 ];
 
 const TOOL_SUBGROUPS = [
   {label:'AI & IDEs', tools:[
-    {key:'chatgpt',   name:'ChatGPT',       logo:'https://cdn.simpleicons.org/openai/ffffff'},
-    {key:'claudecode',name:'Claude Code',   logo:'https://cdn.simpleicons.org/anthropic/ffffff'},
-    {key:'cursor',    name:'Cursor IDE',    logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128'},
-    {key:'intellij',  name:'IntelliJ IDEA', logo:'https://cdn.simpleicons.org/intellijidea/ffffff'},
-    {key:'vscode',    name:'VS Code',       logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC'},
+    {key:'chatgpt',   name:'ChatGPT',       color:'#10a37f', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/openai/ffffff',
+     desc:'Modelos GPT-4o e o3, APIs OpenAI e ecossistema de plugins.',
+     src:[{l:'openai.com/blog',u:'https://openai.com/blog'},{l:'platform.openai.com/docs',u:'https://platform.openai.com/docs'}]},
+    {key:'claudecode',name:'Claude Code',   color:'#d97706', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/anthropic/ffffff',
+     desc:'CLI de IA da Anthropic para engenharia de software no terminal.',
+     src:[{l:'anthropic.com/news',u:'https://anthropic.com/news'},{l:'docs.anthropic.com',u:'https://docs.anthropic.com'}]},
+    {key:'cursor',    name:'Cursor IDE',    color:'#8b5cf6', group:'Ferramenta',
+     logo:'https://www.google.com/s2/favicons?domain=cursor.com&sz=128',
+     desc:'IDE com IA — autocomplete, chat e edição contextual avançada.',
+     src:[{l:'cursor.com/changelog',u:'https://cursor.com/changelog'},{l:'forum.cursor.com',u:'https://forum.cursor.com'}]},
+    {key:'intellij',  name:'IntelliJ IDEA', color:'#fe2857', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/intellijidea/ffffff',
+     desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.',
+     src:[{l:'blog.jetbrains.com/idea',u:'https://blog.jetbrains.com/idea'},{l:'jetbrains.com/idea/whatsnew',u:'https://jetbrains.com/idea/whatsnew'}]},
+    {key:'vscode',    name:'VS Code',       color:'#007ACC', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/visualstudiocode/007ACC',
+     desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.',
+     src:[{l:'code.visualstudio.com/updates',u:'https://code.visualstudio.com/updates'},{l:'marketplace.visualstudio.com',u:'https://marketplace.visualstudio.com'}]},
   ]},
   {label:'Git & CI/CD', tools:[
-    {key:'argocd',   name:'Argo CD',        logo:'https://cdn.simpleicons.org/argo/EF7B4D'},
-    {key:'ghactions',name:'GitHub Actions', logo:'https://cdn.simpleicons.org/githubactions/2088FF'},
-    {key:'git',      name:'Git',            logo:'https://cdn.simpleicons.org/git/F05032'},
-    {key:'github',   name:'GitHub',         logo:'https://cdn.simpleicons.org/github/ffffff'},
-    {key:'helm',     name:'Helm',           logo:'https://cdn.simpleicons.org/helm/277A9F'},
+    {key:'argocd',   name:'Argo CD',        color:'#EF7B4D', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/argo/EF7B4D',
+     desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.',
+     src:[{l:'argo-cd.readthedocs.io',u:'https://argo-cd.readthedocs.io/en/stable'},{l:'argoproj.github.io',u:'https://argoproj.github.io'}]},
+    {key:'ghactions',name:'GitHub Actions', color:'#2088FF', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/githubactions/2088FF',
+     desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.',
+     src:[{l:'github.blog/changelog',u:'https://github.blog/changelog'},{l:'docs.github.com/en/actions',u:'https://docs.github.com/en/actions'}]},
+    {key:'git',      name:'Git',            color:'#F05032', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/git/F05032',
+     desc:'Controle de versão distribuído — base de todo fluxo de desenvolvimento.',
+     src:[{l:'git-scm.com/blog',u:'https://git-scm.com/blog'},{l:'github.blog',u:'https://github.blog'}]},
+    {key:'github',   name:'GitHub',         color:'#8b8fa8', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/github/ffffff',
+     desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.',
+     src:[{l:'github.blog',u:'https://github.blog'},{l:'github.blog/changelog',u:'https://github.blog/changelog'}]},
+    {key:'helm',     name:'Helm',           color:'#277A9F', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/helm/277A9F',
+     desc:'Gerenciador de pacotes para Kubernetes — charts, releases e values.',
+     src:[{l:'helm.sh/blog',u:'https://helm.sh/blog'},{l:'artifacthub.io',u:'https://artifacthub.io'}]},
   ]},
   {label:'Containers & Infra', tools:[
-    {key:'docker',    name:'Docker',        logo:'https://cdn.simpleicons.org/docker/2496ed'},
-    {key:'istio',     name:'Istio',         logo:'https://cdn.simpleicons.org/istio/466BB0'},
-    {key:'kubernetes',name:'Kubernetes',    logo:'https://cdn.simpleicons.org/kubernetes/326CE5'},
-    {key:'lambda',    name:'AWS Lambda',    logo:'https://cdn.simpleicons.org/awslambda/FF9900'},
-    {key:'terraform', name:'Terraform',     logo:'https://cdn.simpleicons.org/terraform/7B42BC'},
+    {key:'docker',    name:'Docker',        color:'#2496ED', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/docker/2496ed',
+     desc:'Containers — Docker Desktop, Compose, Hub e Docker Scout.',
+     src:[{l:'docker.com/blog',u:'https://docker.com/blog'},{l:'hub.docker.com',u:'https://hub.docker.com'}]},
+    {key:'istio',     name:'Istio',         color:'#466BB0', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/istio/466BB0',
+     desc:'Service mesh — traffic management, mTLS e observabilidade.',
+     src:[{l:'istio.io/latest/news',u:'https://istio.io/latest/news'},{l:'istio.io/latest/blog',u:'https://istio.io/latest/blog'}]},
+    {key:'kubernetes',name:'Kubernetes',    color:'#326CE5', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/kubernetes/326CE5',
+     desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.',
+     src:[{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'},{l:'k8s.io/releases',u:'https://kubernetes.io/releases'}]},
+    {key:'lambda',    name:'AWS Lambda',    color:'#FF9900', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/awslambda/FF9900',
+     desc:'Serverless da AWS — funções, triggers e integrações nativas.',
+     src:[{l:'aws.amazon.com/new',u:'https://aws.amazon.com/new'},{l:'docs.aws.amazon.com/lambda',u:'https://docs.aws.amazon.com/lambda'}]},
+    {key:'terraform', name:'Terraform',     color:'#7B42BC', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/terraform/7B42BC',
+     desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.',
+     src:[{l:'developer.hashicorp.com/terraform',u:'https://developer.hashicorp.com/terraform'},{l:'hashicorp.com/blog',u:'https://hashicorp.com/blog'}]},
   ]},
   {label:'Dados & Integração', tools:[
-    {key:'databricks',name:'Databricks',    logo:'https://cdn.simpleicons.org/databricks/FF3621'},
-    {key:'dynamodb',  name:'DynamoDB',      logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6'},
-    {key:'kafka',     name:'Apache Kafka',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff'},
-    {key:'mysql',     name:'MySQL',         logo:'https://cdn.simpleicons.org/mysql/4479A1'},
-    {key:'openapi',   name:'OpenAPI',       logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539'},
-    {key:'postgres',  name:'PostgreSQL',    logo:'https://cdn.simpleicons.org/postgresql/4169E1'},
-    {key:'redis',     name:'Redis',         logo:'https://cdn.simpleicons.org/redis/DC382D'},
+    {key:'databricks',name:'Databricks',    color:'#FF3621', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/databricks/FF3621',
+     desc:'Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.',
+     src:[{l:'databricks.com/blog',u:'https://databricks.com/blog'},{l:'docs.databricks.com',u:'https://docs.databricks.com'}]},
+    {key:'dynamodb',  name:'DynamoDB',      color:'#4053D6', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/amazondynamodb/4053D6',
+     desc:'NoSQL serverless da AWS — single-table design e DynamoDB Streams.',
+     src:[{l:'aws.amazon.com/new',u:'https://aws.amazon.com/new'},{l:'docs.aws.amazon.com/dynamodb',u:'https://docs.aws.amazon.com/dynamodb'}]},
+    {key:'kafka',     name:'Apache Kafka',  color:'#ee7a3a', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/apachekafka/ffffff',
+     desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.',
+     src:[{l:'confluent.io/blog',u:'https://confluent.io/blog'},{l:'kafka.apache.org',u:'https://kafka.apache.org'}]},
+    {key:'mysql',     name:'MySQL',         color:'#4479A1', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/mysql/4479A1',
+     desc:'Banco relacional open-source — MySQL 8.x, InnoDB e HeatWave.',
+     src:[{l:'dev.mysql.com/blog',u:'https://dev.mysql.com/blog'},{l:'blogs.oracle.com/mysql',u:'https://blogs.oracle.com/mysql'}]},
+    {key:'openapi',   name:'OpenAPI',       color:'#6BA539', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/openapiinitiative/6BA539',
+     desc:'Especificação REST — OpenAPI 3.x, Swagger e geração de código.',
+     src:[{l:'openapis.org',u:'https://openapis.org'},{l:'swagger.io/blog',u:'https://swagger.io/blog'}]},
+    {key:'postgres',  name:'PostgreSQL',    color:'#4169E1', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/postgresql/4169E1',
+     desc:'Banco relacional avançado — extensões, JSONB e pgvector.',
+     src:[{l:'postgresql.org/about/news',u:'https://postgresql.org/about/news'},{l:'pganalyze.com/blog',u:'https://pganalyze.com/blog'}]},
+    {key:'redis',     name:'Redis',         color:'#DC382D', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/redis/DC382D',
+     desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.',
+     src:[{l:'redis.io/blog',u:'https://redis.io/blog'},{l:'redis.com/blog',u:'https://redis.com/blog'}]},
   ]},
   {label:'Obs & Segurança', tools:[
-    {key:'dynatrace', name:'Dynatrace',     logo:'https://cdn.simpleicons.org/dynatrace/1496FF'},
-    {key:'grafana',   name:'Grafana',       logo:'https://cdn.simpleicons.org/grafana/F46800'},
-    {key:'keycloak',  name:'Keycloak',      logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128'},
+    {key:'dynatrace', name:'Dynatrace',     color:'#1496FF', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/dynatrace/1496FF',
+     desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps.',
+     src:[{l:'dynatrace.com/news',u:'https://dynatrace.com/news'},{l:'dynatrace.com/blog',u:'https://dynatrace.com/blog'}]},
+    {key:'grafana',   name:'Grafana',       color:'#F46800', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/grafana/F46800',
+     desc:'Stack de observabilidade — Grafana, Loki, Tempo, Mimir e Pyroscope.',
+     src:[{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'grafana.com/grafana/whats-new',u:'https://grafana.com/grafana/whats-new'}]},
+    {key:'keycloak',  name:'Keycloak',      color:'#4D9CF8', group:'Ferramenta',
+     logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128',
+     desc:'IAM open-source — SSO, OIDC, SAML e federation.',
+     src:[{l:'keycloak.org/blog',u:'https://keycloak.org/blog'},{l:'keycloak.org/docs/latest',u:'https://keycloak.org/docs/latest'}]},
   ]},
   {label:'Backend & Design', tools:[
-    {key:'gradle',      name:'Gradle',       logo:'https://cdn.simpleicons.org/gradle/02303A'},
-    {key:'maven',       name:'Apache Maven', logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128'},
-    {key:'quarkus',     name:'Quarkus',      logo:'https://cdn.simpleicons.org/quarkus/4695EB'},
-    {key:'springboot',  name:'Spring Boot',  logo:'https://cdn.simpleicons.org/springboot/6DB33F'},
-    {key:'springcloud', name:'Spring Cloud', logo:'https://www.google.com/s2/favicons?domain=spring.io&sz=128'},
-    {key:'structurizr', name:'Structurizr',  logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128'},
+    {key:'gradle',      name:'Gradle',       color:'#5ec4c4', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/gradle/02303A',
+     desc:'Build automation moderna — Gradle 8.x, build cache e convention plugins.',
+     src:[{l:'gradle.org/blog',u:'https://gradle.org/blog'},{l:'docs.gradle.org',u:'https://docs.gradle.org'}]},
+    {key:'maven',       name:'Apache Maven', color:'#C71A36', group:'Ferramenta',
+     logo:'https://www.google.com/s2/favicons?domain=maven.apache.org&sz=128',
+     desc:'Build system Java — POM, lifecycle e Maven Central.',
+     src:[{l:'maven.apache.org/docs',u:'https://maven.apache.org/docs'},{l:'search.maven.org',u:'https://search.maven.org'}]},
+    {key:'quarkus',     name:'Quarkus',      color:'#4695EB', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/quarkus/4695EB',
+     desc:'Framework Java para cloud — GraalVM, reactive e Dev Services.',
+     src:[{l:'quarkus.io/blog',u:'https://quarkus.io/blog'},{l:'quarkus.io/guides',u:'https://quarkus.io/guides'}]},
+    {key:'springboot',  name:'Spring Boot',  color:'#6DB33F', group:'Ferramenta',
+     logo:'https://cdn.simpleicons.org/springboot/6DB33F',
+     desc:'Framework Java líder — auto-config, starters e Spring Boot 3.x.',
+     src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'github.com/spring-projects/spring-boot/releases',u:'https://github.com/spring-projects/spring-boot/releases'}]},
+    {key:'springcloud', name:'Spring Cloud', color:'#6DB33F', group:'Ferramenta',
+     logo:'https://www.google.com/s2/favicons?domain=spring.io&sz=128',
+     desc:'Microsserviços com Spring — Gateway, Config, Discovery e Circuit Breaker.',
+     src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'spring.io/projects/spring-cloud',u:'https://spring.io/projects/spring-cloud'}]},
+    {key:'structurizr', name:'Structurizr',  color:'#f472b6', group:'Ferramenta',
+     logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',
+     desc:'Arquitetura como código — modelo C4, diagramas e workspace DSL.',
+     src:[{l:'structurizr.com/changelog',u:'https://structurizr.com/changelog'},{l:'structurizr.com/blog',u:'https://structurizr.com/blog'}]},
   ]},
 ];
 
@@ -622,28 +774,27 @@ function renderBelow() {
     ).join('')
   }</div>`;
 
-  document.getElementById('langs').innerHTML = LANGS.map(l =>
-    `<div class="lang-card">
-      <img class="lang-logo" src="${l.logo}" alt="${l.name}" onerror="this.style.display='none'">
-      <div class="lang-n">${l.name}</div>
-    </div>`).join('');
+  function renderItemCard(item, dest) {
+    return `<div class="item-card" style="--cc:${item.color}" onclick="location.href='home.html?tool=${item.key}'">
+      <div class="item-ico"><img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'"></div>
+      <div class="item-n">${item.name}</div>
+      <div class="item-g">${item.group}</div>
+      <p class="item-desc">${item.desc}</p>
+      <div class="sources">${item.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
+    </div>`;
+  }
 
-  document.getElementById('topics').innerHTML = TOPICS.map(t =>
-    `<div class="topic-card" onclick="location.href='home.html?tool=${t.key}'">
-      <img class="topic-logo" src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
-      <span class="topic-n">${t.name}</span>
-    </div>`).join('');
+  const sortedLangs = [...LANGS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  document.getElementById('langs').innerHTML =
+    `<div class="item-grid">${sortedLangs.map(l => renderItemCard(l)).join('')}</div>`;
 
-  document.getElementById('tools').innerHTML = TOOL_SUBGROUPS.map(sg =>
-    `<div class="subgroup">
-      <div class="subgroup-l">${sg.label}</div>
-      <div class="chips">${sg.tools.map(t =>
-        `<div class="chip" onclick="location.href='home.html?tool=${t.key}'">
-          <img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none'">
-          <span>${t.name}</span>
-        </div>`).join('')}
-      </div>
-    </div>`).join('');
+  const sortedTopics = [...TOPICS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  document.getElementById('topics').innerHTML =
+    `<div class="item-grid">${sortedTopics.map(t => renderItemCard(t)).join('')}</div>`;
+
+  const allTools = TOOL_SUBGROUPS.flatMap(sg => sg.tools).sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  document.getElementById('tools').innerHTML =
+    `<div class="item-grid">${allTools.map(t => renderItemCard(t)).join('')}</div>`;
 }
 
 // ── SCROLL REVEAL (cat cards) ─────────────────────────────────────────────
@@ -653,7 +804,7 @@ function setupReveal() {
       if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.cat-card').forEach((el, i) => {
+  document.querySelectorAll('.cat-card, .item-card').forEach((el, i) => {
     el.style.transitionDelay = `${(i % 4) * 55}ms`;
     io.observe(el);
   });
