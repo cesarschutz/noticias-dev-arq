@@ -666,26 +666,32 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .quote-bar {
   position: fixed;
   bottom: 36px; left: 262px; right: 286px;
-  height: 58px;
+  height: 76px;
   overflow: visible;
   z-index: 150;
   display: flex;
   align-items: center;
-  padding: 0 18px 0 112px;
+  padding: 0 18px 0 140px;
   gap: 16px;
   background: var(--surface);
   border-top: 1px solid var(--rule);
   box-shadow: 0 -4px 24px rgba(42,184,232,.06);
+  transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .28s;
 }
 [data-theme="light"] .quote-bar {
   background: var(--surface);
   box-shadow: 0 -4px 20px rgba(0,0,0,.08);
 }
+.quote-bar--collapsed {
+  transform: translateY(calc(100% + 40px));
+  opacity: 0;
+  pointer-events: none;
+}
 .qb-mascot {
   position: absolute;
   left: 10px;
   bottom: 0;
-  width: 90px;
+  width: 118px;
   pointer-events: none;
   z-index: 1;
 }
@@ -695,17 +701,17 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   clip-path: polygon(0 0, 100% 0, 100% 91%, 73% 91%, 73% 100%, 0 100%);
 }
 .qb-divider {
-  width: 1px; height: 32px;
+  width: 1px; height: 38px;
   background: var(--rule);
   flex-shrink: 0;
 }
 .qb-body {
   flex: 1; min-width: 0;
-  display: flex; flex-direction: column; justify-content: center; gap: 2px;
+  display: flex; flex-direction: column; justify-content: center; gap: 3px;
 }
 .qb-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: .18em;
   color: var(--ink-faint);
   text-transform: uppercase;
@@ -713,29 +719,33 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .qb-text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-style: italic;
+  font-size: 13.5px; font-style: italic;
   color: var(--ink);
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 1.5;
+  line-height: 1.45;
   margin: 0;
 }
 .qb-meta {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--cyan);
-  opacity: .8;
+  opacity: .85;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .qb-ctx {
   color: var(--ink-dim);
-  font-size: 9.5px;
+  font-size: 10.5px;
 }
 .qb-ctx::before { content: ' · '; }
 .qb-ctx:empty { display: none; }
-.qb-nav { display: flex; gap: 4px; flex-shrink: 0; }
+.qb-nav {
+  display: flex; flex-direction: column;
+  gap: 5px; flex-shrink: 0; align-items: center;
+}
+.qb-nav-arrows { display: flex; gap: 4px; }
 .qb-nav button {
   background: none;
   border: 1px solid var(--rule);
@@ -747,6 +757,42 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   transition: color .12s, border-color .12s;
 }
 .qb-nav button:hover { color: var(--cyan); border-color: var(--cyan); }
+.qb-close {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 14px; line-height: 1;
+  width: 48px; height: 20px;
+  border-radius: 2px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .12s, border-color .12s;
+}
+.qb-close:hover { color: var(--ink-dim); border-color: var(--ink-dim); }
+/* restore pill */
+.qb-restore {
+  position: fixed;
+  bottom: 44px;
+  left: 270px;
+  z-index: 149;
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px 5px 9px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  color: var(--ink-faint);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .08em;
+  cursor: pointer;
+  opacity: 0; pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity .22s, transform .22s, color .12s, border-color .12s;
+  box-shadow: 0 2px 12px rgba(0,0,0,.18);
+}
+.qb-restore--visible {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
+}
+.qb-restore:hover { color: var(--cyan); border-color: var(--cyan); }
+.qb-restore svg { flex-shrink: 0; }
 
 /* ═══ Main prompt bar (contexto fixo/sticky no topo do main) ═══ */
 .main-prompt {
@@ -2233,7 +2279,8 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   .feed-list { max-width: 100%; }
   .main-top-quote { padding: 14px 18px 16px; margin: 0 -18px; }
   .mtq-text { font-size: 13px; }
-  .quote-bar { left: 0; right: 0; padding-left: 100px; }
+  .quote-bar { left: 0; right: 0; padding-left: 130px; }
+  .qb-restore { left: 12px; }
 }
 </style>
 </head>
@@ -3075,6 +3122,21 @@ function prevQuote(){
   renderQuote(_quoteDeck[_deckIdx++]);
 }
 function nextQuote(){ cycleQuote(); }
+
+window.collapseQuoteBar = function(){
+  const bar = document.getElementById('quoteBar');
+  const btn = document.getElementById('qbRestore');
+  if (bar) bar.classList.add('quote-bar--collapsed');
+  if (btn) btn.classList.add('qb-restore--visible');
+  localStorage.setItem('csrn-quote-collapsed', '1');
+};
+window.restoreQuoteBar = function(){
+  const bar = document.getElementById('quoteBar');
+  const btn = document.getElementById('qbRestore');
+  if (bar) bar.classList.remove('quote-bar--collapsed');
+  if (btn) btn.classList.remove('qb-restore--visible');
+  localStorage.removeItem('csrn-quote-collapsed');
+};
 
 setInterval(() => { if (!document.hidden) cycleQuote(); }, 300000);
 
@@ -4300,6 +4362,8 @@ window.nextVerse = nextVerse;
 
 /* ════ TOOLTIP ════ */
 document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('csrn-quote-collapsed')) collapseQuoteBar();
+
   const tip = document.getElementById('tip');
   if (!tip) return;
   document.addEventListener('mouseover', e => {
@@ -4343,11 +4407,21 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
   <div class="qb-nav">
-    <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
-    <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+    <button type="button" class="qb-close" onclick="collapseQuoteBar()" aria-label="Fechar frase" title="Fechar">×</button>
+    <div class="qb-nav-arrows">
+      <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
+      <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+    </div>
   </div>
   <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
 </div>
+
+<button class="qb-restore" id="qbRestore" onclick="restoreQuoteBar()" aria-label="Mostrar frase do dia">
+  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9l-3 3v-3H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+  </svg>
+  quote
+</button>
 
 <footer class="verse-bar" id="verse-bar" aria-live="polite">
   <button class="verse-nav-btn" onclick="prevVerse()" title="Versículo anterior">‹</button>
