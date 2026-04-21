@@ -148,11 +148,11 @@ Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo.
 | sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade · Passkeys/WebAuthn · Supply Chain (SBOM/SLSA/Sigstore) · **Runtime/Container Security (Trivy)** · AI Security · **Secrets Management (Vault)** · LGPD |
 | **Plataforma & Infraestrutura** | | | | |
 | cloud | `--cat-cloud` | Cloud | ☁️ | AWS · Azure · GCP · **CDN & Edge (Cloudflare, Fastly)** · Cloud Networking (VPC/peering) · Well-Architected · FinOps multi-cloud |
-| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | Kubernetes & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs (Backstage) · **Edge/Proxies/Protocolos (HTTP/3, QUIC, nginx, envoy)** · Developer Productivity |
+| devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | Containers & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs & developer portals · **Edge/Proxies/Protocolos (HTTP/3, QUIC, envoy)** · Developer Productivity |
 | obs | `--cat-obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
 | **Desenvolvimento** | | | | |
-| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Java/Spring · Go · Rust · Node/Deno/Bun · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns |
-| data | `--cat-data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Kafka/Flink) · Lakehouse (Databricks/dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
+| backend | `--cat-backend` | Backend & Runtimes | 🔧 | Runtimes poliglotas · Web frameworks · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns · Performance engineering |
+| data | `--cat-data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
 | integ | `--cat-integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
 | testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing · Chaos Engineering · Performance/Load (k6) · Mutation Testing · AI-assisted testing |
 | frontend | `--cat-frontend` | Frontend & Web | 🎨 | Frameworks SPA · Meta-frameworks · RSC & streaming SSR · Web Platform · Design Systems · Core Web Vitals · Edge Rendering · Build Tools (Vite/Bun/Biome) · a11y/i18n |

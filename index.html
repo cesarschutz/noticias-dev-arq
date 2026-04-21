@@ -276,7 +276,7 @@
     }
     .bubble-lang:hover {
       box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--amber)) 55%, transparent);
-      border-color: var(--text) !important;
+      border-color: var(--cc, var(--amber)) !important;
     }
     .bubble-cat {
       border-color: color-mix(in srgb, var(--cc, var(--accent)) 60%, transparent);
@@ -516,6 +516,7 @@
 
     /* ─── LANG CARDS ─── */
     .lang-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .lang-card-wide { grid-column: 1 / -1; }
     .lang-card {
       position: relative;
       background: var(--card-bg);
@@ -828,13 +829,13 @@ const CATS = [
    svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'},
   {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, CDN & Edge (Cloudflare, Fastly), cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
    svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>'},
-  {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Kubernetes & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs/Backstage, Edge/Proxies (HTTP/3, QUIC, nginx, envoy), Developer Productivity, AI-augmented SDLC.',
+  {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Containers & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs & developer portals, Edge/Proxies (HTTP/3, QUIC), Developer Productivity, AI-augmented SDLC.',
    svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'},
   {key:'obs',    name:'Observabilidade & SRE',color:'#eab308', group:'Plataforma',  desc:'Tracing (OTel), métricas, logs, APM, SLO/SLI & Error Budgets, Incident Management, eBPF & profiling, Alerting & Noise Reduction, Cost Observability.',
    svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
-  {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Java/Spring, Go, Rust, Node/Deno/Bun, web frameworks, concurrency models, WebAssembly, performance engineering, build tools, server-side patterns.',
+  {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Runtimes poliglotas, web frameworks, concurrency models, WebAssembly, performance engineering (profiling, GC, p99), build tools, server-side patterns.',
    svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>'},
-  {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'Relacionais, NoSQL, streaming (Kafka/Flink), lakehouse (Databricks/dbt), Iceberg, Vector DBs (pgvector, Pinecone), CDC, Data Contracts, Data Mesh, DuckDB.',
+  {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'Relacionais, NoSQL, streaming (Flink), lakehouse (dbt), Iceberg, Vector DBs (pgvector, Pinecone), CDC, Data Contracts, Data Mesh, DuckDB.',
    svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>'},
   {key:'integ',  name:'Integração & Eventos',color:'#14b8a6', group:'Desenvolvimento', desc:'API design & API-First, OpenAPI, GraphQL & federation, MCP, AsyncAPI, EDA, messaging, schema evolution.',
    svg:'<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>'},
@@ -1021,12 +1022,17 @@ function renderCards() {
     </div>
   `).join('');
 
-  const langsSorted = [...LANGS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
-  document.getElementById('langsGrid').innerHTML = langsSorted.map(l => `
-    <div class="lang-card" style="--cc:${l.color}" onclick="location.href='home.html?tool=${l.key}'">
+  // Java primeiro e spanning 2 colunas; depois JS e Python lado a lado
+  const langsOrdered = [
+    LANGS.find(l => l.key === 'java'),
+    LANGS.find(l => l.key === 'javascript'),
+    LANGS.find(l => l.key === 'python'),
+  ].filter(Boolean);
+  document.getElementById('langsGrid').innerHTML = langsOrdered.map((l, i) => `
+    <div class="lang-card${i === 0 ? ' lang-card-wide' : ''}" style="--cc:${l.color}" onclick="location.href='home.html?tool=${l.key}'">
       <div class="lang-header">
-        <div class="lang-title"><div class="item-n">${esc(l.name)}</div></div>
         <div class="lang-ico"><img src="${l.logo}" alt="${esc(l.name)}" onerror="this.style.opacity=.3"></div>
+        <div class="lang-title"><div class="item-n">${esc(l.name)}</div></div>
       </div>
       <p class="item-desc">${esc(l.desc)}</p>
     </div>
