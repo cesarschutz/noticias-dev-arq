@@ -10,22 +10,61 @@
   <style>
     *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:       #040810;
-      --bg-2:     #07101c;
-      --surface:  #0a1525;
-      --surface2: #111f35;
-      --border:   #1a2d45;
-      --border2:  #243d5a;
-      --text:     #ddeeff;
-      --text2:    #7a9abf;
-      --text3:    #3a5a7a;
-      --accent:   #2ab8e8;
-      --mono:     'JetBrains Mono', monospace;
-      --sans:     'Inter Tight', sans-serif;
-      --amber:    #f59e0b;
-      --violet:   #a855f7;
-      --blue:     #3b82f6;
+    :root, :root[data-theme="dark"] {
+      --bg:           #000000;
+      --bg-2:         #050a12;
+      --surface:      #0a1525;
+      --surface2:     #111f35;
+      --border:       #1a2d45;
+      --border2:      #243d5a;
+      --text:         #ddeeff;
+      --text2:        #7a9abf;
+      --text3:        #3a5a7a;
+      --accent:       #2ab8e8;
+      --accent-dim:   rgba(42,184,232,.15);
+      --card-bg:      #0b0e1a;
+      --card-border:  rgba(255,255,255,.06);
+      --ico-bg:       #09090b;
+      --cta-text:     #04101a;
+      --shadow-sm:    0 4px 16px rgba(0,0,0,.35);
+      --shadow-md:    0 12px 32px -10px rgba(0,0,0,.6);
+      --card-shadow:  none;
+      --bubble-bg:    rgba(10,21,37,.82);
+      --bubble-mix:   #000;
+      --grid-line:    rgba(42,184,232,.045);
+      --glow-a:       rgba(42,184,232,.10);
+      --glow-b:       rgba(168,85,247,.08);
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Inter Tight', sans-serif;
+      --amber:        #f59e0b;
+      --violet:       #a855f7;
+      --blue:         #3b82f6;
+    }
+
+    :root[data-theme="light"] {
+      --bg:           #EEF2F7;
+      --bg-2:         #E2E8F0;
+      --surface:      #FFFFFF;
+      --surface2:     #F4F7FB;
+      --border:       #C9D2DF;
+      --border2:      #B1BCCC;
+      --text:         #0E1A2C;
+      --text2:        #3C4E68;
+      --text3:        #6C7E96;
+      --accent:       #0E8FCC;
+      --accent-dim:   rgba(14,143,204,.14);
+      --card-bg:      #FFFFFF;
+      --card-border:  rgba(20,40,80,.12);
+      --ico-bg:       #F4F7FB;
+      --cta-text:     #FFFFFF;
+      --shadow-sm:    0 4px 14px rgba(20,40,80,.08);
+      --shadow-md:    0 12px 28px -10px rgba(20,40,80,.18);
+      --card-shadow:  0 2px 10px rgba(20,40,80,.06), 0 1px 3px rgba(20,40,80,.04);
+      --bubble-bg:    rgba(255,255,255,.95);
+      --bubble-mix:   #FFFFFF;
+      --grid-line:    rgba(14,143,204,.06);
+      --glow-a:       rgba(14,143,204,.08);
+      --glow-b:       rgba(168,85,247,.06);
     }
 
     html, body { width: 100%; overflow-x: hidden; }
@@ -35,6 +74,48 @@
       font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
+      transition: background .25s ease, color .25s ease;
+    }
+
+    /* ═══ Theme toggle button (fixo no canto superior direito) ═══ */
+    .theme-toggle {
+      position: fixed;
+      top: 20px; right: 20px;
+      z-index: 1000;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--surface);
+      color: var(--accent);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3), 0 0 0 0 var(--accent-dim);
+      transition: background .25s, color .25s, border-color .25s, transform .25s, box-shadow .3s;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(20deg);
+      box-shadow: 0 6px 24px rgba(0,0,0,.4), 0 0 0 8px var(--accent-dim);
+    }
+    .theme-toggle:active { transform: scale(0.95); }
+    .theme-toggle svg {
+      width: 22px; height: 22px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* Transitions suaves em cards pra animar troca de tema */
+    .cat-card, .lang-card, .tool-card, .cat-ico, .lang-ico, .tool-ico, .bubble, .section-title, .hero-sub, .hero-h1 .l1, .hero-h1 .l2 {
+      transition: background .25s ease, border-color .25s ease, color .25s ease, box-shadow .3s ease;
+    }
+    /* no light mode, gitHub white logo fica invisível — invertimos */
+    :root[data-theme="light"] img[src*="github/ffffff"],
+    :root[data-theme="light"] img[src*="anthropic/ffffff"],
+    :root[data-theme="light"] img[src*="apachekafka/ffffff"] {
+      filter: invert(1);
+    }
+    @media (max-width: 539px) {
+      .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; }
+      .theme-toggle svg { width: 17px; height: 17px; }
     }
 
     /* ═════════════════════════════════════════════════════════════════════
@@ -49,8 +130,19 @@
       min-height: 100dvh;
       width: 100%;
       overflow: hidden;
-      background: var(--bg);
+      background: transparent;
     }
+    /* Canvas com rede de partículas conectadas — FIXO na viewport (cobre tudo) */
+    #particleBg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Conteúdo principal acima do canvas */
+    .hero, .catalog { position: relative; z-index: 1; }
 
     .hero-grid {
       position: relative;
@@ -76,7 +168,8 @@
       height: auto;
       max-width: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 20px 50px rgba(42,184,232,.22));
+      /* esconde a marca "AI" no canto inferior direito do PNG original */
+      clip-path: polygon(0 0, 100% 0, 100% 91%, 73% 91%, 73% 100%, 0 100%);
     }
 
     /* Zona 2 — Texto + CTA */
@@ -104,7 +197,7 @@
     .cta {
       display: inline-flex; align-items: center; gap: 10px;
       background: linear-gradient(135deg, var(--accent), #5ed4ff);
-      color: #04101a;
+      color: var(--cta-text);
       font-family: var(--sans); font-weight: 800;
       border: none; border-radius: 999px;
       cursor: pointer;
@@ -164,7 +257,7 @@
       border-radius: 50%;
       display: flex;
       align-items: center; justify-content: center;
-      background: rgba(10,21,37,.82);
+      background: var(--bubble-bg);
       border: 1.5px solid var(--border);
       cursor: pointer;
       pointer-events: auto;
@@ -178,16 +271,16 @@
     }
     .bubble-lang {
       border-color: color-mix(in srgb, var(--cc, var(--amber)) 70%, transparent);
-      background: color-mix(in srgb, var(--cc, var(--amber)) 10%, #000);
+      background: color-mix(in srgb, var(--cc, var(--amber)) 10%, var(--bubble-mix));
       box-shadow: 0 0 18px color-mix(in srgb, var(--cc, var(--amber)) 22%, transparent);
     }
     .bubble-lang:hover {
       box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--amber)) 55%, transparent);
-      border-color: #fff !important;
+      border-color: var(--text) !important;
     }
     .bubble-cat {
       border-color: color-mix(in srgb, var(--cc, var(--accent)) 60%, transparent);
-      background: color-mix(in srgb, var(--cc, var(--accent)) 8%, #000);
+      background: color-mix(in srgb, var(--cc, var(--accent)) 8%, var(--bubble-mix));
       box-shadow: 0 0 12px color-mix(in srgb, var(--cc, var(--accent)) 18%, transparent);
     }
     .bubble-cat:hover {
@@ -196,7 +289,7 @@
     }
     .bubble-tool {
       border-color: color-mix(in srgb, var(--cc, var(--blue)) 55%, transparent);
-      background: color-mix(in srgb, var(--cc, var(--blue)) 7%, #000);
+      background: color-mix(in srgb, var(--cc, var(--blue)) 7%, var(--bubble-mix));
       box-shadow: 0 0 8px color-mix(in srgb, var(--cc, var(--blue)) 15%, transparent);
     }
     .bubble-tool:hover {
@@ -213,10 +306,11 @@
     /* Tooltip */
     #tip {
       position: fixed;
-      background: rgba(17,31,53,.96);
+      background: var(--surface);
       border: 1px solid var(--border2);
       backdrop-filter: blur(8px);
       color: var(--text);
+      box-shadow: var(--shadow-sm);
       font-family: var(--mono); font-size: 11px; font-weight: 700;
       white-space: nowrap; padding: 6px 12px; border-radius: 6px;
       pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 9999;
@@ -363,13 +457,14 @@
     .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 20px; padding-top: 42px; }
     .cat-card {
       position: relative;
-      background: #0b0e1a;
-      border: 1px solid rgba(255,255,255,.06);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 22px;
       padding: 44px 26px 22px;
       cursor: pointer; text-align: center;
       display: flex; flex-direction: column; align-items: center;
       overflow: visible;
+      box-shadow: var(--card-shadow);
       transition: transform .3s ease, border-color .3s, box-shadow .35s;
     }
     .cat-card:hover {
@@ -396,7 +491,7 @@
       top: -36px; left: 50%; transform: translateX(-50%);
       width: 70px; height: 70px; border-radius: 18px;
       display: flex; align-items: center; justify-content: center;
-      background: #09090b;
+      background: var(--ico-bg);
       border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
       box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 25%, transparent),
                   0 4px 12px rgba(0,0,0,.5);
@@ -422,35 +517,27 @@
     .lang-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
     .lang-card {
       position: relative;
-      background: #0b0e1a;
-      border: 1px solid rgba(255,255,255,.06);
+      background: var(--card-bg);
+      border: 1px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
       border-radius: 16px;
       padding: 20px 22px;
       cursor: pointer;
       display: flex; flex-direction: column;
-      transition: transform .3s ease, border-color .3s, box-shadow .35s;
+      box-shadow: 0 0 24px color-mix(in srgb, var(--cc, var(--accent)) 12%, transparent);
+      transition: transform .3s ease, box-shadow .3s;
     }
     .lang-card:hover {
-      transform: translateY(-4px);
-      border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 28px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
-                  0 10px 28px -10px rgba(0,0,0,.6);
+      transform: translateY(-5px);
     }
     .lang-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
     .lang-title { flex: 1; text-align: left; min-width: 0; }
     .lang-ico {
       width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      background: #09090b;
+      background: var(--ico-bg);
       border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 18px color-mix(in srgb, var(--cc, var(--accent)) 22%, transparent),
-                  0 2px 8px rgba(0,0,0,.4);
+      box-shadow: 0 0 26px color-mix(in srgb, var(--cc, var(--accent)) 36%, transparent);
       flex-shrink: 0;
-      transition: box-shadow .3s;
-    }
-    .lang-card:hover .lang-ico {
-      box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
-                  0 4px 14px rgba(0,0,0,.4);
     }
     .lang-ico img { width: 28px; height: 28px; object-fit: contain; }
     .lang-card .item-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -475,35 +562,27 @@
     .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .tool-card {
       position: relative;
-      background: #0b0e1a;
-      border: 1px solid rgba(255,255,255,.06);
+      background: var(--card-bg);
+      border: 1px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
       border-radius: 14px;
       padding: 16px 18px;
       cursor: pointer;
       display: flex; flex-direction: column;
-      transition: transform .3s ease, border-color .3s, box-shadow .35s;
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent);
+      transition: transform .3s ease, box-shadow .3s;
     }
     .tool-card:hover {
-      transform: translateY(-3px);
-      border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
-                  0 8px 22px -10px rgba(0,0,0,.6);
+      transform: translateY(-4px);
     }
     .tool-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .tool-title { flex: 1; text-align: left; min-width: 0; }
     .tool-ico {
       width: 40px; height: 40px; border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
-      background: #09090b;
+      background: var(--ico-bg);
       border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 14px color-mix(in srgb, var(--cc, var(--accent)) 20%, transparent),
-                  0 2px 6px rgba(0,0,0,.4);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cc, var(--accent)) 35%, transparent);
       flex-shrink: 0;
-      transition: box-shadow .3s;
-    }
-    .tool-card:hover .tool-ico {
-      box-shadow: 0 0 24px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
-                  0 3px 10px rgba(0,0,0,.4);
     }
     .tool-ico img { width: 22px; height: 22px; object-fit: contain; }
     .tool-card .item-n { font-size: 16px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -531,6 +610,10 @@
   </style>
 </head>
 <body>
+
+<canvas id="particleBg"></canvas>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Alternar tema"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
 
 <div id="tip"></div>
 
@@ -587,7 +670,134 @@
   </div>
 </main>
 
+<!-- Theme inicial (antes do render pra evitar flash) -->
 <script>
+  (function(){
+    const saved = localStorage.getItem('csrn-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+
+<script>
+/* ════════ THEME TOGGLE ════════ */
+const THEME_ICONS = {
+  dark:  '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+  light: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+};
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('csrn-theme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  // No dark, mostra sol (pra ir pra light); no light, mostra lua (pra ir pra dark)
+  btn.innerHTML = theme === 'dark' ? THEME_ICONS.dark : THEME_ICONS.light;
+  btn.setAttribute('aria-label', theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro');
+}
+// Executa imediatamente (botão já existe no DOM, script está abaixo dele)
+(function initTheme(){
+  const saved = document.documentElement.getAttribute('data-theme') || localStorage.getItem('csrn-theme') || 'dark';
+  applyTheme(saved);
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+})();
+
+/* ════════ PARTICLE NETWORK BACKGROUND ════════ */
+(function particleNetwork(){
+  const canvas = document.getElementById('particleBg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, dpr = 1;
+  let particles = [];
+  let NUM = 90;
+  const MAX_DIST = 150;
+  const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Viewport inteira (canvas é fixed)
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr, dpr);
+    // Mais partículas em telas grandes, menos em mobile
+    NUM = Math.max(35, Math.min(110, Math.round((W * H) / 16000)));
+    init();
+  }
+  function init(){
+    particles = [];
+    for (let i = 0; i < NUM; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+      });
+    }
+  }
+  function getConfig(){
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    return isLight
+      ? { dotColor:'rgba(10,100,160,',  lineColor:'rgba(10,100,160,',  lineMax:0.75, dotAlpha:0.9 }
+      : { dotColor:'rgba(135,210,255,', lineColor:'rgba(42,184,232,',  lineMax:0.55, dotAlpha:0.8 };
+  }
+  function tick(){
+    ctx.clearRect(0, 0, W, H);
+    const cfg = getConfig();
+
+    // move
+    for (const p of particles){
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx = -p.vx;
+      if (p.y < 0 || p.y > H) p.vy = -p.vy;
+    }
+
+    // linhas entre pontos próximos
+    ctx.lineWidth = 1;
+    for (let i = 0; i < particles.length; i++){
+      for (let j = i + 1; j < particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d2 = dx*dx + dy*dy;
+        if (d2 < MAX_DIST_SQ){
+          const alpha = (1 - Math.sqrt(d2) / MAX_DIST) * cfg.lineMax;
+          ctx.strokeStyle = cfg.lineColor + alpha.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    // pontos
+    ctx.fillStyle = cfg.dotColor + cfg.dotAlpha + ')';
+    for (const p of particles){
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  resize();
+  tick();
+  let rzt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rzt);
+    rzt = setTimeout(resize, 120);
+  });
+})();
+
 /* ════════ ÍCONES DE SEÇÃO E SUBGRUPO ════════ */
 const HEADER_ICONS = {
   'cats':     '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
