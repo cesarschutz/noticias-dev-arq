@@ -301,7 +301,7 @@
     .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
 
     /* ───── LANG CARD (médio — menor que categorias) ───── */
-    .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 32px; }
+    .lang-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 32px; }
     .lang-card {
       position: relative;
       background: #0b0e1a;
@@ -387,7 +387,7 @@
     .tool-ico svg { width: 22px; height: 22px; color: var(--cc, var(--accent)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Títulos e descrição compartilhados */
-    .lang-card .item-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; }
+    .lang-card .item-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .lang-card .item-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin: 0; }
 
     .tool-card .item-n { font-size: 16px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -591,7 +591,7 @@ const TOOL_SUBGROUPS = [
      logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',
      desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
     {key:'plantuml',    name:'PlantUML',     color:'#1168BD', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/plantuml/1168BD',
+     logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128',
      desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.'},
     {key:'mermaid',     name:'Mermaid',      color:'#FF3670', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/mermaid/FF3670',
