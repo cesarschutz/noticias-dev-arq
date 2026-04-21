@@ -167,7 +167,7 @@ Sinais sociais modernos que complementam as FASES 3:
 - **Lobste.rs top 10**: `WebFetch("https://lobste.rs/", "List the top 10 stories with title, URL, tags, upvotes.")` — sinal mais técnico que HN.
 - **GitHub Trending**: `WebFetch("https://github.com/trending/<linguagem>?since=daily", "List top 10 trending repos with name, description, stars today.")` — faça para Go, Rust, Python, TypeScript e Java. Lançamentos que o HN ainda não pegou.
 - **Engineering blogs globais**: Netflix, Uber, Stripe, Shopify, Meta, Airbnb, Cloudflare, Discord, Figma, Slack.
-- **Pulso BR ampliado**: Nubank Tech, iFood Tech, Mercado Livre Tech, Stone Tech, PicPay Tech, C6 Bank, Inter, Zup Innovation, Globo Engineering, Olist Tech, TabNews. Inclua só se relevante para arquitetos.
+- **Pulso BR ampliado**: Nubank Tech (building.nubank.com/tech), iFood Tech, Mercado Livre Tech, PicPay Tech, Zup Innovation, Olist Tech, TabNews. Inclua só se relevante para arquitetos.
 
 Candidatos do pulso social que não foram capturados nas FASES 3A-3C podem ser adicionados ao `news[]` em categoria relevante, desde que passem nos critérios e não estejam na blocklist.
 
@@ -228,7 +228,7 @@ Todas as ferramentas têm release notes identificável. Prioridade dentro da mes
 
 Se não houver update real E a rotação levar você a uma ferramenta sem conteúdo fresco, **prefira autores canônicos** sobre tutoriais aleatórios:
 
-- **Dados**: Martin Kleppmann (martinkleppmann.com, DDIA), Jack Vanlightly.
+- **Dados**: Martin Kleppmann (martin.kleppmann.com, DDIA), Jack Vanlightly.
 - **Sistemas distribuídos**: Sam Newman (microservices.io), High Scalability, Cloudflare blog (post-mortems).
 - **Backend/Java**: Baeldung, Vlad Mihalcea, Foojay.
 - **Performance**: Brendan Gregg (brendangregg.com), Julia Evans (jvns.ca), Dan Luu (danluu.com).
@@ -348,14 +348,14 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 
 ### Fontes não-óbvias / especializadas
 
-- **AI/LLM Ops**: simonwillison.net (referência #1), huggingface.co/blog, blog.langchain.dev, langfuse.com/blog, opentelemetry.io/blog (LLM evals emergindo), modelcontextprotocol.io.
+- **AI/LLM Ops**: simonwillison.net (referência #1), huggingface.co/blog, langchain.com/blog, langfuse.com/blog, langfuse.com/changelog, opentelemetry.io/blog (LLM evals emergindo), modelcontextprotocol.io.
 - **Fundamentos & Performance**: jvns.ca, brendangregg.com, danluu.com, lwn.net, paperswelove.org, martinkleppmann.com, evanjones.ca.
 - **Frontend moderno**: web.dev, developer.mozilla.org/en-US/blog, vercel.com/blog, react.dev/blog, nextjs.org/blog, 2ality.com, chromestatus.com, v8.dev, josh.comeau.com, kentcdodds.com.
-- **Observabilidade avançada**: charity.wtf, honeycomb.io/blog, parca.dev, pyroscope.io, cilium.io.
+- **Observabilidade avançada**: charity.wtf, honeycomb.io/blog, parca.dev, grafana.com/oss/pyroscope (Pyroscope foi adquirido pela Grafana — usar grafana.com/blog), cilium.io.
 - **Integração & APIs**: apisyouwonthate.com (API design, Phil Sturgeon — referência #1), apihandyman.io (Arnaud Lauret, REST/OpenAPI), blog.postman.com (estado da indústria), nordicapis.com (REST/GraphQL/gRPC), graphql.org/blog (spec oficial GraphQL).
-- **System Design**: newsletter.systemdesign.one (newsletter semanal de system design, casos reais), blog.quastor.org (deep dives em arquiteturas reais de grandes empresas).
+- **System Design**: newsletter.systemdesign.one (newsletter semanal de system design, casos reais).
 - **Fintech BR**: finsidersbrasil.com.br, bcb.gov.br, mundocoop.com.br, somoscooperativismo.coop.br.
-- **Engenharia BR**: building.nubank.com.br/tech, medium.com/ifood-tech, medium.com/mercadolibre-tech, engenharia.stone.com.br, medium.com/picpay-blog, c6bank.com.br (blog tech), inter.co/blog, zup.com.br/blog, medium.com/olist-tech, oneclickdev.com.br (Globo Eng).
+- **Engenharia BR**: building.nubank.com/tech, medium.com/ifood-tech, medium.com/mercadolibre-tech, medium.com/picpay-blog, zup.com.br/blog, medium.com/olist-tech.
 - **Java & JVM**: inside.java, foojay.io/today, blogs.oracle.com/javamagazine, blog.frankel.ch, jvm-weekly.com.
 - **Python**: blog.python.org, peps.python.org, realpython.com, pythonspeed.com, hynek.me.
 
@@ -396,7 +396,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"RAG" OR "vector database" OR "pgvector" OR "retrieval augmented" {current_year}`
 - `"LLM observability" OR "Langfuse" OR "LangSmith" OR "LLM evals" OR "guardrails"`
 - `"Claude Code" OR "Cursor" OR "GitHub Copilot" AI coding tool update`
-- `site:blog.langchain.dev OR site:langfuse.com/blog agents OR RAG`
+- `site:www.langchain.com/blog OR site:langfuse.com/blog agents OR RAG`
 - `"Ollama" OR "LM Studio" OR "local LLM" update OR benchmark`
 - `"prompt engineering" OR "context window" OR "agentic workflow" architecture`
 
@@ -476,7 +476,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"system design" OR "high level design" OR "low level design" OR "HLD" OR "LLD" article`
 - `"back of the envelope" OR "capacity estimation" OR "system design estimation" article`
 - `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture`
-- `site:newsletter.systemdesign.one OR site:blog.quastor.org`
+- `site:newsletter.systemdesign.one`
 - `site:thoughtworks.com/radar` (bimestral)
 - `site:domainlanguage.com OR site:ddd-community.com`
 
@@ -544,7 +544,7 @@ Categoria de **base eterna** — conteúdo atemporal é esperado (evergreen natu
 - `"cache coherency" OR "NUMA" OR "SIMD" OR "CPU cache" deep dive`
 - `site:queue.acm.org OR site:lwn.net`
 - `site:jvns.ca OR site:brendangregg.com/blog OR site:danluu.com`
-- `site:martinkleppmann.com OR site:evanjones.ca`
+- `site:martin.kleppmann.com`
 - `site:paperswelove.org`
 
 ### ☕ Linguagem Java & JVM (`tool_key: "java"`) — queries específicas
