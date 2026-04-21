@@ -31,17 +31,17 @@
    CSR NEWS CONSOLE OPS — Terminal layout × Mission palette
    ═══════════════════════════════════════════════════════ */
 :root, [data-theme="dark"] {
-  --bg:         #060A10;
-  --bg-deep:    #02050A;
-  --surface:    #0D1420;
-  --surface-hi: #14202F;
-  --surface-3:  #1A2A3E;
-  --ink:        #E6EEF8;
-  --ink-soft:   #B7C3D2;
-  --ink-dim:    #7F8DA2;
-  --ink-faint:  #4A5669;
-  --rule:       #1E2C42;
-  --rule-soft:  #14202F;
+  --bg:         #000000;
+  --bg-deep:    #050a12;
+  --surface:    #0a1525;
+  --surface-hi: #111f35;
+  --surface-3:  #1a2d45;
+  --ink:        #ddeeff;
+  --ink-soft:   #7a9abf;
+  --ink-dim:    #3a5a7a;
+  --ink-faint:  #243d5a;
+  --rule:       #1a2d45;
+  --rule-soft:  #243d5a;
   --amber:      #F59E0B;
   --green:      #22C55E;
   --red:        #EF4444;
@@ -104,17 +104,17 @@
                 #060A10;
 }
 [data-theme="light"] {
-  --bg:         #EDF1F7;
-  --bg-deep:    #DFE5EE;
+  --bg:         #EEF2F7;
+  --bg-deep:    #E2E8F0;
   --surface:    #FFFFFF;
-  --surface-hi: #EEF3FA;
-  --surface-3:  #DCE5F2;
-  --ink:        #0A1420;
-  --ink-soft:   #2E3B50;
-  --ink-dim:    #5C6A80;
-  --ink-faint:  #8693A8;
-  --rule:       #C4D0E0;
-  --rule-soft:  #DDE5EF;
+  --surface-hi: #F4F7FB;
+  --surface-3:  #C9D2DF;
+  --ink:        #0E1A2C;
+  --ink-soft:   #3C4E68;
+  --ink-dim:    #6C7E96;
+  --ink-faint:  #B1BCCC;
+  --rule:       #C9D2DF;
+  --rule-soft:  #B1BCCC;
   --amber:      #B0590C;
   --green:      #166534;
   --red:        #B91C3C;
@@ -177,7 +177,7 @@
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html,body { height: 100%; }
 body {
-  background: var(--dot-tex), var(--bg-grad);
+  background: var(--bg);
   color: var(--ink);
   font-family: 'Inter Tight', sans-serif;
   font-size: 14.5px;
@@ -186,70 +186,16 @@ body {
   overflow: hidden;
   position: relative;
 }
-/* ambient grid lines */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: var(--grid-opacity);
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-/* star field + CRT scan lines (dark only) */
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: .4;
-  background-image:
-    radial-gradient(1px 1px at 23% 14%, rgba(255,255,255,.55), transparent 100%),
-    radial-gradient(1px 1px at 65% 32%, rgba(255,255,255,.45), transparent 100%),
-    radial-gradient(1px 1px at 82% 70%, rgba(255,255,255,.55), transparent 100%),
-    radial-gradient(1px 1px at 15% 82%, rgba(255,255,255,.45), transparent 100%),
-    radial-gradient(1.5px 1.5px at 48% 48%, rgba(56,189,248,.5), transparent 100%),
-    radial-gradient(1px 1px at 92% 10%, rgba(167,139,250,.5), transparent 100%),
-    radial-gradient(1px 1px at 38% 68%, rgba(255,255,255,.4), transparent 100%);
-}
-[data-theme="light"] body::after { opacity: 0; }
 
-/* CRT scan lines + vignette */
-.crt-overlay {
-  position: fixed; inset: 0;
+#particleBg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 3;
-  background:
-    /* scan lines horizontais */
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 3px
-    ),
-    /* vignette */
-    radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.35) 100%);
-  mix-blend-mode: multiply;
-  opacity: .55;
+  z-index: 0;
 }
-[data-theme="light"] .crt-overlay {
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2px,
-      rgba(14,116,144,0.04) 2px,
-      rgba(14,116,144,0.04) 3px
-    ),
-    radial-gradient(ellipse at center, transparent 65%, rgba(14,116,144,.12) 100%);
-  opacity: .7;
-}
-@media (prefers-reduced-motion: reduce) {
-  .crt-overlay { display: none; }
-}
+
 ::selection { background: var(--selection-bg); color: var(--ink); }
 a { color: inherit; text-decoration: none; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -602,7 +548,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   border-bottom: 1px solid var(--rule);
   flex-shrink: 0;
   position: sticky; top: 0; z-index: 10;
-  background: var(--dot-tex), var(--panel-bg);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -712,12 +658,98 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .mtq-src:hover { opacity: 1; }
 
+/* ═══ Quote bar fixa (acima da verse-bar) ═══ */
+.quote-bar {
+  position: fixed;
+  bottom: 36px; left: 262px; right: 286px;
+  height: 58px;
+  overflow: visible;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  padding: 0 18px 0 112px;
+  gap: 16px;
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  box-shadow: 0 -4px 24px rgba(42,184,232,.06);
+}
+[data-theme="light"] .quote-bar {
+  background: var(--surface);
+  box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+}
+.qb-mascot {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  z-index: 1;
+}
+.qb-mascot img {
+  width: 100%;
+  display: block;
+  clip-path: polygon(0 0, 100% 0, 100% 91%, 73% 91%, 73% 100%, 0 100%);
+}
+.qb-divider {
+  width: 1px; height: 32px;
+  background: var(--rule);
+  flex-shrink: 0;
+}
+.qb-body {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 2px;
+}
+.qb-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+.qb-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-style: italic;
+  color: var(--ink);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-height: 1.5;
+  margin: 0;
+}
+.qb-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  opacity: .8;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.qb-ctx {
+  color: var(--ink-dim);
+  font-size: 9.5px;
+}
+.qb-ctx::before { content: ' · '; }
+.qb-ctx:empty { display: none; }
+.qb-nav { display: flex; gap: 4px; flex-shrink: 0; }
+.qb-nav button {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 13px; line-height: 1;
+  width: 22px; height: 22px;
+  border-radius: 2px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .12s, border-color .12s;
+}
+.qb-nav button:hover { color: var(--cyan); border-color: var(--cyan); }
+
 /* ═══ Main prompt bar (contexto fixo/sticky no topo do main) ═══ */
 .main-prompt {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--bg-deep);
+  background: color-mix(in srgb, var(--bg-deep) 85%, transparent);
   border-bottom: 1px solid var(--rule);
   padding: 14px 34px;
   margin: 0 -34px;
@@ -768,10 +800,8 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* ═══ Sidebar ═══ */
 .sidebar {
   grid-area: side;
-  background: var(--dot-tex), var(--panel-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-right: 1px solid var(--rule);
+  background: transparent;
+  border-right: none;
   overflow-y: auto;
   padding: 0 0 0;
   font-family: 'JetBrains Mono', monospace;
@@ -1003,7 +1033,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .main::-webkit-scrollbar { width: 8px; }
 .main::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 4px; }
 .main-inner {
-  padding: 0 34px 52px;
+  padding: 0 34px 120px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -1186,6 +1216,8 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 [data-theme="light"] .top-thumb::after {
   background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.08));
 }
+[data-theme="light"] .sidebar { box-shadow: 4px 0 32px rgba(0,0,0,0.10); }
+[data-theme="light"] .rail    { box-shadow: -4px 0 32px rgba(0,0,0,0.10); }
 .top-body {
   padding: 14px 16px 12px;
   display: flex; flex-direction: column; gap: 8px;
@@ -1601,10 +1633,9 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* ═══ Telemetry rail ═══ */
 .rail {
   grid-area: rail;
-  background: var(--dot-tex), var(--panel-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-left: 1px solid var(--rule);
+  background: transparent;
+  border-left: none;
+  box-shadow: -4px 0 32px rgba(0,0,0,0.55);
   padding: 16px 16px 20px;
   overflow-y: auto;
 }
@@ -2120,6 +2151,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   .shell { grid-template-columns: 240px 1fr 264px; }
   .pillars { grid-template-columns: 1fr 1fr; }
   .pillars .pillar-card:nth-child(3) { grid-column: 1 / -1; }
+  .quote-bar { left: 240px; right: 264px; }
 }
 @media (max-width: 1080px) {
   .shell {
@@ -2130,6 +2162,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   .rail { display: none; }
   .pillars { grid-template-columns: 1fr; }
   .pillars .pillar-card:nth-child(3) { grid-column: auto; }
+  .quote-bar { left: 240px; right: 0; }
 }
 @media (max-width: 720px) {
   .shell {
@@ -2155,13 +2188,14 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   .feed-list { max-width: 100%; }
   .main-top-quote { padding: 14px 18px 16px; margin: 0 -18px; }
   .mtq-text { font-size: 13px; }
+  .quote-bar { left: 0; right: 0; padding-left: 100px; }
 }
 </style>
 </head>
 <body>
 
 <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
-<div class="crt-overlay" aria-hidden="true"></div>
+<canvas id="particleBg"></canvas>
 
 <!-- BOOT OVERLAY -->
 <div class="boot" id="boot">
@@ -2394,7 +2428,7 @@ const STATE = {
   editionsCache: {},         // date -> edition json
   currentDate: null,
   currentEdition: null,
-  view: 'about',
+  view: 'home',
   mode: localStorage.getItem('csrn-mode') || 'cards',
   filter: { urgent: false },
   cveFilter: null,  // 'critical'|'high'|'medium'|'low'|null
@@ -2938,21 +2972,24 @@ let _currentQuote = null;
 
 function currentQuotes(){ return _allQuotes.length ? _allQuotes : STATIC_QUOTES_LEGACY; }
 
-function buildTopQuote(){
-  return `<div class="main-top-quote" id="mainTopQuote">
-    <div class="mtq-head">
-      <span><span class="mtq-dim">~ csr.news % </span><span class="mtq-cmd">quote --today</span></span>
-      <div class="mtq-nav">
-        <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
-        <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
-      </div>
+function buildBottomQuote(){
+  return `<div class="main-bottom-quote" id="mainTopQuote">
+    <div class="mbq-mascot">
+      <img src="data/img/mascote.png" alt="CsR News">
     </div>
-    <div class="mtq-body">
-      <blockquote class="mtq-text" id="quote-text">—</blockquote>
-      <div class="mtq-meta">
-        <span class="mtq-author" id="quote-author">—</span>
-        <span class="mtq-ctx" id="quote-ctx"></span>
-        <a class="mtq-src" id="quote-src" target="_blank" rel="noopener noreferrer" hidden>↗ fonte</a>
+    <div class="mbq-content">
+      <div class="mbq-mark">"</div>
+      <blockquote class="mbq-text" id="quote-text">—</blockquote>
+      <div class="mbq-meta">
+        <span class="mbq-author" id="quote-author">—</span>
+        <span class="mbq-ctx" id="quote-ctx"></span>
+      </div>
+      <div class="mbq-footer">
+        <a class="mbq-src" id="quote-src" target="_blank" rel="noopener noreferrer" hidden>↗ fonte</a>
+        <div class="mbq-nav">
+          <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
+          <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -2996,7 +3033,6 @@ setInterval(() => { if (!document.hidden) cycleQuote(); }, 300000);
 
 /* ═══ Main render ═══ */
 function renderMain(){
-  if (STATE.view === 'about') { renderAbout(); return; }
   if (STATE.view === 'home') renderHome();
   else if (STATE.view === 'rl') renderReadLater();
   else if (STATE.view.startsWith('cat:')) renderCategory(STATE.view.slice(4));
@@ -3018,7 +3054,7 @@ function renderAbout(){
 
 function renderReadLater(){
   const items = sortReadLater(STATE.readLater);
-  let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: var(--amber); margin-top: 18px">`;
   html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Arquivo</span>⎘ Ler Depois</div>`;
   html += `<p class="ctx-hero-lede">Notícias salvas para leitura posterior.</p>`;
@@ -3110,7 +3146,7 @@ function renderHome(){
     return;
   }
 
-  let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
 
   const highlights = ed.highlights || [];
   if (highlights.length) {
@@ -3148,7 +3184,7 @@ function formatGeneratedAt(raw){
 
 function renderCategory(key){
   const cat = CAT[key];
-  if (!cat) return renderHome();
+  if (!cat) { STATE.view = 'home'; setDeepLink('home', STATE.currentDate); return renderHome(); }
   const validKeys = new Set(catWithAliases(key));
   const items = applyFilters(
     allItemsAcrossEditions()
@@ -3156,7 +3192,7 @@ function renderCategory(key){
       .sort((a,b) => (b._date||'').localeCompare(a._date||''))
   );
 
-  let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: var(--cat-${key}); margin-top:18px">`;
   html += `<div class="ctx-hero-title"><span class="ctx-kind-label">Categoria</span>${iconSvg(CAT_ICONS[key] || '', 26)} ${esc(cat.lf)}</div>`;
   html += `<p class="ctx-hero-lede">Arquivo histórico de todas as notícias da categoria <b>${esc(cat.lf)}</b> em todas as edições indexadas, agrupadas por data.</p>`;
@@ -3383,7 +3419,7 @@ async function renderVersionSection(container, toolKey){
 function renderTool(key){
   if (key === 'cve') return renderCVEView();
   const tool = TOOLS.find(t => t.key === key);
-  if (!tool) return renderHome();
+  if (!tool) { STATE.view = 'home'; setDeepLink('home', STATE.currentDate); return renderHome(); }
   const all = allItemsAcrossEditions();
 
   const toolItems = applyFilters(
@@ -3399,7 +3435,7 @@ function renderTool(key){
 
   const tcolor = TOOL_KIND[tool.kind] || 'var(--cyan)';
   const totalDates = new Set(toolItems.map(i=>i._date)).size;
-  let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
   html += `<section class="ctx-hero" style="--ctx-color: ${tcolor}; margin-top:18px">`;
   const isNewsTopic = tool.kind === 'news';
   const lede = isNewsTopic
@@ -3419,7 +3455,7 @@ function renderTool(key){
 
   if (!toolItems.length) {
     html += `<div class="no-items">→ nenhum item para este assunto ainda</div>`;
-    $('main-inner').innerHTML = html;
+      $('main-inner').innerHTML = html;
     updateMainPrompt();
     return;
   }
@@ -3459,7 +3495,7 @@ function renderCVEView(){
   const counts = {critical:0,high:0,medium:0,low:0,total:allCve.length};
   allCve.forEach(x => { if (counts[x.severity] !== undefined) counts[x.severity]++; });
 
-  let html = buildTopQuote() + `<div class="main-prompt" id="mainPrompt"></div>`;
+  let html = `<div class="main-prompt" id="mainPrompt"></div>`;
 
   // Header educativo
   html += `<div class="cve-hero">`;
@@ -3955,12 +3991,17 @@ async function applyInitialDeepLink(){
   const params = new URLSearchParams(location.search);
   const d = params.get('d');
   const v = params.get('v');
-  if (!d && !v) return; // sem parâmetros → fica na about page
+  const cat = params.get('cat');
+  const tool = params.get('tool');
   if (d) {
     const eds = STATE.editionsIndex?.editions || [];
-    if (eds.some(e => e.date === d)) await goToEdition(d);
+    if (eds.some(e => e.date === d)) { await goToEdition(d); return; }
+    goToday(); return; // data inválida → hoje
   }
-  if (v) await setView(v);
+  if (v) { await setView(v); return; }
+  if (cat) { await setView('cat:' + cat); return; }
+  if (tool) { await setView('tool:' + tool); return; }
+  // sem parâmetros: já está na view home com a edição mais recente
 }
 
 /* ═══ Mobile sidebar ═══ */
@@ -4012,7 +4053,7 @@ async function init(){
   // events
   $('readLaterBtn').onclick = () => setView('rl');
   $('hamburgerBtn').onclick = toggleSidebar;
-  $('brandHome').onclick = () => setView('about');
+  $('brandHome').onclick = () => goToday();
   $('ghRepoBtn').onclick = () => window.open('https://github.com/cesarschutz/noticias-dev-arq', '_blank', 'noopener');
 
   // pre-warm all editions in background (para agregados cat/tool)
@@ -4116,10 +4157,121 @@ window.nextQuote = nextQuote;
 window.prevVerse = prevVerse;
 window.nextVerse = nextVerse;
 
+/* ════════ PARTICLE NETWORK BACKGROUND ════════ */
+(function particleNetwork(){
+  const canvas = document.getElementById('particleBg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, dpr = 1;
+  let particles = [];
+  let NUM = 90;
+  const MAX_DIST = 150;
+  const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Viewport inteira (canvas é fixed)
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr, dpr);
+    // Mais partículas em telas grandes, menos em mobile
+    NUM = Math.max(35, Math.min(110, Math.round((W * H) / 16000)));
+    init();
+  }
+  function init(){
+    particles = [];
+    for (let i = 0; i < NUM; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+      });
+    }
+  }
+  function getConfig(){
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    return isLight
+      ? { dotColor:'rgba(10,100,160,',  lineColor:'rgba(10,100,160,',  lineMax:0.75, dotAlpha:0.9 }
+      : { dotColor:'rgba(135,210,255,', lineColor:'rgba(42,184,232,',  lineMax:0.55, dotAlpha:0.8 };
+  }
+  function tick(){
+    ctx.clearRect(0, 0, W, H);
+    const cfg = getConfig();
+
+    // move
+    for (const p of particles){
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx = -p.vx;
+      if (p.y < 0 || p.y > H) p.vy = -p.vy;
+    }
+
+    // linhas entre pontos próximos
+    ctx.lineWidth = 1;
+    for (let i = 0; i < particles.length; i++){
+      for (let j = i + 1; j < particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d2 = dx*dx + dy*dy;
+        if (d2 < MAX_DIST_SQ){
+          const alpha = (1 - Math.sqrt(d2) / MAX_DIST) * cfg.lineMax;
+          ctx.strokeStyle = cfg.lineColor + alpha.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    // pontos
+    ctx.fillStyle = cfg.dotColor + cfg.dotAlpha + ')';
+    for (const p of particles){
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  resize();
+  tick();
+  let rzt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rzt);
+    rzt = setTimeout(resize, 120);
+  });
+})();
+
 })();
 </script>
 
 <!-- VERSE FOOTER -->
+<div class="quote-bar" id="quoteBar">
+  <div class="qb-mascot">
+    <img src="data/img/mascote.png" alt="">
+  </div>
+  <div class="qb-divider"></div>
+  <div class="qb-body">
+    <div class="qb-label">quote · today</div>
+    <blockquote class="qb-text" id="quote-text">—</blockquote>
+    <div class="qb-meta">
+      <span id="quote-author">—</span><span class="qb-ctx" id="quote-ctx"></span>
+    </div>
+  </div>
+  <div class="qb-nav">
+    <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
+    <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+  </div>
+  <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
+</div>
+
 <footer class="verse-bar" id="verse-bar" aria-live="polite">
   <button class="verse-nav-btn" onclick="prevVerse()" title="Versículo anterior">‹</button>
   <a class="verse-text-wrap" id="verse-wrap" target="_blank" rel="noopener noreferrer" title="Abrir versículo na Bíblia">
