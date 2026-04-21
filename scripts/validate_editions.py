@@ -49,11 +49,11 @@ TOOL_KEYS = {
     # Containers & IaC
     'docker', 'kubernetes', 'terraform',
     # Mesh, Proxies & Edge
-    'istio', 'nginx', 'cloudflare',
+    'istio', 'nginx',
     # Dados & Streaming
     'databricks', 'postgres', 'redis', 'kafka',
     # Obs & Segurança
-    'dynatrace', 'datadog', 'keycloak', 'vault',
+    'dynatrace', 'datadog', 'keycloak',
     # Backend & Build
     'gradle', 'maven', 'springboot',
     # Design & Docs (docs-as-code)

@@ -67,11 +67,11 @@ Categorias são os "grandes temas" — cada notícia pertence a uma.
 
 - **🤖 IA & LLMs (`ai`)** — modelos fundacionais (GPT, Claude, Gemini, Llama), pesquisa em IA, releases de fundação. *Por que existe*: IA é o tema mais transformador da década; qualquer arquiteto precisa acompanhar.
 - **🧠 AIOps & Agents (`aiops`)** — como usar IA em produção: agentes (MCP, LangGraph), RAG (Retrieval-Augmented Generation), observabilidade de LLMs (Langfuse), AI Coding (Cursor, Claude Code), guardrails. *Por que existe*: a engenharia de aplicações com IA virou uma disciplina separada da pesquisa em modelos — com ferramentas, padrões e riscos próprios.
-- **🔐 Segurança & IAM (`sec`)** — CVEs (vulnerabilidades críticas), Zero Trust, identidade (OIDC/SAML), supply chain (SBOM, SLSA), AI Security. *Por que existe*: segurança é preocupação diária do arquiteto; CVEs não esperam.
+- **🔐 Segurança & IAM (`sec`)** — CVEs (vulnerabilidades críticas), Zero Trust, identidade (OIDC/SAML), supply chain (SBOM, SLSA), AI Security, **secrets management (Vault)**, runtime security (Trivy). *Por que existe*: segurança é preocupação diária do arquiteto; CVEs não esperam.
 
 ### Plataforma & Infraestrutura
 
-- **☁️ Cloud (`cloud`)** — AWS, Azure, Google Cloud, CDN, edge delivery, networking. *Por que existe*: quase tudo hoje roda na nuvem; acompanhar serviços e padrões é essencial.
+- **☁️ Cloud (`cloud`)** — AWS, Azure, Google Cloud, **CDN & Edge (Cloudflare, Fastly)**, networking (VPC/peering). *Por que existe*: quase tudo hoje roda na nuvem; acompanhar serviços e padrões é essencial.
 - **⚙️ DevOps & Plataformas (`devops`)** — Kubernetes, GitOps, CI/CD, IaC (Terraform), Backstage, HTTP/3, proxies (nginx, envoy). *Por que existe*: a "plumbing" que mantém tudo rodando em produção.
 - **📈 Observabilidade & SRE (`obs`)** — tracing (OpenTelemetry), métricas, logs, SLO/SLI, incidentes, eBPF. *Por que existe*: você não conserta o que não consegue ver.
 
@@ -107,7 +107,7 @@ Essas subcategorias viram **tags** nos cartões (`tags[]`) — pequenas etiqueta
 
 ---
 
-## 6. Catálogo de ferramentas monitoradas (27)
+## 6. Catálogo de ferramentas monitoradas (25)
 
 Ferramentas são produtos técnicos com lançamentos regulares (releases, changelogs). Cada uma tem uma página dedicada no site com o histórico de updates.
 
@@ -127,10 +127,9 @@ Ferramentas são produtos técnicos com lançamentos regulares (releases, change
 - **Kubernetes** — orquestração de containers.
 - **Terraform** — infraestrutura como código (HashiCorp).
 
-### Mesh, Proxies & Edge (3)
+### Mesh, Proxies & Edge (2)
 - **Istio** — service mesh.
 - **Nginx** — web server e reverse proxy clássico.
-- **Cloudflare** — CDN, DNS, Workers, Zero Trust.
 
 ### Dados & Streaming (4)
 - **Databricks** — lakehouse de dados + IA.
@@ -138,11 +137,10 @@ Ferramentas são produtos técnicos com lançamentos regulares (releases, change
 - **Redis** — cache in-memory.
 - **Apache Kafka** — streaming distribuído.
 
-### Observabilidade & Segurança (4)
+### Observabilidade & Segurança (3)
 - **Dynatrace** — APM enterprise com IA (Davis).
 - **Datadog** — observabilidade SaaS unificada.
 - **Keycloak** — IAM open-source.
-- **Vault** — secrets management (HashiCorp).
 
 ### Backend & Build (3)
 - **Gradle** — build para JVM.
@@ -158,17 +156,18 @@ Ferramentas são produtos técnicos com lançamentos regulares (releases, change
 
 Algumas tecnologias relevantes aparecem como **sub-tópicos** das categorias — a IA busca notícias sobre elas normalmente, mas elas não têm página dedicada no site. Se houver notícia, ela aparece na categoria correspondente, com o nome da tecnologia nas tags do cartão.
 
+- **Cloud**: Cloudflare (CDN, DNS, Workers, Zero Trust)
 - **DevOps**: Backstage, Helm, OpenTofu, Envoy
 - **AIOps & Agents**: MCP (Model Context Protocol), Ollama, Langfuse, LangGraph
 - **Observabilidade**: OpenTelemetry, Prometheus, Grafana
-- **Segurança**: Trivy
+- **Segurança**: Trivy, Vault (secrets management)
 - **Dados**: pgvector, dbt
 - **Sist. Distribuídos**: Temporal
 - **Testes**: k6, Playwright
 - **Frontend**: Next.js, Vite, Bun, Biome
 - **Backend**: Wasmtime
 
-**Nota sobre rotação**: nem todas as 27 ferramentas aparecem todo dia. A IA escolhe **pelo menos 10 por dia** priorizando aquelas que tiveram releases ou notícias reais nos últimos 3-7 dias. Se sobrar slot, completa com tutoriais ou deep-dives de ferramentas que não apareceram nas últimas 7 edições — rotação para variar a cobertura.
+**Nota sobre rotação**: nem todas as 25 ferramentas aparecem todo dia. A IA escolhe **pelo menos 10 por dia** priorizando aquelas que tiveram releases ou notícias reais nos últimos 3-7 dias. Se sobrar slot, completa com tutoriais ou deep-dives de ferramentas que não apareceram nas últimas 7 edições — rotação para variar a cobertura.
 
 ---
 
@@ -191,7 +190,7 @@ Essas 3 são foco pessoal do autor — outras linguagens (Go, Rust, C#, Kotlin, 
 | **Categoria** (16) | Tema editorial amplo | Cobertura flexível — pode ter 0 itens em dias calmos. Total mínimo: 15 itens/dia em toda edição. | Cor, ícone, filtro na sidebar esquerda |
 | **Subcategoria** | Recorte específico dentro de uma categoria | Só aparece quando há notícia, como tag | Pequenas etiquetas no cartão (tags) |
 | **Linguagem** (3) | Java/JS/Python, com releases próprios | Entra no pool de rotação diária de ferramentas | Logo no rail direito, view dedicada |
-| **Ferramenta** (27) | Produto com changelog identificável | Rotação dinâmica — mínimo 10 ferramentas/dia | Logo no rail direito, view dedicada |
+| **Ferramenta** (25) | Produto com changelog identificável | Rotação dinâmica — mínimo 10 ferramentas/dia | Logo no rail direito, view dedicada |
 
 **Teste rápido para distinguir ferramenta de subcategoria**: *"Tem site de release notes que posso colar a URL agora?"* — se sim, é ferramenta; se não, é subcategoria.
 

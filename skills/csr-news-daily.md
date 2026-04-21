@@ -606,15 +606,13 @@ Exemplos por item (não exaustivos):
 | `terraform` | Release, novo provider, RFC aprovada | IaC patterns, Terraform Cloud, módulos reutilizáveis, OpenTofu (fork OSS), drift detection |
 | `istio` | Release, ambient mode | Service mesh comparado (Linkerd, Cilium), Envoy (base), mTLS, observability |
 | `nginx` | Release Nginx/Plus, novo módulo | Reverse proxy, load balancing, TLS termination, caching, API gateway |
-| `cloudflare` | Release Workers, feature Zero Trust, R2/D1 | CDN, DNS, edge compute, WAF, DDoS, Access, serverless no edge |
 | `databricks` | Release, novo recurso | Delta Lake, lakehouse, Apache Spark, MLflow, Unity Catalog, dbt (transformação) |
 | `postgres` | Release major/minor, CVE, extension nova | Extensões (pgvector para RAG, pg_trgm), JSONB patterns, replicação, logical decoding |
 | `redis` | Release, mudança de licença | Caching patterns, pub/sub, Streams, Valkey (fork), cache-aside |
 | `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium, Temporal (workflows) |
 | `dynatrace` | Release, nova integração | OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s, Grafana/Prometheus stack |
 | `datadog` | Release, nova integração | APM, RUM, SLOs, monitoring patterns, OpenTelemetry |
-| `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO |
-| `vault` | Release, CVE, novo secret engine | Secrets management, PKI, dynamic credentials, namespaces, Trivy (scanning) |
+| `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO, **Vault (secrets management)** |
 | `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, build cache, configuration cache |
 | `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
 | `springboot` | Release, nova feature, starter novo | **Spring Cloud**, Spring Security, auto-config, GraalVM native, reactive, Wasmtime (WASM backend) |
@@ -641,7 +639,6 @@ Exemplos por item (não exaustivos):
 | `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases |
 | `istio` | Istio | `distarch` | https://istio.io/latest/news/ · https://istio.io/latest/blog/ |
 | `nginx` | Nginx | `devops` | https://nginx.org/en/CHANGES · https://www.nginx.com/blog/ |
-| `cloudflare` | Cloudflare | `cloud` | https://blog.cloudflare.com/ · https://developers.cloudflare.com/workers/platform/changelog |
 | `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/ · https://databricks.com/blog |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ · https://planet.postgresql.org |
 | `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
@@ -649,7 +646,6 @@ Exemplos por item (não exaustivos):
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `datadog` | Datadog | `obs` | https://docs.datadoghq.com/release_notes · https://www.datadoghq.com/blog |
 | `keycloak` | Keycloak | `sec` | https://github.com/keycloak/keycloak/releases · https://www.keycloak.org/blog |
-| `vault` | Vault (HashiCorp) | `sec` | https://github.com/hashicorp/vault/releases · https://www.hashicorp.com/blog/products/vault |
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html · https://blog.gradle.org |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/download.cgi · https://search.maven.org |
 | `springboot` | Spring Boot (+ Spring Cloud) | `backend` | https://spring.io/blog · https://github.com/spring-projects/spring-boot/releases |
@@ -660,7 +656,7 @@ Exemplos por item (não exaustivos):
 | `javascript` | JavaScript / TS | `frontend` | https://tc39.es/proposals · https://nodejs.org/en/blog · https://deno.com/blog · https://bun.sh/blog |
 | `python` | Python | `backend` | https://www.python.org/downloads · https://peps.python.org · https://realpython.com |
 
-**Total**: 3 linguagens + 27 ferramentas = **30 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
+**Total**: 3 linguagens + 25 ferramentas = **28 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
 
 ### Sub-tópicos cobertos em subcategorias (não são `tool_key` dedicados)
 
@@ -671,7 +667,8 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 | Backstage, Helm, OpenTofu, Envoy | `devops` | via queries de DevOps & Plataformas |
 | MCP, Ollama, Langfuse, LangGraph | `aiops` | via queries de AIOps & Agents |
 | OpenTelemetry, Prometheus, Grafana | `obs` | via queries de Observabilidade & SRE |
-| Trivy | `sec` | via queries de Segurança |
+| Trivy, **Vault (secrets management)** | `sec` | via queries de Segurança |
+| **Cloudflare (CDN/Edge/Workers/Zero Trust)** | `cloud` | via queries de Cloud |
 | pgvector, dbt | `data` | via queries de Dados & Streaming |
 | Temporal | `distarch` | via queries de Sistemas Distribuídos |
 | k6, Playwright | `testing` | via queries de Testes & Qualidade |
@@ -827,8 +824,8 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. O JSON.stringify d
 |---|---|---|---|
 | `ai` | IA & LLMs | 🤖 | Modelos fundacionais · Pesquisa · Releases de fundação (OpenAI/Anthropic/Google/Meta/HF) · Benchmarks · Papers · Multimodal · AI Safety |
 | `aiops` | AIOps & Agents | 🧠 | LLMOps · **AI Agents** · **MCP (Model Context Protocol)** · RAG · **Vector DBs** · AI Coding em produção · LLM Evals · **LLM Observability (Langfuse)** · Guardrails · **Agent Orchestration (LangGraph)** · **Local LLM (Ollama)** |
-| `sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade (OIDC/SAML) · Supply Chain (SBOM/SLSA) · **Runtime/Container Security (Trivy)** · AI Security · Secrets Management |
-| `cloud` | Cloud | ☁️ | AWS (Lambda/DynamoDB/S3/Bedrock) · Azure · GCP · Compute · Dados · Messaging · IAM · **CDN & Edge Delivery** · **Cloud Networking (VPC/peering)** · Well-Architected · FinOps multi-cloud |
+| `sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade (OIDC/SAML) · Supply Chain (SBOM/SLSA) · **Runtime/Container Security (Trivy)** · AI Security · **Secrets Management (Vault, AWS Secrets Manager)** |
+| `cloud` | Cloud | ☁️ | AWS (Lambda/DynamoDB/S3/Bedrock) · Azure · GCP · Compute · Messaging · IAM · **CDN & Edge (Cloudflare, Fastly)** · Cloud Networking (VPC/peering) · Well-Architected · FinOps multi-cloud |
 | `devops` | DevOps & Plataformas | ⚙️ | CNCF · GitOps · CI/CD · Progressive Delivery · IaC (**OpenTofu**, Pulumi) · **IDPs (Backstage, Port)** · **Helm & package managers** · Edge/Proxies/Protocolos (HTTP/3, QUIC, **Envoy**, API Gateway infra) · Developer Productivity |
 | `obs` | Observabilidade & SRE | 📈 | **Tracing (OpenTelemetry)** · **Métricas (Prometheus)** · Logs · APM · **Dashboards (Grafana, Loki, Tempo, Mimir)** · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
 | `backend` | Backend & Runtimes | 🔧 | Go · Rust · Node/Deno · Concurrency models · **WebAssembly (Wasmtime, Spin, WASI)** · Server-side patterns · Performance engineering |

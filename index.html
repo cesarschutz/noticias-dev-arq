@@ -404,8 +404,8 @@
       São <strong>16 categorias editoriais</strong> — Fundamentos de Computação, IA, AIOps & Agents, Segurança, Cloud, DevOps,
       Observabilidade & SRE, Backend, Dados, Integração, Testes, Frontend, Design, Sistemas Distribuídos,
       Arq. Corporativa e Fintech — mais <strong>3 linguagens</strong> (Java, JavaScript/TS, Python) e
-      <strong>27 ferramentas</strong> (Kubernetes, Kafka, Docker, Postgres, Cloudflare, Terraform, Spring Boot, Dynatrace,
-      Datadog, Vault, Keycloak, Databricks, Redis, Istio, Nginx, GitHub Actions, Argo CD, Claude Code, Cursor, Structurizr, PlantUML, Mermaid e mais).
+      <strong>25 ferramentas</strong> (Kubernetes, Kafka, Docker, Postgres, Terraform, Spring Boot, Dynatrace,
+      Datadog, Keycloak, Databricks, Redis, Istio, Nginx, GitHub Actions, Argo CD, Claude Code, Cursor, Structurizr, PlantUML, Mermaid e mais).
       Navegue por categoria, linguagem, tópico ou ferramenta — e acesse qualquer edição
       anterior pelo calendário integrado.
     </p>
@@ -425,8 +425,8 @@
 
   <section class="section">
     <div class="sec-head">
-      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">30</span></div>
-      <p class="sec-sub">3 linguagens · 27 ferramentas</p>
+      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">28</span></div>
+      <p class="sec-sub">3 linguagens · 25 ferramentas</p>
     </div>
     <div class="mon-label ml-amber">Linguagens</div>
     <div class="lang-grid" id="langs"></div>
@@ -445,10 +445,10 @@ const CATS = [
   {key:'aiops',  name:'AIOps & Agents',      color:'#c026d3', group:'Transversal', desc:'LLMOps, AI Agents & MCP, RAG & Vector DBs, AI Coding em produção, LLM Evals & Observability (Langfuse, LangSmith), guardrails, agent orchestration, local LLM (Ollama).',
    svg:'<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>',
    src:[{l:'blog.langchain.dev',u:'https://blog.langchain.dev'},{l:'langfuse.com/blog',u:'https://langfuse.com/blog'},{l:'modelcontextprotocol.io',u:'https://modelcontextprotocol.io'},{l:'hamel.dev',u:'https://hamel.dev'}]},
-  {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, OWASP, Zero Trust & Identidade, Passkeys/WebAuthn, Supply Chain (SBOM/SLSA/Sigstore), AI Security, Runtime Security, Secrets Management, LGPD & Privacidade.',
+  {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, OWASP, Zero Trust & Identidade, Passkeys/WebAuthn, Supply Chain (SBOM/SLSA/Sigstore), AI Security, Runtime Security, **Secrets Management (Vault, AWS Secrets Manager)**, LGPD & Privacidade.',
    svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
    src:[{l:'thehackernews.com',u:'https://thehackernews.com'},{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'snyk.io/blog',u:'https://snyk.io/blog'},{l:'tldrsec.com',u:'https://tldrsec.com'}]},
-  {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, CDN & edge delivery, cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
+  {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, **CDN & Edge (Cloudflare, Fastly)**, cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
    svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
    src:[{l:'aws.amazon.com/about-aws/whats-new',u:'https://aws.amazon.com/about-aws/whats-new'},{l:'azure.microsoft.com/blog',u:'https://azure.microsoft.com/en-us/blog'},{l:'cloud.google.com/blog',u:'https://cloud.google.com/blog'},{l:'lastweekinaws.com',u:'https://lastweekinaws.com'}]},
   {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Kubernetes & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs/Backstage, Edge/Proxies (HTTP/3, QUIC, nginx, envoy), Developer Productivity, AI-augmented SDLC.',
@@ -562,10 +562,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg',
      desc:'Web server e reverse proxy — caching, load balancing e TLS termination.',
      src:[{l:'nginx.org/en/CHANGES',u:'https://nginx.org/en/CHANGES'},{l:'nginx.com/blog',u:'https://www.nginx.com/blog'}]},
-    {key:'cloudflare',name:'Cloudflare',    color:'#F38020', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/cloudflare/F38020',
-     desc:'CDN global, DNS, Workers, R2 e Zero Trust — infraestrutura de edge unificada.',
-     src:[{l:'blog.cloudflare.com',u:'https://blog.cloudflare.com'},{l:'developers.cloudflare.com/workers/platform/changelog',u:'https://developers.cloudflare.com/workers/platform/changelog'}]},
   ]},
   {label:'Dados & Streaming', tools:[
     {key:'databricks',name:'Databricks',    color:'#FF3621', group:'Ferramenta',
@@ -598,10 +594,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/keycloak/4D9CF8',
      desc:'IAM open-source — SSO, OIDC, SAML e federation.',
      src:[{l:'github.com/keycloak/keycloak/releases',u:'https://github.com/keycloak/keycloak/releases'},{l:'keycloak.org/blog',u:'https://www.keycloak.org/blog'}]},
-    {key:'vault',         name:'Vault',          color:'#FFEC6E', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/vault/FFEC6E',
-     desc:'Secrets management (HashiCorp) — encriptação, rotação, dynamic secrets, PKI.',
-     src:[{l:'github.com/hashicorp/vault/releases',u:'https://github.com/hashicorp/vault/releases'},{l:'hashicorp.com/blog/products/vault',u:'https://www.hashicorp.com/blog/products/vault'}]},
   ]},
   {label:'Backend & Build', tools:[
     {key:'gradle',      name:'Gradle',       color:'#5ec4c4', group:'Ferramenta',

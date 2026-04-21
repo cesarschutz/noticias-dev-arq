@@ -51,7 +51,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT.
-2. Pesquisa notícias via WebSearch em **16 categorias + 3 linguagens + 27 ferramentas + HN + Lobste.rs + GitHub Trending + engenharia BR**.
+2. Pesquisa notícias via WebSearch em **16 categorias + 3 linguagens + 25 ferramentas + HN + Lobste.rs + GitHub Trending + engenharia BR**.
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, verificação de links, score explícito para highlights).
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`).
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh`.
@@ -145,9 +145,9 @@ Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo.
 | **Transversal** | | | | |
 | ai | `--cat-ai` | IA & LLMs | 🤖 | Modelos fundacionais · Pesquisa · Releases OpenAI/Anthropic/Google/Meta/HF · Benchmarks · Papers · Multimodal · AI Safety |
 | aiops | `--cat-aiops` | AIOps & Agents | 🧠 | LLMOps · AI Agents & MCP · RAG & Vector DBs · AI Coding em produção · LLM Evals · LLM Observability · Guardrails · Agent Orchestration · Local LLM |
-| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade · Passkeys/WebAuthn · Supply Chain (SBOM/SLSA/Sigstore) · Runtime/Container Security · AI Security · Secrets Management · LGPD |
+| sec | `--cat-sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade · Passkeys/WebAuthn · Supply Chain (SBOM/SLSA/Sigstore) · **Runtime/Container Security (Trivy)** · AI Security · **Secrets Management (Vault)** · LGPD |
 | **Plataforma & Infraestrutura** | | | | |
-| cloud | `--cat-cloud` | Cloud | ☁️ | AWS · Azure · GCP · **CDN & Edge Delivery** · **Cloud Networking (VPC/peering)** · Well-Architected · FinOps multi-cloud |
+| cloud | `--cat-cloud` | Cloud | ☁️ | AWS · Azure · GCP · **CDN & Edge (Cloudflare, Fastly)** · Cloud Networking (VPC/peering) · Well-Architected · FinOps multi-cloud |
 | devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | Kubernetes & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs (Backstage) · **Edge/Proxies/Protocolos (HTTP/3, QUIC, nginx, envoy)** · Developer Productivity |
 | obs | `--cat-obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
 | **Desenvolvimento** | | | | |
@@ -217,7 +217,7 @@ Só entra se tem **release notes/changelog identificável**. Conceitos/disciplin
 
 ---
 
-## Linguagens & Ferramentas monitoradas (30 = 3 linguagens + 27 ferramentas)
+## Linguagens & Ferramentas monitoradas (28 = 3 linguagens + 25 ferramentas)
 
 Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subagrupamento visual no rail), `category` (chave de `CAT`) e `kind` no array `TOOLS` em `home.html` (SPA) e em `TOOL_SUBGROUPS` de `index.html` (landing).
 
@@ -241,7 +241,6 @@ Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subag
 | **Mesh, Proxies & Edge** | | | |
 | Mesh, Proxies & Edge | `istio` | Istio | `distarch` |
 | Mesh, Proxies & Edge | `nginx` | Nginx | `devops` |
-| Mesh, Proxies & Edge | `cloudflare` | Cloudflare | `cloud` |
 | **Dados & Streaming** | | | |
 | Dados & Streaming | `databricks` | Databricks | `data` |
 | Dados & Streaming | `postgres` | PostgreSQL | `data` |
@@ -251,7 +250,6 @@ Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subag
 | Obs & Segurança | `dynatrace` | Dynatrace | `obs` |
 | Obs & Segurança | `datadog` | Datadog | `obs` |
 | Obs & Segurança | `keycloak` | Keycloak | `sec` |
-| Obs & Segurança | `vault` | Vault (HashiCorp) | `sec` |
 | **Backend & Build** | | | |
 | Backend & Build | `gradle` | Gradle | `backend` |
 | Backend & Build | `maven` | Apache Maven | `backend` |
@@ -272,7 +270,8 @@ Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subag
 | Backstage, Helm, OpenTofu, Envoy | `devops` | IDP, package manager K8s, IaC OSS, proxy L7 |
 | MCP, Ollama, Langfuse, LangGraph | `aiops` | Protocolo agents, LLM local, observability, orchestration |
 | OpenTelemetry, Prometheus, Grafana | `obs` | Telemetria padrão, métricas, dashboards |
-| Trivy | `sec` | Scanner de CVEs/IaC |
+| Trivy, Vault | `sec` | Scanner de CVEs/IaC, secrets management |
+| Cloudflare | `cloud` | CDN/Edge/Workers/Zero Trust |
 | pgvector, dbt | `data` | Vector DB, analytics engineering |
 | Temporal | `distarch` | Durable execution |
 | k6, Playwright | `testing` | Load + E2E |

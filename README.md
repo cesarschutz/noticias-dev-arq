@@ -38,7 +38,7 @@ Cada categoria tem subcategorias internas (guiam pesquisa e populam `tags[]`, ma
 
 Java & JVM · JavaScript / TS · Python.
 
-## Ferramentas monitoradas (27, só com release notes identificáveis)
+## Ferramentas monitoradas (25, só com release notes identificáveis)
 
 **AI & IDEs**: Claude Code · Cursor IDE · IntelliJ IDEA · VS Code
 
@@ -46,17 +46,17 @@ Java & JVM · JavaScript / TS · Python.
 
 **Containers & IaC**: Docker · Kubernetes · Terraform
 
-**Mesh, Proxies & Edge**: Istio · Nginx · Cloudflare
+**Mesh, Proxies & Edge**: Istio · Nginx
 
 **Dados & Streaming**: Databricks · PostgreSQL · Redis · Apache Kafka
 
-**Obs & Segurança**: Dynatrace · Datadog · Keycloak · Vault
+**Obs & Segurança**: Dynatrace · Datadog · Keycloak
 
 **Backend & Build**: Gradle · Apache Maven · Spring Boot (+ Spring Cloud)
 
 **Design & Docs-as-code**: Structurizr · PlantUML · Mermaid
 
-> **Sub-tópicos cobertos via subcategoria** (não têm ferramenta dedicada, mas aparecem em notícias da categoria correspondente): Backstage, Helm, OpenTofu, Envoy (em `devops`) · MCP, Ollama, Langfuse, LangGraph (em `aiops`) · OpenTelemetry, Prometheus, Grafana (em `obs`) · Trivy (em `sec`) · pgvector, dbt (em `data`) · Temporal (em `distarch`) · k6, Playwright (em `testing`) · Next.js, Vite, Bun, Biome (em `frontend`) · Wasmtime (em `backend`).
+> **Sub-tópicos cobertos via subcategoria** (não têm ferramenta dedicada, mas aparecem em notícias da categoria correspondente): Backstage, Helm, OpenTofu, Envoy (em `devops`) · MCP, Ollama, Langfuse, LangGraph (em `aiops`) · OpenTelemetry, Prometheus, Grafana (em `obs`) · Trivy, Vault (em `sec`) · Cloudflare (em `cloud`) · pgvector, dbt (em `data`) · Temporal (em `distarch`) · k6, Playwright (em `testing`) · Next.js, Vite, Bun, Biome (em `frontend`) · Wasmtime (em `backend`).
 
 ## Desenvolvimento local
 
