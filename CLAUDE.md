@@ -153,7 +153,7 @@ Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo.
 | **Desenvolvimento** | | | | |
 | backend | `--cat-backend` | Backend & Runtimes | 🔧 | Runtimes poliglotas · Web frameworks · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns · Performance engineering |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
-| integ | `--cat-integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
+| integ | `--cat-integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · **API Versioning & Evolution** · **API Gateway & Rate Limiting** · **gRPC & Protocol Buffers** · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
 | testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing · Chaos Engineering · Performance/Load (k6) · Mutation Testing · AI-assisted testing |
 | frontend | `--cat-frontend` | Frontend & Web | 🎨 | Frameworks SPA · Meta-frameworks · RSC & streaming SSR · Web Platform · Design Systems · Core Web Vitals · Edge Rendering · Build Tools (Vite/Bun/Biome) · a11y/i18n |
 | **Arquitetura** | | | | |

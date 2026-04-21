@@ -352,6 +352,7 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 - **Fundamentos & Performance**: jvns.ca, brendangregg.com, danluu.com, lwn.net, paperswelove.org, martinkleppmann.com, evanjones.ca.
 - **Frontend moderno**: web.dev, developer.mozilla.org/en-US/blog, vercel.com/blog, react.dev/blog, nextjs.org/blog, 2ality.com, chromestatus.com, v8.dev, josh.comeau.com, kentcdodds.com.
 - **Observabilidade avançada**: charity.wtf, honeycomb.io/blog, parca.dev, pyroscope.io, cilium.io.
+- **Integração & APIs**: apisyouwonthate.com (API design, Phil Sturgeon — referência #1), apihandyman.io (Arnaud Lauret, REST/OpenAPI), blog.postman.com (estado da indústria), nordicapis.com (REST/GraphQL/gRPC), graphql.org/blog (spec oficial GraphQL).
 - **Fintech BR**: finsidersbrasil.com.br, bcb.gov.br, mundocoop.com.br, somoscooperativismo.coop.br.
 - **Engenharia BR**: building.nubank.com.br/tech, medium.com/ifood-tech, medium.com/mercadolibre-tech, engenharia.stone.com.br, medium.com/picpay-blog, c6bank.com.br (blog tech), inter.co/blog, zup.com.br/blog, medium.com/olist-tech, oneclickdev.com.br (Globo Eng).
 - **Java & JVM**: inside.java, foojay.io/today, blogs.oracle.com/javamagazine, blog.frankel.ch, jvm-weekly.com.
@@ -447,7 +448,13 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"event-driven architecture" OR "EDA" OR "event sourcing" news`
 - `"webhook" OR "idempotency" OR "schema registry" best practice`
 - `"iPaaS" OR "n8n" OR "Confluent" OR "MuleSoft" release`
-- `site:asyncapi.com/blog OR site:confluent.io/blog`
+- `"API versioning" OR "URI versioning" OR "API deprecation" OR "API evolution" best practice`
+- `"API gateway" OR "rate limiting" OR "API throttling" OR "API design" architecture`
+- `"gRPC" OR "Protocol Buffers" OR "protobuf" release OR article {current_year}`
+- `"contract testing" OR "Pact" OR "consumer-driven contracts" API`
+- `site:apisyouwonthate.com OR site:apihandyman.io`
+- `site:blog.postman.com OR site:nordicapis.com`
+- `site:graphql.org/blog OR site:asyncapi.com/blog OR site:confluent.io/blog`
 
 ### 🔧 Backend & Runtimes (`backend`)
 - `"Spring Boot" OR "Spring Framework" OR "Quarkus" OR "Micronaut" release`
@@ -830,7 +837,7 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. O JSON.stringify d
 | `obs` | Observabilidade & SRE | 📈 | **Tracing (OpenTelemetry)** · **Métricas (Prometheus)** · Logs · APM · **Dashboards (Grafana, Loki, Tempo, Mimir)** · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
 | `backend` | Backend & Runtimes | 🔧 | Go · Rust · Node/Deno · Concurrency models · **WebAssembly (Wasmtime, Spin, WASI)** · Server-side patterns · Performance engineering |
 | `data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (Iceberg) · **Analytics engineering (dbt)** · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
-| `integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
+| `integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · **API Versioning & Evolution** · **API Gateway & Rate Limiting** · **gRPC & Protocol Buffers** · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
 | `testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing (Pact) · Chaos Engineering · **Performance/Load (k6, Gatling)** · **E2E (Playwright, Cypress)** · Mutation Testing · Test Data Management · AI-assisted testing |
 | `frontend` | Frontend & Web | 🎨 | Frameworks SPA (React/Vue/Svelte) · **Meta-frameworks (Next.js, Nuxt, Astro)** · Web Platform · CSS & Design Systems · Core Web Vitals · Edge Rendering · **Build Tools (Vite, Biome, Turbopack)** · **Runtimes JS (Bun, Deno)** · a11y/i18n |
 | `fundamentals` | Fundamentos de Computação | 🧱 | SO · Redes (TCP/IP, DNS) · Estruturas de dados & algoritmos · Concorrência & paralelismo · Memory models · Teoria de filas · Performance de hardware |
