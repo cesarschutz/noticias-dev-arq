@@ -97,6 +97,8 @@
   --sev-low:      #22C55E;
 
   --focus:      #F59E0B;
+  --bubble-bg:  rgba(10,21,37,.82);
+  --bubble-mix: #000;
 
   --bg-grad:    radial-gradient(ellipse at 20% 0%, rgba(56,189,248,.08), transparent 55%),
                 radial-gradient(ellipse at 90% 100%, rgba(167,139,250,.06), transparent 50%),
@@ -172,6 +174,8 @@
                 radial-gradient(ellipse at 90% 100%, rgba(109,74,191,.06), transparent 50%),
                 #EDF1F7;
   --dot-tex: radial-gradient(circle, rgba(14,116,144,.11) 1px, transparent 1px) 0 0 / 22px 22px;
+  --bubble-bg:  rgba(255,255,255,.95);
+  --bubble-mix: #FFFFFF;
 }
 
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -804,7 +808,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   border-right: none;
   overflow-y: auto;
   padding: 0 0 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter Tight', sans-serif;
   display: flex; flex-direction: column;
 }
 .sidebar::-webkit-scrollbar { width: 6px; }
@@ -874,15 +878,16 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 /* side-base removido — infos migraram para tb-status no topbar */
 
 .side-label {
-  padding: 0 14px;
-  font-size: 9.5px;
-  letter-spacing: .22em;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-  margin-bottom: 8px;
+  padding: 4px 8px 10px;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 .side-label .count {
   background: var(--surface);
@@ -896,8 +901,10 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   padding: 7px 12px;
   margin: 2px 10px;
   cursor: pointer;
-  font-size: 12px;
-  color: var(--ink-soft);
+  font-size: 13px;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: var(--ink);
   border-left: 3px solid color-mix(in srgb, var(--k, var(--ink-faint)) 30%, transparent);
   border-radius: 6px;
   transition: all .12s ease;
@@ -906,12 +913,13 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 .ch-item:hover {
   background: var(--surface);
-  color: var(--ink);
+  color: var(--k, var(--ink));
   border-left-color: color-mix(in srgb, var(--k, var(--ink-faint)) 65%, transparent);
 }
 .ch-item.active {
   background: color-mix(in srgb, var(--k, var(--amber)) 10%, transparent);
-  color: var(--ink);
+  color: var(--k, var(--ink));
+  font-weight: 700;
   border-left-color: var(--k, var(--amber));
 }
 .ch-emoji {
@@ -919,7 +927,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
 }
-.ch-emoji svg { stroke: var(--k, currentColor); opacity: 0.8; }
+.ch-emoji svg { stroke: var(--k, var(--cyan)); opacity: 0.9; }
 .ch-item.active .ch-emoji svg { opacity: 1; }
 .ch-dot {
   width: 8px; height: 8px; border-radius: 50%;
@@ -947,30 +955,23 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .tool-cat-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 9px 10px 5px 8px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--k, var(--ink-dim));
-  opacity: .65;
-  margin-top: 4px;
-  margin-bottom: 2px;
-  border-bottom: 1px solid color-mix(in srgb, var(--k, var(--ink-faint)) 18%, transparent);
+  gap: 10px;
+  padding: 18px 2px 10px;
   pointer-events: none;
   user-select: none;
   grid-column: 1 / -1;
+  justify-self: stretch;
 }
-.tool-cat-header:first-child { margin-top: 0; }
-.tool-cat-header.has-active {
-  opacity: 1;
-  border-bottom: 2px solid color-mix(in srgb, var(--k, var(--ink-faint)) 55%, transparent);
-}
+.tool-cat-header:first-child { padding-top: 4px; }
 .tool-cat-icon {
-  width: 13px; height: 13px;
-  display: flex; align-items: center; justify-content: center;
+  display: inline-flex; align-items: center;
   flex-shrink: 0;
+  color: var(--cyan);
 }
-.tool-cat-icon svg { stroke: var(--k, currentColor); opacity: 0.9; }
+.tool-cat-icon svg {
+  width: 20px; height: 20px;
+  stroke: currentColor;
+}
 .ch-tool-logo {
   width: 14px; height: 14px;
   border-radius: 2px;
@@ -978,49 +979,63 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   object-fit: contain;
   opacity: 0.85;
 }
-.tool-cat-name { color: var(--k, var(--ink-dim)); }
+.tool-cat-name {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
 #tools-side {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  padding: 0 8px 6px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px 0;
+  padding: 0 0 6px;
+  place-items: center;
 }
 .ch-item.ch-tool {
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 6px 8px;
-  margin: 0;
-  min-height: 78px;
+  justify-content: center;
+  width: 44px; height: 44px;
+  padding: 0;
+  margin: 2px auto;
   border-left: none;
-  border-radius: 10px;
-  border: none;
-  background: color-mix(in srgb, var(--k, var(--surface)) 12%, var(--surface));
-  text-align: center;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--k, var(--blue)) 55%, transparent);
+  background: color-mix(in srgb, var(--k, var(--blue)) 7%, var(--bubble-mix));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--k, var(--blue)) 15%, transparent);
+  transition: border-color .2s, box-shadow .2s, transform .18s ease;
 }
 .ch-item.ch-tool:hover {
-  background: color-mix(in srgb, var(--k, var(--surface-hi)) 22%, var(--surface));
+  transform: scale(1.15);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--k, var(--blue)) 45%, transparent);
+  border-color: var(--k, var(--blue));
+  background: color-mix(in srgb, var(--k, var(--blue)) 7%, var(--bubble-mix));
 }
 .ch-item.ch-tool.active {
-  background: color-mix(in srgb, var(--k, var(--amber)) 20%, var(--surface));
-  outline: 1px solid color-mix(in srgb, var(--k, var(--amber)) 60%, transparent);
+  border-color: var(--k, var(--blue));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--k, var(--blue)) 60%, transparent);
+  background: color-mix(in srgb, var(--k, var(--blue)) 12%, var(--bubble-mix));
 }
 .ch-item.ch-tool .ch-tool-logo {
-  width: 38px; height: 38px;
-  flex-shrink: 0; opacity: 0.95;
+  width: 58%; height: 58%;
   object-fit: contain;
 }
-.ch-item.ch-tool .ch-name {
-  display: block;
-  font-size: 9px;
-  line-height: 1.2;
-  color: var(--ink-soft);
-  word-break: break-word;
-  white-space: normal;
-  text-align: center;
-  width: 100%;
+.ch-item.ch-tool .ch-name { display: none; }
+.ch-item.ch-tool.active .ch-name { display: none; }
+.ch-lang-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 0 6px;
 }
-.ch-item.ch-tool.active .ch-name { color: var(--ink); }
+.ch-tool-lang {
+  width: 70px !important;
+  height: 70px !important;
+  margin: 0 !important;
+}
 
 /* ═══ Main ═══ */
 .main {
@@ -1218,6 +1233,23 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 }
 [data-theme="light"] .sidebar { box-shadow: 4px 0 32px rgba(0,0,0,0.10); }
 [data-theme="light"] .rail    { box-shadow: -4px 0 32px rgba(0,0,0,0.10); }
+/* logos branco puro ficam invisíveis no light mode — invertemos para preto */
+[data-theme="light"] img[src*="github/ffffff"],
+[data-theme="light"] img[src*="anthropic/ffffff"],
+[data-theme="light"] img[src*="apachekafka/ffffff"],
+[data-theme="light"] img[src*="githubactions/ffffff"] {
+  filter: invert(1);
+}
+/* bolinha do GitHub: borda visível no light mode (--k #ffffff seria invisível) */
+[data-theme="light"] .ch-item.ch-tool[data-filter-key="github"] {
+  border-color: rgba(36,41,47,.4);
+  box-shadow: 0 0 8px rgba(36,41,47,.15);
+}
+/* devicons com cores escuras: reforçamos brilho/saturação no dark mode */
+:root:not([data-theme="light"]) img[src*="gradle"],
+:root:not([data-theme="light"]) img[src*="maven"] {
+  filter: brightness(1.8) saturate(1.3);
+}
 .top-body {
   padding: 14px 16px 12px;
   display: flex; flex-direction: column; gap: 8px;
@@ -1512,9 +1544,9 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 .cat-group-head {
   margin: 22px 0 8px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .10em;
-  color: var(--k, var(--ink-soft));
+  font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .20em;
+  color: var(--ink-dim);
   display: flex; align-items: center; gap: 8px;
 }
 .cat-group-head::after { content: ''; flex: 1; border-bottom: 1px solid color-mix(in srgb, var(--k, var(--rule)) 28%, transparent); }
@@ -1636,15 +1668,27 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   background: transparent;
   border-left: none;
   box-shadow: -4px 0 32px rgba(0,0,0,0.55);
-  padding: 16px 16px 20px;
+  padding: 16px 8px 20px;
   overflow-y: auto;
 }
 .rail::-webkit-scrollbar { width: 6px; }
 .rail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+#tip {
+  position: fixed;
+  background: var(--surface);
+  border: 1px solid var(--rule-soft);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  box-shadow: 0 4px 16px rgba(0,0,0,.35);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  white-space: nowrap; padding: 6px 12px; border-radius: 6px;
+  pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 9999;
+}
 .rail-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  letter-spacing: .22em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .20em;
   color: var(--ink-dim);
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -1857,13 +1901,15 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   font-family: 'JetBrains Mono', monospace;
 }
 .tool-subgroup-header {
-  padding: 7px 8px 2px;
-  font-size: 8.5px;
-  letter-spacing: .16em;
-  color: var(--ink-dim);
-  opacity: .65;
+  padding: 7px 2px 2px;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
   grid-column: 1 / -1;
+  justify-self: stretch;
   pointer-events: none;
   user-select: none;
   display: flex;
@@ -1871,8 +1917,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   gap: 7px;
 }
 .tool-subgroup-header svg { opacity: .7; }
-.side-label-inner { display: inline-flex; align-items: center; gap: 7px; }
-.side-label-inner svg { opacity: .7; }
+.side-label-inner { display: inline-flex; align-items: center; gap: 10px; }
 
 /* radar (mantido para não quebrar refs no JS, mas oculto) */
 .radar-sec { display: none; }
@@ -2331,7 +2376,7 @@ const TOOL_GROUPS = {
 };
 const TOOL_SUBGROUPS = {
   'ai-ide':     'IDEs & AI Coding',
-  'gitci':      'Git, CI/CD & GitOps',
+  'gitci':      'Git, CI/CD & Containers',
   'platform':   'Plataforma Cloud Native',
   'dados':      'Dados & Streaming',
   'obs-iam':    'Observabilidade & IAM',
@@ -2377,42 +2422,42 @@ const TOOL_KIND = {
 
 const TOOLS = [
   // ── AI & IDEs ────────────────────────────────────────────────────────────
-  { key:'claudecode', group:'tools', subgroup:'ai-ide', category:'aiops',   name:'Claude Code',   aliases:['claude code','anthropic claude'],          icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
-  { key:'cursor',     group:'tools', subgroup:'ai-ide', category:'aiops',   name:'Cursor IDE',    aliases:['cursor ide','cursor'],                      icon:'🎯', kind:'ide',    logo:'https://cdn.simpleicons.org/cursor/00c09a' },
-  { key:'intellij',   group:'tools', subgroup:'ai-ide', category:'backend', name:'IntelliJ IDEA', aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg' },
-  { key:'vscode',     group:'tools', subgroup:'ai-ide', category:'aiops',   name:'VS Code',       aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg' },
+  { key:'claudecode', group:'tools', subgroup:'ai-ide', category:'aiops',   color:'#d97706', name:'Claude Code',   aliases:['claude code','anthropic claude'],          icon:'🤖', kind:'ide',    logo:'https://cdn.simpleicons.org/anthropic/ffffff' },
+  { key:'cursor',     group:'tools', subgroup:'ai-ide', category:'aiops',   color:'#00c09a', name:'Cursor IDE',    aliases:['cursor ide','cursor'],                      icon:'🎯', kind:'ide',    logo:'https://cdn.simpleicons.org/cursor/00c09a' },
+  { key:'intellij',   group:'tools', subgroup:'ai-ide', category:'backend', color:'#fe2857', name:'IntelliJ IDEA', aliases:['intellij','jetbrains idea'],                icon:'🧠', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg' },
+  { key:'vscode',     group:'tools', subgroup:'ai-ide', category:'aiops',   color:'#007ACC', name:'VS Code',       aliases:['visual studio code','vscode','vs code'],    icon:'🖊', kind:'ide',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg' },
   // ── Git & CI/CD ──────────────────────────────────────────────────────────
-  { key:'argocd',    group:'tools', subgroup:'gitci', category:'devops', name:'Argo CD',        aliases:['argocd','argo cd','argo','gitops'],                icon:'🔄', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg' },
-  { key:'ghactions', group:'tools', subgroup:'gitci', category:'devops', name:'GitHub Actions', aliases:['github actions','gh actions','gha'],               icon:'⚡', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg' },
-  { key:'github',    group:'tools', subgroup:'gitci', category:'devops', name:'GitHub',         aliases:['github','github actions','gh'],                    icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
+  { key:'argocd',    group:'tools', subgroup:'gitci', category:'devops', color:'#EF7B4D', name:'Argo CD',        aliases:['argocd','argo cd','argo','gitops'],                icon:'🔄', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg' },
+  { key:'ghactions', group:'tools', subgroup:'gitci', category:'devops', color:'#2088FF', name:'GitHub Actions', aliases:['github actions','gh actions','gha'],               icon:'⚡', kind:'news',   logo:'https://cdn.simpleicons.org/githubactions/ffffff' },
+  { key:'github',    group:'tools', subgroup:'gitci', category:'devops', color:'#ffffff', name:'GitHub',         aliases:['github','github actions','gh'],                    icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
   // ── Containers & IaC ─────────────────────────────────────────────────────
-  { key:'docker',     group:'tools', subgroup:'platform', category:'devops', name:'Docker',     aliases:['docker desktop','docker','docker engine','docker compose','docker hub'], icon:'🐳', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
-  { key:'kubernetes', group:'tools', subgroup:'platform', category:'devops', name:'Kubernetes', aliases:['kubernetes','k8s','kubectl'],                                          icon:'⎈',  kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
-  { key:'terraform',  group:'tools', subgroup:'platform', category:'devops', name:'Terraform',  aliases:['terraform','hcl'],                                                     icon:'🏗', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg' },
+  { key:'docker',     group:'tools', subgroup:'gitci',    category:'devops', color:'#2496ED', name:'Docker',     aliases:['docker desktop','docker','docker engine','docker compose','docker hub'], icon:'🐳', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
+  { key:'kubernetes', group:'tools', subgroup:'platform', category:'devops', color:'#326CE5', name:'Kubernetes', aliases:['kubernetes','k8s','kubectl'],                                          icon:'⎈',  kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
+  { key:'terraform',  group:'tools', subgroup:'platform', category:'devops', color:'#7B42BC', name:'Terraform',  aliases:['terraform','hcl'],                                                     icon:'🏗', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg' },
   // ── Mesh, Proxies & Edge ─────────────────────────────────────────────────
-  { key:'istio',      group:'tools', subgroup:'platform', category:'distarch', name:'Istio',      aliases:['istio','service mesh','istio service mesh'],                                             icon:'🕸', kind:'news', logo:'https://cdn.simpleicons.org/istio/466BB0' },
-  { key:'nginx',      group:'tools', subgroup:'platform', category:'devops',   name:'Nginx',      aliases:['nginx','nginx plus','openresty'],                                                        icon:'🌐', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg' },
+  { key:'istio',      group:'tools', subgroup:'platform', category:'distarch', color:'#466BB0', name:'Istio',      aliases:['istio','service mesh','istio service mesh'],                          icon:'🕸', kind:'news', logo:'https://cdn.simpleicons.org/istio/466BB0' },
+  { key:'nginx',      group:'tools', subgroup:'platform', category:'devops',   color:'#009639', name:'Nginx',      aliases:['nginx','nginx plus','openresty'],                                     icon:'🌐', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg' },
   // ── Dados & Streaming ────────────────────────────────────────────────────
-  { key:'databricks', group:'tools', subgroup:'dados', category:'data',  name:'Databricks',  aliases:['databricks'],                            icon:'🔥', kind:'db',   logo:'https://cdn.simpleicons.org/databricks/FF3621' },
-  { key:'postgres',   group:'tools', subgroup:'dados', category:'data',  name:'PostgreSQL',  aliases:['postgresql','postgres','pgvector'],      icon:'🐘', kind:'db',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
-  { key:'redis',      group:'tools', subgroup:'dados', category:'data',  name:'Redis',       aliases:['redis','redis cache','valkey'],          icon:'🔴', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg' },
-  { key:'kafka',      group:'tools', subgroup:'dados', category:'integ', name:'Apache Kafka',aliases:['apache kafka','kafka','confluent'],      icon:'📨', kind:'api',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
+  { key:'databricks', group:'tools', subgroup:'dados', category:'data',  color:'#FF3621', name:'Databricks',  aliases:['databricks'],                            icon:'🔥', kind:'db',   logo:'https://cdn.simpleicons.org/databricks/FF3621' },
+  { key:'postgres',   group:'tools', subgroup:'dados', category:'data',  color:'#336791', name:'PostgreSQL',  aliases:['postgresql','postgres','pgvector'],      icon:'🐘', kind:'db',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
+  { key:'redis',      group:'tools', subgroup:'dados', category:'data',  color:'#DC382D', name:'Redis',       aliases:['redis','redis cache','valkey'],          icon:'🔴', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg' },
+  { key:'kafka',      group:'tools', subgroup:'dados', category:'integ', color:'#ee7a3a', name:'Apache Kafka',aliases:['apache kafka','kafka','confluent'],      icon:'📨', kind:'api',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
   // ── Obs & Segurança ──────────────────────────────────────────────────────
-  { key:'dynatrace',     group:'tools', subgroup:'obs-iam', category:'obs', name:'Dynatrace',     aliases:['dynatrace'],                                                   icon:'🔭', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg' },
-  { key:'datadog',       group:'tools', subgroup:'obs-iam', category:'obs', name:'Datadog',       aliases:['datadog','dd','dd-trace','datadoghq'],                         icon:'🐕', kind:'news',   logo:'https://cdn.simpleicons.org/datadog/632CA6' },
-  { key:'keycloak',      group:'tools', subgroup:'obs-iam', category:'sec', name:'Keycloak',      aliases:['keycloak'],                                                    icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
+  { key:'dynatrace',  group:'tools', subgroup:'obs-iam', category:'obs', color:'#1496FF', name:'Dynatrace',     aliases:['dynatrace'],                                                   icon:'🔭', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg' },
+  { key:'datadog',    group:'tools', subgroup:'obs-iam', category:'obs', color:'#632CA6', name:'Datadog',       aliases:['datadog','dd','dd-trace','datadoghq'],                         icon:'🐕', kind:'news',   logo:'https://cdn.simpleicons.org/datadog/9b59b6' },
+  { key:'keycloak',   group:'tools', subgroup:'obs-iam', category:'sec', color:'#4D9CF8', name:'Keycloak',      aliases:['keycloak'],                                                    icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
   // ── Backend & Build ──────────────────────────────────────────────────────
-  { key:'gradle',     group:'tools', subgroup:'jvm', category:'backend', name:'Gradle',      aliases:['gradle'],                                                  icon:'🐘', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg' },
-  { key:'maven',      group:'tools', subgroup:'jvm', category:'backend', name:'Apache Maven',aliases:['apache maven','maven'],                                    icon:'🪶', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' },
-  { key:'springboot', group:'tools', subgroup:'jvm', category:'backend', name:'Spring Boot', aliases:['spring boot','spring framework','spring','spring cloud'],  icon:'🌿', kind:'api',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
+  { key:'gradle',     group:'tools', subgroup:'jvm', category:'backend', color:'#5ec4c4', name:'Gradle',      aliases:['gradle'],                                                  icon:'🐘', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg' },
+  { key:'maven',      group:'tools', subgroup:'jvm', category:'backend', color:'#C71A36', name:'Apache Maven',aliases:['apache maven','maven'],                                    icon:'🪶', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' },
+  { key:'springboot', group:'tools', subgroup:'jvm', category:'backend', color:'#6DB33F', name:'Spring Boot', aliases:['spring boot','spring framework','spring','spring cloud'],  icon:'🌿', kind:'api',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
   // ── Design & Docs-as-code ────────────────────────────────────────────────
-  { key:'structurizr',group:'tools', subgroup:'diagrams', category:'design', name:'Structurizr', aliases:['structurizr','c4 model','.dsl','structurizr dsl'],          icon:'📐', kind:'arch', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
-  { key:'plantuml',   group:'tools', subgroup:'diagrams', category:'design', name:'PlantUML',    aliases:['plantuml','puml','uml as code'],                             icon:'🧩', kind:'news', logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
-  { key:'mermaid',    group:'tools', subgroup:'diagrams', category:'design', name:'Mermaid',     aliases:['mermaid','mermaidjs','mermaid-js','diagrams as code'],      icon:'🌊', kind:'news', logo:'https://cdn.simpleicons.org/mermaid/FF3670' },
+  { key:'structurizr',group:'tools', subgroup:'diagrams', category:'design', color:'#5ebabc', name:'Structurizr', aliases:['structurizr','c4 model','.dsl','structurizr dsl'],          icon:'📐', kind:'arch', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'plantuml',   group:'tools', subgroup:'diagrams', category:'design', color:'#1168BD', name:'PlantUML',    aliases:['plantuml','puml','uml as code'],                             icon:'🧩', kind:'news', logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
+  { key:'mermaid',    group:'tools', subgroup:'diagrams', category:'design', color:'#FF3670', name:'Mermaid',     aliases:['mermaid','mermaidjs','mermaid-js','diagrams as code'],      icon:'🌊', kind:'news', logo:'https://cdn.simpleicons.org/mermaid/FF3670' },
   // ── Linguagens ───────────────────────────────────────────────────────────
-  { key:'java',       group:'lang', category:'backend',  name:'Java & JVM',      aliases:['java','jdk','jvm','openjdk'],                                        icon:'☕', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
-  { key:'javascript', group:'lang', category:'frontend', name:'JavaScript / TS', aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'], icon:'🟨', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
-  { key:'python',     group:'lang', category:'backend',  name:'Python',          aliases:['python','cpython','pip','uv','fastapi','django','flask'],            icon:'🐍', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
+  { key:'java',       group:'lang', category:'backend',  color:'#f89820', name:'Java & JVM',      aliases:['java','jdk','jvm','openjdk'],                                        icon:'☕', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+  { key:'javascript', group:'lang', category:'frontend', color:'#F7DF1E', name:'JavaScript / TS', aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'], icon:'🟨', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
+  { key:'python',     group:'lang', category:'backend',  color:'#3776AB', name:'Python',          aliases:['python','cpython','pip','uv','fastapi','django','flask'],            icon:'🐍', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
 ];
 
 const TOOL_KIND_BADGE = {
@@ -2693,7 +2738,7 @@ function renderSidebar(){
   const cats = $('channels');
   const tools = $('tools-side');
   const catsLabel = $('cats-label');
-  if (catsLabel) catsLabel.innerHTML = `${iconSvg(HEADER_ICONS['cats'] || '', 12)}<span>categorias</span>`;
+  if (catsLabel) catsLabel.innerHTML = `<span style="color:var(--cyan);display:inline-flex">${iconSvg(HEADER_ICONS['cats'] || '', 20)}</span><span>Categorias</span>`;
   const isHome = STATE.view === 'home';
   const ed = STATE.currentEdition;
 
@@ -2757,7 +2802,7 @@ function renderSidebar(){
     if (!toolsByGroup[g]) toolsByGroup[g] = [];
     toolsByGroup[g].push(t);
   });
-  const subgroupOrder = ['ai-ide', 'gitci', 'platform', 'dados', 'obs-iam', 'jvm', 'diagrams'];
+  const subgroupOrder = ['dados', 'diagrams', 'gitci', 'ai-ide', 'jvm', 'obs-iam', 'platform'];
   let toolsHtml = '';
   Object.keys(TOOL_GROUPS).forEach(groupKey => {
     const groupTools = toolsByGroup[groupKey];
@@ -2782,7 +2827,7 @@ function renderSidebar(){
         const logoHtml = t.logo
           ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
           : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
-        toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
+        toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" data-tip="${escAttr(t.name)}" style="--k: ${t.color || gDef.color}">` +
                logoHtml + `<span class="ch-name">${t.name}</span></div>`;
       };
       subgroupOrder.forEach(sgKey => {
@@ -2793,16 +2838,18 @@ function renderSidebar(){
       });
       if (bySubgroup['_other']) bySubgroup['_other'].forEach(renderTool);
     } else {
+      toolsHtml += `<div class="ch-lang-row">`;
       sortedTools.forEach(t => {
         const active = STATE.view === 'tool:' + t.key ? 'active' : '';
         const logoHtml = t.logo
           ? `<img class="ch-tool-logo" src="${escAttr(t.logo)}" alt="${escAttr(t.name)}" loading="lazy" onerror="this.style.display='none'">`
           : `<span style="font-size:11px;opacity:.6">${esc(t.name.slice(0,2))}</span>`;
-        toolsHtml += `<div class="ch-item ch-tool ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" title="${escAttr(t.name)}" style="--k: ${gDef.color}">` +
+        toolsHtml += `<div class="ch-item ch-tool ch-tool-lang ${active}" data-filter-type="tool" data-filter-key="${t.key}" role="button" tabindex="0" data-tip="${escAttr(t.name)}" style="--k: ${t.color || gDef.color}">` +
                logoHtml +
                `<span class="ch-name">${t.name}</span>` +
                `</div>`;
       });
+      toolsHtml += `</div>`;
     }
   });
   if (toolsByGroup['_other']) {
@@ -4053,7 +4100,7 @@ async function init(){
   // events
   $('readLaterBtn').onclick = () => setView('rl');
   $('hamburgerBtn').onclick = toggleSidebar;
-  $('brandHome').onclick = () => goToday();
+  $('brandHome').onclick = () => window.location.href = 'index.html';
   $('ghRepoBtn').onclick = () => window.open('https://github.com/cesarschutz/noticias-dev-arq', '_blank', 'noopener');
 
   // pre-warm all editions in background (para agregados cat/tool)
@@ -4250,9 +4297,39 @@ window.nextVerse = nextVerse;
 })();
 
 })();
+
+/* ════ TOOLTIP ════ */
+document.addEventListener('DOMContentLoaded', () => {
+  const tip = document.getElementById('tip');
+  if (!tip) return;
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tip]');
+    if (!el) return;
+    tip.textContent = el.dataset.tip;
+    const color = getComputedStyle(el).getPropertyValue('--k').trim();
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    const c = color.replace(/\s/g,'').toLowerCase();
+    const lightColors = ['#ffffff', '#f7df1e'];
+    const safeColor = (!isDark && c === '#ffffff') ? '#24292e' : color;
+    const textColor = lightColors.includes(c) ? '#1a1a1a' : safeColor;
+    tip.style.borderColor = safeColor || '';
+    tip.style.color = textColor || '';
+    tip.style.boxShadow = safeColor ? `0 0 12px ${safeColor}55, 0 4px 16px rgba(0,0,0,.35)` : '0 4px 16px rgba(0,0,0,.35)';
+    tip.style.opacity = '1';
+  });
+  document.addEventListener('mousemove', e => {
+    if (tip.style.opacity !== '1') return;
+    tip.style.left = Math.min(e.clientX + 15, window.innerWidth - tip.offsetWidth - 10) + 'px';
+    tip.style.top  = (e.clientY + 15) + 'px';
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('[data-tip]')) tip.style.opacity = '0';
+  });
+});
 </script>
 
 <!-- VERSE FOOTER -->
+<div id="tip"></div>
 <div class="quote-bar" id="quoteBar">
   <div class="qb-mascot">
     <img src="data/img/mascote.png" alt="">

@@ -110,7 +110,8 @@
     /* no light mode, gitHub white logo fica invisível — invertimos */
     :root[data-theme="light"] img[src*="github/ffffff"],
     :root[data-theme="light"] img[src*="anthropic/ffffff"],
-    :root[data-theme="light"] img[src*="apachekafka/ffffff"] {
+    :root[data-theme="light"] img[src*="apachekafka/ffffff"],
+    :root[data-theme="light"] img[src*="githubactions/ffffff"] {
       filter: invert(1);
     }
     @media (max-width: 539px) {
@@ -877,7 +878,7 @@ const TOOLS = [
   {key:'intellij',  name:'IntelliJ IDEA', color:'#fe2857', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg',                   desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.'},
   {key:'vscode',    name:'VS Code',       color:'#007ACC', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg',                       desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.'},
   {key:'argocd',    name:'Argo CD',       color:'#EF7B4D', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg',                       desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.'},
-  {key:'ghactions', name:'GitHub Actions',color:'#2088FF', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg',         desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.'},
+  {key:'ghactions', name:'GitHub Actions',color:'#2088FF', logo:'https://cdn.simpleicons.org/githubactions/ffffff',                                                          desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.'},
   {key:'github',    name:'GitHub',        color:'#ffffff', logo:'https://cdn.simpleicons.org/github/ffffff',                                                                  desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.'},
   {key:'docker',    name:'Docker',        color:'#2496ED', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',                       desc:'Containers — Docker Engine/Desktop, Compose e Docker Scout.'},
   {key:'kubernetes',name:'Kubernetes',    color:'#326CE5', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg',                  desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.'},
@@ -1044,13 +1045,13 @@ function renderCards() {
 
   // Ferramentas agrupadas em 7 subgrupos (igual ao rail do home.html)
   const TOOL_SUBGROUPS = [
-    { key:'ai-ide',   label: 'IDEs & AI Coding',        tools: ['claudecode','cursor','intellij','vscode'] },
-    { key:'gitci',    label: 'Git, CI/CD & GitOps',     tools: ['argocd','ghactions','github'] },
-    { key:'platform', label: 'Plataforma Cloud Native', tools: ['docker','kubernetes','terraform','istio','nginx'] },
-    { key:'dados',    label: 'Dados & Streaming',       tools: ['databricks','postgres','redis','kafka'] },
-    { key:'obs-iam',  label: 'Observabilidade & IAM',   tools: ['dynatrace','datadog','keycloak'] },
-    { key:'jvm',      label: 'JVM: Build & Frameworks', tools: ['gradle','maven','springboot'] },
-    { key:'diagrams', label: 'Diagramas como Código',   tools: ['structurizr','plantuml','mermaid'] },
+    { key:'dados',    label: 'Dados & Streaming',        tools: ['kafka','databricks','postgres','redis'] },
+    { key:'diagrams', label: 'Diagramas como Código',    tools: ['mermaid','plantuml','structurizr'] },
+    { key:'gitci',    label: 'Git, CI/CD & Containers',  tools: ['argocd','docker','github','ghactions'] },
+    { key:'ai-ide',   label: 'IDEs & AI Coding',         tools: ['claudecode','cursor','intellij','vscode'] },
+    { key:'jvm',      label: 'JVM: Build & Frameworks',  tools: ['maven','gradle','springboot'] },
+    { key:'obs-iam',  label: 'Observabilidade & IAM',    tools: ['datadog','dynatrace','keycloak'] },
+    { key:'platform', label: 'Plataforma Cloud Native',  tools: ['istio','kubernetes','nginx','terraform'] },
   ];
   const toolByKey = Object.fromEntries(TOOLS.map(t => [t.key, t]));
   const renderToolCard = t => `
@@ -1084,6 +1085,15 @@ document.addEventListener('mouseover', e => {
   const el = e.target.closest('[data-tip]');
   if (!el) return;
   tip.textContent = el.dataset.tip;
+  const color = getComputedStyle(el).getPropertyValue('--cc').trim();
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const c = color.replace(/\s/g,'').toLowerCase();
+  const lightColors = ['#ffffff', '#f7df1e'];
+  const safeColor = (!isDark && c === '#ffffff') ? '#24292e' : color;
+  const textColor = lightColors.includes(c) ? '#1a1a1a' : safeColor;
+  tip.style.borderColor = safeColor || '';
+  tip.style.color = textColor || '';
+  tip.style.boxShadow = safeColor ? `0 0 12px ${safeColor}55, 0 4px 16px rgba(0,0,0,.35)` : '';
   tip.style.opacity = '1';
 });
 document.addEventListener('mousemove', e => {
