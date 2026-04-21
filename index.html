@@ -474,13 +474,13 @@ const CATS = [
   {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'Relacionais, NoSQL, streaming (Kafka/Flink), lakehouse (Databricks/dbt), Iceberg & Open Catalogs (Polaris, Unity), Vector DBs (casa canônica — pgvector, Pinecone), CDC, Data Contracts, Data Mesh, DuckDB.',
    svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>'},
   {key:'integ',  name:'Integração & Eventos',color:'#14b8a6', group:'Desenvolvimento', desc:'API design & API-First, OpenAPI, GraphQL & federation, MCP, AsyncAPI, EDA, messaging, schema evolution.',
-   svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'},
+   svg:'<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>'},
   {key:'testing',name:'Testes & Qualidade',  color:'#84cc16', group:'Desenvolvimento', desc:'TDD/BDD, testing pyramid, contract testing (Pact), chaos engineering, performance, test data mgmt, AI-assisted testing.',
-   svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>'},
+   svg:'<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>'},
   {key:'design', name:'Design & Padrões',    color:'#f472b6', group:'Arquitetura',    desc:'DDD & Bounded Contexts, padrões GoF/Enterprise, Clean/Hexagonal, C4 Model, ADRs, refactoring, docs-as-code.',
    svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>'},
   {key:'distarch',name:'Sist. Distribuídos', color:'#6366f1', group:'Arquitetura',    desc:'Microsserviços, cloud-native, resiliência, service mesh, saga/CQRS/ES, caching (cache-aside, write-through, invalidation), outbox/inbox/idempotência, consistency models, durable execution, serverless patterns, multi-region & data residency, post-mortems, cell-based.',
-   svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>'},
+   svg:'<circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="18" y2="12"/>'},
   {key:'enterprise',name:'Arq. Corporativa', color:'#94a3b8', group:'Arquitetura',    desc:'3 eixos — (1) Estrutura organizacional: Team Topologies, Platform Eng, DevEx/DORA/SPACE, Engineering Strategy & Staff-Plus; (2) Governança & custos: API Governance, FinOps, Cost Engineering, Landing Zones, Green IT; (3) Estratégia técnica: Tech Debt & Modernization, Tech Radar.',
    svg:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>'},
   {key:'fintech', name:'Fintech & Pagamentos',color:'#10b981', group:'Domínio',       desc:'Cartões & Redes (Visa, Mastercard, Elo — emissão/acquiring/switching), Cooperativas de crédito (Unicred, Sicoob, Sicredi), Pix/Open Finance/DREX, PCI DSS, Embedded Finance/BaaS, Payment Rails, Fraud & Risk Systems.',
@@ -488,7 +488,7 @@ const CATS = [
   {key:'frontend',name:'Frontend & Web',     color:'#e11d48', group:'Desenvolvimento', desc:'React/Vue/Svelte, meta-frameworks (Next/Nuxt/Astro), React Server Components & streaming SSR, Web Platform, design systems, Core Web Vitals, edge rendering, state management, build tools, a11y/i18n, Mobile cross-platform (React Native, Flutter, PWA).',
    svg:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>'},
   {key:'fundamentals',name:'Fundamentos de Computação',color:'#a16207',group:'Fundação',desc:'SO, redes (TCP/IP, DNS), estruturas de dados, algoritmos, concorrência, memory models, teoria de filas, performance de hardware — a base eterna.',
-   svg:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'},
+   svg:'<rect x="3" y="4" width="7" height="7" rx="1"/><rect x="14" y="4" width="7" height="7" rx="1"/><rect x="3" y="13" width="7" height="7" rx="1"/><rect x="14" y="13" width="7" height="7" rx="1"/>'},
 ];
 
 const LANGS = [
@@ -572,7 +572,7 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/datadog/632CA6',
      desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.'},
     {key:'keycloak',      name:'Keycloak',       color:'#4D9CF8', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/keycloak/4D9CF8',
+     logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128',
      desc:'IAM open-source — SSO, OIDC, SAML e federation.'},
   ]},
   {label:'Backend & Build', tools:[
@@ -588,7 +588,7 @@ const TOOL_SUBGROUPS = [
   ]},
   {label:'Design & Docs-as-code', tools:[
     {key:'structurizr', name:'Structurizr',  color:'#f472b6', group:'Ferramenta',
-     svg:'<rect x="8" y="2" width="8" height="5" rx="1"/><rect x="2" y="16" width="8" height="5" rx="1"/><rect x="14" y="16" width="8" height="5" rx="1"/><line x1="12" y1="7" x2="6" y2="16"/><line x1="12" y1="7" x2="18" y2="16"/>',
+     logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',
      desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
     {key:'plantuml',    name:'PlantUML',     color:'#1168BD', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/plantuml/1168BD',
