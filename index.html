@@ -338,8 +338,8 @@
        HERO RESPONSIVO
        ═════════════════════════════════════════════════════════════════════ */
 
-    /* DESKTOP ≥820px — texto largo em cima, mascote embaixo-esquerda, orbital direita */
-    @media (min-width: 820px) {
+    /* DESKTOP ≥1100px — texto largo em cima, mascote embaixo-esquerda, orbital direita */
+    @media (min-width: 1100px) {
       .hero-grid {
         grid-template-columns: minmax(260px, 36%) 1fr;
         grid-template-rows: auto 1fr;
@@ -368,26 +368,26 @@
       .hero-grid { padding: 48px 56px 88px; gap: 40px 56px; }
     }
 
-    /* TABLET 700–819px — mascote topo, texto, orbital (empilhado) */
-    @media (min-width: 700px) and (max-width: 819px) {
+    /* TABLET 700–1099px — mascote topo, texto, orbital (empilhado, centralizado) */
+    @media (min-width: 700px) and (max-width: 1099px) {
       .hero { min-height: auto; }
       .hero-grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
-        padding: 32px 32px 72px;
-        gap: 24px;
+        padding: 40px 40px 72px;
+        gap: 28px;
         min-height: auto;
       }
       .hero-mascot {
-        max-width: 220px;
+        max-width: 260px;
         margin: 0 auto;
       }
-      .hero-mascot img { max-height: 220px; }
+      .hero-mascot img { max-height: 260px; }
       .hero-text { text-align: center; align-items: center; }
-      .hero-sub { margin-left: auto; margin-right: auto; max-width: 620px; }
-      .cta { align-self: center; padding: 14px 28px; font-size: 15px; }
-      .orbital { min-height: 420px; }
-      .hero-h1 { font-size: clamp(28px, 3.6vw, 36px); }
+      .hero-sub { margin-left: auto; margin-right: auto; max-width: 640px; }
+      .cta { align-self: center; padding: 14px 30px; font-size: 15px; }
+      .orbital { min-height: 460px; }
+      .hero-h1 { font-size: clamp(30px, 3.8vw, 40px); }
     }
 
     /* MOBILE LARGO (540–699px): equilíbrio entre caber e ser legível */
