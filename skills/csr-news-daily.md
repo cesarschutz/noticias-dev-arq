@@ -594,58 +594,36 @@ Exemplos por item (não exaustivos):
 
 | `tool_key` | Conteúdo direto (preferido) | Conteúdo indireto aceito |
 |---|---|---|
-| `docker` | Release Engine/Desktop, CVE, nova feature Compose | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens |
-| `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, kubelet, etcd, cluster architecture |
-| `terraform` | Release, novo provider, RFC aprovada | IaC patterns, Terraform Cloud, módulos reutilizáveis, remote state, drift detection |
-| `opentofu` | Release, novo provider | Fork-driven dev, migração Terraform→OpenTofu, LF governance |
-| `istio` | Release, ambient mode | Service mesh comparado (Linkerd, Cilium), mTLS, observability |
-| `envoy` | Release, mudança de xDS | L7 proxy patterns, rate limiting, Envoy Gateway |
-| `nginx` | Release Nginx/Plus, novo módulo | Reverse proxy, load balancing, TLS termination, caching, API gateway |
-| `cloudflare` | Release Workers, feature Zero Trust, R2/D1 | CDN, DNS, edge compute, WAF, DDoS, Access, serverless no edge |
-| `databricks` | Release, novo recurso | Delta Lake, lakehouse, Apache Spark, MLflow, Unity Catalog |
-| `postgres` | Release major/minor, CVE, extension nova | Extensões (pg_trgm), JSONB patterns, replicação, logical decoding |
-| `pgvector` | Release pgvector, novos operadores HNSW/IVF | RAG em Postgres, semantic search, hybrid search patterns |
-| `redis` | Release, mudança de licença | Caching patterns, pub/sub, Streams, Valkey (fork), cache-aside |
-| `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium |
-| `dbt` | Release dbt core/cloud, novo adapter | Analytics engineering, data contracts, model materializations |
-| `temporal` | Release, nova feature de workflow | Durable execution patterns, saga, long-running processes, Temporal vs Airflow |
-| `dynatrace` | Release, nova integração | OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s |
-| `datadog` | Release, nova integração | APM, RUM, SLOs, monitoring patterns |
-| `grafana` | Release, novo painel | Grafana stack (Loki, Tempo, Mimir), dashboards as code, alerting |
-| `opentelemetry` | Release, nova signal | Distributed tracing, métricas, logs unificados, OTLP, auto-instrumentation |
-| `prometheus` | Release, novo exporter | Métricas, PromQL, alertmanager, federação, long-term storage (Cortex, Thanos) |
-| `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO |
-| `vault` | Release, CVE, novo secret engine | Secrets management, PKI, dynamic credentials, namespaces |
-| `trivy` | Release, novo scanner | Container security, SBOM, IaC scan, misconfig detection |
-| `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, build cache, configuration cache |
-| `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
-| `springboot` | Release, nova feature, starter novo | **Spring Cloud**, Spring Security, auto-config, GraalVM native, reactive |
-| `wasmtime` | Release, novo proposal WASI | WebAssembly no backend, Spin, componentes WASI, edge runtimes |
-| `structurizr` | Release, nova feature DSL | **C4 Model**, arquitetura como código, diagramas, ADRs, integração MCP |
-| `nextjs` | Release, update Vercel, feature App Router | React Server Components, streaming SSR, edge runtime, Turbopack, ISR |
-| `vite` | Release, novo plugin oficial | Rollup/Rolldown, ESM nativo, HMR, Vitest, dev server performance |
-| `bun` | Release, benchmark, compat Node | Runtime JS moderno, Bun Test, bundler, package manager |
-| `biome` | Release, nova regra, formatter update | Lint+format unificado, migração ESLint/Prettier → Biome |
-| `k6` | Release, novo teste OSS | Load testing patterns, distributed load, k6 Cloud, Grafana integration |
-| `playwright` | Release, novo locator | E2E patterns, visual testing, Playwright Test, CI best practices |
 | `claudecode` | Release Claude Code, nova feature CLI | CLI workflows, agentic coding, MCP integration, subagents |
 | `cursor` | Release Cursor, feature de IA, tab model | AI coding patterns, agent mode, context management |
 | `intellij` | Release, novas inspeções | JetBrains AI Assistant, refactorings modernos, IDE performance |
 | `vscode` | Release, nova extensão oficial | Dev Containers, Remote dev, Copilot integration, LSP |
-| `mcp` | Release SDK (TS/Python), nova spec MCP | Model Context Protocol, agent-server patterns, MCP clients |
-| `langfuse` | Release Langfuse OSS/cloud | LLM observability, traces, evals, prompt management |
-| `ollama` | Release Ollama, novo modelo suportado | LLM local, model serving, Ollama API, inference no edge |
-| `langgraph` | Release LangGraph, novo exemplo | Agent graphs, state machines, multi-agent orchestration |
-| `argocd` | Release, nova feature GitOps | Argo Workflows, Argo Rollouts, progressive delivery, GitOps patterns |
+| `argocd` | Release, nova feature GitOps | Argo Workflows, Argo Rollouts, progressive delivery, GitOps patterns, Helm vs Argo CD |
 | `ghactions` | Release runner, nova action oficial | CI/CD pipelines, reusable workflows, OIDC com cloud providers |
 | `github` | Release, nova feature, Copilot update | Code review culture, branch protection, CODEOWNERS, Dependabot, Advanced Security |
-| `helm` | Release, nova feature | Helm charts best practices, Helmfile, Kustomize vs Helm |
-| `backstage` | Release Backstage, novo plugin, template | IDP, software catalog, golden paths, TechDocs, scaffolder |
+| `docker` | Release Engine/Desktop, CVE, nova feature Compose | OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens |
+| `kubernetes` | Release, KEP aprovada, incidente de segurança | Helm, Kustomize, GitOps, KEDA, kubelet, etcd, cluster architecture, Backstage como IDP |
+| `terraform` | Release, novo provider, RFC aprovada | IaC patterns, Terraform Cloud, módulos reutilizáveis, OpenTofu (fork OSS), drift detection |
+| `istio` | Release, ambient mode | Service mesh comparado (Linkerd, Cilium), Envoy (base), mTLS, observability |
+| `nginx` | Release Nginx/Plus, novo módulo | Reverse proxy, load balancing, TLS termination, caching, API gateway |
+| `cloudflare` | Release Workers, feature Zero Trust, R2/D1 | CDN, DNS, edge compute, WAF, DDoS, Access, serverless no edge |
+| `databricks` | Release, novo recurso | Delta Lake, lakehouse, Apache Spark, MLflow, Unity Catalog, dbt (transformação) |
+| `postgres` | Release major/minor, CVE, extension nova | Extensões (pgvector para RAG, pg_trgm), JSONB patterns, replicação, logical decoding |
+| `redis` | Release, mudança de licença | Caching patterns, pub/sub, Streams, Valkey (fork), cache-aside |
+| `kafka` | Release, KIP aprovada, artigo Confluent | Event-driven architecture, CDC, stream processing, Schema Registry, Debezium, Temporal (workflows) |
+| `dynatrace` | Release, nova integração | OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s, Grafana/Prometheus stack |
+| `datadog` | Release, nova integração | APM, RUM, SLOs, monitoring patterns, OpenTelemetry |
+| `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO |
+| `vault` | Release, CVE, novo secret engine | Secrets management, PKI, dynamic credentials, namespaces, Trivy (scanning) |
+| `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, build cache, configuration cache |
+| `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
+| `springboot` | Release, nova feature, starter novo | **Spring Cloud**, Spring Security, auto-config, GraalVM native, reactive, Wasmtime (WASM backend) |
+| `structurizr` | Release, nova feature DSL | **C4 Model**, arquitetura como código, diagramas, ADRs, integração MCP |
 | `plantuml` | Release, novo diagrama | Diagramas como código, integração com editores, PlantUML vs Mermaid |
 | `mermaid` | Release, novo tipo de diagrama | Diagramas em Markdown, GitHub rendering, integração com Obsidian/Notion |
 | `java` | JDK release, JEP aprovada | Java performance, GC tuning, virtual threads, record patterns, sealed classes |
-| `javascript` | Node.js/Deno/Bun release, TC39 proposal | TypeScript features, ESM, Web APIs, npm ecosystem |
-| `python` | CPython release, PEP aprovada, uv update | FastAPI, async Python, type hints, packaging, AI/ML libs |
+| `javascript` | Node.js/Deno/Bun release, TC39 proposal | TypeScript features, ESM, Web APIs, npm ecosystem, Next.js/Vite/Biome (frontend toolchain) |
+| `python` | CPython release, PEP aprovada, uv update | FastAPI, async Python, type hints, packaging, AI/ML libs (LangGraph, Ollama SDK) |
 
 ### Tabela completa — `tool_key` · Categoria · Changelog/Blog
 
@@ -655,56 +633,50 @@ Exemplos por item (não exaustivos):
 | `cursor` | Cursor IDE | `aiops` | https://www.cursor.com/changelog |
 | `intellij` | IntelliJ IDEA | `backend` | https://blog.jetbrains.com/idea/ |
 | `vscode` | VS Code | `aiops` | https://code.visualstudio.com/updates |
-| `mcp` | Model Context Protocol | `aiops` | https://modelcontextprotocol.io · https://github.com/modelcontextprotocol/specification/releases |
-| `langfuse` | Langfuse | `aiops` | https://langfuse.com/blog · https://github.com/langfuse/langfuse/releases |
-| `ollama` | Ollama | `aiops` | https://ollama.com/blog · https://github.com/ollama/ollama/releases |
-| `langgraph` | LangGraph | `aiops` | https://blog.langchain.dev · https://github.com/langchain-ai/langgraph/releases |
 | `argocd` | Argo CD | `devops` | https://github.com/argoproj/argo-cd/releases · https://blog.argoproj.io/ |
 | `ghactions` | GitHub Actions | `devops` | https://github.blog/changelog/ · https://github.blog/category/engineering/actions/ |
 | `github` | GitHub | `devops` | https://github.blog/ · https://github.blog/changelog/ |
-| `helm` | Helm | `devops` | https://github.com/helm/helm/releases · https://helm.sh/blog/ |
-| `backstage` | Backstage | `enterprise` | https://backstage.io/blog/ · https://github.com/backstage/backstage/releases |
 | `docker` | Docker | `devops` | https://docs.docker.com/engine/release-notes/ · https://docker.com/blog |
 | `kubernetes` | Kubernetes | `devops` | https://kubernetes.io/releases/ · https://kubernetes.io/blog |
 | `terraform` | Terraform | `devops` | https://github.com/hashicorp/terraform/releases |
-| `opentofu` | OpenTofu | `devops` | https://github.com/opentofu/opentofu/releases · https://opentofu.org/blog |
 | `istio` | Istio | `distarch` | https://istio.io/latest/news/ · https://istio.io/latest/blog/ |
-| `envoy` | Envoy | `devops` | https://www.envoyproxy.io/news · https://www.envoyproxy.io/docs |
 | `nginx` | Nginx | `devops` | https://nginx.org/en/CHANGES · https://www.nginx.com/blog/ |
 | `cloudflare` | Cloudflare | `cloud` | https://blog.cloudflare.com/ · https://developers.cloudflare.com/workers/platform/changelog |
 | `databricks` | Databricks | `data` | https://docs.databricks.com/en/release-notes/ · https://databricks.com/blog |
 | `postgres` | PostgreSQL | `data` | https://www.postgresql.org/docs/release/ · https://planet.postgresql.org |
-| `pgvector` | pgvector | `data` | https://github.com/pgvector/pgvector/releases |
 | `redis` | Redis | `data` | https://redis.io/blog/ · https://github.com/redis/redis/releases |
 | `kafka` | Apache Kafka | `integ` | https://kafka.apache.org/downloads · https://confluent.io/blog |
-| `dbt` | dbt | `data` | https://docs.getdbt.com/docs/dbt-versions/core-upgrade · https://docs.getdbt.com/blog |
-| `temporal` | Temporal | `distarch` | https://github.com/temporalio/temporal/releases · https://temporal.io/blog |
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `datadog` | Datadog | `obs` | https://docs.datadoghq.com/release_notes · https://www.datadoghq.com/blog |
-| `grafana` | Grafana | `obs` | https://grafana.com/blog/ · https://github.com/grafana/grafana/releases |
-| `opentelemetry` | OpenTelemetry | `obs` | https://opentelemetry.io/blog/ · https://github.com/open-telemetry/opentelemetry-specification/releases |
-| `prometheus` | Prometheus | `obs` | https://github.com/prometheus/prometheus/releases · https://prometheus.io/blog |
 | `keycloak` | Keycloak | `sec` | https://github.com/keycloak/keycloak/releases · https://www.keycloak.org/blog |
 | `vault` | Vault (HashiCorp) | `sec` | https://github.com/hashicorp/vault/releases · https://www.hashicorp.com/blog/products/vault |
-| `trivy` | Trivy (Aqua) | `sec` | https://github.com/aquasecurity/trivy/releases · https://www.aquasec.com/blog |
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html · https://blog.gradle.org |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/download.cgi · https://search.maven.org |
 | `springboot` | Spring Boot (+ Spring Cloud) | `backend` | https://spring.io/blog · https://github.com/spring-projects/spring-boot/releases |
-| `wasmtime` | Wasmtime | `backend` | https://github.com/bytecodealliance/wasmtime/releases · https://bytecodealliance.org/articles |
 | `structurizr` | Structurizr | `design` | https://structurizr.com/changelog · https://c4model.com |
-| `nextjs` | Next.js | `frontend` | https://nextjs.org/blog · https://vercel.com/changelog |
-| `vite` | Vite | `frontend` | https://github.com/vitejs/vite/releases · https://vite.dev/blog |
-| `bun` | Bun | `frontend` | https://bun.sh/blog · https://github.com/oven-sh/bun/releases |
-| `biome` | Biome | `frontend` | https://biomejs.dev/blog · https://github.com/biomejs/biome/releases |
-| `k6` | Grafana k6 | `testing` | https://github.com/grafana/k6/releases · https://k6.io/blog |
-| `playwright` | Playwright | `testing` | https://github.com/microsoft/playwright/releases · https://playwright.dev/blog |
 | `plantuml` | PlantUML | `design` | https://plantuml.com/news · https://github.com/plantuml/plantuml/releases |
 | `mermaid` | Mermaid | `design` | https://github.com/mermaid-js/mermaid/releases · https://mermaid.js.org/community/blog.html |
 | `java` | Java & JVM | `backend` | https://openjdk.org · https://inside.java · https://foojay.io/today |
 | `javascript` | JavaScript / TS | `frontend` | https://tc39.es/proposals · https://nodejs.org/en/blog · https://deno.com/blog · https://bun.sh/blog |
 | `python` | Python | `backend` | https://www.python.org/downloads · https://peps.python.org · https://realpython.com |
 
-**Total**: 3 linguagens + 49 ferramentas = **52 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
+**Total**: 3 linguagens + 27 ferramentas = **30 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
+
+### Sub-tópicos cobertos em subcategorias (não são `tool_key` dedicados)
+
+As seguintes tecnologias têm cobertura via queries da categoria correspondente — sem item dedicado em `tools[]`. Aparecem como `tags[]` quando mencionadas em notícias:
+
+| Sub-tópico | Categoria-casa | Onde buscar |
+|---|---|---|
+| Backstage, Helm, OpenTofu, Envoy | `devops` | via queries de DevOps & Plataformas |
+| MCP, Ollama, Langfuse, LangGraph | `aiops` | via queries de AIOps & Agents |
+| OpenTelemetry, Prometheus, Grafana | `obs` | via queries de Observabilidade & SRE |
+| Trivy | `sec` | via queries de Segurança |
+| pgvector, dbt | `data` | via queries de Dados & Streaming |
+| Temporal | `distarch` | via queries de Sistemas Distribuídos |
+| k6, Playwright | `testing` | via queries de Testes & Qualidade |
+| Next.js, Vite, Bun, Biome | `frontend` | via queries de Frontend & Web |
+| Wasmtime (WASM backend) | `backend` | via queries de Backend & Runtimes |
 
 **Exemplos de buscas complementares** para cada item:
 - `"{Assunto}" site:infoq.com OR site:thenewstack.io`
@@ -854,19 +826,19 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. O JSON.stringify d
 | Chave | Label | Ícone | Escopo (subcategorias) |
 |---|---|---|---|
 | `ai` | IA & LLMs | 🤖 | Modelos fundacionais · Pesquisa · Releases de fundação (OpenAI/Anthropic/Google/Meta/HF) · Benchmarks · Papers · Multimodal · AI Safety |
-| `aiops` | AIOps & Agents | 🧠 | LLMOps · AI Agents & MCP · RAG & Vector DBs · AI Coding em produção · LLM Evals · LLM Observability · Guardrails · Agent Orchestration · Local LLM (Ollama) |
-| `sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade (OIDC/SAML) · Supply Chain (SBOM/SLSA) · Runtime/Container Security · AI Security · Secrets Management |
+| `aiops` | AIOps & Agents | 🧠 | LLMOps · **AI Agents** · **MCP (Model Context Protocol)** · RAG · **Vector DBs** · AI Coding em produção · LLM Evals · **LLM Observability (Langfuse)** · Guardrails · **Agent Orchestration (LangGraph)** · **Local LLM (Ollama)** |
+| `sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade (OIDC/SAML) · Supply Chain (SBOM/SLSA) · **Runtime/Container Security (Trivy)** · AI Security · Secrets Management |
 | `cloud` | Cloud | ☁️ | AWS (Lambda/DynamoDB/S3/Bedrock) · Azure · GCP · Compute · Dados · Messaging · IAM · **CDN & Edge Delivery** · **Cloud Networking (VPC/peering)** · Well-Architected · FinOps multi-cloud |
-| `devops` | DevOps & Plataformas | ⚙️ | Kubernetes & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs (Backstage, Port) · **Edge/Proxies/Protocolos (HTTP/3, QUIC, nginx, envoy, API Gateway infra)** · Developer Productivity |
-| `obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
-| `backend` | Backend & Runtimes | 🔧 | Java/Spring · Go · Rust · Node/Deno/Bun · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns |
-| `data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Kafka/Flink) · Lakehouse (Databricks/dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
+| `devops` | DevOps & Plataformas | ⚙️ | CNCF · GitOps · CI/CD · Progressive Delivery · IaC (**OpenTofu**, Pulumi) · **IDPs (Backstage, Port)** · **Helm & package managers** · Edge/Proxies/Protocolos (HTTP/3, QUIC, **Envoy**, API Gateway infra) · Developer Productivity |
+| `obs` | Observabilidade & SRE | 📈 | **Tracing (OpenTelemetry)** · **Métricas (Prometheus)** · Logs · APM · **Dashboards (Grafana, Loki, Tempo, Mimir)** · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
+| `backend` | Backend & Runtimes | 🔧 | Go · Rust · Node/Deno · Concurrency models · **WebAssembly (Wasmtime, Spin, WASI)** · Server-side patterns · Performance engineering |
+| `data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (Iceberg) · **Analytics engineering (dbt)** · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
 | `integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
-| `testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing · Chaos Engineering · Performance/Load (k6) · Mutation Testing · Test Data Management · AI-assisted testing |
-| `frontend` | Frontend & Web | 🎨 | Frameworks SPA (React/Vue/Svelte) · Meta-frameworks (Next/Nuxt/Astro) · Web Platform · CSS & Design Systems · Core Web Vitals · Edge Rendering · State Management · Build Tools (Vite/Bun/Biome) · a11y/i18n |
+| `testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing (Pact) · Chaos Engineering · **Performance/Load (k6, Gatling)** · **E2E (Playwright, Cypress)** · Mutation Testing · Test Data Management · AI-assisted testing |
+| `frontend` | Frontend & Web | 🎨 | Frameworks SPA (React/Vue/Svelte) · **Meta-frameworks (Next.js, Nuxt, Astro)** · Web Platform · CSS & Design Systems · Core Web Vitals · Edge Rendering · **Build Tools (Vite, Biome, Turbopack)** · **Runtimes JS (Bun, Deno)** · a11y/i18n |
 | `fundamentals` | Fundamentos de Computação | 🧱 | SO · Redes (TCP/IP, DNS) · Estruturas de dados & algoritmos · Concorrência & paralelismo · Memory models · Teoria de filas · Performance de hardware |
 | `design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Event Modeling · Refactoring |
-| `distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Consistency Models · Durable Execution · CAP/PACELC · Post-mortems |
+| `distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Consistency Models · **Durable Execution (Temporal)** · CAP/PACELC · Post-mortems |
 | `enterprise` | Arq. Corporativa | 🗺️ | TOGAF · Team Topologies · Platform Engineering · DevEx/DORA/SPACE · FinOps · API Governance · Cost Engineering · Green IT |
 | `fintech` | Fintech & Pagamentos | 💳 | **Cartões & Redes (Visa/Mastercard/Elo)** · **Cooperativas (Unicred/Sicoob/Sicredi)** · Pix/Open Finance/DREX · PCI DSS · Embedded Finance/BaaS · Payment Rails · Fraud & Risk |
 

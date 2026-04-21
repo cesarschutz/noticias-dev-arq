@@ -44,23 +44,18 @@ TOOL_KEYS = {
     'java', 'javascript', 'python',
     # AI & IDEs
     'claudecode', 'cursor', 'intellij', 'vscode',
-    # AI/LLM Ops
-    'mcp', 'langfuse', 'ollama', 'langgraph',
-    # Git & CI/CD (inclui Backstage como dev workflow)
-    'argocd', 'ghactions', 'github', 'helm', 'backstage',
+    # Git & CI/CD
+    'argocd', 'ghactions', 'github',
     # Containers & IaC
-    'docker', 'kubernetes', 'terraform', 'opentofu',
+    'docker', 'kubernetes', 'terraform',
     # Mesh, Proxies & Edge
-    'istio', 'envoy', 'nginx', 'cloudflare',
+    'istio', 'nginx', 'cloudflare',
     # Dados & Streaming
-    'databricks', 'postgres', 'pgvector', 'redis', 'kafka', 'dbt', 'temporal',
+    'databricks', 'postgres', 'redis', 'kafka',
     # Obs & Segurança
-    'dynatrace', 'datadog', 'grafana', 'opentelemetry', 'prometheus',
-    'keycloak', 'vault', 'trivy',
+    'dynatrace', 'datadog', 'keycloak', 'vault',
     # Backend & Build
-    'gradle', 'maven', 'springboot', 'wasmtime',
-    # Frontend & Testing
-    'nextjs', 'vite', 'playwright', 'bun', 'biome', 'k6',
+    'gradle', 'maven', 'springboot',
     # Design & Docs (docs-as-code)
     'structurizr', 'plantuml', 'mermaid',
 }

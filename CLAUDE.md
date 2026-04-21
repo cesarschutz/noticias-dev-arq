@@ -51,7 +51,7 @@ Topbar: logo + status terminal-style à direita (clock, atualizado há Xh, N sav
 ## Fluxo de Dados
 
 1. **Cowork** roda `skills/csr-news-daily.md` diariamente às 6h BRT.
-2. Pesquisa notícias via WebSearch em **16 categorias + 3 linguagens + 49 ferramentas + HN + Lobste.rs + GitHub Trending + engenharia BR**.
+2. Pesquisa notícias via WebSearch em **16 categorias + 3 linguagens + 27 ferramentas + HN + Lobste.rs + GitHub Trending + engenharia BR**.
 3. Monta `data/{date}.json` com sanity checks (URLs específicas, dedup com últimas 7 edições, verificação de links, score explícito para highlights).
 4. Atualiza `data/editions.json` com a nova entrada (incluindo `counts_by_category` e `counts_by_tool`).
 5. LaunchAgent local detecta mudança em `data/` e roda `push.sh`.
@@ -217,7 +217,7 @@ Só entra se tem **release notes/changelog identificável**. Conceitos/disciplin
 
 ---
 
-## Linguagens & Ferramentas monitoradas (52 = 3 linguagens + 49 ferramentas)
+## Linguagens & Ferramentas monitoradas (30 = 3 linguagens + 27 ferramentas)
 
 Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subagrupamento visual no rail), `category` (chave de `CAT`) e `kind` no array `TOOLS` em `home.html` (SPA) e em `TOOL_SUBGROUPS` de `index.html` (landing).
 
@@ -230,56 +230,32 @@ Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subag
 | AI & IDEs | `cursor` | Cursor IDE | `aiops` |
 | AI & IDEs | `intellij` | IntelliJ IDEA | `backend` |
 | AI & IDEs | `vscode` | VS Code | `aiops` |
-| **AI/LLM Ops** (novo) | | | |
-| AI/LLM Ops | `mcp` | Model Context Protocol | `aiops` |
-| AI/LLM Ops | `langfuse` | Langfuse | `aiops` |
-| AI/LLM Ops | `ollama` | Ollama | `aiops` |
-| AI/LLM Ops | `langgraph` | LangGraph | `aiops` |
 | **Git & CI/CD** | | | |
 | Git & CI/CD | `argocd` | Argo CD | `devops` |
 | Git & CI/CD | `ghactions` | GitHub Actions | `devops` |
 | Git & CI/CD | `github` | GitHub | `devops` |
-| Git & CI/CD | `helm` | Helm | `devops` |
-| Git & CI/CD | `backstage` | Backstage | `enterprise` |
 | **Containers & IaC** | | | |
 | Containers & IaC | `docker` | Docker | `devops` |
 | Containers & IaC | `kubernetes` | Kubernetes | `devops` |
 | Containers & IaC | `terraform` | Terraform | `devops` |
-| Containers & IaC | `opentofu` | OpenTofu | `devops` |
 | **Mesh, Proxies & Edge** | | | |
 | Mesh, Proxies & Edge | `istio` | Istio | `distarch` |
-| Mesh, Proxies & Edge | `envoy` | Envoy | `devops` |
 | Mesh, Proxies & Edge | `nginx` | Nginx | `devops` |
 | Mesh, Proxies & Edge | `cloudflare` | Cloudflare | `cloud` |
 | **Dados & Streaming** | | | |
 | Dados & Streaming | `databricks` | Databricks | `data` |
 | Dados & Streaming | `postgres` | PostgreSQL | `data` |
-| Dados & Streaming | `pgvector` | pgvector | `data` |
 | Dados & Streaming | `redis` | Redis | `data` |
 | Dados & Streaming | `kafka` | Apache Kafka | `integ` |
-| Dados & Streaming | `dbt` | dbt | `data` |
-| Dados & Streaming | `temporal` | Temporal | `distarch` |
 | **Obs & Segurança** | | | |
 | Obs & Segurança | `dynatrace` | Dynatrace | `obs` |
 | Obs & Segurança | `datadog` | Datadog | `obs` |
-| Obs & Segurança | `grafana` | Grafana | `obs` |
-| Obs & Segurança | `opentelemetry` | OpenTelemetry | `obs` |
-| Obs & Segurança | `prometheus` | Prometheus | `obs` |
 | Obs & Segurança | `keycloak` | Keycloak | `sec` |
 | Obs & Segurança | `vault` | Vault (HashiCorp) | `sec` |
-| Obs & Segurança | `trivy` | Trivy (Aqua) | `sec` |
 | **Backend & Build** | | | |
 | Backend & Build | `gradle` | Gradle | `backend` |
 | Backend & Build | `maven` | Apache Maven | `backend` |
 | Backend & Build | `springboot` | Spring Boot (+ Spring Cloud) | `backend` |
-| Backend & Build | `wasmtime` | Wasmtime | `backend` |
-| **Frontend & Testing** | | | |
-| Frontend & Testing | `nextjs` | Next.js | `frontend` |
-| Frontend & Testing | `vite` | Vite | `frontend` |
-| Frontend & Testing | `bun` | Bun | `frontend` |
-| Frontend & Testing | `biome` | Biome | `frontend` |
-| Frontend & Testing | `k6` | Grafana k6 | `testing` |
-| Frontend & Testing | `playwright` | Playwright | `testing` |
 | **Design & Docs-as-code** | | | |
 | Design & Docs-as-code | `structurizr` | Structurizr (C4 + DSL + MCP) | `design` |
 | Design & Docs-as-code | `plantuml` | PlantUML | `design` |
@@ -288,6 +264,20 @@ Cada item tem `logo` (URL), `group` (rail: `lang` ou `tools`), `subgroup` (subag
 | Linguagens | `java` | Java & JVM | `backend` |
 | Linguagens | `javascript` | JavaScript / TS | `frontend` |
 | Linguagens | `python` | Python | `backend` |
+
+### Sub-tópicos cobertos em subcategorias (sem `tool_key` dedicado)
+
+| Sub-tópico | Categoria-casa | Notas |
+|---|---|---|
+| Backstage, Helm, OpenTofu, Envoy | `devops` | IDP, package manager K8s, IaC OSS, proxy L7 |
+| MCP, Ollama, Langfuse, LangGraph | `aiops` | Protocolo agents, LLM local, observability, orchestration |
+| OpenTelemetry, Prometheus, Grafana | `obs` | Telemetria padrão, métricas, dashboards |
+| Trivy | `sec` | Scanner de CVEs/IaC |
+| pgvector, dbt | `data` | Vector DB, analytics engineering |
+| Temporal | `distarch` | Durable execution |
+| k6, Playwright | `testing` | Load + E2E |
+| Next.js, Vite, Bun, Biome | `frontend` | Meta-framework, build tool, runtime JS, lint+format |
+| Wasmtime | `backend` | Runtime WebAssembly |
 
 ---
 

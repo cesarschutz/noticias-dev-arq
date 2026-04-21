@@ -94,26 +94,9 @@
       top: 240px;
       width: 830px;
       height: 550px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      overflow: hidden;
+      overflow: visible;
       z-index: 20;
       pointer-events: none;
-    }
-    .univ-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 7px;
-      width: 100%;
-    }
-    .univ-center {
-      flex-wrap: nowrap;
-      justify-content: center;
     }
 
     /* ── FLOAT ANIMATION ── */
@@ -124,10 +107,11 @@
 
     /* ── FLOATING ITEM BASE ── */
     .floating-item {
-      flex-shrink: 0;
+      position: absolute;
+      border-radius: 50%;
       background: rgba(10,21,37,.65);
       backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
@@ -139,82 +123,67 @@
       opacity: 0;
     }
     .floating-item:hover {
-      transform: translateY(-4px) scale(1.1) !important;
+      transform: translateY(-4px) scale(1.15) !important;
       animation-play-state: paused !important;
       z-index: 50 !important;
     }
 
     /* ── ITEM TYPES ── */
 
-    /* Category: pill, right-side colored border */
+    /* Category: 60x60 circle */
     .item-cat {
-      width: max-content; height: 38px; padding: 0 18px;
-      border-radius: 40px; border-right: 3px solid var(--cc, var(--accent));
-      flex-direction: row; gap: 8px;
+      width: 60px; height: 60px;
+      border-color: color-mix(in srgb, var(--cc, var(--accent)) 60%, transparent);
+      background: color-mix(in srgb, var(--cc, var(--accent)) 8%, #000);
     }
     .item-cat:hover {
-      border-color: #fff !important;
-      box-shadow: 0 5px 22px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent);
+      border-color: var(--cc, var(--accent)) !important;
+      box-shadow: 0 0 25px color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
     }
     .item-cat .item-icon {
-      display: flex; align-items: center;
-      color: var(--cc, var(--accent)); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cc, var(--accent));
     }
     .item-cat .item-icon svg {
-      width: 16px; height: 16px;
+      width: 26px; height: 26px;
       stroke: currentColor; fill: none;
       stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
     }
-    .item-cat .item-name {
-      font-weight: 700; font-size: 13px;
-      color: var(--text); letter-spacing: -.02em;
-    }
+    .item-cat .item-name { display: none; }
 
-    /* Language: square, colored bottom border */
+    /* Language: 80x80 circle */
     .item-lang {
-      width: 88px; height: 88px; border-radius: 16px;
-      border-bottom: 4px solid var(--cc, var(--amber));
-      background: color-mix(in srgb, var(--cc, var(--amber)) 6%, rgba(10,21,37,.9));
-      gap: 6px;
+      width: 80px; height: 80px;
+      border: 2px solid color-mix(in srgb, var(--cc, var(--amber)) 70%, transparent);
+      background: color-mix(in srgb, var(--cc, var(--amber)) 10%, #000);
     }
     .item-lang:hover {
       border-color: #fff !important;
-      box-shadow: 0 10px 32px color-mix(in srgb, var(--cc, var(--amber)) 50%, transparent);
+      box-shadow: 0 0 35px color-mix(in srgb, var(--cc, var(--amber)) 60%, transparent);
     }
+    .item-lang .item-icon { display: flex; align-items: center; justify-content: center; }
+    .item-lang .item-icon img { width: 36px; height: 36px; object-fit: contain; }
+    .item-lang .item-name { display: none; }
 
-    /* Topic: pill, left-side colored border */
-    .item-topic {
-      width: max-content; height: 38px; padding: 0 18px;
-      border-radius: 40px; border-left: 3px solid var(--cc, var(--green));
-      flex-direction: row; gap: 8px;
-    }
-    .item-topic:hover {
-      border-color: #fff !important;
-      box-shadow: 0 5px 20px color-mix(in srgb, var(--cc, var(--green)) 50%, transparent);
-    }
-    .item-topic .item-icon { display: flex; align-items: center; }
-    .item-topic .item-icon img { width: 18px; height: 18px; object-fit: contain; }
-    .item-topic .item-icon svg { width: 18px; height: 18px; color: var(--cc, var(--green)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
-    .item-topic .item-name { font-size: 13px; font-weight: 700; letter-spacing: -.02em; }
-
-    /* Tool: small circle, icon only */
+    /* Tool: 45x45 circle */
     .item-tool {
-      width: 52px; height: 52px; border-radius: 50%;
-      border: 1.5px solid color-mix(in srgb, var(--cc, var(--blue)) 70%, transparent);
+      width: 45px; height: 45px;
+      border-color: color-mix(in srgb, var(--cc, var(--blue)) 60%, transparent);
       background: color-mix(in srgb, var(--cc, var(--blue)) 8%, #000);
     }
     .item-tool:hover {
       border-color: var(--cc, var(--accent)) !important;
-      box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
     }
     .item-tool .item-icon { display: flex; align-items: center; justify-content: center; }
-    .item-tool .item-icon img { width: 24px; height: 24px; object-fit: contain; }
-    .item-tool .item-icon svg { width: 20px; height: 20px; color: var(--cc, var(--blue)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .item-tool .item-icon img { width: 22px; height: 22px; object-fit: contain; }
+    .item-tool .item-icon svg {
+      width: 20px; height: 20px; 
+      color: var(--cc, var(--blue)); 
+      stroke: currentColor; fill: none; 
+      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; 
+    }
     .item-tool .item-name { display: none; }
-
-    /* Shared icon img sizing */
-    .item-lang .item-icon img { width: 30px; height: 30px; object-fit: contain; }
-    .item-name { font-weight: 700; font-size: 12px; color: var(--text); }
 
     /* ── TOOLTIP ── */
     #tip {
@@ -435,8 +404,8 @@
       São <strong>16 categorias editoriais</strong> — Fundamentos de Computação, IA, AIOps & Agents, Segurança, Cloud, DevOps,
       Observabilidade & SRE, Backend, Dados, Integração, Testes, Frontend, Design, Sistemas Distribuídos,
       Arq. Corporativa e Fintech — mais <strong>3 linguagens</strong> (Java, JavaScript/TS, Python) e
-      <strong>49 ferramentas</strong> (Kubernetes, Kafka, Docker, Postgres, pgvector, Next.js, Cloudflare, Temporal,
-      Langfuse, MCP, Ollama, Wasmtime, Prometheus, Datadog, Vault, Trivy, Playwright, k6, Bun, Biome, Structurizr e mais).
+      <strong>27 ferramentas</strong> (Kubernetes, Kafka, Docker, Postgres, Cloudflare, Terraform, Spring Boot, Dynatrace,
+      Datadog, Vault, Keycloak, Databricks, Redis, Istio, Nginx, GitHub Actions, Argo CD, Claude Code, Cursor, Structurizr, PlantUML, Mermaid e mais).
       Navegue por categoria, linguagem, tópico ou ferramenta — e acesse qualquer edição
       anterior pelo calendário integrado.
     </p>
@@ -456,8 +425,8 @@
 
   <section class="section">
     <div class="sec-head">
-      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">52</span></div>
-      <p class="sec-sub">3 linguagens · 49 ferramentas</p>
+      <div class="sec-title"><span class="p">&gt;</span> Monitoramento ativo <span class="badge">30</span></div>
+      <p class="sec-sub">3 linguagens · 27 ferramentas</p>
     </div>
     <div class="mon-label ml-amber">Linguagens</div>
     <div class="lang-grid" id="langs"></div>
@@ -556,24 +525,6 @@ const TOOL_SUBGROUPS = [
      desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.',
      src:[{l:'code.visualstudio.com/updates',u:'https://code.visualstudio.com/updates'}]},
   ]},
-  {label:'AI/LLM Ops', tools:[
-    {key:'mcp',       name:'Model Context Protocol', color:'#d946ef', group:'Ferramenta',
-     svg:'<path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
-     desc:'Protocolo aberto (Anthropic) para conectar agents a ferramentas/dados — spec + SDKs (TS, Python).',
-     src:[{l:'modelcontextprotocol.io',u:'https://modelcontextprotocol.io'},{l:'github.com/modelcontextprotocol/specification/releases',u:'https://github.com/modelcontextprotocol/specification/releases'}]},
-    {key:'langfuse',  name:'Langfuse',      color:'#2E7BCC', group:'Ferramenta',
-     svg:'<path d="M3 3v18h18"/><path d="m3 12 4-4 4 4 6-6 4 4"/>',
-     desc:'Observabilidade de LLMs — traces, evals, prompt management e datasets (OSS + cloud).',
-     src:[{l:'langfuse.com/blog',u:'https://langfuse.com/blog'},{l:'github.com/langfuse/langfuse/releases',u:'https://github.com/langfuse/langfuse/releases'}]},
-    {key:'ollama',    name:'Ollama',         color:'#ff6b9d', group:'Ferramenta',
-     svg:'<ellipse cx="12" cy="10" rx="7" ry="6"/><ellipse cx="9" cy="9" rx="1.2" ry="1.4"/><ellipse cx="15" cy="9" rx="1.2" ry="1.4"/><path d="M5 13c0 5 3 8 7 8s7-3 7-8"/>',
-     desc:'Executar LLMs locais (Llama, Qwen, Mistral) — API unificada, model library, GPU passthrough.',
-     src:[{l:'ollama.com/blog',u:'https://ollama.com/blog'},{l:'github.com/ollama/ollama/releases',u:'https://github.com/ollama/ollama/releases'}]},
-    {key:'langgraph', name:'LangGraph',     color:'#1C3C3C', group:'Ferramenta',
-     svg:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><line x1="7.5" y1="7.5" x2="10.5" y2="10.5"/><line x1="16.5" y1="7.5" x2="13.5" y2="10.5"/><line x1="10.5" y1="13.5" x2="7.5" y2="16.5"/><line x1="13.5" y1="13.5" x2="16.5" y2="16.5"/>',
-     desc:'Framework de agents como grafos — state machines, multi-agent, human-in-the-loop (LangChain).',
-     src:[{l:'blog.langchain.dev',u:'https://blog.langchain.dev'},{l:'github.com/langchain-ai/langgraph/releases',u:'https://github.com/langchain-ai/langgraph/releases'}]},
-  ]},
   {label:'Git & CI/CD', tools:[
     {key:'argocd',   name:'Argo CD',        color:'#EF7B4D', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg',
@@ -587,14 +538,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/github/ffffff',
      desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.',
      src:[{l:'github.blog',u:'https://github.blog'},{l:'github.blog/changelog',u:'https://github.blog/changelog'}]},
-    {key:'helm',     name:'Helm',           color:'#277A9F', group:'Ferramenta',
-     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/helm/helm-original.svg',
-     desc:'Gerenciador de pacotes para Kubernetes — charts, releases e values.',
-     src:[{l:'helm.sh/blog',u:'https://helm.sh/blog'},{l:'github.com/helm/helm/releases',u:'https://github.com/helm/helm/releases'}]},
-    {key:'backstage', name:'Backstage',     color:'#9BF0E1', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/backstage/9BF0E1',
-     desc:'Developer portal (IDP) — catálogo de serviços, templates e golden paths.',
-     src:[{l:'backstage.io/blog',u:'https://backstage.io/blog'},{l:'github.com/backstage/backstage/releases',u:'https://github.com/backstage/backstage/releases'}]},
   ]},
   {label:'Containers & IaC', tools:[
     {key:'docker',    name:'Docker',        color:'#2496ED', group:'Ferramenta',
@@ -609,20 +552,12 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg',
      desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.',
      src:[{l:'github.com/hashicorp/terraform/releases',u:'https://github.com/hashicorp/terraform/releases'},{l:'developer.hashicorp.com/terraform',u:'https://developer.hashicorp.com/terraform'}]},
-    {key:'opentofu',  name:'OpenTofu',      color:'#FFDA18', group:'Ferramenta',
-     svg:'<path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/>',
-     desc:'Fork OSS do Terraform pela Linux Foundation — providers, módulos e state.',
-     src:[{l:'github.com/opentofu/opentofu/releases',u:'https://github.com/opentofu/opentofu/releases'},{l:'opentofu.org/blog',u:'https://opentofu.org/blog'}]},
   ]},
   {label:'Mesh, Proxies & Edge', tools:[
     {key:'istio',     name:'Istio',         color:'#466BB0', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/istio/466BB0',
      desc:'Service mesh — traffic management, mTLS e observabilidade.',
      src:[{l:'istio.io/latest/news',u:'https://istio.io/latest/news'},{l:'istio.io/latest/blog',u:'https://istio.io/latest/blog'}]},
-    {key:'envoy',     name:'Envoy',         color:'#AC6199', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/envoyproxy/AC6199',
-     desc:'Proxy L7 cloud-native — base de Istio, traffic management e mTLS.',
-     src:[{l:'envoyproxy.io/news',u:'https://www.envoyproxy.io/news'},{l:'envoyproxy.io/docs',u:'https://www.envoyproxy.io/docs'}]},
     {key:'nginx',     name:'Nginx',         color:'#009639', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg',
      desc:'Web server e reverse proxy — caching, load balancing e TLS termination.',
@@ -639,12 +574,8 @@ const TOOL_SUBGROUPS = [
      src:[{l:'docs.databricks.com/en/release-notes',u:'https://docs.databricks.com/en/release-notes'},{l:'databricks.com/blog',u:'https://databricks.com/blog'}]},
     {key:'postgres',  name:'PostgreSQL',    color:'#4169E1', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
-     desc:'Banco relacional avançado — extensões, JSONB e replicação lógica.',
+     desc:'Banco relacional avançado — extensões (inclui pgvector para RAG), JSONB e replicação lógica.',
      src:[{l:'postgresql.org/docs/release',u:'https://www.postgresql.org/docs/release'},{l:'planet.postgresql.org',u:'https://planet.postgresql.org'}]},
-    {key:'pgvector',  name:'pgvector',      color:'#336791', group:'Ferramenta',
-     svg:'<circle cx="12" cy="12" r="9"/><path d="m12 7 4 5-4 5"/><path d="m8 7 4 5-4 5"/>',
-     desc:'Extensão Postgres para vector search (HNSW, IVF) — base de RAG em Postgres.',
-     src:[{l:'github.com/pgvector/pgvector/releases',u:'https://github.com/pgvector/pgvector/releases'}]},
     {key:'redis',     name:'Redis',         color:'#DC382D', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg',
      desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.',
@@ -653,14 +584,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/apachekafka/ffffff',
      desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.',
      src:[{l:'kafka.apache.org/blog',u:'https://kafka.apache.org/blog'},{l:'github.com/apache/kafka/releases',u:'https://github.com/apache/kafka/releases'},{l:'confluent.io/blog',u:'https://confluent.io/blog'}]},
-    {key:'dbt',       name:'dbt',           color:'#FF694A', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/dbt/FF694A',
-     desc:'Transformação de dados analíticos — SQL-first, testes, lineage.',
-     src:[{l:'docs.getdbt.com/docs/dbt-versions/core-upgrade',u:'https://docs.getdbt.com/docs/dbt-versions/core-upgrade'},{l:'docs.getdbt.com/blog',u:'https://docs.getdbt.com/blog'}]},
-    {key:'temporal',  name:'Temporal',      color:'#000000', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/temporal/000000',
-     desc:'Durable execution — workflows resilientes, retries e state machines.',
-     src:[{l:'github.com/temporalio/temporal/releases',u:'https://github.com/temporalio/temporal/releases'},{l:'temporal.io/blog',u:'https://temporal.io/blog'}]},
   ]},
   {label:'Obs & Segurança', tools:[
     {key:'dynatrace',     name:'Dynatrace',      color:'#1496FF', group:'Ferramenta',
@@ -671,18 +594,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/datadog/632CA6',
      desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.',
      src:[{l:'docs.datadoghq.com/release_notes',u:'https://docs.datadoghq.com/release_notes'},{l:'datadoghq.com/blog',u:'https://www.datadoghq.com/blog'}]},
-    {key:'grafana',       name:'Grafana',        color:'#F46800', group:'Ferramenta',
-     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg',
-     desc:'Stack de observabilidade — Grafana, Loki, Tempo, Mimir e Pyroscope.',
-     src:[{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'github.com/grafana/grafana/releases',u:'https://github.com/grafana/grafana/releases'}]},
-    {key:'opentelemetry', name:'OpenTelemetry',  color:'#425CC7', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/opentelemetry/f5a800',
-     desc:'Padrão aberto de telemetria — traces, métricas e logs unificados.',
-     src:[{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'},{l:'github.com/open-telemetry/opentelemetry-specification/releases',u:'https://github.com/open-telemetry/opentelemetry-specification/releases'}]},
-    {key:'prometheus',    name:'Prometheus',     color:'#E6522C', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/prometheus/E6522C',
-     desc:'Métricas e alertas open-source — modelo de dados dimensional, PromQL e exporters.',
-     src:[{l:'github.com/prometheus/prometheus/releases',u:'https://github.com/prometheus/prometheus/releases'},{l:'prometheus.io/blog',u:'https://prometheus.io/blog'}]},
     {key:'keycloak',      name:'Keycloak',       color:'#4D9CF8', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/keycloak/4D9CF8',
      desc:'IAM open-source — SSO, OIDC, SAML e federation.',
@@ -691,10 +602,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.simpleicons.org/vault/FFEC6E',
      desc:'Secrets management (HashiCorp) — encriptação, rotação, dynamic secrets, PKI.',
      src:[{l:'github.com/hashicorp/vault/releases',u:'https://github.com/hashicorp/vault/releases'},{l:'hashicorp.com/blog/products/vault',u:'https://www.hashicorp.com/blog/products/vault'}]},
-    {key:'trivy',         name:'Trivy',          color:'#1904DA', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/aquasecurity/1904DA',
-     desc:'Scanner de vulnerabilidades em containers/IaC/git (Aqua Security) — CVEs, misconfig, secrets.',
-     src:[{l:'github.com/aquasecurity/trivy/releases',u:'https://github.com/aquasecurity/trivy/releases'},{l:'aquasec.com/blog',u:'https://www.aquasec.com/blog'}]},
   ]},
   {label:'Backend & Build', tools:[
     {key:'gradle',      name:'Gradle',       color:'#5ec4c4', group:'Ferramenta',
@@ -709,36 +616,6 @@ const TOOL_SUBGROUPS = [
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',
      desc:'Framework Java líder — auto-config, starters e Spring Cloud (cobre Gateway/Config/Circuit Breaker).',
      src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'github.com/spring-projects/spring-boot/releases',u:'https://github.com/spring-projects/spring-boot/releases'}]},
-    {key:'wasmtime',    name:'Wasmtime',     color:'#5a9', group:'Ferramenta',
-     svg:'<path d="M3 12h3l3-7 6 14 3-7h3"/>',
-     desc:'Runtime WebAssembly (Bytecode Alliance) para backend e edge — WASI Preview 2, componentes.',
-     src:[{l:'github.com/bytecodealliance/wasmtime/releases',u:'https://github.com/bytecodealliance/wasmtime/releases'},{l:'bytecodealliance.org/articles',u:'https://bytecodealliance.org/articles'}]},
-  ]},
-  {label:'Frontend & Testing', tools:[
-    {key:'nextjs',    name:'Next.js',       color:'#8b8fa8', group:'Ferramenta',
-     logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
-     desc:'Meta-framework React — App Router, RSC, streaming SSR e edge runtime.',
-     src:[{l:'nextjs.org/blog',u:'https://nextjs.org/blog'},{l:'vercel.com/changelog',u:'https://vercel.com/changelog'}]},
-    {key:'vite',      name:'Vite',          color:'#646CFF', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/vite/646CFF',
-     desc:'Build tool e dev server frontend — ESM nativo, HMR instantâneo, plugin ecosystem.',
-     src:[{l:'github.com/vitejs/vite/releases',u:'https://github.com/vitejs/vite/releases'},{l:'vite.dev/blog',u:'https://vite.dev/blog'}]},
-    {key:'bun',       name:'Bun',           color:'#FBF0DF', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/bun/FBF0DF',
-     desc:'Runtime JS/TS moderno — bundler, test runner e package manager compatível com Node.',
-     src:[{l:'bun.sh/blog',u:'https://bun.sh/blog'},{l:'github.com/oven-sh/bun/releases',u:'https://github.com/oven-sh/bun/releases'}]},
-    {key:'biome',     name:'Biome',         color:'#60A5FA', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/biome/60A5FA',
-     desc:'Toolchain JS/TS unificado — linter + formatter rápidos em Rust (substitui ESLint+Prettier).',
-     src:[{l:'biomejs.dev/blog',u:'https://biomejs.dev/blog'},{l:'github.com/biomejs/biome/releases',u:'https://github.com/biomejs/biome/releases'}]},
-    {key:'k6',        name:'Grafana k6',    color:'#7d64ff', group:'Ferramenta',
-     svg:'<path d="M12 2v20"/><path d="M4 7v10"/><path d="M20 7v10"/><path d="M8 5v14"/><path d="M16 5v14"/>',
-     desc:'Load & performance testing open-source — scripts em JS, distributed mode, Grafana integration.',
-     src:[{l:'k6.io/blog',u:'https://k6.io/blog'},{l:'github.com/grafana/k6/releases',u:'https://github.com/grafana/k6/releases'}]},
-    {key:'playwright',name:'Playwright',    color:'#2EAD33', group:'Ferramenta',
-     logo:'https://cdn.simpleicons.org/playwright/2EAD33',
-     desc:'E2E testing moderno (Microsoft) — multi-browser, auto-wait, trace viewer.',
-     src:[{l:'github.com/microsoft/playwright/releases',u:'https://github.com/microsoft/playwright/releases'},{l:'playwright.dev/blog',u:'https://playwright.dev/blog'}]},
   ]},
   {label:'Design & Docs-as-code', tools:[
     {key:'structurizr', name:'Structurizr',  color:'#f472b6', group:'Ferramenta',
@@ -756,93 +633,105 @@ const TOOL_SUBGROUPS = [
   ]},
 ];
 
-// ── UNIVERSE: 3 seções — top, center (langs no meio), bottom ──────────────
+// ── UNIVERSE: Órbitas ─────────────────────────────────────────────────────
 function initUniverse() {
   const univ = document.getElementById('universe');
+  const width = 830;
+  const height = 550;
+  const cx = width / 2;
+  const cy = height / 2;
 
   // Pools por tipo
-  const catPool   = CATS.map(c => ({ type:'cat',   name:c.name, color:c.color, svg:c.svg }));
-  const langPool  = LANGS.map(l => ({ type:'lang',  name:l.name, logo:l.logo, color:l.color }));
+  const catPool   = CATS.map(c => ({ type:'cat',   name:c.name, color:c.color, svg:c.svg, radius: 30 }));
+  const langPool  = LANGS.map(l => ({ type:'lang',  name:l.name, logo:l.logo, color:l.color, radius: 40 }));
   const toolPool  = [];
-  TOOL_SUBGROUPS.forEach(sg => sg.tools.forEach(t => toolPool.push({ type:'tool', name:t.name, logo:t.logo, svg:t.svg, color:t.color })));
+  TOOL_SUBGROUPS.forEach(sg => sg.tools.forEach(t => toolPool.push({ type:'tool', name:t.name, logo:t.logo, svg:t.svg, color:t.color, radius: 22.5 })));
 
-  // Intercala cats/tools em sequência uniforme
-  const mixed = [];
-  let ci=0, toi=0;
-  while (ci<catPool.length || toi<toolPool.length) {
-    if (ci  < catPool.length)   mixed.push(catPool[ci++]);
-    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
-    if (toi < toolPool.length)  mixed.push(toolPool[toi++]);
-  }
+  const items = [];
 
-  // Extrai 2 itens antes e 2 depois do meio para flanquear as langs
-  const mid = Math.floor(mixed.length / 2);
-  const leftFlank  = mixed.splice(mid - 2, 2);   // remove 2 itens antes do meio
-  const rightFlank = mixed.splice(mid - 2, 2);   // remove 2 itens depois (índice ajustado)
+  // 1. Centro: Linguagens (3 itens)
+  // Distribuir em um pequeno triângulo ao redor do centro exato
+  const langR = 48;
+  langPool.forEach((item, i) => {
+    const angle = (i / langPool.length) * Math.PI * 2 - Math.PI / 2;
+    item.x = cx + Math.cos(angle) * langR;
+    item.y = cy + Math.sin(angle) * langR;
+    items.push(item);
+  });
 
-  // Divide o restante em top e bottom.
-  // Fileiras reais têm ~8 itens (pills ~130px + tools ~52px em 830px).
-  // Trunca topItems para múltiplo exato de 8 → zero fileira esparsa garantido.
-  const ROW_EST  = 8;
-  const split    = Math.floor(mixed.length * 0.44);
-  const rawTop   = mixed.slice(0, split);
-  const topCount = Math.floor(rawTop.length / ROW_EST) * ROW_EST;
-  const topItems = rawTop.slice(0, topCount);
-  const botItems = [...rawTop.slice(topCount), ...mixed.slice(split)];
+  // 2. Órbita 1: Categorias (16 itens)
+  // Órbita elíptica em volta das linguagens
+  const catRx = 185;
+  const catRy = 135;
+  catPool.forEach((item, i) => {
+    const angle = (i / catPool.length) * Math.PI * 2 + Math.PI / 8;
+    item.x = cx + Math.cos(angle) * catRx;
+    item.y = cy + Math.sin(angle) * catRy;
+    items.push(item);
+  });
 
-  // Os últimos 2 itens de botItems ficam numa fileira esparsa no rodapé.
-  // Move-os para a posição 6 (antes de microservices) para preencher o vazio.
-  if (botItems.length >= 8) {
-    const orphans = botItems.splice(botItems.length - 2, 2);
-    botItems.splice(6, 0, ...orphans);
-  }
+  // 3. Órbitas Exteriores: Ferramentas (49 itens)
+  // Divididas em duas órbitas (interna e externa) com leve jitter
+  const numTools = toolPool.length;
+  const innerToolsCount = 20;
+  const outerToolsCount = numTools - innerToolsCount;
 
-  // Extrai os últimos 10 itens de botItems como "fileira mid":
-  // aparecem ENTRE o top (2 fileiras) e o center (langs) — onde estava a linha azul.
-  // 10 itens (mix de tools 52px + pills 130px) ≈ 764px → quase preenche 830px.
-  const midItems = botItems.splice(botItems.length - 10, 10);
+  const t1Rx = 290;
+  const t1Ry = 195;
+  const t2Rx = 380;
+  const t2Ry = 245;
 
-  // Fileira central: [flank_esq] [java, js, python] [flank_dir]
-  const centerItems = [...leftFlank, ...langPool, ...rightFlank];
+  toolPool.forEach((item, i) => {
+    let angle, rx, ry;
+    if (i < innerToolsCount) {
+      angle = (i / innerToolsCount) * Math.PI * 2;
+      rx = t1Rx; ry = t1Ry;
+    } else {
+      const idx = i - innerToolsCount;
+      angle = (idx / outerToolsCount) * Math.PI * 2 + Math.PI / 12;
+      rx = t2Rx; ry = t2Ry;
+    }
+    
+    // Pequeno ruído para visual mais orgânico
+    const jitterX = (Math.random() - 0.5) * 12;
+    const jitterY = (Math.random() - 0.5) * 12;
+    
+    item.x = cx + Math.cos(angle) * rx + jitterX;
+    item.y = cy + Math.sin(angle) * ry + jitterY;
+    items.push(item);
+  });
 
   // Helper de render
   function renderItem(item) {
     let inner = '';
     if (item.type === 'cat') {
-      inner = `<div class="item-icon"><svg viewBox="0 0 24 24">${item.svg}</svg></div>`
-             +`<div class="item-name">${item.name}</div>`;
+      inner = `<div class="item-icon"><svg viewBox="0 0 24 24">${item.svg}</svg></div>`;
     } else if (item.type === 'lang') {
-      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`
-             +`<div class="item-name">${item.name}</div>`;
-    } else if (item.type === 'topic') {
-      const ico = item.svg
-        ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
-        : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'">`;
-      inner = `<div class="item-icon">${ico}</div><div class="item-name">${item.name}</div>`;
+      inner = `<div class="item-icon"><img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3"></div>`;
     } else {
       const ico = item.svg
         ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
         : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.opacity=.3">`;
       inner = `<div class="item-icon">${ico}</div>`;
     }
-    const ccAttr = item.color ? ` style="--cc:${item.color}"` : '';
+    
+    // Define a posição absoluta calculada
+    const styleObj = `left: ${item.x - item.radius}px; top: ${item.y - item.radius}px;`;
+    const ccAttr = item.color ? ` style="--cc:${item.color}; ${styleObj}"` : ` style="${styleObj}"`;
+    
     return `<div class="floating-item item-${item.type}"${ccAttr} data-tip="${item.name}">${inner}</div>`;
   }
 
-  univ.innerHTML =
-    `<div class="univ-section univ-top">${topItems.map(renderItem).join('')}</div>`+
-    `<div class="univ-section univ-mid">${midItems.map(renderItem).join('')}</div>`+
-    `<div class="univ-section univ-center">${centerItems.map(renderItem).join('')}</div>`+
-    `<div class="univ-section univ-bottom">${botItems.map(renderItem).join('')}</div>`;
+  univ.innerHTML = items.map(renderItem).join('');
 
   // Animação
   univ.querySelectorAll('.floating-item').forEach((el, i) => {
-    el.style.setProperty('--fdur', (4 + (i % 5) * 0.9).toFixed(1) + 's');
-    el.style.setProperty('--fdel', (-((i * 0.73) % 5)).toFixed(1) + 's');
+    el.style.setProperty('--fdur', (3.5 + (i % 7) * 0.8).toFixed(1) + 's');
+    el.style.setProperty('--fdel', (-((i * 0.43) % 5)).toFixed(1) + 's');
     setTimeout(() => {
-      el.style.transition = 'opacity .5s ease';
+      el.style.transition = 'opacity .5s ease, border-color .2s, box-shadow .2s';
       el.style.opacity = '1';
-    }, 40 + i * 18);
+    }, 20 + i * 12);
   });
 }
 

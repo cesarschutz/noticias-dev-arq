@@ -107,7 +107,7 @@ Essas subcategorias viram **tags** nos cartões (`tags[]`) — pequenas etiqueta
 
 ---
 
-## 6. Catálogo de ferramentas monitoradas (49)
+## 6. Catálogo de ferramentas monitoradas (27)
 
 Ferramentas são produtos técnicos com lançamentos regulares (releases, changelogs). Cada uma tem uma página dedicada no site com o histórico de updates.
 
@@ -117,70 +117,58 @@ Ferramentas são produtos técnicos com lançamentos regulares (releases, change
 - **IntelliJ IDEA** — IDE Java/Kotlin da JetBrains.
 - **VS Code** — editor da Microsoft, padrão de mercado.
 
-### AI/LLM Ops (4) — novo na v1
-- **Model Context Protocol (MCP)** — protocolo aberto para agents conectarem a ferramentas e dados.
-- **Langfuse** — observabilidade de LLMs em produção: traces, evals, prompt management.
-- **Ollama** — rodar LLMs localmente (privacidade, custo, offline).
-- **LangGraph** — framework para construir agents como grafos de estado.
-
-### Git & CI/CD (5)
+### Git & CI/CD (3)
 - **Argo CD** — GitOps para Kubernetes.
 - **GitHub Actions** — CI/CD do GitHub.
 - **GitHub** — plataforma de código (inclui Copilot, Advanced Security).
-- **Helm** — gerenciador de pacotes para Kubernetes.
-- **Backstage** — portal interno para desenvolvedores (IDP).
 
-### Containers & IaC (4)
+### Containers & IaC (3)
 - **Docker** — padrão de containers.
 - **Kubernetes** — orquestração de containers.
 - **Terraform** — infraestrutura como código (HashiCorp).
-- **OpenTofu** — fork open-source do Terraform.
 
-### Mesh, Proxies & Edge (4)
+### Mesh, Proxies & Edge (3)
 - **Istio** — service mesh.
-- **Envoy** — proxy L7 (base do Istio).
 - **Nginx** — web server e reverse proxy clássico.
 - **Cloudflare** — CDN, DNS, Workers, Zero Trust.
 
-### Dados & Streaming (7)
+### Dados & Streaming (4)
 - **Databricks** — lakehouse de dados + IA.
-- **PostgreSQL** — banco relacional open-source líder.
-- **pgvector** — extensão Postgres para busca vetorial (base de RAG).
+- **PostgreSQL** — banco relacional open-source líder (inclui extensão pgvector para RAG).
 - **Redis** — cache in-memory.
 - **Apache Kafka** — streaming distribuído.
-- **dbt** — transformação de dados analíticos.
-- **Temporal** — durable execution para workflows.
 
-### Observabilidade & Segurança (8)
+### Observabilidade & Segurança (4)
 - **Dynatrace** — APM enterprise com IA (Davis).
 - **Datadog** — observabilidade SaaS unificada.
-- **Grafana** — stack de dashboards open-source.
-- **OpenTelemetry** — padrão aberto de telemetria.
-- **Prometheus** — métricas open-source.
 - **Keycloak** — IAM open-source.
 - **Vault** — secrets management (HashiCorp).
-- **Trivy** — scanner de vulnerabilidades (Aqua).
 
-### Backend & Build (4)
+### Backend & Build (3)
 - **Gradle** — build para JVM.
 - **Apache Maven** — build Java clássico.
 - **Spring Boot** (+ Spring Cloud) — framework Java líder.
-- **Wasmtime** — runtime WebAssembly para backend e edge.
-
-### Frontend & Testing (6)
-- **Next.js** — meta-framework React.
-- **Vite** — build tool e dev server moderno.
-- **Bun** — runtime JS/TS moderno com bundler e test runner.
-- **Biome** — linter + formatter rápido (substitui ESLint+Prettier).
-- **Grafana k6** — load e performance testing.
-- **Playwright** — E2E testing moderno.
 
 ### Design & Docs-as-code (3)
 - **Structurizr** — arquitetura como código (C4 + DSL + integração MCP).
 - **PlantUML** — diagramas UML como código.
 - **Mermaid** — diagramas em Markdown (renderiza nativamente no GitHub).
 
-**Nota sobre rotação**: nem todas as 49 ferramentas aparecem todo dia. A IA escolhe **pelo menos 10 por dia** priorizando aquelas que tiveram releases ou notícias reais nos últimos 3-7 dias. Se sobrar slot, completa com tutoriais ou deep-dives de ferramentas que não apareceram nas últimas 7 edições — rotação para variar a cobertura.
+### Tecnologias cobertas como sub-tópico (sem ferramenta dedicada)
+
+Algumas tecnologias relevantes aparecem como **sub-tópicos** das categorias — a IA busca notícias sobre elas normalmente, mas elas não têm página dedicada no site. Se houver notícia, ela aparece na categoria correspondente, com o nome da tecnologia nas tags do cartão.
+
+- **DevOps**: Backstage, Helm, OpenTofu, Envoy
+- **AIOps & Agents**: MCP (Model Context Protocol), Ollama, Langfuse, LangGraph
+- **Observabilidade**: OpenTelemetry, Prometheus, Grafana
+- **Segurança**: Trivy
+- **Dados**: pgvector, dbt
+- **Sist. Distribuídos**: Temporal
+- **Testes**: k6, Playwright
+- **Frontend**: Next.js, Vite, Bun, Biome
+- **Backend**: Wasmtime
+
+**Nota sobre rotação**: nem todas as 27 ferramentas aparecem todo dia. A IA escolhe **pelo menos 10 por dia** priorizando aquelas que tiveram releases ou notícias reais nos últimos 3-7 dias. Se sobrar slot, completa com tutoriais ou deep-dives de ferramentas que não apareceram nas últimas 7 edições — rotação para variar a cobertura.
 
 ---
 
@@ -203,7 +191,7 @@ Essas 3 são foco pessoal do autor — outras linguagens (Go, Rust, C#, Kotlin, 
 | **Categoria** (16) | Tema editorial amplo | Cobertura flexível — pode ter 0 itens em dias calmos. Total mínimo: 15 itens/dia em toda edição. | Cor, ícone, filtro na sidebar esquerda |
 | **Subcategoria** | Recorte específico dentro de uma categoria | Só aparece quando há notícia, como tag | Pequenas etiquetas no cartão (tags) |
 | **Linguagem** (3) | Java/JS/Python, com releases próprios | Entra no pool de rotação diária de ferramentas | Logo no rail direito, view dedicada |
-| **Ferramenta** (49) | Produto com changelog identificável | Rotação dinâmica — mínimo 10 ferramentas/dia | Logo no rail direito, view dedicada |
+| **Ferramenta** (27) | Produto com changelog identificável | Rotação dinâmica — mínimo 10 ferramentas/dia | Logo no rail direito, view dedicada |
 
 **Teste rápido para distinguir ferramenta de subcategoria**: *"Tem site de release notes que posso colar a URL agora?"* — se sim, é ferramenta; se não, é subcategoria.
 

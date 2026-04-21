@@ -38,27 +38,25 @@ Cada categoria tem subcategorias internas (guiam pesquisa e populam `tags[]`, ma
 
 Java & JVM · JavaScript / TS · Python.
 
-## Ferramentas monitoradas (49, só com release notes identificáveis)
+## Ferramentas monitoradas (27, só com release notes identificáveis)
 
 **AI & IDEs**: Claude Code · Cursor IDE · IntelliJ IDEA · VS Code
 
-**AI/LLM Ops**: Model Context Protocol · Langfuse · Ollama · LangGraph
+**Git & CI/CD**: Argo CD · GitHub Actions · GitHub
 
-**Git & CI/CD**: Argo CD · GitHub Actions · GitHub · Helm · Backstage
+**Containers & IaC**: Docker · Kubernetes · Terraform
 
-**Containers & IaC**: Docker · Kubernetes · Terraform · OpenTofu
+**Mesh, Proxies & Edge**: Istio · Nginx · Cloudflare
 
-**Mesh, Proxies & Edge**: Istio · Envoy · Nginx · Cloudflare
+**Dados & Streaming**: Databricks · PostgreSQL · Redis · Apache Kafka
 
-**Dados & Streaming**: Databricks · PostgreSQL · pgvector · Redis · Apache Kafka · dbt · Temporal
+**Obs & Segurança**: Dynatrace · Datadog · Keycloak · Vault
 
-**Obs & Segurança**: Dynatrace · Datadog · Grafana · OpenTelemetry · Prometheus · Keycloak · Vault · Trivy
-
-**Backend & Build**: Gradle · Apache Maven · Spring Boot (+ Spring Cloud) · Wasmtime
-
-**Frontend & Testing**: Next.js · Vite · Bun · Biome · Grafana k6 · Playwright
+**Backend & Build**: Gradle · Apache Maven · Spring Boot (+ Spring Cloud)
 
 **Design & Docs-as-code**: Structurizr · PlantUML · Mermaid
+
+> **Sub-tópicos cobertos via subcategoria** (não têm ferramenta dedicada, mas aparecem em notícias da categoria correspondente): Backstage, Helm, OpenTofu, Envoy (em `devops`) · MCP, Ollama, Langfuse, LangGraph (em `aiops`) · OpenTelemetry, Prometheus, Grafana (em `obs`) · Trivy (em `sec`) · pgvector, dbt (em `data`) · Temporal (em `distarch`) · k6, Playwright (em `testing`) · Next.js, Vite, Bun, Biome (em `frontend`) · Wasmtime (em `backend`).
 
 ## Desenvolvimento local
 
