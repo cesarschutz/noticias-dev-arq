@@ -353,6 +353,7 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 - **Frontend moderno**: web.dev, developer.mozilla.org/en-US/blog, vercel.com/blog, react.dev/blog, nextjs.org/blog, 2ality.com, chromestatus.com, v8.dev, josh.comeau.com, kentcdodds.com.
 - **Observabilidade avançada**: charity.wtf, honeycomb.io/blog, parca.dev, pyroscope.io, cilium.io.
 - **Integração & APIs**: apisyouwonthate.com (API design, Phil Sturgeon — referência #1), apihandyman.io (Arnaud Lauret, REST/OpenAPI), blog.postman.com (estado da indústria), nordicapis.com (REST/GraphQL/gRPC), graphql.org/blog (spec oficial GraphQL).
+- **System Design**: newsletter.systemdesign.one (newsletter semanal de system design, casos reais), blog.quastor.org (deep dives em arquiteturas reais de grandes empresas).
 - **Fintech BR**: finsidersbrasil.com.br, bcb.gov.br, mundocoop.com.br, somoscooperativismo.coop.br.
 - **Engenharia BR**: building.nubank.com.br/tech, medium.com/ifood-tech, medium.com/mercadolibre-tech, engenharia.stone.com.br, medium.com/picpay-blog, c6bank.com.br (blog tech), inter.co/blog, zup.com.br/blog, medium.com/olist-tech, oneclickdev.com.br (Globo Eng).
 - **Java & JVM**: inside.java, foojay.io/today, blogs.oracle.com/javamagazine, blog.frankel.ch, jvm-weekly.com.
@@ -429,6 +430,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Prometheus" OR "Loki" OR "Tempo" OR "Mimir" update OR release`
 - `"eBPF" OR "continuous profiling" OR "Parca" OR "Pyroscope" observability news`
 - `"incident management" OR "on-call" OR "PagerDuty" OR "post-mortem" best practice`
+- `"capacity planning" OR "performance tuning" OR "load testing" OR "throughput" architecture`
 - `site:grafana.com/blog OR site:opentelemetry.io/blog`
 - `site:charity.wtf OR site:honeycomb.io/blog` (Charity Majors — SLO na prática)
 
@@ -471,7 +473,10 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"software architecture" OR "design pattern" OR "DDD" OR "domain-driven design" article`
 - `"hexagonal architecture" OR "clean architecture" OR "event storming" OR "refactoring" news`
 - `"C4 model" OR "ADR" OR "architecture decision record" OR "Structurizr"`
+- `"system design" OR "high level design" OR "low level design" OR "HLD" OR "LLD" article`
+- `"back of the envelope" OR "capacity estimation" OR "system design estimation" article`
 - `site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture`
+- `site:newsletter.systemdesign.one OR site:blog.quastor.org`
 - `site:thoughtworks.com/radar` (bimestral)
 - `site:domainlanguage.com OR site:ddd-community.com`
 
@@ -489,6 +494,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"distributed systems" OR "microservices" pattern OR "event-driven" architecture article`
 - `"service mesh" OR "Istio" OR "Envoy" OR "Linkerd" pattern OR release`
 - `"saga pattern" OR "CQRS" OR "event sourcing" OR "eventual consistency" article`
+- `"stateless" OR "stateful" architecture OR design trade-offs`
 - `"cloud native" OR "CNCF" OR "platform engineering" news`
 - `"outage" OR "post-mortem" OR "incident report" distributed OR cloud {current_year}`
 - `site:highscalability.com OR site:queue.acm.org architecture`
@@ -834,15 +840,15 @@ Escreva emojis como `"🔐"`, **não** como `"\ud83d\udd10"`. O JSON.stringify d
 | `sec` | Segurança & IAM | 🔐 | CVEs & Zero-days · OWASP & AppSec · Zero Trust & Identidade (OIDC/SAML) · Supply Chain (SBOM/SLSA) · **Runtime/Container Security (Trivy)** · AI Security · **Secrets Management (Vault, AWS Secrets Manager)** |
 | `cloud` | Cloud | ☁️ | AWS (Lambda/DynamoDB/S3/Bedrock) · Azure · GCP · Compute · Messaging · IAM · **CDN & Edge (Cloudflare, Fastly)** · Cloud Networking (VPC/peering) · Well-Architected · FinOps multi-cloud |
 | `devops` | DevOps & Plataformas | ⚙️ | CNCF · GitOps · CI/CD · Progressive Delivery · IaC (**OpenTofu**, Pulumi) · **IDPs (Backstage, Port)** · **Helm & package managers** · Edge/Proxies/Protocolos (HTTP/3, QUIC, **Envoy**, API Gateway infra) · Developer Productivity |
-| `obs` | Observabilidade & SRE | 📈 | **Tracing (OpenTelemetry)** · **Métricas (Prometheus)** · Logs · APM · **Dashboards (Grafana, Loki, Tempo, Mimir)** · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
+| `obs` | Observabilidade & SRE | 📈 | **Tracing (OpenTelemetry)** · **Métricas (Prometheus)** · Logs · APM · **Dashboards (Grafana, Loki, Tempo, Mimir)** · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability · **Capacity Planning & Performance Tuning** |
 | `backend` | Backend & Runtimes | 🔧 | Go · Rust · Node/Deno · Concurrency models · **WebAssembly (Wasmtime, Spin, WASI)** · Server-side patterns · Performance engineering |
 | `data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (Iceberg) · **Analytics engineering (dbt)** · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
 | `integ` | Integração & Eventos | 🔌 | API Design & API-First · OpenAPI · **API Versioning & Evolution** · **API Gateway & Rate Limiting** · **gRPC & Protocol Buffers** · GraphQL & Federation · AsyncAPI · EDA · Messaging · Schema Evolution · Webhooks & Idempotência |
 | `testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing (Pact) · Chaos Engineering · **Performance/Load (k6, Gatling)** · **E2E (Playwright, Cypress)** · Mutation Testing · Test Data Management · AI-assisted testing |
 | `frontend` | Frontend & Web | 🎨 | Frameworks SPA (React/Vue/Svelte) · **Meta-frameworks (Next.js, Nuxt, Astro)** · Web Platform · CSS & Design Systems · Core Web Vitals · Edge Rendering · **Build Tools (Vite, Biome, Turbopack)** · **Runtimes JS (Bun, Deno)** · a11y/i18n |
 | `fundamentals` | Fundamentos de Computação | 🧱 | SO · Redes (TCP/IP, DNS) · Estruturas de dados & algoritmos · Concorrência & paralelismo · Memory models · Teoria de filas · Performance de hardware |
-| `design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Event Modeling · Refactoring |
-| `distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Consistency Models · **Durable Execution (Temporal)** · CAP/PACELC · Post-mortems |
+| `design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Event Modeling · Refactoring · **System Design Process (HLD/LLD)** · **Back-of-the-envelope & Capacity Estimation** |
+| `distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Consistency Models · **Durable Execution (Temporal)** · CAP/PACELC · Post-mortems · **Stateless vs Stateful** |
 | `enterprise` | Arq. Corporativa | 🗺️ | TOGAF · Team Topologies · Platform Engineering · DevEx/DORA/SPACE · FinOps · API Governance · Cost Engineering · Green IT |
 | `fintech` | Fintech & Pagamentos | 💳 | **Cartões & Redes (Visa/Mastercard/Elo)** · **Cooperativas (Unicred/Sicoob/Sicredi)** · Pix/Open Finance/DREX · PCI DSS · Embedded Finance/BaaS · Payment Rails · Fraud & Risk |
 

@@ -149,7 +149,7 @@ Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo.
 | **Plataforma & Infraestrutura** | | | | |
 | cloud | `--cat-cloud` | Cloud | ☁️ | AWS · Azure · GCP · **CDN & Edge (Cloudflare, Fastly)** · Cloud Networking (VPC/peering) · Well-Architected · FinOps multi-cloud |
 | devops | `--cat-devops` | DevOps & Plataformas | ⚙️ | Containers & CNCF · GitOps · CI/CD · Progressive Delivery · IaC · IDPs & developer portals · **Edge/Proxies/Protocolos (HTTP/3, QUIC, envoy)** · Developer Productivity |
-| obs | `--cat-obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability |
+| obs | `--cat-obs` | Observabilidade & SRE | 📈 | Tracing (OTel) · Métricas · Logs · APM · SLO/SLI & Error Budgets · Incident Management · eBPF & Profiling · Cost Observability · **Capacity Planning & Performance Tuning** |
 | **Desenvolvimento** | | | | |
 | backend | `--cat-backend` | Backend & Runtimes | 🔧 | Runtimes poliglotas · Web frameworks · Concurrency models · **WebAssembly (Wasmtime/Spin/WASI)** · Build tools · Server-side patterns · Performance engineering |
 | data | `--cat-data` | Dados & Streaming | 🗄️ | Relacionais · NoSQL · Streaming (Flink) · Lakehouse (dbt/Iceberg) · **Vector DBs (pgvector, Pinecone)** · CDC · Data Contracts · Data Mesh |
@@ -157,8 +157,8 @@ Score máximo: +9. Highlights preferem score ≥5; se nenhum chega, top 3 mesmo.
 | testing | `--cat-testing` | Testes & Qualidade | ⚗️ | TDD/BDD · Testing Pyramid · Contract Testing · Chaos Engineering · Performance/Load (k6) · Mutation Testing · AI-assisted testing |
 | frontend | `--cat-frontend` | Frontend & Web | 🎨 | Frameworks SPA · Meta-frameworks · RSC & streaming SSR · Web Platform · Design Systems · Core Web Vitals · Edge Rendering · Build Tools (Vite/Bun/Biome) · a11y/i18n |
 | **Arquitetura** | | | | |
-| design | `--cat-design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Refactoring · docs-as-code |
-| distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Caching · Consistency Models · Durable Execution · Post-mortems |
+| design | `--cat-design` | Design & Padrões | 🏛️ | DDD & Bounded Contexts · Padrões GoF/Enterprise · Clean/Hexagonal · C4 Model · ADRs · Refactoring · docs-as-code · **System Design Process (HLD/LLD)** · **Back-of-the-envelope & Capacity Estimation** |
+| distarch | `--cat-distarch` | Sist. Distribuídos | 🕸 | Microsserviços · Cloud Native · Resiliência · Service Mesh · Saga/CQRS/ES · Caching · Consistency Models · Durable Execution · Post-mortems · **Stateless vs Stateful** |
 | enterprise | `--cat-enterprise` | Arq. Corporativa | 🗺️ | 3 eixos: Estrutura org (Team Topologies, Platform Eng, DevEx/DORA/SPACE); Governança & custos (API Governance, FinOps); Estratégia técnica (Tech Radar) |
 | **Fundação** | | | | |
 | fundamentals | `--cat-fundamentals` | Fundamentos de Computação | 🧱 | SO · Redes · Estruturas de Dados & Algoritmos · Concorrência & Paralelismo · Memory models · Teoria de filas · Performance de hardware — **sexta = deep dive (2-3 itens, autor canônico)** |
