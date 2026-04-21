@@ -338,21 +338,22 @@
        HERO RESPONSIVO
        ═════════════════════════════════════════════════════════════════════ */
 
-    /* DESKTOP ≥820px — mascote esquerda, texto+orbital direita (layout lado-a-lado) */
+    /* DESKTOP ≥820px — texto largo em cima, mascote embaixo-esquerda, orbital direita */
     @media (min-width: 820px) {
       .hero-grid {
         grid-template-columns: minmax(260px, 36%) 1fr;
         grid-template-rows: auto 1fr;
         grid-template-areas:
-          "mascot text"
+          "text   text"
           "mascot orbital";
-        padding: 32px 32px 64px;
-        gap: 28px 32px;
+        padding: 40px 40px 0;
+        gap: 20px 32px;
       }
-      .hero-mascot  { grid-area: mascot; align-self: stretch; }
-      .hero-text    { grid-area: text; padding-top: 4px; }
-      .orbital      { grid-area: orbital; min-height: 400px; }
-      .hero-mascot img { max-height: 80vh; }
+      .hero-mascot  { grid-area: mascot; align-self: end; align-items: flex-end; justify-content: flex-start; }
+      .hero-text    { grid-area: text; padding-top: 4px; max-width: 100%; }
+      .hero-text .hero-sub { max-width: 760px; }
+      .orbital      { grid-area: orbital; min-height: 440px; }
+      .hero-mascot img { max-height: 72vh; display: block; }
       .hero-h1 { font-size: clamp(28px, 3.2vw, 44px); }
       .hero-sub { font-size: clamp(14px, 1.1vw, 17px); max-width: 640px; }
       .cta { padding: 15px 30px; font-size: 15px; }
