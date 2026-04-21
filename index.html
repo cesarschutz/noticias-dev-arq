@@ -74,17 +74,18 @@
       pointer-events: none;
     }
     .hero-h1 {
-      font-size: 32px;
-      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 14px;
+      font-size: 38px;
+      line-height: 1.12; letter-spacing: -.03em; margin-bottom: 18px;
     }
     .hero-h1 .l1 { display: block; font-weight: 300; color: var(--text2); }
     .hero-h1 .l2 { display: block; font-weight: 900; color: var(--accent); }
     .hero-sub {
-      font-size: 13.5px;
+      font-size: 16px;
       color: var(--text2);
       line-height: 1.7; max-width: 820px;
       margin: 0;
     }
+    .hero-sub strong { color: var(--text); font-weight: 700; }
 
 
     /* ── UNIVERSE CONTAINER — absoluto dentro do #stage ── */
@@ -292,88 +293,105 @@
     }
 
     .cat-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .cat-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.15; margin-bottom: 5px; }
-    .cat-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .2em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
-    .cat-desc { font-size: 13.5px; color: var(--text2); line-height: 1.65; margin-bottom: 18px; flex: 1; }
-    .sources { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; justify-content: center; }
-    .src-link {
-      font-size: 10px; color: var(--text3);
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 99px; padding: 5px 14px;
-      text-decoration: none;
-      transition: background .2s, color .2s, border-color .2s;
-    }
-    .src-link:hover {
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      border-color: color-mix(in srgb, var(--cc, var(--accent)) 60%, transparent);
-    }
+    .cat-n { font-size: 22px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; margin-bottom: 6px; }
+    .cat-g { font-family: var(--mono); font-size: 10.5px; color: var(--text3); letter-spacing: .2em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+    .cat-desc { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 18px; flex: 1; }
 
     .mon-label { font-weight: 700; font-size: 14px; margin-bottom: 14px; }
     .ml-amber { color: var(--amber); } .ml-green { color: var(--green); } .ml-blue { color: var(--blue); }
 
-    .item-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 20px; row-gap: 62px; padding-top: 42px; margin-bottom: 32px; }
-    .item-card {
+    /* ───── LANG CARD (médio — menor que categorias) ───── */
+    .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 32px; }
+    .lang-card {
       position: relative;
       background: #0b0e1a;
       border: 1px solid rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding: 44px 24px 22px;
-      cursor: pointer; text-align: center;
-      display: flex; flex-direction: column; align-items: center;
+      border-radius: 16px;
+      padding: 18px 20px;
+      cursor: pointer;
+      display: flex; flex-direction: column;
       overflow: visible;
-      transition: transform .3s ease, border-color .3s, box-shadow .35s;
+      opacity: 0; transform: translateY(20px);
+      transition: transform .3s ease, border-color .3s, box-shadow .35s, opacity .4s ease;
     }
-    .item-card.revealed { opacity: 1; transform: translateY(0); }
-    .item-card:hover {
-      transform: translateY(-5px);
+    .lang-card.revealed { opacity: 1; transform: translateY(0); }
+    .lang-card:hover {
+      transform: translateY(-4px);
       border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
-                  0 12px 32px -10px rgba(0,0,0,.6);
+      box-shadow: 0 0 28px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
+                  0 10px 28px -10px rgba(0,0,0,.6);
     }
-    .item-card::before { display: none; }
-
-    .item-top-glow {
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 90px;
-      background: linear-gradient(to bottom,
-        color-mix(in srgb, var(--cc, var(--accent)) 20%, transparent) 0%,
-        color-mix(in srgb, var(--cc, var(--accent)) 6%, transparent) 55%,
-        transparent 100%);
-      border-radius: 18px 18px 0 0;
-      opacity: .35;
-      transition: opacity .5s ease;
-      pointer-events: none;
-      z-index: 0;
+    .lang-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 12px;
     }
-    .item-card:hover .item-top-glow { opacity: 1; }
-
-    .item-ico {
-      position: absolute;
-      top: -30px; left: 50%; transform: translateX(-50%);
-      width: 60px; height: 60px; border-radius: 16px;
+    .lang-title { flex: 1; text-align: left; min-width: 0; }
+    .lang-ico {
+      width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       background: #09090b;
       border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
-      box-shadow: 0 0 20px color-mix(in srgb, var(--cc, var(--accent)) 22%, transparent),
-                  0 4px 12px rgba(0,0,0,.5);
-      transition: transform .3s ease, box-shadow .3s;
-      z-index: 10;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--cc, var(--accent)) 22%, transparent),
+                  0 2px 8px rgba(0,0,0,.4);
+      flex-shrink: 0;
+      transition: box-shadow .3s;
     }
-    .item-card:hover .item-ico {
-      transform: translateX(-50%) translateY(-4px);
-      box-shadow: 0 0 34px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
-                  0 8px 18px rgba(0,0,0,.4);
+    .lang-card:hover .lang-ico {
+      box-shadow: 0 0 30px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
+                  0 4px 14px rgba(0,0,0,.4);
     }
-    .item-ico img { width: 26px; height: 26px; object-fit: contain; }
-    .item-ico svg { width: 26px; height: 26px; color: var(--cc, var(--accent)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .lang-ico img { width: 28px; height: 28px; object-fit: contain; }
+    .lang-ico svg { width: 28px; height: 28px; color: var(--cc, var(--accent)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
-    .item-content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .item-n { font-size: 15px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.1; margin-bottom: 3px; }
-    .item-g { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .18em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
-    .item-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; flex: 1; }
-    .item-card .sources { justify-content: center; }
+    /* ───── TOOL CARD (menor — menor que linguagens) ───── */
+    .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+    .tool-card {
+      position: relative;
+      background: #0b0e1a;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      overflow: visible;
+      opacity: 0; transform: translateY(20px);
+      transition: transform .3s ease, border-color .3s, box-shadow .35s, opacity .4s ease;
+    }
+    .tool-card.revealed { opacity: 1; transform: translateY(0); }
+    .tool-card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 22px color-mix(in srgb, var(--cc, var(--accent)) 10%, transparent),
+                  0 8px 22px -10px rgba(0,0,0,.6);
+    }
+    .tool-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .tool-title { flex: 1; text-align: left; min-width: 0; }
+    .tool-ico {
+      width: 40px; height: 40px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      background: #09090b;
+      border: 1.5px solid color-mix(in srgb, var(--cc, var(--accent)) 50%, transparent);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--cc, var(--accent)) 20%, transparent),
+                  0 2px 6px rgba(0,0,0,.4);
+      flex-shrink: 0;
+      transition: box-shadow .3s;
+    }
+    .tool-card:hover .tool-ico {
+      box-shadow: 0 0 24px color-mix(in srgb, var(--cc, var(--accent)) 40%, transparent),
+                  0 3px 10px rgba(0,0,0,.4);
+    }
+    .tool-ico img { width: 22px; height: 22px; object-fit: contain; }
+    .tool-ico svg { width: 22px; height: 22px; color: var(--cc, var(--accent)); stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Títulos e descrição compartilhados */
+    .lang-card .item-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; }
+    .lang-card .item-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin: 0; }
+
+    .tool-card .item-n { font-size: 16px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tool-card .item-desc { font-size: 13px; color: var(--text2); line-height: 1.55; margin: 0; }
 
     /* layout fixo — sem media queries */
   </style>
@@ -440,68 +458,49 @@
 // ── DATA ──────────────────────────────────────────────────────────────────
 const CATS = [
   {key:'ai',     name:'IA & LLMs',          color:'#a855f7', group:'Transversal', desc:'Modelos & Pesquisa: fundacionais (OpenAI, Anthropic, Google, Meta, HF), fine-tuning, multimodal, benchmarks, AI Safety. Não inclui agentes/LLMOps — ver AIOps & Agents.',
-   svg:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
-   src:[{l:'simonwillison.net',u:'https://simonwillison.net'},{l:'anthropic.com/news',u:'https://anthropic.com/news'},{l:'huggingface.co/blog',u:'https://huggingface.co/blog'},{l:'eugeneyan.com',u:'https://eugeneyan.com'},{l:'latent.space',u:'https://www.latent.space'}]},
+   svg:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>'},
   {key:'aiops',  name:'AIOps & Agents',      color:'#c026d3', group:'Transversal', desc:'LLMOps, AI Agents & MCP, RAG & Vector DBs, AI Coding em produção, LLM Evals & Observability (Langfuse, LangSmith), guardrails, agent orchestration, local LLM (Ollama).',
-   svg:'<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>',
-   src:[{l:'blog.langchain.dev',u:'https://blog.langchain.dev'},{l:'langfuse.com/blog',u:'https://langfuse.com/blog'},{l:'modelcontextprotocol.io',u:'https://modelcontextprotocol.io'},{l:'hamel.dev',u:'https://hamel.dev'}]},
+   svg:'<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>'},
   {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, OWASP, Zero Trust & Identidade, Passkeys/WebAuthn, Supply Chain (SBOM/SLSA/Sigstore), AI Security, Runtime Security, **Secrets Management (Vault, AWS Secrets Manager)**, LGPD & Privacidade.',
-   svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-   src:[{l:'thehackernews.com',u:'https://thehackernews.com'},{l:'nvd.nist.gov',u:'https://nvd.nist.gov'},{l:'snyk.io/blog',u:'https://snyk.io/blog'},{l:'tldrsec.com',u:'https://tldrsec.com'}]},
+   svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'},
   {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, **CDN & Edge (Cloudflare, Fastly)**, cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
-   svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>',
-   src:[{l:'aws.amazon.com/about-aws/whats-new',u:'https://aws.amazon.com/about-aws/whats-new'},{l:'azure.microsoft.com/blog',u:'https://azure.microsoft.com/en-us/blog'},{l:'cloud.google.com/blog',u:'https://cloud.google.com/blog'},{l:'lastweekinaws.com',u:'https://lastweekinaws.com'}]},
+   svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>'},
   {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Kubernetes & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs/Backstage, Edge/Proxies (HTTP/3, QUIC, nginx, envoy), Developer Productivity, AI-augmented SDLC.',
-   svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
-   src:[{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'},{l:'cncf.io/blog',u:'https://cncf.io/blog'},{l:'hashicorp.com/blog',u:'https://hashicorp.com/blog'},{l:'learnk8s.io',u:'https://learnk8s.io'}]},
+   svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'},
   {key:'obs',    name:'Observabilidade & SRE',color:'#eab308', group:'Plataforma',  desc:'Tracing (OTel), métricas, logs, APM, SLO/SLI & Error Budgets, Incident Management, eBPF & profiling, Alerting & Noise Reduction (alert fatigue), Cost Observability.',
-   svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
-   src:[{l:'opentelemetry.io/blog',u:'https://opentelemetry.io/blog'},{l:'grafana.com/blog',u:'https://grafana.com/blog'},{l:'honeycomb.io/blog',u:'https://honeycomb.io/blog'},{l:'charity.wtf',u:'https://charity.wtf'},{l:'sre.google/workbook',u:'https://sre.google/workbook/table-of-contents'}]},
+   svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
   {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Java/Spring, Go, Rust, Node/Deno/Bun, web frameworks (Spring MVC/WebFlux, FastAPI, Express), concurrency models, WebAssembly, performance engineering (profiling, GC, p99), build tools, server-side patterns.',
-   svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
-   src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'go.dev/blog',u:'https://go.dev/blog'},{l:'blog.rust-lang.org',u:'https://blog.rust-lang.org'},{l:'shipilev.net',u:'https://shipilev.net'},{l:'matklad.github.io',u:'https://matklad.github.io'}]},
+   svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>'},
   {key:'data',   name:'Dados & Streaming',   color:'#0ea5e9', group:'Desenvolvimento', desc:'Relacionais, NoSQL, streaming (Kafka/Flink), lakehouse (Databricks/dbt), Iceberg & Open Catalogs (Polaris, Unity), Vector DBs (casa canônica — pgvector, Pinecone), CDC, Data Contracts, Data Mesh, DuckDB.',
-   svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
-   src:[{l:'databricks.com/blog',u:'https://databricks.com/blog'},{l:'confluent.io/blog',u:'https://confluent.io/blog'},{l:'iceberg.apache.org/blog',u:'https://iceberg.apache.org/blog'},{l:'jack-vanlightly.com',u:'https://jack-vanlightly.com'},{l:'jepsen.io/analyses',u:'https://jepsen.io/analyses'}]},
+   svg:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>'},
   {key:'integ',  name:'Integração & Eventos',color:'#14b8a6', group:'Desenvolvimento', desc:'API design & API-First, OpenAPI, GraphQL & federation, MCP, AsyncAPI, EDA, messaging, schema evolution.',
-   svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
-   src:[{l:'asyncapi.com/blog',u:'https://asyncapi.com/blog'},{l:'graphql.org/blog',u:'https://graphql.org/blog'},{l:'apollographql.com/blog',u:'https://apollographql.com/blog'},{l:'nordicapis.com',u:'https://nordicapis.com'}]},
+   svg:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'},
   {key:'testing',name:'Testes & Qualidade',  color:'#84cc16', group:'Desenvolvimento', desc:'TDD/BDD, testing pyramid, contract testing (Pact), chaos engineering, performance, test data mgmt, AI-assisted testing.',
-   svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
-   src:[{l:'martinfowler.com/testing',u:'https://martinfowler.com/testing'},{l:'ministryoftesting.com',u:'https://ministryoftesting.com'},{l:'playwright.dev/blog',u:'https://playwright.dev/blog'},{l:'kentcdodds.com/blog',u:'https://kentcdodds.com/blog'}]},
+   svg:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>'},
   {key:'design', name:'Design & Padrões',    color:'#f472b6', group:'Arquitetura',    desc:'DDD & Bounded Contexts, padrões GoF/Enterprise, Clean/Hexagonal, C4 Model, ADRs, refactoring, docs-as-code.',
-   svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-   src:[{l:'martinfowler.com',u:'https://martinfowler.com'},{l:'ddd-crew.github.io',u:'https://ddd-crew.github.io'},{l:'blog.bytebytego.com',u:'https://blog.bytebytego.com'},{l:'c4model.com',u:'https://c4model.com'}]},
+   svg:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>'},
   {key:'distarch',name:'Sist. Distribuídos', color:'#6366f1', group:'Arquitetura',    desc:'Microsserviços, cloud-native, resiliência, service mesh, saga/CQRS/ES, caching (cache-aside, write-through, invalidation), outbox/inbox/idempotência, consistency models, durable execution, serverless patterns, multi-region & data residency, post-mortems, cell-based.',
-   svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
-   src:[{l:'netflixtechblog.com',u:'https://netflixtechblog.com'},{l:'brooker.co.za/blog',u:'https://brooker.co.za/blog'},{l:'stripe.com/blog/engineering',u:'https://stripe.com/blog/engineering'},{l:'oskardudycz.pl',u:'https://event-driven.io'}]},
+   svg:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>'},
   {key:'enterprise',name:'Arq. Corporativa', color:'#94a3b8', group:'Arquitetura',    desc:'3 eixos — (1) Estrutura organizacional: Team Topologies, Platform Eng, DevEx/DORA/SPACE, Engineering Strategy & Staff-Plus; (2) Governança & custos: API Governance, FinOps, Cost Engineering, Landing Zones, Green IT; (3) Estratégia técnica: Tech Debt & Modernization, Tech Radar.',
-   svg:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
-   src:[{l:'architectelevator.com',u:'https://architectelevator.com'},{l:'teamtopologies.com/blog',u:'https://teamtopologies.com/blog'},{l:'pragmaticengineer.com',u:'https://www.pragmaticengineer.com'},{l:'thoughtworks.com/radar',u:'https://thoughtworks.com/radar'},{l:'finops.org/blog',u:'https://www.finops.org/blog'}]},
+   svg:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>'},
   {key:'fintech', name:'Fintech & Pagamentos',color:'#10b981', group:'Domínio',       desc:'Cartões & Redes (Visa, Mastercard, Elo — emissão/acquiring/switching), Cooperativas de crédito (Unicred, Sicoob, Sicredi), Pix/Open Finance/DREX, PCI DSS, Embedded Finance/BaaS, Payment Rails, Fraud & Risk Systems.',
-   svg:'<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
-   src:[{l:'corporate.visa.com',u:'https://corporate.visa.com/en/sites/visa-perspectives.html'},{l:'mastercard.com/news',u:'https://www.mastercard.com/news'},{l:'bcb.gov.br',u:'https://www.bcb.gov.br'},{l:'finsidersbrasil.com.br',u:'https://finsidersbrasil.com.br'},{l:'mundocoop.com.br',u:'https://www.mundocoop.com.br'},{l:'paymentsdive.com',u:'https://paymentsdive.com'}]},
+   svg:'<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>'},
   {key:'frontend',name:'Frontend & Web',     color:'#e11d48', group:'Desenvolvimento', desc:'React/Vue/Svelte, meta-frameworks (Next/Nuxt/Astro), React Server Components & streaming SSR, Web Platform, design systems, Core Web Vitals, edge rendering, state management, build tools, a11y/i18n, Mobile cross-platform (React Native, Flutter, PWA).',
-   svg:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
-   src:[{l:'web.dev',u:'https://web.dev'},{l:'developer.mozilla.org/en-US/blog',u:'https://developer.mozilla.org/en-US/blog'},{l:'vercel.com/blog',u:'https://vercel.com/blog'},{l:'tkdodo.eu/blog',u:'https://tkdodo.eu/blog'}]},
+   svg:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>'},
   {key:'fundamentals',name:'Fundamentos de Computação',color:'#a16207',group:'Fundação',desc:'SO, redes (TCP/IP, DNS), estruturas de dados, algoritmos, concorrência, memory models, teoria de filas, performance de hardware — a base eterna.',
-   svg:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
-   src:[{l:'queue.acm.org',u:'https://queue.acm.org'},{l:'jvns.ca',u:'https://jvns.ca'},{l:'brendangregg.com/blog',u:'https://www.brendangregg.com/blog'},{l:'danluu.com',u:'https://danluu.com'},{l:'lwn.net',u:'https://lwn.net'},{l:'paperswelove.org',u:'https://paperswelove.org'}]},
+   svg:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'},
 ];
 
 const LANGS = [
   {key:'java',       name:'Java & JVM',     color:'#f89820', group:'Linguagem',
    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
-   desc:'Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.',
-   src:[{l:'openjdk.org',u:'https://openjdk.org'},{l:'baeldung.com',u:'https://baeldung.com'},{l:'spring.io/blog',u:'https://spring.io/blog'}]},
+   desc:'Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.'},
   {key:'javascript', name:'JavaScript / TS',color:'#c9a800', group:'Linguagem',
    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
-   desc:'Linguagem da web — TypeScript, Node, Deno, Bun e ecossistema frontend moderno.',
-   src:[{l:'tc39.es',u:'https://tc39.es'},{l:'nodejs.org/en/blog',u:'https://nodejs.org/en/blog'},{l:'deno.com/blog',u:'https://deno.com/blog'}]},
+   desc:'Linguagem da web — TypeScript, Node, Deno, Bun e ecossistema frontend moderno.'},
   {key:'python',     name:'Python',          color:'#5b8dd9', group:'Linguagem',
    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
-   desc:'Scripts, data science, IA e automação — PyPI com 500k+ pacotes.',
-   src:[{l:'python.org/news',u:'https://python.org/news'},{l:'realpython.com',u:'https://realpython.com'},{l:'peps.python.org',u:'https://peps.python.org'}]},
+   desc:'Scripts, data science, IA e automação — PyPI com 500k+ pacotes.'},
 ];
 
 // O conceito de "tópico" foi absorvido em subcategorias editoriais — sub-escopo vive em tags[] por item.
@@ -510,118 +509,93 @@ const TOOL_SUBGROUPS = [
   {label:'AI & IDEs', tools:[
     {key:'claudecode',name:'Claude Code',   color:'#d97706', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/anthropic/ffffff',
-     desc:'CLI de IA da Anthropic para engenharia de software no terminal.',
-     src:[{l:'docs.anthropic.com/en/release-notes/claude-code',u:'https://docs.anthropic.com/en/release-notes/claude-code'}]},
+     desc:'CLI de IA da Anthropic para engenharia de software no terminal.'},
     {key:'cursor',    name:'Cursor IDE',    color:'#00c09a', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/cursor/00c09a',
-     desc:'IDE com IA — autocomplete, chat e edição contextual avançada.',
-     src:[{l:'cursor.com/changelog',u:'https://cursor.com/changelog'}]},
+     desc:'IDE com IA — autocomplete, chat e edição contextual avançada.'},
     {key:'intellij',  name:'IntelliJ IDEA', color:'#fe2857', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg',
-     desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.',
-     src:[{l:'blog.jetbrains.com/idea',u:'https://blog.jetbrains.com/idea'},{l:'jetbrains.com/idea/whatsnew',u:'https://jetbrains.com/idea/whatsnew'}]},
+     desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.'},
     {key:'vscode',    name:'VS Code',       color:'#007ACC', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg',
-     desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.',
-     src:[{l:'code.visualstudio.com/updates',u:'https://code.visualstudio.com/updates'}]},
+     desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.'},
   ]},
   {label:'Git & CI/CD', tools:[
     {key:'argocd',   name:'Argo CD',        color:'#EF7B4D', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg',
-     desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.',
-     src:[{l:'github.com/argoproj/argo-cd/releases',u:'https://github.com/argoproj/argo-cd/releases'},{l:'blog.argoproj.io',u:'https://blog.argoproj.io'}]},
+     desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.'},
     {key:'ghactions',name:'GitHub Actions', color:'#2088FF', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg',
-     desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.',
-     src:[{l:'github.blog/changelog',u:'https://github.blog/changelog'},{l:'github.blog/category/engineering/actions',u:'https://github.blog/category/engineering/actions'}]},
+     desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.'},
     {key:'github',   name:'GitHub',         color:'#8b8fa8', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/github/ffffff',
-     desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.',
-     src:[{l:'github.blog',u:'https://github.blog'},{l:'github.blog/changelog',u:'https://github.blog/changelog'}]},
+     desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.'},
   ]},
   {label:'Containers & IaC', tools:[
     {key:'docker',    name:'Docker',        color:'#2496ED', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
-     desc:'Containers — Docker Engine/Desktop, Compose e Docker Scout.',
-     src:[{l:'docker.com/blog',u:'https://www.docker.com/blog'},{l:'docs.docker.com/engine/release-notes',u:'https://docs.docker.com/engine/release-notes'}]},
+     desc:'Containers — Docker Engine/Desktop, Compose e Docker Scout.'},
     {key:'kubernetes',name:'Kubernetes',    color:'#326CE5', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg',
-     desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.',
-     src:[{l:'kubernetes.io/releases',u:'https://kubernetes.io/releases'},{l:'kubernetes.io/blog',u:'https://kubernetes.io/blog'}]},
+     desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.'},
     {key:'terraform', name:'Terraform',     color:'#7B42BC', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg',
-     desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.',
-     src:[{l:'github.com/hashicorp/terraform/releases',u:'https://github.com/hashicorp/terraform/releases'},{l:'developer.hashicorp.com/terraform',u:'https://developer.hashicorp.com/terraform'}]},
+     desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.'},
   ]},
   {label:'Mesh, Proxies & Edge', tools:[
     {key:'istio',     name:'Istio',         color:'#466BB0', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/istio/466BB0',
-     desc:'Service mesh — traffic management, mTLS e observabilidade.',
-     src:[{l:'istio.io/latest/news',u:'https://istio.io/latest/news'},{l:'istio.io/latest/blog',u:'https://istio.io/latest/blog'}]},
+     desc:'Service mesh — traffic management, mTLS e observabilidade.'},
     {key:'nginx',     name:'Nginx',         color:'#009639', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg',
-     desc:'Web server e reverse proxy — caching, load balancing e TLS termination.',
-     src:[{l:'nginx.org/en/CHANGES',u:'https://nginx.org/en/CHANGES'},{l:'nginx.com/blog',u:'https://www.nginx.com/blog'}]},
+     desc:'Web server e reverse proxy — caching, load balancing e TLS termination.'},
   ]},
   {label:'Dados & Streaming', tools:[
     {key:'databricks',name:'Databricks',    color:'#FF3621', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/databricks/FF3621',
-     desc:'Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.',
-     src:[{l:'docs.databricks.com/en/release-notes',u:'https://docs.databricks.com/en/release-notes'},{l:'databricks.com/blog',u:'https://databricks.com/blog'}]},
+     desc:'Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.'},
     {key:'postgres',  name:'PostgreSQL',    color:'#4169E1', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
-     desc:'Banco relacional avançado — extensões (inclui pgvector para RAG), JSONB e replicação lógica.',
-     src:[{l:'postgresql.org/docs/release',u:'https://www.postgresql.org/docs/release'},{l:'planet.postgresql.org',u:'https://planet.postgresql.org'}]},
+     desc:'Banco relacional avançado — extensões (inclui pgvector para RAG), JSONB e replicação lógica.'},
     {key:'redis',     name:'Redis',         color:'#DC382D', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg',
-     desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.',
-     src:[{l:'redis.io/blog',u:'https://redis.io/blog'},{l:'github.com/redis/redis/releases',u:'https://github.com/redis/redis/releases'}]},
+     desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.'},
     {key:'kafka',     name:'Apache Kafka',  color:'#ee7a3a', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/apachekafka/ffffff',
-     desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.',
-     src:[{l:'kafka.apache.org/blog',u:'https://kafka.apache.org/blog'},{l:'github.com/apache/kafka/releases',u:'https://github.com/apache/kafka/releases'},{l:'confluent.io/blog',u:'https://confluent.io/blog'}]},
+     desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.'},
   ]},
   {label:'Obs & Segurança', tools:[
     {key:'dynatrace',     name:'Dynatrace',      color:'#1496FF', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg',
-     desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).',
-     src:[{l:'dynatrace.com/support/help/whats-new/release-notes',u:'https://www.dynatrace.com/support/help/whats-new/release-notes'},{l:'dynatrace.com/blog',u:'https://www.dynatrace.com/blog'}]},
+     desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).'},
     {key:'datadog',       name:'Datadog',        color:'#632CA6', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/datadog/632CA6',
-     desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.',
-     src:[{l:'docs.datadoghq.com/release_notes',u:'https://docs.datadoghq.com/release_notes'},{l:'datadoghq.com/blog',u:'https://www.datadoghq.com/blog'}]},
+     desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.'},
     {key:'keycloak',      name:'Keycloak',       color:'#4D9CF8', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/keycloak/4D9CF8',
-     desc:'IAM open-source — SSO, OIDC, SAML e federation.',
-     src:[{l:'github.com/keycloak/keycloak/releases',u:'https://github.com/keycloak/keycloak/releases'},{l:'keycloak.org/blog',u:'https://www.keycloak.org/blog'}]},
+     desc:'IAM open-source — SSO, OIDC, SAML e federation.'},
   ]},
   {label:'Backend & Build', tools:[
     {key:'gradle',      name:'Gradle',       color:'#5ec4c4', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg',
-     desc:'Build automation moderna — build cache e convention plugins.',
-     src:[{l:'docs.gradle.org/current/release-notes.html',u:'https://docs.gradle.org/current/release-notes.html'},{l:'gradle.org/blog',u:'https://blog.gradle.org'}]},
+     desc:'Build automation moderna — build cache e convention plugins.'},
     {key:'maven',       name:'Apache Maven', color:'#C71A36', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg',
-     desc:'Build system Java — POM, lifecycle e Maven Central.',
-     src:[{l:'maven.apache.org/docs/history.html',u:'https://maven.apache.org/docs/history.html'},{l:'search.maven.org',u:'https://search.maven.org'}]},
+     desc:'Build system Java — POM, lifecycle e Maven Central.'},
     {key:'springboot',  name:'Spring Boot',  color:'#6DB33F', group:'Ferramenta',
      logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',
-     desc:'Framework Java líder — auto-config, starters e Spring Cloud (cobre Gateway/Config/Circuit Breaker).',
-     src:[{l:'spring.io/blog',u:'https://spring.io/blog'},{l:'github.com/spring-projects/spring-boot/releases',u:'https://github.com/spring-projects/spring-boot/releases'}]},
+     desc:'Framework Java líder — auto-config, starters e Spring Cloud (cobre Gateway/Config/Circuit Breaker).'},
   ]},
   {label:'Design & Docs-as-code', tools:[
     {key:'structurizr', name:'Structurizr',  color:'#f472b6', group:'Ferramenta',
      svg:'<rect x="8" y="2" width="8" height="5" rx="1"/><rect x="2" y="16" width="8" height="5" rx="1"/><rect x="14" y="16" width="8" height="5" rx="1"/><line x1="12" y1="7" x2="6" y2="16"/><line x1="12" y1="7" x2="18" y2="16"/>',
-     desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.',
-     src:[{l:'structurizr.com/changelog',u:'https://structurizr.com/changelog'},{l:'structurizr.com/blog',u:'https://structurizr.com/blog'}]},
+     desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
     {key:'plantuml',    name:'PlantUML',     color:'#1168BD', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/plantuml/1168BD',
-     desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.',
-     src:[{l:'plantuml.com/news',u:'https://plantuml.com/news'},{l:'github.com/plantuml/plantuml/releases',u:'https://github.com/plantuml/plantuml/releases'}]},
+     desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.'},
     {key:'mermaid',     name:'Mermaid',      color:'#FF3670', group:'Ferramenta',
      logo:'https://cdn.simpleicons.org/mermaid/FF3670',
-     desc:'Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub e docs modernos.',
-     src:[{l:'github.com/mermaid-js/mermaid/releases',u:'https://github.com/mermaid-js/mermaid/releases'},{l:'mermaid-js.github.io/mermaid/news',u:'https://mermaid.js.org/community/blog.html'}]},
+     desc:'Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub e docs modernos.'},
   ]},
 ];
 
@@ -742,36 +716,49 @@ function renderBelow() {
               <div class="cat-n">${c.name}</div>
               <div class="cat-g">${c.group}</div>
               <p class="cat-desc">${c.desc}</p>
-              <div class="sources">${c.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
             </div>
           </div>`;
         }).join('')
     ).join('')
   }</div>`;
 
-  function renderItemCard(item, dest) {
+  function renderLangCard(item) {
     const icoHtml = item.svg
       ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
       : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'">`;
-    return `<div class="item-card" style="--cc:${item.color}" onclick="location.href='home.html?tool=${item.key}'">
-      <div class="item-top-glow"></div>
-      <div class="item-ico">${icoHtml}</div>
-      <div class="item-content">
-        <div class="item-n">${item.name}</div>
-        <div class="item-g">${item.group}</div>
-        <p class="item-desc">${item.desc}</p>
-        <div class="sources">${item.src.map(s=>`<a class="src-link" href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join('')}</div>
+    return `<div class="lang-card" style="--cc:${item.color}" onclick="location.href='home.html?tool=${item.key}'">
+      <div class="lang-header">
+        <div class="lang-title">
+          <div class="item-n">${item.name}</div>
+        </div>
+        <div class="lang-ico">${icoHtml}</div>
       </div>
+      <p class="item-desc">${item.desc}</p>
+    </div>`;
+  }
+
+  function renderToolCard(item) {
+    const icoHtml = item.svg
+      ? `<svg viewBox="0 0 24 24">${item.svg}</svg>`
+      : `<img src="${item.logo}" alt="${item.name}" onerror="this.style.display='none'">`;
+    return `<div class="tool-card" style="--cc:${item.color}" onclick="location.href='home.html?tool=${item.key}'">
+      <div class="tool-header">
+        <div class="tool-ico">${icoHtml}</div>
+        <div class="tool-title">
+          <div class="item-n">${item.name}</div>
+        </div>
+      </div>
+      <p class="item-desc">${item.desc}</p>
     </div>`;
   }
 
   const sortedLangs = [...LANGS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
   document.getElementById('langs').innerHTML =
-    `<div class="item-grid">${sortedLangs.map(l => renderItemCard(l)).join('')}</div>`;
+    `<div class="lang-grid">${sortedLangs.map(renderLangCard).join('')}</div>`;
 
   const allTools = TOOL_SUBGROUPS.flatMap(sg => sg.tools).sort((a,b) => a.name.localeCompare(b.name,'pt'));
   document.getElementById('tools').innerHTML =
-    `<div class="item-grid">${allTools.map(t => renderItemCard(t)).join('')}</div>`;
+    `<div class="tool-grid">${allTools.map(renderToolCard).join('')}</div>`;
 }
 
 // ── SCROLL REVEAL (cat cards) ─────────────────────────────────────────────
@@ -781,7 +768,7 @@ function setupReveal() {
       if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.cat-card, .item-card').forEach((el, i) => {
+  document.querySelectorAll('.cat-card, .lang-card, .tool-card').forEach((el, i) => {
     el.style.transitionDelay = `${(i % 4) * 55}ms`;
     io.observe(el);
   });
