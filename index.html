@@ -350,6 +350,12 @@
       display: flex; align-items: center; gap: 10px;
     }
     .section-title .prompt { font-family: var(--mono); color: var(--accent); }
+    .section-title .sec-ico { display: inline-flex; align-items: center; color: var(--accent); }
+    .section-title .sec-ico svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tool-subgroup-title .sg-ico { color: var(--accent); opacity: .75; display: inline-flex; align-items: center; vertical-align: middle; margin-right: 8px; }
+    .tool-subgroup-title .sg-ico svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tool-subgroup-title { padding-left: 0 !important; }
+    .tool-subgroup-title::before { display: none; }
     .section-block { margin-bottom: 64px; }
     .section-block:last-child { margin-bottom: 0; }
 
@@ -450,7 +456,22 @@
     .lang-card .item-n { font-size: 19px; font-weight: 800; color: var(--cc, var(--text)); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .lang-card .item-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin: 0; }
 
-    /* ─── TOOL CARDS ─── */
+    /* ─── TOOL SUBGROUPS & CARDS ─── */
+    .tool-subgroup { margin-bottom: 36px; }
+    .tool-subgroup:last-child { margin-bottom: 0; }
+    .tool-subgroup-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-left: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .tool-card {
       position: relative;
@@ -551,22 +572,41 @@
 <!-- ═════════ CATALOG ═════════ -->
 <main class="catalog" id="catalog">
   <div class="section-block">
-    <h2 class="section-title"><span class="prompt">&gt;</span> Categorias editoriais</h2>
+    <h2 class="section-title"><span class="sec-ico" data-ico="cats"></span> Categorias editoriais</h2>
     <div class="cat-grid" id="catsGrid"></div>
   </div>
 
   <div class="section-block">
-    <h2 class="section-title"><span class="prompt">&gt;</span> Linguagens</h2>
+    <h2 class="section-title"><span class="sec-ico" data-ico="langs"></span> Linguagens</h2>
     <div class="lang-grid" id="langsGrid"></div>
   </div>
 
   <div class="section-block">
-    <h2 class="section-title"><span class="prompt">&gt;</span> Ferramentas</h2>
-    <div class="tool-grid" id="toolsGrid"></div>
+    <h2 class="section-title"><span class="sec-ico" data-ico="tools"></span> Ferramentas</h2>
+    <div id="toolsGrid"></div>
   </div>
 </main>
 
 <script>
+/* ════════ ÍCONES DE SEÇÃO E SUBGRUPO ════════ */
+const HEADER_ICONS = {
+  'cats':     '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
+  'ai-ide':   '<path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>',
+  'gitci':    '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+  'platform': '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
+  'dados':    '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+  'obs-iam':  '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  'jvm':      '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
+  'diagrams': '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
+};
+const RAIL_ICONS = {
+  'lang':  '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+  'tools': '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+};
+function iconSvg(paths, size=14){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${paths}</svg>`;
+}
+
 /* ════════ DATA ════════ */
 const CATS = [
   {key:'ai',     name:'IA & LLMs',          color:'#a855f7', group:'Transversal', desc:'Modelos & Pesquisa: fundacionais (OpenAI, Anthropic, Google, Meta, HF), fine-tuning, multimodal, benchmarks, AI Safety. Não inclui agentes/LLMOps — ver AIOps & Agents.',
@@ -781,16 +821,40 @@ function renderCards() {
     </div>
   `).join('');
 
-  const toolsSorted = [...TOOLS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
-  document.getElementById('toolsGrid').innerHTML = toolsSorted.map(t => `
+  // Ferramentas agrupadas em 7 subgrupos (igual ao rail do home.html)
+  const TOOL_SUBGROUPS = [
+    { key:'ai-ide',   label: 'IDEs & AI Coding',        tools: ['claudecode','cursor','intellij','vscode'] },
+    { key:'gitci',    label: 'Git, CI/CD & GitOps',     tools: ['argocd','ghactions','github'] },
+    { key:'platform', label: 'Plataforma Cloud Native', tools: ['docker','kubernetes','terraform','istio','nginx'] },
+    { key:'dados',    label: 'Dados & Streaming',       tools: ['databricks','postgres','redis','kafka'] },
+    { key:'obs-iam',  label: 'Observabilidade & IAM',   tools: ['dynatrace','datadog','keycloak'] },
+    { key:'jvm',      label: 'JVM: Build & Frameworks', tools: ['gradle','maven','springboot'] },
+    { key:'diagrams', label: 'Diagramas como Código',   tools: ['structurizr','plantuml','mermaid'] },
+  ];
+  const toolByKey = Object.fromEntries(TOOLS.map(t => [t.key, t]));
+  const renderToolCard = t => `
     <div class="tool-card" style="--cc:${t.color}" onclick="location.href='home.html?tool=${t.key}'">
       <div class="tool-header">
         <div class="tool-ico"><img src="${t.logo}" alt="${esc(t.name)}" onerror="this.style.opacity=.3"></div>
         <div class="tool-title"><div class="item-n">${esc(t.name)}</div></div>
       </div>
       <p class="item-desc">${esc(t.desc)}</p>
+    </div>`;
+  document.getElementById('toolsGrid').innerHTML = TOOL_SUBGROUPS.map(sg => `
+    <div class="tool-subgroup">
+      <h3 class="tool-subgroup-title"><span class="sg-ico">${iconSvg(HEADER_ICONS[sg.key] || '')}</span>${esc(sg.label)}</h3>
+      <div class="tool-grid">
+        ${sg.tools.map(k => toolByKey[k]).filter(Boolean).map(renderToolCard).join('')}
+      </div>
     </div>
   `).join('');
+
+  // Popular ícones das seções (Categorias / Linguagens / Ferramentas)
+  const secIconMap = { cats: HEADER_ICONS.cats, langs: RAIL_ICONS.lang, tools: RAIL_ICONS.tools };
+  document.querySelectorAll('.sec-ico').forEach(el => {
+    const ico = secIconMap[el.dataset.ico];
+    if (ico) el.innerHTML = iconSvg(ico, 22);
+  });
 }
 
 /* ════════ TOOLTIP ════════ */

@@ -1830,12 +1830,18 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
   font-size: 8.5px;
   letter-spacing: .16em;
   color: var(--ink-dim);
-  opacity: .55;
+  opacity: .65;
   font-family: 'JetBrains Mono', monospace;
   grid-column: 1 / -1;
   pointer-events: none;
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
+.tool-subgroup-header svg { opacity: .7; }
+.side-label-inner { display: inline-flex; align-items: center; gap: 7px; }
+.side-label-inner svg { opacity: .7; }
 
 /* radar (mantido para não quebrar refs no JS, mas oculto) */
 .radar-sec { display: none; }
@@ -2205,7 +2211,7 @@ a.verse-text-wrap:hover .verse-ref  { text-shadow: var(--glow-c), 0 0 12px var(-
 
     <div class="side-section">
       <div class="side-label">
-        <span>// categorias</span>
+        <span class="side-label-inner" id="cats-label"></span>
       </div>
       <div id="channels" role="list"></div>
     </div>
@@ -2255,18 +2261,30 @@ const CAT_ICONS = {
   devops:  '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
   obs:     '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
   data:    '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
-  integ:   '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+  integ:   '<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>',
   backend: '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
   frontend:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
-  testing: '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11"/><path d="M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="m9 15 2 2 4-4"/>',
+  testing: '<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
   design:  '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-  distarch:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+  distarch:'<circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="18" y2="12"/>',
   enterprise:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
-  fundamentals:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  fundamentals:'<rect x="3" y="4" width="7" height="7" rx="1"/><rect x="14" y="4" width="7" height="7" rx="1"/><rect x="3" y="13" width="7" height="7" rx="1"/><rect x="14" y="13" width="7" height="7" rx="1"/>',
   fintech: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
   /* rail group icons — não correspondem a nenhuma categoria */
-  'rail-lang':  '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  'rail-lang':  '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
   'rail-tools': '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+};
+
+/* ═══ Ícones para headers de seção/subgrupo (esquerda + rail direito) ═══ */
+const HEADER_ICONS = {
+  'cats':     '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
+  'ai-ide':   '<path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>',
+  'gitci':    '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+  'platform': '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
+  'dados':    '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+  'obs-iam':  '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  'jvm':      '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
+  'diagrams': '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">${paths}</svg>`;
@@ -2278,14 +2296,13 @@ const TOOL_GROUPS = {
   tools: { label: 'Ferramentas', icon: 'rail-tools', color: 'var(--rail-tools)' },
 };
 const TOOL_SUBGROUPS = {
-  'ai-ide':     'AI & IDEs',
-  'gitci':      'Git & CI/CD',
-  'containers': 'Containers & IaC',
-  'mesh':       'Mesh, Proxies & Edge',
+  'ai-ide':     'IDEs & AI Coding',
+  'gitci':      'Git, CI/CD & GitOps',
+  'platform':   'Plataforma Cloud Native',
   'dados':      'Dados & Streaming',
-  'obs-seg':    'Obs & Segurança',
-  'bknd':       'Backend & Build',
-  'docs':       'Design & Docs-as-code',
+  'obs-iam':    'Observabilidade & IAM',
+  'jvm':        'JVM: Build & Frameworks',
+  'diagrams':   'Diagramas como Código',
 };
 
 /* ═══ Categorias ═══ */
@@ -2335,29 +2352,29 @@ const TOOLS = [
   { key:'ghactions', group:'tools', subgroup:'gitci', category:'devops', name:'GitHub Actions', aliases:['github actions','gh actions','gha'],               icon:'⚡', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg' },
   { key:'github',    group:'tools', subgroup:'gitci', category:'devops', name:'GitHub',         aliases:['github','github actions','gh'],                    icon:'🐙', kind:'devops', logo:'https://cdn.simpleicons.org/github/ffffff' },
   // ── Containers & IaC ─────────────────────────────────────────────────────
-  { key:'docker',     group:'tools', subgroup:'containers', category:'devops', name:'Docker',     aliases:['docker desktop','docker','docker engine','docker compose','docker hub'], icon:'🐳', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
-  { key:'kubernetes', group:'tools', subgroup:'containers', category:'devops', name:'Kubernetes', aliases:['kubernetes','k8s','kubectl'],                                          icon:'⎈',  kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
-  { key:'terraform',  group:'tools', subgroup:'containers', category:'devops', name:'Terraform',  aliases:['terraform','hcl'],                                                     icon:'🏗', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg' },
+  { key:'docker',     group:'tools', subgroup:'platform', category:'devops', name:'Docker',     aliases:['docker desktop','docker','docker engine','docker compose','docker hub'], icon:'🐳', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
+  { key:'kubernetes', group:'tools', subgroup:'platform', category:'devops', name:'Kubernetes', aliases:['kubernetes','k8s','kubectl'],                                          icon:'⎈',  kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
+  { key:'terraform',  group:'tools', subgroup:'platform', category:'devops', name:'Terraform',  aliases:['terraform','hcl'],                                                     icon:'🏗', kind:'news',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg' },
   // ── Mesh, Proxies & Edge ─────────────────────────────────────────────────
-  { key:'istio',      group:'tools', subgroup:'mesh', category:'distarch', name:'Istio',      aliases:['istio','service mesh','istio service mesh'],                                             icon:'🕸', kind:'news', logo:'https://cdn.simpleicons.org/istio/466BB0' },
-  { key:'nginx',      group:'tools', subgroup:'mesh', category:'devops',   name:'Nginx',      aliases:['nginx','nginx plus','openresty'],                                                        icon:'🌐', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg' },
+  { key:'istio',      group:'tools', subgroup:'platform', category:'distarch', name:'Istio',      aliases:['istio','service mesh','istio service mesh'],                                             icon:'🕸', kind:'news', logo:'https://cdn.simpleicons.org/istio/466BB0' },
+  { key:'nginx',      group:'tools', subgroup:'platform', category:'devops',   name:'Nginx',      aliases:['nginx','nginx plus','openresty'],                                                        icon:'🌐', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg' },
   // ── Dados & Streaming ────────────────────────────────────────────────────
   { key:'databricks', group:'tools', subgroup:'dados', category:'data',  name:'Databricks',  aliases:['databricks'],                            icon:'🔥', kind:'db',   logo:'https://cdn.simpleicons.org/databricks/FF3621' },
   { key:'postgres',   group:'tools', subgroup:'dados', category:'data',  name:'PostgreSQL',  aliases:['postgresql','postgres','pgvector'],      icon:'🐘', kind:'db',   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
   { key:'redis',      group:'tools', subgroup:'dados', category:'data',  name:'Redis',       aliases:['redis','redis cache','valkey'],          icon:'🔴', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg' },
   { key:'kafka',      group:'tools', subgroup:'dados', category:'integ', name:'Apache Kafka',aliases:['apache kafka','kafka','confluent'],      icon:'📨', kind:'api',  logo:'https://cdn.simpleicons.org/apachekafka/ffffff' },
   // ── Obs & Segurança ──────────────────────────────────────────────────────
-  { key:'dynatrace',     group:'tools', subgroup:'obs-seg', category:'obs', name:'Dynatrace',     aliases:['dynatrace'],                                                   icon:'🔭', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg' },
-  { key:'datadog',       group:'tools', subgroup:'obs-seg', category:'obs', name:'Datadog',       aliases:['datadog','dd','dd-trace','datadoghq'],                         icon:'🐕', kind:'news',   logo:'https://cdn.simpleicons.org/datadog/632CA6' },
-  { key:'keycloak',      group:'tools', subgroup:'obs-seg', category:'sec', name:'Keycloak',      aliases:['keycloak'],                                                    icon:'🔑', kind:'api',    logo:'https://cdn.simpleicons.org/keycloak/4D9CF8' },
+  { key:'dynatrace',     group:'tools', subgroup:'obs-iam', category:'obs', name:'Dynatrace',     aliases:['dynatrace'],                                                   icon:'🔭', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg' },
+  { key:'datadog',       group:'tools', subgroup:'obs-iam', category:'obs', name:'Datadog',       aliases:['datadog','dd','dd-trace','datadoghq'],                         icon:'🐕', kind:'news',   logo:'https://cdn.simpleicons.org/datadog/632CA6' },
+  { key:'keycloak',      group:'tools', subgroup:'obs-iam', category:'sec', name:'Keycloak',      aliases:['keycloak'],                                                    icon:'🔑', kind:'api',    logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128' },
   // ── Backend & Build ──────────────────────────────────────────────────────
-  { key:'gradle',     group:'tools', subgroup:'bknd', category:'backend', name:'Gradle',      aliases:['gradle'],                                                  icon:'🐘', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg' },
-  { key:'maven',      group:'tools', subgroup:'bknd', category:'backend', name:'Apache Maven',aliases:['apache maven','maven'],                                    icon:'🪶', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' },
-  { key:'springboot', group:'tools', subgroup:'bknd', category:'backend', name:'Spring Boot', aliases:['spring boot','spring framework','spring','spring cloud'],  icon:'🌿', kind:'api',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
+  { key:'gradle',     group:'tools', subgroup:'jvm', category:'backend', name:'Gradle',      aliases:['gradle'],                                                  icon:'🐘', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg' },
+  { key:'maven',      group:'tools', subgroup:'jvm', category:'backend', name:'Apache Maven',aliases:['apache maven','maven'],                                    icon:'🪶', kind:'devops', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' },
+  { key:'springboot', group:'tools', subgroup:'jvm', category:'backend', name:'Spring Boot', aliases:['spring boot','spring framework','spring','spring cloud'],  icon:'🌿', kind:'api',    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
   // ── Design & Docs-as-code ────────────────────────────────────────────────
-  { key:'structurizr',group:'tools', subgroup:'docs', category:'design', name:'Structurizr', aliases:['structurizr','c4 model','.dsl','structurizr dsl'],          icon:'📐', kind:'arch', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
-  { key:'plantuml',   group:'tools', subgroup:'docs', category:'design', name:'PlantUML',    aliases:['plantuml','puml','uml as code'],                             icon:'🧩', kind:'news', logo:'https://cdn.simpleicons.org/plantuml/1168BD' },
-  { key:'mermaid',    group:'tools', subgroup:'docs', category:'design', name:'Mermaid',     aliases:['mermaid','mermaidjs','mermaid-js','diagrams as code'],      icon:'🌊', kind:'news', logo:'https://cdn.simpleicons.org/mermaid/FF3670' },
+  { key:'structurizr',group:'tools', subgroup:'diagrams', category:'design', name:'Structurizr', aliases:['structurizr','c4 model','.dsl','structurizr dsl'],          icon:'📐', kind:'arch', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128' },
+  { key:'plantuml',   group:'tools', subgroup:'diagrams', category:'design', name:'PlantUML',    aliases:['plantuml','puml','uml as code'],                             icon:'🧩', kind:'news', logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128' },
+  { key:'mermaid',    group:'tools', subgroup:'diagrams', category:'design', name:'Mermaid',     aliases:['mermaid','mermaidjs','mermaid-js','diagrams as code'],      icon:'🌊', kind:'news', logo:'https://cdn.simpleicons.org/mermaid/FF3670' },
   // ── Linguagens ───────────────────────────────────────────────────────────
   { key:'java',       group:'lang', category:'backend',  name:'Java & JVM',      aliases:['java','jdk','jvm','openjdk'],                                        icon:'☕', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
   { key:'javascript', group:'lang', category:'frontend', name:'JavaScript / TS', aliases:['javascript','typescript','node.js','deno','bun','nodejs','ts','js'], icon:'🟨', kind:'news', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
@@ -2641,6 +2658,8 @@ function matchesTool(item, tool){
 function renderSidebar(){
   const cats = $('channels');
   const tools = $('tools-side');
+  const catsLabel = $('cats-label');
+  if (catsLabel) catsLabel.innerHTML = `${iconSvg(HEADER_ICONS['cats'] || '', 12)}<span>categorias</span>`;
   const isHome = STATE.view === 'home';
   const ed = STATE.currentEdition;
 
@@ -2704,7 +2723,7 @@ function renderSidebar(){
     if (!toolsByGroup[g]) toolsByGroup[g] = [];
     toolsByGroup[g].push(t);
   });
-  const subgroupOrder = ['ai-ide', 'gitci', 'containers', 'dados', 'obs-seg', 'bknd'];
+  const subgroupOrder = ['ai-ide', 'gitci', 'platform', 'dados', 'obs-iam', 'jvm', 'diagrams'];
   let toolsHtml = '';
   Object.keys(TOOL_GROUPS).forEach(groupKey => {
     const groupTools = toolsByGroup[groupKey];
@@ -2735,7 +2754,7 @@ function renderSidebar(){
       subgroupOrder.forEach(sgKey => {
         const sgTools = bySubgroup[sgKey];
         if (!sgTools || sgTools.length === 0) return;
-        toolsHtml += `<div class="tool-subgroup-header">// ${TOOL_SUBGROUPS[sgKey]}</div>`;
+        toolsHtml += `<div class="tool-subgroup-header">${iconSvg(HEADER_ICONS[sgKey] || '', 11)}<span>${TOOL_SUBGROUPS[sgKey]}</span></div>`;
         sgTools.forEach(renderTool);
       });
       if (bySubgroup['_other']) bySubgroup['_other'].forEach(renderTool);

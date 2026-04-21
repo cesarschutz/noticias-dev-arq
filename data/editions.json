@@ -1,4 +1,57 @@
 {
-  "last_generated": null,
-  "editions": []
+  "last_generated": "2026-04-20T23:23:00-03:00",
+  "editions": [
+    {
+      "date": "2026-04-20",
+      "summary": "Istio 1.29 promove ambient multicluster a beta, Claude Code ganha Opus 4.7 com 1M tokens e Microsoft publica Patch Tuesday com 163 CVEs incluindo zero-day SharePoint sob exploração ativa.",
+      "counts_by_category": {
+        "sec": 4,
+        "ai": 3,
+        "aiops": 4,
+        "cloud": 2,
+        "devops": 2,
+        "obs": 1,
+        "backend": 3,
+        "data": 2,
+        "integ": 1,
+        "frontend": 2,
+        "testing": 1,
+        "distarch": 2,
+        "enterprise": 2,
+        "fundamentals": 1,
+        "fintech": 1,
+        "design": 1
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "cursor": 1,
+        "vscode": 1,
+        "intellij": 1,
+        "argocd": 1,
+        "ghactions": 1,
+        "kubernetes": 1,
+        "istio": 1,
+        "springboot": 1,
+        "postgres": 1,
+        "databricks": 1,
+        "keycloak": 1,
+        "docker": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension",
+          "url": "https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/"
+        },
+        {
+          "title": "Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado",
+          "url": "https://www.anthropic.com/news/claude-opus-4-7"
+        },
+        {
+          "title": "Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente",
+          "url": "https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201"
+        }
+      ]
+    }
+  ]
 }
