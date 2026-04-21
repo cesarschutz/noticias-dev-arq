@@ -3045,8 +3045,9 @@ function renderReadLater(){
       const c = it.category || 'backend';
       const cat = CAT[c] || { l: c };
       html += `<a class="rl-item" data-url="${escAttr(it.url)}" data-date="${escAttr(it._date||'')}">`;
-      if (it.image) {
-        html += `<div class="rl-item-thumb"><img src="${escAttr(it.image)}" alt="" loading="lazy"></div>`;
+      const rlImg = resolveImage(it);
+      if (rlImg) {
+        html += `<div class="rl-item-thumb"><img src="${escAttr(rlImg)}" alt="" loading="lazy"></div>`;
       }
       html += `<div class="rl-item-body">`;
       html += `<div class="rl-item-title">${esc(it.headline)}</div>`;
@@ -3532,6 +3533,18 @@ function currentViewLabel(){
 /* ═══ Card builders ═══ */
 function sevClass(sev){ return sev ? 'sev-' + sev : ''; }
 
+/* Resolve imagem do item: usa item.image se existe, senão favicon do Google via URL */
+function resolveImage(item){
+  if (item && item.image) return item.image;
+  if (!item || !item.url) return '';
+  try {
+    const u = new URL(item.url);
+    return `https://www.google.com/s2/favicons?domain=${u.hostname}&sz=128`;
+  } catch (_){
+    return '';
+  }
+}
+
 function buildActionButtons(url){
   const inRL = isInReadLater(url);
   return (
@@ -3561,7 +3574,8 @@ function buildHighlightCard(item, idx, date){
   const cat = CAT[c];
   const highlightColor = `var(--cat-${c})`;
   const url = item.url;
-  const thumb = item.image ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
+  const topImg = resolveImage(item);
+  const thumb = topImg ? `<div class="top-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(topImg)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
   let html = `<div class="pillar-card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" role="link" tabindex="0" style="--pillar-color:${highlightColor}; --cat:var(--cat-${c});">`;
   html += `<div class="strip" aria-hidden="true"></div>`;
   html += thumb;
@@ -3589,9 +3603,9 @@ function buildCard(item){
   const url = item.url;
   const date = item._date || STATE.currentDate;
   const isList = STATE.mode === 'list';
-  const showThumb = !!item.image;
-  const thumbHtml = showThumb
-    ? `<div class="card-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(item.image)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
+  const cardImg = resolveImage(item);
+  const thumbHtml = cardImg
+    ? `<div class="card-thumb" role="img" aria-label="${escAttr(item.headline)}"><img src="${escAttr(cardImg)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
     : '';
   let html = `<div class="card ${item.urgent ? 'urgent' : ''}" data-url="${escAttr(url)}" data-date="${escAttr(date)}" data-cat="${c}" role="link" tabindex="0" style="--cat: var(--cat-${c});">`;
   html += thumbHtml;
