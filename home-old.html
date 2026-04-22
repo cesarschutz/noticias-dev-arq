@@ -416,6 +416,7 @@
       grid-template-areas:
         "side main rail";
       height: calc(100vh - 36px);
+      padding: 18px;
       position: relative;
       z-index: 2;
     }
@@ -1231,13 +1232,12 @@
       opacity: 1;
     }
 
-    /* ═══ Quote bar fixa (acima da verse-bar) ═══ */
+    /* ═══ Quote bar acima do título ═══ */
     .quote-bar {
-      position: fixed;
-      bottom: 36px;
-      left: 262px;
-      right: 286px;
+      position: relative;
       height: 76px;
+      width: 100%;
+      margin: 28px 0 18px;
       overflow: visible;
       z-index: 150;
       display: flex;
@@ -1247,7 +1247,7 @@
       background: var(--surface);
       border-top: 1px solid var(--rule);
       box-shadow: 0 -4px 24px rgba(42, 184, 232, .06);
-      transition: transform .28s cubic-bezier(.4, 0, .2, 1), opacity .28s;
+      transition: height .28s cubic-bezier(.4, 0, .2, 1), opacity .28s, margin .28s, padding .28s, border-color .28s;
     }
 
     [data-theme="light"] .quote-bar {
@@ -1256,9 +1256,14 @@
     }
 
     .quote-bar--collapsed {
-      transform: translateY(calc(100% + 40px));
+      height: 0;
+      margin: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top-color: transparent;
       opacity: 0;
       pointer-events: none;
+      overflow: hidden;
     }
 
     .qb-mascot {
@@ -3786,8 +3791,8 @@
       }
 
       .quote-bar {
-        left: 240px;
-        right: 264px;
+        left: auto;
+        right: auto;
       }
     }
 
@@ -3811,8 +3816,8 @@
       }
 
       .quote-bar {
-        left: 240px;
-        right: 0;
+        left: auto;
+        right: auto;
       }
     }
 
@@ -3877,8 +3882,6 @@
       }
 
       .quote-bar {
-        left: 0;
-        right: 0;
         padding-left: 130px;
       }
 
@@ -4876,7 +4879,29 @@
           return;
         }
 
-        let html = `<div class="main-prompt" id="mainPrompt"></div>`;
+        let html = `<div class="quote-bar" id="quoteBar">
+    <div class="qb-mascot">
+      <img src="data/img/mascote-pensativo.png" alt="">
+    </div>
+    <div class="qb-divider"></div>
+    <div class="qb-body">
+      <div class="qb-label">quote · today</div>
+      <blockquote class="qb-text" id="quote-text">—</blockquote>
+      <div class="qb-meta">
+        <span id="quote-author">—</span><span class="qb-ctx" id="quote-ctx"></span>
+      </div>
+    </div>
+    <div class="qb-nav">
+      <button type="button" class="qb-close" onclick="collapseQuoteBar()" aria-label="Fechar frase"
+        title="Fechar">×</button>
+      <div class="qb-nav-arrows">
+        <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
+        <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+      </div>
+    </div>
+    <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
+  </div>`;
+        html += `<div class="main-prompt" id="mainPrompt"></div>`;
 
         const highlights = ed.highlights || [];
         if (highlights.length) {
@@ -6015,28 +6040,6 @@
 
   <!-- VERSE FOOTER -->
   <div id="tip"></div>
-  <div class="quote-bar" id="quoteBar">
-    <div class="qb-mascot">
-      <img src="data/img/mascote.png" alt="">
-    </div>
-    <div class="qb-divider"></div>
-    <div class="qb-body">
-      <div class="qb-label">quote · today</div>
-      <blockquote class="qb-text" id="quote-text">—</blockquote>
-      <div class="qb-meta">
-        <span id="quote-author">—</span><span class="qb-ctx" id="quote-ctx"></span>
-      </div>
-    </div>
-    <div class="qb-nav">
-      <button type="button" class="qb-close" onclick="collapseQuoteBar()" aria-label="Fechar frase"
-        title="Fechar">×</button>
-      <div class="qb-nav-arrows">
-        <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
-        <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
-      </div>
-    </div>
-    <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
-  </div>
 
   <button class="qb-restore" id="qbRestore" onclick="restoreQuoteBar()" aria-label="Mostrar frase do dia">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

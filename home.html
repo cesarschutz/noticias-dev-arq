@@ -1238,13 +1238,12 @@
       opacity: 1;
     }
 
-    /* ═══ Quote bar fixa (acima da verse-bar) ═══ */
+    /* ═══ Quote bar acima do título ═══ */
     .quote-bar {
-      position: fixed;
-      bottom: 36px;
-      left: 262px;
-      right: 286px;
+      position: relative;
       height: 76px;
+      width: 100%;
+      margin: 28px 0 18px;
       overflow: visible;
       z-index: 150;
       display: flex;
@@ -1254,7 +1253,7 @@
       background: var(--surface);
       border-top: 1px solid var(--rule);
       box-shadow: 0 -4px 24px rgba(42, 184, 232, .06);
-      transition: transform .28s cubic-bezier(.4, 0, .2, 1), opacity .28s;
+      transition: height .28s cubic-bezier(.4, 0, .2, 1), opacity .28s, margin .28s, padding .28s, border-color .28s;
     }
 
     [data-theme="light"] .quote-bar {
@@ -1263,9 +1262,14 @@
     }
 
     .quote-bar--collapsed {
-      transform: translateY(calc(100% + 40px));
+      height: 0;
+      margin: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top-color: transparent;
       opacity: 0;
       pointer-events: none;
+      overflow: hidden;
     }
 
     .qb-mascot {
@@ -3987,7 +3991,6 @@
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       letter-spacing: -0.022em;
-      padding-top: 48px;
     }
 
     #particleBg {
@@ -4170,13 +4173,13 @@
 
     .shell {
       max-width: 1480px;
-      height: calc(100vh - 84px);
-      height: calc(100dvh - 84px);
-      min-height: calc(100vh - 84px);
-      min-height: calc(100dvh - 84px);
+      height: calc(100vh - 36px);
+      height: calc(100dvh - 36px);
+      min-height: calc(100vh - 36px);
+      min-height: calc(100dvh - 36px);
       margin: 0 auto;
       gap: 18px;
-      padding: 18px 18px 0;
+      padding: 18px;
     }
 
     .sidebar,
@@ -4382,7 +4385,7 @@
     }
 
     .home-hero {
-      margin: 18px 0 30px;
+      margin: 8px 0 30px;
       padding: 50px 42px 36px;
       border-radius: 32px;
       border: 1px solid var(--rule);
@@ -5022,8 +5025,9 @@
       box-shadow: var(--apple-shadow-sm);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      left: 294px;
-      right: 318px;
+      left: auto;
+      right: auto;
+      width: 100%;
     }
 
     .qb-divider {
@@ -5108,19 +5112,19 @@
     @media (max-width: 1280px) {
       .shell {
         gap: 14px;
-        padding: 12px 14px 0;
+        padding: 14px;
       }
 
       .quote-bar {
-        left: 268px;
-        right: 292px;
+        left: auto;
+        right: auto;
       }
     }
 
     @media (max-width: 1080px) {
       .quote-bar {
-        left: 268px;
-        right: 14px;
+        left: auto;
+        right: auto;
       }
     }
 
@@ -5138,7 +5142,7 @@
       }
 
       .shell {
-        padding: 10px 10px 0;
+        padding: 10px;
       }
 
       .sidebar {
@@ -5153,6 +5157,7 @@
       }
 
       .home-hero {
+        margin-top: 0;
         padding: 34px 22px 24px;
         border-radius: 26px;
       }
@@ -5190,8 +5195,8 @@
       }
 
       .quote-bar {
-        left: 10px;
-        right: 10px;
+        left: auto;
+        right: auto;
         border-radius: 18px;
       }
 
@@ -5211,23 +5216,6 @@
 <body>
 
   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
-  <nav class="apple-nav" aria-label="Principal">
-    <div class="apple-nav-inner">
-      <a class="apple-logo" href="index.html" aria-label="CsR News">
-        <img src="assets/csr-news-logo.svg" alt="">
-        <span>CsR News</span>
-      </a>
-      <div class="apple-nav-links">
-        <a class="apple-nav-link" href="index.html#categories">Categorias</a>
-        <a class="apple-nav-link" href="index.html#languages">Linguagens</a>
-        <a class="apple-nav-link" href="index.html#tools">Ferramentas</a>
-        <a class="apple-nav-link apple-nav-link-current" href="home.html" aria-current="page">Feed</a>
-      </div>
-      <button class="apple-theme-toggle" id="themeToggleTop" aria-label="Alternar tema" title="Alternar tema">
-        <svg viewBox="0 0 24 24" id="themeTopIco" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"></svg>
-      </button>
-    </div>
-  </nav>
   <canvas id="particleBg"></canvas>
 
   <!-- BOOT OVERLAY -->
@@ -6223,7 +6211,29 @@
           return;
         }
 
-        let html = `<div class="main-prompt" id="mainPrompt"></div>`;
+        let html = `<div class="quote-bar" id="quoteBar">
+    <div class="qb-mascot">
+      <img src="data/img/mascote-pensativo.png" alt="">
+    </div>
+    <div class="qb-divider"></div>
+    <div class="qb-body">
+      <div class="qb-label">quote · today</div>
+      <blockquote class="qb-text" id="quote-text">—</blockquote>
+      <div class="qb-meta">
+        <span id="quote-author">—</span><span class="qb-ctx" id="quote-ctx"></span>
+      </div>
+    </div>
+    <div class="qb-nav">
+      <button type="button" class="qb-close" onclick="collapseQuoteBar()" aria-label="Fechar frase"
+        title="Fechar">×</button>
+      <div class="qb-nav-arrows">
+        <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
+        <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
+      </div>
+    </div>
+    <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
+  </div>`;
+        html += `<div class="main-prompt" id="mainPrompt"></div>`;
         const news = (ed.news || []).map(n => Object.assign({}, n, { _date: ed.date }));
         const filtered = applyFilters(news);
         const toolItems = ed.tools || [];
@@ -7387,28 +7397,6 @@
 
   <!-- VERSE FOOTER -->
   <div id="tip"></div>
-  <div class="quote-bar" id="quoteBar">
-    <div class="qb-mascot">
-      <img src="data/img/mascote.png" alt="">
-    </div>
-    <div class="qb-divider"></div>
-    <div class="qb-body">
-      <div class="qb-label">quote · today</div>
-      <blockquote class="qb-text" id="quote-text">—</blockquote>
-      <div class="qb-meta">
-        <span id="quote-author">—</span><span class="qb-ctx" id="quote-ctx"></span>
-      </div>
-    </div>
-    <div class="qb-nav">
-      <button type="button" class="qb-close" onclick="collapseQuoteBar()" aria-label="Fechar frase"
-        title="Fechar">×</button>
-      <div class="qb-nav-arrows">
-        <button type="button" onclick="prevQuote()" aria-label="Anterior">‹</button>
-        <button type="button" onclick="nextQuote()" aria-label="Próxima">›</button>
-      </div>
-    </div>
-    <a id="quote-src" target="_blank" rel="noopener noreferrer" hidden style="display:none"></a>
-  </div>
 
   <button class="qb-restore" id="qbRestore" onclick="restoreQuoteBar()" aria-label="Mostrar frase do dia">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
