@@ -107,6 +107,7 @@
       overflow-x: hidden;
       background: var(--bg);
     }
+    html { scroll-padding-top: 64px; }
     body {
       color: var(--text);
       font-family: var(--sans);
@@ -115,6 +116,7 @@
       font-size: 17px;
       line-height: 1.47059;
       letter-spacing: -0.022em;
+      padding-top: 48px;
       transition: background .35s ease, color .35s ease;
     }
     ::selection { background: rgba(0,113,227,.28); }
@@ -125,8 +127,11 @@
 
     /* ── Apple Nav (sticky glass) ── */
     .apple-nav {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       z-index: 9000;
       height: 48px;
       background: var(--nav-bg);
