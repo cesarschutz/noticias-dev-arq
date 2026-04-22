@@ -3,11 +3,922 @@
   "weekday": "Quarta-feira",
   "formatted_date": "Quarta, 22 de Abril de 2026",
   "generated_at": "2026-04-22T06:00:00-03:00",
-  "hero_title": "",
-  "hero_description": "",
-  "highlights": [],
-  "news": [],
-  "tools": [],
-  "quotes": [],
-  "sources": []
+  "hero_title": "Kubernetes 1.36 chega, Vercel sofre breach via OAuth e Grafana 13 reinventa Loki",
+  "hero_description": "Dia denso: Kubernetes 1.36 desembarca hoje com 80 KEPs, rootless pods estáveis, adeus a gitRepo e ingress-nginx. Vercel confirma incidente de segurança via OAuth da Context.ai, com ShinyHunters à venda. Grafana 13 é anunciado no GrafanaCON Barcelona com Loki rearquitetado sobre Kafka. HashiCorp Vault Enterprise 2.0 vai GA e Keycloak 26.6 habilita Vault SPI para secrets de clientes. Cobertura forte em distarch, sec e obs; sem sinal relevante em fintech e fundamentals hoje — destaques sexta.",
+  "highlights": [
+    {
+      "source_array": "tools",
+      "tool_key": "kubernetes",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Kubernetes 1.36 chega hoje com 80 enhancements, rootless GA e remoção do gitRepo",
+      "summary": "Release oficial de 22 de abril traz Mutating Admission Policies com CEL, workload-aware preemption para jobs de IA/ML, HPA escalando até zero, pods rootless GA via hostUsers:false, DRA profundamente integrada ao scheduler e external signing de ServiceAccount tokens via KMS (KEP-740). Plugin gitRepo removido (KEP-5040) por risco de RCE como root e externalIPs em Services depreciado (KEP-5707, remoção em v1.43). Ingress-NGINX aposentado desde 24/mar por decisão da SIG-Security.",
+      "why_it_matters": "Primeiro release de K8s que força migração fora do ingress-nginx e gitRepo; arquitetos precisam planejar rota para Gateway API e revisar charts de terceiros.",
+      "source": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
+      "published_at": "2026-04-22T09:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "kubernetes",
+        "gateway-api",
+        "rootless",
+        "ingress-nginx",
+        "release"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões",
+      "summary": "Detectado em 19 de abril, incidente começou na compromissão da ferramenta Context.ai (OAuth no Google Workspace de um funcionário da Vercel). Atacante assumiu a conta Workspace, acessou ambientes internos e extraiu environment variables marcadas como 'not sensitive' — que incluem, na prática, API keys, tokens, creds de banco e chaves de assinatura usadas como plaintext. Npm packages da Vercel não foram afetados. ShinyHunters anuncia venda dos dados; Vercel recomenda revisar logs e rotacionar qualquer env var 'não sensível' que contenha segredo.",
+      "why_it_matters": "Mostra que OAuth apps de terceiros em Google Workspace hoje são um vetor real de supply chain; classificação 'sensitive' de env vars em plataformas gerenciadas vira decisão arquitetural.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/",
+      "published_at": "2026-04-20T14:00:00-03:00",
+      "read_time": 5,
+      "urgent": true,
+      "severity": "high",
+      "tags": [
+        "vercel",
+        "supply-chain",
+        "oauth",
+        "breach",
+        "shinyhunters"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "source_array": "tools",
+      "tool_key": "kubernetes",
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Grafana 13 é lançado no GrafanaCON Barcelona com Loki reescrito sobre Kafka",
+      "summary": "Na manhã de 21 de abril em Barcelona, Grafana Labs anunciou Grafana 13 e uma evolução profunda do Loki: ingestão via Kafka para pipelines duráveis, query engine e scheduler redesenhados e um novo query planner distribuído. Números publicados: até 20× menos dado escaneado e 10× mais performance em queries agregadas. Grafana Alloy ganha distribuição OTel com pipelines Prometheus integradas e caminhos mais simples para OpenTelemetry em Linux e Kubernetes. Sessões de Google e Irish Rail mostram uso em escala planetária e em infra ferroviária legada.",
+      "why_it_matters": "Para quem tem log pipelines em escala, Loki com Kafka muda a equação custo/performance e encurta a migração para OTel puro.",
+      "source": "Grafana Labs",
+      "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
+      "published_at": "2026-04-21T07:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "grafana",
+        "loki",
+        "kafka",
+        "opentelemetry",
+        "observability"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões",
+      "summary": "Incidente identificado em 19/abr começou na compromissão de uma OAuth app (Context.ai) no Google Workspace de funcionário Vercel. Atacante extraiu environment variables não classificadas como sensíveis — muitas contendo API keys e creds de banco. Npm packages não afetados; Vercel pede rotação imediata de segredos plaintext.",
+      "why_it_matters": "OAuth apps em Workspace viraram vetor de supply chain; classificação de env vars em plataformas PaaS é decisão de arquitetura, não de deploy.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/",
+      "published_at": "2026-04-20T14:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "vercel",
+        "supply-chain",
+        "oauth",
+        "shinyhunters",
+        "breach"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "headline": "GitGuardian alerta: env vars 'não sensíveis' da Vercel precisam de investigação em paralelo ao breach",
+      "summary": "Análise post-incident mostra que o problema não é só a fatia 'sensitive' — muitas equipes usaram variáveis 'não sensíveis' para configuração de endpoints, feature flags e até tokens secundários. GitGuardian recomenda varredura completa, rotação ampla e revisão do modelo de classificação de segredos em plataformas gerenciadas.",
+      "why_it_matters": "Recategorização de segredos costuma ser retroativamente difícil; reforça necessidade de secrets manager externo (Vault, AWS Secrets Manager) em vez de env vars diretas.",
+      "source": "GitGuardian Blog",
+      "url": "https://blog.gitguardian.com/vercel-april-2026-incident-non-sensitive-environment-variables-need-investigation-too/",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "vercel",
+        "secrets",
+        "env-vars",
+        "gitguardian"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=gitguardian.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Anthropic testa restringir Claude Code a planos Max de US$100/mês — reversão parcial em 24h",
+      "summary": "Em 21-22/abr, página de pricing da Anthropic moveu Claude Code dos planos Pro ($20/mês) para Max ($100 ou $200). Após backlash, a empresa reverteu a landing page e reafirmou que o teste atingia ~2% dos novos signups 'prosumer', sem afetar assinantes Pro/Max existentes. Simon Willison cobriu a confusão em detalhes.",
+      "why_it_matters": "Arquitetos com Claude Code em workflows críticos precisam mapear dependência e custo real antes que um teste A/B vire política permanente.",
+      "source": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2026/Apr/22/claude-code-confusion/",
+      "published_at": "2026-04-22T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "anthropic",
+        "claude-code",
+        "pricing"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Simon Willison atualiza Claude Token Counter para comparar Opus 4.7 e 4.6 — novo tokenizer inflaciona até 1.46×",
+      "summary": "Opus 4.7 é o primeiro modelo Anthropic a mudar o tokenizer; mesma string de entrada pode custar 1.0–1.35× mais tokens dependendo do tipo de conteúdo (e 1.46× em system prompts longos). Ferramenta atualizada permite comparar Opus 4.7, 4.6, Sonnet 4.6 e Haiku 4.5 lado a lado.",
+      "why_it_matters": "Preço por token estável em $5/$25 vira preço por requisição ~35% maior na prática; orçamento de LLM precisa de revisão imediata.",
+      "source": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2026/Apr/21/claude-token-counter/",
+      "published_at": "2026-04-20T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "anthropic",
+        "tokenizer",
+        "llm-ops",
+        "cost"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "MCP Dev Summit NA reúne 1.200 pessoas e A2A v1.0 sai como padrão de produção",
+      "summary": "Em Nova York (2-3/abr), o summit do Model Context Protocol juntou co-founders, maintainers e casos de Amazon e Uber em produção. Semana seguinte, A2A v1.0 foi formalmente publicada. SDKs do MCP atingem 97M de downloads mensais em março (vs 2M no lançamento em nov/24), e análise de segurança aponta 43% dos servidores MCP públicos com ao menos uma vulnerabilidade e 5.5% com descrições poisoned.",
+      "why_it_matters": "MCP virou infra de agents em escala; segurança e governança de MCP servers são agora discussão de arquitetura corporativa, não POC.",
+      "source": "The New Stack",
+      "url": "https://thenewstack.io/model-context-protocol-roadmap-2026/",
+      "published_at": "2026-04-21T09:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "mcp",
+        "agents",
+        "a2a",
+        "security"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Anthropic anuncia Managed Agents em public beta — harness autônomo com sandbox e SSE",
+      "summary": "Com header managed-agents-2026-04-01, o novo endpoint oferece Claude rodando como agent com sandboxing seguro, tooling embutido e streaming server-sent events. Alvo: workloads agentic que hoje demandam stack próprio (runtime, retries, permissões, logs).",
+      "why_it_matters": "Fornecedor empurra o 'agent harness' para dentro da API; decisão build-vs-buy para orquestração de agents muda de patamar.",
+      "source": "Anthropic Platform Release Notes",
+      "url": "https://platform.claude.com/docs/en/release-notes/overview",
+      "published_at": "2026-04-21T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "anthropic",
+        "agents",
+        "sandbox",
+        "beta"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=platform.claude.com&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": true,
+      "headline": "Kubernetes 1.36 sai hoje: 80 KEPs, rootless GA, gitRepo removido e Mutating Admission Policies",
+      "summary": "Release de hoje (22/abr) foca em workload performance, API scalability e uso eficiente de recursos. Highlights: workload-aware preemption para jobs IA/ML, sharded API streams, HPA até zero, rootless containers GA via hostUsers:false, Mutating Admission Policies com CEL embutidas, external signing de ServiceAccount tokens (KEP-740) e DRA integrada ao scheduler. Removals: gitRepo volume e deprecação do externalIPs em Services.",
+      "why_it_matters": "Primeiro release que quebra compat histórica real; revisar helm charts, CI/CD e plataforma interna antes de rollout.",
+      "source": "Perfect Scale",
+      "url": "https://www.perfectscale.io/blog/kubernetes-v1-36-sneak-peek",
+      "published_at": "2026-04-22T07:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "kubernetes",
+        "rootless",
+        "admission-policy",
+        "cel",
+        "dra"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=perfectscale.io&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "headline": "CNCF migra serviços internos de ingress-nginx para Envoy Gateway — guia público de runbook",
+      "summary": "Post oficial da CNCF (13/abr) documenta a migração da infra interna para Envoy Gateway: atenção com cert ownership, integração com load balancer do cloud provider e configuração TLS no backend. Movimento alinhado à retirada oficial do ingress-nginx pela SIG-Security em março.",
+      "why_it_matters": "Template oficial de migração fora do ingress-nginx; quem ainda depende do controller precisa planejar rota para Gateway API.",
+      "source": "CNCF Blog",
+      "url": "https://www.cncf.io/blog/2026/04/13/ingress-nginx-to-envoy-gateway-migration-on-cncf-internal-services-cluster/",
+      "published_at": "2026-04-13T10:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "envoy-gateway",
+        "ingress-nginx",
+        "gateway-api",
+        "migration"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cncf.io&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "headline": "Grafana 13 anunciado no GrafanaCON Barcelona com Loki sobre Kafka — 20× menos dado escaneado",
+      "summary": "21/abr em Barcelona: Grafana Labs apresenta Grafana 13 e a maior evolução do Loki desde a origem — ingestão Kafka-backed, query engine e scheduler novos, planner distribuído. Números oficiais: até 20× menos dado escaneado e 10× mais performance em queries agregadas. Alloy ganha distro OTel com pipelines Prometheus. Sessões Google e Irish Rail no agenda.",
+      "why_it_matters": "Loki com Kafka muda SLO/SLA de observability em escala; custo por log indexado cai sem perder auditoria.",
+      "source": "Grafana Labs Press",
+      "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
+      "published_at": "2026-04-21T07:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "grafana",
+        "loki",
+        "kafka",
+        "otel"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "headline": "Claude Opus 4.7 GA: melhor em SWE longo, visão reforçada e Claude Design em Labs",
+      "summary": "Opus 4.7 tornou-se GA com ganhos em software engineering e tarefas longas. Em paralelo, Anthropic lança Claude Design (Labs) para criar slides, protótipos e one-pagers, e habilita charts/diagramas inline nas respostas do app mobile. Tokenizer novo custa até 1.46× mais tokens em system prompts.",
+      "why_it_matters": "SWE longo vira ponto de compra; mas novo tokenizer recalibra todo o orçamento de LLM sem mudar o preço por token.",
+      "source": "Anthropic News",
+      "url": "https://www.anthropic.com/news/claude-opus-4-7",
+      "published_at": "2026-04-16T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "claude",
+        "opus",
+        "release",
+        "tokenizer"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "headline": "Microsoft lança três modelos de fundação próprios (texto, voz, imagem)",
+      "summary": "TechCrunch reporta Microsoft AI anunciando três modelos fundacionais próprios — texto, voz e imagem — reforçando a estratégia de stack multimodal independente do fornecedor OpenAI. Movimento responde à pressão competitiva pós-GPT-6 e à nova família Llama 4.",
+      "why_it_matters": "Decisão arquitetural vendor-lock com Microsoft muda com stack multimodal próprio disponível em Azure.",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/",
+      "published_at": "2026-04-02T15:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "microsoft",
+        "foundation-models",
+        "multimodal"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "GCP publica release notes de 17/abr — batch diário alimenta mudanças em serviços chave",
+      "summary": "Notas do dia 17 (e do 16) consolidam ajustes em produtos managed da GCP. Embora sem um único bombshell, o ritmo contínuo de release notes diárias é o sinal prático a observar para arquitetos multi-cloud que mantêm plataforma sobre GKE/Cloud Run/BigQuery.",
+      "why_it_matters": "Cadência diária de mudanças nas cloud torna ADRs 'frozen' inviáveis; arquitetos precisam de pipeline de monitoring de release notes.",
+      "source": "mwpro",
+      "url": "https://mwpro.co.uk/blog/2026/04/18/gcp-release-notes-april-17-2026/",
+      "published_at": "2026-04-18T11:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "gcp",
+        "release-notes",
+        "multicloud"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=mwpro.co.uk&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "Cloudflare tem maintenance window em AMS, STL e SEA entre 21 e 22/abr — mínima latência extra",
+      "summary": "Sem outage grande, mas status reporta cluster de janelas de manutenção (STL, SEA, AMS) com possível re-routing de tráfego e latência marginal. Log Explorer sofreu degradação em 21/abr — já resolvida. Nada que quebre SLA de borda, mas importante para quem monitora p99 fim a fim.",
+      "why_it_matters": "Monitoramento proativo de status page de edge provider precisa virar integração, não bookmark.",
+      "source": "Statusfield",
+      "url": "https://statusfield.com/services/cloudflare/incidents",
+      "published_at": "2026-04-22T00:00:00-03:00",
+      "read_time": 2,
+      "tags": [
+        "cloudflare",
+        "cdn",
+        "status"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=statusfield.com&sz=256"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "headline": "Wasmtime publica avisos de segurança pós-verificação formal do Cranelift com LLM",
+      "summary": "Em release excepcional (9/abr), time Wasmtime usou LLM tools de ponta com Mozilla, UCSD, Akamai e F5 para varrer Cranelift. Encontrou 4 falhas no Winch e 2 no Cranelift — os dois compiladores tier-1 do Wasmtime. Primeira vez que verificação formal assistida por LLM entrega CVEs concretos em runtime WASM em produção.",
+      "why_it_matters": "WASM server-side em crescimento (Cloudflare, Fastly, Spin) depende de Wasmtime; arquitetos embutindo WASI devem auditar versões.",
+      "source": "Bytecode Alliance",
+      "url": "https://bytecodealliance.org/articles/wasmtime-security-advisories",
+      "published_at": "2026-04-09T14:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "wasmtime",
+        "wasm",
+        "cranelift",
+        "formal-verification"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bytecodealliance.org&sz=256"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "headline": "Envoy Gateway v1.7.2 sai em 17/abr com ajustes em BackendTrafficPolicy e rate limit",
+      "summary": "Release patch corrige bound em rateLimit de BackendTrafficPolicy, polimento em APIs Gateway alinhadas ao trabalho Ingress2Gateway 1.0 e ajustes de interop com Gateway API 1.3. Reforça papel do Envoy Gateway como caminho padrão pós-retirada do ingress-nginx.",
+      "why_it_matters": "Quem migra de ingress-nginx precisa dessa versão para rate limit confiável em produção.",
+      "source": "Envoy Gateway Releases",
+      "url": "https://gateway.envoyproxy.io/news/releases/",
+      "published_at": "2026-04-17T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "envoy-gateway",
+        "gateway-api",
+        "rate-limit"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=gateway.envoyproxy.io&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "headline": "Next.js 16.2 chega com streaming fixes, lru disk cache de imagem e patches de segurança",
+      "summary": "Update abrangente: upgrades de React, melhorias do Turbopack, routing experimental, type checks mais rígidos. Correções: hang de streaming fetch, server actions transform em node_modules, enforcement de maxPostponedStateSize, lru disk cache para imagens, bloqueio de dev websockets sensíveis a privacidade e patch em http-proxy.",
+      "why_it_matters": "Stack Next.js em produção ganha lru disk cache (custo de CDN de imagem) e elimina um CVE latente em http-proxy.",
+      "source": "Releasebot (Vercel Next.js)",
+      "url": "https://releasebot.io/updates/vercel/next-js",
+      "published_at": "2026-04-18T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "nextjs",
+        "turbopack",
+        "react",
+        "release"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=releasebot.io&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "headline": "Vite 8.0.9 e create-vite 9.0.5 saem em 20/abr com correções de build e DX",
+      "summary": "Pacote duplo Vite 8.0.9 e create-vite 9.0.5 em 20/abr foca em correções em build e developer experience — alinhado à linha 8.x estabilizada após o salto para Rolldown como bundler interno.",
+      "why_it_matters": "Vite consolida papel de build tool dominante em projetos React/Vue/Svelte; minor patching rápido preserva estabilidade em produção.",
+      "source": "Releasebot (Vite)",
+      "url": "https://releasebot.io/updates/vite",
+      "published_at": "2026-04-20T12:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "vite",
+        "rolldown",
+        "build",
+        "frontend"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=releasebot.io&sz=256"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "urgent": false,
+      "headline": "Gremlin e Carahsoft levam chaos engineering ao setor público dos EUA",
+      "summary": "Parceria anunciada em 21/abr: plataforma Gremlin fica disponível via marketplace Carahsoft para agências federais. Injeção controlada de falha, validação de DR e descoberta proativa de riscos em workloads classificados.",
+      "why_it_matters": "Chaos engineering sai do nicho hyperscaler e entra em compliance federal — sinal de maturação regulatória da prática.",
+      "source": "GlobeNewswire",
+      "url": "https://www.globenewswire.com/news-release/2026/04/21/3278248/0/en/Gremlin-and-Carahsoft-Partner-to-Bring-Reliability-Testing-and-Chaos-Engineering-to-the-Public-Sector.html",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "chaos-engineering",
+        "gremlin",
+        "public-sector",
+        "sre"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=globenewswire.com&sz=256"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "headline": "Cloud Native Now: Istio tece service mesh 'future-ready' para IA",
+      "summary": "Segunda perspectiva sobre o movimento da Istio: Ambient Multicluster simplifica deploy em topologias complexas; Gateway API Inference Extension padroniza expor modelos via K8s Gateway; agentgateway nasce para tráfego agent-to-service. Stack CNCF se rearranja para cargas IA.",
+      "why_it_matters": "Decisão 'Istio vs Cilium vs Linkerd' muda com ambient multicluster — benchmarks de service mesh precisam refresh.",
+      "source": "Cloud Native Now",
+      "url": "https://cloudnativenow.com/features/istio-weaves-future-ready-service-mesh-for-ai/",
+      "published_at": "2026-04-21T13:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "istio",
+        "service-mesh",
+        "ai",
+        "gateway-api"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cloudnativenow.com&sz=256"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "headline": "InfoQ lança programa de certificação socio-técnica para arquitetos",
+      "summary": "InfoQ abre Online Cohorts para avanço em arquitetura socio-técnica — currículo cobre Team Topologies, DORA, governança de APIs e Decentralized Architecture Decisions (o Architecture Advice Process que a casa publicou em março). Movimento sinaliza amadurecimento do papel arquitetura-como-time-de-times.",
+      "why_it_matters": "Trilha formal sobre governança descentralizada de decisões arquiteturais — útil para enterprise em modelo de platform engineering.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/03/architect-certification-program/",
+      "published_at": "2026-03-30T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "team-topologies",
+        "architecture-advice-process",
+        "certification"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "headline": "Platform Engineering em 2026: 90% das orgs com IDP e 76% com times dedicados",
+      "summary": "Artigo consolidador em Medium (abr/2026) revisa adoção: 90% reportam IDP, 76% têm platform team dedicado. Central: DORA 2025 mostra que IA como amplificador só paga quando a plataforma é de alta qualidade — quando é baixa, efeito é negligível. Rework rate entra como 5ª métrica DORA.",
+      "why_it_matters": "Para CIOs/CTOs, ordem é invertida: plataforma vem antes de IA; sem base, investimento em Copilot/Cursor/Claude não escala.",
+      "source": "Medium (ATNO for DevOps)",
+      "url": "https://medium.com/@atnofordevops/platform-engineering-in-2026-the-movement-thats-reshaping-how-we-build-and-ship-software-%EF%B8%8F-51f17a381aac",
+      "published_at": "2026-04-18T09:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "platform-engineering",
+        "dora",
+        "devex",
+        "idp"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=medium.com&sz=256"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "headline": "Perspectives in Spec-Driven Development — o teste vira o 'spec' na era agentic",
+      "summary": "Artigo de 21/abr defende spec-driven development como próxima iteração do TDD na era de agentes: especificação executável (tests) vira o contrato central entre humano e agent. IA não elimina TDD — expõe quem entende e quem só memorizou o ritual.",
+      "why_it_matters": "Para arquitetos lidando com agents em produção, spec-as-code redefine onde a 'verdade' do sistema vive: no teste, não no prompt.",
+      "source": "The IT Solutionist",
+      "url": "https://theitsolutionist.com/2026/04/21/perspectives-in-spec-driven-development/",
+      "published_at": "2026-04-21T11:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "tdd",
+        "spec-driven",
+        "ai-assisted",
+        "testing"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theitsolutionist.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "headline": "GrafanaCON: sessão Google explica dashboards planetários; Irish Rail moderniza monitoring ferroviário",
+      "summary": "No agenda do GrafanaCON, sessões user-led detalham casos reais: Google constrói dashboards em escala planetária sobre Grafana; Irish Rail moderniza observability de infra ferroviária de 180 anos. Contrapontos que mostram Grafana servindo de startup a infra crítica legada.",
+      "why_it_matters": "Case studies com profundidade real (não marketing) ajudam a calibrar o que é viável em observability de sistema crítico.",
+      "source": "Grafana Labs",
+      "url": "https://grafana.com/blog/grafanacon-2026-in-barcelona-what-not-to-miss/",
+      "published_at": "2026-04-20T08:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "grafana",
+        "google",
+        "irish-rail",
+        "observability"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "release",
+      "version": "1.36",
+      "headline": "Kubernetes 1.36 sai hoje — 80 KEPs, rootless GA, remoção do gitRepo e Mutating Admission Policies",
+      "description": "Release oficial de 22/abr traz workload-aware preemption para IA/ML, HPA até zero, pods rootless GA, Mutating Admission Policies com CEL, external signing de ServiceAccount tokens (KEP-740), DRA integrada ao scheduler. Removals: gitRepo volume e externalIPs em Services.",
+      "why_it_matters": "Primeira release que força revisão real de charts e CI/CD; arquitetos precisam mapear ingress-nginx antes do rollout.",
+      "source": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
+      "published_at": "2026-04-22T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256",
+      "tags": [
+        "kubernetes",
+        "release",
+        "1.36",
+        "gateway-api"
+      ]
+    },
+    {
+      "tool_key": "istio",
+      "name": "Istio",
+      "icon": "🕸",
+      "kind": "news",
+      "headline": "Istio 1.29 com Ambient Multicluster e Gateway API Inference Extension domina cobertura de service mesh",
+      "description": "InfoQ e Cloud Native Now publicaram cobertura profunda em 21/abr das entregas anunciadas no KubeCon Europe 2026: ambient multicluster beta, Gateway API Inference Extension beta e agentgateway experimental.",
+      "why_it_matters": "Comparação Istio vs Linkerd vs Cilium precisa refresh — ambient multicluster real muda TCO e blast radius.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/istio-ai-multicluster/",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "tags": [
+        "istio",
+        "ambient",
+        "multicluster",
+        "inference"
+      ]
+    },
+    {
+      "tool_key": "keycloak",
+      "name": "Keycloak",
+      "icon": "🔑",
+      "kind": "release",
+      "version": "26.6.0",
+      "headline": "Keycloak 26.6.0 habilita Vault SPI para segredos de clientes e promove JWT Authorization Grant a GA",
+      "description": "Secrets de clientes agora podem ser gerenciados e consultados via Vault SPI. JWT Authorization Grant e Federated Client Authentication saem de preview para supported. Kubernetes SAs como IdP JWT sem gerenciar segredos individuais. Novo guia para OAuth 2.0 DPoP (tokens sender-constrained). Truststore automático em K8s/OpenShift.",
+      "why_it_matters": "Vault SPI para client secrets fecha gap estrutural — não precisa mais guardar segredo em DB interno do Keycloak.",
+      "source": "Keycloak Blog",
+      "url": "https://www.keycloak.org/2026/04/keycloak-2660-released",
+      "published_at": "2026-04-17T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=keycloak.org&sz=256",
+      "tags": [
+        "keycloak",
+        "vault-spi",
+        "oauth",
+        "dpop",
+        "jwt"
+      ]
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "💻",
+      "kind": "news",
+      "headline": "VS Code consolida-se com Copilot integrado e dev containers em stack híbrida com Claude Code",
+      "description": "Análise recente de stack AI coding (The New Stack) mostra padrão dominante em 2026: VS Code + Copilot no IDE para edição diária + Claude Code em terminal para tarefas pesadas. Survey Pragmatic Engineer: Claude Code lidera com 46% de 'most loved'.",
+      "why_it_matters": "Decisão stack IDE deixou de ser religião — arquitetos normalizam multi-tool AI coding com roles claros.",
+      "source": "The New Stack",
+      "url": "https://thenewstack.io/ai-coding-tool-stack/",
+      "published_at": "2026-04-21T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256",
+      "tags": [
+        "vscode",
+        "copilot",
+        "claude-code",
+        "ai-coding"
+      ]
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "news",
+      "headline": "Claude Code ganha Auto mode, /effort, /ultrareview e tema 'terminal-matching' — pricing controverso reverte",
+      "description": "Update traz Opus 4.7 xhigh, Auto mode para Max, novos controles /effort e /ultrareview, tema visual alinhado ao terminal, menos prompts de permissão, melhor suporte a Windows. Tentativa de restringir Claude Code ao plano Max foi revertida após backlash em 21-22/abr.",
+      "why_it_matters": "Para times que padronizaram em Claude Code, ritmo de features segue forte — mas tração comercial da Anthropic gera risco de pricing imprevisível.",
+      "source": "Releasebot (Anthropic)",
+      "url": "https://releasebot.io/updates/anthropic/claude-code",
+      "published_at": "2026-04-21T14:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=releasebot.io&sz=256",
+      "tags": [
+        "claude-code",
+        "opus-4.7",
+        "auto-mode",
+        "pricing"
+      ]
+    },
+    {
+      "tool_key": "ghactions",
+      "name": "GitHub Actions",
+      "icon": "⚙️",
+      "kind": "news",
+      "headline": "GitHub Actions promove OIDC custom properties a GA e habilita failover VNET em preview",
+      "description": "Early April update adiciona entrypoint/command para service containers (sintaxe Docker Compose), OIDC claims de repo custom properties em GA e failover VNET para Azure subnets secundárias opcionalmente em outra região.",
+      "why_it_matters": "OIDC granular por time/produto permite trust policies em cloud sem múltiplas integrações; failover VNET endereça DR para pipelines críticos.",
+      "source": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2026-04-02-github-actions-early-april-2026-updates/",
+      "published_at": "2026-04-02T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256",
+      "tags": [
+        "github-actions",
+        "oidc",
+        "vnet",
+        "service-containers"
+      ]
+    },
+    {
+      "tool_key": "databricks",
+      "name": "Databricks",
+      "icon": "🧱",
+      "kind": "news",
+      "headline": "Databricks coloca Apache Iceberg v3 em public preview e torna dbt task de primeira classe no Lakeflow Jobs",
+      "description": "Iceberg v3 em preview com row-level concurrency, novos tipos e suporte a cargas operacionais. Lakeflow Jobs integra dbt nativamente — teams orquestram transformação ao lado de ingestão num só workflow.",
+      "why_it_matters": "Para arquiteturas lakehouse, Iceberg v3 desbloqueia workloads operacionais antes inviáveis em open table formats.",
+      "source": "Databricks Blog",
+      "url": "https://www.databricks.com/blog/next-era-open-lakehouse-apache-icebergtm-v3-public-preview-databricks",
+      "published_at": "2026-04-20T14:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256",
+      "tags": [
+        "databricks",
+        "iceberg",
+        "lakehouse",
+        "dbt"
+      ]
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "📨",
+      "kind": "news",
+      "headline": "Kafka 4.1.0 introduz novo Streams Rebalance Protocol com rebalances incrementais",
+      "description": "Cobertura detalhada do Instaclustr em 20/abr sobre o novo protocolo de rebalance em Kafka Streams 4.1: rebalances incrementais, menor latência na recuperação de partições, recovery mais previsível em clusters com alto churn.",
+      "why_it_matters": "Janelas de indisponibilidade em deploy de Streams encurtam — SLA de event processing ganha margem.",
+      "source": "Instaclustr",
+      "url": "https://www.instaclustr.com/blog/whats-new-in-kafka-4-1-0-introducing-the-new-streams-rebalance-protocol/",
+      "published_at": "2026-04-20T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=instaclustr.com&sz=256",
+      "tags": [
+        "kafka",
+        "streams",
+        "rebalance"
+      ]
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🌱",
+      "kind": "news",
+      "headline": "This Week in Spring (21/abr) consolida 4.0.5 em produção e marcha para 4.1.0-M4",
+      "description": "Edição semanal do spring.io confirma Spring Boot 4.0.5 (de 26/mar) como base de produção (Spring Framework 7.0.6, Spring Kafka 4.1.1, Security 7.0.0, Hibernate 7.1.8, Tomcat 11.0.2). Milestone 4.1.0-M4 abre caminho para minor em maio. Baseline JDK 17; recomendados 21 e 25 para virtual threads.",
+      "why_it_matters": "Arquitetos com estratégia Spring precisam decidir agora janela de upgrade para 4.0.5 e testes em JDK 25 antes do 4.1 GA.",
+      "source": "Spring Blog",
+      "url": "https://spring.io/blog/2026/04/21/this-week-in-spring-april-21-2026/",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256",
+      "tags": [
+        "spring-boot",
+        "jvm",
+        "java-25",
+        "virtual-threads"
+      ]
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "news",
+      "headline": "Docker Desktop 4.31 inspeciona builds GitHub Actions em beta — deep dive ao vivo",
+      "description": "Docker publicou beta do recurso que mostra builds GitHub Actions dentro do Docker Desktop com detalhamento por step, cache hit/miss e métricas de performance. Complementar a Actions Summary: drill-down em toda etapa do build em ambiente local.",
+      "why_it_matters": "Debug de build lento em CI fica na máquina do dev sem precisar rodar o workflow inteiro — encurta loop DX.",
+      "source": "Docker Blog",
+      "url": "https://www.docker.com/blog/new-beta-feature-deep-dive-into-github-actions-docker-builds-with-docker-desktop/",
+      "published_at": "2026-04-18T14:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=docker.com&sz=256",
+      "tags": [
+        "docker",
+        "desktop",
+        "github-actions",
+        "build"
+      ]
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform / OpenTofu",
+      "icon": "🧰",
+      "kind": "news",
+      "headline": "OpenTofu 1.12.0-beta1 traz dynamic prevent_destroy e import por resource identity",
+      "description": "Beta aberto com enhancements: dynamic prevent_destroy, import por resource identity, checksum handling de provider melhor e output simultâneo humano/JSON em mais comandos. Patches de segurança: servidor TLS malicioso não consegue mais deadlockar OpenTofu; tar archives com muitos sparse files são bloqueados.",
+      "why_it_matters": "Feature gap frente ao Terraform fecha com dynamic prevent_destroy — argumento para times em fork ganhar tração.",
+      "source": "Releasebot (OpenTofu)",
+      "url": "https://releasebot.io/updates/opentofu",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=releasebot.io&sz=256",
+      "tags": [
+        "opentofu",
+        "terraform",
+        "iac"
+      ]
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "release",
+      "version": "0.45.0",
+      "headline": "Uvicorn 0.45.0 sai em 21/abr — ASGI server continua fundamento do stack Python async",
+      "description": "Release em 21/abr traz polimento em hot reload, melhor integração com FastAPI 0.136+, fix em websockets sob carga. Complementa Python 3.14 (free-threading) e uv como package manager dominante em 2026.",
+      "why_it_matters": "Para arquiteturas Python em alta escala, tripé Uvicorn + FastAPI + uv se estabiliza como novo default.",
+      "source": "PyPI",
+      "url": "https://pypi.org/project/uvicorn/",
+      "published_at": "2026-04-21T12:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=pypi.org&sz=256",
+      "tags": [
+        "python",
+        "uvicorn",
+        "asgi",
+        "fastapi"
+      ]
+    },
+    {
+      "tool_key": "javascript",
+      "name": "JavaScript / TypeScript",
+      "icon": "🟨",
+      "kind": "release",
+      "version": "6.0.3",
+      "headline": "TypeScript 6.0.3 é o último major em JavaScript — 7.0 migra para compilador em Go",
+      "description": "Release de 16/abr encerra linha JS do tsc. TypeScript 7.0 (mid-2026) será compilador em Go com strict-by-default, drop do target ES5, remoção de AMD/UMD/SystemJS. Node.js 24.15.0 LTS (15/abr) trouxe npm v11 (65% mais rápido), V8 13.4 e suporte TS nativo via --strip-types. Node 22 muda para maintenance em abril/2026.",
+      "why_it_matters": "Monorepos TS vão ganhar compile time absurdo, mas strict-by-default força auditoria de tsconfig antigo.",
+      "source": "Microsoft DevBlogs",
+      "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/",
+      "published_at": "2026-04-16T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=devblogs.microsoft.com&sz=256",
+      "tags": [
+        "typescript",
+        "node",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "🟣",
+      "kind": "news",
+      "headline": "Java Annotated Monthly (abril/2026) da JetBrains consolida ecossistema JVM pós-Java 26",
+      "description": "Boletim mensal da JetBrains cobre Java 26, maturação do Project Leyden (cold start), virtual threads produtivos em Spring Boot e integrações AI com JetBrains AI Assistant. Ponto central: JVM finalmente tem história AI tooling 'grown-up'.",
+      "why_it_matters": "Para times Java, abril marca ponto em que Leyden + virtual threads + AI Assistant passam de POC para produção.",
+      "source": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/",
+      "published_at": "2026-04-07T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=jetbrains.com&sz=256",
+      "tags": [
+        "jetbrains",
+        "java",
+        "leyden",
+        "virtual-threads"
+      ]
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "TechLife: 'Java em abril/2026 — Leyden amadurece, Spring fica mais esperto, JVM se reinventa para a era IA'",
+      "description": "Análise de ecossistema em 20/abr: Java 26 entregue, Project Leyden reduz cold start em ordem de grandeza, Spring Boot com AI tooling nativo, JVM firma-se como runtime competitivo para serviços IA-heavy. Benchmark Leyden: startup de aplicação Spring cai de segundos para milissegundos.",
+      "why_it_matters": "Argumento cold-start que empurrou arquitetos para Go/Node perde força; JVM volta a mesa para serverless e agents.",
+      "source": "TechLife",
+      "url": "https://techlife.blog/posts/java-ecosystem-april-2026/",
+      "published_at": "2026-04-20T11:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=techlife.blog&sz=256",
+      "tags": [
+        "java",
+        "jvm",
+        "leyden",
+        "spring"
+      ]
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Any organization that designs a system will produce a design whose structure is a copy of the organization's communication structure.",
+      "author": "Melvin Conway",
+      "context": "Relevante para entender service mesh multicluster e a decisão de Team Topologies por trás",
+      "related_to": "cat:enterprise"
+    },
+    {
+      "text": "The cheapest, fastest, and most reliable components are those that aren't there.",
+      "author": "Gordon Bell",
+      "context": "Aplicável à remoção do ingress-nginx e gitRepo no Kubernetes 1.36",
+      "related_to": "tool:kubernetes"
+    },
+    {
+      "text": "Security is a process, not a product.",
+      "author": "Bruce Schneier",
+      "context": "Breach da Vercel mostra que OAuth apps de terceiros são o novo perímetro",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "Make it work, make it right, make it fast.",
+      "author": "Kent Beck",
+      "context": "Spec-driven development na era agentic reafirma: o teste é o contrato",
+      "related_to": "cat:design"
+    },
+    {
+      "text": "Observability is not about knowing what's broken. It's about knowing what's normal.",
+      "author": "Charity Majors",
+      "context": "Grafana 13 com Loki sobre Kafka amplifica o 'normal' em escala",
+      "related_to": "cat:obs"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/"
+    },
+    {
+      "name": "Grafana Labs Press",
+      "url": "https://grafana.com/press/"
+    },
+    {
+      "name": "The Register",
+      "url": "https://www.theregister.com/"
+    },
+    {
+      "name": "Anthropic News",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "The New Stack",
+      "url": "https://thenewstack.io/"
+    },
+    {
+      "name": "CNCF Blog",
+      "url": "https://www.cncf.io/blog/"
+    },
+    {
+      "name": "GitHub Changelog",
+      "url": "https://github.blog/changelog/"
+    },
+    {
+      "name": "Databricks Blog",
+      "url": "https://www.databricks.com/blog"
+    },
+    {
+      "name": "Instaclustr",
+      "url": "https://www.instaclustr.com/blog/"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog/"
+    },
+    {
+      "name": "Keycloak Blog",
+      "url": "https://www.keycloak.org/blog"
+    },
+    {
+      "name": "Envoy Gateway",
+      "url": "https://gateway.envoyproxy.io/news/releases/"
+    },
+    {
+      "name": "Bytecode Alliance",
+      "url": "https://bytecodealliance.org/articles/"
+    },
+    {
+      "name": "GitGuardian Blog",
+      "url": "https://blog.gitguardian.com/"
+    }
+  ]
 }

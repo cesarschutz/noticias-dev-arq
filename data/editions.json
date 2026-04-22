@@ -1,6 +1,56 @@
 {
-  "last_generated": "2026-04-20T23:23:00-03:00",
+  "last_generated": "2026-04-22T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-22",
+      "summary": "Kubernetes 1.36 chega com 80 KEPs e rootless GA, Vercel sofre breach via OAuth da Context.ai e Grafana 13 reescreve Loki sobre Kafka no GrafanaCON Barcelona.",
+      "counts_by_category": {
+        "sec": 2,
+        "aiops": 4,
+        "ai": 2,
+        "devops": 2,
+        "obs": 2,
+        "cloud": 2,
+        "backend": 1,
+        "integ": 1,
+        "frontend": 2,
+        "testing": 1,
+        "distarch": 1,
+        "enterprise": 2,
+        "design": 1
+      },
+      "counts_by_tool": {
+        "kubernetes": 1,
+        "istio": 1,
+        "keycloak": 1,
+        "vscode": 1,
+        "claudecode": 1,
+        "ghactions": 1,
+        "databricks": 1,
+        "kafka": 1,
+        "springboot": 1,
+        "docker": 1,
+        "terraform": 1,
+        "python": 1,
+        "javascript": 1,
+        "intellij": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "Kubernetes 1.36 chega hoje com 80 enhancements, rootless GA e remoção do gitRepo",
+          "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/"
+        },
+        {
+          "title": "Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões",
+          "url": "https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/"
+        },
+        {
+          "title": "Grafana 13 é lançado no GrafanaCON Barcelona com Loki reescrito sobre Kafka",
+          "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/"
+        }
+      ]
+    },
     {
       "date": "2026-04-20",
       "summary": "Istio 1.29 promove ambient multicluster a beta, Claude Code ganha Opus 4.7 com 1M tokens e Microsoft publica Patch Tuesday com 163 CVEs incluindo zero-day SharePoint sob exploração ativa.",
