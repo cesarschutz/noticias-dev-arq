@@ -1248,7 +1248,7 @@
       z-index: 150;
       display: flex;
       align-items: center;
-      padding: 0 18px 0 140px;
+      padding: 0 6px 0 61px;
       gap: 16px;
       background: var(--surface);
       border-top: 1px solid var(--rule);
@@ -1276,7 +1276,7 @@
       position: absolute;
       left: 10px;
       bottom: 0;
-      width: 118px;
+      width: 70px;
       pointer-events: none;
       z-index: 1;
     }
@@ -4188,16 +4188,18 @@
       border: 1px solid var(--rule);
       border-radius: 24px;
       box-shadow: var(--apple-shadow-sm);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      /* backdrop removido: blur + cantos arredondados gerava halo azul no topo da sidebar */
+      isolation: isolate;
     }
 
     .side-brand {
       padding: 14px 16px;
       border-bottom: 1px solid var(--rule);
-      background: color-mix(in srgb, var(--surface) 84%, transparent);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      background: color-mix(in srgb, var(--surface-hi) 92%, var(--bg-deep));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .brand-home img {
@@ -4829,17 +4831,6 @@
       gap: 10px;
     }
 
-    .card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--cat, var(--amber));
-      opacity: .95;
-    }
-
     .card:hover {
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border-color: var(--rule-soft);
@@ -5150,6 +5141,11 @@
         bottom: 46px;
         left: 10px;
         border-radius: 22px;
+      }
+
+      .side-brand {
+        border-top-left-radius: 22px;
+        border-top-right-radius: 22px;
       }
 
       .main-inner {
