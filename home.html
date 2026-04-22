@@ -3932,6 +3932,10 @@
       --bubble-mix: #ffffff;
       --bg-grad: #f5f5f7;
       --focus: #0071e3;
+      --nav-bg: rgba(245, 245, 247, .62);
+      --nav-border: rgba(29, 29, 31, .08);
+      --nav-shadow: 0 8px 24px rgba(255, 255, 255, .28);
+      --nav-highlight: rgba(255, 255, 255, .42);
       --apple-shadow-sm: rgba(0, 0, 0, 0.08) 3px 5px 30px 0px;
       --apple-shadow-md: rgba(0, 0, 0, 0.14) 3px 5px 30px 0px;
     }
@@ -3970,6 +3974,10 @@
       --bubble-mix: #000000;
       --bg-grad: #000000;
       --focus: #0071e3;
+      --nav-bg: rgba(0, 0, 0, .62);
+      --nav-border: rgba(255, 255, 255, .1);
+      --nav-shadow: 0 8px 24px rgba(0, 0, 0, .34);
+      --nav-highlight: rgba(255, 255, 255, .08);
       --apple-shadow-sm: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
       --apple-shadow-md: rgba(0, 0, 0, 0.34) 3px 5px 30px 0px;
     }
@@ -3979,10 +3987,138 @@
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       letter-spacing: -0.022em;
+      padding-top: 48px;
     }
 
     #particleBg {
       display: none;
+    }
+
+    html {
+      scroll-padding-top: 76px;
+    }
+
+    .apple-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 9600;
+      height: 48px;
+      background: transparent;
+      transition: background .3s ease, border-color .3s ease;
+      isolation: isolate;
+    }
+
+    .apple-nav::before,
+    .apple-nav::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .apple-nav::before {
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-border);
+      box-shadow: var(--nav-shadow);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+    }
+
+    .apple-nav::after {
+      background: linear-gradient(180deg, var(--nav-highlight), transparent 72%);
+    }
+
+    .apple-nav-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .apple-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.016em;
+    }
+
+    .apple-logo img {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .apple-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .apple-nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 14px;
+      color: var(--ink-soft);
+      border-radius: 980px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      transition: color .18s ease, background .18s ease, opacity .18s ease;
+    }
+
+    .apple-nav-link:hover {
+      color: var(--ink);
+      background: color-mix(in srgb, var(--surface-hi) 72%, transparent);
+    }
+
+    .apple-nav-link-current {
+      color: var(--blue);
+      background: color-mix(in srgb, var(--blue) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--blue) 18%, var(--rule));
+    }
+
+    .apple-theme-toggle {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: color .18s ease, background .18s ease;
+    }
+
+    .apple-theme-toggle:hover {
+      color: var(--ink);
+      background: color-mix(in srgb, var(--surface-hi) 72%, transparent);
+    }
+
+    .apple-theme-toggle svg {
+      width: 17px;
+      height: 17px;
     }
 
     ::selection {
@@ -4033,8 +4169,14 @@
     }
 
     .shell {
-      gap: 16px;
-      padding: 14px 16px 0;
+      max-width: 1480px;
+      height: calc(100vh - 84px);
+      height: calc(100dvh - 84px);
+      min-height: calc(100vh - 84px);
+      min-height: calc(100dvh - 84px);
+      margin: 0 auto;
+      gap: 18px;
+      padding: 18px 18px 0;
     }
 
     .sidebar,
@@ -4235,8 +4377,167 @@
     }
 
     .main-inner {
-      max-width: 1160px;
-      padding: 0 24px 132px;
+      max-width: 1180px;
+      padding: 0 28px 132px;
+    }
+
+    .home-hero {
+      margin: 18px 0 30px;
+      padding: 50px 42px 36px;
+      border-radius: 32px;
+      border: 1px solid var(--rule);
+      box-shadow: var(--apple-shadow-sm);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), color-mix(in srgb, var(--bg-deep) 92%, transparent));
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .home-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: color-mix(in srgb, var(--blue) 18%, transparent);
+    }
+
+    .home-hero-kicker {
+      margin-bottom: 14px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.016em;
+    }
+
+    .home-hero-title {
+      max-width: 900px;
+      margin: 0 auto 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(34px, 5vw, 60px);
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .home-hero-sub {
+      max-width: 860px;
+      margin: 0 auto 28px;
+      color: var(--ink-soft);
+      font-size: clamp(18px, 2.1vw, 22px);
+      line-height: 1.35;
+      letter-spacing: -0.015em;
+    }
+
+    .home-hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .apple-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 12px 22px;
+      border-radius: 980px;
+      border: 1px solid transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.022em;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
+    }
+
+    .apple-btn-primary {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .apple-btn-primary:hover {
+      background: color-mix(in srgb, var(--blue) 86%, #ffffff);
+    }
+
+    .apple-btn-secondary {
+      background: transparent;
+      color: var(--link);
+      border-color: currentColor;
+    }
+
+    .apple-btn-secondary:hover {
+      background: var(--link);
+      color: #ffffff;
+    }
+
+    .apple-btn:active {
+      transform: scale(.985);
+    }
+
+    .apple-btn .arr {
+      transition: transform .2s ease;
+    }
+
+    .apple-btn:hover .arr {
+      transform: translateX(3px);
+    }
+
+    .home-hero-meta {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .home-hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 980px;
+      border: 1px solid var(--rule);
+      background: color-mix(in srgb, var(--surface-hi) 84%, transparent);
+      color: var(--ink-dim);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.12px;
+    }
+
+    .home-hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      text-align: left;
+    }
+
+    .home-hero-stat {
+      padding: 16px 16px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--rule);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+    }
+
+    .home-hero-stat-value {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .home-hero-stat-label {
+      color: var(--ink-dim);
+      font-size: 13px;
+      line-height: 1.35;
+      letter-spacing: -0.12px;
     }
 
     .main-top-quote {
@@ -4297,13 +4598,44 @@
     }
 
     .main-prompt {
-      padding: 4px 4px 14px;
+      position: sticky;
+      top: 16px;
+      z-index: 20;
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--rule);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 94%, transparent), color-mix(in srgb, var(--bg-deep) 92%, transparent));
+      box-shadow: var(--apple-shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
       font-size: 14px;
       letter-spacing: -0.224px;
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
     }
 
     .main-prompt::after {
       display: none;
+    }
+
+    .main-prompt-group {
+      display: inline;
+      min-width: 0;
+    }
+
+    .main-prompt-brand {
+      color: var(--ink-soft);
+    }
+
+    .main-prompt-path {
+      min-width: 0;
+    }
+
+    .main-prompt-command {
+      min-width: 0;
     }
 
     .main-prompt .cmd {
@@ -4793,12 +5125,24 @@
     }
 
     @media (max-width: 720px) {
+      .apple-nav-inner {
+        padding: 0 16px;
+      }
+
+      .apple-nav-links {
+        display: none;
+      }
+
+      .apple-logo span {
+        display: none;
+      }
+
       .shell {
         padding: 10px 10px 0;
       }
 
       .sidebar {
-        top: 10px;
+        top: 58px;
         bottom: 46px;
         left: 10px;
         border-radius: 22px;
@@ -4806,6 +5150,30 @@
 
       .main-inner {
         padding: 0 18px 112px;
+      }
+
+      .home-hero {
+        padding: 34px 22px 24px;
+        border-radius: 26px;
+      }
+
+      .home-hero-sub {
+        margin-bottom: 22px;
+      }
+
+      .home-hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .main-prompt {
+        top: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        gap: 10px;
+      }
+
+      .main-prompt-group {
+        display: inline;
       }
 
       .main-top-quote {
@@ -4843,6 +5211,23 @@
 <body>
 
   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+  <nav class="apple-nav" aria-label="Principal">
+    <div class="apple-nav-inner">
+      <a class="apple-logo" href="index.html" aria-label="CsR News">
+        <img src="assets/csr-news-logo.svg" alt="">
+        <span>CsR News</span>
+      </a>
+      <div class="apple-nav-links">
+        <a class="apple-nav-link" href="index.html#categories">Categorias</a>
+        <a class="apple-nav-link" href="index.html#languages">Linguagens</a>
+        <a class="apple-nav-link" href="index.html#tools">Ferramentas</a>
+        <a class="apple-nav-link apple-nav-link-current" href="home.html" aria-current="page">Feed</a>
+      </div>
+      <button class="apple-theme-toggle" id="themeToggleTop" aria-label="Alternar tema" title="Alternar tema">
+        <svg viewBox="0 0 24 24" id="themeTopIco" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"></svg>
+      </button>
+    </div>
+  </nav>
   <canvas id="particleBg"></canvas>
 
   <!-- BOOT OVERLAY -->
@@ -5155,6 +5540,7 @@
         document.documentElement.setAttribute('data-theme', saved);
         updateThemeIcon(saved);
         $('themeBtn').onclick = toggleTheme;
+        if ($('themeToggleTop')) $('themeToggleTop').onclick = toggleTheme;
       }
       function toggleTheme() {
         const cur = document.documentElement.getAttribute('data-theme');
@@ -5164,10 +5550,13 @@
         updateThemeIcon(next);
       }
       function updateThemeIcon(theme) {
-        const ico = $('themeIco');
-        if (ico) ico.innerHTML = theme === 'dark'
+        const iconMarkup = theme === 'dark'
           ? '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'
           : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>';
+        const ico = $('themeIco');
+        const topIco = $('themeTopIco');
+        if (ico) ico.innerHTML = iconMarkup;
+        if (topIco) topIco.innerHTML = iconMarkup;
         const lbl = $('themeLabel');
         if (lbl) lbl.textContent = theme === 'dark' ? 'light' : 'dark';
       }
@@ -5206,10 +5595,17 @@
         }
         el.style.setProperty('--mp-color', color);
         el.innerHTML =
-          `<span class="leader">❯</span> ` +
-          `<span class="u">csr.news</span>@<span class="h">archive</span> <span class="p">${esc(path)}</span> ` +
+          `<span class="main-prompt-group main-prompt-brand">` +
+          `<span class="leader">❯</span>` +
+          `<span class="u">csr.news</span>@<span class="h">archive</span>` +
+          `</span>` +
+          `<span class="main-prompt-group main-prompt-path">` +
+          `<span class="p">${esc(path)}</span>` +
+          `</span>` +
+          `<span class="main-prompt-group main-prompt-command">` +
           `<span class="d">%</span><span class="cmd">${esc(cmd)}</span><span class="cursor-i"></span>` +
-          (today ? ` <span class="mp-today">[HOJE]</span>` : '');
+          (today ? `<span class="mp-today">[HOJE]</span>` : '') +
+          `</span>`;
       }
 
       /* ═══ Botão data (sidebar nav-row) ═══ */
@@ -5828,22 +6224,47 @@
         }
 
         let html = `<div class="main-prompt" id="mainPrompt"></div>`;
-
+        const news = (ed.news || []).map(n => Object.assign({}, n, { _date: ed.date }));
+        const filtered = applyFilters(news);
+        const toolItems = ed.tools || [];
         const highlights = ed.highlights || [];
+        const activeCats = new Set(news.map(n => n.category).filter(Boolean)).size;
+        const urgentCount = news.filter(n => n.urgent).length;
+        const generatedAt = formatGeneratedAt(ed.generated_at);
+
+        html += `<section class="home-hero">`;
+        html += `<div class="home-hero-kicker">Arquivo diário do arquiteto</div>`;
+        html += `<h1 class="home-hero-title">${esc(ed.hero_title || `Edição ${ed.date}`)}</h1>`;
+        html += `<p class="home-hero-sub">${esc(ed.hero_description || 'Curadoria diária com os movimentos mais relevantes para arquitetura e engenharia de software.')}</p>`;
+        html += `<div class="home-hero-actions">`;
+        html += `<a class="apple-btn apple-btn-primary" href="#home-feed">Ir para o feed <span class="arr" aria-hidden="true">›</span></a>`;
+        html += `<a class="apple-btn apple-btn-secondary" href="index.html#categories">Ver catálogo</a>`;
+        html += `</div>`;
+        html += `<div class="home-hero-meta">`;
+        html += `<span class="home-hero-meta-item">${esc(ed.formatted_date || ed.date)}</span>`;
+        if (generatedAt) html += `<span class="home-hero-meta-item">Atualizado ${esc(generatedAt)}</span>`;
+        html += `<span class="home-hero-meta-item">${highlights.length} destaques</span>`;
+        html += `</div>`;
+        html += `<div class="home-hero-stats">`;
+        html += `<div class="home-hero-stat"><span class="home-hero-stat-value">${news.length}</span><span class="home-hero-stat-label">notícias editoriais</span></div>`;
+        html += `<div class="home-hero-stat"><span class="home-hero-stat-value">${toolItems.length}</span><span class="home-hero-stat-label">assuntos monitorados</span></div>`;
+        html += `<div class="home-hero-stat"><span class="home-hero-stat-value">${activeCats}</span><span class="home-hero-stat-label">categorias com sinal</span></div>`;
+        html += `<div class="home-hero-stat"><span class="home-hero-stat-value">${urgentCount}</span><span class="home-hero-stat-label">itens urgentes</span></div>`;
+        html += `</div>`;
+        html += `</section>`;
+
         if (highlights.length) {
-          html += `<section class="section" style="margin-top:18px"><div class="sec-head"><h2>◈ Destaques do dia <span class="tag">top ${highlights.length}</span></h2><div class="sec-meta">${highlights.length}/3</div></div>`;
+          html += `<section class="section" id="home-highlights"><div class="sec-head"><h2>Destaques do dia <span class="tag">top ${highlights.length}</span></h2><div class="sec-meta">${highlights.length}/3</div></div>`;
           html += `<div class="pillars">` + highlights.map((t, i) => buildHighlightCard(t, i, ed.date)).join('') + `</div></section>`;
         }
 
-        const news = (ed.news || []).map(n => Object.assign({}, n, { _date: ed.date }));
-        const filtered = applyFilters(news);
-        html += `<section class="section"><div class="sec-head"><h2>Feed <span class="tag">${ed.date}</span></h2><div class="sec-meta">${filtered.length}/${news.length} itens</div></div>`;
+        html += `<section class="section" id="home-feed"><div class="sec-head"><h2>Feed editorial <span class="tag">${ed.date}</span></h2><div class="sec-meta">${filtered.length}/${news.length} itens</div></div>`;
         html += buildToolbar();
         html += `<div id="feed"></div></section>`;
 
-        if (ed.tools && ed.tools.length) {
-          html += `<section class="section"><div class="sec-head"><h2>◉ Assuntos <span class="tag">feed</span></h2><div class="sec-meta">${ed.tools.length} itens</div></div>`;
-          html += `<div class="tools-grid">` + ed.tools.map(buildToolCard).join('') + `</div></section>`;
+        if (toolItems.length) {
+          html += `<section class="section" id="home-tools"><div class="sec-head"><h2>Assuntos monitorados <span class="tag">tools</span></h2><div class="sec-meta">${toolItems.length} itens</div></div>`;
+          html += `<div class="tools-grid">` + toolItems.map(buildToolCard).join('') + `</div></section>`;
         }
 
         $('main-inner').innerHTML = html;
@@ -6734,7 +7155,7 @@
         // events
         $('readLaterBtn').onclick = () => setView('rl');
         $('hamburgerBtn').onclick = toggleSidebar;
-        $('brandHome').onclick = () => window.location.href = 'codex-apple-index.html';
+        $('brandHome').onclick = () => window.location.href = 'index.html';
         $('ghRepoBtn').onclick = () => window.open('https://github.com/cesarschutz/noticias-dev-arq', '_blank', 'noopener');
 
         // pre-warm all editions in background (para agregados cat/tool)
