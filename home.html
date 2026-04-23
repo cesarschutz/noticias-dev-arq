@@ -1219,24 +1219,28 @@
     /* ═══ Quote bar acima do título ═══ */
     .quote-bar {
       position: relative;
-      height: 76px;
+      height: 132px;
       width: 100%;
-      margin: 28px 0 18px;
-      overflow: visible;
+      margin: 24px 0 20px;
+      overflow: hidden;
       z-index: 150;
       display: flex;
-      align-items: center;
-      padding: 0 6px 0 61px;
+      align-items: stretch;
+      padding: 16px 18px 16px 88px;
       gap: 16px;
-      background: var(--surface);
-      border-top: 1px solid var(--rule);
-      box-shadow: 0 -4px 24px rgba(42, 184, 232, .06);
-      transition: height .28s cubic-bezier(.4, 0, .2, 1), opacity .28s, margin .28s, padding .28s, border-color .28s;
+      background: rgba(29, 29, 31, .72);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+      backdrop-filter: saturate(160%) blur(20px);
+      -webkit-backdrop-filter: saturate(160%) blur(20px);
+      transition: opacity .28s, margin .28s, padding .28s, border-color .28s;
     }
 
     [data-theme="light"] .quote-bar {
-      background: var(--surface);
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, .08);
+      background: rgba(255, 255, 255, .9);
+      border-color: rgba(0, 0, 0, .08);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
     }
 
     .quote-bar--collapsed {
@@ -1244,6 +1248,8 @@
       margin: 0;
       padding-top: 0;
       padding-bottom: 0;
+      padding-left: 0;
+      padding-right: 0;
       border-top-color: transparent;
       opacity: 0;
       pointer-events: none;
@@ -1252,11 +1258,12 @@
 
     .qb-mascot {
       position: absolute;
-      left: 10px;
+      left: 12px;
       bottom: 0;
-      width: 70px;
+      width: 58px;
       pointer-events: none;
       z-index: 1;
+      opacity: .96;
     }
 
     .qb-mascot img {
@@ -1267,8 +1274,9 @@
 
     .qb-divider {
       width: 1px;
-      height: 38px;
-      background: var(--rule);
+      height: auto;
+      align-self: stretch;
+      background: rgba(255, 255, 255, .08);
       flex-shrink: 0;
     }
 
@@ -1277,49 +1285,80 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 3px;
+      justify-content: flex-start;
+      gap: 5px;
+      height: 100%;
+      min-height: 0;
     }
 
     .qb-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: .18em;
-      color: var(--ink-faint);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .16em;
+      color: rgba(255, 255, 255, .38);
       text-transform: uppercase;
-      margin-bottom: 1px;
-    }
-
-    .qb-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13.5px;
-      font-style: italic;
-      color: var(--ink);
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      line-height: 1.45;
       margin: 0;
     }
 
-    .qb-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--cyan);
-      opacity: .85;
+    .qb-text {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.022em;
+      color: #f5f5f7;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+      margin: 0;
       overflow: hidden;
-      text-overflow: ellipsis;
+      min-height: 0;
+    }
+
+    .qb-meta {
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.2;
+      color: rgba(255, 255, 255, .62);
+      overflow: hidden;
       white-space: nowrap;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    #quote-author {
+      color: #2997ff;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .qb-meta a,
+    .qb-src {
+      color: rgba(255, 255, 255, .68);
+      font-size: 13px;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color .18s ease, text-decoration-color .18s ease;
+    }
+
+    .qb-meta a:hover,
+    .qb-src:hover {
+      color: #2997ff;
+      text-decoration: underline;
     }
 
     .qb-ctx {
-      color: var(--ink-dim);
-      font-size: 10.5px;
+      color: rgba(255, 255, 255, .52);
+      font-size: 13px;
+      font-weight: 400;
+      white-space: inherit;
     }
 
     .qb-ctx::before {
       content: ' · ';
+      color: rgba(255, 255, 255, .34);
     }
 
     .qb-ctx:empty {
@@ -1329,9 +1368,11 @@
     .qb-nav {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       flex-shrink: 0;
       align-items: center;
+      justify-content: center;
+      align-self: center;
     }
 
     .qb-nav-arrows {
@@ -1340,45 +1381,44 @@
     }
 
     .qb-nav button {
-      background: none;
-      border: 1px solid var(--rule);
-      color: var(--ink-faint);
-      font-size: 13px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .10);
+      color: rgba(255, 255, 255, .56);
+      font-size: 16px;
       line-height: 1;
-      width: 22px;
-      height: 22px;
-      border-radius: 2px;
+      border-radius: 999px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color .12s, border-color .12s;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
     }
 
     .qb-nav button:hover {
-      color: var(--cyan);
-      border-color: var(--cyan);
+      background: rgba(255, 255, 255, .12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, .16);
     }
 
     .qb-close {
-      background: none;
-      border: 1px solid var(--rule);
-      color: var(--ink-faint);
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .10);
+      color: rgba(255, 255, 255, .56);
       font-size: 14px;
       line-height: 1;
-      width: 48px;
-      height: 20px;
-      border-radius: 2px;
+      border-radius: 999px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color .12s, border-color .12s;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
     }
 
     .qb-close:hover {
-      color: var(--ink-dim);
-      border-color: var(--ink-dim);
+      background: rgba(255, 255, 255, .12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, .16);
     }
 
     /* restore pill */
@@ -5002,50 +5042,48 @@
     }
 
     .quote-bar {
-      background: color-mix(in srgb, var(--surface) 90%, transparent);
-      border: 1px solid var(--rule);
-      border-top: none;
-      border-radius: 22px;
-      box-shadow: var(--apple-shadow-sm);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      left: auto;
-      right: auto;
-      width: 100%;
+      background: rgba(29, 29, 31, .72);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+      backdrop-filter: saturate(160%) blur(20px);
+      -webkit-backdrop-filter: saturate(160%) blur(20px);
     }
 
     .qb-divider {
-      background: var(--rule);
+      background: rgba(255, 255, 255, .08);
     }
 
     .qb-text {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.47;
-      letter-spacing: -0.224px;
-      color: var(--ink);
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.022em;
+      color: #f5f5f7;
     }
 
-    .qb-author,
+    #quote-author,
     .qb-src,
     .verse-ref,
     .verse-cross-link,
     .verse-symbol {
-      color: var(--cyan);
+      color: #2997ff;
       text-shadow: none;
     }
 
     .qb-nav button,
     .qb-restore {
-      border-radius: 980px;
-      border: 1px solid var(--rule);
-      background: color-mix(in srgb, var(--surface-hi) 82%, transparent);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .06);
     }
 
     .qb-nav button:hover,
     .qb-restore:hover {
-      border-color: color-mix(in srgb, var(--amber) 24%, var(--rule));
-      color: var(--amber);
+      border-color: rgba(255, 255, 255, .16);
+      color: #ffffff;
+      background: rgba(255, 255, 255, .12);
     }
 
     .verse-bar {
@@ -6045,11 +6083,51 @@
         if (!textEl) return;
         textEl.textContent = '\u201c' + q.text + '\u201d';
         authorEl.textContent = '─ ' + q.author;
+        authorEl.title = q.author || '';
         if (ctxEl) ctxEl.textContent = q.context || '';
+        if (ctxEl) ctxEl.title = q.context || '';
         if (srcEl) {
           if (q.url) { srcEl.href = q.url; srcEl.hidden = false; }
           else { srcEl.hidden = true; }
         }
+        requestAnimationFrame(() => fitQuoteText(textEl));
+      }
+
+      function fitQuoteText(el) {
+        if (!el) return;
+        const bar = el.closest('.quote-bar');
+        if (!bar) return;
+        const body = bar.querySelector('.qb-body');
+        const label = bar.querySelector('.qb-label');
+        const meta = bar.querySelector('.qb-meta');
+        if (!body) return;
+
+        const minSize = 16;
+        const maxSize = 30;
+        const gap = parseFloat(getComputedStyle(body).rowGap || getComputedStyle(body).gap || '0') || 0;
+        const available = body.clientHeight
+          - (label ? label.offsetHeight : 0)
+          - (meta ? meta.offsetHeight : 0)
+          - (gap * 2);
+        if (!available) return;
+
+        el.style.maxHeight = 'none';
+        el.style.overflow = 'hidden';
+
+        let lo = minSize;
+        let hi = maxSize;
+        let best = minSize;
+        while (lo <= hi) {
+          const size = Math.floor((lo + hi) / 2);
+          el.style.fontSize = size + 'px';
+          if (el.scrollHeight <= available + 1) {
+            best = size;
+            lo = size + 1;
+          } else {
+            hi = size - 1;
+          }
+        }
+        el.style.fontSize = best + 'px';
       }
 
       function cycleQuote() {
@@ -6069,6 +6147,10 @@
         renderQuote(_quoteDeck[_deckIdx++]);
       }
       function nextQuote() { cycleQuote(); }
+
+      window.addEventListener('resize', () => {
+        if (_currentQuote) fitQuoteText(document.getElementById('quote-text'));
+      });
 
       window.collapseQuoteBar = function () {
         const bar = document.getElementById('quoteBar');
