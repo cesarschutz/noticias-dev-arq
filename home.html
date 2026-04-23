@@ -1219,14 +1219,14 @@
     /* ═══ Quote bar acima do título ═══ */
     .quote-bar {
       position: relative;
-      height: 132px;
+      height: 112px;
       width: 100%;
       margin: 24px 0 20px;
       overflow: hidden;
       z-index: 150;
       display: flex;
       align-items: stretch;
-      padding: 16px 18px 16px 88px;
+      padding: 14px 18px 14px 88px;
       gap: 16px;
       background: rgba(29, 29, 31, .72);
       border: 1px solid rgba(255, 255, 255, .08);
@@ -1285,8 +1285,8 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      gap: 5px;
+      justify-content: center;
+      gap: 4px;
       height: 100%;
       min-height: 0;
     }
@@ -1296,50 +1296,65 @@
       font-size: 11px;
       font-weight: 500;
       letter-spacing: .16em;
-      color: rgba(255, 255, 255, .38);
+      color: rgba(255, 255, 255, .32);
       text-transform: uppercase;
-      margin: 0;
+      margin: 0 0 2px 0;
+      order: 1;
     }
 
     .qb-text {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-      font-size: 30px;
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.022em;
-      color: #f5f5f7;
+      order: 3;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: 0;
+      color: rgba(255, 255, 255, .62);
       overflow-wrap: anywhere;
       hyphens: auto;
       margin: 0;
       overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
       min-height: 0;
     }
 
     .qb-meta {
-      display: block;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      font-size: 13px;
-      line-height: 1.2;
-      color: rgba(255, 255, 255, .62);
+      order: 2;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: nowrap;
+      min-width: 0;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      min-width: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      color: rgba(255, 255, 255, .58);
     }
 
     #quote-author {
       color: #2997ff;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       line-height: 1.2;
+      flex-shrink: 0;
     }
 
     .qb-meta a,
     .qb-src {
-      color: rgba(255, 255, 255, .68);
-      font-size: 13px;
+      color: rgba(255, 255, 255, .48);
+      font-size: 12px;
       font-weight: 400;
+      line-height: 1.2;
       text-decoration: none;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       transition: color .18s ease, text-decoration-color .18s ease;
     }
 
@@ -1350,15 +1365,20 @@
     }
 
     .qb-ctx {
-      color: rgba(255, 255, 255, .52);
-      font-size: 13px;
+      color: rgba(255, 255, 255, .48);
+      font-size: 12px;
       font-weight: 400;
-      white-space: inherit;
+      line-height: 1.2;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .qb-ctx::before {
-      content: ' · ';
-      color: rgba(255, 255, 255, .34);
+      content: '·';
+      margin: 0 4px;
+      color: rgba(255, 255, 255, .26);
     }
 
     .qb-ctx:empty {
@@ -1368,7 +1388,7 @@
     .qb-nav {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       flex-shrink: 0;
       align-items: center;
       justify-content: center;
@@ -1377,7 +1397,8 @@
 
     .qb-nav-arrows {
       display: flex;
-      gap: 4px;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .qb-nav button {
@@ -1403,22 +1424,14 @@
     }
 
     .qb-close {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, .06);
-      border: 1px solid rgba(255, 255, 255, .10);
-      color: rgba(255, 255, 255, .56);
-      font-size: 14px;
-      line-height: 1;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
-    }
-
-    .qb-close:hover {
-      background: rgba(255, 255, 255, .12);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, .16);
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      height: 0;
+      border: 0;
+      padding: 0;
+      overflow: hidden;
     }
 
     /* restore pill */
@@ -5056,20 +5069,27 @@
 
     .qb-text {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      font-size: 30px;
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.022em;
-      color: #f5f5f7;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: 0;
+      color: rgba(255, 255, 255, .62);
+      overflow-wrap: anywhere;
+      hyphens: auto;
     }
 
     #quote-author,
+    .qb-meta a,
     .qb-src,
     .verse-ref,
     .verse-cross-link,
     .verse-symbol {
-      color: #2997ff;
+      color: rgba(255, 255, 255, .48);
       text-shadow: none;
+    }
+
+    #quote-author {
+      color: #2997ff;
     }
 
     .qb-nav button,
@@ -5240,9 +5260,8 @@
 
     @media (max-width: 900px) {
       .quote-bar {
+        height: 112px;
         padding: 14px 16px 14px 78px;
-        min-height: 120px;
-        height: auto;
         gap: 12px;
       }
 
@@ -5252,8 +5271,8 @@
       }
 
       .qb-text {
-        font-size: clamp(22px, 3.2vw, 28px);
-        line-height: 1.08;
+        font-size: 12px;
+        line-height: 1.35;
       }
 
       .qb-nav button,
@@ -5266,18 +5285,18 @@
     @media (max-width: 640px) {
       .quote-bar {
         position: relative;
-        height: auto;
-        min-height: 0;
-        padding: 16px 84px 14px 72px;
+        height: 112px;
+        min-height: 112px;
+        padding: 14px 16px 14px 72px;
         margin: 18px 0 16px;
         border-radius: 22px;
         gap: 10px;
-        align-items: flex-start;
+        align-items: stretch;
       }
 
       .qb-mascot {
         left: 10px;
-        bottom: 8px;
+        bottom: 0;
         width: 44px;
       }
 
@@ -5286,39 +5305,38 @@
       }
 
       .qb-body {
-        gap: 6px;
+        gap: 4px;
         min-width: 0;
       }
 
       .qb-label {
-        font-size: 10px;
-        letter-spacing: 0.14em;
+        font-size: 11px;
+        letter-spacing: 0.16em;
       }
 
       .qb-text {
-        font-size: clamp(16px, 5.6vw, 24px);
-        line-height: 1.08;
-        letter-spacing: -0.02em;
-        overflow-wrap: break-word;
-        hyphens: auto;
+        font-size: 12px;
+        line-height: 1.35;
+        letter-spacing: 0;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
 
       .qb-meta {
         display: flex;
-        flex-wrap: wrap;
+        align-items: center;
+        flex-wrap: nowrap;
         gap: 4px;
-        white-space: normal;
-        overflow: visible;
-        text-overflow: initial;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 12px;
-        line-height: 1.3;
+        line-height: 1.2;
       }
 
       #quote-author {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .qb-ctx,
@@ -5332,7 +5350,7 @@
         top: 12px;
         right: 12px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: flex-end;
         gap: 6px;
@@ -5341,7 +5359,8 @@
 
       .qb-nav-arrows {
         display: flex;
-        gap: 6px;
+        flex-direction: column;
+        gap: 8px;
       }
 
       .qb-nav button,
@@ -5354,19 +5373,20 @@
 
     @media (max-width: 420px) {
       .quote-bar {
-        padding: 14px 70px 12px 62px;
+        height: 112px;
+        padding: 12px 14px 12px 62px;
         border-radius: 18px;
       }
 
       .qb-mascot {
         width: 38px;
         left: 8px;
-        bottom: 10px;
+        bottom: 0;
       }
 
       .qb-text {
-        font-size: clamp(15px, 5.2vw, 20px);
-        -webkit-line-clamp: 5;
+        font-size: 12px;
+        -webkit-line-clamp: 3;
       }
 
       .qb-nav {
@@ -6235,51 +6255,18 @@
           if (q.url) { srcEl.href = q.url; srcEl.hidden = false; }
           else { srcEl.hidden = true; }
         }
-        requestAnimationFrame(() => {
-          if (window.innerWidth > 640) {
-            fitQuoteText(textEl);
-          } else {
-            textEl.style.fontSize = '';
-            textEl.style.maxHeight = '';
-          }
-        });
+        fitQuoteText(textEl);
       }
 
       function fitQuoteText(el) {
         if (!el) return;
-        const bar = el.closest('.quote-bar');
-        if (!bar) return;
-        const body = bar.querySelector('.qb-body');
-        const label = bar.querySelector('.qb-label');
-        const meta = bar.querySelector('.qb-meta');
-        if (!body) return;
-
-        const minSize = 16;
-        const maxSize = 30;
-        const gap = parseFloat(getComputedStyle(body).rowGap || getComputedStyle(body).gap || '0') || 0;
-        const available = body.clientHeight
-          - (label ? label.offsetHeight : 0)
-          - (meta ? meta.offsetHeight : 0)
-          - (gap * 2);
-        if (!available) return;
-
-        el.style.maxHeight = 'none';
+        el.style.fontSize = '12px';
+        el.style.lineHeight = '1.35';
+        el.style.letterSpacing = '0';
         el.style.overflow = 'hidden';
-
-        let lo = minSize;
-        let hi = maxSize;
-        let best = minSize;
-        while (lo <= hi) {
-          const size = Math.floor((lo + hi) / 2);
-          el.style.fontSize = size + 'px';
-          if (el.scrollHeight <= available + 1) {
-            best = size;
-            lo = size + 1;
-          } else {
-            hi = size - 1;
-          }
-        }
-        el.style.fontSize = best + 'px';
+        el.style.display = '-webkit-box';
+        el.style.webkitBoxOrient = 'vertical';
+        el.style.webkitLineClamp = '3';
       }
 
       function cycleQuote() {
@@ -6304,11 +6291,7 @@
         if (!_currentQuote) return;
         const textEl = document.getElementById('quote-text');
         if (!textEl) return;
-        if (window.innerWidth > 640) fitQuoteText(textEl);
-        else {
-          textEl.style.fontSize = '';
-          textEl.style.maxHeight = '';
-        }
+        fitQuoteText(textEl);
       });
 
       window.collapseQuoteBar = function () {
