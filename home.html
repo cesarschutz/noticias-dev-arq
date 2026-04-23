@@ -4472,6 +4472,341 @@
       letter-spacing: -0.12px;
     }
 
+    .yt-shelf {
+      position: relative;
+    }
+
+    .yt-shelf-wrap {
+      position: relative;
+    }
+
+    .yt-shelf-track {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scroll-behavior: smooth;
+      padding: 4px 56px 8px 4px;
+      scrollbar-width: none;
+    }
+
+    .yt-shelf-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .yt-card {
+      min-width: 332px;
+      max-width: 332px;
+      display: flex;
+      flex-direction: column;
+      scroll-snap-align: start;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), color-mix(in srgb, var(--surface-hi) 82%, transparent));
+      border: 1px solid var(--rule);
+      box-shadow: var(--apple-shadow-sm);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .yt-card.is-player-open {
+      min-width: min(72vw, 468px);
+      max-width: min(72vw, 468px);
+      border-color: color-mix(in srgb, var(--blue) 38%, var(--rule));
+      box-shadow: 0 20px 48px rgba(0, 0, 0, .24);
+    }
+
+    .yt-card:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--red) 38%, var(--rule));
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .18);
+    }
+
+    .yt-card.is-player-open:hover {
+      border-color: color-mix(in srgb, var(--blue) 38%, var(--rule));
+      box-shadow: 0 20px 48px rgba(0, 0, 0, .24);
+    }
+
+    .yt-card-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: color-mix(in srgb, var(--surface-hi) 88%, #000000);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .yt-card.is-player-open .yt-card-thumb {
+      aspect-ratio: auto;
+      height: 264px;
+    }
+
+    .yt-card-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: opacity .2s ease;
+    }
+
+    .yt-card-player {
+      position: absolute;
+      inset: 0;
+      display: none;
+      background: #000000;
+    }
+
+    .yt-card-player iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .yt-card.is-previewing .yt-card-player {
+      display: block;
+    }
+
+    .yt-card.is-player-open .yt-card-player {
+      display: block;
+    }
+
+    .yt-card-launch {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .yt-card.is-player-open .yt-card-launch {
+      display: none;
+    }
+
+    .yt-card.is-previewing .yt-card-poster,
+    .yt-card.is-previewing .yt-card-play,
+    .yt-card.is-previewing .yt-card-preview-hint {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .yt-card.is-player-open .yt-card-poster,
+    .yt-card.is-player-open .yt-card-play,
+    .yt-card.is-player-open .yt-card-preview-hint {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .yt-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(15, 15, 15, .86);
+      color: #ffffff;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      z-index: 2;
+    }
+
+    .yt-card-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ff0033;
+      box-shadow: 0 0 12px rgba(255, 0, 51, .55);
+      flex-shrink: 0;
+    }
+
+    .yt-card-play {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(15, 15, 15, .82);
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .26);
+      font-size: 16px;
+      transition: opacity .2s ease;
+      z-index: 2;
+    }
+
+    .yt-card-preview-hint {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(15, 15, 15, .78);
+      color: rgba(255, 255, 255, .92);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transition: opacity .2s ease;
+      z-index: 2;
+    }
+
+    .yt-card-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 999px;
+      background: rgba(10, 10, 10, .78);
+      color: #ffffff;
+      display: none;
+      place-items: center;
+      font-size: 19px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 4;
+    }
+
+    .yt-card.is-player-open .yt-card-close {
+      display: grid;
+    }
+
+    .yt-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px 16px 18px;
+    }
+
+    .yt-card-title {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.38;
+      letter-spacing: -0.01em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.76em;
+      text-decoration: none;
+    }
+
+    .yt-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-dim);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .yt-card-channel {
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .yt-card-dot {
+      color: var(--ink-faint);
+    }
+
+    .yt-card-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: lowercase;
+    }
+
+    .yt-card-link {
+      align-self: flex-start;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    .yt-card-link:hover {
+      text-decoration: underline;
+    }
+
+    .yt-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .yt-card-inline-btn {
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--rule);
+      background: color-mix(in srgb, var(--surface-hi) 88%, transparent);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease;
+    }
+
+    .yt-card-inline-btn:hover {
+      border-color: color-mix(in srgb, var(--blue) 34%, var(--rule));
+      background: color-mix(in srgb, var(--surface) 72%, var(--surface-hi));
+    }
+
+    .yt-shelf-arrow {
+      position: absolute;
+      top: calc(50% - 24px);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--surface) 84%, transparent);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .16);
+      backdrop-filter: blur(10px);
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, opacity .16s ease;
+    }
+
+    .yt-shelf-arrow:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--blue) 32%, var(--rule));
+      background: color-mix(in srgb, var(--surface-hi) 90%, transparent);
+    }
+
+    .yt-shelf-arrow:disabled {
+      opacity: .35;
+      cursor: default;
+      transform: none;
+    }
+
+    .yt-shelf-arrow[data-dir="prev"] {
+      left: 0;
+    }
+
+    .yt-shelf-arrow[data-dir="next"] {
+      right: 0;
+    }
+
     .main-top-quote {
       background: transparent;
       padding: 0 0 24px;
@@ -5087,6 +5422,31 @@
 
       .home-hero-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .yt-shelf-track {
+        gap: 14px;
+        padding: 4px 48px 8px 2px;
+      }
+
+      .yt-card {
+        min-width: min(86vw, 320px);
+        max-width: min(86vw, 320px);
+      }
+
+      .yt-card.is-player-open {
+        min-width: min(92vw, 420px);
+        max-width: min(92vw, 420px);
+      }
+
+      .yt-card.is-player-open .yt-card-thumb {
+        height: 236px;
+      }
+
+      .yt-shelf-arrow {
+        top: calc(50% - 21px);
+        width: 38px;
+        height: 38px;
       }
 
       .main-prompt {
@@ -6133,6 +6493,195 @@
         return a;
       }
 
+      const SAMPLE_YOUTUBE_VIDEOS = [
+        {
+          id: 'IV858u28JX0',
+          title: 'Clean Architecture in 150 seconds',
+          channel: 'Gui Ferreira',
+          publishedAt: '2024-01-23',
+          url: 'https://www.youtube.com/watch?v=IV858u28JX0'
+        },
+        {
+          id: 'VStys5K3chw',
+          title: 'Event-Driven Architecture',
+          channel: 'Mateus Guimarães',
+          publishedAt: '2023-09-17',
+          url: 'https://www.youtube.com/watch?v=VStys5K3chw'
+        },
+        {
+          id: 'F-37_gV2tMs',
+          title: 'What is microservices architecture?',
+          channel: 'DevOps & AI Toolkit',
+          publishedAt: '2021-04-26',
+          url: 'https://www.youtube.com/watch?v=F-37_gV2tMs'
+        },
+        {
+          id: 'G0Dj5F43-9s',
+          title: 'What Are MicroServices? | Beginner Guide | Monolith vs MicroService',
+          channel: 'CodeSnippet',
+          publishedAt: '2026-03-20',
+          url: 'https://www.youtube.com/watch?v=G0Dj5F43-9s'
+        },
+        {
+          id: 'RNUn2R7TptM',
+          title: 'Domain-Driven Design',
+          channel: 'Zend by Perforce',
+          publishedAt: '2012-11-06',
+          url: 'https://www.youtube.com/watch?v=RNUn2R7TptM'
+        }
+      ];
+
+      let _youtubeShelfCleanup = null;
+      let _youtubePlayers = [];
+      let _youtubeApiPromise = null;
+
+      function formatYoutubeDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+          return new Date(dateStr + 'T12:00:00').toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          }).replace(/\./g, '');
+        } catch (e) {
+          return dateStr;
+        }
+      }
+
+      function pickRandomYoutubeVideos(count = 5) {
+        return shuffleArray(SAMPLE_YOUTUBE_VIDEOS).slice(0, Math.min(count, SAMPLE_YOUTUBE_VIDEOS.length));
+      }
+
+      function ensureYoutubeIframeApi() {
+        if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+        if (_youtubeApiPromise) return _youtubeApiPromise;
+
+        _youtubeApiPromise = new Promise((resolve) => {
+          const prevReady = window.onYouTubeIframeAPIReady;
+          window.onYouTubeIframeAPIReady = function () {
+            if (typeof prevReady === 'function') prevReady();
+            resolve(window.YT);
+          };
+
+          const existing = document.querySelector('script[data-yt-iframe-api="1"]');
+          if (existing) return;
+
+          const script = document.createElement('script');
+          script.src = 'https://www.youtube.com/iframe_api';
+          script.async = true;
+          script.dataset.ytIframeApi = '1';
+          document.head.appendChild(script);
+        });
+
+        return _youtubeApiPromise;
+      }
+
+      function buildYoutubeShelf(videos) {
+        if (!videos.length) return '';
+        let html = `<section class="section yt-shelf" id="home-youtube">`;
+        html += `<div class="sec-head"><h2>Vídeos do YouTube <span class="tag">player</span></h2><div class="sec-meta">${videos.length} vídeos</div></div>`;
+        html += `<div class="yt-shelf-wrap">`;
+        html += `<button class="yt-shelf-arrow" type="button" data-dir="prev" aria-label="Ver vídeos anteriores">‹</button>`;
+        html += `<div class="yt-shelf-track" id="youtubeShelfTrack">`;
+        videos.forEach(video => {
+          html += `<article class="yt-card is-player-open">`;
+          html += `<div class="yt-card-thumb">`;
+          html += `<div class="yt-card-player" data-yt-player data-video-id="${escAttr(video.id)}" data-video-title="${escAttr(video.title)}"></div>`;
+          html += `<span class="yt-card-badge"><span class="yt-card-badge-dot"></span>YouTube</span>`;
+          html += `</div>`;
+          html += `<div class="yt-card-body">`;
+          html += `<a class="yt-card-title" href="${escAttr(video.url)}" target="_blank" rel="noopener noreferrer">${esc(video.title)}</a>`;
+          html += `<div class="yt-card-meta"><span class="yt-card-channel">${esc(video.channel)}</span><span class="yt-card-dot">•</span><span class="yt-card-date">${esc(formatYoutubeDate(video.publishedAt))}</span></div>`;
+          html += `<div class="yt-card-actions">`;
+          html += `<a class="yt-card-link" href="${escAttr(video.url)}" target="_blank" rel="noopener noreferrer">abrir no YouTube</a>`;
+          html += `</div>`;
+          html += `</div></article>`;
+        });
+        html += `</div>`;
+        html += `<button class="yt-shelf-arrow" type="button" data-dir="next" aria-label="Ver próximos vídeos">›</button>`;
+        html += `</div></section>`;
+        return html;
+      }
+
+      function initYoutubeShelf() {
+        if (_youtubeShelfCleanup) {
+          _youtubeShelfCleanup();
+          _youtubeShelfCleanup = null;
+        }
+        _youtubePlayers.forEach(player => {
+          try { player.destroy(); } catch (e) { }
+        });
+        _youtubePlayers = [];
+
+        const section = $('home-youtube');
+        if (!section) return;
+
+        const track = section.querySelector('.yt-shelf-track');
+        const prevBtn = section.querySelector('.yt-shelf-arrow[data-dir="prev"]');
+        const nextBtn = section.querySelector('.yt-shelf-arrow[data-dir="next"]');
+        if (!track || !prevBtn || !nextBtn) return;
+
+        const step = () => Math.max(280, Math.floor(track.clientWidth * 0.88));
+        const syncButtons = () => {
+          const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+          const left = track.scrollLeft;
+          const hasOverflow = maxScroll > 12;
+          prevBtn.disabled = !hasOverflow || left <= 6;
+          nextBtn.disabled = !hasOverflow || left >= maxScroll - 6;
+        };
+
+        prevBtn.addEventListener('click', () => {
+          track.scrollBy({ left: -step(), behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+          track.scrollBy({ left: step(), behavior: 'smooth' });
+        });
+        track.addEventListener('scroll', () => requestAnimationFrame(syncButtons), { passive: true });
+
+        const onResize = () => syncButtons();
+        window.addEventListener('resize', onResize);
+        requestAnimationFrame(syncButtons);
+
+        ensureYoutubeIframeApi().then((YT) => {
+          const playerEls = [...section.querySelectorAll('[data-yt-player]')];
+          playerEls.forEach((el, idx) => {
+            const videoId = el.dataset.videoId;
+            const title = el.dataset.videoTitle || 'Vídeo do YouTube';
+            if (!videoId) return;
+            if (!el.id) el.id = `yt-player-${Date.now()}-${idx}`;
+            const player = new YT.Player(el.id, {
+              videoId,
+              playerVars: {
+                autoplay: 0,
+                controls: 1,
+                rel: 0,
+                playsinline: 1,
+                fs: 1
+              },
+              events: {
+                onStateChange: (event) => {
+                  if (event.data !== YT.PlayerState.PLAYING) return;
+                  _youtubePlayers.forEach(other => {
+                    if (other === player) return;
+                    try { other.pauseVideo(); } catch (e) { }
+                  });
+                }
+              }
+            });
+            el.setAttribute('title', title + ' com controles do YouTube');
+            _youtubePlayers.push(player);
+          });
+        });
+
+        _youtubeShelfCleanup = () => {
+          _youtubePlayers.forEach(player => {
+            try { player.destroy(); } catch (e) { }
+          });
+          _youtubePlayers = [];
+          window.removeEventListener('resize', onResize);
+        };
+      }
+
       let _quoteDeck = [];
       let _deckIdx = 0;
       let _currentQuote = null;
@@ -6405,6 +6954,8 @@
         html += `</div>`;
         html += `</section>`;
 
+        html += buildYoutubeShelf(pickRandomYoutubeVideos(5));
+
         if (highlights.length) {
           html += `<section class="section" id="home-highlights"><div class="sec-head"><h2>Destaques do dia <span class="tag">top ${highlights.length}</span></h2><div class="sec-meta">${highlights.length}/3</div></div>`;
           html += `<div class="pillars">` + highlights.map((t, i) => buildHighlightCard(t, i, ed.date)).join('') + `</div></section>`;
@@ -6421,6 +6972,7 @@
 
         $('main-inner').innerHTML = html;
         updateMainPrompt();
+        initYoutubeShelf();
         renderFeed(filtered, { groupByCat: true });
       }
 
