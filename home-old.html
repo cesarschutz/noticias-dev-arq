@@ -276,26 +276,6 @@
       border-radius: 3px;
     }
 
-    /* Skip link */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 8px;
-      background: var(--amber);
-      color: var(--bg-deep);
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      z-index: 10000;
-      text-decoration: none;
-    }
-
-    .skip-link:focus {
-      top: 8px;
-    }
-
     /* Reduce motion */
     @media (prefers-reduced-motion: reduce) {
 
@@ -1049,15 +1029,13 @@
       display: flex;
       align-items: center;
       gap: 0;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--rule);
+      padding: 8px 12px 6px;
+      border-bottom: none;
       flex-shrink: 0;
-      position: sticky;
-      top: 0;
       z-index: 10;
-      background: color-mix(in srgb, var(--surface) 60%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .brand-home {
@@ -3894,7 +3872,6 @@
 
 <body>
 
-  <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
   <canvas id="particleBg"></canvas>
 
   <!-- BOOT OVERLAY -->
