@@ -402,142 +402,12 @@
       grid-template-columns: 262px 1fr 286px;
       grid-template-areas:
         "side main rail";
-      height: calc(100vh - 36px);
+      height: 100dvh;
       position: relative;
       z-index: 2;
     }
 
     /* quote nav */
-
-    /* verse nav */
-    .verse-nav-btn {
-      background: none;
-      border: none;
-      color: var(--ink-faint);
-      font-size: 14px;
-      line-height: 1;
-      padding: 0 4px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: color .12s;
-    }
-
-    .verse-nav-btn:hover {
-      color: var(--cyan);
-    }
-
-    /* verse footer */
-    .verse-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 36px;
-      background: var(--bg-deep);
-      border-top: 1px solid var(--rule);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      padding: 0 10px;
-      z-index: 100;
-      overflow: hidden;
-    }
-
-    .verse-symbol {
-      flex-shrink: 0;
-      width: 12px;
-      height: 17px;
-      color: var(--cyan);
-      opacity: .8;
-    }
-
-    .verse-cross-link {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      opacity: .8;
-      transition: opacity .2s;
-      color: var(--cyan);
-    }
-
-    .verse-cross-link:hover {
-      opacity: 1;
-    }
-
-    a.verse-text-wrap {
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
-
-    a.verse-text-wrap:hover .verse-text {
-      color: var(--fg);
-    }
-
-    a.verse-text-wrap:hover .verse-ref {
-      text-shadow: var(--glow-c), 0 0 12px var(--cyan);
-    }
-
-    .verse-text-wrap {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      overflow: hidden;
-      max-width: 85vw;
-    }
-
-    .verse-text {
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 12px;
-      font-style: italic;
-      color: var(--ink-soft);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .verse-ref {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      color: var(--cyan);
-      white-space: nowrap;
-      flex-shrink: 0;
-      letter-spacing: .06em;
-      text-shadow: var(--glow-c);
-    }
-
-    @keyframes verseOut {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-
-      to {
-        transform: translateX(70px);
-        opacity: 0;
-      }
-    }
-
-    @keyframes verseIn {
-      from {
-        transform: translateX(-70px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    .verse-text-wrap.v-out {
-      animation: verseOut .4s ease forwards;
-    }
-
-    .verse-text-wrap.v-in {
-      animation: verseIn .4s ease forwards;
-    }
 
     /* ═══ CVE View ═══ */
     .cve-hero {
@@ -4230,10 +4100,10 @@
 
     .shell {
       max-width: 1480px;
-      height: calc(100vh - 36px);
-      height: calc(100dvh - 36px);
-      min-height: calc(100vh - 36px);
-      min-height: calc(100dvh - 36px);
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
       margin: 0 auto;
       gap: 1px;
       padding: 10px;
@@ -5121,21 +4991,6 @@
       border-color: rgba(255, 255, 255, .16);
       color: #ffffff;
       background: rgba(255, 255, 255, .12);
-    }
-
-    .verse-bar {
-      background: color-mix(in srgb, var(--bg) 92%, transparent);
-      border-top: 1px solid var(--rule);
-    }
-
-    .verse-text {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      font-size: 12px;
-      color: var(--ink-soft);
-    }
-
-    a.verse-text-wrap:hover .verse-ref {
-      text-shadow: none;
     }
 
     .ab-hero::before {
@@ -7468,70 +7323,6 @@
         // aplica deep link se presente
         await applyInitialDeepLink();
       }
-      /* ═══ Verse footer ═══ */
-      let _verses = [];
-      let _verseDeck = [];
-      let _verseIdx = 0;
-
-      function initVerses() {
-        fetch('data/verses.json')
-          .then(r => r.json())
-          .then(data => {
-            _verses = data;
-            _verseDeck = shuffleArray(_verses);
-            _verseIdx = 0;
-            showVerse();
-            setInterval(() => { if (!document.hidden) cycleVerse(); }, 300000);
-          })
-          .catch(() => { });
-      }
-
-      function verseRefToUrl(ref) {
-        const BK = { 'Mateus': 'MAT', 'Marcos': 'MRK', 'Lucas': 'LUK', 'João': 'JHN' };
-        const m = ref.match(/^([^\d]+?)\s+(\d+):(\d+)/);
-        if (!m) return null;
-        const book = BK[m[1].trim()];
-        if (!book) return null;
-        return `https://www.bible.com/pt/bible/129/${book}.${m[2]}.${m[3]}.NVI`;
-      }
-
-      function showVerse() {
-        if (!_verseDeck.length) return;
-        const v = _verseDeck[_verseIdx];
-        const wrap = $('verse-wrap');
-        const textEl = $('verse-text');
-        const refEl = $('verse-ref');
-        const crossLink = $('verse-cross-link');
-        if (!wrap) return;
-        wrap.classList.remove('v-in');
-        wrap.classList.add('v-out');
-        setTimeout(() => {
-          textEl.textContent = '\u201c' + v.text + '\u201d';
-          refEl.textContent = v.ref;
-          const url = verseRefToUrl(v.ref);
-          if (url) {
-            wrap.href = url;
-            if (crossLink) crossLink.href = url;
-          } else {
-            wrap.removeAttribute('href');
-            if (crossLink) crossLink.removeAttribute('href');
-          }
-          wrap.classList.remove('v-out');
-          wrap.classList.add('v-in');
-        }, 420);
-      }
-
-      function cycleVerse() {
-        _verseIdx++;
-        if (_verseIdx >= _verseDeck.length) { _verseDeck = shuffleArray(_verses); _verseIdx = 0; }
-        showVerse();
-      }
-      function prevVerse() {
-        _verseIdx = (_verseIdx - 2 + _verseDeck.length) % _verseDeck.length;
-        showVerse();
-      }
-      function nextVerse() { cycleVerse(); }
-
       function initQuotes() {
         fetch('data/quotes.json')
           .then(r => r.json())
@@ -7547,7 +7338,6 @@
       }
 
       init();
-      initVerses();
       initQuotes();
 
       // Expõe ao window as funções chamadas via onclick inline no HTML
@@ -7682,9 +7472,6 @@
     });
   </script>
 
-  <!-- VERSE FOOTER -->
-  <div id="tip"></div>
-
   <button class="qb-restore" id="qbRestore" onclick="restoreQuoteBar()" aria-label="Mostrar frase do dia">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M2 2h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9l-3 3v-3H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor"
@@ -7692,24 +7479,6 @@
     </svg>
     quote
   </button>
-
-  <footer class="verse-bar" id="verse-bar" aria-live="polite">
-    <button class="verse-nav-btn" onclick="prevVerse()" title="Versículo anterior">‹</button>
-    <a class="verse-text-wrap" id="verse-wrap" target="_blank" rel="noopener noreferrer"
-      title="Abrir versículo na Bíblia">
-      <span class="verse-text" id="verse-text">—</span>
-      <span class="verse-ref" id="verse-ref"></span>
-    </a>
-    <button class="verse-nav-btn" onclick="nextVerse()" title="Próximo versículo">›</button>
-    <!-- Cruz latina — símbolo cristão / Igreja Metodista -->
-    <a id="verse-cross-link" class="verse-cross-link" target="_blank" rel="noopener noreferrer"
-      title="Abrir versículo na Bíblia">
-      <svg class="verse-symbol" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect x="6.5" y="0" width="3" height="22" rx="1" fill="currentColor" />
-        <rect x="0" y="6" width="16" height="3" rx="1" fill="currentColor" />
-      </svg>
-    </a>
-  </footer>
 </body>
 
 </html>
