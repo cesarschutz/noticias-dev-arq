@@ -26,11 +26,6 @@
 
   <link rel="icon" href="assets/csr-news-logo.svg">
   <link rel="alternate" type="application/rss+xml" title="CsR News · Edições" href="feed.xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=VT323&display=swap"
-    rel="stylesheet">
   <script>
     (function () {
       var saved = localStorage.getItem('csrn-theme');
@@ -39,189 +34,6 @@
     })();
   </script>
   <style>
-    /* ═══════════════════════════════════════════════════════
-   CSR NEWS CONSOLE OPS — Terminal layout × Mission palette
-   ═══════════════════════════════════════════════════════ */
-    :root,
-    [data-theme="dark"] {
-      --bg: #000000;
-      --bg-deep: #050a12;
-      --surface: #0a1525;
-      --surface-hi: #111f35;
-      --surface-3: #1a2d45;
-      --ink: #ddeeff;
-      --ink-soft: #7a9abf;
-      --ink-dim: #3a5a7a;
-      --ink-faint: #243d5a;
-      --rule: #1a2d45;
-      --rule-soft: #243d5a;
-      --amber: #F59E0B;
-      --green: #22C55E;
-      --red: #EF4444;
-      --cyan: #38BDF8;
-      --magenta: #A78BFA;
-      --violet: #A78BFA;
-      --blue: #60A5FA;
-      --pink: #EC4899;
-      --selection-bg: rgba(56, 189, 248, .28);
-      --glow-g: 0 0 10px rgba(34, 197, 94, .5);
-      --glow-a: 0 0 10px rgba(245, 158, 11, .55);
-      --glow-r: 0 0 12px rgba(239, 68, 68, .6);
-      --glow-c: 0 0 12px rgba(56, 189, 248, .55);
-      --glow-v: 0 0 10px rgba(167, 139, 250, .5);
-      --grid-line: rgba(56, 189, 248, .035);
-      --grid-opacity: .35;
-      --panel-bg: linear-gradient(180deg, rgba(13, 20, 32, .75), rgba(6, 10, 16, .85));
-      --panel-bg-deep: linear-gradient(180deg, rgba(13, 20, 32, .9), rgba(13, 20, 32, .75));
-      --panel-stat: rgba(2, 5, 10, .9);
-      --dot-tex: radial-gradient(circle, rgba(148, 185, 220, .13) 1px, transparent 1px) 0 0 / 22px 22px;
-
-      --cat-sec: #EF4444;
-      /* vermelho   — perigo/segurança */
-      --cat-ai: #A78BFA;
-      /* violeta    — AI/neural */
-      --cat-aiops: #c026d3;
-      /* fúcsia     — AIOps/agents/LLMOps */
-      --cat-cloud: #f59e0b;
-      /* âmbar      — cloud multi-vendor (AWS/Azure/GCP) */
-      --cat-devops: #3b82f6;
-      /* azul       — pipelines/confiança */
-      --cat-obs: #eab308;
-      /* amarelo    — dashboards/alertas */
-      --cat-data: #0ea5e9;
-      /* azul-claro — fluxos de dados */
-      --cat-integ: #14b8a6;
-      /* teal       — conexões/APIs */
-      --cat-backend: #22C55E;
-      /* verde      — código/runtime */
-      --cat-frontend: #e11d48;
-      /* rose       — frontend/web */
-      --cat-testing: #84cc16;
-      /* lima       — qualidade/lab */
-      --cat-design: #f472b6;
-      /* rosa       — design/criatividade */
-      --cat-distarch: #6366f1;
-      /* índigo     — sistemas distribuídos */
-      --cat-enterprise: #94a3b8;
-      /* slate      — corporativo/neutro */
-      --cat-fundamentals: #a16207;
-      /* ocre       — base eterna */
-      --cat-fintech: #10b981;
-      /* esmeralda  — pagamentos/dinheiro */
-      /* rail group headers (direita) */
-      --rail-lang: #e879f9;
-      /* fúcsia     — linguagens = expressivo */
-      --rail-topics: #22d3ee;
-      /* ciano      — tópicos = conhecimento */
-      --rail-tools: #fb923c;
-      /* laranja-suave — ferramentas = ofício */
-
-      --tool-ide: #A78BFA;
-      --tool-db: #38BDF8;
-      --tool-devops: #F59E0B;
-      --tool-api: #22C55E;
-      --tool-doc: #EC4899;
-      --tool-arch: #2DD4BF;
-
-      --sev-critical: #EF4444;
-      --sev-high: #F59E0B;
-      --sev-medium: #FACC15;
-      --sev-low: #22C55E;
-
-      --focus: #F59E0B;
-      --bubble-bg: rgba(10, 21, 37, .82);
-      --bubble-mix: #000;
-
-      --bg-grad: radial-gradient(ellipse at 20% 0%, rgba(56, 189, 248, .08), transparent 55%),
-        radial-gradient(ellipse at 90% 100%, rgba(167, 139, 250, .06), transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, .03), transparent 70%),
-        #060A10;
-    }
-
-    [data-theme="light"] {
-      --bg: #EEF2F7;
-      --bg-deep: #E2E8F0;
-      --surface: #FFFFFF;
-      --surface-hi: #F4F7FB;
-      --surface-3: #C9D2DF;
-      --ink: #0E1A2C;
-      --ink-soft: #3C4E68;
-      --ink-dim: #6C7E96;
-      --ink-faint: #B1BCCC;
-      --rule: #C9D2DF;
-      --rule-soft: #B1BCCC;
-      --amber: #B0590C;
-      --green: #166534;
-      --red: #B91C3C;
-      --cyan: #0E7490;
-      --magenta: #6D28D9;
-      --violet: #6D28D9;
-      --blue: #1D4ED8;
-      --pink: #BE185D;
-      --selection-bg: rgba(14, 116, 144, .2);
-      --glow-g: 0 0 6px rgba(21, 128, 61, .25);
-      --glow-a: 0 0 6px rgba(176, 89, 12, .3);
-      --glow-r: 0 0 8px rgba(185, 28, 60, .3);
-      --glow-c: 0 0 8px rgba(14, 116, 144, .3);
-      --glow-v: 0 0 8px rgba(109, 40, 217, .3);
-      --grid-line: rgba(14, 116, 144, .05);
-      --grid-opacity: .5;
-      --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(245, 248, 253, .95));
-      --panel-bg-deep: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .85));
-      --panel-stat: rgba(255, 255, 255, .95);
-
-      --cat-sec: #B91C3C;
-      --cat-ai: #6D28D9;
-      --cat-aiops: #a21caf;
-      /* fúcsia escuro */
-      --cat-cloud: #C46B00;
-      --cat-devops: #1d4ed8;
-      /* azul escuro */
-      --cat-obs: #b45309;
-      /* âmbar escuro */
-      --cat-data: #0E7490;
-      --cat-integ: #0F766E;
-      --cat-backend: #166534;
-      --cat-frontend: #be123c;
-      /* rose escuro */
-      --cat-testing: #5a7a09;
-      --cat-design: #be185d;
-      /* rosa escuro */
-      --cat-distarch: #4338ca;
-      /* índigo escuro */
-      --cat-enterprise: #475569;
-      /* slate escuro */
-      --cat-fundamentals: #78350f;
-      /* ocre escuro */
-      --cat-fintech: #065f46;
-      /* esmeralda escuro */
-      /* rail group headers */
-      --rail-lang: #a21caf;
-      /* fúcsia escuro */
-      --rail-topics: #0e7490;
-      /* ciano escuro */
-      --rail-tools: #c2410c;
-      /* laranja escuro */
-
-      --tool-ide: #6D28D9;
-      --tool-db: #0E7490;
-      --tool-devops: #B0590C;
-      --tool-api: #166534;
-      --tool-doc: #BE185D;
-      --tool-arch: #0F766E;
-
-      --sev-critical: #B91C3C;
-      --sev-high: #B0590C;
-      --sev-medium: #854D0E;
-      --sev-low: #166534;
-
-      --bg-grad: radial-gradient(ellipse at 20% 0%, rgba(14, 116, 144, .07), transparent 55%),
-        radial-gradient(ellipse at 90% 100%, rgba(109, 74, 191, .06), transparent 50%),
-        #EDF1F7;
-      --dot-tex: radial-gradient(circle, rgba(14, 116, 144, .11) 1px, transparent 1px) 0 0 / 22px 22px;
-      --bubble-bg: rgba(255, 255, 255, .95);
-      --bubble-mix: #FFFFFF;
-    }
 
     *,
     *::before,
@@ -236,10 +48,40 @@
       height: 100%;
     }
 
-    body {
+    html {
+      scrollbar-color: var(--rule) transparent;
+      scrollbar-width: thin;
+    }
+
+    .main,
+    .sidebar-inner,
+    .rail-inner,
+    .modal-content {
+      scrollbar-gutter: stable;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--rule);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--ink-faint);
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+        body {
       background: var(--bg);
       color: var(--ink);
-      font-family: 'Inter Tight', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 14.5px;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
@@ -268,7 +110,7 @@
     }
 
     .mono {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     }
 
     button {
@@ -311,7 +153,7 @@
       align-items: flex-start;
       justify-content: center;
       padding: 14vh 24px 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
       color: var(--green);
       transition: opacity .5s ease;
@@ -344,7 +186,7 @@
     }
 
     .boot-logo .bt {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 18px;
       font-weight: 700;
       color: var(--ink);
@@ -355,7 +197,7 @@
       font-size: 10px;
       color: var(--ink-dim);
       letter-spacing: .15em;
-      text-transform: uppercase;
+      text-transform: none;
       margin-top: 2px;
     }
 
@@ -369,14 +211,14 @@
 
     .boot-line .status {
       color: var(--green);
-      text-shadow: var(--glow-g);
+      text-shadow: none;
       flex-shrink: 0;
       width: 56px;
     }
 
     .boot-line .status.warn {
       color: var(--amber);
-      text-shadow: var(--glow-a);
+      text-shadow: none;
     }
 
     .boot-line .msg {
@@ -431,16 +273,16 @@
     }
 
     .cve-hero-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 15px;
       font-weight: 700;
-      color: var(--fg);
+      color: var(--ink);
     }
 
     .cve-hero-subtitle {
       font-size: 10px;
       color: var(--ink-soft);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       letter-spacing: .04em;
     }
 
@@ -452,7 +294,7 @@
     }
 
     .cve-lede b {
-      color: var(--fg);
+      color: var(--ink);
     }
 
     .cve-links {
@@ -463,7 +305,7 @@
     }
 
     .cve-links a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--cyan);
       text-decoration: none;
@@ -485,54 +327,57 @@
     }
 
     .cve-sev-btn {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 4px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
       border: 1px solid var(--rule);
       background: transparent;
       color: var(--ink-soft);
       cursor: pointer;
       transition: all .15s;
+      letter-spacing: -0.12px;
     }
 
     .cve-sev-btn:hover {
-      border-color: var(--fg);
-      color: var(--fg);
+      border-color: var(--ink-dim);
+      color: var(--ink);
     }
 
     .cve-sev-btn.active {
-      color: #000;
+      color: #ffffff;
     }
 
     .cve-sev-btn[data-sev=""] {
-      border-color: var(--ink-soft);
+      border-color: var(--rule);
     }
 
     .cve-sev-btn[data-sev=""].active {
-      background: var(--ink-soft);
+      background: var(--ink-dim);
+      border-color: var(--ink-dim);
     }
 
     .cve-sev-btn[data-sev="critical"].active {
-      background: #ff4444;
-      border-color: #ff4444;
+      background: var(--sev-critical);
+      border-color: var(--sev-critical);
     }
 
     .cve-sev-btn[data-sev="high"].active {
-      background: #ff8c42;
-      border-color: #ff8c42;
+      background: var(--sev-high);
+      border-color: var(--sev-high);
     }
 
     .cve-sev-btn[data-sev="medium"].active {
-      background: #f0c040;
-      border-color: #f0c040;
+      background: var(--sev-medium);
+      border-color: var(--sev-medium);
+      color: var(--bg-deep);
     }
 
     .cve-sev-btn[data-sev="low"].active {
-      background: #6ed6a0;
-      border-color: #6ed6a0;
-      color: #000;
+      background: var(--sev-low);
+      border-color: var(--sev-low);
+      color: var(--bg-deep);
     }
 
     /* ═══ Version Panel (Java · Python · JavaScript) ═══ */
@@ -551,7 +396,7 @@
     }
 
     .vp-section-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 13px;
       font-weight: 700;
     }
@@ -605,15 +450,15 @@
     }
 
     .vp-version-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 19px;
       font-weight: 700;
-      color: var(--fg);
+      color: var(--ink);
       line-height: 1.1;
     }
 
     .vp-badge {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 8px;
       font-weight: 700;
       padding: 2px 5px;
@@ -623,9 +468,9 @@
     }
 
     .vp-badge-lts {
-      background: #1a3a1a;
-      color: #6ed6a0;
-      border: 1px solid #6ed6a0;
+      background: color-mix(in srgb, var(--green) 15%, var(--surface));
+      color: var(--green);
+      border: 1px solid color-mix(in srgb, var(--green) 35%, transparent);
     }
 
     .vp-badge-sts {
@@ -635,15 +480,15 @@
     }
 
     .vp-badge-act {
-      background: #1a2e1a;
-      color: #6ed6a0;
-      border: 1px solid #6ed6a0;
+      background: color-mix(in srgb, var(--green) 12%, var(--surface));
+      color: var(--green);
+      border: 1px solid color-mix(in srgb, var(--green) 35%, transparent);
     }
 
     .vp-badge-sec {
-      background: #2e2a1a;
-      color: #f0c040;
-      border: 1px solid #f0c040;
+      background: color-mix(in srgb, var(--amber) 12%, var(--surface));
+      color: var(--amber);
+      border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent);
     }
 
     .vp-badge-eol {
@@ -664,7 +509,7 @@
     }
 
     .vp-card-count {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
     }
 
@@ -720,7 +565,7 @@
     }
 
     .vp-detail-ver {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 24px;
       font-weight: 700;
     }
@@ -735,7 +580,7 @@
     }
 
     .vp-detail-meta b {
-      color: var(--fg);
+      color: var(--ink);
     }
 
     .vp-detail-summary {
@@ -753,7 +598,7 @@
     }
 
     .vp-detail-links a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       text-decoration: none;
       border-radius: 4px;
@@ -790,14 +635,14 @@
     }
 
     .vp-feat-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       font-weight: 700;
       min-width: 52px;
     }
 
     .vp-feat-status {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
       padding: 1px 5px;
       border-radius: 3px;
@@ -829,7 +674,7 @@
     .vp-feat-title {
       font-size: 12.5px;
       font-weight: 600;
-      color: var(--fg);
+      color: var(--ink);
     }
 
     .vp-feat-desc {
@@ -841,7 +686,7 @@
     .vp-feat-link {
       display: inline-block;
       margin-top: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       color: var(--cyan);
       text-decoration: none;
@@ -852,7 +697,7 @@
     }
 
     .vp-loading {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       color: var(--ink-soft);
       padding: 16px 0;
@@ -866,7 +711,7 @@
     }
 
     .vp-close-btn {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       color: var(--ink-soft);
       background: transparent;
@@ -933,7 +778,7 @@
     }
 
     .brand-name {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 13px;
       font-weight: 600;
       color: var(--ink);
@@ -991,7 +836,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--ink-dim);
       letter-spacing: .05em;
@@ -1004,7 +849,7 @@
 
     .mtq-cmd {
       color: var(--cyan);
-      text-shadow: var(--glow-c);
+      text-shadow: none;
     }
 
     .mtq-nav {
@@ -1040,7 +885,7 @@
     }
 
     .mtq-text {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 13.5px;
       font-style: italic;
       color: var(--ink);
@@ -1055,15 +900,15 @@
     }
 
     .mtq-author {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--cyan);
-      text-shadow: var(--glow-c);
+      text-shadow: none;
       letter-spacing: .05em;
     }
 
     .mtq-ctx {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       color: var(--ink-dim);
     }
@@ -1073,7 +918,7 @@
     }
 
     .mtq-src {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       color: var(--amber);
       text-decoration: none;
@@ -1094,24 +939,23 @@
       width: 100%;
       margin: 24px 0 20px;
       overflow: hidden;
-      z-index: 150;
+      z-index: 10;
       display: flex;
       align-items: stretch;
       padding: 14px 18px 14px 88px;
       gap: 16px;
-      background: rgba(29, 29, 31, .72);
-      border: 1px solid rgba(255, 255, 255, .08);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      border: 1px solid var(--rule);
       border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+      box-shadow: var(--shadow-sm);
       backdrop-filter: saturate(160%) blur(20px);
       -webkit-backdrop-filter: saturate(160%) blur(20px);
       transition: opacity .28s, margin .28s, padding .28s, border-color .28s;
     }
 
     [data-theme="light"] .quote-bar {
-      background: rgba(255, 255, 255, .9);
-      border-color: rgba(0, 0, 0, .08);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+      border-color: var(--rule);
+      box-shadow: var(--shadow-sm);
     }
 
     .quote-bar--collapsed {
@@ -1147,7 +991,7 @@
       width: 1px;
       height: auto;
       align-self: stretch;
-      background: rgba(255, 255, 255, .08);
+      background: var(--rule);
       flex-shrink: 0;
     }
 
@@ -1168,8 +1012,8 @@
       font-size: 11px;
       font-weight: 500;
       letter-spacing: .16em;
-      color: rgba(255, 255, 255, .32);
-      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-transform: none;
       margin: 0 0 2px 0;
       order: 1;
     }
@@ -1181,7 +1025,7 @@
       font-weight: 400;
       line-height: 1.34;
       letter-spacing: 0;
-      color: rgba(255, 255, 255, .82);
+      color: var(--ink-soft);
       overflow-wrap: anywhere;
       hyphens: auto;
       margin: 0;
@@ -1203,7 +1047,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
       line-height: 1.28;
-      color: rgba(255, 255, 255, .58);
+      color: var(--ink-dim);
       padding-bottom: 1px;
     }
 
@@ -1214,7 +1058,7 @@
     }
 
     #quote-author {
-      color: #2997ff;
+      color: var(--blue);
       font-size: 12px;
       font-weight: 600;
       line-height: 1.28;
@@ -1225,7 +1069,7 @@
 
     .qb-meta a,
     .qb-src {
-      color: rgba(255, 255, 255, .48);
+      color: var(--ink-dim);
       font-size: 12px;
       font-weight: 400;
       line-height: 1.2;
@@ -1239,12 +1083,12 @@
 
     .qb-meta a:hover,
     .qb-src:hover {
-      color: #2997ff;
+      color: var(--blue);
       text-decoration: underline;
     }
 
     .qb-ctx {
-      color: rgba(255, 255, 255, .48);
+      color: var(--ink-dim);
       font-size: 12px;
       font-weight: 400;
       line-height: 1.28;
@@ -1279,14 +1123,14 @@
     }
 
     .qb-nav button {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, .06);
-      border: 1px solid rgba(255, 255, 255, .10);
-      color: rgba(255, 255, 255, .56);
+      width: var(--btn-md);
+      height: var(--btn-md);
+      background: var(--surface-hi);
+      border: 1px solid var(--rule);
+      color: var(--ink-dim);
       font-size: 16px;
       line-height: 1;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1295,9 +1139,9 @@
     }
 
     .qb-nav button:hover {
-      background: rgba(255, 255, 255, .12);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, .16);
+      background: var(--rule-soft);
+      color: var(--ink);
+      border-color: var(--rule-soft);
     }
 
     .qb-close {
@@ -1316,7 +1160,7 @@
       position: fixed;
       bottom: 44px;
       left: 270px;
-      z-index: 149;
+      z-index: 1000;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -1325,7 +1169,7 @@
       border: 1px solid var(--rule);
       border-radius: 20px;
       color: var(--ink-faint);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       letter-spacing: .08em;
       cursor: pointer;
@@ -1360,7 +1204,7 @@
       border-bottom: 1px solid var(--rule);
       padding: 14px 34px;
       margin: 0 -34px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 14px;
       color: var(--ink-soft);
       display: flex;
@@ -1386,7 +1230,7 @@
     .main-prompt .leader {
       color: var(--green);
       font-weight: 700;
-      text-shadow: var(--glow-g);
+      text-shadow: none;
       margin-right: 2px;
       font-size: 16px;
     }
@@ -1394,12 +1238,12 @@
     .main-prompt .u {
       color: var(--green);
       font-weight: 700;
-      text-shadow: var(--glow-g);
+      text-shadow: none;
     }
 
     .main-prompt .h {
       color: var(--cyan);
-      text-shadow: var(--glow-c);
+      text-shadow: none;
     }
 
     .main-prompt .p {
@@ -1411,7 +1255,7 @@
       color: var(--magenta);
       font-weight: 700;
       margin-right: 4px;
-      text-shadow: var(--glow-v);
+      text-shadow: none;
     }
 
     .main-prompt .cmd {
@@ -1436,7 +1280,7 @@
       font-size: 12px;
       letter-spacing: .14em;
       margin-left: 10px;
-      text-shadow: var(--glow-g);
+      text-shadow: none;
       animation: pulse 2s ease-in-out infinite;
     }
 
@@ -1446,10 +1290,10 @@
       background: var(--panel-bg);
       border: 1px solid var(--rule);
       border-radius: 22px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       overflow: hidden;
       padding: 0;
-      font-family: 'Inter Tight', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       display: flex;
       flex-direction: column;
       isolation: isolate;
@@ -1467,14 +1311,7 @@
       padding-bottom: 0;
     }
 
-    .sidebar-inner::-webkit-scrollbar {
-      width: 6px;
-    }
 
-    .sidebar-inner::-webkit-scrollbar-thumb {
-      background: var(--rule);
-      border-radius: 3px;
-    }
 
     /* sidebar controles (topo) */
 
@@ -1487,7 +1324,7 @@
       margin: 6px 10px 10px;
       cursor: pointer;
       font-size: 11.5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       color: var(--ink-soft);
       background: var(--surface);
       border: 1px solid var(--rule);
@@ -1534,7 +1371,7 @@
       color: var(--ink-soft);
       border-radius: 4px;
       padding: 4px 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       cursor: pointer;
     }
@@ -1545,7 +1382,7 @@
       border: 1px solid var(--rule);
       border-radius: 4px;
       color: var(--ink-soft);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       cursor: pointer;
       transition: all .12s;
@@ -1581,7 +1418,7 @@
 
     .side-label {
       padding: 4px 8px 10px;
-      font-family: 'Inter Tight', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 20px;
       font-weight: 800;
       color: var(--ink);
@@ -1610,7 +1447,7 @@
       margin: 2px 10px;
       cursor: pointer;
       font-size: 13px;
-      font-family: 'Inter Tight', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-weight: 500;
       color: var(--ink);
       border-left: 3px solid color-mix(in srgb, var(--k, var(--ink-faint)) 30%, transparent);
@@ -1730,7 +1567,7 @@
     }
 
     .tool-cat-name {
-      font-family: 'Inter Tight', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 20px;
       font-weight: 800;
       color: var(--ink);
@@ -1811,14 +1648,7 @@
       position: relative;
     }
 
-    .main::-webkit-scrollbar {
-      width: 8px;
-    }
 
-    .main::-webkit-scrollbar-thumb {
-      background: var(--rule);
-      border-radius: 4px;
-    }
 
     .main-inner {
       padding: 0 34px 0;
@@ -1837,7 +1667,7 @@
       background-size: 200% 100%;
       animation: loaderSlide 1.1s linear infinite;
       display: none;
-      z-index: 5;
+      z-index: 10;
     }
 
     .loader-bar.on {
@@ -1864,7 +1694,7 @@
     }
 
     .ctx-hero-title {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: clamp(22px, 2.6vw, 30px);
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -1877,11 +1707,11 @@
     }
 
     .ctx-hero-title .ctx-kind-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .18em;
-      text-transform: uppercase;
+      text-transform: none;
       padding: 3px 8px;
       border: 1px solid var(--ctx-color, var(--cyan));
       color: var(--ctx-color, var(--cyan));
@@ -1898,7 +1728,7 @@
     }
 
     .ctx-hero-meta {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--ink-dim);
       display: flex;
@@ -1931,7 +1761,7 @@
     }
 
     .sec-head h2 {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 16px;
       font-weight: 600;
       letter-spacing: -0.01em;
@@ -1942,20 +1772,20 @@
     }
 
     .sec-head h2 .tag {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       padding: 2px 6px;
       background: var(--surface);
       color: var(--ink-dim);
       border-radius: 3px;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .08em;
       border: 1px solid var(--rule);
       font-weight: 500;
     }
 
     .sec-meta {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--ink-dim);
     }
@@ -1970,7 +1800,7 @@
     .pillar-card {
       background: var(--surface);
       border: 1px solid var(--rule);
-      border-radius: 6px;
+      border-radius: var(--radius-xl);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -1983,9 +1813,8 @@
 
     .pillar-card:hover {
       border-color: color-mix(in srgb, var(--pillar-color, var(--amber)) 55%, transparent);
-      border-top-color: var(--pillar-color, var(--amber));
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .pillar-card .strip {
@@ -2002,10 +1831,10 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
       font-weight: 700;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .10em;
       color: var(--pillar-color, var(--amber));
       padding: 2px 7px;
@@ -2018,7 +1847,7 @@
     .top-card {
       background: var(--surface);
       border: 1px solid var(--rule);
-      border-radius: 6px;
+      border-radius: var(--radius-xl);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -2129,10 +1958,10 @@
       flex-wrap: wrap;
       gap: 5px;
       align-items: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       font-weight: 600;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .08em;
     }
 
@@ -2192,16 +2021,16 @@
     }
 
     .top-head {
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-h3);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
       color: var(--ink);
     }
 
     .top-sum {
-      font-size: 12.5px;
+      font-size: var(--fs-base);
       line-height: 1.5;
       color: var(--ink-soft);
       flex: 1;
@@ -2212,13 +2041,9 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      padding-top: 10px;
-      border-top: 1px solid var(--rule);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
+      margin-top: var(--space-3);
+      font-size: var(--fs-sm);
       color: var(--ink-dim);
-      text-transform: uppercase;
-      letter-spacing: .04em;
     }
 
     .top-foot .src,
@@ -2247,7 +2072,7 @@
       padding: 3px 7px;
       color: var(--ink-dim);
       cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       transition: all .12s;
       letter-spacing: .04em;
@@ -2294,7 +2119,7 @@
     }
 
     .toolbar-left {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       color: var(--ink-soft);
       display: flex;
@@ -2305,7 +2130,7 @@
 
     .toolbar-left .prompt {
       color: var(--green);
-      text-shadow: var(--glow-g);
+      text-shadow: none;
       font-weight: 700;
       margin-right: 6px;
     }
@@ -2333,7 +2158,7 @@
     }
 
     .filter-chip {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       padding: 4px 8px;
       border: 1px solid var(--rule);
@@ -2342,7 +2167,7 @@
       color: var(--ink-dim);
       cursor: pointer;
       transition: all .12s;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .04em;
     }
 
@@ -2493,7 +2318,7 @@
       position: absolute;
       top: 8px;
       right: 10px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
       font-weight: 700;
       padding: 1px 5px;
@@ -2508,10 +2333,10 @@
       flex-wrap: wrap;
       gap: 5px;
       align-items: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       font-weight: 600;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .06em;
     }
 
@@ -2538,7 +2363,7 @@
 
     /* unread-pill removido: sem tracking de lida/não-lida */
     .card-title {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 15px;
       font-weight: 600;
       line-height: 1.3;
@@ -2558,7 +2383,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 3px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
     }
 
@@ -2599,10 +2424,10 @@
     /* date group divider (in aggregate feed) */
     .date-group {
       margin: 24px 0 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       color: var(--amber);
-      text-shadow: var(--glow-a);
+      text-shadow: none;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -2622,7 +2447,7 @@
     }
 
     .date-group .dg-label {
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .12em;
     }
 
@@ -2633,10 +2458,10 @@
 
     .cat-group-head {
       margin: 22px 0 8px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       font-weight: 700;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: .20em;
       color: var(--ink-dim);
       display: flex;
@@ -2675,10 +2500,11 @@
     }
 
     .tool-card {
-      background: var(--surface);
+      background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border: 1px solid var(--rule);
-      border-radius: 5px;
-      padding: 12px 14px;
+      border-left: 3px solid transparent;
+      border-radius: var(--radius-xl);
+      padding: 16px 18px;
       display: grid;
       grid-template-columns: 32px 1fr auto;
       gap: 10px;
@@ -2687,7 +2513,7 @@
       transition: all .15s;
       text-decoration: none;
       color: inherit;
-      border-left: 2px solid var(--tool-kind, var(--cyan));
+      box-shadow: var(--shadow-sm);
     }
 
     .tool-card.has-thumb {
@@ -2695,29 +2521,16 @@
     }
 
     .tool-card:hover {
-      background: var(--surface-hi);
-      border-color: var(--tool-kind, var(--cyan));
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-left-color: color-mix(in srgb, var(--tool-kind, var(--cyan)) 70%, transparent);
     }
 
-    .tool-card.tk-release {
-      border-left-color: var(--green);
-    }
-
-    .tool-card.tk-news {
-      border-left-color: var(--cyan);
-    }
-
-    .tool-card.tk-tip {
-      border-left-color: var(--amber);
-    }
-
-    .tool-card.tk-tutorial {
-      border-left-color: #9b7bff;
-    }
-
-    .tool-card.tk-curiosity {
-      border-left-color: #ff6aa0;
-    }
+    .tool-card.tk-release { --tool-kind: var(--green); }
+    .tool-card.tk-news    { --tool-kind: var(--cyan); }
+    .tool-card.tk-tip     { --tool-kind: var(--amber); }
+    .tool-card.tk-tutorial { --tool-kind: var(--violet); }
+    .tool-card.tk-curiosity { --tool-kind: var(--pink); }
 
     .tool-icon {
       width: 32px;
@@ -2752,7 +2565,7 @@
     }
 
     .tool-kind-badge {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 8px;
       letter-spacing: .08em;
       font-weight: 700;
@@ -2764,7 +2577,7 @@
     }
 
     .tool-name {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-weight: 600;
       font-size: 13px;
       overflow: hidden;
@@ -2773,7 +2586,7 @@
     }
 
     .tool-note {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       color: var(--ink-dim);
       line-height: 1.4;
@@ -2785,7 +2598,7 @@
     }
 
     .tool-ver {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       padding: 2px 6px;
       background: var(--green);
@@ -2802,7 +2615,7 @@
       padding: 56px 24px;
       text-align: center;
       color: var(--ink-dim);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     }
 
     .empty-state h2 {
@@ -2835,7 +2648,7 @@
       background: var(--panel-bg);
       border: 1px solid var(--rule);
       border-radius: 22px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       overflow: hidden;
       padding: 0;
       isolation: isolate;
@@ -2853,14 +2666,7 @@
       padding-bottom: 0;
     }
 
-    .rail-inner::-webkit-scrollbar {
-      width: 6px;
-    }
 
-    .rail-inner::-webkit-scrollbar-thumb {
-      background: var(--rule);
-      border-radius: 3px;
-    }
 
     #tip {
       position: fixed;
@@ -2869,7 +2675,7 @@
       backdrop-filter: blur(8px);
       color: var(--ink);
       box-shadow: 0 4px 16px rgba(0, 0, 0, .35);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
@@ -2882,13 +2688,13 @@
     }
 
     .rail-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       font-weight: 700;
       letter-spacing: .20em;
       color: var(--ink-dim);
       margin-bottom: 10px;
-      text-transform: uppercase;
+      text-transform: none;
       padding-bottom: 6px;
       border-bottom: 1px solid var(--rule);
       display: flex;
@@ -2932,7 +2738,7 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 88px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       color: var(--cyan);
       opacity: .04;
       pointer-events: none;
@@ -2941,7 +2747,7 @@
     }
 
     .ab-hero-prompt {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       color: var(--cyan);
       opacity: .7;
@@ -2950,10 +2756,10 @@
     }
 
     .ab-hero-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 22px;
       font-weight: 700;
-      color: var(--fg);
+      color: var(--ink);
       margin: 0 0 10px;
       letter-spacing: -.01em;
     }
@@ -2984,16 +2790,16 @@
     }
 
     .ab-stat-n {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 22px;
       font-weight: 700;
       color: var(--cyan);
-      text-shadow: var(--glow-c);
+      text-shadow: none;
       line-height: 1;
     }
 
     .ab-stat-l {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
       color: var(--ink-faint);
       letter-spacing: .06em;
@@ -3017,13 +2823,13 @@
     }
 
     .ab-section-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: .12em;
-      text-transform: uppercase;
+      text-transform: none;
       color: var(--cyan);
-      text-shadow: var(--glow-c);
+      text-shadow: none;
     }
 
     .ab-section-rule {
@@ -3054,10 +2860,10 @@
     }
 
     .ab-explain-box h3 {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       font-weight: 700;
-      color: var(--fg);
+      color: var(--ink);
       margin: 0 0 10px;
       letter-spacing: .04em;
     }
@@ -3073,7 +2879,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       padding: 3px 8px;
       border-radius: 3px;
@@ -3126,17 +2932,17 @@
     }
 
     .ab-cat-name {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--fg);
+      color: var(--ink);
       letter-spacing: .02em;
     }
 
     .ab-cat-rule {
       font-size: 9px;
       color: var(--ink-faint);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       letter-spacing: .04em;
     }
 
@@ -3149,11 +2955,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       font-weight: 700;
       letter-spacing: .08em;
-      text-transform: uppercase;
+      text-transform: none;
       margin-bottom: 8px;
     }
 
@@ -3189,7 +2995,7 @@
     }
 
     .ab-tool-name {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 8.5px;
       text-align: center;
       color: var(--ink-soft);
@@ -3205,13 +3011,13 @@
       border-radius: 6px;
       font-size: 11px;
       color: var(--ink-dim);
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-style: italic;
       line-height: 1.6;
     }
 
     .ab-mockup-ref {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9px;
       color: var(--cyan);
       font-style: normal;
@@ -3231,18 +3037,18 @@
       font-size: 9.5px;
       letter-spacing: .22em;
       color: var(--ink-dim);
-      text-transform: uppercase;
-      font-family: 'JetBrains Mono', monospace;
+      text-transform: none;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     }
 
     .tool-subgroup-header {
       padding: 7px 2px 2px;
       font-size: 11px;
       letter-spacing: .22em;
-      text-transform: uppercase;
+      text-transform: none;
       color: var(--ink-soft);
       font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       grid-column: 1 / -1;
       justify-self: stretch;
       pointer-events: none;
@@ -3267,83 +3073,6 @@
       display: none;
     }
 
-    .radar-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .radar-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .rb {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--ink-soft);
-    }
-
-    .rb-name {
-      width: 62px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--rb-color, var(--ink-soft));
-    }
-
-    .rb-track {
-      flex: 1;
-      height: 8px;
-      background: var(--bg-deep);
-      border: 1px solid var(--rule);
-      position: relative;
-      overflow: hidden;
-      border-radius: 1px;
-    }
-
-    .rb-fill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      background: var(--rb-color, var(--green));
-      box-shadow: 0 0 4px var(--rb-color, var(--green));
-      transition: width .4s ease;
-    }
-
-    .rb.urgent .rb-fill {
-      background: var(--red);
-      box-shadow: 0 0 6px var(--red);
-      animation: critPulse 2s ease-in-out infinite;
-    }
-
-    .rb-val {
-      font-size: 10px;
-      color: var(--ink-dim);
-      width: 42px;
-      text-align: right;
-    }
-
-    .rb-val .delta {
-      font-size: 9px;
-    }
-
-    .rb-val .delta.up {
-      color: var(--red);
-    }
-
-    .rb-val .delta.down {
-      color: var(--green);
-    }
-
-
     /* ═══ Date picker ═══ */
     .dp-panel {
       display: block;
@@ -3361,7 +3090,7 @@
     }
 
     .dp-dow {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
       color: var(--ink-dim);
       text-align: center;
@@ -3372,7 +3101,7 @@
       aspect-ratio: 1;
       display: grid;
       place-items: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       border-radius: 3px;
       color: var(--ink-faint);
@@ -3413,15 +3142,17 @@
     }
 
     .dp-cell.current {
-      background: var(--amber);
-      color: var(--bg-deep);
+      background: var(--blue);
+      color: #ffffff;
       font-weight: 700;
+      border-radius: 6px;
     }
 
     .dp-cell.dp-today:not(.current) {
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      border-radius: 3px;
+      outline: 2px solid color-mix(in srgb, var(--blue) 45%, transparent);
+      outline-offset: -1px;
+      color: var(--blue);
+      border-radius: 4px;
     }
 
     /* ═══ Modal (reader + read-later + search) ═══ */
@@ -3430,7 +3161,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.78);
       backdrop-filter: blur(6px);
-      z-index: 500;
+      z-index: 9999;
       display: none;
       align-items: flex-start;
       justify-content: center;
@@ -3470,7 +3201,7 @@
       gap: 12px;
       padding: 14px 20px;
       border-bottom: 1px solid var(--rule);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       flex-shrink: 0;
     }
 
@@ -3478,7 +3209,7 @@
       color: var(--green);
       font-weight: 700;
       font-size: 14px;
-      text-shadow: var(--glow-g);
+      text-shadow: none;
     }
 
     .modal-head .modal-title {
@@ -3492,7 +3223,7 @@
     }
 
     .modal-close {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       padding: 5px 10px;
       background: var(--bg-deep);
@@ -3500,7 +3231,7 @@
       border-radius: 3px;
       cursor: pointer;
       color: var(--ink-soft);
-      text-transform: uppercase;
+      text-transform: none;
     }
 
     .modal-close:hover {
@@ -3513,14 +3244,7 @@
       padding: 20px 26px 26px;
     }
 
-    .modal-content::-webkit-scrollbar {
-      width: 8px;
-    }
 
-    .modal-content::-webkit-scrollbar-thumb {
-      background: var(--rule);
-      border-radius: 4px;
-    }
 
     /* CVE e tag pills (usados inline nos cards) */
     .cve-pill {
@@ -3530,7 +3254,7 @@
       border-radius: 2px;
       font-weight: 700;
       text-decoration: none;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 9.5px;
     }
 
@@ -3542,7 +3266,7 @@
     /* read-later list modal */
     .rl-sub {
       padding: 10px 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       color: var(--ink-dim);
       border-bottom: 1px solid var(--rule-soft);
@@ -3561,7 +3285,7 @@
 
     .rl-sub-actions button,
     .rl-sub-actions select {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       padding: 4px 8px;
       border: 1px solid var(--rule);
@@ -3625,7 +3349,7 @@
     }
 
     .rl-item-title {
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-weight: 600;
       font-size: 14px;
       color: var(--ink);
@@ -3640,7 +3364,7 @@
     }
 
     .rl-item-meta {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10.5px;
       color: var(--ink-dim);
       display: flex;
@@ -3667,7 +3391,7 @@
       border-radius: 4px;
       cursor: pointer;
       color: var(--ink-dim);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 14px;
       display: grid;
       place-items: center;
@@ -3682,7 +3406,7 @@
       padding: 50px 24px;
       text-align: center;
       color: var(--ink-dim);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
     }
 
@@ -3703,10 +3427,10 @@
       border-left-width: 3px;
       padding: 10px 18px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
       color: var(--ink);
-      z-index: 900;
+      z-index: 9999;
       opacity: 0;
       pointer-events: none;
       transition: opacity .2s, transform .2s;
@@ -3778,10 +3502,10 @@
         width: 82vw;
         max-width: 320px;
         z-index: 400;
-        border-right: 1px solid var(--amber);
+        border-right: 1px solid var(--rule);
         transform: translateX(-100%);
         transition: transform .2s ease;
-        box-shadow: 0 0 32px rgba(0, 0, 0, 0.5);
+        box-shadow: var(--shadow-md);
       }
 
       .sidebar.open {
@@ -3877,8 +3601,30 @@
       --nav-border: rgba(29, 29, 31, .08);
       --nav-shadow: 0 8px 24px rgba(255, 255, 255, .28);
       --nav-highlight: rgba(255, 255, 255, .42);
-      --apple-shadow-sm: rgba(0, 0, 0, 0.08) 3px 5px 30px 0px;
-      --apple-shadow-md: rgba(0, 0, 0, 0.14) 3px 5px 30px 0px;
+      --shadow-sm: rgba(0, 0, 0, 0.08) 3px 5px 30px 0px;
+      --shadow-md: rgba(0, 0, 0, 0.14) 3px 5px 30px 0px;
+      /* ── Categoria (light) ── */
+      --cat-sec: #B91C3C; --cat-ai: #6D28D9; --cat-aiops: #a21caf;
+      --cat-cloud: #C46B00; --cat-devops: #1d4ed8; --cat-obs: #b45309;
+      --cat-data: #0E7490; --cat-integ: #0F766E; --cat-backend: #166534;
+      --cat-frontend: #be123c; --cat-testing: #5a7a09; --cat-design: #be185d;
+      --cat-distarch: #4338ca; --cat-enterprise: #475569; --cat-fundamentals: #78350f;
+      --cat-fintech: #065f46;
+      --rail-lang: #a21caf; --rail-topics: #0e7490; --rail-tools: #c2410c;
+      --tool-ide: #6D28D9; --tool-db: #0E7490; --tool-devops: #B0590C;
+      --tool-api: #166534; --tool-doc: #BE185D; --tool-arch: #0F766E;
+      --sev-critical: #B91C3C; --sev-high: #B0590C; --sev-medium: #854D0E; --sev-low: #166534;
+      --grid-line: rgba(14, 116, 144, .05); --grid-opacity: .5;
+      /* ── Escala de design ── */
+      --fs-xs: 11px; --fs-sm: 12px; --fs-md: 13px; --fs-base: 14px; --fs-lg: 17px;
+      --fs-title: 20px; --fs-title-lg: 22px; --fs-h3: 24px; --fs-h2: 30px;
+      --fs-hero: clamp(34px, 5vw, 60px);
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+      --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px; --radius-xl: 24px;
+      --radius-hero: 32px; --radius-pill: 980px;
+      --btn-sm: 28px; --btn-md: 34px; --btn-lg: 44px;
+      --link: var(--blue);
     }
 
     [data-theme="dark"] {
@@ -3919,8 +3665,20 @@
       --nav-border: rgba(255, 255, 255, .1);
       --nav-shadow: 0 8px 24px rgba(0, 0, 0, .34);
       --nav-highlight: rgba(255, 255, 255, .08);
-      --apple-shadow-sm: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-      --apple-shadow-md: rgba(0, 0, 0, 0.34) 3px 5px 30px 0px;
+      --shadow-sm: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+      --shadow-md: rgba(0, 0, 0, 0.34) 3px 5px 30px 0px;
+      /* ── Categoria (dark) ── */
+      --cat-sec: #EF4444; --cat-ai: #A78BFA; --cat-aiops: #c026d3;
+      --cat-cloud: #f59e0b; --cat-devops: #3b82f6; --cat-obs: #eab308;
+      --cat-data: #0ea5e9; --cat-integ: #14b8a6; --cat-backend: #22C55E;
+      --cat-frontend: #e11d48; --cat-testing: #84cc16; --cat-design: #f472b6;
+      --cat-distarch: #6366f1; --cat-enterprise: #94a3b8; --cat-fundamentals: #a16207;
+      --cat-fintech: #10b981;
+      --rail-lang: #e879f9; --rail-topics: #22d3ee; --rail-tools: #fb923c;
+      --tool-ide: #A78BFA; --tool-db: #38BDF8; --tool-devops: #F59E0B;
+      --tool-api: #22C55E; --tool-doc: #EC4899; --tool-arch: #2DD4BF;
+      --sev-critical: #EF4444; --sev-high: #F59E0B; --sev-medium: #FACC15; --sev-low: #22C55E;
+      --grid-line: rgba(56, 189, 248, .035); --grid-opacity: .35;
     }
 
     body {
@@ -3944,7 +3702,7 @@
       left: 0;
       right: 0;
       width: 100%;
-      z-index: 9600;
+      z-index: 9000;
       height: 48px;
       background: transparent;
       transition: background .3s ease, border-color .3s ease;
@@ -4113,9 +3871,8 @@
     .rail {
       background: var(--panel-bg);
       border: 1px solid var(--rule);
-      border-radius: 24px;
-      box-shadow: var(--apple-shadow-sm);
-      /* backdrop removido: blur + cantos arredondados gerava halo azul no topo da sidebar */
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
       isolation: isolate;
     }
 
@@ -4245,7 +4002,7 @@
     .ch-item {
       margin: 2px 10px;
       padding: 10px 12px;
-      border-left: none;
+      border-left: 2px solid transparent;
       border-radius: 14px;
       color: var(--ink-soft);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -4255,8 +4012,9 @@
 
     .ch-item:hover,
     .ch-item.active {
-      background: color-mix(in srgb, var(--k, var(--amber)) 9%, var(--surface));
+      background: color-mix(in srgb, var(--k, var(--blue)) 9%, var(--surface));
       color: var(--ink);
+      border-left-color: color-mix(in srgb, var(--k, var(--blue)) 55%, transparent);
     }
 
     .ch-item.ch-tool {
@@ -4280,7 +4038,7 @@
     }
 
     .rail {
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       padding: 0;
     }
 
@@ -4304,6 +4062,57 @@
       text-transform: none;
     }
 
+    .tool-kind-badge {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      text-transform: none;
+      border-radius: var(--radius-sm);
+      letter-spacing: -0.12px;
+      padding: 3px 7px;
+    }
+
+    .cat-group-head {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: -0.12px;
+    }
+
+    .mini-btn {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      min-height: var(--btn-sm);
+      padding: 4px 10px;
+      border-radius: var(--radius-md);
+      letter-spacing: -0.12px;
+      text-transform: none;
+    }
+
+    .vp-close-btn {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-sm);
+      min-height: var(--btn-sm);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      letter-spacing: -0.12px;
+    }
+
+    .modal-close {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-sm);
+      min-height: var(--btn-sm);
+      letter-spacing: -0.12px;
+      text-transform: none;
+    }
+
+    button:active:not(:disabled),
+    [role="button"]:active {
+      transform: scale(.97);
+    }
+
     .main {
       background: transparent;
     }
@@ -4318,7 +4127,7 @@
       padding: 50px 42px 36px;
       border-radius: 32px;
       border: 1px solid var(--rule);
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), color-mix(in srgb, var(--bg-deep) 92%, transparent));
       text-align: center;
       overflow: hidden;
@@ -4374,12 +4183,12 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      min-height: 44px;
+      min-height: var(--btn-lg);
       padding: 12px 22px;
-      border-radius: 980px;
+      border-radius: var(--radius-pill);
       border: 1px solid transparent;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      font-size: 17px;
+      font-size: var(--fs-lg);
       font-weight: 400;
       letter-spacing: -0.022em;
       transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
@@ -4396,17 +4205,17 @@
 
     .apple-btn-secondary {
       background: transparent;
-      color: var(--link);
+      color: var(--blue);
       border-color: currentColor;
     }
 
     .apple-btn-secondary:hover {
-      background: var(--link);
+      background: var(--blue);
       color: #ffffff;
     }
 
     .apple-btn:active {
-      transform: scale(.985);
+      transform: scale(.97);
     }
 
     .apple-btn .arr {
@@ -4504,7 +4313,7 @@
       overflow: hidden;
       background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), color-mix(in srgb, var(--surface-hi) 82%, transparent));
       border: 1px solid var(--rule);
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
@@ -4607,13 +4416,15 @@
       gap: 6px;
       min-height: 26px;
       padding: 0 10px;
-      border-radius: 999px;
-      background: rgba(15, 15, 15, .86);
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, .65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       color: #ffffff;
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 11px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--fs-xs);
       font-weight: 600;
-      letter-spacing: .01em;
+      letter-spacing: -0.12px;
       z-index: 2;
     }
 
@@ -4654,10 +4465,10 @@
       border-radius: 999px;
       background: rgba(15, 15, 15, .78);
       color: rgba(255, 255, 255, .92);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       letter-spacing: .04em;
-      text-transform: uppercase;
+      text-transform: none;
       transition: opacity .2s ease;
       z-index: 2;
     }
@@ -4725,7 +4536,7 @@
     }
 
     .yt-card-date {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       text-transform: lowercase;
     }
@@ -4751,9 +4562,9 @@
     }
 
     .yt-card-inline-btn {
-      min-height: 34px;
+      min-height: var(--btn-md);
       padding: 0 12px;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       border: 1px solid var(--rule);
       background: color-mix(in srgb, var(--surface-hi) 88%, transparent);
       color: var(--ink);
@@ -4838,7 +4649,7 @@
       border-left: none;
       border-radius: 24px;
       border: 1px solid var(--rule);
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
     }
 
@@ -4873,7 +4684,7 @@
       border-radius: 20px;
       border: 1px solid var(--rule);
       background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 94%, transparent), color-mix(in srgb, var(--bg-deep) 92%, transparent));
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -4888,33 +4699,23 @@
       display: none;
     }
 
-    .main-prompt-group {
-      display: inline;
-      min-width: 0;
+    .mp-kicker {
+      color: var(--mp-color, var(--blue));
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      letter-spacing: -0.12px;
     }
 
-    .main-prompt-brand {
-      color: var(--ink-soft);
+    .mp-sep {
+      color: var(--ink-faint);
+      font-size: var(--fs-base);
     }
 
-    .main-prompt-path {
-      min-width: 0;
-    }
-
-    .main-prompt-command {
-      min-width: 0;
-    }
-
-    .main-prompt .cmd {
+    .mp-label {
       color: var(--ink);
+      font-size: var(--fs-base);
       font-weight: 500;
-    }
-
-    .main-prompt .cursor-i {
-      width: 8px;
-      height: 14px;
-      background: var(--amber);
-      box-shadow: none;
+      letter-spacing: -0.224px;
     }
 
     .ctx-hero,
@@ -4928,7 +4729,7 @@
     .ab-mockup {
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border: 1px solid var(--rule);
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
     }
 
     .ctx-hero {
@@ -4994,14 +4795,22 @@
 
     .sec-head h2 .tag,
     .filter-chip,
-    .tag-pill,
-    .cat-tag,
-    .date-tag,
     .modal-close {
       background: color-mix(in srgb, var(--surface-hi) 86%, transparent);
       color: var(--ink-dim);
       border: 1px solid var(--rule);
-      border-radius: 980px;
+      border-radius: var(--radius-pill);
+      text-transform: none;
+      letter-spacing: -0.12px;
+    }
+
+    .tag-pill,
+    .cat-tag,
+    .date-tag {
+      background: color-mix(in srgb, var(--surface-hi) 80%, transparent);
+      color: var(--ink-dim);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sm);
       text-transform: none;
       letter-spacing: -0.12px;
     }
@@ -5086,9 +4895,9 @@
     .card {
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border: 1px solid var(--rule);
-      border-left: none;
-      border-radius: 24px;
-      box-shadow: var(--apple-shadow-sm);
+      border-left: 3px solid transparent;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
       padding: 16px 18px;
       gap: 10px;
     }
@@ -5096,7 +4905,8 @@
     .card:hover {
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border-color: var(--rule-soft);
-      box-shadow: var(--apple-shadow-md);
+      border-left-color: color-mix(in srgb, var(--cat, var(--rule)) 70%, transparent);
+      box-shadow: var(--shadow-md);
       transform: translateY(-2px);
     }
 
@@ -5113,7 +4923,7 @@
 
     .feed-list .card {
       padding: 18px 20px;
-      border-radius: 26px;
+      border-radius: var(--radius-xl);
     }
 
     .feed-list .card-thumb {
@@ -5132,22 +4942,24 @@
 
     .card-head {
       gap: 8px;
-      font-size: 12px;
+      font-size: var(--fs-sm);
       color: var(--ink-dim);
+      text-transform: none;
+      letter-spacing: -0.12px;
     }
 
     .card-title {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-      font-size: 20px;
+      font-size: var(--fs-title);
       font-weight: 700;
-      line-height: 1.19;
-      letter-spacing: 0.231px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
       color: var(--ink);
     }
 
     .feed-list .card-title {
-      font-size: 22px;
-      letter-spacing: 0.196px;
+      font-size: var(--fs-title-lg);
+      letter-spacing: -0.01em;
     }
 
     .card-sum,
@@ -5161,15 +4973,19 @@
     .tag-pill,
     .cat-tag,
     .date-tag {
-      padding: 5px 9px;
-      font-size: 12px;
+      padding: 3px 8px;
+      font-size: var(--fs-sm);
     }
 
     .card-foot,
     .card-foot .src,
     .card-foot .time {
       color: var(--ink-dim);
-      font-size: 13px;
+      font-size: var(--fs-sm);
+      border-top: none;
+      padding-top: 0;
+      text-transform: none;
+      letter-spacing: normal;
     }
 
     .date-group {
@@ -5204,7 +5020,7 @@
       background: color-mix(in srgb, var(--surface) 92%, transparent);
       color: var(--ink);
       border: 1px solid var(--rule);
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       border-radius: 980px;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
@@ -5223,7 +5039,7 @@
       background: linear-gradient(180deg, var(--surface), var(--bg-deep));
       border: 1px solid var(--rule);
       border-radius: 28px;
-      box-shadow: var(--apple-shadow-md);
+      box-shadow: var(--shadow-md);
     }
 
     .modal-body::before {
@@ -5252,8 +5068,8 @@
     }
 
     .modal-close:hover {
-      color: var(--amber);
-      border-color: color-mix(in srgb, var(--amber) 24%, var(--rule));
+      color: var(--red);
+      border-color: color-mix(in srgb, var(--red) 24%, var(--rule));
     }
 
     .modal-content {
@@ -5265,14 +5081,14 @@
       color: var(--ink);
       border: 1px solid var(--rule);
       border-radius: 980px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: var(--shadow-sm);
       font-size: 14px;
       letter-spacing: -0.224px;
     }
 
     .quote-bar {
-      background: rgba(29, 29, 31, .72);
-      border: 1px solid rgba(255, 255, 255, .08);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      border: 1px solid var(--rule);
       border-radius: 30px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
       backdrop-filter: saturate(160%) blur(20px);
@@ -5280,7 +5096,7 @@
     }
 
     .qb-divider {
-      background: rgba(255, 255, 255, .08);
+      background: var(--rule);
     }
 
     .qb-text {
@@ -5289,7 +5105,7 @@
       font-weight: 400;
       line-height: 1.35;
       letter-spacing: 0;
-      color: rgba(255, 255, 255, .82);
+      color: var(--ink-soft);
       overflow-wrap: anywhere;
       hyphens: auto;
     }
@@ -5300,12 +5116,12 @@
     .verse-ref,
     .verse-cross-link,
     .verse-symbol {
-      color: rgba(255, 255, 255, .48);
+      color: var(--ink-dim);
       text-shadow: none;
     }
 
     #quote-author {
-      color: #2997ff;
+      color: var(--blue);
     }
 
     .qb-meta > * {
@@ -5317,15 +5133,15 @@
     .qb-nav button,
     .qb-restore {
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .10);
-      background: rgba(255, 255, 255, .06);
+      border: 1px solid var(--rule);
+      background: var(--surface-hi);
     }
 
     .qb-nav button:hover,
     .qb-restore:hover {
-      border-color: rgba(255, 255, 255, .16);
-      color: #ffffff;
-      background: rgba(255, 255, 255, .12);
+      border-color: var(--rule-soft);
+      color: var(--ink);
+      background: var(--rule-soft);
     }
 
     .ab-hero::before {
@@ -6032,59 +5848,44 @@
         const el = $('mainPrompt');
         if (!el) return;
         const v = STATE.view;
-        let color = '', path = '', cmd = '', today = '';
+        let kicker = '', label = '', color = '';
+
         if (v === 'home') {
-          const d = STATE.currentDate || '—';
-          color = 'var(--amber)';
-          path = `~/editions/${d}`;
-          cmd = `cat ${d}.json`;
-          today = STATE.currentDate && isToday(STATE.currentDate) ? '1' : '';
+          const d = STATE.currentDate || '';
+          kicker = 'Edição';
+          if (d) {
+            const dateLabel = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'short' })
+              .format(new Date(d + 'T12:00:00'));
+            label = dateLabel + (isToday(d) ? ' · hoje' : '');
+          } else {
+            label = '—';
+          }
+          color = 'var(--blue)';
         } else if (v === 'rl') {
-          color = 'var(--amber)';
-          path = `~/editions/read-later`;
-          cmd = `cat ler_depois.log`;
+          kicker = 'Ler depois';
+          label = 'Itens salvos';
+          color = 'var(--blue)';
         } else if (v.startsWith('cat:')) {
           const k = v.slice(4);
-          const catDef = CAT[k];
-          const fullName = catDef ? catDef.lf : k;
+          kicker = 'Categoria';
+          label = CAT[k] ? CAT[k].lf : k;
           color = `var(--cat-${k})`;
-          path = `~/editions/categories/${k}`;
-          cmd = `grep --category="${fullName}"`;
         } else if (v.startsWith('tool:')) {
           const k = v.slice(5);
           const t = TOOLS.find(x => x.key === k);
-          const fullName = t ? t.name : k;
-          color = TOOL_KIND[t?.kind] || 'var(--cyan)';
-          path = `~/editions/tools/${k}`;
-          cmd = `grep --tool="${fullName}"`;
+          kicker = 'Ferramenta';
+          label = t ? t.name : k;
+          color = TOOL_KIND[t?.kind] || 'var(--blue)';
         }
-        el.style.setProperty('--mp-color', color);
+
+        el.style.setProperty('--mp-color', color || 'var(--blue)');
         el.innerHTML =
-          `<span class="main-prompt-group main-prompt-brand">` +
-          `<span class="leader">❯</span>` +
-          `<span class="u">csr.news</span>@<span class="h">archive</span>` +
-          `</span>` +
-          `<span class="main-prompt-group main-prompt-path">` +
-          `<span class="p">${esc(path)}</span>` +
-          `</span>` +
-          `<span class="main-prompt-group main-prompt-command">` +
-          `<span class="d">%</span><span class="cmd">${esc(cmd)}</span><span class="cursor-i"></span>` +
-          (today ? `<span class="mp-today">[HOJE]</span>` : '') +
-          `</span>`;
+          `<span class="mp-kicker">${esc(kicker)}</span>` +
+          `<span class="mp-sep">·</span>` +
+          `<span class="mp-label">${esc(label)}</span>`;
       }
 
       /* ═══ Botão data (sidebar nav-row) ═══ */
-      function updateSideNavDate() {
-        const label = $('dpLabel');
-        const badge = $('snTodayBadge');
-        const goToday = $('goTodayBtn');
-        if (!label) return;
-        label.textContent = STATE.currentDate || '—';
-        const today = STATE.currentDate && isToday(STATE.currentDate);
-        if (badge) badge.hidden = !today;
-        if (goToday) goToday.hidden = !STATE.currentDate || today || STATE.view !== 'home';
-      }
-
       /* ═══ Aggregate context (cat/tool): escurece a nav-row ═══ */
       function updateAggContext() {
         const sb = $('sidebar');
@@ -6345,7 +6146,6 @@
 
         // sincronizar contextuais
         updateMainPrompt();
-        updateSideNavDate();
         updateAggContext();
       }
 

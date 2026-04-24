@@ -80,7 +80,8 @@
       "WebFetch(domain:getdesign.md)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(grep -n -E \"\\\\.modal\\\\s*\\\\{|\\\\.modal\\\\.open|#modal[ \\\\.#,]|class=\\\\\"modal \" /Users/cesar.schutz/Downloads/noticias-arq/home.html)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Bash(awk '{print $NF}')"
     ]
   }
 }
