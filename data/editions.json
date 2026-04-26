@@ -1,6 +1,147 @@
 {
-  "last_generated": "2026-04-22T06:00:00-03:00",
+  "last_generated": "2026-04-26T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-26",
+      "summary": "Lapsus$ vaza código-fonte da Checkmarx, AWS publica EC2 G7e (Blackwell) em GA e Cloudflare expõe stack interno que processa 241 bilhões de tokens com 77% menos custo.",
+      "counts_by_category": {
+        "sec": 2,
+        "ai": 1,
+        "cloud": 2,
+        "aiops": 3,
+        "obs": 2,
+        "devops": 1,
+        "data": 1,
+        "integ": 1,
+        "frontend": 2,
+        "backend": 1,
+        "testing": 1,
+        "fintech": 1,
+        "enterprise": 1,
+        "design": 1,
+        "distarch": 1,
+        "fundamentals": 2
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "cursor": 1,
+        "intellij": 1,
+        "vscode": 1,
+        "argocd": 1,
+        "springboot": 1,
+        "python": 1,
+        "keycloak": 1,
+        "kafka": 1,
+        "kubernetes": 1,
+        "postgres": 1,
+        "redis": 1
+      },
+      "highlights": [
+        {
+          "title": "Lapsus$ vaza código-fonte e credenciais MongoDB/MySQL da Checkmarx em 24/04",
+          "url": "https://www.bleepingcomputer.com/news/security/new-checkmarx-supply-chain-breach-affects-kics-analysis-tool/"
+        },
+        {
+          "title": "AWS coloca EC2 G7e com NVIDIA RTX PRO 6000 Blackwell em GA — 2,3× sobre G6e",
+          "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-g7e-instances-nvidia-rtx-pro-6000-blackwell/"
+        },
+        {
+          "title": "Cloudflare publica stack interna de IA: 241 bilhões de tokens, AI Gateway dogfood e 77% mais barato",
+          "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "summary": "Google injeta US$ 40 bi na Anthropic em cash + compute, Claude ganha Memory persistente em Managed Agents e Kubernetes 1.36 sai com Fine-Grained Kubelet RBAC em GA — fim do bypass via nodes/proxy.",
+      "counts_by_category": {
+        "ai": 2,
+        "aiops": 3,
+        "sec": 3,
+        "cloud": 2,
+        "devops": 3,
+        "obs": 1,
+        "backend": 1,
+        "distarch": 1,
+        "integ": 1,
+        "fintech": 1,
+        "fundamentals": 1
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "kubernetes": 1,
+        "github": 1,
+        "springboot": 1,
+        "argocd": 1,
+        "datadog": 1,
+        "terraform": 1,
+        "docker": 1,
+        "python": 1,
+        "kafka": 1,
+        "vscode": 1,
+        "javascript": 1
+      },
+      "highlights": [
+        {
+          "title": "Anthropic libera Memory para Claude Managed Agents em public beta com filesystem e audit trail",
+          "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/"
+        },
+        {
+          "title": "Google fecha aporte de até US$ 40 bilhões na Anthropic em cash e compute, com 5 GW dedicados",
+          "url": "https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/"
+        },
+        {
+          "title": "Kubernetes v1.36 promove Fine-Grained Kubelet API Authorization a GA e fecha buraco do nodes/proxy",
+          "url": "https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-24",
+      "summary": "DeepSeek V4 Pro/Flash chegam com 1M tokens em MoE; OpenAI lança GPT-5.5 com 82,7% no Terminal-Bench; worm CanisterSprawl ataca npm, PyPI e Docker Hub em 48h.",
+      "counts_by_category": {
+        "ai": 3,
+        "aiops": 3,
+        "sec": 3,
+        "cloud": 2,
+        "devops": 2,
+        "obs": 2,
+        "backend": 2,
+        "data": 1,
+        "frontend": 1,
+        "distarch": 2,
+        "enterprise": 1,
+        "fundamentals": 3
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "javascript": 1,
+        "mermaid": 1,
+        "maven": 1,
+        "nginx": 1,
+        "redis": 1,
+        "structurizr": 1,
+        "springboot": 1,
+        "dynatrace": 1,
+        "datadog": 1,
+        "github": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "DeepSeek V4 Pro/Flash chegam com 1M tokens em MoE e tabela de preços a fração do custo",
+          "url": "https://simonwillison.net/2026/Apr/24/deepseek-v4/"
+        },
+        {
+          "title": "OpenAI lança GPT-5.5 com 82,7% no Terminal-Bench 2.0 e Codex como app de produção",
+          "url": "https://openai.com/index/introducing-gpt-5-5/"
+        },
+        {
+          "title": "CanisterSprawl: worm npm/PyPI/Docker Hub usa ICP canister como C2 e força reauditoria de postinstall",
+          "url": "https://blog.gitguardian.com/three-supply-chain-campaigns-hit-npm-pypi-and-docker-hub-in-48-hours/"
+        }
+      ]
+    },
     {
       "date": "2026-04-22",
       "summary": "Kubernetes 1.36 chega com 80 KEPs e rootless GA, Vercel sofre breach via OAuth da Context.ai e Grafana 13 reescreve Loki sobre Kafka no GrafanaCON Barcelona.",

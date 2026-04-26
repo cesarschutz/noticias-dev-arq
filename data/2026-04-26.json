@@ -1,0 +1,882 @@
+{
+  "date": "2026-04-26",
+  "weekday": "Domingo",
+  "formatted_date": "Domingo, 26 de Abril de 2026",
+  "generated_at": "2026-04-26T06:00:00-03:00",
+  "hero_title": "Lapsus$ vaza Checkmarx, AWS G7e Blackwell em GA e Cloudflare expõe stack interna de IA",
+  "hero_description": "Domingo amanhece com a comunidade ainda digerindo o leak do Lapsus$ na Checkmarx — código-fonte e credenciais expostas — enquanto AWS publica EC2 G7e (Blackwell) em GA e Cloudflare detalha o stack interno que processa 241 bilhões de tokens/mês na própria plataforma. No campo MCP, Salesforce libera Headless 360 com 60+ tools, e Anthropic abre Rate Limits API para multitenancy — fim de semana mais movimentado em plataforma do que se esperava.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Lapsus$ vaza código-fonte e credenciais MongoDB/MySQL da Checkmarx em 24/04",
+      "summary": "Grupo Lapsus$ publicou no leak post da Checkmarx (vendor de KICS e SAST/SCA) o que reivindica ser código-fonte proprietário, dump do banco de funcionários, API keys e credenciais MongoDB/MySQL. O incidente acontece dias após o supply-chain hit no KICS Docker (TeamPCP, 22/04) e amplia o cenário em que a própria toolchain de AppSec vira vetor — qualquer cliente que rode KICS em pipeline precisa reauditar imagens, segredos e tokens armazenados na plataforma.",
+      "why_it_matters": "Quando o scanner de segurança da empresa é comprometido, a confiança no pipeline de SAST/SCA precisa ser recalibrada — arquitetos devem desacoplar verificação de fornecedor único.",
+      "source": "Bleeping Computer",
+      "url": "https://www.bleepingcomputer.com/news/security/new-checkmarx-supply-chain-breach-affects-kics-analysis-tool/",
+      "published_at": "2026-04-25T14:30:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "lapsus",
+        "supply-chain",
+        "checkmarx",
+        "sast",
+        "kics"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS coloca EC2 G7e com NVIDIA RTX PRO 6000 Blackwell em GA — 2,3× sobre G6e",
+      "summary": "Amazon EC2 G7e ficou GA em 25/04, equipado com GPUs NVIDIA RTX PRO 6000 Blackwell Server Edition. AWS divulga até 2,3× de throughput de inferência sobre G6e e capacidade para rodar modelos médios de até 70B parâmetros sem quantização agressiva. Disponível inicialmente em us-east-1 e us-east-2; reforça opção custo-eficiente para inference SaaS sem comprar instâncias H100/H200.",
+      "why_it_matters": "Para arquitetos de plataforma LLM, G7e é a primeira instância Blackwell do AWS com proposta de inferência de modelos médios sem reservar capacity blocks.",
+      "source": "AWS What's New",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-g7e-instances-nvidia-rtx-pro-6000-blackwell/",
+      "published_at": "2026-04-25T08:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "aws",
+        "ec2",
+        "blackwell",
+        "inference",
+        "gpu"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Cloudflare publica stack interna de IA: 241 bilhões de tokens, AI Gateway dogfood e 77% mais barato",
+      "summary": "Post no Cloudflare Blog detalha como a empresa rodou todo o stack interno de agentes em cima do que vende: 20 milhões de requests via AI Gateway, 241 bilhões de tokens processados, inference no Workers AI, Kimi K2.5 como modelo daily driver. Caso emblemático: o agent de segurança consome 7 bi tokens/dia em Kimi e estimam custo 77% menor vs. modelo proprietário tier-2. Repercussão grande no HN durante a semana.",
+      "why_it_matters": "Para arquiteto de plataforma LLM, é referência rara: dogfooding em escala industrial com números concretos de TCO — material para business case interno.",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+      "published_at": "2026-04-25T17:00:00-03:00",
+      "read_time": 9,
+      "tags": [
+        "cloudflare",
+        "ai-gateway",
+        "kimi",
+        "workers-ai",
+        "dogfooding"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cloudflare.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "critical",
+      "headline": "Lapsus$ vaza código-fonte e credenciais MongoDB/MySQL da Checkmarx em 24/04",
+      "summary": "Grupo Lapsus$ publicou no leak post da Checkmarx (vendor de KICS e SAST/SCA) o que reivindica ser código-fonte proprietário, dump do banco de funcionários, API keys e credenciais MongoDB/MySQL. O incidente acontece dias após o supply-chain hit no KICS Docker (TeamPCP, 22/04) e amplia o cenário em que a própria toolchain de AppSec vira vetor — qualquer cliente que rode KICS em pipeline precisa reauditar imagens, segredos e tokens armazenados na plataforma.",
+      "why_it_matters": "Quando o scanner de segurança da empresa é comprometido, a confiança no pipeline de SAST/SCA precisa ser recalibrada — arquitetos devem desacoplar verificação de fornecedor único.",
+      "source": "Bleeping Computer",
+      "url": "https://www.bleepingcomputer.com/news/security/new-checkmarx-supply-chain-breach-affects-kics-analysis-tool/",
+      "published_at": "2026-04-25T14:30:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "lapsus",
+        "supply-chain",
+        "checkmarx",
+        "sast",
+        "kics"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "breaking": false,
+      "headline": "TeamPCP-Lapsus$: campanha conjunta atinge Trivy, Checkmarx e LiteLLM em roubo de credenciais",
+      "summary": "Análise da Hackread mostra que TeamPCP — grupo por trás dos Docker Hub maliciosos de Trivy e KICS — vem colaborando com Lapsus$ desde meados de abril. A campanha extrai tokens de CI/CD via imagens postinstall e usa repositórios LiteLLM como ponto de pivot. Para arquitetos rodando supply chain de IA + segurança, é o terceiro mês seguido de comprometimento em scanners e gateways LLM.",
+      "why_it_matters": "Pipelines que rodam scanners e gateways LLM em containers precisam de pinning por digest, signing obrigatório e rotação imediata de tokens — supply chain virou alvo coordenado.",
+      "source": "Hackread",
+      "url": "https://hackread.com/teampcp-trivy-checkmarx-litellm-credential-theft/",
+      "published_at": "2026-04-25T11:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "teampcp",
+        "lapsus",
+        "litellm",
+        "trivy",
+        "supply-chain"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=hackread.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Anthropic libera Rate Limits API para consultar limites por organização e workspace",
+      "summary": "A Claude Developer Platform publicou em 25/04 a Rate Limits API: endpoint programático que permite admins consultarem limites de tokens-por-minuto e requests-por-minuto configurados em cada organização e workspace. Resolve dor crônica de orgs com múltiplos times compartilhando uma key — agora dá pra criar dashboards de cota e alertas antes do throttle.",
+      "why_it_matters": "Plataformas que multiplexam LLM por tenant ganham observabilidade de cota nativa — sem mais reverse-engineering de headers ou parsing de erro.",
+      "source": "Claude Platform Release Notes",
+      "url": "https://platform.claude.com/docs/en/release-notes/overview",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "anthropic",
+        "claude",
+        "api",
+        "rate-limits"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=claude.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cloudflare estende Network Session Logs para todos os on-ramps do Gateway",
+      "summary": "Em 24/04 a Cloudflare publicou no changelog que Zero Trust Network Session Logs agora são gerados para todo tráfego que passa pelo Gateway, independente do on-ramp (WARP, Magic WAN, PAC, Tunnel). Antes, sessions logs estavam restritos a alguns paths, criando blind spots em SIEM/SOC. Combinado com o dashboard de network session analytics liberado em 20/04, fecha a malha de visibilidade do SASE.",
+      "why_it_matters": "SOC com Cloudflare One ganha visibilidade homogênea entre branches, dispositivos e tunnels — fim da heurística para correlacionar quem fez o quê.",
+      "source": "MWPro",
+      "url": "https://mwpro.co.uk/blog/2026/04/25/gateway-cloudflare-one-network-session-logs-now-available-for-all-on-ramps/",
+      "published_at": "2026-04-25T09:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cloudflare",
+        "zero-trust",
+        "sase",
+        "logs"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cloudflare.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "AWS coloca EC2 G7e com NVIDIA RTX PRO 6000 Blackwell em GA — 2,3× sobre G6e",
+      "summary": "Amazon EC2 G7e ficou GA em 25/04, equipado com GPUs NVIDIA RTX PRO 6000 Blackwell Server Edition. AWS divulga até 2,3× de throughput de inferência sobre G6e e capacidade para rodar modelos médios de até 70B parâmetros sem quantização agressiva. Disponível inicialmente em us-east-1 e us-east-2; reforça opção custo-eficiente para inference SaaS sem comprar instâncias H100/H200.",
+      "why_it_matters": "Para arquitetos de plataforma LLM, G7e é a primeira instância Blackwell do AWS com proposta de inferência de modelos médios sem reservar capacity blocks.",
+      "source": "AWS What's New",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-g7e-instances-nvidia-rtx-pro-6000-blackwell/",
+      "published_at": "2026-04-25T08:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "aws",
+        "ec2",
+        "blackwell",
+        "inference",
+        "gpu"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Salesforce lança Headless 360 com 60+ MCP tools e Agentforce Vibes 2.0",
+      "summary": "No TDX 2026 (16/04, com docs ampliados ao longo da semana) a Salesforce anunciou Headless 360: cada capacidade do Customer 360 vira API, ferramenta MCP ou comando CLI. Mais de 60 MCP tools entram já em GA — query de objetos, automação de Flow, leitura de Data Cloud — e o Agentforce Vibes 2.0 ganha multi-model. Maior catálogo MCP de um SaaS empresarial até hoje.",
+      "why_it_matters": "Para arquitetos com Salesforce no core, MCP deixa de ser POC: virou interface oficial — modele agents poliglotas em vez de integradores REST manuais.",
+      "source": "Salesforce TDX 2026 Announcements",
+      "url": "https://www.salesforce.com/news/press-releases/2026/04/16/tdx-2026-headless-360-announcement/",
+      "published_at": "2026-04-25T07:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "salesforce",
+        "mcp",
+        "agentforce",
+        "saas-api"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=salesforce.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "OpenTelemetry Declarative Configuration atinge marco de estabilidade",
+      "summary": "InfoQ reporta que partes-chave da spec de Declarative Configuration do OpenTelemetry foram declaradas estáveis: schema JSON do data model, representação YAML dos arquivos de configuração e in-memory representation. Encerra um capítulo de divergência onde cada SDK tinha seu próprio jeito de carregar pipelines e abre caminho para configs portáveis entre Collector, Alloy e SDKs por linguagem.",
+      "why_it_matters": "Arquitetos de plataforma de observabilidade podem agora padronizar configuração OTel como código entre serviços — sem fork do Collector.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/opentelemetry-declarative-config/",
+      "published_at": "2026-04-25T06:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "opentelemetry",
+        "configuration",
+        "stability"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": true,
+      "breaking": false,
+      "severity": "high",
+      "headline": "Docker Engine: CVE-2026-34040 (CVSS 8.8) permite bypass de AuthZ plugin",
+      "summary": "Docker Engine maintainers publicaram em final de março advisory para CVE-2026-34040: requisição API forjada faz daemon encaminhar para o plugin de autorização sem o body, permitindo criação de container privilegiado com root no host. É o fix incompleto do antigo CVE-2024-41110. Mitigações: rootless mode, --userns-remap ou evitar AuthZ plugins que dependem de body inspection. The Hacker News compilou cobertura nesta semana com PoC público.",
+      "why_it_matters": "AuthZ via plugin externo deixa de ser linha de defesa confiável — arquitetos precisam mover policy para OPA/runtime ou confinar Docker em rootless.",
+      "source": "The Hacker News",
+      "url": "https://thehackernews.com/2026/04/docker-cve-2026-34040-lets-attackers.html",
+      "published_at": "2026-04-25T05:00:00-03:00",
+      "read_time": 4,
+      "cves": [
+        "CVE-2026-34040"
+      ],
+      "tags": [
+        "docker",
+        "cve",
+        "authz",
+        "container-security"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Databricks Unity AI Gateway estende governança a agents e MCP servers",
+      "summary": "Detalhamento de 25/04 do anúncio da Databricks: Unity AI Gateway aplica o modelo de permissões/auditoria do Unity Catalog também ao tráfego LLM e às chamadas a servidores MCP, com on-behalf-of (OBO) granular, observabilidade end-to-end e API unificada com fallback. Para empresas com Databricks no centro de plataforma de dados, governança de agentic AI deixa de ser política em PowerPoint e vira enforcement.",
+      "why_it_matters": "Equipes com Unity Catalog ganham um único plano de controle para dados + LLM + MCP — sem montar gateway separado para cada nova ferramenta.",
+      "source": "Databricks Blog",
+      "url": "https://www.databricks.com/blog/unity-ai-gateway-mcp-governance",
+      "published_at": "2026-04-25T04:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "databricks",
+        "unity-catalog",
+        "mcp",
+        "governance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Datadog libera GPU Monitoring para gerenciar custos de inferência em escala",
+      "summary": "Datadog anunciou em 22/04 GPU Monitoring disponível para todos os clientes — telemetria por GPU em frota mista (A100/H100/L40/Blackwell), com correlação ao job de inferência e custo por token. Resolve gap clássico onde APM mostra latência de endpoint mas não onde tá o gargalo (PCIe, KV cache, batch underutilization). Cobertura mais ampla repercutiu na semana entre arquitetos de MLOps.",
+      "why_it_matters": "Para times com mais de 50 GPUs em produção, observability nativa de GPU sai do nicho — Datadog cobre o gap que o stack APM não tinha endereçado.",
+      "source": "Datadog Press Release",
+      "url": "https://www.datadoghq.com/about/latest-news/press-releases/datadog-gpu-monitoring-2026/",
+      "published_at": "2026-04-25T03:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "datadog",
+        "gpu",
+        "mlops",
+        "finops"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=datadoghq.com&sz=256"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "PostgreSQL 19 fecha feature freeze e foca em estabilização para GA em setembro",
+      "summary": "Após o feature freeze de 8 de abril, a comunidade do Postgres entrou em modo de bug-fix e prepara as betas que começam em maio. Entre os destaques que entram no v19: melhoria significativa em parallel hash joins, suporte a SQL/JSON path adicional e novas opções de estatísticas para o planner. Conteúdo continua repercutindo neste fim de semana com posts no planet.postgresql.org sobre extensão e performance.",
+      "why_it_matters": "Times de dados que projetam upgrade para 2026/27 precisam começar testes de regressão na v19 beta — algumas queries paralelas mudam plano e exigem revisão.",
+      "source": "PostgreSQL Mailing List",
+      "url": "https://www.postgresql.org/message-id/ab1YPhD9XNwQH7Kn@nathan",
+      "published_at": "2026-04-25T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "postgresql",
+        "release",
+        "freeze"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=postgresql.org&sz=256"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Apache Kafka 4.3.0 entra em code freeze com KIP-1023 e KIP-1258",
+      "summary": "Mickael Maison é release manager da v4.3.0, que fechou code freeze em 8 de abril e segue para release em maio. Inclui KIP-1023 — replicação acelerada para tópicos com tiered storage (replica nova só copia o que ainda não foi enviado pro remote) — e KIP-1258 com OAuth client assertion no client credentials grant type. Cobertura segue na newsletter Kafka-Nated de abril.",
+      "why_it_matters": "Quem opera Kafka com tiered storage em produção ganha bring-up de novas réplicas em ordem de magnitude mais rápido — repensar runbook de recovery.",
+      "source": "Get Kafka-Nated Espresso",
+      "url": "https://getkafkanated.substack.com/p/get-kafka-nated-espresso-april-2026",
+      "published_at": "2026-04-25T15:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "kafka",
+        "tiered-storage",
+        "kip",
+        "oauth"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=getkafkanated.substack.com&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Svelte 5.55 e SvelteKit 2.54 abrem error boundaries no servidor e tipam params com matchers",
+      "summary": "Edição de abril do What's new in Svelte (publicada em 24/04) consolida Svelte 5.54/5.55 e SvelteKit 2.54: svelte.config.js vira fonte única de verdade para css/runes/customElement, novos exports tipados em svelte/motion, error boundaries server-side em SvelteKit e narrowing de params com matchers em $app/types. Endurece type safety em apps medianos sem virar runes.",
+      "why_it_matters": "Frontend lead com Svelte na stack ganha menos guardas implícitos e mais tipo inferido — economiza testes de borda em rotas com matcher.",
+      "source": "Svelte Blog",
+      "url": "https://svelte.dev/blog/whats-new-in-svelte-april-2026",
+      "published_at": "2026-04-24T20:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "svelte",
+        "sveltekit",
+        "type-safety"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=svelte.dev&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Next.js publica patch de segurança com fix de maxPostponedStateSize (CVE-2026-27979)",
+      "summary": "Backport semanal de Next.js trouxe correções para hangs em streaming fetch, server actions transform em node_modules e enforcement de maxPostponedStateSize sob CVE-2026-27979 (DoS por payload PPR). Soma também o image LRU disk cache opcional, bloqueio de dev websockets em rede privada e patch no http-proxy. Aplicável às linhas 14.x e 15.x suportadas.",
+      "why_it_matters": "Apps em produção com PPR ativo precisam atualizar — payload malicioso pode estourar memória do worker antes de chegar ao handler.",
+      "source": "Next.js Releases",
+      "url": "https://github.com/vercel/next.js/releases",
+      "published_at": "2026-04-24T18:00:00-03:00",
+      "read_time": 3,
+      "cves": [
+        "CVE-2026-27979"
+      ],
+      "tags": [
+        "nextjs",
+        "cve",
+        "ppr",
+        "security-patch"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "breaking": false,
+      "headline": "AWS Corretto publica updates trimestrais para JDK 25/21/17/11/8 LTS",
+      "summary": "Em 25/04 a AWS liberou Corretto 25.0.2, 21.0.10, 17.0.18, 11.0.30 e 8u482 — bundle do critical patch update da Oracle de abril mais correções específicas do Corretto. Inclui patches de TLS, DNSJava e a esperada melhoria de inicialização do ZGC em containers com cgroups v2. Para frotas Java em ECS/EKS com Corretto, é update direto via Image refresh.",
+      "why_it_matters": "Times de plataforma Java com Corretto ganham CPU-friendly startup em K8s — re-bake das base images vale na mesma janela do patch de segurança.",
+      "source": "AWS Corretto Release Notes",
+      "url": "https://aws.amazon.com/corretto/release-notes/",
+      "published_at": "2026-04-25T12:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "java",
+        "corretto",
+        "jdk",
+        "lts"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Grafana k6 corrige CVE-2026-33186 e adiciona auto-resolução de subcommand extensions",
+      "summary": "Linha v1.x do k6 traz fix para CVE-2026-33186 (sandbox escape em scripts ESM) e novidade de UX: o CLI detecta subcommand extension faltando e baixa o binário on-demand sem rodar xk6 build manual. Browser module ganhou getBy* completos em frame/locator/frameLocator, fechando a paridade com a API Playwright correspondente.",
+      "why_it_matters": "Testes de carga maintidos em monorepo deixam de exigir pipeline próprio para extensions — k6 vira self-bootstrap.",
+      "source": "Grafana k6 Releases",
+      "url": "https://github.com/grafana/k6/releases",
+      "published_at": "2026-04-24T15:00:00-03:00",
+      "read_time": 3,
+      "cves": [
+        "CVE-2026-33186"
+      ],
+      "tags": [
+        "k6",
+        "playwright",
+        "load-testing"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Banco Central publica Open Finance 7.0 com jornada otimizada de pagamento + dados",
+      "summary": "Instrução Normativa BCB nº 724 (16/04) divulga o Manual 7.0 do Open Finance e a IN nº 725 abre os testes em produção da jornada de iniciação de pagamento com compartilhamento de dados em um único fluxo de consentimento. Encerra a fase de estruturação e abre o ciclo de refinamento — fluxos que exigiam múltiplos consents e redirects passam a aceitar uma autorização combinada. Calendário de adoção fica a cargo das instituições.",
+      "why_it_matters": "Para arquitetos de fintechs, é o gatilho para reescrever o fluxo de TPP/ASPSP — múltiplos redirects viram passivo de UX e regulatório.",
+      "source": "Convergência Digital",
+      "url": "https://convergenciadigital.com.br/governo/banco-central-atualiza-open-finance-com-regras-para-jornada-otimizada/",
+      "published_at": "2026-04-25T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "open-finance",
+        "bcb",
+        "pix",
+        "fintech-br"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=convergenciadigital.com.br&sz=256"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Thoughtworks Tech Radar Vol. 34 alerta para 'cognitive debt' acumulada por código gerado por IA",
+      "summary": "Lançada em 15/04, a edição 34 do Technology Radar dedica blips ao tema 'cognitive debt': à medida que IA gera código em escala maior, o gap entre humanos e sistemas cresce — e equipes pagam o boleto em incident response. Recomenda 'voltar aos fundamentos': revisão obrigatória de código gerado, pair programming com agents, monitoramento de drift de qualidade. A onda repercute esta semana com posts de Fowler e debate na comunidade.",
+      "why_it_matters": "Para CTO/arquiteto chefe, é insumo para política sobre AI coding em 2026 — não basta liberar Cursor/Copilot; precisa medir cognitive debt como métrica DORA-style.",
+      "source": "Thoughtworks",
+      "url": "https://www.thoughtworks.com/about-us/news/2026/combat-ai-cognitive-debt-radar-v34",
+      "published_at": "2026-04-25T13:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "thoughtworks",
+        "tech-radar",
+        "ai-coding",
+        "cognitive-debt"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thoughtworks.com&sz=256"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Denis Kyashif: como refatorar 'fat aggregates' em DDD para evitar antipattern clássico",
+      "summary": "No blog deniskyashif.com (04/04, com tração na semana via HN/Lobste.rs), Denis aborda o antipattern de 'fat aggregates' em DDD: aggregates que crescem absorvendo regras de outros bounded contexts e viram ponto único de contenção. Mostra refatoração para 'lean aggregates' — extraindo policies para domain services e usando event collaboration. Excelente material complementar a Eric Evans para revisão de código de domínio.",
+      "why_it_matters": "Tech leads em DDD ganham diagnóstico operacional para identificar quando aggregate virou God Object — antes do próximo merge conflict matar o sprint.",
+      "source": "Denis Kyashif's Blog",
+      "url": "https://deniskyashif.com/2026/04/04/domain-driven-design-lean-aggregates/",
+      "published_at": "2026-04-24T17:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "ddd",
+        "aggregate",
+        "refactoring"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=deniskyashif.com&sz=256"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Surfing Complexity dissecca o post-mortem da Bluesky: o último endpoint sem bounded concurrency",
+      "summary": "Lorin Hochstein (Surfing Complexity) publicou em 12/04 análise sistêmica do incident write-up da Bluesky, ainda repercutindo na semana. O ponto central: um único RPC handler sem errgroup.SetLimit lançou 15-20 mil goroutines por requisição, esgotou portas TIME_WAIT, derrubou memcached e tankou o GC do Go com OS threads. Lição clássica de defense-in-depth: invariantes precisam ser verificadas, não confiadas como cultura.",
+      "why_it_matters": "Para arquiteto de plataforma Go, vira checklist objetivo: todo endpoint que cria fan-out precisa de SetLimit explícito + teste de carga com memcached real.",
+      "source": "Surfing Complexity",
+      "url": "https://surfingcomplexity.blog/2026/04/12/thoughts-on-the-bluesky-public-incident-write-up/",
+      "published_at": "2026-04-24T11:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "bluesky",
+        "post-mortem",
+        "go",
+        "concurrency"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=surfingcomplexity.blog&sz=256"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Blain Smith: 'Unbounded Concurrency is a Foot Gun' — fundamentos por trás do bug Bluesky",
+      "summary": "Em ondas que seguem o Bluesky post-mortem, o ensaio de Blain Smith volta ao topo do Lobste.rs nesta semana. Tema: unbounded concurrency é um pé-no-saco em qualquer linguagem com primitivas leves de paralelismo (goroutines, virtual threads, fibers, async tasks). Cobre Little's Law aplicado, padrões de bulkhead, e o argumento de que rate limiting deve ser estrutural — não afterthought.",
+      "why_it_matters": "Material atemporal para revisão de design: aplicado por arquiteto sênior antes de promover qualquer worker pool a produção.",
+      "source": "Blain Smith",
+      "url": "https://blainsmith.com/articles/unbounded-concurrency-is-a-foot-gun/",
+      "published_at": "2026-04-23T22:00:00-03:00",
+      "read_time": 9,
+      "tags": [
+        "concurrency",
+        "bulkhead",
+        "littles-law",
+        "fundamentals"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blainsmith.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cloudflare publica stack interna de IA: 241 bilhões de tokens, AI Gateway dogfood e 77% mais barato",
+      "summary": "Post no Cloudflare Blog detalha como a empresa rodou todo o stack interno de agentes em cima do que vende: 20 milhões de requests via AI Gateway, 241 bilhões de tokens processados, inference no Workers AI, Kimi K2.5 como modelo daily driver. Caso emblemático: o agent de segurança consome 7 bi tokens/dia em Kimi e estimam custo 77% menor vs. modelo proprietário tier-2. Repercussão grande no HN durante a semana.",
+      "why_it_matters": "Para arquiteto de plataforma LLM, é referência rara: dogfooding em escala industrial com números concretos de TCO — material para business case interno.",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+      "published_at": "2026-04-25T17:00:00-03:00",
+      "read_time": 9,
+      "tags": [
+        "cloudflare",
+        "ai-gateway",
+        "kimi",
+        "workers-ai",
+        "dogfooding"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "urgent": false,
+      "breaking": false,
+      "headline": "'Who even uses jemalloc in 2026?' viraliza no Lobste.rs com mapeamento de allocators",
+      "summary": "Artigo de The Consensus (16/04) virou top da semana no Lobste.rs: mapeia quais projetos majores ainda usam jemalloc — Redis/Valkey, ClickHouse, Firefox, rustc — e quais migraram (Arrow para mimalloc em 18.0.0, Blender off em 2026). Tradeoffs entre jemalloc/mimalloc/tcmalloc viraram debate produtivo após anos sem comparação séria. Bom material para arquiteto que ainda escolhe allocator no auto-piloto.",
+      "why_it_matters": "Decisão de allocator volta a importar para serviços com hot-loop de alocação — sair do default não é micro-otimização quando carga é constante.",
+      "source": "The Consensus",
+      "url": "https://theconsensus.dev/p/2026/04/16/who-even-uses-jemalloc-anyway.html",
+      "published_at": "2026-04-23T20:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "jemalloc",
+        "memory-allocator",
+        "performance",
+        "rust"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theconsensus.dev&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "news",
+      "headline": "Claude Code adiciona @-mention para subagents e dobra limite de tool result para 500K",
+      "description": "Update da semana introduz typeahead para invocar subagents direto pelo @, MCP 500K (results até 500.000 caracteres), conexão paralela de servidores MCP/SDK e Auto Mode para Max + Opus 4.7.",
+      "why_it_matters": "Agentes em produção com tool calls grandes (DB queries, repos cheios) deixam de ser truncados — fim do workaround de chunking manual.",
+      "source": "Claude Code Changelog",
+      "url": "https://code.claude.com/docs/en/changelog",
+      "published_at": "2026-04-25T11:00:00-03:00",
+      "tags": [
+        "claude-code",
+        "subagents",
+        "mcp"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=code.claude.com&sz=256"
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "news",
+      "headline": "Cursor Bugbot vira self-improving: 78% de resolution rate com learned rules + MCP",
+      "description": "Update de 8/4 (com tração nesta semana após posts no HN) liga loop de feedback no Bugbot — reações em PRs viram rules aprendidas, com promoção/depreciação automática. Adiciona MCP servers no fluxo de review e Fix All.",
+      "why_it_matters": "Code review automatizado deixa de ser estático — Bugbot aprende padrões do time sem prompt-engineering manual.",
+      "source": "Cursor Changelog",
+      "url": "https://cursor.com/changelog/04-08-26",
+      "published_at": "2026-04-24T22:00:00-03:00",
+      "tags": [
+        "cursor",
+        "bugbot",
+        "code-review",
+        "mcp"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cursor.com&sz=256"
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "💡",
+      "kind": "release",
+      "version": "2026.1.1",
+      "headline": "IntelliJ IDEA 2026.1.1 corrige >300 bugs e estabiliza ACP para Codex/Cursor/Copilot",
+      "description": "Patch da linha 2026.1 (publicado em abril): corrige >300 issues do release inicial, estabiliza Agent Client Protocol para Codex/Cursor/Copilot, ajustes em Dev Containers e Kotlin/JPA.",
+      "why_it_matters": "Times JVM em IntelliJ ganham IDE single-pane para múltiplos agents AI — sem trocar de contexto entre Cursor e IntelliJ.",
+      "source": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/2026/04/intellij-idea-2026-1-1/",
+      "published_at": "2026-04-22T15:00:00-03:00",
+      "tags": [
+        "intellij",
+        "jetbrains",
+        "acp",
+        "kotlin"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.jetbrains.com&sz=256"
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "🔵",
+      "kind": "release",
+      "version": "1.117",
+      "headline": "VS Code 1.117 (April 2026) liga BYOK para Business/Enterprise e Copilot CLI em qualquer terminal",
+      "description": "Release de abril traz BYOK no chat (clientes Business/Enterprise levam suas keys), incremental rendering para chat mais fluido, atalhos para Copilot CLI em qualquer terminal profile e melhorias na agent experience.",
+      "why_it_matters": "Times com policy de keys próprias (compliance/cost) finalmente usam Copilot Enterprise no fluxo nativo do VS Code.",
+      "source": "VS Code Updates",
+      "url": "https://code.visualstudio.com/updates/v1_117",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "tags": [
+        "vscode",
+        "copilot",
+        "byok",
+        "agents"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=256"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🐙",
+      "kind": "release",
+      "version": "3.2.10",
+      "headline": "Argo CD v3.2.10 reforça SLSA Level 3 nas imagens e binários CLI",
+      "description": "Patch de 21/04 da linha 3.2 estável traz bug fixes acumulados, atualizações de dependências e provenance SLSA Level 3 para imagens e CLI assinadas via cosign. Não há breaking; upgrade direto recomendado.",
+      "why_it_matters": "Stacks com requirement de supply chain (SOC2/ISO) ganham binários assinados e atestados verificáveis sem mudar de release line.",
+      "source": "Argo CD GitHub Releases",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.2.10",
+      "published_at": "2026-04-21T09:00:00-03:00",
+      "tags": [
+        "argo-cd",
+        "slsa",
+        "supply-chain",
+        "gitops"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🌱",
+      "kind": "release",
+      "version": "3.5.14",
+      "headline": "Spring Boot 3.5.14 chega com 48 bug fixes — última stable antes do EOL em junho",
+      "description": "Release de 23/04 da Spring traz 48 bug fixes, melhorias em docs e upgrades de dependências. É um dos últimos updates da 3.5 antes do EOS em 30/06/2026 — quem ainda está em 3.5 deve plano de migração para 4.0.",
+      "why_it_matters": "Equipes em 3.5 têm 2 meses para validar migração para 4.0 (Spring Framework 7) — fortalece a janela de planning.",
+      "source": "Spring Blog",
+      "url": "https://spring.io/blog/2026/04/23/spring-boot-3-5-14-available-now/",
+      "published_at": "2026-04-23T16:00:00-03:00",
+      "tags": [
+        "spring-boot",
+        "release",
+        "eol"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256"
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "release",
+      "version": "3.14.4",
+      "headline": "Python 3.14.4 (bugfix) e 3.15.0a8 saem juntos rumo ao beta freeze de maio",
+      "description": "Release dupla de 7/4 da Python Software Foundation: 3.14.4 traz só bugfixes da linha estável e 3.15.0a8 é o último alpha antes do beta1 em 5/5 — onde o feature freeze efetivo começa para PEPs como PEP 768 (subinterpreter API GA) e PEP 752 (lazy imports).",
+      "why_it_matters": "Quem mantém runtime de Python em produção deve testar 3.15a8 contra extensões nativas — beta1 trava o ABI.",
+      "source": "Python Insider",
+      "url": "https://blog.python.org/2026/04/python-3150a8-3144-31313/",
+      "published_at": "2026-04-25T08:30:00-03:00",
+      "tags": [
+        "python",
+        "cpython",
+        "release"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.python.org&sz=256"
+    },
+    {
+      "tool_key": "keycloak",
+      "name": "Keycloak",
+      "icon": "🔑",
+      "kind": "release",
+      "version": "26.6.1",
+      "headline": "Keycloak 26.6.1 corrige Blind SSRF (CVE-2026-4366) e user enumeration (CVE-2026-4633)",
+      "description": "Patch de 22/04 da linha 26.6 endereça CVE-2026-4366 (Blind SSRF via HTTP redirect handling) e CVE-2026-4633 (user enumeration em identity-first login). Inclui ainda o JWT Authorization Grant que estreou em 26.6.0 e federated client authentication.",
+      "why_it_matters": "Quem expõe Keycloak em borda precisa do patch — Blind SSRF é o vetor que ataca metadata service da cloud.",
+      "source": "Keycloak Blog",
+      "url": "https://www.keycloak.org/2026/04/keycloak-2661-released",
+      "published_at": "2026-04-22T17:00:00-03:00",
+      "tags": [
+        "keycloak",
+        "cve",
+        "ssrf",
+        "iam"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=keycloak.org&sz=256"
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "🪶",
+      "kind": "tutorial",
+      "headline": "Strimzi mapeia 'Various Tiers of Apache Kafka Tiered Storage' antes do 4.3.0",
+      "description": "Post canônico do Strimzi (operador Kafka oficial Red Hat) explica os tiers do tiered storage — local, remote eligible, remote, deletion delay — com diagramas. Material complementar ao KIP-1023 que entra na 4.3.0 em maio.",
+      "why_it_matters": "Times rodando Strimzi em K8s ganham mental model claro para dimensionar custo de S3/MinIO antes do upgrade.",
+      "source": "Strimzi Blog",
+      "url": "https://strimzi.io/blog/2025/04/22/tha-various-tiers-of-apache-kafka-tiered-storage/",
+      "published_at": "2026-04-23T18:00:00-03:00",
+      "tags": [
+        "kafka",
+        "strimzi",
+        "tiered-storage"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=strimzi.io&sz=256"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "tutorial",
+      "headline": "Sysdig disseca os recursos de segurança que entraram no Kubernetes 1.36",
+      "description": "Análise da Sysdig explica os principais features de segurança da v1.36: Fine-Grained Kubelet API Authorization em GA, melhorias na PodSecurity admission, ImageVolume aprimorado e novo node-bound ServiceAccount tokens. Inclui exemplos práticos de RBAC restritivo.",
+      "why_it_matters": "Para arquiteto de plataforma K8s, é guia de migração — quais permissões cortar primeiro depois do upgrade para 1.36.",
+      "source": "Sysdig Blog",
+      "url": "https://www.sysdig.com/blog/kubernetes-1-36-new-security-features",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "tags": [
+        "kubernetes",
+        "security",
+        "rbac",
+        "kubelet"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=sysdig.com&sz=256"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "tutorial",
+      "headline": "Heroku atualiza guia oficial do pgvector — 'PostgreSQL como vector DB' em produção",
+      "description": "Documentação atualizada em 24/04 traz tutorial production-ready de pgvector no Heroku Postgres: instalação, vector ops, índice IVFFlat vs HNSW, tuning de ef_search e padrões de cosine distance para RAG. Bom complemento ao mapa de Vector DBs em data engineering.",
+      "why_it_matters": "Quem evita stack separada de vector DB pode validar Postgres+pgvector com tuning oficial — sem reinventar índices.",
+      "source": "Heroku Dev Center",
+      "url": "https://devcenter.heroku.com/articles/pgvector-heroku-postgres",
+      "published_at": "2026-04-24T19:00:00-03:00",
+      "tags": [
+        "postgres",
+        "pgvector",
+        "rag",
+        "vector-db"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=devcenter.heroku.com&sz=256"
+    },
+    {
+      "tool_key": "redis",
+      "name": "Redis",
+      "icon": "🔴",
+      "kind": "news",
+      "headline": "Valkey completa 2 anos com adoção sustentada — RedMonk vê fork mais saudável que a média",
+      "description": "RedMonk (06/04) analisa Valkey 2 anos depois do fork triggered pela mudança de licença do Redis. Conclusão: ao contrário da maioria dos forks que decaem, Valkey mantém velocidade de release, virou default em distros como AWS Linux 2023 e absorveu contribuições corporativas amplas. Linha 8.x traz multi-threading e melhorias de memória.",
+      "why_it_matters": "Para arquiteto que escolhe cache/store hoje, Valkey deixa de ser hedge e vira default seguro com BSD — Redis OSS perde momentum institucional.",
+      "source": "RedMonk",
+      "url": "https://redmonk.com/sogrady/2026/04/06/valkey-at-two/",
+      "published_at": "2026-04-23T20:00:00-03:00",
+      "tags": [
+        "redis",
+        "valkey",
+        "fork",
+        "license"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=redmonk.com&sz=256"
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Move fast and break things. Unless you are breaking stuff, you are not moving fast enough.",
+      "author": "Mark Zuckerberg",
+      "context": "Lembrete invertido depois do leak Lapsus$ — em supply chain, mover rápido sem sigilo é o mesmo que entregar a chave.",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "Programs must be written for people to read, and only incidentally for machines to execute.",
+      "author": "Harold Abelson",
+      "context": "Releitura para a era de AI coding e cognitive debt do Tech Radar Vol. 34.",
+      "related_to": "cat:enterprise"
+    },
+    {
+      "text": "There are only two hard things in Computer Science: cache invalidation and naming things.",
+      "author": "Phil Karlton",
+      "context": "Aplicado ao novo ciclo de Valkey vs Redis: quase decade de fork, ainda gente discutindo nome do binário.",
+      "related_to": "tool:redis"
+    },
+    {
+      "text": "If you can not measure it, you can not improve it.",
+      "author": "Lord Kelvin",
+      "context": "Datadog GPU Monitoring e o stack de Cloudflare provam: sem telemetria de GPU+token, custo de inferência vira chute.",
+      "related_to": "cat:obs"
+    },
+    {
+      "text": "Make it work, make it right, make it fast.",
+      "author": "Kent Beck",
+      "context": "Bluesky post-mortem é a versão moderna desta regra — tudo funcionou até o fan-out passar de 15 mil goroutines.",
+      "related_to": "cat:distarch"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Bleeping Computer",
+      "url": "https://www.bleepingcomputer.com/"
+    },
+    {
+      "name": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/"
+    },
+    {
+      "name": "AWS What's New",
+      "url": "https://aws.amazon.com/about-aws/whats-new/"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "Anthropic",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog"
+    },
+    {
+      "name": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/"
+    },
+    {
+      "name": "Cursor",
+      "url": "https://cursor.com/changelog"
+    },
+    {
+      "name": "Sysdig Blog",
+      "url": "https://www.sysdig.com/blog"
+    },
+    {
+      "name": "Strimzi Blog",
+      "url": "https://strimzi.io/blog/"
+    },
+    {
+      "name": "Convergência Digital",
+      "url": "https://convergenciadigital.com.br"
+    },
+    {
+      "name": "Surfing Complexity",
+      "url": "https://surfingcomplexity.blog/"
+    }
+  ]
+}

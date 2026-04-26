@@ -48,7 +48,7 @@
       --nav-highlight: rgba(255,255,255,.42);
       --hero-height:   calc(100svh - 48px);
       --page-gutter:   clamp(16px, 4vw, 28px);
-      --content-max:   clamp(1120px, 88vw, 1440px);
+      --content-max:   1120px;
 
       /* Shadows */
       --shadow-card:   0 1px 3px rgba(0,0,0,.04), 0 2px 10px rgba(0,0,0,.03);
@@ -163,11 +163,10 @@
       background: linear-gradient(180deg, var(--nav-highlight), transparent 72%);
     }
     .apple-nav-inner {
-      width: 100%;
-      max-width: 1440px;
+      width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
       margin: 0 auto;
       height: 100%;
-      padding: 0 20px;
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -177,51 +176,13 @@
     .apple-logo {
       display: flex;
       align-items: center;
-      gap: 1px;
-      font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1;
+      gap: 10px;
+      color: var(--nav-text);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.016em;
     }
-    .apple-logo .csr-mini {
-      font-size: 19px;
-      color: #000000;
-    }
-    [data-theme="dark"] .apple-logo .csr-mini { color: #ffffff; }
-    .apple-logo .csr-mini .s-lean {
-      display: inline-block;
-      transform: skewX(-10deg);
-      transform-origin: 50% 55%;
-    }
-    .apple-logo .news-mini {
-      background: var(--blue);
-      color: #fff;
-      font-size: 13px;
-      letter-spacing: 0.06em;
-      padding: 3px 5px 4px;
-      border-radius: 6px;
-      line-height: 1;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .apple-logo .news-mini::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.55) 50%, transparent 60%);
-      background-repeat: no-repeat;
-      background-size: 250% 100%;
-      background-position: 150% 0;
-      animation: news-shine 5s linear infinite;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
-    @keyframes news-shine {
-      0%   { background-position: 150% 0; }
-      40%  { background-position: -150% 0; }
-      100% { background-position: -150% 0; }
-    }
+    .apple-logo img { width: 22px; height: 22px; }
     .apple-nav-links {
       display: flex;
       align-items: center;
@@ -256,13 +217,6 @@
       background: rgba(127,127,127,.12);
     }
     .apple-theme-toggle svg { width: 17px; height: 17px; }
-    .apple-theme-toggle.is-switching { animation: theme-flip .36s cubic-bezier(0.34,1.56,0.64,1); }
-    @keyframes theme-flip {
-      0%  { transform: scale(1)   rotate(0deg); }
-      40% { transform: scale(0.7) rotate(180deg); }
-      70% { transform: scale(1.1) rotate(360deg); }
-      100%{ transform: scale(1)   rotate(360deg); }
-    }
 
     /* ── Hero ── */
     .hero {
@@ -276,476 +230,147 @@
       align-items: center;
       overflow: hidden;
     }
-    /* ── Falling tiles ── */
-    .fall-stage {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-      mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%);
-    }
-    .hero-emerge-overlay {
-      position: absolute;
-      left: 0; right: 0;
-      height: 100px;
-      bottom: 0;
-      background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    .fall-tile {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: var(--size, 44px);
-      height: var(--size, 44px);
-      transform-origin: center;
-      animation: fall-move var(--dur, 14s) var(--delay, 0s) linear 1 forwards;
-      will-change: transform;
-      pointer-events: auto;
-      cursor: default;
-    }
-    .fall-tile .inner {
-      width: 100%;
-      height: 100%;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-card), 0 0 14px 4px color-mix(in srgb, var(--c, var(--blue)) 45%, transparent);
-      display: grid;
-      place-items: center;
-      transform-origin: center;
-      animation: fall-wobble var(--wobble-dur, 4s) var(--wobble-delay, 0s) ease-in-out infinite alternate both;
-      opacity: .88;
-      overflow: hidden;
-      position: relative;
-      transition:
-        scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.35s ease,
-        opacity 0.25s ease,
-        border-color 0.25s ease;
-    }
-    .fall-tile:hover .inner {
-      scale: 1.22;
-      opacity: 1;
-      border-color: color-mix(in srgb, var(--c, var(--blue)) 55%, transparent);
-      box-shadow:
-        var(--shadow-card),
-        0 0 0 1px color-mix(in srgb, var(--c, var(--blue)) 30%, transparent),
-        0 0 32px 10px color-mix(in srgb, var(--c, var(--blue)) 65%, transparent),
-        0 12px 40px rgba(0,0,0,.18);
-    }
-    [data-theme="dark"] .fall-tile:hover .inner {
-      box-shadow:
-        var(--shadow-card),
-        0 0 0 1px color-mix(in srgb, var(--c, var(--blue)) 40%, transparent),
-        0 0 36px 12px color-mix(in srgb, var(--c, var(--blue)) 80%, transparent),
-        0 14px 48px rgba(0,0,0,.5);
-    }
-    .fall-tile:hover .fall-label {
-      opacity: 1;
-    }
-    .fall-tile .inner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);
-      background-repeat: no-repeat;
-      background-size: 250% 100%;
-      background-position: 150% 0;
-      pointer-events: none;
-    }
-    .fall-tile.is-shining .inner::after {
-      animation: tile-shine 0.9s linear forwards;
-    }
-    @keyframes tile-shine {
-      0%   { background-position: 150% 0; }
-      100% { background-position: -150% 0; }
-    }
-    [data-theme="dark"] .fall-tile .inner {
-      box-shadow: var(--shadow-card), 0 0 16px 5px color-mix(in srgb, var(--c, var(--blue)) 62%, transparent);
-    }
-    /* Categorias — tint colorido igual ao cat-ico */
-    .fall-tile.is-cat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      height: auto;
-    }
-    .fall-tile.is-cat .inner {
-      width: var(--size, 56px);
-      height: var(--size, 56px);
-      flex-shrink: 0;
-      border-radius: 14px;
-      background: color-mix(in srgb, var(--c, var(--blue)) 15%, var(--card-bg));
-      color: var(--c, var(--blue));
-    }
-    .fall-tile.is-cat .fall-label {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--c, var(--blue));
-      white-space: nowrap;
-      letter-spacing: 0.01em;
-      line-height: 1;
-      opacity: .9;
-    }
-    .fall-tile.is-cat .inner svg {
-      width: 78%; height: 78%;
-      stroke: currentColor; fill: none;
-      stroke-width: 1.7;
-      stroke-linecap: round; stroke-linejoin: round;
-    }
-    /* Linguagens — fundo neutro igual ao lang-ico */
-    .fall-tile.is-lang {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      height: auto;
-    }
-    .fall-tile.is-lang .inner {
-      width: var(--size, 90px);
-      height: var(--size, 90px);
-      flex-shrink: 0;
-      border-radius: 12px;
-      background: var(--card-bg-alt);
-      border: 1px solid color-mix(in srgb, var(--c) 35%, rgba(0,0,0,.08));
-    }
-    .fall-tile.is-lang .fall-label {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--c, var(--blue));
-      white-space: nowrap;
-      letter-spacing: 0.01em;
-      line-height: 1;
-      opacity: .9;
-    }
-    /* Ferramentas — fundo neutro igual ao tool-ico */
-    .fall-tile.is-tool {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      height: auto;
-    }
-    .fall-tile.is-tool .inner {
-      width: var(--size, 65px);
-      height: var(--size, 65px);
-      flex-shrink: 0;
-      border-radius: 10px;
-      background: var(--card-bg-alt);
-      border: 1px solid color-mix(in srgb, var(--c) 35%, rgba(0,0,0,.08));
-    }
-    .fall-tile.is-tool .fall-label {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--c, var(--blue));
-      white-space: nowrap;
-      letter-spacing: 0.01em;
-      line-height: 1;
-      opacity: .9;
-    }
-    /* Dark mode: usa cor sólida para evitar glow semi-transparente */
-    [data-theme="dark"] .fall-tile.is-lang .inner,
-    [data-theme="dark"] .fall-tile.is-tool .inner {
-      border-color: color-mix(in srgb, var(--c) 38%, #272729);
-    }
-    .fall-tile img {
-      width: calc(var(--size, 44px) * 0.78);
-      height: calc(var(--size, 44px) * 0.78);
-      object-fit: contain;
-    }
-    @keyframes fall-move {
-      0%   { transform: translate3d(var(--x, 0), 100%, 0); }
-      100% { transform: translate3d(var(--x, 0), calc(-1 * var(--stage-h, 100vh) - 100%), 0); }
-    }
-    @keyframes fall-wobble {
-      0%   { transform: rotate(-6deg); }
-      100% { transform: rotate(6deg); }
-    }
-
     .hero-inner {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 1440px;
+      width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
       height: 100%;
       margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(8px, 1.8vh, 16px);
-      text-align: left;
-    }
-    .hero-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
-      flex: 1 1 0;
-      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      align-items: stretch;
+      gap: clamp(16px, 3.4vh, 48px);
+      text-align: center;
     }
     .hero-mascot {
+      order: 2;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      margin: 0 auto;
       display: flex;
       align-items: flex-end;
-      justify-content: flex-start;
-      height: 100%;
-      min-height: 0;
-      flex-shrink: 0;
+      justify-content: center;
+      justify-self: stretch;
       position: relative;
-      z-index: 3;
+      z-index: 1;
       filter: drop-shadow(0 20px 40px rgba(0,0,0,.08));
-      margin-bottom: calc(-1 * clamp(8px, 1.8vh, 16px));
     }
     :root[data-theme="dark"] .hero-mascot {
       filter: drop-shadow(0 20px 40px rgba(255,255,255,.06));
     }
     .hero-mascot img {
-      height: 100%;
       width: auto;
+      height: auto;
+      max-width: 100%;
       max-height: 100%;
-      max-width: 50vw;
       object-fit: contain;
-      object-position: left bottom;
+      object-position: center bottom;
+      /* hide "AI" watermark in original PNG */
+      clip-path: polygon(0 0, 100% 0, 100% 91%, 73% 91%, 73% 100%, 0 100%);
     }
     .hero-copy {
+      order: 1;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: center;
+      justify-content: flex-start;
       min-width: 0;
       position: relative;
       z-index: 2;
     }
-
-    /* ── Hero Glass Card (Apple glass morphism) ── */
-    .hero-glass-card {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(10px, 1.8vh, 18px);
-      background: rgba(255,255,255,.68);
-      backdrop-filter: saturate(180%) blur(28px);
-      -webkit-backdrop-filter: saturate(180%) blur(28px);
-      border: 1px solid rgba(255,255,255,.82);
-      border-radius: 20px;
-      padding: clamp(22px, 3.8vh, 44px) clamp(18px, 3.5vw, 40px);
-      box-shadow: 0 4px 48px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,.9);
-      overflow: hidden;
-    }
-    [data-theme="dark"] .hero-glass-card {
-      background: rgba(28,28,30,.58);
-      border-color: rgba(255,255,255,.1);
-      box-shadow: 0 4px 48px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    /* Linha de topo: h1 + emblema lado a lado */
-    .hero-top-row {
-      display: flex;
-      align-items: stretch;
-      gap: clamp(16px, 2.8vw, 36px);
-    }
-    .hero-left-col {
-      flex: 1 1 auto;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(8px, 1.4svh, 14px);
-    }
-    .hero-left-col .hero-h1 {
-      margin: 0;
-    }
-    .hero-left-col .hero-sub {
-      margin: 0;
-    }
-    .hero-emblem-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
     .hero-eyebrow {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 500;
       letter-spacing: -0.016em;
       color: var(--blue);
-      margin-bottom: 8px;
-      text-align: center;
+      margin-bottom: 12px;
     }
     .hero-h1 {
-      font-size: clamp(28px, min(5.2vw, 7.2svh), 62px);
+      font-size: clamp(34px, min(6vw, 8.4svh), 72px);
       font-weight: 600;
       line-height: 1.07;
       letter-spacing: -0.028em;
       color: var(--text);
-      margin: 0;
+      margin-bottom: 16px;
+      max-width: 10.5ch;
+      margin-left: auto;
+      margin-right: auto;
     }
     .hero-sub {
-      font-size: clamp(15px, min(1.9vw, 2.6svh), 21px);
+      font-size: clamp(17px, min(2.25vw, 3.1svh), 24px);
       font-weight: 400;
       line-height: 1.29;
       letter-spacing: -0.013em;
       color: var(--text-soft);
-      margin: 0 0 clamp(16px, 2.6svh, 24px);
+      max-width: 34rem;
+      margin: 0 auto clamp(24px, 4svh, 36px);
     }
     .hero-sub strong { color: var(--text); font-weight: 600; }
     .hero-actions {
       display: flex;
       gap: 16px;
-      justify-content: flex-end;
+      justify-content: center;
       flex-wrap: wrap;
-      align-self: flex-end;
     }
-
-    /* ── Hero Emblem (CSR animated symbol) ── */
-    .hero-emblem {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      line-height: 1;
-      color: var(--text);
-      padding: 20px 0 8px;
-      align-self: center;
-      flex-shrink: 0;
-      z-index: 1;
-    }
-    .hero-emblem .ring {
-      position: absolute;
-      left: 50%; top: 50%;
-      width: 148px; height: 148px;
-      margin-left: -74px; margin-top: -74px;
-      border-radius: 50%;
-      border: 1px solid rgba(41,151,255,.4);
-      pointer-events: none;
-      animation: emblem-spin 14s linear infinite;
-    }
-    .hero-emblem .ring.two {
-      width: 166px; height: 166px;
-      margin-left: -83px; margin-top: -83px;
-      border: 1px dashed rgba(41,151,255,.22);
-      animation: emblem-spin 24s linear infinite reverse;
-    }
-    @keyframes emblem-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    .hero-emblem .emblem-dot {
-      position: absolute;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--blue);
-      box-shadow: 0 0 0 0 rgba(0,113,227,.6);
-      animation: emblem-pulse 2.2s infinite;
-      pointer-events: none;
-      left: calc(50% + 67px - 4px);
-      top: calc(50% + 28px - 4px);
-      z-index: 2;
-    }
-    @keyframes emblem-pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(0,113,227,.7); }
-      70%  { box-shadow: 0 0 0 12px rgba(0,113,227,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,113,227,0); }
-    }
-    .hero-emblem .csr-word,
-    .hero-emblem .news-pill { position: relative; z-index: 1; }
-    .hero-emblem .csr-word {
-      font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
-      font-size: 38px; font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 0.95;
-      color: var(--text);
-      transform: translateY(-5px);
-    }
-    .hero-emblem .csr-word .s-lean {
-      display: inline-block;
-      transform: skewX(-10deg);
-      transform-origin: 50% 55%;
-    }
-    .hero-emblem .news-pill {
-      margin-top: -6px;
-      background: var(--blue);
-      color: #fff;
-      font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
-      font-weight: 800;
-      font-size: 25px;
-      letter-spacing: 0.04em;
-      padding: 4px 10px 6px;
-      border-radius: 9px;
-      line-height: 1;
-      box-shadow: 0 5px 18px rgba(0,113,227,.35);
-      animation: news-pulse 3.6s ease-in-out infinite;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .hero-emblem .news-pill::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.55) 50%, transparent 60%);
-      background-repeat: no-repeat;
-      background-size: 250% 100%;
-      background-position: 150% 0;
-      animation: news-shine 5s linear infinite;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
-    @keyframes news-pulse {
-      0%, 100% { box-shadow: 0 5px 18px rgba(0,113,227,.35); }
-      50%       { box-shadow: 0 5px 28px rgba(0,113,227,.62); }
-    }
-
-    @media (max-width: 919px) {
-      .hero-emblem-col {
-        margin-top: 0;
-        margin-right: 4px;
+    @media (min-width: 920px), (min-width: 720px) and (max-height: 620px) {
+      .hero-inner {
+        grid-template-columns: minmax(320px, 1.12fr) minmax(320px, .88fr);
+        grid-template-rows: minmax(0, 1fr);
+        text-align: left;
+        gap: 0;
       }
-      .hero-emblem {
-        width: 140px;
-        padding: 18px 0;
+      .hero-mascot {
+        order: 1;
+        justify-self: stretch;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        z-index: 3;
       }
-      .hero-emblem .ring {
-        width: 120px; height: 120px;
-        margin-left: -60px; margin-top: -60px;
+      .hero-mascot img {
+        max-width: 100%;
+        max-height: 100%;
       }
-      .hero-emblem .ring.two {
-        width: 134px; height: 134px;
-        margin-left: -67px; margin-top: -67px;
-      }
-      .hero-emblem .emblem-dot {
-        left: calc(50% + 54px - 4px);
-        top: calc(50% + 23px - 4px);
-      }
-      .hero-emblem .csr-word { font-size: 30px; transform: translateY(-4px); }
-      .hero-emblem .news-pill { font-size: 20px; padding: 3px 8px 4px; border-radius: 7px; }
-    }
-
-    /* ── Desktop: ajustes do emblema ── */
-    @media (min-width: 920px) {
-      .hero-sub { margin: 0; }
-      /* Emblema dentro da linha de topo */
-      .hero-top-row .hero-emblem {
+      .hero-copy {
+        order: 2;
+        align-items: flex-start;
         justify-content: center;
-        width: 190px;
-        padding: 34px 0;
+        z-index: 1;
+        --hero-overlap: 72px;
+        width: calc(100% + var(--hero-overlap));
+        transform: translateX(calc(var(--hero-overlap) * -1));
       }
-      .hero-emblem .ring {
-        width: 166px; height: 166px;
-        margin-left: -83px; margin-top: -83px;
+      .hero-eyebrow,
+      .hero-h1,
+      .hero-sub {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
       }
-      .hero-emblem .ring.two {
-        width: 186px; height: 186px;
-        margin-left: -93px; margin-top: -93px;
+      .hero-h1 {
+        max-width: 13ch;
       }
-      .hero-emblem .emblem-dot {
-        left: calc(50% + 76px - 4px);
-        top: calc(50% + 33px - 4px);
+      .hero-actions {
+        justify-content: flex-start;
       }
-      .hero-emblem .csr-word { font-size: 38px; transform: translateY(-5px); }
-      .hero-emblem .news-pill { font-size: 25px; padding: 4px 10px 6px; border-radius: 8px; }
     }
-
+    @media (min-width: 920px) and (max-width: 1180px), (min-width: 720px) and (max-width: 980px) and (max-height: 620px) {
+      .hero-inner {
+        grid-template-columns: minmax(300px, 1.02fr) minmax(320px, .98fr);
+      }
+      .hero-copy {
+        --hero-overlap: 44px;
+      }
+      .hero-h1 {
+        max-width: 12ch;
+      }
+    }
+    @media (min-width: 920px) and (max-width: 1020px), (min-width: 720px) and (max-width: 860px) and (max-height: 620px) {
+      .hero-copy {
+        --hero-overlap: 24px;
+      }
+    }
     @media (max-height: 760px) {
       .hero {
         padding-top: clamp(14px, 3.6svh, 28px);
@@ -841,28 +466,19 @@
       background: var(--bg-alt);
     }
     .section-inner {
-      width: 100%;
-      max-width: 1440px;
+      width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
       margin: 0 auto;
-      padding: 0 20px;
     }
     .section-head {
       text-align: center;
       margin-bottom: 64px;
     }
     .section-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: -0.016em;
       color: var(--blue);
       margin-bottom: 10px;
-    }
-    .section-eyebrow svg {
-      flex-shrink: 0;
-      color: var(--blue);
     }
     .section-title {
       font-size: clamp(30px, 3.6vw, 48px);
@@ -924,7 +540,7 @@
       background: color-mix(in srgb, var(--cc, var(--blue)) 18%, transparent);
     }
     .cat-ico svg {
-      width: 36px; height: 36px;
+      width: 28px; height: 28px;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.7;
@@ -936,7 +552,7 @@
       font-weight: 600;
       line-height: 1.19;
       letter-spacing: -0.016em;
-      color: var(--cc, var(--blue));
+      color: var(--text);
       margin-bottom: 4px;
     }
     .cat-g {
@@ -970,11 +586,13 @@
       flex-direction: column;
       box-shadow: var(--shadow-card);
       transition: transform .3s cubic-bezier(.4,0,.2,1),
-                  box-shadow .3s ease;
+                  box-shadow .3s ease,
+                  border-color .3s ease;
     }
     .lang-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
+      border-color: color-mix(in srgb, var(--cc, var(--blue)) 40%, var(--border));
     }
     .lang-header {
       display: flex;
@@ -986,20 +604,13 @@
       width: 52px; height: 52px;
       border-radius: 12px;
       background: var(--card-bg-alt);
-      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
     }
-    .lang-card:hover {
-      border-color: color-mix(in srgb, var(--cc, var(--blue)) 35%, var(--border));
-    }
-    [data-theme="dark"] .lang-card:hover {
-      border-color: color-mix(in srgb, var(--cc, var(--blue)) 38%, #272729);
-    }
-    .lang-ico img { width: 38px; height: 38px; object-fit: contain; }
+    .lang-ico img { width: 32px; height: 32px; object-fit: contain; }
     .lang-title { flex: 1; min-width: 0; }
     .lang-card .item-n {
       font-size: 19px;
@@ -1058,11 +669,13 @@
       flex-direction: column;
       box-shadow: var(--shadow-card);
       transition: transform .25s cubic-bezier(.4,0,.2,1),
-                  box-shadow .25s ease;
+                  box-shadow .25s ease,
+                  border-color .25s ease;
     }
     .tool-card:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
+      border-color: color-mix(in srgb, var(--cc, var(--blue)) 35%, var(--border));
     }
     .tool-header {
       display: flex;
@@ -1074,26 +687,13 @@
       width: 40px; height: 40px;
       border-radius: 10px;
       background: var(--card-bg-alt);
-      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
     }
-    .tool-card:hover {
-      border-color: color-mix(in srgb, var(--cc, var(--blue)) 35%, var(--border));
-    }
-    [data-theme="dark"] .tool-card:hover {
-      border-color: color-mix(in srgb, var(--cc, var(--blue)) 38%, #272729);
-    }
-    .tool-ico img { width: 29px; height: 29px; object-fit: contain; }
-    [data-theme="dark"] [data-key="gradle"] .tool-ico img,
-    [data-theme="dark"] .fall-tile[data-key="gradle"] .inner img {
-      filter: brightness(3.5);
-    }
-    [data-theme="dark"] [data-key="gradle"] { --cc: #07A8CB !important; }
-    [data-theme="dark"] .fall-tile[data-key="gradle"] { --c: #07A8CB !important; }
+    .tool-ico img { width: 24px; height: 24px; object-fit: contain; }
     .tool-title { flex: 1; min-width: 0; }
     .tool-card .item-n {
       font-size: 15px;
@@ -1109,31 +709,6 @@
       line-height: 1.4;
       letter-spacing: -0.01em;
       color: var(--text-soft);
-    }
-
-    /* ── Icon shine on hover ── */
-    @keyframes card-shine {
-      0%   { background-position: 150% 0; }
-      100% { background-position: -150% 0; }
-    }
-    .cat-ico, .lang-ico, .tool-ico {
-      position: relative;
-      overflow: hidden;
-    }
-    .cat-ico::after, .lang-ico::after, .tool-ico::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);
-      background-repeat: no-repeat;
-      background-size: 250% 100%;
-      background-position: 150% 0;
-      pointer-events: none;
-      border-radius: inherit;
-    }
-    .cat-card:hover .cat-ico::after,
-    .lang-card:hover .lang-ico::after,
-    .tool-card:hover .tool-ico::after {
-      animation: card-shine 0.9s linear forwards;
     }
 
     /* ── Legacy elements (kept hidden for JS compatibility) ── */
@@ -1222,13 +797,13 @@
         width: 100%;
         justify-content: center;
       }
-      .apple-logo .news-mini { display: none; }
+      .apple-logo span { display: none; }
     }
     /* ── Light theme: invert white logos for visibility ── */
     :root[data-theme="light"] img[src*="github/ffffff"],
     :root[data-theme="light"] img[src*="anthropic/ffffff"],
     :root[data-theme="light"] img[src*="apachekafka/ffffff"],
-    :root[data-theme="light"] img[src*="cursor/ffffff"] {
+    :root[data-theme="light"] img[src*="githubactions/ffffff"] {
       filter: invert(1);
     }
 
@@ -1254,9 +829,9 @@
 <!-- ═════════ NAV ═════════ -->
 <nav class="apple-nav" aria-label="Principal">
   <div class="apple-nav-inner">
-    <a class="apple-logo" href="#" aria-label="CSR News">
-      <span class="csr-mini">CSR</span>
-      <span class="news-mini">NEWS</span>
+    <a class="apple-logo" href="#">
+      <img src="assets/csr-news-logo.svg" alt="">
+      <span>CsR News</span>
     </a>
     <div class="apple-nav-links">
       <a class="apple-nav-link" href="#categories">Categorias</a>
@@ -1277,52 +852,28 @@
 
 <!-- ═════════ HERO ═════════ -->
 <section class="hero">
-  <div class="fall-stage" id="fallStage" aria-hidden="true"></div>
-  <div class="hero-emerge-overlay" id="heroEmergeOverlay" aria-hidden="true"></div>
   <div class="hero-inner">
-
-    <!-- Faixa acima do card: mascote (esquerda) + botão (direita) -->
-    <div class="hero-header">
-      <div class="hero-mascot">
-        <img src="data/img/mascote-crop.png" alt="CsR News Mascot">
-      </div>
+    <div class="hero-mascot">
+      <img src="data/img/mascote.png" alt="CsR News Mascot">
+    </div>
+    <div class="hero-copy">
+      <div class="hero-eyebrow">Menos volume. Mais direção técnica.</div>
+      <h1 class="hero-h1">Curadoria diária para decisões técnicas.</h1>
+      <p class="hero-sub">
+        Antes do dia começar, a IA analisa releases, tendências e movimentos do
+        ecossistema para entregar uma leitura objetiva sobre engenharia de software,
+        plataforma e arquitetura. Mais contexto, menos dispersão, com cobertura
+        contínua de <strong>16 categorias</strong>, <strong>3 linguagens</strong> e
+        <strong>25 ferramentas</strong>.
+      </p>
       <div class="hero-actions">
         <a class="btn-primary" href="home.html">
           Entrar no sistema
           <span class="arr" aria-hidden="true">›</span>
         </a>
+        <a class="btn-pill" href="#categories">Ver catálogo</a>
       </div>
     </div>
-
-    <!-- Card glass -->
-    <div class="hero-copy">
-      <div class="hero-glass-card">
-
-        <!-- h1 + sub (coluna esquerda) e emblema (coluna direita) -->
-        <div class="hero-top-row">
-          <div class="hero-left-col">
-            <h1 class="hero-h1">O filtro diário do mundo técnico.</h1>
-            <p class="hero-sub">
-              Todo dia, uma IA pesquisa notícias, releases, changelogs, CVEs,
-              incidentes e tutoriais em <strong>16 categorias</strong>,
-              <strong>3 linguagens</strong> e <strong>29 ferramentas</strong>
-              monitoradas — e entrega o que importa para engenheiros e arquitetos.
-            </p>
-          </div>
-          <div class="hero-emblem-col">
-            <div class="hero-emblem" aria-label="CsR News">
-              <span class="ring" aria-hidden="true"></span>
-              <span class="ring two" aria-hidden="true"></span>
-              <div class="csr-word">C<span class="s-lean">s</span>R</div>
-              <div class="news-pill">NEWS</div>
-              <span class="emblem-dot" aria-hidden="true"></span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
   </div>
   <!-- Hidden orbital kept for JS compat -->
   <div class="orbital" id="orbital">
@@ -1334,9 +885,9 @@
 <section class="section section-alt" id="categories">
   <div class="section-inner">
     <div class="section-head">
-      <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Categorias</div>
-      <h2 class="section-title">16 temas. Do código à arquitetura.</h2>
-      <p class="section-sub">IA, segurança, cloud, backend, dados, observabilidade, sistemas distribuídos e mais — curadoria diária para engenheiros e arquitetos.</p>
+      <div class="section-eyebrow">Categorias editoriais</div>
+      <h2 class="section-title">16 temas para arquitetos.</h2>
+      <p class="section-sub">Cobertura diária das áreas que moldam a engenharia moderna — de IA e segurança a fundamentos de computação.</p>
     </div>
     <div class="cat-grid" id="catsGrid"></div>
   </div>
@@ -1346,9 +897,9 @@
 <section class="section" id="languages">
   <div class="section-inner">
     <div class="section-head">
-      <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>Linguagens</div>
-      <h2 class="section-title">Java, JavaScript e Python.</h2>
-      <p class="section-sub">Versões, releases e evolução da linguagem — os três ecossistemas monitorados diariamente.</p>
+      <div class="section-eyebrow">Linguagens</div>
+      <h2 class="section-title">Três linguagens.<br>Um ecossistema.</h2>
+      <p class="section-sub">Java, JavaScript/TS e Python — com monitoramento de versões, releases e evolução.</p>
     </div>
     <div class="lang-grid" id="langsGrid"></div>
   </div>
@@ -1358,9 +909,9 @@
 <section class="section section-alt" id="tools">
   <div class="section-inner">
     <div class="section-head">
-      <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Ferramentas</div>
-      <h2 class="section-title">29 ferramentas monitoradas.</h2>
-      <p class="section-sub">Kubernetes, Kafka, Postgres, Docker, Grafana e mais — releases, changelogs, CVEs e tutoriais para as ferramentas que importam.</p>
+      <div class="section-eyebrow">Ferramentas</div>
+      <h2 class="section-title">25 ferramentas monitoradas.</h2>
+      <p class="section-sub">Releases, changelogs e tutoriais das ferramentas que importam no dia a dia.</p>
     </div>
     <div id="toolsGrid"></div>
   </div>
@@ -1368,7 +919,7 @@
 
 <!-- ═════════ FOOTER ═════════ -->
 <footer class="apple-footer">
-  <p>CsR News — arquivo diário para engenheiros e arquitetos de software.</p>
+  <p>CsR News — arquivo diário de notícias para arquitetos de software.</p>
 </footer>
 
 <!-- Theme inicial (antes do render pra evitar flash) -->
@@ -1376,8 +927,6 @@
   (function(){
     const saved = localStorage.getItem('csrn-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', saved);
-    if (history.scrollRestoration) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
   })();
 </script>
 
@@ -1468,10 +1017,6 @@ function applyTheme(theme){
     btn.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       applyTheme(current === 'dark' ? 'light' : 'dark');
-      btn.classList.remove('is-switching');
-      void btn.offsetWidth;
-      btn.classList.add('is-switching');
-      setTimeout(() => btn.classList.remove('is-switching'), 400);
     });
   }
 })();
@@ -1485,8 +1030,7 @@ const HEADER_ICONS = {
   'dados':    '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
   'obs-iam':  '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
   'jvm':      '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
-  'diagrams':    '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
-  'mensageria':  '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M20.49 3.51a14 14 0 0 1 0 19.8"/><path d="M3.51 20.49a14 14 0 0 1 0-19.8"/>',
+  'diagrams': '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${paths}</svg>`;
@@ -1500,11 +1044,11 @@ const CATS = [
    svg:'<circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><line x1="9.5" y1="10.5" x2="7" y2="7.5"/><line x1="14.5" y1="10.5" x2="17" y2="7.5"/><line x1="9.5" y1="13.5" x2="7" y2="16.5"/><line x1="14.5" y1="13.5" x2="17" y2="16.5"/>'},
   {key:'sec',    name:'Segurança & IAM',     color:'#ef4444', group:'Transversal', desc:'CVEs, OWASP, Zero Trust & Identidade, Passkeys/WebAuthn, Supply Chain (SBOM/SLSA/Sigstore), AI Security, Runtime Security, Secrets Management (Vault, AWS Secrets Manager), LGPD & Privacidade.',
    svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'},
-  {key:'cloud',  name:'Cloud',               color:'#38bdf8', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, CDN & Edge (Cloudflare, Fastly), cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
+  {key:'cloud',  name:'Cloud',               color:'#f59e0b', group:'Plataforma',  desc:'AWS, Azure e GCP — compute, dados, messaging, segurança, Bedrock, CDN & Edge (Cloudflare, Fastly), cloud networking (VPC/peering), Well-Architected, FinOps multi-cloud.',
    svg:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>'},
   {key:'devops', name:'DevOps & Plataformas',color:'#3b82f6', group:'Plataforma',  desc:'Containers & CNCF, GitOps, CI/CD, progressive delivery, IaC, IDPs & developer portals, Edge/Proxies (HTTP/3, QUIC), Developer Productivity, AI-augmented SDLC.',
    svg:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'},
-  {key:'obs',    name:'Observabilidade & SRE',color:'#f97316', group:'Plataforma',  desc:'Tracing (OTel), métricas, logs, APM, SLO/SLI & Error Budgets, Incident Management, eBPF & profiling, Alerting & Noise Reduction, Cost Observability.',
+  {key:'obs',    name:'Observabilidade & SRE',color:'#eab308', group:'Plataforma',  desc:'Tracing (OTel), métricas, logs, APM, SLO/SLI & Error Budgets, Incident Management, eBPF & profiling, Alerting & Noise Reduction, Cost Observability.',
    svg:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
   {key:'backend',name:'Backend & Runtimes',  color:'#22c55e', group:'Desenvolvimento', desc:'Runtimes poliglotas, web frameworks, concurrency models, WebAssembly, performance engineering (profiling, GC, p99), build tools, server-side patterns.',
    svg:'<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>'},
@@ -1529,8 +1073,8 @@ const CATS = [
 ];
 
 const LANGS = [
-  {key:'java',       name:'Java & JVM',     color:'#f8981d',
-   logo:'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/java.svg',
+  {key:'java',       name:'Java & JVM',     color:'#f89820',
+   logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
    desc:'Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.'},
   {key:'javascript', name:'JavaScript / TS',color:'#F7DF1E',
    logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
@@ -1542,12 +1086,12 @@ const LANGS = [
 
 const TOOLS = [
   {key:'claudecode',name:'Claude Code',   color:'#d97706', logo:'https://cdn.simpleicons.org/anthropic/ffffff',                                                               desc:'CLI de IA da Anthropic para engenharia de software no terminal.'},
-  {key:'cursor',    name:'Cursor IDE',    color:'#6b7280', logo:'https://cdn.simpleicons.org/cursor/ffffff',                                                                  desc:'IDE com IA — autocomplete, chat e edição contextual avançada.'},
+  {key:'cursor',    name:'Cursor IDE',    color:'#00c09a', logo:'https://cdn.simpleicons.org/cursor/00c09a',                                                                  desc:'IDE com IA — autocomplete, chat e edição contextual avançada.'},
   {key:'intellij',  name:'IntelliJ IDEA', color:'#fe2857', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg',                   desc:'IDE Java/Kotlin da JetBrains com refactoring e análise estática.'},
   {key:'vscode',    name:'VS Code',       color:'#007ACC', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg',                       desc:'Editor extensível da Microsoft — extensões, Copilot e remote dev.'},
   {key:'argocd',    name:'Argo CD',       color:'#EF7B4D', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg',                       desc:'GitOps para Kubernetes — sync declarativo e rollbacks automáticos.'},
-  {key:'ghactions', name:'GitHub Actions',color:'#2088FF', logo:'https://cdn.simpleicons.org/githubactions/2088FF',                                                          desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.'},
-  {key:'github',    name:'GitHub',        color:'#888888', logo:'https://cdn.simpleicons.org/github/ffffff',                                                                  desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.'},
+  {key:'ghactions', name:'GitHub Actions',color:'#2088FF', logo:'https://cdn.simpleicons.org/githubactions/ffffff',                                                          desc:'CI/CD nativo do GitHub — workflows, runners e Actions marketplace.'},
+  {key:'github',    name:'GitHub',        color:'#ffffff', logo:'https://cdn.simpleicons.org/github/ffffff',                                                                  desc:'Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.'},
   {key:'docker',    name:'Docker',        color:'#2496ED', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',                       desc:'Containers — Docker Engine/Desktop, Compose e Docker Scout.'},
   {key:'kubernetes',name:'Kubernetes',    color:'#326CE5', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg',                  desc:'Orquestração de containers — KEPs, releases e CNCF ecosystem.'},
   {key:'terraform', name:'Terraform',     color:'#7B42BC', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg',                 desc:'IaC da HashiCorp — providers, modules e Terraform Cloud.'},
@@ -1556,19 +1100,15 @@ const TOOLS = [
   {key:'databricks',name:'Databricks',    color:'#FF3621', logo:'https://cdn.simpleicons.org/databricks/FF3621',                                                              desc:'Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.'},
   {key:'postgres',  name:'PostgreSQL',    color:'#336791', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',               desc:'Banco relacional avançado — extensões (inclui pgvector para RAG), JSONB e replicação lógica.'},
   {key:'redis',     name:'Redis',         color:'#DC382D', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg',                         desc:'Cache in-memory — Redis Stack, Pub/Sub e Streams.'},
-  {key:'mongodb',   name:'MongoDB',       color:'#47A248', logo:'https://cdn.simpleicons.org/mongodb/47A248',                                                                  desc:'Banco de documentos NoSQL — Atlas, Change Streams, agregações e full-text search.'},
-  {key:'kafka',     name:'Apache Kafka',  color:'#b0b0b0', logo:'https://cdn.simpleicons.org/apachekafka/ffffff',                                                             desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.'},
-  {key:'rabbitmq',  name:'RabbitMQ',      color:'#FF6600', logo:'https://cdn.simpleicons.org/rabbitmq/FF6600',                                                                 desc:'Message broker AMQP — exchanges, queues, bindings e streams.'},
-  {key:'sns',       name:'AWS SNS',       color:'#E7157B', logo:'https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/ApplicationIntegration/SimpleNotificationService.png', desc:'Pub/Sub gerenciado da AWS — fan-out para SQS, Lambda, HTTP e e-mail.'},
-  {key:'sqs',       name:'AWS SQS',       color:'#FF4F8B', logo:'https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/ApplicationIntegration/SimpleQueueService.png',        desc:'Fila de mensagens gerenciada da AWS — FIFO, DLQ e visibilidade de mensagens.'},
+  {key:'kafka',     name:'Apache Kafka',  color:'#ee7a3a', logo:'https://cdn.simpleicons.org/apachekafka/ffffff',                                                             desc:'Streaming distribuído — topics, consumers, Kafka Streams e Connect.'},
   {key:'dynatrace', name:'Dynatrace',     color:'#1496FF', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg',                 desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).'},
   {key:'datadog',   name:'Datadog',       color:'#632CA6', logo:'https://cdn.simpleicons.org/datadog/632CA6',                                                                 desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.'},
-  {key:'keycloak',  name:'Keycloak',      color:'#4D9CF8', logo:'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/keycloak.svg',                                              desc:'IAM open-source — SSO, OIDC, SAML e federation.'},
-  {key:'gradle',    name:'Gradle',        color:'#02303A', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg',                       desc:'Build automation moderna — build cache e convention plugins.'},
+  {key:'keycloak',  name:'Keycloak',      color:'#4D9CF8', logo:'https://www.google.com/s2/favicons?domain=keycloak.org&sz=128',                                              desc:'IAM open-source — SSO, OIDC, SAML e federation.'},
+  {key:'gradle',    name:'Gradle',        color:'#5ec4c4', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg',                       desc:'Build automation moderna — build cache e convention plugins.'},
   {key:'maven',     name:'Apache Maven',  color:'#C71A36', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg',                         desc:'Build system Java — POM, lifecycle e Maven Central.'},
-  {key:'springboot',name:'Spring Boot',   color:'#6DB33F', logo:'https://cdn.simpleicons.org/springboot/6DB33F',                       desc:'Framework Java líder — auto-config, starters e Spring Cloud.'},
-  {key:'structurizr',name:'Structurizr',  color:'#4a9aba', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',                                           desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
-  {key:'plantuml',  name:'PlantUML',      color:'#1168BD', logo:'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plantuml.svg',                                              desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.'},
+  {key:'springboot',name:'Spring Boot',   color:'#6DB33F', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',                       desc:'Framework Java líder — auto-config, starters e Spring Cloud.'},
+  {key:'structurizr',name:'Structurizr',  color:'#5ebabc', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',                                           desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
+  {key:'plantuml',  name:'PlantUML',      color:'#1168BD', logo:'https://www.google.com/s2/favicons?domain=plantuml.com&sz=128',                                              desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.'},
   {key:'mermaid',   name:'Mermaid',       color:'#FF3670', logo:'https://cdn.simpleicons.org/mermaid/FF3670',                                                                 desc:'Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub.'},
 ];
 
@@ -1588,7 +1128,11 @@ function renderCards() {
     </a>
   `).join('');
 
-  const langsOrdered = [...LANGS].sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  const langsOrdered = [
+    LANGS.find(l => l.key === 'java'),
+    LANGS.find(l => l.key === 'javascript'),
+    LANGS.find(l => l.key === 'python'),
+  ].filter(Boolean);
   document.getElementById('langsGrid').innerHTML = langsOrdered.map(l => `
     <a class="lang-card" style="--cc:${l.color}" href="home.html?tool=${l.key}">
       <div class="lang-header">
@@ -1600,31 +1144,28 @@ function renderCards() {
   `).join('');
 
   const TOOL_SUBGROUPS = [
-    { key:'dados',      label: 'Dados & Bancos',           tools: ['mongodb','databricks','postgres','redis'] },
-    { key:'mensageria', label: 'Mensageria & Filas',        tools: ['kafka','rabbitmq','sns','sqs'] },
-    { key:'diagrams',   label: 'Diagramas como Código',    tools: ['mermaid','plantuml','structurizr'] },
-    { key:'gitci',      label: 'Git, CI/CD & Containers',  tools: ['argocd','docker','github','ghactions'] },
-    { key:'ai-ide',     label: 'IDEs & AI Coding',         tools: ['claudecode','cursor','intellij','vscode'] },
-    { key:'jvm',        label: 'JVM: Build & Frameworks',  tools: ['maven','gradle','springboot'] },
-    { key:'obs-iam',    label: 'Observabilidade & IAM',    tools: ['datadog','dynatrace','keycloak'] },
-    { key:'platform',   label: 'Plataforma Cloud Native',  tools: ['istio','kubernetes','nginx','terraform'] },
+    { key:'dados',    label: 'Dados & Streaming',        tools: ['kafka','databricks','postgres','redis'] },
+    { key:'diagrams', label: 'Diagramas como Código',    tools: ['mermaid','plantuml','structurizr'] },
+    { key:'gitci',    label: 'Git, CI/CD & Containers',  tools: ['argocd','docker','github','ghactions'] },
+    { key:'ai-ide',   label: 'IDEs & AI Coding',         tools: ['claudecode','cursor','intellij','vscode'] },
+    { key:'jvm',      label: 'JVM: Build & Frameworks',  tools: ['maven','gradle','springboot'] },
+    { key:'obs-iam',  label: 'Observabilidade & IAM',    tools: ['datadog','dynatrace','keycloak'] },
+    { key:'platform', label: 'Plataforma Cloud Native',  tools: ['istio','kubernetes','nginx','terraform'] },
   ];
   const toolByKey = Object.fromEntries(TOOLS.map(t => [t.key, t]));
   const renderToolCard = t => `
-    <a class="tool-card" style="--cc:${t.color}" data-key="${t.key}" href="home.html?tool=${t.key}">
+    <a class="tool-card" style="--cc:${t.color}" href="home.html?tool=${t.key}">
       <div class="tool-header">
         <div class="tool-ico"><img src="${t.logo}" alt="${esc(t.name)}" onerror="this.style.opacity=.3"></div>
         <div class="tool-title"><div class="item-n">${esc(t.name)}</div></div>
       </div>
       <p class="item-desc">${esc(t.desc)}</p>
     </a>`;
-  document.getElementById('toolsGrid').innerHTML = [...TOOL_SUBGROUPS]
-    .sort((a,b) => a.label.localeCompare(b.label,'pt'))
-    .map(sg => `
+  document.getElementById('toolsGrid').innerHTML = TOOL_SUBGROUPS.map(sg => `
     <div class="tool-subgroup">
       <h3 class="tool-subgroup-title"><span class="sg-ico">${iconSvg(HEADER_ICONS[sg.key] || '', 20)}</span>${esc(sg.label)}</h3>
       <div class="tool-grid">
-        ${sg.tools.map(k => toolByKey[k]).filter(Boolean).sort((a,b) => a.name.localeCompare(b.name,'pt')).map(renderToolCard).join('')}
+        ${sg.tools.map(k => toolByKey[k]).filter(Boolean).map(renderToolCard).join('')}
       </div>
     </div>
   `).join('');
@@ -1662,240 +1203,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
-
-/* ══════ Falling tiles ══════
-   Distribuição via lanes (colunas) com jitter — tiles nunca se sobrepõem.
-*/
-function spawnFallingTiles() {
-  const stage = document.getElementById('fallStage');
-  if (!stage) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const subjects = [
-    ...LANGS.map(l => ({ kind:'lang', src: l.logo, c: l.color, size: 90, name: l.name })),
-    ...TOOLS.map(t => ({ kind:'tool', src: t.logo, c: t.color, size: 65, name: t.name, key: t.key })),
-    ...CATS.map(c  => ({ kind:'cat',  svg: c.svg,  c: c.color, size: 56, name: c.name })),
-  ];
-  for (let i = subjects.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [subjects[i], subjects[j]] = [subjects[j], subjects[i]];
-  }
-
-  const stageH = stage.clientHeight || 700;
-  stage.style.setProperty('--stage-h', stageH + 'px');
-
-  const rand = (min, max) => min + Math.random() * (max - min);
-
-  const N = 34;
-  const COUNT = Math.min(N, subjects.length);
-  const BASE_DUR = 15;
-
-  const heroCopyEl  = document.querySelector('.hero-copy');
-  const emergeOverlay = document.getElementById('heroEmergeOverlay');
-  const heroSection   = stage.closest('.hero');
-
-  function getBounds() {
-    const stageRect = stage.getBoundingClientRect();
-    const cardRect  = heroCopyEl ? heroCopyEl.getBoundingClientRect() : null;
-    if (!cardRect || stageRect.width === 0) return { leftPct: 5, rightPct: 95 };
-    return {
-      leftPct:  (cardRect.left  - stageRect.left) / stageRect.width * 100,
-      rightPct: (cardRect.right - stageRect.left) / stageRect.width * 100,
-    };
-  }
-
-  function updateMask() {
-    const stageRect = stage.getBoundingClientRect();
-    const cardRect  = heroCopyEl ? heroCopyEl.getBoundingClientRect() : null;
-    if (!cardRect || stageRect.height === 0) return;
-    const cardTopPct = (cardRect.top - stageRect.top) / stageRect.height * 100;
-    const fade = 5;
-    const mask = `linear-gradient(to bottom, transparent 0%, #000 10%, #000 ${Math.max(10, cardTopPct - fade)}%, transparent ${Math.min(100, cardTopPct + fade)}%)`;
-    stage.style.maskImage = mask;
-    stage.style.webkitMaskImage = mask;
-  }
-
-  function updateOverlay() {
-    if (!emergeOverlay || !heroCopyEl || !heroSection) return;
-    const heroRect = heroSection.getBoundingClientRect();
-    const cardRect = heroCopyEl.getBoundingClientRect();
-    const distFromBottom = heroRect.bottom - cardRect.top;
-    emergeOverlay.style.height  = '100px';
-    emergeOverlay.style.bottom  = (distFromBottom - 2) + 'px';
-  }
-
-  // ── Sistema de colunas (lanes) com jitter — tiles nunca se sobrepõem
-  const stageW = stage.clientWidth || window.innerWidth;
-  const { leftPct: _lb0, rightPct: _rb0 } = getBounds();
-  const availPx = (_rb0 - _lb0) / 100 * stageW;
-  const LANE_TILE_MAX = 90;
-  const LANE_GAP = 18;
-  const numLanes = Math.max(4, Math.floor(availPx / (LANE_TILE_MAX + LANE_GAP)));
-
-  // Duração fixa por lane: tiles da mesma lane mantêm espaçamento vertical
-  const laneDurations = Array.from({length: numLanes}, () => BASE_DUR * rand(0.9, 1.1));
-
-  // Embaralha ordem das lanes para variedade visual
-  const laneOrder = [...Array(numLanes).keys()];
-  for (let i = laneOrder.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [laneOrder[i], laneOrder[j]] = [laneOrder[j], laneOrder[i]];
-  }
-
-  // Atribui lanes em round-robin e distribui fase verticalmente por lane
-  const tileToLane = Array.from({length: COUNT}, (_, i) => laneOrder[i % numLanes]);
-  const laneAssignCount = Array(numLanes).fill(0);
-  const tileLaneSlot = Array(COUNT);
-  for (let i = 0; i < COUNT; i++) {
-    tileLaneSlot[i] = laneAssignCount[tileToLane[i]]++;
-  }
-
-  // pts: [lane, phase] — fase global pelo índice: todos os tiles interleaved uniformemente
-  const pts = Array.from({length: COUNT}, (_, i) => {
-    const lane = tileToLane[i];
-    const ny = (i / COUNT + (Math.random() * 2 - 1) * 0.025 + 1) % 1;
-    return [lane, ny];
-  });
-
-  pts.forEach(([lane, ny], idx) => {
-    const s = subjects[idx % subjects.length];
-    const { size } = s;
-
-    const { leftPct, rightPct } = getBounds();
-    const stageWNow = stage.clientWidth || window.innerWidth;
-    const laneWidthPct = (rightPct - leftPct) / numLanes;
-    const laneCenterPct = leftPct + (lane + 0.5) * laneWidthPct;
-    const laneWidthPx = availPx / numLanes;
-    const maxJitterPx = Math.max(0, laneWidthPx / 2 - size / 2 - 8);
-    const maxJitterPct = maxJitterPx / stageWNow * 100;
-    const jitter = (Math.random() * 2 - 1) * maxJitterPct;
-    const halfTilePct = (size / 2) / stageWNow * 100;
-    const xPct = Math.max(leftPct + halfTilePct, Math.min(rightPct - halfTilePct, laneCenterPct + jitter));
-
-    const dur = laneDurations[lane];
-    const delay = -ny * dur;
-
-    const wobbleDur   = rand(2.5, 4.5);
-    const wobbleDelay = -rand(0, wobbleDur);
-
-    const t = document.createElement('div');
-    t.className = `fall-tile is-${s.kind}`;
-    if (s.key) t.dataset.key = s.key;
-    t.dataset.lane = lane;
-    t.dataset.size = size;
-    t.style.cssText =
-      `--size:${size}px;--c:${s.c};` +
-      `--x:calc(${xPct}vw - ${size / 2}px);` +
-      `--dur:${dur}s;--delay:${delay}s;` +
-      `--wobble-dur:${wobbleDur}s;--wobble-delay:${wobbleDelay}s`;
-
-    const content = s.kind === 'cat'
-      ? `<svg viewBox="0 0 24 24">${s.svg}</svg>`
-      : `<img src="${s.src}" alt="" onerror="this.style.display='none'">`;
-
-    t.innerHTML = `<div class="inner">${content}</div><span class="fall-label">${s.name}</span>`;
-
-    // Ao final do ciclo, reposiciona dentro da mesma lane com novo jitter
-    t.addEventListener('animationend', function onCycleEnd(e) {
-      if (e.animationName !== 'fall-move') return;
-      const myLane = parseInt(this.dataset.lane ?? '0', 10);
-      const sz = parseInt(this.dataset.size ?? '56', 10);
-      const { leftPct: lb, rightPct: rb } = getBounds();
-      const stageWRe = stage.clientWidth || window.innerWidth;
-      const lwPct = (rb - lb) / numLanes;
-      const cxPct = lb + (myLane + 0.5) * lwPct;
-      const lwPx = (rb - lb) / 100 * stageWRe / numLanes;
-      const mjPx = Math.max(0, lwPx / 2 - sz / 2 - 8);
-      const mjPct = mjPx / stageWRe * 100;
-      const jit = (Math.random() * 2 - 1) * mjPct;
-      const hPct = (sz / 2) / stageWRe * 100;
-      const newX = Math.max(lb + hPct, Math.min(rb - hPct, cxPct + jit));
-      const newDur = laneDurations[myLane];
-      this.style.setProperty('--x', `calc(${newX}vw - ${sz / 2}px)`);
-      this.style.setProperty('--dur', `${newDur}s`);
-      this.style.setProperty('--delay', '0s');
-      this.style.animationName = 'none';
-      void this.offsetWidth;
-      this.style.animationName = '';
-    });
-    stage.appendChild(t);
-  });
-
-  updateMask();
-  updateOverlay();
-  window.addEventListener('resize', () => { updateMask(); updateOverlay(); }, { passive: true });
-
-  // ══ Correção: ao voltar de outra aba, redistribuir tudo uniformemente.
-  function reshuffleAll() {
-    const tiles = [...stage.querySelectorAll('.fall-tile')];
-    if (!tiles.length) return;
-    const { leftPct: lb, rightPct: rb } = getBounds();
-    const stageWR = stage.clientWidth || window.innerWidth;
-    const laneWidthPct = (rb - lb) / numLanes;
-    const laneWidthPx = (rb - lb) / 100 * stageWR / numLanes;
-
-    const newLaneOrder = [...Array(numLanes).keys()];
-    for (let i = newLaneOrder.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newLaneOrder[i], newLaneOrder[j]] = [newLaneOrder[j], newLaneOrder[i]];
-    }
-    const newTileLanes = tiles.map((_, i) => newLaneOrder[i % numLanes]);
-
-    tiles.forEach((el, i) => {
-      const lane = newTileLanes[i];
-      const sz = parseInt(el.dataset.size ?? '56', 10);
-      const halfTilePct = (sz / 2) / stageWR * 100;
-      const laneCenterPct = lb + (lane + 0.5) * laneWidthPct;
-      const maxJitterPx = Math.max(0, laneWidthPx / 2 - sz / 2 - 8);
-      const maxJitterPct = maxJitterPx / stageWR * 100;
-      const jitter = (Math.random() * 2 - 1) * maxJitterPct;
-      const xPct = Math.max(lb + halfTilePct, Math.min(rb - halfTilePct, laneCenterPct + jitter));
-      const ny = (i / tiles.length + (Math.random() * 2 - 1) * 0.025 + 1) % 1;
-      const dur = laneDurations[lane];
-      const delay = -ny * dur;
-
-      el.dataset.lane = lane;
-      el.style.setProperty('--x', `calc(${xPct}vw - ${sz / 2}px)`);
-      el.style.setProperty('--dur', `${dur}s`);
-      el.style.setProperty('--delay', `${delay}s`);
-      el.style.animationName = 'none';
-      void el.offsetWidth;
-      el.style.animationName = '';
-    });
-  }
-
-  // Sorteio de brilho: a cada 1s, 5 tiles visíveis aleatórios recebem o shine
-  setInterval(() => {
-    const stage = document.getElementById('fallStage');
-    const all = [...stage.querySelectorAll('.fall-tile')];
-    const visible = all.filter(t => {
-      const r = t.getBoundingClientRect();
-      return r.bottom > 0 && r.top < window.innerHeight;
-    });
-    // Embaralha e pega 5
-    for (let i = visible.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [visible[i], visible[j]] = [visible[j], visible[i]];
-    }
-    visible.slice(0, 5).forEach(t => {
-      t.classList.remove('is-shining');
-      void t.offsetWidth; // força reflow para reiniciar animação
-      t.classList.add('is-shining');
-    });
-  }, 3000);
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      requestAnimationFrame(() => requestAnimationFrame(reshuffleAll));
-    }
-  });
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted || document.visibilityState === 'visible') {
-      requestAnimationFrame(() => requestAnimationFrame(reshuffleAll));
-    }
-  });
-}
-requestAnimationFrame(() => requestAnimationFrame(spawnFallingTiles));
 </script>
 </body>
 </html>
