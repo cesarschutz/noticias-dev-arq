@@ -1,0 +1,51 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "vid_ed0001_001",
+      "edicao_id": "ed_0001",
+      "titulo": "Beyond the Hype: Architecting Systems with Agentic AI",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "infoq",
+      "url": "https://www.infoq.com/presentations/agentic-ai",
+      "canal": "InfoQ",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "1h 00min",
+      "categoria_id": "aiops",
+      "tag_ids": [
+        "agents",
+        "architecture"
+      ],
+      "item_ids_relacionados": [
+        "item_ed0001_001",
+        "item_ed0001_002",
+        "item_ed0001_004"
+      ],
+      "posicao": "aprenda_mais",
+      "ordem": 1
+    },
+    {
+      "id": "vid_ed0001_002",
+      "edicao_id": "ed_0001",
+      "titulo": "Why Service Is the Worst API in Kubernetes, and What We're Doing About It",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "youtube",
+      "url": "https://www.youtube.com/watch?v=Oslwx3hj2Eg",
+      "canal": "CNCF / Kubernetes Community",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "aprox. 45min",
+      "categoria_id": "devops",
+      "tag_ids": [
+        "kubernetes",
+        "api-design"
+      ],
+      "item_ids_relacionados": [
+        "item_ed0001_008"
+      ],
+      "posicao": "aprenda_mais",
+      "ordem": 2
+    }
+  ]
+}

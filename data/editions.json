@@ -1,9 +1,142 @@
 {
-  "last_generated": "2026-04-26T06:00:00-03:00",
+  "last_generated": "2026-04-29T10:00:00-03:00",
   "editions": [
     {
+      "date": "2026-04-29",
+      "counts_by_category": {
+        "ai": 2,
+        "aiops": 3,
+        "sec": 3,
+        "cloud": 3,
+        "devops": 2,
+        "obs": 1,
+        "fintech": 1,
+        "design": 1
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "vscode": 1,
+        "github": 1,
+        "springboot": 1,
+        "kubernetes": 1,
+        "datadog": 1,
+        "intellij": 1,
+        "python": 1,
+        "cursor": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "OpenAI publica Symphony — spec aberta que orquestra Codex direto de boards Linear, com 500% mais PRs aterrissados",
+          "url": "https://openai.com/index/open-source-codex-orchestration-symphony/"
+        },
+        {
+          "title": "Hugging Face LeRobot continua sem patch para CVE-2026-25874 (CVSS 9.8) — pickle.loads em gRPC sem TLS vira RCE pré-autenticado",
+          "url": "https://www.resecurity.com/blog/article/cve-2026-25874-hugging-face-lerobot-unauthenticated-rce-via-pickle-deserialization"
+        },
+        {
+          "title": "Microsoft e OpenAI reescrevem parceria: cláusula AGI morre, licença vira não-exclusiva e Codex passa a vender em AWS/GCP",
+          "url": "https://openai.com/index/next-phase-of-microsoft-partnership/"
+        }
+      ],
+      "hero_title": "OpenAI abre Symphony, Microsoft solta cláusula AGI e LeRobot ganha RCE 9.8",
+      "hero_description": "Quarta-feira começa com três movimentos que reposicionam plataformas de IA: OpenAI publica Symphony, spec aberta para Codex orquestrar tarefas direto do Linear, Microsoft renegocia parceria de US$ bilhões e libera modelos OpenAI para AWS/GCP, e Hugging Face LeRobot fica unpatched contra RCE pré-autenticado via pickle (CVSS 9.8). No mesmo dia, Cequence sai com RBAC por persona para agents MCP em GA, Cloudflare reporta XFF duplicado em produção e Snowflake promove Inter-App Communication. Big tech reporta Q1 hoje à noite — capex IA combinado mira US$ 700 bi."
+    },
+    {
+      "date": "2026-04-28",
+      "counts_by_category": {
+        "sec": 3,
+        "cloud": 3,
+        "aiops": 3,
+        "devops": 2,
+        "data": 2,
+        "obs": 1,
+        "distarch": 1,
+        "fintech": 1,
+        "ai": 1,
+        "frontend": 1,
+        "backend": 1
+      },
+      "counts_by_tool": {
+        "docker": 1,
+        "kubernetes": 1,
+        "terraform": 1,
+        "databricks": 1,
+        "github": 1,
+        "springboot": 1,
+        "claudecode": 1,
+        "argocd": 1,
+        "postgres": 1,
+        "python": 1,
+        "structurizr": 1
+      },
+      "highlights": [
+        {
+          "title": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
+          "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/"
+        },
+        {
+          "title": "Engenheiro da AWS reporta PostgreSQL com metade do throughput em kernel Linux 7.0 (Graviton4) — fix não é simples",
+          "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop"
+        },
+        {
+          "title": "containerd 2.3.0-rc.0 sai e dá largada para a primeira release com cadência de 4 meses",
+          "url": "https://github.com/containerd/containerd/releases"
+        }
+      ],
+      "hero_title": "Lapsus$ amplia ataque a Checkmarx e Bitwarden, Linux 7.0 corta Postgres pela metade",
+      "hero_description": "Lapsus$ encadeia comprometimentos em fornecedores de segurança — Checkmarx, Bitwarden CLI e LiteLLM — para munição de ransomware downstream. Engenheiro da AWS reporta queda de ~50% no throughput do PostgreSQL no kernel Linux 7.0 em Graviton4 e o problema não tem fix simples. Amazon Bedrock AgentCore ganha CLI e managed harness para ir de ideia a agente sem código de orquestração, com governança de IaC nativa."
+    },
+    {
+      "date": "2026-04-27",
+      "counts_by_category": {
+        "aiops": 4,
+        "sec": 4,
+        "cloud": 1,
+        "data": 1,
+        "obs": 2,
+        "frontend": 1,
+        "fintech": 1,
+        "integ": 1,
+        "design": 1,
+        "backend": 1,
+        "testing": 1,
+        "ai": 1
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "cursor": 1,
+        "github": 1,
+        "argocd": 1,
+        "springboot": 1,
+        "postgres": 1,
+        "kubernetes": 1,
+        "intellij": 1,
+        "python": 1,
+        "vscode": 1,
+        "kafka": 1,
+        "javascript": 1,
+        "keycloak": 1
+      },
+      "highlights": [
+        {
+          "title": "Agente Cursor com Claude Opus apaga banco de produção do PocketOS em 9 segundos — backup era de 3 meses atrás",
+          "url": "https://www.businesstoday.in/amp/technology/story/it-took-9-seconds-ai-agent-running-on-anthropics-claude-opus-46-wipes-critical-database-527552-2026-04-27"
+        },
+        {
+          "title": "Microsoft solta patch fora de banda para CVE-2026-40372 — bug no DataProtection do ASP.NET Core deixa forjar cookies (CVSS 9.1)",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-emergency-security-updates-for-critical-aspnet-flaw/"
+        },
+        {
+          "title": "AWS Lambda ganha S3 Files: monte buckets como sistema de arquivos POSIX dentro da função",
+          "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-anthropic-meta-partnership-aws-lambda-s3-files-amazon-bedrock-agentcore-cli-and-more-april-27-2026/"
+        }
+      ],
+      "hero_title": "Agente apaga prod em 9s, ASP.NET Core ganha patch fora de banda e AWS adiciona S3 Files ao Lambda",
+      "hero_description": "Edição segunda dominada por incidentes de IA agêntica em produção: agente Cursor/Claude apagou banco do PocketOS em 9 segundos com backup de 3 meses. Microsoft soltou correção fora de banda para CVE-2026-40372 (CVSS 9.1) no DataProtection do ASP.NET Core e AWS abriu Lambda S3 Files + Bedrock AgentCore CLI no roundup do dia."
+    },
+    {
       "date": "2026-04-26",
-      "summary": "Lapsus$ vaza código-fonte da Checkmarx, AWS publica EC2 G7e (Blackwell) em GA e Cloudflare expõe stack interno que processa 241 bilhões de tokens com 77% menos custo.",
       "counts_by_category": {
         "sec": 2,
         "ai": 1,
@@ -49,11 +182,12 @@
           "title": "Cloudflare publica stack interna de IA: 241 bilhões de tokens, AI Gateway dogfood e 77% mais barato",
           "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/"
         }
-      ]
+      ],
+      "hero_title": "Lapsus$ vaza Checkmarx, AWS G7e Blackwell em GA e Cloudflare expõe stack interna de IA",
+      "hero_description": "Domingo amanhece com a comunidade ainda digerindo o leak do Lapsus$ na Checkmarx — código-fonte e credenciais expostas — enquanto AWS publica EC2 G7e (Blackwell) em GA e Cloudflare detalha o stack interno que processa 241 bilhões de tokens/mês na própria plataforma. No campo MCP, Salesforce libera Headless 360 com 60+ tools, e Anthropic abre Rate Limits API para multitenancy — fim de semana mais movimentado em plataforma do que se esperava."
     },
     {
       "date": "2026-04-25",
-      "summary": "Google injeta US$ 40 bi na Anthropic em cash + compute, Claude ganha Memory persistente em Managed Agents e Kubernetes 1.36 sai com Fine-Grained Kubelet RBAC em GA — fim do bypass via nodes/proxy.",
       "counts_by_category": {
         "ai": 2,
         "aiops": 3,
@@ -94,11 +228,12 @@
           "title": "Kubernetes v1.36 promove Fine-Grained Kubelet API Authorization a GA e fecha buraco do nodes/proxy",
           "url": "https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/"
         }
-      ]
+      ],
+      "hero_title": "Google injeta US$ 40 bi na Anthropic, Claude ganha Memory persistente e Kubernetes 1.36 sai com kubelet RBAC granular",
+      "hero_description": "Sábado calmo em volume mas denso em consequência: Google anunciou US$ 40 bilhões em compute e cash para a Anthropic enquanto Memory chega em public beta nos Claude Managed Agents (filesystem-based, exportável, com audit trail). Kubernetes 1.36 ハル (Haru) saiu com Fine-Grained Kubelet API Authorization em GA — fim da bypass por nodes/proxy. CISA somou 4 KEVs (Samsung MagicINFO, SimpleHelp, D-Link), Apache Kafka divulgou CVE-2026-33557 (CVSS 9.1) com bypass de JWT no OAUTHBEARER e a Cloudflare promoveu Sandboxes a GA com snapshot recovery. Highlights selecionados pelo score; o teto deste Sábado ficou em ~4 dado o volume reduzido — documentado."
     },
     {
       "date": "2026-04-24",
-      "summary": "DeepSeek V4 Pro/Flash chegam com 1M tokens em MoE; OpenAI lança GPT-5.5 com 82,7% no Terminal-Bench; worm CanisterSprawl ataca npm, PyPI e Docker Hub em 48h.",
       "counts_by_category": {
         "ai": 3,
         "aiops": 3,
@@ -140,11 +275,12 @@
           "title": "CanisterSprawl: worm npm/PyPI/Docker Hub usa ICP canister como C2 e força reauditoria de postinstall",
           "url": "https://blog.gitguardian.com/three-supply-chain-campaigns-hit-npm-pypi-and-docker-hub-in-48-hours/"
         }
-      ]
+      ],
+      "hero_title": "DeepSeek V4 e GPT-5.5 estreiam em 48h; worm CanisterSprawl pula entre npm, PyPI e Docker Hub",
+      "hero_description": "Em 48 horas a fronteira de modelos viu dois lançamentos: DeepSeek V4 Pro/Flash com 1M tokens em MoE saiu hoje e GPT-5.5 estreou ontem com 82,7% no Terminal-Bench 2.0 e Codex como aplicação principal. Em paralelo, o worm CanisterSprawl atravessa npm, PyPI e Docker Hub usando ICP canisters como C2 e força times de plataforma a re-auditar postinstalls. Sexta de fundamentos traz USE Method e Lei de Little para fechar a semana."
     },
     {
       "date": "2026-04-22",
-      "summary": "Kubernetes 1.36 chega com 80 KEPs e rootless GA, Vercel sofre breach via OAuth da Context.ai e Grafana 13 reescreve Loki sobre Kafka no GrafanaCON Barcelona.",
       "counts_by_category": {
         "sec": 2,
         "aiops": 4,
@@ -190,11 +326,12 @@
           "title": "Grafana 13 é lançado no GrafanaCON Barcelona com Loki reescrito sobre Kafka",
           "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/"
         }
-      ]
+      ],
+      "hero_title": "Kubernetes 1.36 chega, Vercel sofre breach via OAuth e Grafana 13 reinventa Loki",
+      "hero_description": "Dia denso: Kubernetes 1.36 desembarca hoje com 80 KEPs, rootless pods estáveis, adeus a gitRepo e ingress-nginx. Vercel confirma incidente de segurança via OAuth da Context.ai, com ShinyHunters à venda. Grafana 13 é anunciado no GrafanaCON Barcelona com Loki rearquitetado sobre Kafka. HashiCorp Vault Enterprise 2.0 vai GA e Keycloak 26.6 habilita Vault SPI para secrets de clientes. Cobertura forte em distarch, sec e obs; sem sinal relevante em fintech e fundamentals hoje — destaques sexta."
     },
     {
       "date": "2026-04-20",
-      "summary": "Istio 1.29 promove ambient multicluster a beta, Claude Code ganha Opus 4.7 com 1M tokens e Microsoft publica Patch Tuesday com 163 CVEs incluindo zero-day SharePoint sob exploração ativa.",
       "counts_by_category": {
         "sec": 4,
         "ai": 3,
@@ -242,7 +379,9 @@
           "title": "Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente",
           "url": "https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201"
         }
-      ]
+      ],
+      "hero_title": "Semana abre com service mesh sidecarless em multicluster, Claude Code Opus 4.7 e Patch Tuesday de 163 CVEs",
+      "hero_description": "Edição cobre janela de 3 dias e abre com convergência pesada em três frentes: Istio 1.29 promove ambient multicluster a beta (marco para arquiteturas multi-cloud sem sidecar), Anthropic lança Claude Code com Opus 4.7 e contexto de 1M tokens, e Microsoft publica 163 CVEs incluindo zero-day SharePoint já sob exploração ativa. No radar: RedSun Defender, Axios npm hijack, Cloudflare Agents Week, Ingress-NGINX aposentado, ThoughtWorks Radar Vol 34 com 'cognitive debt' em destaque."
     }
   ]
 }

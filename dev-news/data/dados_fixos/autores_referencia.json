@@ -1,0 +1,95 @@
+{
+  "versao_schema": "2.0",
+  "autores_referencia": [
+    {
+      "id": "martin_fowler",
+      "nome": "Martin Fowler",
+      "area": "Arquitetura, refactoring e design",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "gregor_hohpe",
+      "nome": "Gregor Hohpe",
+      "area": "Arquitetura corporativa e integração",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "sam_newman",
+      "nome": "Sam Newman",
+      "area": "Microsserviços e sistemas distribuídos",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "martin_kleppmann",
+      "nome": "Martin Kleppmann",
+      "area": "Dados e sistemas distribuídos",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "kent_beck",
+      "nome": "Kent Beck",
+      "area": "TDD, design e XP",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "eric_evans",
+      "nome": "Eric Evans",
+      "area": "Domain-Driven Design",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "charity_majors",
+      "nome": "Charity Majors",
+      "area": "Observabilidade e engenharia sociotécnica",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "julia_evans",
+      "nome": "Julia Evans",
+      "area": "Redes, debugging e fundamentos",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "brendan_gregg",
+      "nome": "Brendan Gregg",
+      "area": "Performance e profiling",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "dan_luu",
+      "nome": "Dan Luu",
+      "area": "Performance, hardware e sistemas",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "simon_willison",
+      "nome": "Simon Willison",
+      "area": "IA, LLMs e engenharia prática",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "kelsey_hightower",
+      "nome": "Kelsey Hightower",
+      "area": "Kubernetes, cloud native e operação",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "werner_vogels",
+      "nome": "Werner Vogels",
+      "area": "Cloud, arquitetura e operação",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "simon_brown",
+      "nome": "Simon Brown",
+      "area": "C4 Model e documentação de arquitetura",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    },
+    {
+      "id": "robert_c_martin",
+      "nome": "Robert C. Martin",
+      "area": "Clean Code e design",
+      "uso": "Quotes, fundamentos, deep dives e fallback evergreen."
+    }
+  ]
+}

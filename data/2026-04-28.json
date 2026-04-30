@@ -1,0 +1,803 @@
+{
+  "date": "2026-04-28",
+  "weekday": "Terça-feira",
+  "formatted_date": "Terça, 28 de Abril de 2026",
+  "generated_at": "2026-04-28T10:00:00-03:00",
+  "hero_title": "Lapsus$ amplia ataque a Checkmarx e Bitwarden, Linux 7.0 corta Postgres pela metade",
+  "hero_description": "Lapsus$ encadeia comprometimentos em fornecedores de segurança — Checkmarx, Bitwarden CLI e LiteLLM — para munição de ransomware downstream. Engenheiro da AWS reporta queda de ~50% no throughput do PostgreSQL no kernel Linux 7.0 em Graviton4 e o problema não tem fix simples. Amazon Bedrock AgentCore ganha CLI e managed harness para ir de ideia a agente sem código de orquestração, com governança de IaC nativa.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
+      "summary": "The Register descreve campanha em curso (TeamPCP + Lapsus$ + Vect) atingindo Checkmarx, LiteLLM, KICS, Trivy e agora Bitwarden CLI. Atacantes confessam que pretendem encadear comprometimentos em rounds de ransomware. Bitwarden tem 10M+ usuários e 50K+ empresas. Risco: ferramentas de segurança são deeply embedded e overprivileged — tornam-se choke points perfeitos para data theft e propagação lateral.",
+      "why_it_matters": "Campanha valida tese de que supply chain de ferramentas de segurança é o novo perímetro: arquitetos precisam tratar dependências de DevSecOps com isolamento e revogação rápida.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
+      "published_at": "2026-04-27T15:00:00-03:00",
+      "read_time": 5,
+      "severity": "high",
+      "tags": [
+        "supply-chain",
+        "lapsus$",
+        "checkmarx",
+        "bitwarden",
+        "devsecops"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Engenheiro da AWS reporta PostgreSQL com metade do throughput em kernel Linux 7.0 (Graviton4) — fix não é simples",
+      "summary": "Bug regression rastreado por engenheiro Amazon: Linux 7.0 entrega ~0,51× do throughput de PostgreSQL em Graviton4 vs kernels anteriores, com tempo gasto em user-space spinlock disparando. Causa raiz é a mudança em modos de preemption restritivos no 7.0. Discussão dominou a front-page do HN e demanda revisão de rollouts de kernel em frotas de banco.",
+      "why_it_matters": "Quem opera Postgres gerenciado em ARM precisa segurar o upgrade para Linux 7.0 até patch ser confirmado — diferença de 50% em TPS impacta SLAs e capacity planning.",
+      "source": "Phoronix",
+      "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
+      "published_at": "2026-04-27T17:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "postgresql",
+        "linux-kernel",
+        "graviton4",
+        "performance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+    },
+    {
+      "source_array": "tools",
+      "tool_key": "docker",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "containerd 2.3.0-rc.0 sai e dá largada para a primeira release com cadência de 4 meses",
+      "summary": "Tag v2.3.0-rc.0 publicada em 28/04/2026 marca o início da nova cadência fixa de minor releases a cada 4 meses anunciada pela maintainers da CNCF. Inclui ajustes finais antes do GA e marca o fim das releases ad-hoc — runtime do Docker, K8s e da maioria dos PaaS passa a ter previsibilidade para upgrades de fleets.",
+      "why_it_matters": "Cadência fixa do containerd permite alinhar janelas de manutenção e CVE patching com clareza — arquitetos podem planejar upgrades de runtime sem surpresas.",
+      "source": "containerd Releases",
+      "url": "https://github.com/containerd/containerd/releases",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "containerd",
+        "release",
+        "cncf",
+        "runtime"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "high",
+      "headline": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
+      "summary": "The Register descreve campanha em curso (TeamPCP + Lapsus$ + Vect) atingindo Checkmarx, LiteLLM, KICS, Trivy e agora Bitwarden CLI. Bitwarden tem 10M+ usuários e 50K+ empresas. Atacantes ameaçam encadear comprometimentos em ransomware downstream.",
+      "why_it_matters": "Supply chain de DevSecOps virou o novo perímetro — isole credenciais, revogue tokens e exija MFA em fornecedores upstream.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
+      "published_at": "2026-04-27T15:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "supply-chain",
+        "lapsus$",
+        "bitwarden",
+        "checkmarx"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "severity": "high",
+      "headline": "Keycloak 26.5.7 corrige bypass de redirect URI por path traversal e quatro outras falhas em OIDC",
+      "summary": "Release de segurança do Keycloak 26.5.7 cobre CVE-2026-3872 (redirect URI validation bypass via ..;/ no endpoint OIDC), CVE-2026-4282 (privilege escalation por authorization codes forjados), CVE-2026-4634 (DoS por scope processing), CVE-2026-4636 (UMA policy resource injection) e CVE-2026-3429 (account takeover via Account REST API). Operadores devem aplicar imediatamente.",
+      "why_it_matters": "Path traversal no fluxo OIDC abre porta para account takeover em qualquer SSO baseado em Keycloak — patch não é opcional.",
+      "source": "Keycloak Blog",
+      "url": "https://www.keycloak.org/2026/04/keycloak-2657-released",
+      "published_at": "2026-04-23T10:00:00-03:00",
+      "read_time": 3,
+      "cves": [
+        "CVE-2026-3872",
+        "CVE-2026-4282",
+        "CVE-2026-4634",
+        "CVE-2026-4636",
+        "CVE-2026-3429"
+      ],
+      "tags": [
+        "keycloak",
+        "oidc",
+        "cve",
+        "iam",
+        "sso"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=keycloak.org&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "severity": "critical",
+      "headline": "FortiClient EMS CVE-2026-35616 (CVSS 9.1): exploração ativa, CISA KEV exige patch e Shadowserver detecta 2K+ instâncias expostas",
+      "summary": "Pre-auth API access bypass leading to privilege escalation. watchTowr detectou exploração desde 31/03; Fortinet liberou hotfix em 04/04; CISA adicionou ao KEV em 06/04 com prazo FCEB de 09/04. Versão 7.4.7 traz fix completo. Shadowserver mapeou 2.000+ instâncias públicas; duas confirmadamente exploradas.",
+      "why_it_matters": "Sem fix, qualquer instância FortiClient EMS exposta vira ponto de pivô — catalogue inventário, isole gestão e aplique hotfix antes de novo round de ransomware.",
+      "source": "The Hacker News",
+      "url": "https://thehackernews.com/2026/04/fortinet-patches-actively-exploited-cve.html",
+      "published_at": "2026-04-04T12:00:00-03:00",
+      "read_time": 4,
+      "cves": [
+        "CVE-2026-35616"
+      ],
+      "tags": [
+        "forticlient",
+        "fortinet",
+        "cve",
+        "kev"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "Anthropic se compromete com US$ 100 bi de gasto em AWS por uma década e Amazon eleva aporte para até US$ 25 bi",
+      "summary": "Anúncio formaliza nova etapa: Anthropic vai treinar Claude em AWS Trainium e Graviton (co-engenharia com Annapurna Labs), garantindo até 5 GW de compute. Amazon coloca US$ 5 bi agora e até US$ 20 bi adicionais. Receita run-rate da Anthropic estourou US$ 30 bi em 2026 vs ~US$ 9 bi no fim de 2025.",
+      "why_it_matters": "Frontier AI passa a depender de silicon não-NVIDIA — arquitetos de IA devem testar Trainium/Graviton para inferência e custo agora, antes do mercado se mover.",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/04/20/anthropic-takes-5b-from-amazon-and-pledges-100b-in-cloud-spending-in-return/",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "anthropic",
+        "aws",
+        "trainium",
+        "graviton",
+        "compute"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "Meta fecha acordo histórico com AWS para milhões de chips Graviton — CPU para AI agents",
+      "summary": "TechCrunch reporta que Meta vai usar dezenas de milhões de cores Graviton para workloads CPU-intensivos de agentic AI: real-time reasoning, code generation, search e orquestração multi-step. Movimento confirma o pivô da arquitetura: depois do treino em GPU, agentes rodam em CPU otimizada.",
+      "why_it_matters": "ARM no datacenter para AI agents virou commodity — quem desenha plataforma de inferência precisa modelar custo Graviton vs x86 vs GPU para cada perfil de carga.",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/04/24/in-another-wild-turn-for-ai-chips-meta-signs-deal-for-millions-of-amazon-ai-cpus/",
+      "published_at": "2026-04-24T13:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "meta",
+        "aws",
+        "graviton",
+        "ai-agents",
+        "arm"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "Cloudflare publica novo padrão de erros 5xx: JSON estruturado RFC 9457 + Markdown com Retry-After",
+      "summary": "Core platform da Cloudflare passa a responder erros 5xx gerados internamente em JSON estruturado (RFC 9457 — Problem Details for HTTP APIs) ou Markdown, e adiciona Retry-After em códigos retryáveis. Padronização melhora tooling de SRE e clientes que precisam diferenciar transient vs permanent.",
+      "why_it_matters": "Edge platforms começam a falar RFC 9457 — clients e gateways internos devem adotar Problem Details para tratamento uniforme de falhas.",
+      "source": "Cloudflare Release Notes",
+      "url": "https://developers.cloudflare.com/fundamentals/reference/release-notes/",
+      "published_at": "2026-04-27T11:00:00-03:00",
+      "read_time": 2,
+      "tags": [
+        "cloudflare",
+        "http-errors",
+        "rfc-9457",
+        "edge"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=developers.cloudflare.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Amazon Bedrock AgentCore ganha CLI, managed harness e skills para coding assistants",
+      "summary": "Managed harness define agente por modelo + system prompt + tools sem código de orquestração; quando precisar de controle total, exporta para Strands. AgentCore CLI deploya com governança de IaC (AWS CDK hoje, Terraform em breve), em 14 regiões, sem custo adicional. Quality evaluations e policy controls no mesmo release.",
+      "why_it_matters": "Time pode prototipar agente de produção em horas com guardrails nativos — diminui distância entre POC e deploy auditável em scale.",
+      "source": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/amazon-bedrock-agentcore-adds-quality-evaluations-and-policy-controls-for-deploying-trusted-ai-agents/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "bedrock",
+        "agentcore",
+        "agents",
+        "iac"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "MCP Dev Summit NA reúne 1.200 — protocolo cresce para 10K+ servers e 97M downloads/mês",
+      "summary": "Cúpula em NY consolidou MCP como protocolo de fato para agents. Métricas: 10.000+ public MCP servers ativos, 97 milhões de downloads mensais de SDK Python+TypeScript. Roadmap 2026 prioriza transport scalability, agent-to-agent communication, governance maturation e enterprise readiness — stateless HTTP transport variant em revisão.",
+      "why_it_matters": "MCP saiu da fase experimental — arquitetos devem padronizar integrações de agentes via MCP em vez de orquestrações ad-hoc.",
+      "source": "The New Stack",
+      "url": "https://thenewstack.io/model-context-protocol-roadmap-2026/",
+      "published_at": "2026-04-23T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "mcp",
+        "agents",
+        "anthropic",
+        "protocol"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Anthropic abre escritório em Sydney e nomeia Theo Hourmouzis GM Austrália/NZ",
+      "summary": "Movimento marca expansão regional para APAC pós run-rate de US$ 30 bi. Hourmouzis assume operação local com foco em enterprise e parcerias estratégicas. Ele vinha liderando go-to-market em mercados asiáticos.",
+      "why_it_matters": "Presença local da Anthropic na APAC reduz fricção contratual e de compliance para empresas regionais que precisavam de SLA na linha do tempo certa.",
+      "source": "Anthropic News",
+      "url": "https://www.anthropic.com/news/anthropic-amazon-compute",
+      "published_at": "2026-04-27T10:00:00-03:00",
+      "read_time": 2,
+      "tags": [
+        "anthropic",
+        "apac",
+        "gtm"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "headline": "GitHub Copilot cloud agent inicia 20% mais rápido com custom Actions images",
+      "summary": "Pré-build do ambiente do agent em imagem Actions custom reduz overhead de startup em 20%+ — ganho real em CI agentes long-running. Em paralelo, GitHub anuncia novo formato para installation tokens (ghs_APPID_JWT, ~520 chars) com rollout em fases a partir de 27/04.",
+      "why_it_matters": "Coding agents on-demand exigem cold-start curto — custom images são a peça que faltava para SLAs de PR review automatizado.",
+      "source": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
+      "published_at": "2026-04-27T14:00:00-03:00",
+      "read_time": 2,
+      "tags": [
+        "github",
+        "copilot",
+        "actions",
+        "ci"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "headline": "GitHub muda formato de installation tokens (ghs_APPID_JWT) — rollout em fases desde 27/04",
+      "summary": "Tokens de instalação de GitHub Apps passam para ghs_APPID_JWT (~520 chars). Mudança melhora performance e consistência de API. Aplicações que validam comprimento ou regex de token precisam ser ajustadas — código robusto deve aceitar até 700 chars.",
+      "why_it_matters": "Quem assinou rate-limits ou cofres de segredos por padrão fixo de token vai quebrar — auditem agora antes do rollout completo.",
+      "source": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "read_time": 2,
+      "tags": [
+        "github",
+        "tokens",
+        "github-apps",
+        "breaking"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": true,
+      "headline": "AWS engineer alerta: PostgreSQL roda metade do throughput em Linux 7.0 (Graviton4)",
+      "summary": "Linux 7.0 entrega ~0,51× do throughput PostgreSQL em Graviton4 — engenheiro AWS rastreou regressão a mudança nos modos de preemption do kernel. User-space spinlocks ficam dominando CPU. Fix não é simples e thread já dominou HN front-page.",
+      "why_it_matters": "Plataformas com Postgres em ARM precisam pinar kernel ≤ 6.x até patch — capacity planning sensível em SLAs de transações.",
+      "source": "Phoronix",
+      "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
+      "published_at": "2026-04-27T17:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "postgresql",
+        "linux-kernel",
+        "graviton",
+        "performance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "headline": "Databricks Runtime 18.2 entra em Beta com Apache Spark 4.1 e ai_parse_document GA",
+      "summary": "Runtime 18.2 (e 18.2 ML) Beta sobre Spark 4.1.0. Funções ai_parse_document agora GA + ai_prep_search Beta tornam pipelines RAG quase triviais em SQL. Unity REST API aceita writes em external/managed Delta tables; query-based connectors em Public Preview (Oracle, Teradata, SQL Server, MySQL, Postgres).",
+      "why_it_matters": "RAG em SQL muda a economia de pipelines de IA — equipes de dados ganham produtividade sem mover dado para fora do lakehouse.",
+      "source": "Databricks Release Notes",
+      "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
+      "published_at": "2026-04-26T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "databricks",
+        "spark",
+        "rag",
+        "lakehouse"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=docs.databricks.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "headline": "Grafana 13 traz Loki repaginado (ingestão Kafka), AI Observability e dashboards dinâmicos GA",
+      "summary": "Lançado em GrafanaCON 2026, Grafana 13 marca evolução de Loki: ingestão lastreada em Kafka para pipelines eficientes, query engine redesenhado para cargas analíticas grandes e planner com execução paralela em partições. AI Observability em Grafana Cloud + Grafana Assistant expandido + agent-aware CLI miram o 'AI blind spot'.",
+      "why_it_matters": "Observabilidade de agentes precisa de query engine analítico — Loki repaginado fecha o gap entre logs operacionais e investigação de cadeia de agentes.",
+      "source": "Grafana Press",
+      "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
+      "published_at": "2026-04-21T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "grafana",
+        "loki",
+        "ai-observability",
+        "grafanacon"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sistemas Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "headline": "Bluesky publica post-mortem de outage de 8h: cascata de goroutines, memcached e ports efêmeras",
+      "summary": "GetPostRecords sem group.SetLimit(50) lançava 15-20K goroutines por request. Connection storm contra memcached na porta 11211 + reuso de TIME_WAIT levaram a port exhaustion. Logging síncrono via write(2) explodiu threads do runtime Go; GC stop-the-world parou requests. Fix temporário: dialer custom com loopback IP aleatório.",
+      "why_it_matters": "Bounded concurrency, structured logging e gestão de TIME_WAIT são fundamentos — uma única função sem limite derrubou metade da plataforma por 8 horas.",
+      "source": "pckt blog (Jim Calabro)",
+      "url": "https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2",
+      "published_at": "2026-04-10T15:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "bluesky",
+        "post-mortem",
+        "go",
+        "memcached",
+        "port-exhaustion"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=pckt.blog&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "headline": "Visa expande parceria com Bridge (Stripe) para cartões com lastro em stablecoin em 100+ países",
+      "summary": "Anúncio formaliza expansão do programa de cartões com lastro em stablecoin para 100+ países, começando por Argentina, Colômbia e México. Visa, Mastercard e Stripe convergem em uma narrativa: agentic commerce + stablecoins + AI passam a definir o próximo ciclo de pagamentos.",
+      "why_it_matters": "Fintech BR que opera fora do Brasil deve estudar a integração com Visa Intelligent Commerce e Mastercard Agent Pay — agentes vão fazer checkout no nome do cliente.",
+      "source": "Fortune",
+      "url": "https://fortune.com/2026/03/03/visa-stripe-bridge-stablecoin-backed-cards-100-countries/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "visa",
+        "bridge",
+        "stripe",
+        "stablecoin",
+        "agentic-commerce"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=fortune.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "headline": "GPT-5.5 e GPT-5.5 Pro chegam à API: rebuild da arquitetura, foco em coding agentic e computer use",
+      "summary": "Disponível na API desde 24/04, GPT-5.5 não é incremento de pós-treino — OpenAI rebuildou arquitetura, corpus de pré-treino e objetivos do zero (primeira vez desde GPT-4.5). Foco: coding agentic mais rápido, computer use mais robusto e knowledge work melhor no ChatGPT e Codex.",
+      "why_it_matters": "GPT-5.5 + Claude Opus 4.7 + Gemini 3.1 Pro lançaram em semanas — escolha de modelo virou variável de arquitetura por workload, não vendor-lock.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/introducing-gpt-5-5/",
+      "published_at": "2026-04-23T13:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "openai",
+        "gpt-5.5",
+        "agents",
+        "coding"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "headline": "Next.js 16.2 traz AI-ready create-next-app, browser log forwarding e Agent DevTools experimental",
+      "summary": "Update mira agentic dev: AI-ready create-next-app, browser log forwarding, dev server lock file handling e experimental Agent DevTools. Turbopack ganha Fast Refresh, WASM Workers e Subresource Integrity. Fix backporteado de CVE-2026-27979 (streaming fetch hangs e enforcement de maxPostponedStateSize).",
+      "why_it_matters": "Stack frontend está sendo redesenhado para agentes de coding — adoção precoce reduz fricção em refactors e PR reviews automatizados.",
+      "source": "Next.js Releases",
+      "url": "https://github.com/vercel/next.js/releases",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "nextjs",
+        "turbopack",
+        "agents",
+        "frontend"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "headline": "Wasmtime entra em fase WASI 0.3: async nativo para componentes WASM, debug com gdbstub e wasi:tls",
+      "summary": "Release de 20/04/2026 adiciona suporte experimental ao tipo map<K, V> no component model, suporte inicial à proposta wasi:tls (draft 0.3.0) e flag -g no CLI para debug com gdbstub. WASI 0.3 está em desenvolvimento ativo com async I/O nativo como headline; WASI 1.0 planejado para 2026.",
+      "why_it_matters": "Wasm para microserviços CPU-bound começa a ficar realista — async nativo destrava casos de uso que dependiam de Rust/Go puros.",
+      "source": "Wasmtime Releases",
+      "url": "https://github.com/bytecodealliance/wasmtime/releases",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "wasmtime",
+        "wasm",
+        "wasi",
+        "async",
+        "backend"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "release",
+      "version": "containerd 2.3.0-rc.0",
+      "headline": "containerd 2.3.0-rc.0 lança em 28/04 — primeira release sob nova cadência de 4 meses",
+      "description": "Release candidate publicada hoje sinaliza início da cadência fixa de minor releases a cada 4 meses. Inclui correções e melhorias antes do GA. Primeiro grande marco de previsibilidade do runtime mais usado em K8s e Docker.",
+      "why_it_matters": "Cadência fixa permite alinhar janelas de manutenção e CVE patching com clareza — equipes de plataforma ganham previsibilidade de upgrade.",
+      "source": "containerd Releases",
+      "url": "https://github.com/containerd/containerd/releases",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "tags": [
+        "containerd",
+        "release",
+        "cncf"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "news",
+      "headline": "Kubernetes 1.33 entra em maintenance mode em 28/04/2026; 1.36 chegou em 22/04",
+      "description": "1.33 passa para maintenance mode hoje (EOL em 28/06/2026) — apenas correções críticas a partir de agora. Em paralelo, 1.36 (release de 22/04) vem repleta de enhancements e remoções/deprecations: revise upgrade path antes de novos clusters.",
+      "why_it_matters": "Pin no 1.33 deixa de ser opção segura — comece migração para 1.34+ esta semana ou aceite EOL em 60 dias.",
+      "source": "Kubernetes Patch Releases",
+      "url": "https://kubernetes.io/releases/patch-releases/",
+      "published_at": "2026-04-28T00:00:00-03:00",
+      "tags": [
+        "kubernetes",
+        "eol",
+        "maintenance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform",
+      "icon": "🛠️",
+      "kind": "release",
+      "version": "OpenTofu 1.12 beta",
+      "headline": "OpenTofu 1.12.0 entra em beta: dynamic prevent_destroy, import por resource identity e checksum melhorado",
+      "description": "Primeiro beta da 1.12 traz aprimoramentos em apply/init/import/test, segurança contra TLS servers maliciosos e tar archives crafted. Fork divergiu em 2025-2026 com state encryption nativo e provider-defined functions ausentes no Terraform.",
+      "why_it_matters": "Quem ainda está em Terraform deve testar OpenTofu 1.12 — features de segurança native fecham gap de licenciamento BSL.",
+      "source": "OpenTofu Releases",
+      "url": "https://github.com/opentofu/opentofu/releases",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "tags": [
+        "opentofu",
+        "terraform",
+        "iac",
+        "beta"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=opentofu.org&sz=256"
+    },
+    {
+      "tool_key": "databricks",
+      "name": "Databricks",
+      "icon": "🧱",
+      "kind": "release",
+      "version": "Runtime 18.2 Beta",
+      "headline": "Databricks Runtime 18.2 Beta sobre Apache Spark 4.1.0 + ai_parse_document GA",
+      "description": "Runtime 18.2 e 18.2 ML em Beta. ai_parse_document agora GA, ai_prep_search em Beta — RAG quase trivial em SQL. Unity REST API permite write em external Delta tables; query-based connectors em Preview cobrem Oracle/Teradata/SQL Server/MySQL/Postgres.",
+      "why_it_matters": "Pipelines RAG diretamente em SQL no lakehouse — equipes de dados deixam de precisar de pipeline ML separado.",
+      "source": "Databricks Release Notes",
+      "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
+      "published_at": "2026-04-26T10:00:00-03:00",
+      "tags": [
+        "databricks",
+        "spark",
+        "rag",
+        "lakehouse"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "headline": "GitHub Copilot cloud agent: 20% mais rápido + novo formato de installation tokens",
+      "description": "Custom Actions images pré-buildadas reduzem cold-start do agente em 20%. Em paralelo, ghs_APPID_JWT (~520 chars) em rollout desde 27/04 — código que valida regex/comprimento de token precisa ser revisado.",
+      "why_it_matters": "Coding agents on-demand viáveis para PR review — e qualquer cofre de segredos com regex fixa de token deve ser auditado.",
+      "source": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
+      "published_at": "2026-04-27T14:00:00-03:00",
+      "tags": [
+        "github",
+        "copilot",
+        "actions"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🍃",
+      "kind": "release",
+      "version": "4.1.0-RC1",
+      "headline": "Spring Boot 4.1.0-RC1 publicado em 23/04 — caminho para GA aberto",
+      "description": "Release candidate da próxima minor da linha 4.x. Integra Spring for Apache Kafka 4.1.0-RC1 + 4.0.5 e Spring Security/OAuth atualizados. JDK 17/21/25 LTS suportados.",
+      "why_it_matters": "Equipes Spring Boot 4.0 devem começar testes de regressão com RC1 antes do GA — janela boa para identificar quebras em starters customizados.",
+      "source": "Spring Blog",
+      "url": "https://spring.io/blog/2026/04/22/spring-kafka-4",
+      "published_at": "2026-04-23T10:00:00-03:00",
+      "tags": [
+        "spring-boot",
+        "rc",
+        "java",
+        "release"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256"
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🎯",
+      "kind": "news",
+      "headline": "Claude Code: 30+ releases em cinco semanas, Ultraplan em early preview e Opus 4.7 com xhigh effort",
+      "description": "Mês mais ativo da história do Claude Code: /resume em sessões grandes ~67% mais rápido (40MB+), MCP startup acelerado com múltiplos stdio servers, scrolling melhor no terminal, inline thinking progress. Opus 4.7 ganha xhigh entre high e max via /effort. Ultraplan permite draft de plano na cloud e edição web.",
+      "why_it_matters": "Coding agents agora são parte real do workflow — performance de sessão grande virou requisito tão crítico quanto qualidade do modelo.",
+      "source": "Claude Code Docs",
+      "url": "https://code.claude.com/docs/en/whats-new",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "tags": [
+        "claude-code",
+        "agents",
+        "ide"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=claude.com&sz=256"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🎯",
+      "kind": "release",
+      "version": "9.5.5",
+      "headline": "Argo CD Helm chart 9.5.5 traz repoServer.copyutil.extraArgs com --update=none default",
+      "description": "Patch da chart oficial 9.5.5 inclui pequenas correções e a opção repoServer.copyutil.extraArgs com '--update=none' para sobrescrever comportamento default. Manutenção contínua na linha 9.5.x.",
+      "why_it_matters": "Times de plataforma podem isolar comportamento de copyutil sem fork da chart — ganho de governança em GitOps multi-cluster.",
+      "source": "argo-helm Releases",
+      "url": "https://github.com/argoproj/argo-helm/releases",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "tags": [
+        "argocd",
+        "helm",
+        "gitops"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "news",
+      "headline": "PostgreSQL com throughput pela metade no Linux 7.0 em Graviton4 — fix complexo",
+      "description": "AWS engineer reporta regressão crítica: ~0,51× throughput em PostgreSQL no kernel Linux 7.0 vs versões anteriores em Graviton4. Causa raiz é a mudança nos modos de preemption restritivos do 7.0; user-space spinlocks dominam CPU. Discussão na front-page do HN.",
+      "why_it_matters": "Pin do kernel ≤6.x em fleets de Postgres ARM até confirmação de patch — variação de 50% afeta SLAs e capacity.",
+      "source": "Phoronix",
+      "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
+      "published_at": "2026-04-27T17:00:00-03:00",
+      "tags": [
+        "postgresql",
+        "linux",
+        "graviton",
+        "performance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "tutorial",
+      "headline": "Pydantic v2.12 ganha suporte inicial a Python 3.14 com PEP 649/749 (lazy type evaluation)",
+      "description": "Pydantic v2.12 incorpora suporte a Python 3.14 — PEP 649 e PEP 749 introduzem semântica nova de annotations (lazy evaluation), removendo necessidade de string annotations. pydantic_core 2.46.3 publicado em 20/04 com uv 0.11.7. Pydantic V1 não funciona em 3.14+.",
+      "why_it_matters": "Migração para 3.14 exige planejamento — código que usa Pydantic V1 em runtime crítico precisa ser refatorado antes do upgrade.",
+      "source": "Pydantic",
+      "url": "https://pydantic.dev/articles/pydantic-v2-12-release",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "tags": [
+        "pydantic",
+        "python-3.14",
+        "type-hints"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=pydantic.dev&sz=256"
+    },
+    {
+      "tool_key": "structurizr",
+      "name": "Structurizr",
+      "icon": "🏛️",
+      "kind": "tutorial",
+      "headline": "Diagramas-as-código com Structurizr DSL: do C4 model ao MCP server",
+      "description": "Conteúdo evergreen recomendado: integração nativa de Structurizr com C4 Model + DSL textual permite versionar arquitetura no Git e expor via MCP server para agentes consultarem. Modelo único para web, Mermaid, PlantUML e Lucidchart.",
+      "why_it_matters": "Arquitetura como código integrada a agentes via MCP é o próximo passo — Structurizr DSL torna ADRs e diagramas auditáveis em PRs.",
+      "source": "Structurizr",
+      "url": "https://structurizr.com/help/dsl",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": [
+        "structurizr",
+        "c4",
+        "dsl",
+        "mcp"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=structurizr.com&sz=256"
+    }
+  ],
+  "quotes": [
+    {
+      "text": "The major difference between a thing that might go wrong and a thing that cannot possibly go wrong is that when a thing that cannot possibly go wrong goes wrong, it usually turns out to be impossible to get at or repair.",
+      "author": "Douglas Adams",
+      "context": "Cascata de falhas e bounded concurrency — caso Bluesky 2026",
+      "related_to": "cat:distarch"
+    },
+    {
+      "text": "Security is a process, not a product.",
+      "author": "Bruce Schneier",
+      "context": "Lapsus$ supply chain campaign visando ferramentas DevSecOps",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "Observability is a property of a system that allows you to ask new questions about it without shipping new code.",
+      "author": "Charity Majors",
+      "context": "Grafana 13 + Loki Kafka-backed + AI Observability",
+      "related_to": "cat:obs"
+    },
+    {
+      "text": "The most important property of a program is whether it accomplishes the intention of its user.",
+      "author": "Tony Hoare",
+      "context": "Coding agents acelerando — ainda assim a intenção é o requisito não-negociável",
+      "related_to": "cat:aiops"
+    },
+    {
+      "text": "Premature optimization is the root of all evil, but missed optimization in production code is also a problem.",
+      "author": "Donald Knuth",
+      "context": "PostgreSQL 50% mais lento em Linux 7.0 — performance regressão crítica",
+      "related_to": "tool:postgres"
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Register",
+      "url": "https://www.theregister.com/"
+    },
+    {
+      "name": "Phoronix",
+      "url": "https://www.phoronix.com/"
+    },
+    {
+      "name": "GitHub Blog",
+      "url": "https://github.blog/"
+    },
+    {
+      "name": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/"
+    },
+    {
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/"
+    },
+    {
+      "name": "The Hacker News",
+      "url": "https://thehackernews.com/"
+    },
+    {
+      "name": "Keycloak Blog",
+      "url": "https://www.keycloak.org/blog"
+    },
+    {
+      "name": "Grafana Labs",
+      "url": "https://grafana.com/blog/"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog"
+    },
+    {
+      "name": "Anthropic News",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "OpenAI",
+      "url": "https://openai.com/news/"
+    },
+    {
+      "name": "The New Stack",
+      "url": "https://thenewstack.io/"
+    },
+    {
+      "name": "Cloudflare",
+      "url": "https://blog.cloudflare.com/"
+    },
+    {
+      "name": "Databricks",
+      "url": "https://docs.databricks.com/"
+    }
+  ],
+  "videos": [
+    {
+      "id": "oDXDYjksMds",
+      "url": "https://www.youtube.com/watch?v=oDXDYjksMds",
+      "title": "A HISTÓRIA NÃO CONTADA DO COLAPSO DA ENGENHARIA DE SOFTWARE",
+      "channel": "Renato Augusto",
+      "channel_avatar": "https://yt3.ggpht.com/F-zRp2IoHmSd3-rBwsGeVyDx4hGtzez424c4omj58irEAXn6eho5OzGJ818Bpb5VuM0Ibw7-lA=s88-c-k-c0x00ffffff-no-rj",
+      "published_at": "2025-04-21",
+      "duration": "29 min"
+    },
+    {
+      "id": "2wKoe5fQbrs",
+      "url": "https://www.youtube.com/watch?v=2wKoe5fQbrs",
+      "title": "Claude Design; Vazamentos na Vercel e Lovable; Novo CEO da Apple; TypeScript 7.0 Beta #243",
+      "channel": "Compilado do Código Fonte TV",
+      "channel_avatar": "https://yt3.ggpht.com/jHm1PmUU5YlUtczwAYrJD_1fFKGo7AYIyGo93yMvEf4gEJ8b28YDuzDABVqDYgeQTqxxAVqq3Q=s88-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-26",
+      "duration": "1h 21 min"
+    },
+    {
+      "id": "z_NbVtbgBJw",
+      "url": "https://www.youtube.com/watch?v=z_NbVtbgBJw",
+      "title": "What Is Redis Really About? Why Is It So Popular?",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.ggpht.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s88-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-02-18",
+      "duration": "9 min"
+    }
+  ]
+}

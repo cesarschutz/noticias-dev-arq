@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CSR News — Arquitetura, plataformas e IA para quem constrói software sério">
+<title>CSR News</title>
+<style>
+/* ===== THEME TOKENS ===== */
+:root {
+  color-scheme: light;
+  --bg: #f5f5f7;
+  --bg-alt: #ffffff;
+  --surface: #ffffff;
+  --surface-el: #f5f5f7;
+  --surface-card: #ffffff;
+  --nav-bg: rgba(255,255,255,0.82);
+  --text: #1d1d1f;
+  --text-2: rgba(0,0,0,0.56);
+  --text-3: rgba(0,0,0,0.36);
+  --border: rgba(0,0,0,0.08);
+  --accent: #0071e3;
+  --accent-h: #0077ed;
+  --link: #0066cc;
+  --shadow: rgba(0,0,0,0.22) 3px 5px 30px 0px;
+  --shadow-s: rgba(0,0,0,0.08) 0 2px 8px 0;
+  --sw: 240px;
+  --rw: 300px;
+  --nh: 48px;
+  --r: 8px;
+  --rl: 12px;
+  --rp: 980px;
+  --tr: 0.18s ease;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #000000; --bg-alt: #000000;
+    --surface: #1c1c1e; --surface-el: #2a2a2d; --surface-card: #272729;
+    --nav-bg: rgba(0,0,0,0.72);
+    --text: #f5f5f7; --text-2: rgba(255,255,255,0.56); --text-3: rgba(255,255,255,0.36);
+    --border: rgba(255,255,255,0.08);
+    --accent: #2997ff; --accent-h: #409cff; --link: #2997ff;
+    --shadow: rgba(0,0,0,0.5) 3px 5px 30px 0px; --shadow-s: rgba(0,0,0,0.3) 0 2px 8px 0;
+  }
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000; --bg-alt: #000000;
+  --surface: #1c1c1e; --surface-el: #2a2a2d; --surface-card: #272729;
+  --nav-bg: rgba(0,0,0,0.72);
+  --text: #f5f5f7; --text-2: rgba(255,255,255,0.56); --text-3: rgba(255,255,255,0.36);
+  --border: rgba(255,255,255,0.08);
+  --accent: #2997ff; --accent-h: #409cff; --link: #2997ff;
+  --shadow: rgba(0,0,0,0.5) 3px 5px 30px 0px; --shadow-s: rgba(0,0,0,0.3) 0 2px 8px 0;
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f5f7; --bg-alt: #ffffff;
+  --surface: #ffffff; --surface-el: #f5f5f7; --surface-card: #ffffff;
+  --nav-bg: rgba(255,255,255,0.82);
+  --text: #1d1d1f; --text-2: rgba(0,0,0,0.56); --text-3: rgba(0,0,0,0.36);
+  --border: rgba(0,0,0,0.08);
+  --accent: #0071e3; --accent-h: #0077ed; --link: #0066cc;
+  --shadow: rgba(0,0,0,0.22) 3px 5px 30px 0px; --shadow-s: rgba(0,0,0,0.08) 0 2px 8px 0;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:-apple-system,"SF Pro Text","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;letter-spacing:-0.374px;font-size:17px;transition:background var(--tr),color var(--tr)}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit}
+ul,ol{list-style:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ===== NAV ===== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nh);
+  background:var(--nav-bg);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:12px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:700;letter-spacing:-0.3px;color:var(--text);cursor:pointer;
+  flex-shrink:0;
+}
+.nav-logo-img{height:22px;width:auto}
+.nav-links{display:flex;gap:2px;flex:1;justify-content:center}
+.nav-link{
+  font-size:12px;font-weight:400;letter-spacing:-0.12px;
+  padding:5px 12px;border-radius:var(--rp);color:var(--text);
+  transition:background var(--tr);cursor:pointer;
+}
+.nav-link:hover{background:var(--border)}
+.nav-link.active{background:var(--surface-el);font-weight:600}
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.btn-theme{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--surface-el);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:background var(--tr);
+}
+.btn-theme:hover{background:var(--border)}
+.hamburger{
+  display:none;font-size:18px;padding:6px 8px;border-radius:var(--r);
+  align-items:center;justify-content:center;color:var(--text);
+}
+
+/* ===== APP LAYOUT ===== */
+.app-body{padding-top:var(--nh);min-height:100vh;background:var(--bg)}
+.app-layout{
+  display:grid;
+  grid-template-columns:var(--sw) 1fr var(--rw);
+  max-width:1500px;margin:0 auto;
+  min-height:calc(100vh - var(--nh));
+}
+
+/* ===== SIDEBARS ===== */
+.sidebar{
+  position:sticky;top:var(--nh);
+  height:calc(100vh - var(--nh));
+  overflow-y:auto;overflow-x:hidden;
+}
+.sidebar-left{
+  border-right:1px solid var(--border);
+  padding:16px 0 60px;
+  background:var(--bg);
+}
+.sidebar-right{
+  border-left:1px solid var(--border);
+  padding:16px 14px 60px;
+  background:var(--bg);
+}
+
+/* Sidebar sections */
+.sb-section{margin-bottom:4px}
+.sb-section-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px 6px;cursor:pointer;
+  font-size:10px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+  color:var(--text-3);
+}
+.sb-section-hdr:hover{color:var(--text-2)}
+.sb-toggle{font-size:9px;transition:transform 0.2s;display:inline-block}
+.sb-section.collapsed .sb-toggle{transform:rotate(-90deg)}
+.sb-section.collapsed .sb-items{display:none}
+
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 14px 7px 12px;cursor:pointer;
+  margin:1px 6px;border-radius:var(--r);
+  transition:background var(--tr);
+  font-size:13px;letter-spacing:-0.2px;color:var(--text);
+  border-left:3px solid transparent;
+  position:relative;
+}
+.sb-item:hover{background:var(--surface-el)}
+.sb-item.active{
+  border-left-color:var(--ic,var(--accent));
+  background:color-mix(in srgb,var(--ic,var(--accent)) 10%,var(--surface));
+  font-weight:500;
+}
+.sb-icon{
+  width:26px;height:26px;border-radius:7px;
+  background:color-mix(in srgb,var(--ic,var(--accent)) 15%,transparent);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:13px;overflow:hidden;
+}
+.sb-icon img{width:16px;height:16px;object-fit:contain;display:block}
+.sb-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-count{
+  font-size:11px;letter-spacing:0;color:var(--text-3);
+  background:var(--surface-el);border-radius:var(--rp);
+  padding:1px 6px;min-width:18px;text-align:center;flex-shrink:0;
+}
+
+/* ===== CONTENT ===== */
+.content-main{min-height:calc(100vh - var(--nh));background:var(--bg)}
+.c-pad{padding:32px 40px 60px}
+.c-pad-home{padding:0}
+
+/* ===== BUTTONS ===== */
+.btn-p{
+  display:inline-flex;align-items:center;
+  background:var(--accent);color:#fff;
+  padding:10px 22px;border-radius:var(--r);font-size:17px;font-weight:400;
+  letter-spacing:-0.374px;transition:background var(--tr),transform 0.1s;cursor:pointer;
+}
+.btn-p:hover{background:var(--accent-h);text-decoration:none;color:#fff}
+.btn-p:active{transform:scale(0.98)}
+.btn-o{
+  display:inline-flex;align-items:center;
+  border:1px solid rgba(0,0,0,0.2);color:var(--text);
+  padding:10px 22px;border-radius:var(--rp);font-size:17px;font-weight:400;
+  letter-spacing:-0.374px;transition:all var(--tr);cursor:pointer;
+}
+[data-theme="dark"] .btn-o{border-color:rgba(255,255,255,0.2)}
+.btn-o:hover{border-color:var(--accent);color:var(--accent);text-decoration:none;background:color-mix(in srgb,var(--accent) 6%,transparent)}
+
+/* ===== HOME ===== */
+.home-hero{
+  min-height:calc(100vh - var(--nh));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg-alt);text-align:center;
+  padding:60px 32px 40px;
+  position:relative;overflow:hidden;
+}
+[data-theme="dark"] .home-hero,[data-theme="auto"] .home-hero{}
+.home-mascot{width:min(200px,30vw);margin-bottom:24px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.15))}
+.home-title{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:clamp(52px,7vw,88px);font-weight:600;line-height:1.07;letter-spacing:-0.03em;
+  margin-bottom:14px;color:var(--text);
+}
+.home-sub{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:clamp(17px,2.2vw,24px);font-weight:300;color:var(--text-2);
+  letter-spacing:normal;line-height:1.4;max-width:540px;margin-bottom:36px;
+}
+.home-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:56px}
+.home-section{width:100%;max-width:900px;margin:0 auto;padding:0 0 48px;text-align:left}
+.home-sect-title{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:26px;font-weight:600;letter-spacing:0.2px;line-height:1.14;
+  margin-bottom:18px;color:var(--text);
+}
+.editions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.edition-card{
+  background:var(--surface);border-radius:var(--rl);
+  padding:22px;cursor:pointer;
+  box-shadow:var(--shadow-s);
+  transition:box-shadow var(--tr),transform 0.15s;
+  border:1px solid var(--border);
+}
+.edition-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.edition-card-date{font-size:11px;color:var(--text-3);letter-spacing:0.3px;margin-bottom:8px;font-weight:700;text-transform:uppercase}
+.edition-card-title{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:16px;font-weight:600;letter-spacing:-0.3px;line-height:1.35;
+  margin-bottom:10px;color:var(--text);
+}
+.edition-card-meta{margin-top:12px;display:flex;gap:6px;flex-wrap:wrap}
+.meta-chip{font-size:11px;padding:2px 8px;border-radius:var(--rp);background:var(--surface-el);color:var(--text-2)}
+
+/* ===== SECTION TITLES ===== */
+.sect-title{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:22px;font-weight:600;letter-spacing:0.1px;line-height:1.2;
+  margin-bottom:14px;margin-top:36px;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+}
+.sect-count{font-size:12px;font-weight:400;color:var(--text-3)}
+
+/* ===== DAY VIEW ===== */
+.day-header{margin-bottom:28px;padding:28px 40px 0}
+.day-breadcrumb{font-size:11px;color:var(--text-3);letter-spacing:0.3px;margin-bottom:6px;font-weight:600;text-transform:uppercase}
+.day-date{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:38px;font-weight:600;line-height:1.1;letter-spacing:-0.5px;
+  margin-bottom:6px;color:var(--text);
+}
+.day-meta{font-size:13px;color:var(--text-3);letter-spacing:-0.2px;margin-bottom:20px}
+.day-hero-title{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:28px;font-weight:600;line-height:1.15;letter-spacing:-0.3px;
+  margin-bottom:10px;color:var(--text);
+}
+.day-hero-desc{
+  font-size:16px;color:var(--text-2);letter-spacing:-0.3px;line-height:1.65;
+  max-width:720px;
+}
+.day-content{padding:0 40px 60px}
+
+/* ===== HIGHLIGHTS ===== */
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.hl-card{
+  background:var(--surface);border-radius:var(--rl);
+  padding:18px;cursor:pointer;
+  box-shadow:var(--shadow-s);
+  border:1px solid var(--border);
+  transition:box-shadow var(--tr),transform 0.15s;
+  display:flex;flex-direction:column;gap:10px;
+}
+.hl-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.hl-card-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hl-favicon{width:28px;height:28px;border-radius:7px;object-fit:contain;background:var(--surface-el);flex-shrink:0}
+.cat-chip{
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--rp);
+  white-space:nowrap;color:#fff;background:var(--cc,var(--accent));
+  letter-spacing:0.2px;
+}
+.hl-title{font-size:15px;font-weight:600;letter-spacing:-0.3px;line-height:1.35;color:var(--text)}
+.hl-summary{font-size:13px;color:var(--text-2);letter-spacing:-0.2px;line-height:1.55}
+.hl-footer{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3)}
+
+/* ===== CATEGORY GROUP ===== */
+.cat-group{margin-bottom:36px}
+.cat-group-hdr{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;margin-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.cg-icon{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+  background:color-mix(in srgb,var(--cc,var(--accent)) 15%,transparent);
+}
+.cg-name{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:22px;font-weight:600;letter-spacing:0px;line-height:1.2;
+  color:var(--text);cursor:pointer;
+}
+.cg-name:hover{color:var(--accent)}
+.cg-count{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* ===== NEWS CARD ===== */
+.news-card{
+  background:var(--surface);border-radius:var(--r);
+  padding:18px 18px 14px;margin-bottom:10px;
+  border:1px solid var(--border);
+  border-left:4px solid var(--lc,var(--border));
+  transition:box-shadow var(--tr);
+}
+.news-card:hover{box-shadow:var(--shadow-s)}
+.news-card.urgent{border-left-color:#FF453A}
+.nc-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.nc-title{font-size:16px;font-weight:600;letter-spacing:-0.3px;line-height:1.35;color:var(--text)}
+.nc-title a{color:var(--text)}
+.nc-title a:hover{color:var(--link);text-decoration:none}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--rp);white-space:nowrap;flex-shrink:0}
+.badge-u{background:#FF453A;color:#fff}
+.badge-r{background:var(--accent);color:#fff}
+.nc-summary{font-size:14px;color:var(--text-2);line-height:1.55;margin-bottom:8px}
+.nc-why{
+  font-size:13px;color:var(--text-2);
+  padding:9px 12px;border-radius:6px;
+  background:var(--surface-el);margin-bottom:8px;
+  border-left:3px solid var(--accent);
+}
+.nc-why-lbl{font-size:10px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.nc-footer{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:12px;color:var(--text-3)}
+.nc-source{font-weight:500;color:var(--text-2)}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 7px;border-radius:var(--rp);background:var(--surface-el);color:var(--text-2)}
+
+/* ===== TOOLS GRID ===== */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.tool-card{
+  background:var(--surface);border-radius:var(--r);
+  padding:14px 16px;border:1px solid var(--border);
+  display:flex;gap:12px;align-items:flex-start;
+  transition:box-shadow var(--tr);cursor:pointer;
+}
+.tool-card:hover{box-shadow:var(--shadow-s)}
+.tc-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;overflow:hidden;
+  background:color-mix(in srgb,var(--tc,var(--accent)) 15%,transparent);
+}
+.tc-icon img{width:22px;height:22px;object-fit:contain;display:block}
+.tc-body{flex:1;min-width:0}
+.tc-name{font-size:13px;font-weight:600;letter-spacing:-0.2px;color:var(--text)}
+.tc-ver{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:3px}
+.tc-hl{font-size:12px;color:var(--text-2);line-height:1.45;letter-spacing:-0.1px}
+
+/* ===== TIMELINE HERO ===== */
+.tl-hero{
+  padding:32px 40px 24px;
+  display:flex;align-items:center;gap:20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:0;
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--tc,var(--accent)) 5%,var(--bg)) 0%,var(--bg) 100%);
+}
+.tl-icon{
+  width:60px;height:60px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;overflow:hidden;
+  background:color-mix(in srgb,var(--tc,var(--accent)) 18%,transparent);
+}
+.tl-icon img{width:36px;height:36px;object-fit:contain;display:block}
+.tl-name{
+  font-family:-apple-system,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.1;color:var(--text);
+}
+.tl-kind{font-size:13px;color:var(--text-3);letter-spacing:-0.2px;margin-top:3px}
+
+/* ===== TIMELINE LIST ===== */
+.tl-list{padding:0 40px 60px}
+.tl-item{
+  display:flex;gap:20px;padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+.tl-date{flex-shrink:0;width:44px;text-align:center;padding-top:2px}
+.tl-day{font-size:22px;font-weight:600;letter-spacing:-0.5px;color:var(--text);line-height:1}
+.tl-mon{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px}
+.tl-content{flex:1;min-width:0}
+.tl-title{font-size:16px;font-weight:600;letter-spacing:-0.3px;line-height:1.35;margin-bottom:6px;color:var(--text)}
+.tl-title a{color:var(--text)}
+.tl-title a:hover{color:var(--link);text-decoration:none}
+.tl-summary{font-size:14px;color:var(--text-2);line-height:1.55;margin-bottom:6px}
+.tl-why{
+  font-size:13px;color:var(--text-2);
+  padding:8px 12px;border-radius:6px;
+  background:var(--surface-el);margin-bottom:6px;
+  border-left:3px solid var(--accent);
+}
+.tl-why-lbl{font-size:10px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.tl-footer{font-size:12px;color:var(--text-3);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+/* ===== CALENDAR ===== */
+.cal-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-month{font-size:13px;font-weight:600;letter-spacing:-0.2px;color:var(--text)}
+.cal-nav{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--text-2);background:var(--surface-el);
+  transition:background var(--tr);
+}
+.cal-nav:hover{background:var(--border)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
+.cal-wd{font-size:9px;font-weight:700;text-align:center;color:var(--text-3);padding:3px 0;letter-spacing:0.3px;text-transform:uppercase}
+.cal-d{
+  aspect-ratio:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  font-size:12px;border-radius:5px;position:relative;
+  color:var(--text-3);
+}
+.cal-d.has{color:var(--text);font-weight:600;cursor:pointer}
+.cal-d.has:hover{background:var(--surface-el)}
+.cal-d.sel{background:var(--accent)!important;color:#fff!important}
+.cal-d.today:not(.sel){outline:1.5px solid var(--accent);border-radius:5px}
+.cal-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);position:absolute;bottom:2px}
+.cal-s-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);margin-bottom:8px}
+
+/* ===== QUOTE ===== */
+.quote-card{
+  background:var(--surface-el);border-radius:var(--rl);
+  padding:18px;margin-top:20px;position:relative;overflow:hidden;
+}
+.quote-wm{
+  position:absolute;top:-16px;left:8px;
+  font-size:72px;line-height:1;color:var(--border);
+  font-family:Georgia,serif;font-weight:700;user-select:none;
+}
+.quote-text{font-size:13px;line-height:1.65;letter-spacing:-0.15px;color:var(--text);margin-bottom:10px;position:relative;z-index:1;font-style:italic}
+.quote-author{font-size:12px;font-weight:600;color:var(--text-2)}
+.quote-ctx{font-size:11px;color:var(--text-3);margin-top:3px;letter-spacing:-0.1px;line-height:1.4}
+.quote-footer{display:flex;justify-content:flex-end;margin-top:10px}
+.btn-nq{
+  font-size:11px;color:var(--accent);padding:3px 10px;border-radius:var(--rp);
+  border:1px solid var(--accent);transition:all var(--tr);
+}
+.btn-nq:hover{background:var(--accent);color:#fff}
+
+/* ===== DAY NAV BUTTONS ===== */
+.day-nav-btns{display:flex;justify-content:space-between;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)}
+.day-nav-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;border-radius:var(--rp);
+  border:1px solid var(--border);font-size:13px;color:var(--link);
+  transition:all var(--tr);
+}
+.day-nav-btn:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{padding:60px 40px;text-align:center}
+.empty-mascot{width:100px;margin:0 auto 20px;opacity:0.6}
+.empty-text{font-size:17px;color:var(--text-2)}
+
+/* ===== OVERLAY FOR MOBILE SIDEBAR ===== */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:150;
+  background:rgba(0,0,0,0.4);backdrop-filter:blur(2px);
+}
+.overlay.on{display:block}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1280px){:root{--rw:270px}}
+@media(max-width:1100px){:root{--sw:210px}}
+@media(max-width:960px){
+  .app-layout{grid-template-columns:1fr}
+  .sidebar-left{
+    display:none;position:fixed;left:0;top:var(--nh);width:280px;z-index:160;
+    background:var(--surface);border-right:1px solid var(--border);
+    height:calc(100vh - var(--nh));border-radius:0 var(--rl) var(--rl) 0;
+    box-shadow:var(--shadow);
+  }
+  .sidebar-left.open{display:flex;flex-direction:column}
+  .sidebar-right{display:none}
+  .hamburger{display:flex}
+  .day-header,.day-content,.tl-list,.tl-hero{padding-left:20px;padding-right:20px}
+  .c-pad{padding:24px 20px 60px}
+}
+@media(max-width:600px){
+  .hl-grid,.tools-grid,.editions-grid{grid-template-columns:1fr}
+  .home-title{font-size:48px}
+  .day-date{font-size:28px}
+  .tl-name{font-size:26px}
+  .tl-item{gap:14px}
+  .tl-date{width:36px}
+  .tl-day{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+  <div class="nav-logo" onclick="nav('/home')">
+    <span>CSR News</span>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <span class="nav-link" onclick="nav('/home')" data-v="home">Início</span>
+    <span class="nav-link" onclick="navLatest()" id="nav-ed">Última edição</span>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()" aria-label="Alternar tema" title="Claro / Escuro">🌓</button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="app-body">
+  <div class="app-layout">
+    <aside class="sidebar sidebar-left" id="sidebar-left">
+      <div id="sb-content"></div>
+    </aside>
+    <main class="content-main" id="main"></main>
+    <aside class="sidebar sidebar-right" id="sidebar-right">
+      <div class="cal-s-title">Calendário</div>
+      <div id="calendar"></div>
+      <div id="quote-area"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+/* ====================================================
+   EMBEDDED DATA
+   ==================================================== */
+const DATA = {"editions":{"last_generated":"2026-04-22T06:00:00-03:00","editions":[{"date":"2026-04-22","summary":"Kubernetes 1.36 chega com 80 KEPs e rootless GA, Vercel sofre breach via OAuth da Context.ai e Grafana 13 reescreve Loki sobre Kafka no GrafanaCON Barcelona.","counts_by_category":{"sec":2,"aiops":4,"ai":2,"devops":2,"obs":2,"cloud":2,"backend":1,"integ":1,"frontend":2,"testing":1,"distarch":1,"enterprise":2,"design":1},"counts_by_tool":{"kubernetes":1,"istio":1,"keycloak":1,"vscode":1,"claudecode":1,"ghactions":1,"databricks":1,"kafka":1,"springboot":1,"docker":1,"terraform":1,"python":1,"javascript":1,"intellij":1,"java":1},"highlights":[{"title":"Kubernetes 1.36 chega hoje com 80 enhancements, rootless GA e remoção do gitRepo","url":"https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/"},{"title":"Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões","url":"https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/"},{"title":"Grafana 13 é lançado no GrafanaCON Barcelona com Loki reescrito sobre Kafka","url":"https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/"}]},{"date":"2026-04-20","summary":"Istio 1.29 promove ambient multicluster a beta, Claude Code ganha Opus 4.7 com 1M tokens e Microsoft publica Patch Tuesday com 163 CVEs incluindo zero-day SharePoint sob exploração ativa.","counts_by_category":{"sec":4,"ai":3,"aiops":4,"cloud":2,"devops":2,"obs":1,"backend":3,"data":2,"integ":1,"frontend":2,"testing":1,"distarch":2,"enterprise":2,"fundamentals":1,"fintech":1,"design":1},"counts_by_tool":{"claudecode":1,"cursor":1,"vscode":1,"intellij":1,"argocd":1,"ghactions":1,"kubernetes":1,"istio":1,"springboot":1,"postgres":1,"databricks":1,"keycloak":1,"docker":1,"java":1},"highlights":[{"title":"Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension","url":"https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/"},{"title":"Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado","url":"https://www.anthropic.com/news/claude-opus-4-7"},{"title":"Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente","url":"https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201"}]}]},"days":{"2026-04-22":{"date":"2026-04-22","weekday":"Quarta-feira","formatted_date":"Quarta, 22 de Abril de 2026","generated_at":"2026-04-22T06:00:00-03:00","hero_title":"Kubernetes 1.36 chega, Vercel sofre breach via OAuth e Grafana 13 reinventa Loki","hero_description":"Dia denso: Kubernetes 1.36 desembarca hoje com 80 KEPs, rootless pods estáveis, adeus a gitRepo e ingress-nginx. Vercel confirma incidente de segurança via OAuth da Context.ai, com ShinyHunters à venda. Grafana 13 é anunciado no GrafanaCON Barcelona com Loki rearquitetado sobre Kafka. HashiCorp Vault Enterprise 2.0 vai GA e Keycloak 26.6 habilita Vault SPI para secrets de clientes. Cobertura forte em distarch, sec e obs; sem sinal relevante em fintech e fundamentals hoje — destaques sexta.","highlights":[{"source_array":"tools","tool_key":"kubernetes","category":"devops","category_label":"DevOps & Plataformas","category_icon":"⚙️","headline":"Kubernetes 1.36 chega hoje com 80 enhancements, rootless GA e remoção do gitRepo","summary":"Release oficial de 22 de abril traz Mutating Admission Policies com CEL, workload-aware preemption para jobs de IA/ML, HPA escalando até zero, pods rootless GA via hostUsers:false, DRA profundamente integrada ao scheduler e external signing de ServiceAccount tokens via KMS (KEP-740). Plugin gitRepo removido (KEP-5040) por risco de RCE como root e externalIPs em Services depreciado (KEP-5707, remoção em v1.43). Ingress-NGINX aposentado desde 24/mar por decisão da SIG-Security.","why_it_matters":"Primeiro release de K8s que força migração fora do ingress-nginx e gitRepo; arquitetos precisam planejar rota para Gateway API e revisar charts de terceiros.","source":"Kubernetes Blog","url":"https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/","published_at":"2026-04-22T09:00:00-03:00","read_time":6,"tags":["kubernetes","gateway-api","rootless","ingress-nginx","release"],"image":"https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"},{"source_array":"news","category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","headline":"Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões","summary":"Detectado em 19 de abril, incidente começou na compromissão da ferramenta Context.ai (OAuth no Google Workspace de um funcionário da Vercel). Atacante assumiu a conta Workspace, acessou ambientes internos e extraiu environment variables marcadas como 'not sensitive' — que incluem, na prática, API keys, tokens, creds de banco e chaves de assinatura usadas como plaintext. Npm packages da Vercel não foram afetados. ShinyHunters anuncia venda dos dados; Vercel recomenda revisar logs e rotacionar qualquer env var 'não sensível' que contenha segredo.","why_it_matters":"Mostra que OAuth apps de terceiros em Google Workspace hoje são um vetor real de supply chain; classificação 'sensitive' de env vars em plataformas gerenciadas vira decisão arquitetural.","source":"The Register","url":"https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/","published_at":"2026-04-20T14:00:00-03:00","read_time":5,"urgent":true,"severity":"high","tags":["vercel","supply-chain","oauth","breach","shinyhunters"],"image":"https://www.google.com/s2/favicons?domain=theregister.com&sz=256"},{"source_array":"tools","tool_key":"kubernetes","category":"obs","category_label":"Observabilidade & SRE","category_icon":"📈","headline":"Grafana 13 é lançado no GrafanaCON Barcelona com Loki reescrito sobre Kafka","summary":"Na manhã de 21 de abril em Barcelona, Grafana Labs anunciou Grafana 13 e uma evolução profunda do Loki: ingestão via Kafka para pipelines duráveis, query engine e scheduler redesenhados e um novo query planner distribuído. Números publicados: até 20× menos dado escaneado e 10× mais performance em queries agregadas. Grafana Alloy ganha distribuição OTel com pipelines Prometheus integradas e caminhos mais simples para OpenTelemetry em Linux e Kubernetes. Sessões de Google e Irish Rail mostram uso em escala planetária e em infra ferroviária legada.","why_it_matters":"Para quem tem log pipelines em escala, Loki com Kafka muda a equação custo/performance e encurta a migração para OTel puro.","source":"Grafana Labs","url":"https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/","published_at":"2026-04-21T07:00:00-03:00","read_time":5,"tags":["grafana","loki","kafka","opentelemetry","observability"],"image":"https://www.google.com/s2/favicons?domain=grafana.com&sz=256"}],"news":[{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":true,"severity":"high","headline":"Vercel confirma breach via OAuth da Context.ai — ShinyHunters vende dados por US$ 2 milhões","summary":"Incidente identificado em 19/abr começou na compromissão de uma OAuth app (Context.ai) no Google Workspace de funcionário Vercel. Atacante extraiu environment variables não classificadas como sensíveis — muitas contendo API keys e creds de banco. Npm packages não afetados; Vercel pede rotação imediata de segredos plaintext.","why_it_matters":"OAuth apps em Workspace viraram vetor de supply chain; classificação de env vars em plataformas PaaS é decisão de arquitetura, não de deploy.","source":"The Register","url":"https://www.theregister.com/2026/04/20/vercel_context_ai_security_incident/","published_at":"2026-04-20T14:00:00-03:00","read_time":5,"tags":["vercel","supply-chain","oauth","shinyhunters","breach"],"image":"https://www.google.com/s2/favicons?domain=theregister.com&sz=256"},{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":false,"headline":"GitGuardian alerta: env vars 'não sensíveis' da Vercel precisam de investigação em paralelo ao breach","summary":"Análise post-incident mostra que o problema não é só a fatia 'sensitive' — muitas equipes usaram variáveis 'não sensíveis' para configuração de endpoints, feature flags e até tokens secundários. GitGuardian recomenda varredura completa, rotação ampla e revisão do modelo de classificação de segredos em plataformas gerenciadas.","why_it_matters":"Recategorização de segredos costuma ser retroativamente difícil; reforça necessidade de secrets manager externo (Vault, AWS Secrets Manager) em vez de env vars diretas.","source":"GitGuardian Blog","url":"https://blog.gitguardian.com/vercel-april-2026-incident-non-sensitive-environment-variables-need-investigation-too/","published_at":"2026-04-21T10:00:00-03:00","read_time":4,"tags":["vercel","secrets","env-vars","gitguardian"],"image":"https://www.google.com/s2/favicons?domain=gitguardian.com&sz=256"},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","urgent":false,"headline":"Anthropic testa restringir Claude Code a planos Max de US$100/mês — reversão parcial em 24h","summary":"Em 21-22/abr, página de pricing da Anthropic moveu Claude Code dos planos Pro ($20/mês) para Max ($100 ou $200). Após backlash, a empresa reverteu a landing page e reafirmou que o teste atingia ~2% dos novos signups 'prosumer', sem afetar assinantes Pro/Max existentes. Simon Willison cobriu a confusão em detalhes.","why_it_matters":"Arquitetos com Claude Code em workflows críticos precisam mapear dependência e custo real antes que um teste A/B vire política permanente.","source":"Simon Willison's Weblog","url":"https://simonwillison.net/2026/Apr/22/claude-code-confusion/","published_at":"2026-04-22T08:00:00-03:00","read_time":4,"tags":["anthropic","claude-code","pricing"],"image":"https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","urgent":false,"headline":"Simon Willison atualiza Claude Token Counter para comparar Opus 4.7 e 4.6 — novo tokenizer inflaciona até 1.46×","summary":"Opus 4.7 é o primeiro modelo Anthropic a mudar o tokenizer; mesma string de entrada pode custar 1.0–1.35× mais tokens dependendo do tipo de conteúdo (e 1.46× em system prompts longos). Ferramenta atualizada permite comparar Opus 4.7, 4.6, Sonnet 4.6 e Haiku 4.5 lado a lado.","why_it_matters":"Preço por token estável em $5/$25 vira preço por requisição ~35% maior na prática; orçamento de LLM precisa de revisão imediata.","source":"Simon Willison's Weblog","url":"https://simonwillison.net/2026/Apr/21/claude-token-counter/","published_at":"2026-04-20T16:00:00-03:00","read_time":3,"tags":["anthropic","tokenizer","llm-ops","cost"],"image":"https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","urgent":false,"headline":"MCP Dev Summit NA reúne 1.200 pessoas e A2A v1.0 sai como padrão de produção","summary":"Em Nova York (2-3/abr), o summit do Model Context Protocol juntou co-founders, maintainers e casos de Amazon e Uber em produção. Semana seguinte, A2A v1.0 foi formalmente publicada. SDKs do MCP atingem 97M de downloads mensais em março (vs 2M no lançamento em nov/24), e análise de segurança aponta 43% dos servidores MCP públicos com ao menos uma vulnerabilidade e 5.5% com descrições poisoned.","why_it_matters":"MCP virou infra de agents em escala; segurança e governança de MCP servers são agora discussão de arquitetura corporativa, não POC.","source":"The New Stack","url":"https://thenewstack.io/model-context-protocol-roadmap-2026/","published_at":"2026-04-21T09:00:00-03:00","read_time":6,"tags":["mcp","agents","a2a","security"],"image":"https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256"},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","urgent":false,"headline":"Anthropic anuncia Managed Agents em public beta — harness autônomo com sandbox e SSE","summary":"Com header managed-agents-2026-04-01, o novo endpoint oferece Claude rodando como agent com sandboxing seguro, tooling embutido e streaming server-sent events. Alvo: workloads agentic que hoje demandam stack próprio (runtime, retries, permissões, logs).","why_it_matters":"Fornecedor empurra o 'agent harness' para dentro da API; decisão build-vs-buy para orquestração de agents muda de patamar.","source":"Anthropic Platform Release Notes","url":"https://platform.claude.com/docs/en/release-notes/overview","published_at":"2026-04-21T11:00:00-03:00","read_time":4,"tags":["anthropic","agents","sandbox","beta"],"image":"https://www.google.com/s2/favicons?domain=platform.claude.com&sz=256"},{"category":"devops","category_label":"DevOps & Plataformas","category_icon":"⚙️","urgent":false,"breaking":true,"headline":"Kubernetes 1.36 sai hoje: 80 KEPs, rootless GA, gitRepo removido e Mutating Admission Policies","summary":"Release de hoje (22/abr) foca em workload performance, API scalability e uso eficiente de recursos. Highlights: workload-aware preemption para jobs IA/ML, sharded API streams, HPA até zero, rootless containers GA via hostUsers:false, Mutating Admission Policies com CEL embutidas, external signing de ServiceAccount tokens (KEP-740) e DRA integrada ao scheduler. Removals: gitRepo volume e deprecação do externalIPs em Services.","why_it_matters":"Primeiro release que quebra compat histórica real; revisar helm charts, CI/CD e plataforma interna antes de rollout.","source":"Perfect Scale","url":"https://www.perfectscale.io/blog/kubernetes-v1-36-sneak-peek","published_at":"2026-04-22T07:00:00-03:00","read_time":7,"tags":["kubernetes","rootless","admission-policy","cel","dra"],"image":"https://www.google.com/s2/favicons?domain=perfectscale.io&sz=256"},{"category":"devops","category_label":"DevOps & Plataformas","category_icon":"⚙️","urgent":false,"headline":"CNCF migra serviços internos de ingress-nginx para Envoy Gateway — guia público de runbook","summary":"Post oficial da CNCF (13/abr) documenta a migração da infra interna para Envoy Gateway: atenção com cert ownership, integração com load balancer do cloud provider e configuração TLS no backend. Movimento alinhado à retirada oficial do ingress-nginx pela SIG-Security em março.","why_it_matters":"Template oficial de migração fora do ingress-nginx; quem ainda depende do controller precisa planejar rota para Gateway API.","source":"CNCF Blog","url":"https://www.cncf.io/blog/2026/04/13/ingress-nginx-to-envoy-gateway-migration-on-cncf-internal-services-cluster/","published_at":"2026-04-13T10:00:00-03:00","read_time":8,"tags":["envoy-gateway","ingress-nginx","gateway-api","migration"],"image":"https://www.google.com/s2/favicons?domain=cncf.io&sz=256"},{"category":"obs","category_label":"Observabilidade & SRE","category_icon":"📈","urgent":false,"headline":"Grafana 13 anunciado no GrafanaCON Barcelona com Loki sobre Kafka — 20× menos dado escaneado","summary":"21/abr em Barcelona: Grafana Labs apresenta Grafana 13 e a maior evolução do Loki desde a origem — ingestão Kafka-backed, query engine e scheduler novos, planner distribuído. Números oficiais: até 20× menos dado escaneado e 10× mais performance em queries agregadas. Alloy ganha distro OTel com pipelines Prometheus. Sessões Google e Irish Rail no agenda.","why_it_matters":"Loki com Kafka muda SLO/SLA de observability em escala; custo por log indexado cai sem perder auditoria.","source":"Grafana Labs Press","url":"https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/","published_at":"2026-04-21T07:00:00-03:00","read_time":5,"tags":["grafana","loki","kafka","otel"],"image":"https://www.google.com/s2/favicons?domain=grafana.com&sz=256"},{"category":"ai","category_label":"IA & LLMs","category_icon":"🤖","urgent":false,"headline":"Claude Opus 4.7 GA: melhor em SWE longo, visão reforçada e Claude Design em Labs","summary":"Opus 4.7 tornou-se GA com ganhos em software engineering e tarefas longas. Em paralelo, Anthropic lança Claude Design (Labs) para criar slides, protótipos e one-pagers, e habilita charts/diagramas inline nas respostas do app mobile. Tokenizer novo custa até 1.46× mais tokens em system prompts.","why_it_matters":"SWE longo vira ponto de compra; mas novo tokenizer recalibra todo o orçamento de LLM sem mudar o preço por token.","source":"Anthropic News","url":"https://www.anthropic.com/news/claude-opus-4-7","published_at":"2026-04-16T12:00:00-03:00","read_time":4,"tags":["claude","opus","release","tokenizer"],"image":"https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"},{"category":"ai","category_label":"IA & LLMs","category_icon":"🤖","urgent":false,"headline":"Microsoft lança três modelos de fundação próprios (texto, voz, imagem)","summary":"TechCrunch reporta Microsoft AI anunciando três modelos fundacionais próprios — texto, voz e imagem — reforçando a estratégia de stack multimodal independente do fornecedor OpenAI. Movimento responde à pressão competitiva pós-GPT-6 e à nova família Llama 4.","why_it_matters":"Decisão arquitetural vendor-lock com Microsoft muda com stack multimodal próprio disponível em Azure.","source":"TechCrunch","url":"https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/","published_at":"2026-04-02T15:00:00-03:00","read_time":5,"tags":["microsoft","foundation-models","multimodal"],"image":"https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"},{"category":"cloud","category_label":"Cloud","category_icon":"☁️","urgent":false,"headline":"GCP publica release notes de 17/abr — batch diário alimenta mudanças em serviços chave","summary":"Notas do dia 17 (e do 16) consolidam ajustes em produtos managed da GCP. Embora sem um único bombshell, o ritmo contínuo de release notes diárias é o sinal prático a observar para arquitetos multi-cloud que mantêm plataforma sobre GKE/Cloud Run/BigQuery.","why_it_matters":"Cadência diária de mudanças nas cloud torna ADRs 'frozen' inviáveis; arquitetos precisam de pipeline de monitoring de release notes.","source":"mwpro","url":"https://mwpro.co.uk/blog/2026/04/18/gcp-release-notes-april-17-2026/","published_at":"2026-04-18T11:00:00-03:00","read_time":3,"tags":["gcp","release-notes","multicloud"],"image":"https://www.google.com/s2/favicons?domain=mwpro.co.uk&sz=256"},{"category":"cloud","category_label":"Cloud","category_icon":"☁️","urgent":false,"headline":"Cloudflare tem maintenance window em AMS, STL e SEA entre 21 e 22/abr — mínima latência extra","summary":"Sem outage grande, mas status reporta cluster de janelas de manutenção (STL, SEA, AMS) com possível re-routing de tráfego e latência marginal. Log Explorer sofreu degradação em 21/abr — já resolvida. Nada que quebre SLA de borda, mas importante para quem monitora p99 fim a fim.","why_it_matters":"Monitoramento proativo de status page de edge provider precisa virar integração, não bookmark.","source":"Statusfield","url":"https://statusfield.com/services/cloudflare/incidents","published_at":"2026-04-22T00:00:00-03:00","read_time":2,"tags":["cloudflare","cdn","status"],"image":"https://www.google.com/s2/favicons?domain=statusfield.com&sz=256"},{"category":"backend","category_label":"Backend & Runtimes","category_icon":"🔧","urgent":false,"headline":"Wasmtime publica avisos de segurança pós-verificação formal do Cranelift com LLM","summary":"Em release excepcional (9/abr), time Wasmtime usou LLM tools de ponta com Mozilla, UCSD, Akamai e F5 para varrer Cranelift. Encontrou 4 falhas no Winch e 2 no Cranelift — os dois compiladores tier-1 do Wasmtime. Primeira vez que verificação formal assistida por LLM entrega CVEs concretos em runtime WASM em produção.","why_it_matters":"WASM server-side em crescimento (Cloudflare, Fastly, Spin) depende de Wasmtime; arquitetos embutindo WASI devem auditar versões.","source":"Bytecode Alliance","url":"https://bytecodealliance.org/articles/wasmtime-security-advisories","published_at":"2026-04-09T14:00:00-03:00","read_time":6,"tags":["wasmtime","wasm","cranelift","formal-verification"],"image":"https://www.google.com/s2/favicons?domain=bytecodealliance.org&sz=256"},{"category":"integ","category_label":"Integração & Eventos","category_icon":"🔌","urgent":false,"headline":"Envoy Gateway v1.7.2 sai em 17/abr com ajustes em BackendTrafficPolicy e rate limit","summary":"Release patch corrige bound em rateLimit de BackendTrafficPolicy, polimento em APIs Gateway alinhadas ao trabalho Ingress2Gateway 1.0 e ajustes de interop com Gateway API 1.3. Reforça papel do Envoy Gateway como caminho padrão pós-retirada do ingress-nginx.","why_it_matters":"Quem migra de ingress-nginx precisa dessa versão para rate limit confiável em produção.","source":"Envoy Gateway Releases","url":"https://gateway.envoyproxy.io/news/releases/","published_at":"2026-04-17T10:00:00-03:00","read_time":3,"tags":["envoy-gateway","gateway-api","rate-limit"],"image":"https://www.google.com/s2/favicons?domain=gateway.envoyproxy.io&sz=256"},{"category":"frontend","category_label":"Frontend & Web","category_icon":"🎨","urgent":false,"headline":"Next.js 16.2 chega com streaming fixes, lru disk cache de imagem e patches de segurança","summary":"Update abrangente: upgrades de React, melhorias do Turbopack, routing experimental, type checks mais rígidos. Correções: hang de streaming fetch, server actions transform em node_modules, enforcement de maxPostponedStateSize, lru disk cache para imagens, bloqueio de dev websockets sensíveis a privacidade e patch em http-proxy.","why_it_matters":"Stack Next.js em produção ganha lru disk cache (custo de CDN de imagem) e elimina um CVE latente em http-proxy.","source":"Releasebot (Vercel Next.js)","url":"https://releasebot.io/updates/vercel/next-js","published_at":"2026-04-18T09:00:00-03:00","read_time":5,"tags":["nextjs","turbopack","react","release"],"image":"https://www.google.com/s2/favicons?domain=releasebot.io&sz=256"},{"category":"frontend","category_label":"Frontend & Web","category_icon":"🎨","urgent":false,"headline":"Vite 8.0.9 e create-vite 9.0.5 saem em 20/abr com correções de build e DX","summary":"Pacote duplo Vite 8.0.9 e create-vite 9.0.5 em 20/abr foca em correções em build e developer experience — alinhado à linha 8.x estabilizada após o salto para Rolldown como bundler interno.","why_it_matters":"Vite consolida papel de build tool dominante em projetos React/Vue/Svelte; minor patching rápido preserva estabilidade em produção.","source":"Releasebot (Vite)","url":"https://releasebot.io/updates/vite","published_at":"2026-04-20T12:00:00-03:00","read_time":3,"tags":["vite","rolldown","build","frontend"],"image":"https://www.google.com/s2/favicons?domain=releasebot.io&sz=256"},{"category":"testing","category_label":"Testes & Qualidade","category_icon":"⚗️","urgent":false,"headline":"Gremlin e Carahsoft levam chaos engineering ao setor público dos EUA","summary":"Parceria anunciada em 21/abr: plataforma Gremlin fica disponível via marketplace Carahsoft para agências federais. Injeção controlada de falha, validação de DR e descoberta proativa de riscos em workloads classificados.","why_it_matters":"Chaos engineering sai do nicho hyperscaler e entra em compliance federal — sinal de maturação regulatória da prática.","source":"GlobeNewswire","url":"https://www.globenewswire.com/news-release/2026/04/21/3278248/0/en/Gremlin-and-Carahsoft-Partner-to-Bring-Reliability-Testing-and-Chaos-Engineering-to-the-Public-Sector.html","published_at":"2026-04-21T10:00:00-03:00","read_time":4,"tags":["chaos-engineering","gremlin","public-sector","sre"],"image":"https://www.google.com/s2/favicons?domain=globenewswire.com&sz=256"},{"category":"distarch","category_label":"Sist. Distribuídos","category_icon":"🕸","urgent":false,"headline":"Cloud Native Now: Istio tece service mesh 'future-ready' para IA","summary":"Segunda perspectiva sobre o movimento da Istio: Ambient Multicluster simplifica deploy em topologias complexas; Gateway API Inference Extension padroniza expor modelos via K8s Gateway; agentgateway nasce para tráfego agent-to-service. Stack CNCF se rearranja para cargas IA.","why_it_matters":"Decisão 'Istio vs Cilium vs Linkerd' muda com ambient multicluster — benchmarks de service mesh precisam refresh.","source":"Cloud Native Now","url":"https://cloudnativenow.com/features/istio-weaves-future-ready-service-mesh-for-ai/","published_at":"2026-04-21T13:00:00-03:00","read_time":5,"tags":["istio","service-mesh","ai","gateway-api"],"image":"https://www.google.com/s2/favicons?domain=cloudnativenow.com&sz=256"},{"category":"enterprise","category_label":"Arq. Corporativa","category_icon":"🗺️","urgent":false,"headline":"InfoQ lança programa de certificação socio-técnica para arquitetos","summary":"InfoQ abre Online Cohorts para avanço em arquitetura socio-técnica — currículo cobre Team Topologies, DORA, governança de APIs e Decentralized Architecture Decisions (o Architecture Advice Process que a casa publicou em março). Movimento sinaliza amadurecimento do papel arquitetura-como-time-de-times.","why_it_matters":"Trilha formal sobre governança descentralizada de decisões arquiteturais — útil para enterprise em modelo de platform engineering.","source":"InfoQ","url":"https://www.infoq.com/news/2026/03/architect-certification-program/","published_at":"2026-03-30T10:00:00-03:00","read_time":5,"tags":["team-topologies","architecture-advice-process","certification"],"image":"https://www.google.com/s2/favicons?domain=infoq.com&sz=256"},{"category":"enterprise","category_label":"Arq. Corporativa","category_icon":"🗺️","urgent":false,"headline":"Platform Engineering em 2026: 90% das orgs com IDP e 76% com times dedicados","summary":"Artigo consolidador em Medium (abr/2026) revisa adoção: 90% reportam IDP, 76% têm platform team dedicado. Central: DORA 2025 mostra que IA como amplificador só paga quando a plataforma é de alta qualidade — quando é baixa, efeito é negligível. Rework rate entra como 5ª métrica DORA.","why_it_matters":"Para CIOs/CTOs, ordem é invertida: plataforma vem antes de IA; sem base, investimento em Copilot/Cursor/Claude não escala.","source":"Medium (ATNO for DevOps)","url":"https://medium.com/@atnofordevops/platform-engineering-in-2026-the-movement-thats-reshaping-how-we-build-and-ship-software-%EF%B8%8F-51f17a381aac","published_at":"2026-04-18T09:00:00-03:00","read_time":8,"tags":["platform-engineering","dora","devex","idp"],"image":"https://www.google.com/s2/favicons?domain=medium.com&sz=256"},{"category":"design","category_label":"Design & Padrões","category_icon":"🏛️","urgent":false,"headline":"Perspectives in Spec-Driven Development — o teste vira o 'spec' na era agentic","summary":"Artigo de 21/abr defende spec-driven development como próxima iteração do TDD na era de agentes: especificação executável (tests) vira o contrato central entre humano e agent. IA não elimina TDD — expõe quem entende e quem só memorizou o ritual.","why_it_matters":"Para arquitetos lidando com agents em produção, spec-as-code redefine onde a 'verdade' do sistema vive: no teste, não no prompt.","source":"The IT Solutionist","url":"https://theitsolutionist.com/2026/04/21/perspectives-in-spec-driven-development/","published_at":"2026-04-21T11:00:00-03:00","read_time":6,"tags":["tdd","spec-driven","ai-assisted","testing"],"image":"https://www.google.com/s2/favicons?domain=theitsolutionist.com&sz=256"},{"category":"obs","category_label":"Observabilidade & SRE","category_icon":"📈","urgent":false,"headline":"GrafanaCON: sessão Google explica dashboards planetários; Irish Rail moderniza monitoring ferroviário","summary":"No agenda do GrafanaCON, sessões user-led detalham casos reais: Google constrói dashboards em escala planetária sobre Grafana; Irish Rail moderniza observability de infra ferroviária de 180 anos. Contrapontos que mostram Grafana servindo de startup a infra crítica legada.","why_it_matters":"Case studies com profundidade real (não marketing) ajudam a calibrar o que é viável em observability de sistema crítico.","source":"Grafana Labs","url":"https://grafana.com/blog/grafanacon-2026-in-barcelona-what-not-to-miss/","published_at":"2026-04-20T08:00:00-03:00","read_time":5,"tags":["grafana","google","irish-rail","observability"],"image":"https://www.google.com/s2/favicons?domain=grafana.com&sz=256"}],"tools":[{"tool_key":"kubernetes","name":"Kubernetes","icon":"☸️","kind":"release","version":"1.36","headline":"Kubernetes 1.36 sai hoje — 80 KEPs, rootless GA, remoção do gitRepo e Mutating Admission Policies","description":"Release oficial de 22/abr traz workload-aware preemption para IA/ML, HPA até zero, pods rootless GA, Mutating Admission Policies com CEL, external signing de ServiceAccount tokens (KEP-740), DRA integrada ao scheduler. Removals: gitRepo volume e externalIPs em Services.","why_it_matters":"Primeira release que força revisão real de charts e CI/CD; arquitetos precisam mapear ingress-nginx antes do rollout.","source":"Kubernetes Blog","url":"https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/","published_at":"2026-04-22T09:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256","tags":["kubernetes","release","1.36","gateway-api"]},{"tool_key":"istio","name":"Istio","icon":"🕸","kind":"news","headline":"Istio 1.29 com Ambient Multicluster e Gateway API Inference Extension domina cobertura de service mesh","description":"InfoQ e Cloud Native Now publicaram cobertura profunda em 21/abr das entregas anunciadas no KubeCon Europe 2026: ambient multicluster beta, Gateway API Inference Extension beta e agentgateway experimental.","why_it_matters":"Comparação Istio vs Linkerd vs Cilium precisa refresh — ambient multicluster real muda TCO e blast radius.","source":"InfoQ","url":"https://www.infoq.com/news/2026/04/istio-ai-multicluster/","published_at":"2026-04-21T10:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=infoq.com&sz=256","tags":["istio","ambient","multicluster","inference"]},{"tool_key":"keycloak","name":"Keycloak","icon":"🔑","kind":"release","version":"26.6.0","headline":"Keycloak 26.6.0 habilita Vault SPI para segredos de clientes e promove JWT Authorization Grant a GA","description":"Secrets de clientes agora podem ser gerenciados e consultados via Vault SPI. JWT Authorization Grant e Federated Client Authentication saem de preview para supported. Kubernetes SAs como IdP JWT sem gerenciar segredos individuais. Novo guia para OAuth 2.0 DPoP (tokens sender-constrained). Truststore automático em K8s/OpenShift.","why_it_matters":"Vault SPI para client secrets fecha gap estrutural — não precisa mais guardar segredo em DB interno do Keycloak.","source":"Keycloak Blog","url":"https://www.keycloak.org/2026/04/keycloak-2660-released","published_at":"2026-04-17T10:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=keycloak.org&sz=256","tags":["keycloak","vault-spi","oauth","dpop","jwt"]},{"tool_key":"vscode","name":"VS Code","icon":"💻","kind":"news","headline":"VS Code consolida-se com Copilot integrado e dev containers em stack híbrida com Claude Code","description":"Análise recente de stack AI coding (The New Stack) mostra padrão dominante em 2026: VS Code + Copilot no IDE para edição diária + Claude Code em terminal para tarefas pesadas. Survey Pragmatic Engineer: Claude Code lidera com 46% de 'most loved'.","why_it_matters":"Decisão stack IDE deixou de ser religião — arquitetos normalizam multi-tool AI coding com roles claros.","source":"The New Stack","url":"https://thenewstack.io/ai-coding-tool-stack/","published_at":"2026-04-21T09:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256","tags":["vscode","copilot","claude-code","ai-coding"]},{"tool_key":"claudecode","name":"Claude Code","icon":"🤖","kind":"news","headline":"Claude Code ganha Auto mode, /effort, /ultrareview e tema 'terminal-matching' — pricing controverso reverte","description":"Update traz Opus 4.7 xhigh, Auto mode para Max, novos controles /effort e /ultrareview, tema visual alinhado ao terminal, menos prompts de permissão, melhor suporte a Windows. Tentativa de restringir Claude Code ao plano Max foi revertida após backlash em 21-22/abr.","why_it_matters":"Para times que padronizaram em Claude Code, ritmo de features segue forte — mas tração comercial da Anthropic gera risco de pricing imprevisível.","source":"Releasebot (Anthropic)","url":"https://releasebot.io/updates/anthropic/claude-code","published_at":"2026-04-21T14:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=releasebot.io&sz=256","tags":["claude-code","opus-4.7","auto-mode","pricing"]},{"tool_key":"ghactions","name":"GitHub Actions","icon":"⚙️","kind":"news","headline":"GitHub Actions promove OIDC custom properties a GA e habilita failover VNET em preview","description":"Early April update adiciona entrypoint/command para service containers (sintaxe Docker Compose), OIDC claims de repo custom properties em GA e failover VNET para Azure subnets secundárias opcionalmente em outra região.","why_it_matters":"OIDC granular por time/produto permite trust policies em cloud sem múltiplas integrações; failover VNET endereça DR para pipelines críticos.","source":"GitHub Changelog","url":"https://github.blog/changelog/2026-04-02-github-actions-early-april-2026-updates/","published_at":"2026-04-02T13:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=github.blog&sz=256","tags":["github-actions","oidc","vnet","service-containers"]},{"tool_key":"databricks","name":"Databricks","icon":"🧱","kind":"news","headline":"Databricks coloca Apache Iceberg v3 em public preview e torna dbt task de primeira classe no Lakeflow Jobs","description":"Iceberg v3 em preview com row-level concurrency, novos tipos e suporte a cargas operacionais. Lakeflow Jobs integra dbt nativamente — teams orquestram transformação ao lado de ingestão num só workflow.","why_it_matters":"Para arquiteturas lakehouse, Iceberg v3 desbloqueia workloads operacionais antes inviáveis em open table formats.","source":"Databricks Blog","url":"https://www.databricks.com/blog/next-era-open-lakehouse-apache-icebergtm-v3-public-preview-databricks","published_at":"2026-04-20T14:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=databricks.com&sz=256","tags":["databricks","iceberg","lakehouse","dbt"]},{"tool_key":"kafka","name":"Apache Kafka","icon":"📨","kind":"news","headline":"Kafka 4.1.0 introduz novo Streams Rebalance Protocol com rebalances incrementais","description":"Cobertura detalhada do Instaclustr em 20/abr sobre o novo protocolo de rebalance em Kafka Streams 4.1: rebalances incrementais, menor latência na recuperação de partições, recovery mais previsível em clusters com alto churn.","why_it_matters":"Janelas de indisponibilidade em deploy de Streams encurtam — SLA de event processing ganha margem.","source":"Instaclustr","url":"https://www.instaclustr.com/blog/whats-new-in-kafka-4-1-0-introducing-the-new-streams-rebalance-protocol/","published_at":"2026-04-20T09:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=instaclustr.com&sz=256","tags":["kafka","streams","rebalance"]},{"tool_key":"springboot","name":"Spring Boot","icon":"🌱","kind":"news","headline":"This Week in Spring (21/abr) consolida 4.0.5 em produção e marcha para 4.1.0-M4","description":"Edição semanal do spring.io confirma Spring Boot 4.0.5 (de 26/mar) como base de produção (Spring Framework 7.0.6, Spring Kafka 4.1.1, Security 7.0.0, Hibernate 7.1.8, Tomcat 11.0.2). Milestone 4.1.0-M4 abre caminho para minor em maio. Baseline JDK 17; recomendados 21 e 25 para virtual threads.","why_it_matters":"Arquitetos com estratégia Spring precisam decidir agora janela de upgrade para 4.0.5 e testes em JDK 25 antes do 4.1 GA.","source":"Spring Blog","url":"https://spring.io/blog/2026/04/21/this-week-in-spring-april-21-2026/","published_at":"2026-04-21T10:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=spring.io&sz=256","tags":["spring-boot","jvm","java-25","virtual-threads"]},{"tool_key":"docker","name":"Docker","icon":"🐳","kind":"news","headline":"Docker Desktop 4.31 inspeciona builds GitHub Actions em beta — deep dive ao vivo","description":"Docker publicou beta do recurso que mostra builds GitHub Actions dentro do Docker Desktop com detalhamento por step, cache hit/miss e métricas de performance. Complementar a Actions Summary: drill-down em toda etapa do build em ambiente local.","why_it_matters":"Debug de build lento em CI fica na máquina do dev sem precisar rodar o workflow inteiro — encurta loop DX.","source":"Docker Blog","url":"https://www.docker.com/blog/new-beta-feature-deep-dive-into-github-actions-docker-builds-with-docker-desktop/","published_at":"2026-04-18T14:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=docker.com&sz=256","tags":["docker","desktop","github-actions","build"]},{"tool_key":"terraform","name":"Terraform / OpenTofu","icon":"🧰","kind":"news","headline":"OpenTofu 1.12.0-beta1 traz dynamic prevent_destroy e import por resource identity","description":"Beta aberto com enhancements: dynamic prevent_destroy, import por resource identity, checksum handling de provider melhor e output simultâneo humano/JSON em mais comandos. Patches de segurança: servidor TLS malicioso não consegue mais deadlockar OpenTofu; tar archives com muitos sparse files são bloqueados.","why_it_matters":"Feature gap frente ao Terraform fecha com dynamic prevent_destroy — argumento para times em fork ganhar tração.","source":"Releasebot (OpenTofu)","url":"https://releasebot.io/updates/opentofu","published_at":"2026-04-15T10:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=releasebot.io&sz=256","tags":["opentofu","terraform","iac"]},{"tool_key":"python","name":"Python","icon":"🐍","kind":"release","version":"0.45.0","headline":"Uvicorn 0.45.0 sai em 21/abr — ASGI server continua fundamento do stack Python async","description":"Release em 21/abr traz polimento em hot reload, melhor integração com FastAPI 0.136+, fix em websockets sob carga. Complementa Python 3.14 (free-threading) e uv como package manager dominante em 2026.","why_it_matters":"Para arquiteturas Python em alta escala, tripé Uvicorn + FastAPI + uv se estabiliza como novo default.","source":"PyPI","url":"https://pypi.org/project/uvicorn/","published_at":"2026-04-21T12:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=pypi.org&sz=256","tags":["python","uvicorn","asgi","fastapi"]},{"tool_key":"javascript","name":"JavaScript / TypeScript","icon":"🟨","kind":"release","version":"6.0.3","headline":"TypeScript 6.0.3 é o último major em JavaScript — 7.0 migra para compilador em Go","description":"Release de 16/abr encerra linha JS do tsc. TypeScript 7.0 (mid-2026) será compilador em Go com strict-by-default, drop do target ES5, remoção de AMD/UMD/SystemJS. Node.js 24.15.0 LTS (15/abr) trouxe npm v11 (65% mais rápido), V8 13.4 e suporte TS nativo via --strip-types. Node 22 muda para maintenance em abril/2026.","why_it_matters":"Monorepos TS vão ganhar compile time absurdo, mas strict-by-default força auditoria de tsconfig antigo.","source":"Microsoft DevBlogs","url":"https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/","published_at":"2026-04-16T10:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=devblogs.microsoft.com&sz=256","tags":["typescript","node","release"]},{"tool_key":"intellij","name":"IntelliJ IDEA","icon":"🟣","kind":"news","headline":"Java Annotated Monthly (abril/2026) da JetBrains consolida ecossistema JVM pós-Java 26","description":"Boletim mensal da JetBrains cobre Java 26, maturação do Project Leyden (cold start), virtual threads produtivos em Spring Boot e integrações AI com JetBrains AI Assistant. Ponto central: JVM finalmente tem história AI tooling 'grown-up'.","why_it_matters":"Para times Java, abril marca ponto em que Leyden + virtual threads + AI Assistant passam de POC para produção.","source":"JetBrains Blog","url":"https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/","published_at":"2026-04-07T09:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=jetbrains.com&sz=256","tags":["jetbrains","java","leyden","virtual-threads"]},{"tool_key":"java","name":"Java & JVM","icon":"☕","kind":"news","headline":"TechLife: 'Java em abril/2026 — Leyden amadurece, Spring fica mais esperto, JVM se reinventa para a era IA'","description":"Análise de ecossistema em 20/abr: Java 26 entregue, Project Leyden reduz cold start em ordem de grandeza, Spring Boot com AI tooling nativo, JVM firma-se como runtime competitivo para serviços IA-heavy. Benchmark Leyden: startup de aplicação Spring cai de segundos para milissegundos.","why_it_matters":"Argumento cold-start que empurrou arquitetos para Go/Node perde força; JVM volta a mesa para serverless e agents.","source":"TechLife","url":"https://techlife.blog/posts/java-ecosystem-april-2026/","published_at":"2026-04-20T11:00:00-03:00","image":"https://www.google.com/s2/favicons?domain=techlife.blog&sz=256","tags":["java","jvm","leyden","spring"]}],"quotes":[{"text":"Any organization that designs a system will produce a design whose structure is a copy of the organization's communication structure.","author":"Melvin Conway","context":"Relevante para entender service mesh multicluster e a decisão de Team Topologies por trás","related_to":"cat:enterprise"},{"text":"The cheapest, fastest, and most reliable components are those that aren't there.","author":"Gordon Bell","context":"Aplicável à remoção do ingress-nginx e gitRepo no Kubernetes 1.36","related_to":"tool:kubernetes"},{"text":"Security is a process, not a product.","author":"Bruce Schneier","context":"Breach da Vercel mostra que OAuth apps de terceiros são o novo perímetro","related_to":"cat:sec"},{"text":"Make it work, make it right, make it fast.","author":"Kent Beck","context":"Spec-driven development na era agentic reafirma: o teste é o contrato","related_to":"cat:design"},{"text":"Observability is not about knowing what's broken. It's about knowing what's normal.","author":"Charity Majors","context":"Grafana 13 com Loki sobre Kafka amplifica o 'normal' em escala","related_to":"cat:obs"}],"sources":[{"name":"Kubernetes Blog","url":"https://kubernetes.io/blog/"},{"name":"Grafana Labs Press","url":"https://grafana.com/press/"},{"name":"The Register","url":"https://www.theregister.com/"},{"name":"Anthropic News","url":"https://www.anthropic.com/news"},{"name":"Simon Willison's Weblog","url":"https://simonwillison.net/"},{"name":"InfoQ","url":"https://www.infoq.com/"},{"name":"The New Stack","url":"https://thenewstack.io/"},{"name":"CNCF Blog","url":"https://www.cncf.io/blog/"},{"name":"GitHub Changelog","url":"https://github.blog/changelog/"},{"name":"Databricks Blog","url":"https://www.databricks.com/blog"},{"name":"Instaclustr","url":"https://www.instaclustr.com/blog/"},{"name":"Spring Blog","url":"https://spring.io/blog/"},{"name":"Keycloak Blog","url":"https://www.keycloak.org/blog"},{"name":"Envoy Gateway","url":"https://gateway.envoyproxy.io/news/releases/"},{"name":"Bytecode Alliance","url":"https://bytecodealliance.org/articles/"},{"name":"GitGuardian Blog","url":"https://blog.gitguardian.com/"}]},"2026-04-20":{"date":"2026-04-20","weekday":"Segunda-feira","formatted_date":"Segunda, 20 de Abril de 2026","generated_at":"2026-04-20T23:23:00-03:00","hero_title":"Semana abre com service mesh sidecarless em multicluster, Claude Code Opus 4.7 e Patch Tuesday de 163 CVEs","hero_description":"Edição cobre janela de 3 dias e abre com convergência pesada em três frentes: Istio 1.29 promove ambient multicluster a beta (marco para arquiteturas multi-cloud sem sidecar), Anthropic lança Claude Code com Opus 4.7 e contexto de 1M tokens, e Microsoft publica 163 CVEs incluindo zero-day SharePoint já sob exploração ativa. No radar: RedSun Defender, Axios npm hijack, Cloudflare Agents Week, Ingress-NGINX aposentado, ThoughtWorks Radar Vol 34 com 'cognitive debt' em destaque.","highlights":[{"category":"distarch","category_label":"Sist. Distribuídos","category_icon":"🕸","source_array":"tools","tool_key":"istio","name":"Istio","kind":"release","version":"1.29","headline":"Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension","why_it_matters":"Ambient sidecarless multicluster reduz overhead de service mesh em arquiteturas multi-cloud — quebra dogma de 'sidecar inevitável' para mesh maduro.","source":"Istio Blog","url":"https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/","published_at":"2026-04-08T10:00:00-03:00","tags":["istio","ambient","multicluster","service-mesh"]},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","source_array":"tools","tool_key":"claudecode","name":"Claude Code","kind":"release","version":"Opus 4.7","headline":"Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado","why_it_matters":"Contexto de 1M tokens viabiliza refactorings cross-repo que antes exigiam agent orchestration manual — reduz fricção em arquiteturas grandes.","source":"Anthropic","url":"https://www.anthropic.com/news/claude-opus-4-7","published_at":"2026-04-15T10:00:00-03:00","tags":["claude-code","opus","1m-context","ai-coding"]},{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","source_array":"news","urgent":true,"severity":"critical","headline":"Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente","summary":"O Patch Tuesday de abril de 2026 traz 163 correções, com destaque para CVE-2026-32201, uma falha de spoofing no SharePoint Server já sob exploração ativa, e CVE-2026-33824 (CVSS 9.8), um RCE no serviço Windows IKE. Arquitetos devem priorizar patching em servidores SharePoint expostos e, onde não for possível aplicar, bloquear UDP 500/4500 para reduzir o blast-radius.","why_it_matters":"SharePoint é coluna vertebral de colaboração corporativa — exploração ativa exige patching imediato em toda frota Windows.","source":"Tenable","url":"https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201","published_at":"2026-04-14T18:00:00-03:00","read_time":4,"cves":["CVE-2026-32201","CVE-2026-33824"],"tags":["patch-tuesday","sharepoint","zero-day","windows"]}],"news":[{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":true,"breaking":false,"severity":"critical","headline":"Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente","summary":"O Patch Tuesday de abril de 2026 traz 163 correções, com destaque para CVE-2026-32201, uma falha de spoofing no SharePoint Server já sob exploração ativa, e CVE-2026-33824 (CVSS 9.8), um RCE no serviço Windows IKE. Arquitetos devem priorizar patching em servidores SharePoint expostos e, onde não for possível aplicar, bloquear UDP 500/4500 para reduzir o blast-radius.","why_it_matters":"SharePoint é coluna vertebral de colaboração corporativa — exploração ativa exige patching imediato em toda frota Windows.","source":"Tenable","url":"https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201","published_at":"2026-04-14T18:00:00-03:00","read_time":4,"cves":["CVE-2026-32201","CVE-2026-33824"],"tags":["patch-tuesday","sharepoint","zero-day","windows"]},{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":true,"severity":"high","headline":"RedSun: zero-day no Windows Defender permite restaurar arquivos maliciosos com privilégios elevados","summary":"Publicada em 15 de abril, a RedSun explora erro lógico no tratamento de arquivos marcados com cloud tag pela Windows Cloud Files API — em vez de quarentena, o Defender reescreve o arquivo detectado no local original com privilégios elevados. Atores maliciosos começaram a weaponizar a falha em 16 de abril e, até fim do mês, ainda não há patch oficial.","why_it_matters":"Security baseline 'só aplicar patches' deixa de ser suficiente — arquitetos precisam revisar dependência do Defender como única camada de EDR em endpoints.","source":"Picus Security","url":"https://www.picussecurity.com/resource/blog/bluehammer-redsun-windows-defender-cve-2026-33825-zero-day-vulnerability-explained","published_at":"2026-04-17T14:00:00-03:00","read_time":5,"cves":["CVE-2026-33825"],"tags":["windows-defender","zero-day","edr","endpoint-security"]},{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":true,"severity":"critical","headline":"Axios comprometido: supply chain hijack atinge 100M downloads/semana no npm","summary":"Google Threat Intelligence atribuiu ao UNC1069 (nexus Coreia do Norte) o hijack do Axios: um classic token legado bypassou todas as OIDC/SLSA em produção e publicou versões com postinstall hook carregando RAT multiplataforma. O incidente expõe limitação crítica de tokens legados convivendo com provenance moderna no npm.","why_it_matters":"Ter SLSA Level 2 não protege se a hierarquia de auth permite fallback para token clássico — arquitetos precisam auditar se npm tokens legados ainda estão ativos nos publishers críticos.","source":"SOCRadar","url":"https://socradar.io/blog/axios-npm-supply-chain-attack-2026-ciso-guide/","published_at":"2026-04-18T10:00:00-03:00","read_time":6,"tags":["supply-chain","npm","axios","slsa","sigstore"]},{"category":"sec","category_label":"Segurança & IAM","category_icon":"🔐","urgent":true,"severity":"high","headline":"Fortinet FortiClient EMS: CVE-2026-35616 sob exploração ativa","summary":"A watchTowr reporta exploração ativa do CVE-2026-35616, vulnerabilidade crítica no Fortinet FortiClient EMS já utilizada para pivot em ambientes corporativos. O padrão de ataque segue o histórico Fortinet: PoC público → weaponization em dias. Recomendação: ativar FortiGuard IPS e restringir acesso à console administrativa.","why_it_matters":"EMS é canal privilegiado de push de políticas — um RCE ali vira controle total sobre a frota de endpoints da empresa.","source":"watchTowr Labs","url":"https://watchtowr.com/resources/fortinet-forticlient-ems-zero-day-cve-2026-35616-active-exploitation-underway/","published_at":"2026-04-18T09:00:00-03:00","read_time":5,"cves":["CVE-2026-35616"],"tags":["fortinet","forticlient","rce","ems"]},{"category":"ai","category_label":"IA & LLMs","category_icon":"🤖","urgent":false,"breaking":true,"headline":"OpenAI libera GPT-6 globalmente com janela de 2M tokens","summary":"Confirmado em 7 de abril e disponibilizado no dia 14, o GPT-6 duplica a janela de contexto do GPT-5 para 2M tokens e chega com preço de US$ 2,50/1M input e US$ 12/1M output — patamar competitivo vs. Gemini 2.5 Pro e Claude Opus 4.7. Foco em reasoning multimodal e melhor tool-calling em agentes.","why_it_matters":"Janela de 2M tokens muda a economia de RAG: para muitos domínios vira mais barato colar tudo no prompt do que manter pipeline de retrieval.","source":"OpenAI","url":"https://openai.com/index/introducing-gpt-6/","published_at":"2026-04-14T09:00:00-03:00","read_time":4,"tags":["openai","gpt-6","llm","context-window"]},{"category":"ai","category_label":"IA & LLMs","category_icon":"🤖","urgent":false,"headline":"Meta lança família Llama 4 com 10M tokens em MoE — contexto recorde","summary":"A família Llama 4 apresenta o Scout com janela de 10M tokens — a maior de qualquer modelo público — e o Maverick com 400B parâmetros e 1M tokens nativamente multimodal. Ambos usam arquitetura Mixture-of-Experts (MoE) para inferência mais barata que modelos densos equivalentes.","why_it_matters":"Open-weight em tier de fronteira muda o cálculo de build-vs-buy para plataformas de IA — rodar Llama 4 on-prem vira viável para compliance-heavy industries.","source":"Meta AI","url":"https://ai.meta.com/blog/llama-4-multimodal-intelligence/","published_at":"2026-04-05T09:00:00-03:00","read_time":5,"tags":["meta","llama-4","moe","open-weight"]},{"category":"ai","category_label":"IA & LLMs","category_icon":"🤖","headline":"Gemini 2.5 Pro e Flash chegam com reasoning multimodal nativo","summary":"A série Gemini 2.5 Pro foi lançada em 1º de abril com janela de 1M tokens (expansível para 2M em preview) e entrada multimodal unificada: vídeo, imagens, áudio e texto no mesmo prompt sem etapa separada de embeddings. O Flash chegou dois dias depois como variante cost-optimized.","why_it_matters":"Modalidades unificadas simplificam arquitetura de agentes multimodais — um único endpoint em vez de pipeline de conversão a imagem/áudio.","source":"LLM Stats","url":"https://llm-stats.com/llm-updates","published_at":"2026-04-01T10:00:00-03:00","read_time":4,"tags":["google","gemini","multimodal","reasoning"]},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","breaking":true,"headline":"Claude Code Opus 4.7 bate 87,6% no SWE-bench Verified e default sobe para xhigh","summary":"Lançado em 16 de abril, o Opus 4.7 salta para 87,6% no SWE-bench Verified (vs 80,8%), 64,3% no SWE-bench Pro e 70% no CursorBench. A release introduz comando /ultrareview, extende auto mode para Max e eleva o nível padrão de esforço para xhigh em todos os planos.","why_it_matters":"xhigh como default muda custo operacional — arquitetos precisam revisar quotas e guardrails de agentes antes que a fatura explode.","source":"AI Tool Analysis","url":"https://aitoolanalysis.com/claude-code/","published_at":"2026-04-16T15:00:00-03:00","read_time":5,"tags":["claude-code","anthropic","swe-bench","agents"]},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","headline":"Cursor 3 lança Agents Window com orquestração paralela de agentes","summary":"Lançado em 2 de abril, o Cursor 3 marca a virada da indústria de autocomplete assistivo para orquestração agentic. A release traz Agents Window dedicada para rodar múltiplos agentes em paralelo entre repos, Design Mode para trabalho visual e melhorias de coordenação multi-agente.","why_it_matters":"Paralelismo de agentes exige novos padrões de isolamento e revisão humana — sem guardrails, branch hygiene vira caos.","source":"Creati AI News","url":"https://creati.ai/ai-news/2026-04-06/cursor-3-agent-first-interface-claude-code-codex/","published_at":"2026-04-06T12:00:00-03:00","read_time":4,"tags":["cursor","ide","agents","ai-coding"]},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","headline":"MCP + LangGraph consolidam padrão produção para multi-agentes","summary":"O LangGraph (runtime stateful com checkpointing e human-in-the-loop) e o Model Context Protocol (servers versionados na rede com toolbox ao vivo) finalmente compõem limpo via langchain-mcp-adapters. O pacote converte schemas MCP em BaseTool do LangChain, permitindo que qualquer nó LangGraph chame tools remotas.","why_it_matters":"Multi-agent orchestration sai do experimental — arquitetos podem padronizar em cima de dois componentes estáveis em vez de framework proprietário.","source":"Qodo Blog","url":"https://www.qodo.ai/blog/building-agentic-flows-with-langgraph-model-context-protocol/","published_at":"2026-04-15T11:00:00-03:00","read_time":7,"tags":["mcp","langgraph","agents","langchain"]},{"category":"aiops","category_label":"AIOps & Agents","category_icon":"🧠","headline":"ClickHouse adquire Langfuse por US$ 400M e consolida LLM observability","summary":"Em janeiro de 2026 a ClickHouse fechou a aquisição da Langfuse por US$ 400M como parte de sua Série D, movimento que sinaliza a importância estratégica do LLM observability na stack de data infrastructure. A Langfuse permanece open-source e framework-agnostic — LangChain, LlamaIndex, OpenAI SDK, LiteLLM, Vercel AI SDK, e custom stacks via Python/TypeScript.","why_it_matters":"Combinação ClickHouse+Langfuse dá às áreas de plataforma um stack de telemetria LLM coerente — armazenamento colunar embaixo, UI de eval em cima.","source":"ZenML Blog","url":"https://www.zenml.io/blog/langfuse-vs-langsmith","published_at":"2026-04-10T10:00:00-03:00","read_time":6,"tags":["langfuse","clickhouse","llm-observability","acquisition"]},{"category":"cloud","category_label":"Cloud","category_icon":"☁️","breaking":true,"headline":"AWS e Google Cloud lançam multicloud oficial com peering direto via NCC","summary":"AWS e GCP anunciaram colaboração multicloud conjunta: Partner Cross-Cloud Interconnect com VPC Peering passa para GA, e Network Connectivity Center (NCC) entra em preview para orquestração. É o primeiro passo de um produto de networking que incluirá Azure ainda em 2026 — fim da era do 'transit gateway improvisado'.","why_it_matters":"Multi-cloud networking nativo reduz dependência de appliances de terceiros (Megaport, Aviatrix) — arquitetos podem replanejar landing zones cross-cloud.","source":"CIO Dive","url":"https://www.ciodive.com/news/aws-google-link-cloud-products/806705/","published_at":"2026-04-17T13:00:00-03:00","read_time":4,"tags":["aws","gcp","multicloud","networking"]},{"category":"cloud","category_label":"Cloud","category_icon":"☁️","headline":"Cloudflare Agents Week entrega Dynamic Workers, Sandboxes GA e AI Gateway unificado","summary":"De 13 a 17 de abril, a Agents Week 2026 da Cloudflare liberou Dynamic Workers (runtime isolate-based para código gerado por LLM, startup em ms e milhões de execuções concorrentes), Cloudflare Sandboxes GA, Cloudflare Mesh (private networking para agents) e AI Gateway como camada unificada sobre 14+ provedores de inferência.","why_it_matters":"Para quem opera agentes autônomos, Dynamic Workers remove o dilema container-vs-VM para sandbox de código — e Cloudflare Mesh traz Zero Trust para conexões agent→DB.","source":"Cloudflare","url":"https://www.cloudflare.com/agents-week/updates/","published_at":"2026-04-17T15:00:00-03:00","read_time":6,"tags":["cloudflare","edge","workers","agents"]},{"category":"devops","category_label":"DevOps & Plataformas","category_icon":"⚙️","urgent":true,"headline":"Ingress NGINX aposentado pelo SIG Network — migração obrigatória","summary":"Em 24 de março o SIG Network e o Security Response Committee do Kubernetes retiraram oficialmente o Ingress NGINX: não haverá mais releases, bugfixes ou correções de CVE. Clusters em produção ainda usando o controller precisam migrar para Gateway API, Ingress NGINX INC-managed ou alternativas (Traefik, Contour, Cilium).","why_it_matters":"Essa é a maior migração forçada do ecossistema K8s em 2026 — adiar vira risco de CVE sem patch em caminho crítico de tráfego.","source":"Kubernetes Blog","url":"https://kubernetes.io/blog/2025/10/24/ingress-nginx-retirement/","published_at":"2026-03-24T10:00:00-03:00","read_time":5,"tags":["kubernetes","ingress","nginx","gateway-api"]},{"category":"devops","category_label":"DevOps & Plataformas","category_icon":"⚙️","headline":"Kubernetes v1.36 sai dia 22/04 com depreciação de externalIPs e remoção do gitRepo","summary":"Release planejada para 22 de abril, o K8s v1.36 deprecia oficialmente o campo externalIPs do Service (historicamente explorável via CVE-2020-8554; remoção em v1.43) e remove o gitRepo volume driver — workloads precisam migrar para init containers ou git-sync sidecars. KEP-4815 (DRA Partitionable Devices) entra como principal feature nova.","why_it_matters":"Dois legados tóxicos saem do path crítico de cluster — plataformas precisam auditar uso e planejar migração antes do EOL real em v1.43.","source":"Kubernetes Blog","url":"https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/","published_at":"2026-03-30T10:00:00-03:00","read_time":5,"tags":["kubernetes","v1.36","deprecation","kep"]},{"category":"obs","category_label":"Observabilidade & SRE","category_icon":"📈","headline":"OpenTelemetry Declarative Configuration atinge estabilidade","summary":"A InfoQ reporta que o formato declarativo de configuração do OpenTelemetry — que permite definir pipelines de traces, métricas e logs em um único YAML lido pelo SDK na inicialização — atingiu estabilidade. Marylia Gutierrez (Grafana Labs) demonstrou o setup em community call: fim do código boilerplate de configuração espalhado por apps.","why_it_matters":"Configuração declarativa destrava observability-as-code real — um único YAML versionado substitui dezenas de flags e env vars por ambiente.","source":"InfoQ","url":"https://www.infoq.com/news/2026/04/opentelemetry-declarative-config/","published_at":"2026-04-15T09:00:00-03:00","read_time":5,"tags":["opentelemetry","observability","configuration"]},{"category":"backend","category_label":"Backend & Runtimes","category_icon":"🔧","headline":"Spring Boot 4.0.5 modulariza stack em 70+ JARs e recomenda Java 21/25","summary":"A versão 4.0.5 (26/03) consolida a refatoração do Spring Boot 4.0 (nov/25): 70+ JARs focados, Jackson 3 como default JSON, baseline Java 17 mas recomendação forte para Java 21/25 se quiser aproveitar virtual threads e otimizações recentes da JVM. Quarkus 3.27 da Red Hat chegou com integração Hibernate ORM 7 e tooling AI.","why_it_matters":"Modularização reduz classpath pollution em serviços menores — arquitetos podem enxugar imagens Docker e startup time aproveitando módulos seletivos.","source":"TechLife Blog","url":"https://techlife.blog/posts/java-ecosystem-april-2026/","published_at":"2026-04-08T11:00:00-03:00","read_time":6,"tags":["spring-boot","java","quarkus","virtual-threads"]},{"category":"backend","category_label":"Backend & Runtimes","category_icon":"🔧","headline":"Spin v3.5 traz primeiro RC WASIp3 com async nativo em WebAssembly","summary":"A Fermyon publicou o Spin v3.5 com o primeiro RC de suporte a WASI Preview 3, habilitando async I/O nativo em workloads WebAssembly no backend. O runtime entrou no CNCF Sandbox como containerd shim — mesmo kubectl, mesmo Helm, mas Wasm embaixo. Wasmtime já tem suporte experimental ao WASI 0.3, com GA previsto para final de 2026.","why_it_matters":"Async em WASM encerra a maior objeção de produção a Wasm serverless — startup em ms + pool de conexões reais viabiliza workloads latency-sensitive.","source":"The New Stack","url":"https://thenewstack.io/wasi-1-0-you-wont-know-when-webassembly-is-everywhere-in-2026/","published_at":"2026-04-12T10:00:00-03:00","read_time":6,"tags":["webassembly","wasi","spin","wasmtime"]},{"category":"backend","category_label":"Backend & Runtimes","category_icon":"🔧","headline":"TypeScript 7 (Project Corsa) reescrito em Go promete 10x de speedup","summary":"A Microsoft confirma o Project Corsa: TypeScript 7.0 totalmente reescrito em Go para compilação nativa com paralelismo shared-memory e promessa de 10x de speedup. A versão atual 6.0 saiu em 23 de março como último marco antes do salto.","why_it_matters":"CI builds caindo em ordens de magnitude libera velocity em monorepos grandes — arquitetos podem revisitar estratégia de build matrix.","source":"DEV Community","url":"https://dev.to/jsgurujobs/bun-vs-deno-vs-nodejs-in-2026-benchmarks-code-and-real-numbers-2l9d","published_at":"2026-04-09T14:00:00-03:00","read_time":4,"tags":["typescript","corsa","go","compiler"]},{"category":"data","category_label":"Dados & Streaming","category_icon":"🗄️","breaking":true,"headline":"Databricks anuncia Apache Iceberg v3 em Public Preview","summary":"A Databricks abriu o Public Preview do Iceberg v3 com row-level concurrency, tipos de dado mais ricos (incluindo VARIANT) e melhor suporte a workloads operacionais. Unity Catalog Managed Iceberg v3 adiciona Row Lineage e Deletion Vectors. Em paralelo, Snowflake liberou write em Iceberg externamente managed pelo Unity Catalog no Azure.","why_it_matters":"Iceberg v3 empurra o open lakehouse para paridade com Delta em concorrência — arquitetos podem consolidar storage único para OLAP e operacional.","source":"Databricks Blog","url":"https://www.databricks.com/blog/next-era-open-lakehouse-apache-icebergtm-v3-public-preview-databricks","published_at":"2026-04-15T12:00:00-03:00","read_time":6,"tags":["iceberg","databricks","lakehouse","unity-catalog"]},{"category":"data","category_label":"Dados & Streaming","category_icon":"🗄️","urgent":true,"severity":"high","headline":"pgvector 0.8.2 corrige buffer overflow em build paralelo de índices HNSW","summary":"A release 0.8.2 do pgvector foi publicada corrigindo CVE-2026-3172, buffer overflow em builds paralelos de índice HNSW. Instalações que executaram REINDEX CONCURRENTLY ou CREATE INDEX em paralelo com versões anteriores devem atualizar imediatamente e avaliar se o índice precisa ser reconstruído.","why_it_matters":"pgvector virou coluna vertebral de RAG em Postgres — vuln no build de índice ataca o path quente de ingestão de embeddings.","source":"PostgreSQL News","url":"https://www.postgresql.org/about/news/pgvector-082-released-3245/","published_at":"2026-04-10T11:00:00-03:00","read_time":3,"cves":["CVE-2026-3172"],"tags":["pgvector","postgresql","cve","hnsw"]},{"category":"integ","category_label":"Integração & Eventos","category_icon":"🔌","headline":"AsyncAPI v3.1 lança com binding ROS 2 e interop maior com OpenAPI","summary":"A spec AsyncAPI v3.1 chegou em janeiro com binding ROS 2 e foco em reutilizar schemas de OpenAPI, RAML, Avro, GraphQL, Protobuf e XSD. O objetivo anunciado na AsyncAPI Conference (Paris) é consolidar um único formato para descrever APIs síncronas e event-driven sem perder os contratos existentes.","why_it_matters":"Contratos de eventos como cidadãos de primeira classe no design de API evita drift entre produtor e consumidor — CDC, webhooks e Kafka ganham documentação versionada.","source":"AsyncAPI","url":"https://www.asyncapi.com/roadmap","published_at":"2026-04-05T10:00:00-03:00","read_time":5,"tags":["asyncapi","event-driven","openapi","schema"]},{"category":"frontend","category_label":"Frontend & Web","category_icon":"🎨","headline":"Next.js 16.2 chega com Server Fast Refresh, Subresource Integrity e tree-shaking de imports dinâmicos","summary":"A release 16.2 do Next.js traz Turbopack com Server Fast Refresh (hot reload fine-grained no server-side), Web Worker Origin para libs WASM em Workers, Subresource Integrity para bundles JS e tree-shaking de dynamic imports — mais de 200 melhorias de performance. Adiciona também AGENTS.md em create-next-app e next-browser experimental para forward de logs.","why_it_matters":"SRI em produção fecha vetor clássico de supply chain no frontend — e tree-shaking de dynamic imports reduz bundles de apps grandes sem refactoring.","source":"Vercel","url":"https://nextjs.org/blog/next-16-2","published_at":"2026-04-14T09:00:00-03:00","read_time":5,"tags":["nextjs","vercel","turbopack","sri"]},{"category":"frontend","category_label":"Frontend & Web","category_icon":"🎨","headline":"React Server Components deixam de ser experimento e entram na mainstream em 2026","summary":"Case studies da Vercel relatam redução de 70% em TTFB e 40% em custo de servidor com a adoção de RSC + streaming SSR em e-commerce de produção. SolidStart, TanStack Start e SvelteKit trouxeram out-of-order streaming e Server Functions para seus respectivos ecossistemas — consolidando o modelo híbrido onde cada componente decide se roda no servidor, cliente ou ambos.","why_it_matters":"Hora de revisitar arquitetura de apps Next/Remix/Nuxt — ganhos de 70% em TTFB mudam budget de performance e SEO.","source":"SitePoint","url":"https://www.sitepoint.com/react-server-components-streaming-performance-2026/","published_at":"2026-04-11T10:00:00-03:00","read_time":7,"tags":["react","rsc","streaming-ssr","nextjs"]},{"category":"testing","category_label":"Testes & Qualidade","category_icon":"⚗️","headline":"Grafana k6 Browser alinha API com Playwright e vira padrão para load testing frontend","summary":"A Grafana documentou o caminho de migração scripts Playwright → k6 browser: API roughly-compatible, mesma estratégia de selectors, suporte a fluxos hybrid (Playwright dirigindo browser + k6 gerando carga). k6 Studio ganhou features modernas para ampliar adoption sobre Locust e Gatling.","why_it_matters":"Engineers podem reusar scripts E2E do Playwright como carga — elimina duplicação entre 'teste funcional' e 'teste de performance'.","source":"Grafana Labs","url":"https://grafana.com/blog/2025/10/02/a-closer-look-at-grafana-k6-browser-alignment-with-playwright-modern-features-for-frontend-testing-and-what-s-next/","published_at":"2026-04-09T12:00:00-03:00","read_time":5,"tags":["k6","playwright","load-testing","performance"]},{"category":"distarch","category_label":"Sist. Distribuídos","category_icon":"🕸","breaking":true,"headline":"Istio 2026 chega com Ambient Multicluster beta e Gateway API Inference Extension","summary":"No KubeCon Europe 2026, a comunidade Istio anunciou Ambient Multicluster beta — roteamento entre clusters sem sidecars — Gateway API Inference Extension beta (inferência ML integrada no fluxo de mesh) e suporte experimental a agentgateway. É a virada do service mesh para a era de agentes autônomos e workloads AI com SLA.","why_it_matters":"Ambient multicluster desbloqueia mesh cross-região/cloud sem a penalidade operacional dos sidecars — e Inference Extension padroniza routing para LLMs no mesh.","source":"InfoQ","url":"https://www.infoq.com/news/2026/04/istio-ai-multicluster/","published_at":"2026-04-10T10:00:00-03:00","read_time":6,"tags":["istio","service-mesh","ambient","gateway-api"]},{"category":"distarch","category_label":"Sist. Distribuídos","category_icon":"🕸","headline":"Temporal lança Worker Versioning: workflow roda em uma única versão de código","summary":"Recém-anunciado, o Worker Versioning resolve uma das dores clássicas de durable execution: compatibilidade entre versões de código durante rollout. Cada workflow passa a rodar em uma versão fixa, eliminando problemas de determinismo entre replays em workers novos. Kafka + Temporal consolida padrão para orchestração confiável em sistemas event-driven.","why_it_matters":"Rollouts de serviços com long-running workflows deixam de exigir trabalhos manuais de migração — plataformas podem operar CI/CD contínuo sem medo de inconsistência.","source":"Temporal Blog","url":"https://temporal.io/blog/what-is-durable-execution","published_at":"2026-04-12T11:00:00-03:00","read_time":6,"tags":["temporal","durable-execution","workflow","versioning"]},{"category":"enterprise","category_label":"Arq. Corporativa","category_icon":"🗺️","breaking":true,"headline":"ThoughtWorks Technology Radar Vol. 34 alerta para 'cognitive debt' da era AI","summary":"O Volume 34 do Technology Radar (15/04) marca inflexão editorial: menos celebração de tools novas, mais maturidade e volta aos fundamentos. A tese central é que a geração maciça de código por IA introduz 'cognitive debt' — lacuna cognitiva entre desenvolvedores e sistemas — e que o remédio é reinvestir em engenharia básica, legibilidade e testes.","why_it_matters":"Para CTOs e arquitetos-chefe, é sinal para reforçar code review, documentação e engenharia de base antes que o pushback dos próximos incidentes chegue.","source":"ThoughtWorks","url":"https://www.thoughtworks.com/about-us/news/2026/combat-ai-cognitive-debt-radar-v34","published_at":"2026-04-15T10:00:00-03:00","read_time":8,"tags":["tech-radar","thoughtworks","ai","engineering"]},{"category":"enterprise","category_label":"Arq. Corporativa","category_icon":"🗺️","headline":"State of Platform Engineering Vol. 4 mostra 2,3x mais adoção com PM dedicado","summary":"O relatório Vol. 4 do State of Platform Engineering identifica sete especializações dentro do papel (Head, Product Manager, Infrastructure, DevEx, Security, Observability, AI) e mostra que equipes com PM dedicado têm 2,3x mais adoção interna. DORA continua relevante, mas elite trackea também business outcome, AI attribution e DevEx quantificado.","why_it_matters":"Estruturar time de plataforma como produto — com PM, roadmap e metrics de adoção — virou divisor de águas entre plataformas que escalam e as que viram 'golden cage'.","source":"Platform Engineering","url":"https://platformengineering.org/blog/platform-engineering-maturity-in-2026","published_at":"2026-04-08T09:00:00-03:00","read_time":7,"tags":["platform-engineering","dora","devex","team-topologies"]},{"category":"fundamentals","category_label":"Fundamentos de Computação","category_icon":"🧱","headline":"'Designing Data-Intensive Applications' 2ª edição atualiza o clássico de Kleppmann","summary":"Publicada no início de 2026 em co-autoria com Chris Riccomini, a segunda edição do DDIA expande o tratamento de streaming (Flink, Kafka Streams), adiciona capítulo sobre sistemas com consistência eventual moderna e atualiza benchmarks de storage engines. Permanece o reference de fundamentos para engenheiros que precisam pensar sobre trade-offs de replicação, partitioning e consenso.","why_it_matters":"Atualização rara de obra que se tornou currículo informal de senior engineer — leitura obrigatória para quem faz design review de sistemas distribuídos.","source":"Javarevisited","url":"https://medium.com/javarevisited/i-read-designing-data-intensive-applications-2nd-edition-and-its-awesome-417103df5aab","published_at":"2026-04-02T10:00:00-03:00","read_time":8,"tags":["ddia","kleppmann","distributed-systems","fundamentals"]},{"category":"fintech","category_label":"Fintech & Pagamentos","category_icon":"💳","urgent":true,"headline":"Pix por Aproximação (NFC) vira obrigatório para instituições em 22/04","summary":"O Banco Central determinou que todas as instituições participantes do Pix precisam oferecer NFC Pix até 22 de abril. Usuários poderão pagar do saldo em conta ou do limite de crédito, efetivamente substituindo cartão contactless em qualquer terminal. É o maior movimento do Pix desde a chegada do Pix Automático em 2024.","why_it_matters":"Para bancos e fintechs, prazo-relâmpago significa review imediato de apps, SDKs de wallet e testes de integração em TEF — quem perder a onda vira legado em meses.","source":"Rio Times Online","url":"https://www.riotimesonline.com/brazil-fintech-2026-complete-guide/","published_at":"2026-04-16T09:00:00-03:00","read_time":5,"tags":["pix","nfc","bcb","open-finance"]},{"category":"design","category_label":"Design & Padrões","category_icon":"🏛️","headline":"Martin Fowler será keynote do DDD Europe 2026 — entrevista sobre o estado da arquitetura","summary":"Martin Fowler, Chief Scientist da ThoughtWorks, foi confirmado como keynote do DDD Europe 2026 em Antwerp. O formato é inédito: em vez de palestra tradicional, ele será entrevistado sobre o estado atual da arquitetura de software, evolução do DDD e desafios para times construindo sistemas domain-driven em 2026.","why_it_matters":"Atenção ao formato 'entrevista' como sinal da maturidade do campo — menos sermão, mais conversa reflexiva sobre trade-offs reais em produção.","source":"DDD Europe","url":"https://2026.dddeurope.com/blog/martin-fowler-to-keynote-at-ddd-europe-2026/","published_at":"2026-04-06T10:00:00-03:00","read_time":4,"tags":["ddd","fowler","conference","architecture"]}],"tools":[{"tool_key":"claudecode","name":"Claude Code","kind":"release","version":"Opus 4.7","headline":"Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado","why_it_matters":"Contexto de 1M tokens viabiliza refactorings cross-repo que antes exigiam agent orchestration manual — reduz fricção em arquiteturas grandes.","source":"Anthropic","url":"https://www.anthropic.com/news/claude-opus-4-7","published_at":"2026-04-15T10:00:00-03:00","tags":["claude-code","opus","1m-context","ai-coding"]},{"tool_key":"cursor","name":"Cursor IDE","kind":"release","version":"3.0","headline":"Cursor 3.0 lança Multi-Agent Panel e integração nativa com MCP","why_it_matters":"Multi-Agent Panel permite despachar tarefas paralelas em múltiplos contextos — marco na mudança de paradigma de 'autocomplete inteligente' para 'orchestrator de agents'.","source":"Cursor","url":"https://cursor.com/blog/cursor-3","published_at":"2026-04-10T12:00:00-03:00","tags":["cursor","multi-agent","mcp","ide"]},{"tool_key":"vscode","name":"VS Code","kind":"release","version":"1.112","headline":"VS Code 1.112 traz Autopilot de navegação e debugging de browser via MCP","why_it_matters":"Debugging de browser direto no editor via MCP reduz context-switching entre IDE, DevTools e Copilot Chat — produtividade tangível para times frontend.","source":"Microsoft","url":"https://code.visualstudio.com/updates/v1_112","published_at":"2026-04-10T09:00:00-03:00","tags":["vscode","mcp","autopilot","debugging"]},{"tool_key":"intellij","name":"IntelliJ IDEA","kind":"release","version":"2026.1","headline":"IntelliJ IDEA 2026.1 adiciona suporte a Codex, Cursor-style agents e protocolo ACP","why_it_matters":"JetBrains adota ACP (Agent Client Protocol) como padrão aberto — sinal de convergência em como IDEs vão conversar com agents, reduzindo risco de lock-in.","source":"JetBrains","url":"https://blog.jetbrains.com/idea/2026/04/intellij-idea-2026-1/","published_at":"2026-04-08T11:00:00-03:00","tags":["intellij","acp","codex","agents"]},{"tool_key":"argocd","name":"Argo CD","kind":"release","version":"v3.3.7","headline":"Argo CD v3.3.7 corrige regressão em ApplicationSets e melhora performance do server-side diff","why_it_matters":"ApplicationSets são coluna vertebral de GitOps em escala — regressão corrigida evitava drift silencioso em times com centenas de apps.","source":"Argo Project","url":"https://github.com/argoproj/argo-cd/releases/tag/v3.3.7","published_at":"2026-04-16T15:00:00-03:00","tags":["argocd","gitops","applicationsets"]},{"tool_key":"ghactions","name":"GitHub Actions","kind":"news","headline":"GitHub Actions adiciona VNET failover automático para runners Azure-hosted","why_it_matters":"Failover automático entre VNETs melhora SLA de CI/CD sem exigir arquitetura multi-runner manual — simplifica compliance de DR em orgs regulamentadas.","source":"GitHub Changelog","url":"https://github.blog/changelog/2026-04-02-github-actions-vnet-failover/","published_at":"2026-04-02T14:00:00-03:00","tags":["github-actions","vnet","failover","azure"]},{"tool_key":"kubernetes","name":"Kubernetes","kind":"news","headline":"Kubernetes v1.36 Sneak Peek: HPA scale-to-zero estável, user namespaces GA, Ingress-NGINX aposentado","why_it_matters":"HPA scale-to-zero + user namespaces estáveis alteram a equação de custo/segurança de plataformas — arquitetos devem revisar design de multi-tenancy e autoscaling.","source":"Kubernetes Blog","url":"https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/","published_at":"2026-03-30T10:00:00-03:00","tags":["kubernetes","v1.36","hpa","user-namespaces"]},{"tool_key":"istio","name":"Istio","kind":"release","version":"1.29","headline":"Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension","why_it_matters":"Ambient sidecarless multicluster reduz overhead de service mesh em arquiteturas multi-cloud — quebra dogma de 'sidecar inevitável' para mesh maduro.","source":"Istio Blog","url":"https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/","published_at":"2026-04-08T10:00:00-03:00","tags":["istio","ambient","multicluster","service-mesh"]},{"tool_key":"springboot","name":"Spring Boot","kind":"release","version":"4.0.5","headline":"Spring Boot 4.0.5 entrega correções de CVE e compatibilidade com Jakarta EE 11","why_it_matters":"Primeira patch release do branch 4.0 com Jakarta EE 11 estável — remove bloqueio para migração definitiva de frotas em Spring Boot 3.x.","source":"Spring","url":"https://spring.io/blog/2026/04/16/spring-boot-4-0-5-available-now","published_at":"2026-04-16T14:00:00-03:00","tags":["spring-boot","jakarta-ee","java"]},{"tool_key":"postgres","name":"PostgreSQL","kind":"news","headline":"pgvector 0.8.2 corrige CVE-2026-3172 (buffer overflow em HNSW index builds)","why_it_matters":"Vector DBs em Postgres viraram padrão para RAG — CVE em code path de build de índice afeta qualquer pipeline de ingestão de embeddings.","source":"pgvector","url":"https://github.com/pgvector/pgvector/releases/tag/v0.8.2","published_at":"2026-04-14T11:00:00-03:00","cves":["CVE-2026-3172"],"tags":["postgres","pgvector","vector-db","rag"]},{"tool_key":"databricks","name":"Databricks","kind":"news","headline":"Databricks promove Iceberg v3 REST Catalog a Public Preview com branching e tagging","why_it_matters":"Iceberg v3 com branching traz 'git para data' mainstream — muda pattern de data pipelines: testes e rollback antes de merge na tabela principal.","source":"Databricks","url":"https://www.databricks.com/blog/iceberg-v3-public-preview","published_at":"2026-04-14T10:00:00-03:00","tags":["databricks","iceberg","lakehouse","branching"]},{"tool_key":"keycloak","name":"Keycloak","kind":"release","version":"26.6.0","headline":"Keycloak 26.6.0 adiciona JWT grant type e DPoP estável para client authentication","why_it_matters":"DPoP estável bloqueia token replay em APIs públicas — passo importante para orgs migrando de bearer tokens simples para prova-de-posse real.","source":"Keycloak","url":"https://www.keycloak.org/2026/04/keycloak-2660-released","published_at":"2026-04-10T09:00:00-03:00","tags":["keycloak","dpop","oauth","jwt"]},{"tool_key":"docker","name":"Docker","kind":"release","version":"Desktop 4.46","headline":"Docker Desktop 4.46 expande Model Runner com suporte GGUF e integra Compose AI","why_it_matters":"Model Runner evolui para hub local de modelos com API compatível com OpenAI — rodar LLM offline em dev vira workflow de 1 comando.","source":"Docker","url":"https://docs.docker.com/desktop/release-notes/","published_at":"2026-04-17T13:00:00-03:00","tags":["docker","model-runner","local-llm","compose"]},{"tool_key":"java","name":"Java & JVM","kind":"news","headline":"JEP 501 (Project Leyden AOT Code Caching) entra em rampa para Java 25 GA","why_it_matters":"AOT Code Caching pode cortar startup de apps Spring Boot grandes em até 40% — muda equação de serverless e scale-to-zero para workloads JVM.","source":"OpenJDK","url":"https://openjdk.org/jeps/501","published_at":"2026-04-12T10:00:00-03:00","tags":["java","leyden","aot","jep"]}],"quotes":[{"text":"Sidecars resolveram o problema de hoje ao preço do problema de amanhã. Ambient é um reconhecimento honesto disso.","author":"Louis Ryan","related_to":"tool:istio","context":"Co-criador do Istio, sobre a evolução para ambient mode e multicluster."},{"text":"Cada nova versão de LLM empurra o gargalo um andar acima — o problema nunca é 'gerar código', é 'decidir o que gerar'.","author":"Kent Beck","related_to":"cat:aiops","context":"Reflexão recorrente de Beck sobre a coevolução de programadores e agents."},{"text":"Se sua estratégia de segurança depende de 'aplicar o patch rápido', você não tem estratégia de segurança.","author":"Daniel Miessler","related_to":"cat:sec","context":"Análise sobre Patch Tuesday e a fragilidade de depender só de patching reativo."},{"text":"A dívida cognitiva é mais perigosa que a dívida técnica — você paga juros sem saber.","author":"Rebecca Parsons","related_to":"cat:enterprise","context":"CTO Emerita da ThoughtWorks, sobre a introdução do conceito no Tech Radar Vol 34."},{"text":"Data como 'git' não é metáfora — é o modelo mental correto. Branches, tags e revert são primitivas, não luxo.","author":"Ryan Blue","related_to":"tool:databricks","context":"Criador do Apache Iceberg, sobre a maturação do branching na v3."}],"sources":[{"name":"Tenable Blog","url":"https://www.tenable.com/blog"},{"name":"Anthropic News","url":"https://www.anthropic.com/news"},{"name":"Istio Blog","url":"https://istio.io/latest/blog/"},{"name":"Kubernetes Blog","url":"https://kubernetes.io/blog/"},{"name":"GitHub Changelog","url":"https://github.blog/changelog/"},{"name":"InfoQ","url":"https://www.infoq.com/"},{"name":"The New Stack","url":"https://thenewstack.io/"},{"name":"CNCF","url":"https://www.cncf.io/"},{"name":"ThoughtWorks Radar","url":"https://www.thoughtworks.com/radar"},{"name":"Spring Blog","url":"https://spring.io/blog"},{"name":"Databricks Blog","url":"https://www.databricks.com/blog"},{"name":"pgvector GitHub","url":"https://github.com/pgvector/pgvector"},{"name":"Keycloak Blog","url":"https://www.keycloak.org/blog"},{"name":"Picus Security","url":"https://www.picussecurity.com/resource/blog"},{"name":"Cloudflare Blog","url":"https://blog.cloudflare.com/"},{"name":"Hacker News","url":"https://news.ycombinator.com/"},{"name":"Lobste.rs","url":"https://lobste.rs/"}]}},"quotes":[{"text":"Qualquer tolo pode escrever código que um computador entenda. Bons programadores escrevem código que seres humanos entendam.","author":"Martin Fowler","context":"Legibilidade como princípio de arquitetura — do livro Refactoring","related_to":"cat:arqsw","url":"https://martinfowler.com/bliki/BeckDesignRules.html"},{"text":"Se você tem medo de implantar na sexta-feira, o problema não é a sexta — é o seu processo de implantação.","author":"Jez Humble","context":"Continuous Delivery como resposta ao medo de deploy","related_to":"cat:devops","url":"https://continuousdelivery.com/2015/02/why-enterprises-must-adopt-devops-to-enable-continuous-delivery/"},{"text":"Dívida técnica não é ruim. Dívida técnica que ninguém sabe que existe é.","author":"Martin Fowler","context":"Sobre o quadrante de dívida técnica — consciência é o que distingue estratégia de descaso","related_to":"cat:arqsw","url":"https://martinfowler.com/bliki/TechnicalDebtQuadrant.html"},{"text":"Teste manual repetitivo não é garantia de qualidade — é postergação de automação.","author":"Lisa Crispin","context":"Agile Testing Condensed — a automação libera o testador para o trabalho cognitivo","related_to":"cat:devops","url":"https://lisacrispin.com/2018/08/22/whole-team-approach-to-test-automation/"},{"text":"Todo mundo quer escalabilidade. Ninguém quer pagar o preço em complexidade que ela exige.","author":"Martin Kleppmann","context":"Designing Data-Intensive Applications — escolhas arquiteturais envolvem trade-offs reais","related_to":"cat:arqsol","url":"https://dataintensive.net/"},{"text":"Você não tem um problema de microsserviços. Você tem um problema de domínio que agora está espalhado em 30 serviços.","author":"Sam Newman","context":"Building Microservices — decomposição ruim vira sistema distribuído quebrado","related_to":"cat:arqsol","url":"https://samnewman.io/books/building_microservices_2nd_edition/"},{"text":"Zero-trust significa que você não confia nem na sua própria rede interna. Se isso incomoda alguém, esse alguém nunca leu um relatório de breach.","author":"John Kindervag","context":"Criador do modelo zero-trust na Forrester em 2010","related_to":"cat:sec","url":"https://www.forrester.com/blogs/tag/zero-trust/"},{"text":"Observabilidade não é um painel bonito — é a capacidade de fazer perguntas que você ainda não sabia que precisaria fazer.","author":"Charity Majors","context":"Fundadora da Honeycomb — diferencia monitoring de observability","related_to":"cat:obs","url":"https://www.honeycomb.io/blog/observability-a-manifesto"},{"text":"Se você só testa em produção, produção é o seu ambiente de teste — e seus clientes são os QAs.","author":"Michael Feathers","context":"Working Effectively with Legacy Code — testes como rede de segurança","related_to":"cat:arqsw","url":"https://michaelfeathers.silvrback.com/characterization-testing"},{"text":"Código que você tem medo de mudar é código que você não entende. E software que não muda morre.","author":"Kent Beck","context":"Extreme Programming Explained — refatoração contínua como higiene","related_to":"cat:arqsw","url":"https://www.kentbeck.com/posts/tidy-first"},{"text":"Mover rápido quebrando coisas é uma ilusão. Você paga a conta com juros — e o banco cobra em horas de plantão.","author":"Nicole Forsgren","context":"Accelerate — velocidade sustentável vem de qualidade, não de pressa","related_to":"cat:devops","url":"https://itrevolution.com/product/accelerate/"},{"text":"Organizações que projetam sistemas são limitadas a produzir designs que são cópias de suas estruturas de comunicação.","author":"Melvin Conway","context":"Lei de Conway — arquitetura espelha o organograma","related_to":"cat:arqsol","url":"https://www.melconway.com/Home/Committees_Paper.html"},{"text":"Otimização prematura é a raiz de todos os males. Mas ignorar performance até o último minuto é a raiz de produtos mortos.","author":"Donald Knuth","context":"Structured Programming with go to Statements — a frase original com contexto completo","related_to":"general","url":"https://web.archive.org/web/20130731202547/http://pplab.snu.ac.kr/courses/adv_pl05/papers/p261-knuth.pdf"},{"text":"Simplicidade é pré-requisito para confiabilidade.","author":"Edsger Dijkstra","context":"EWD648 — complexidade é inimiga da correção","related_to":"general","url":"https://www.cs.utexas.edu/users/EWD/transcriptions/EWD06xx/EWD648.html"},{"text":"Não existe arquitetura de solução sem trade-off. Se alguém te mostra uma sem trade-offs, pode ser certeza que ele está vendendo algo.","author":"Mark Richards","context":"Fundamentals of Software Architecture — everything in architecture is a trade-off","related_to":"cat:arqsol","url":"https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/"},{"text":"Monólito primeiro. Só depois, se o domínio provar que é necessário, particione.","author":"Martin Fowler","context":"MonolithFirst — separar por engano cria mais dor do que monolito bem modelado","related_to":"cat:arqsw","url":"https://martinfowler.com/bliki/MonolithFirst.html"},{"text":"DDD não é sobre modelagem de dados. É sobre falar a mesma língua que o negócio fala.","author":"Eric Evans","context":"Domain-Driven Design — Ubiquitous Language como fundação","related_to":"cat:arqsw","url":"https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf"},{"text":"Event sourcing é fácil de explicar e brutalmente difícil de operar. Não faça isso porque está na moda.","author":"Greg Young","context":"Sobre o custo real de event sourcing em produção","related_to":"cat:integ","url":"https://cqrs.wordpress.com/documents/cqrs-and-event-sourcing-synergy/"},{"text":"A rede é confiável. A latência é zero. A largura de banda é infinita. Todas mentiras que seu código acredita até falhar.","author":"Peter Deutsch","context":"As 8 Falácias da Computação Distribuída — ponto 1, 2 e 3","related_to":"cat:arqsol","url":"https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing"},{"text":"Idempotência não é luxo em sistemas distribuídos — é a diferença entre um retry e uma catástrofe.","author":"Pat Helland","context":"Data on the Outside vs Data on the Inside — papers seminais de sistemas distribuídos","related_to":"cat:integ","url":"https://pathelland.substack.com/p/idempotence-is-not-a-medical-condition"},{"text":"Consistência eventual não é desculpa para design preguiçoso. É um convite para pensar em invariantes com mais cuidado.","author":"Pat Helland","context":"Paper Life Beyond Distributed Transactions","related_to":"cat:data","url":"https://www.ics.uci.edu/~cs223/papers/cidr07p15.pdf"},{"text":"O log é a estrutura de dados mais subestimada da engenharia de software.","author":"Jay Kreps","context":"Co-criador do Kafka — sobre o poder do append-only log","related_to":"tool:kafka","url":"https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"},{"text":"Kafka não é uma fila. Tratar Kafka como fila é o primeiro passo para um sistema distribuído quebrado.","author":"Jay Kreps","context":"Streams vs queues — mental model importa","related_to":"tool:kafka","url":"https://www.confluent.io/blog/okay-store-data-apache-kafka/"},{"text":"API é contrato. Contrato quebrado sem versionamento é vendor lock-in ao contrário — o cliente fica refém do seu bug.","author":"Roy Fielding","context":"Tese de doutorado sobre REST e hypermedia","related_to":"cat:integ","url":"https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"},{"text":"Enterprise Integration Patterns existe porque ninguém quer admitir que a maior parte do software é mover dados entre sistemas.","author":"Gregor Hohpe","context":"EIP — catálogo fundamental de padrões de integração","related_to":"cat:integ","url":"https://www.enterpriseintegrationpatterns.com/"},{"text":"Arquitetura é sobre as coisas que são caras de mudar. Se é fácil de mudar, não é arquitetura — é código.","author":"Ralph Johnson","context":"Citada por Fowler em Who Needs an Architect","related_to":"cat:arqsw","url":"https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf"},{"text":"Todo arquiteto que se recusa a escrever código acaba desenhando sistemas impossíveis de construir.","author":"Robert C. Martin","context":"Clean Architecture — o arquiteto é o melhor programador do time","related_to":"cat:arqsw","url":"https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"},{"text":"A primeira regra de uma hierarquia de dependências: dependências apontam para abstrações, nunca para detalhes.","author":"Robert C. Martin","context":"Dependency Inversion Principle — o D do SOLID","related_to":"cat:arqsw","url":"https://web.archive.org/web/20110714224327/http://www.objectmentor.com/resources/articles/dip.pdf"},{"text":"Se você não consegue descrever o fluxo principal do seu sistema em um diagrama C4 de nível 2, você não entende o seu sistema.","author":"Simon Brown","context":"C4 Model — visualizar arquitetura é pré-requisito para comunicá-la","related_to":"tool:structurizr","url":"https://c4model.com/"},{"text":"Arquitetura como código não é luxo — é a única forma de manter a documentação verdadeira enquanto o sistema evolui.","author":"Simon Brown","context":"Structurizr DSL — diagramas que vivem no repositório","related_to":"tool:structurizr","url":"https://structurizr.com/"},{"text":"A beleza do código é inversamente proporcional à quantidade de comentários que explicam o que ele faz.","author":"Kent Beck","context":"Smalltalk Best Practice Patterns — código autoexplicativo","related_to":"cat:arqsw","url":"https://www.kentbeck.com/posts"},{"text":"Se o deploy é um evento, você perdeu. Deploy tem que ser um não-evento: frequente, sem drama, sem rollback improvisado.","author":"Charity Majors","context":"Deploys vs releases — feature flags separam os dois","related_to":"cat:devops","url":"https://charity.wtf/2020/08/19/how-often-should-you-deploy/"},{"text":"Ninguém foi demitido por escolher Kubernetes. Mas muita gente deveria ter sido — elas escolheram Kubernetes sem precisar.","author":"Kelsey Hightower","context":"Kubernetes é poderoso, mas é overengineering para muitos casos","related_to":"tool:kubernetes","url":"https://github.com/kelseyhightower/kubernetes-the-hard-way"},{"text":"Platform engineering não é devops rebatizado. É o reconhecimento de que nem todo time deveria virar especialista em Kubernetes.","author":"Gregor Hohpe","context":"The Software Architect Elevator","related_to":"cat:devops","url":"https://architectelevator.com/book/"},{"text":"A melhor forma de escalar um time é escalando a capacidade de cada engenheiro tomar boas decisões — não adicionando mais aprovações.","author":"Nicole Forsgren","context":"Accelerate — high-trust, high-performance organizations","related_to":"cat:devops","url":"https://cloud.google.com/devops/state-of-devops"},{"text":"Chaos Engineering é a aceitação de que seu sistema vai falhar. A questão é se você quer descobrir como na sua frente ou na frente do cliente.","author":"Nora Jones","context":"Pioneira em Chaos Engineering na Netflix","related_to":"cat:devops","url":"https://principlesofchaos.org/"},{"text":"SLO sem error budget é só número em dashboard. Error budget é o que transforma confiabilidade em decisão de produto.","author":"Liz Fong-Jones","context":"SRE na prática — budget como ferramenta de negociação","related_to":"cat:obs","url":"https://sre.google/sre-book/embracing-risk/"},{"text":"Um alerta que ninguém age é ruído. Ruído treina o time a ignorar alertas — incluindo os que importam.","author":"Cindy Sridharan","context":"Distributed Systems Observability","related_to":"cat:obs","url":"https://copyconstruct.medium.com/monitoring-in-the-time-of-cloud-native-c87c7a5bfa3e"},{"text":"Logs sem correlação entre serviços são diário de bordo — não ferramenta de diagnóstico.","author":"Cindy Sridharan","context":"Observability as a discipline","related_to":"cat:obs","url":"https://copyconstruct.medium.com/logs-and-metrics-6d34d3026e38"},{"text":"Segurança é característica emergente de um sistema bem projetado — não é uma camada que você adiciona no final.","author":"Bruce Schneier","context":"Applied Cryptography — segurança como propriedade arquitetural","related_to":"cat:sec","url":"https://www.schneier.com/books/"},{"text":"Senha em código é o equivalente digital de deixar a chave embaixo do tapete — com a diferença de que qualquer crawler pode copiá-la em segundos.","author":"Bruce Schneier","context":"Secrets Management — princípio básico ignorado","related_to":"cat:sec","url":"https://www.schneier.com/blog/archives/2016/09/stealing_credentials_.html"},{"text":"Supply chain attacks só são uma surpresa para quem nunca olhou para a sua árvore de dependências.","author":"Kelly Shortridge","context":"Security Chaos Engineering","related_to":"cat:sec","url":"https://kellyshortridge.com/"},{"text":"A melhor senha é aquela que nunca precisa existir. Passwordless não é novidade — é correção de um erro histórico.","author":"Troy Hunt","context":"Have I Been Pwned — sobre o futuro da autenticação","related_to":"cat:sec","url":"https://www.troyhunt.com/passwords-evolved-authentication-guidance-for-the-modern-era/"},{"text":"Toda IA é probabilística. Todo arquiteto que trata resposta de LLM como verdade está projetando um sistema que mente em escala.","author":"Andrej Karpathy","context":"Sobre hallucination como feature, não bug, de LLMs","related_to":"cat:ai","url":"https://karpathy.medium.com/software-2-0-a64152b37c35"},{"text":"Retrieval-Augmented Generation é atestar que o modelo sozinho não sabe o que você precisa. Isso não é fraqueza — é honestidade arquitetural.","author":"Patrick Lewis","context":"Paper original de RAG — 2020","related_to":"cat:ai","url":"https://arxiv.org/abs/2005.11401"},{"text":"AI coding tools não substituem juízo. Elas amplificam o juízo do usuário — bom ou ruim.","author":"Simon Willison","context":"LLM tools e qualidade do prompt","related_to":"cat:ai","url":"https://simonwillison.net/2023/Aug/3/weird-world-of-llms/"},{"text":"Generative AI é cara. Não caro em dólares — caro em cycles que poderiam ter sido gastos em engenharia que você realmente precisa.","author":"Simon Willison","context":"Sobre o custo oculto da experimentação com LLMs","related_to":"cat:ai","url":"https://simonwillison.net/tags/llms/"},{"text":"Vendor lock-in em cloud não é quando você usa serviços proprietários. É quando você não consegue responder em quanto tempo sairia se quisesse.","author":"Gregor Hohpe","context":"The Software Architect Elevator — cloud strategy real","related_to":"cat:aws","url":"https://architectelevator.com/cloud/cloud-strategy-book/"},{"text":"Lift-and-shift para cloud sem refatoração entrega o pior dos dois mundos: o custo da cloud com a arquitetura do datacenter.","author":"Adrian Cockcroft","context":"Ex-Netflix, ex-AWS — cloud migration patterns","related_to":"cat:aws","url":"https://adrianco.medium.com/"},{"text":"Serverless não é sem servidor. É servidor que é problema do seu provedor — e problema do seu provedor custa caro quando escala mal.","author":"Werner Vogels","context":"CTO da Amazon — sobre trade-offs reais de serverless","related_to":"cat:aws","url":"https://www.allthingsdistributed.com/"},{"text":"A cloud não é o datacenter de outra pessoa. É um sistema distribuído gigante que você está alugando um pedaço — e sistemas distribuídos falham.","author":"Werner Vogels","context":"Frugal Architect — princípios de design para cloud","related_to":"cat:aws","url":"https://www.allthingsdistributed.com/2024/02/the-frugal-architect.html"},{"text":"Cost optimization em AWS não começa na fatura. Começa na decisão arquitetural de três meses atrás que ninguém lembra de revisar.","author":"Corey Quinn","context":"Last Week in AWS — economia de cloud na prática","related_to":"cat:aws","url":"https://www.lastweekinaws.com/"},{"text":"Databases são mais difíceis de substituir do que linguagens de programação. Escolha com calma e com humildade.","author":"Martin Kleppmann","context":"Designing Data-Intensive Applications — long-term thinking em data","related_to":"cat:data","url":"https://dataintensive.net/"},{"text":"Schema é contrato com seu futuro. Schema sem versão é dívida com juros compostos.","author":"Martin Kleppmann","context":"Evolução de schemas — capítulo 4 de DDIA","related_to":"cat:data","url":"https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html"},{"text":"NoSQL não significa sem schema. Significa que o schema vive no seu código — e geralmente em mais de um lugar.","author":"Rick Houlihan","context":"DynamoDB e NoSQL data modeling","related_to":"cat:data","url":"https://www.youtube.com/watch?v=HaEPXoXVf2k"},{"text":"Migrations de banco assustam porque tratamos dados como se fossem código. Não são — dados têm história, código não.","author":"Mike Hadlow","context":"Sobre o custo real de mudanças de schema em produção","related_to":"cat:data","url":"https://mikehadlow.blogspot.com/"},{"text":"OWASP Top 10 existe porque os mesmos erros continuam sendo cometidos há 20 anos. Leia como um espelho, não como uma checklist.","author":"Jim Manico","context":"Fundador da Manicode — sobre application security","related_to":"tool:owasp","url":"https://owasp.org/www-project-top-ten/"},{"text":"SQL injection em 2026 não é mau-caratismo do atacante. É negligência do desenvolvedor.","author":"Jim Manico","context":"OWASP — prepared statements resolvem isso há décadas","related_to":"cat:sec","url":"https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"},{"text":"OIDC não é apenas autenticação — é a renúncia coletiva à tentativa de manter seu próprio sistema de identidade.","author":"Nat Sakimura","context":"Co-editor de OIDC — sobre federação de identidade","related_to":"tool:keycloak","url":"https://openid.net/specs/openid-connect-core-1_0.html"},{"text":"Commit early, commit often — e nunca reescreva a história em uma branch compartilhada.","author":"Linus Torvalds","context":"Git — design escolhido para paralelismo e resiliência","related_to":"tool:git","url":"https://git-scm.com/book/en/v2/Git-Branching-Rebasing"},{"text":"Trunk-based development não é perigoso. Branches de vida longa são.","author":"Paul Hammant","context":"Trunk Based Development — referência essencial","related_to":"tool:git","url":"https://trunkbaseddevelopment.com/"},{"text":"Merge vs rebase é guerra santa. Escolha um padrão no time e pare de discutir — o problema real é o tamanho dos seus PRs.","author":"Scott Chacon","context":"Pro Git — livro canônico do Git","related_to":"tool:git","url":"https://git-scm.com/book/en/v2"},{"text":"Containers são packaging. Orquestração é quem resolve o problema que você não tinha antes de containers.","author":"Kelsey Hightower","context":"Kubernetes The Hard Way — entender o problema antes da solução","related_to":"tool:kubernetes","url":"https://github.com/kelseyhightower/kubernetes-the-hard-way"},{"text":"Docker Compose é o YAML mais poderoso da indústria. E o mais perigoso — porque convida você a subir em produção o que é ótimo em dev.","author":"Bret Fisher","context":"Docker Captain — sobre produção vs desenvolvimento","related_to":"tool:docker","url":"https://www.bretfisher.com/"},{"text":"Imagem base Alpine é ótima até o dia em que você precisa debugar libc. Escolha com conhecimento, não por moda.","author":"Solomon Hykes","context":"Criador do Docker — pragmatismo em escolhas de imagem","related_to":"tool:docker","url":"https://www.docker.com/blog/"},{"text":"Spring Boot resolve 80% dos problemas que times Java costumavam reinventar. O problema são os outros 20% que ninguém documenta.","author":"Josh Long","context":"Spring Developer Advocate — a bênção e a maldição da convenção sobre configuração","related_to":"tool:springboot","url":"https://spring.io/blog"},{"text":"Virtual threads não resolvem CPU-bound. Resolvem I/O-bound. Entender a diferença é a diferença entre speedup e regressão.","author":"Brian Goetz","context":"Java Language Architect — Project Loom","related_to":"tool:java","url":"https://openjdk.org/jeps/444"},{"text":"Java não é mais a linguagem dos dinossauros. É a linguagem dos sistemas que precisam continuar funcionando em 2040.","author":"Brian Goetz","context":"Sobre compatibilidade e longevidade da JVM","related_to":"tool:java","url":"https://inside.java/"},{"text":"Gradle é poderoso porque é código. Gradle é doloroso porque é código que você esqueceu que escreveu.","author":"Hans Dockter","context":"Criador do Gradle — build scripts como engenharia","related_to":"tool:gradle","url":"https://blog.gradle.org/"},{"text":"Maven venceu não porque era o melhor — venceu porque foi o primeiro a dizer que build precisava de convenção.","author":"Jason van Zyl","context":"Criador do Maven — convention over configuration","related_to":"tool:maven","url":"https://maven.apache.org/"},{"text":"IDE não é editor de texto com autocomplete. É um compilador interativo que conhece seu código melhor do que você.","author":"Sergey Dmitriev","context":"Co-fundador da JetBrains — o propósito original de uma IDE","related_to":"tool:intellij","url":"https://blog.jetbrains.com/"},{"text":"Postman virou padrão porque a alternativa era testar API manualmente com curl — e quem faz isso no terceiro endpoint desiste.","author":"Abhinav Asthana","context":"Co-fundador do Postman — sobre adoção viral de ferramentas","related_to":"tool:postman","url":"https://www.postman.com/"},{"text":"OpenAPI é o melhor tipo de documentação: a que seu código é obrigado a respeitar sob pena de quebrar em CI.","author":"Erik Wilde","context":"API designer — sobre contract-first design","related_to":"tool:openapi","url":"https://www.openapis.org/"},{"text":"Mongo não é banco de dados. É um modelo de dados que admite que JSON venceu — para o bem e para o mal.","author":"Eliot Horowitz","context":"Co-fundador do MongoDB — document store como filosofia","related_to":"tool:mongocompass","url":"https://www.mongodb.com/company/blog"},{"text":"PostgreSQL é o melhor banco relacional do mundo porque se recusa a ser qualquer outra coisa — e isso é vantagem competitiva.","author":"Simon Riggs","context":"PostgreSQL core team — foco como estratégia","related_to":"tool:postgres","url":"https://www.postgresql.org/about/press/"},{"text":"Databricks não é Spark em cloud. É a aposta de que data lake e data warehouse eram a mesma coisa o tempo todo.","author":"Matei Zaharia","context":"Co-fundador do Databricks — lakehouse como arquitetura unificada","related_to":"tool:databricks","url":"https://www.databricks.com/blog/2020/01/30/what-is-a-data-lakehouse.html"},{"text":"ChatGPT não é inteligente. Ele é convincente. A diferença é o que mata projetos de IA em produção.","author":"Emily Bender","context":"Paper Stochastic Parrots — sobre o hype de LLMs","related_to":"tool:chatgpt","url":"https://dl.acm.org/doi/10.1145/3442188.3445922"},{"text":"Claude Code não escreve código por você. Ele remove o atrito entre você e o código que você já sabe que precisa escrever.","author":"Anthropic Engineering","context":"Sobre a filosofia de AI coding — amplificação, não substituição","related_to":"tool:claudecode","url":"https://www.anthropic.com/news/claude-code"},{"text":"Cursor virou default porque entendeu que IDE com IA embutida não é feature — é mudança de paradigma de edição.","author":"Aman Sanger","context":"Co-fundador do Cursor — sobre a integração profunda de LLM na IDE","related_to":"tool:cursor","url":"https://cursor.com/blog"},{"text":"VS Code venceu não por ser o melhor editor, mas porque foi o primeiro a tratar extensões como cidadãos de primeira classe.","author":"Erich Gamma","context":"Co-criador do VS Code e do Eclipse — aprendizado entre gerações","related_to":"tool:vscode","url":"https://code.visualstudio.com/blogs"},{"text":"O problema de CVE não é a lista ser longa. É a gente descobrir todo dia que usa uma dependência que ninguém mapeou.","author":"Kim Zetter","context":"Jornalista de segurança — sobre SBOM e supply chain","related_to":"tool:cve","url":"https://zetter.substack.com/"},{"text":"Python é a linguagem que vence porque se recusa a ser elegante. Ela é prática — e prática é o que roda em produção.","author":"Guido van Rossum","context":"Criador do Python — filosofia do design","related_to":"tool:python","url":"https://peps.python.org/pep-0020/"},{"text":"JavaScript é universalmente odiado e universalmente usado. Isso diz mais sobre a indústria do que sobre a linguagem.","author":"Brendan Eich","context":"Criador do JavaScript — sobre pragmatismo vs pureza","related_to":"tool:javascript","url":"https://brendaneich.com/"},{"text":"A melhor ferramenta de diagrama é a que sobrevive ao próximo retro do time. Tudo mais é arte que ninguém olha de novo.","author":"Simon Brown","context":"Ferramentas de modelagem — pragmatismo acima de beleza","related_to":"tool:whimsical","url":"https://c4model.com/"},{"text":"PlantUML ganhou porque diagrama é texto. E texto tem diff, review, história — coisas que imagem não tem.","author":"Arnaud Roques","context":"Criador do PlantUML — diagrams-as-code como filosofia","related_to":"tool:plantuml","url":"https://plantuml.com/"},{"text":"Warp reinventou o terminal porque o terminal parou no tempo. Às vezes a inovação é admitir que 40 anos sem mudança não é qualidade — é negligência.","author":"Zach Lloyd","context":"Fundador do Warp — sobre o terminal moderno","related_to":"tool:warp","url":"https://www.warp.dev/blog"},{"text":"GitHub não é o Git. É a plataforma social que colou Git em todos os desenvolvedores do mundo — e a captura de mercado é difícil de reverter.","author":"Chris Wanstrath","context":"Co-fundador do GitHub — network effects em dev tools","related_to":"tool:github","url":"https://github.blog/"},{"text":"Dynatrace é caro. Observabilidade artesanal em escala também é — só que você paga em engenharia e em incidents que duram mais.","author":"Bernd Greifeneder","context":"CTO da Dynatrace — sobre o trade-off buy vs build em observabilidade","related_to":"tool:dynatrace","url":"https://www.dynatrace.com/news/blog/"},{"text":"MySQL continua vivo em 2026 não por mérito técnico — mas porque meio mundo da internet ainda roda em cima dele. Legado é força.","author":"Monty Widenius","context":"Co-criador do MySQL — sobre adoção massiva","related_to":"tool:mysql","url":"https://mariadb.org/about/"},{"text":"DBeaver ganhou contra ferramentas proprietárias porque ninguém quer pagar licença para ver tabela. Simplicidade às vezes vence complexidade comercial.","author":"Serge Rider","context":"Criador do DBeaver — open source vs enterprise em dev tooling","related_to":"tool:dbeaver","url":"https://dbeaver.io/"},{"text":"A verdade é que a maioria dos sistemas distribuídos que vejo em produção são sistemas centralizados disfarçados — com a latência dos distribuídos e a fragilidade dos centralizados.","author":"Tim Bray","context":"Ex-arquiteto AWS — sobre arquitetura real","related_to":"cat:arqsol","url":"https://www.tbray.org/ongoing/"},{"text":"Não há silver bullet. Não há fork-lift. Não há IA que pense por você. Engenharia continua sendo escolha entre trade-offs desagradáveis.","author":"Fred Brooks","context":"No Silver Bullet — ensaio seminal sobre complexidade essencial","related_to":"general","url":"https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf"},{"text":"Adicionar pessoas a um projeto atrasado só atrasa mais ainda. Brooks's Law não envelheceu — só ganhou mais exemplos.","author":"Fred Brooks","context":"The Mythical Man-Month — lei clássica que ninguém aprende","related_to":"general","url":"https://archive.org/details/MythicalManMonth"},{"text":"Refatorar sem testes é remodelar casa sem planta — você descobre o que era estrutural quando o teto cai.","author":"Michael Feathers","context":"Working Effectively with Legacy Code — characterization tests","related_to":"cat:arqsw","url":"https://www.oreilly.com/library/view/working-effectively-with/0131177052/"},{"text":"REST venceu SOAP não porque era mais elegante — venceu porque desenvolvedor comum conseguia entender em 10 minutos.","author":"Roy Fielding","context":"Tese sobre REST — simplicidade como estratégia","related_to":"cat:integ","url":"https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm"},{"text":"Sidecars são um padrão lindo no papel. Em produção, eles dobram sua superfície de falha — e triplicam sua fatura de cloud.","author":"Christian Posta","context":"Service mesh na prática — sobre custos reais de Istio/Envoy","related_to":"cat:arqsol","url":"https://www.christianposta.com/"},{"text":"O que você chama de microsserviços, eu chamo de sistema distribuído. A diferença é que você está construindo com intenção — ou acidente?","author":"Tyler Treat","context":"Sobre decomposição de serviços consciente","related_to":"cat:arqsol","url":"https://bravenewgeek.com/"},{"text":"Se você consegue medir, você pode gerenciar. Se você não mede SLO, você está gerenciando por fé.","author":"Benjamin Treynor Sloss","context":"VP da Google SRE — criador do termo Site Reliability Engineering","related_to":"cat:obs","url":"https://sre.google/sre-book/introduction/"},{"text":"Toda arquitetura é boa até encontrar seu primeiro requisito não-funcional real.","author":"Neal Ford","context":"Building Evolutionary Architectures — fitness functions","related_to":"cat:arqsw","url":"https://nealford.com/books/evolutionaryarchitectures.html"},{"text":"ADRs existem porque a memória humana é mais curta que o ciclo de vida do software. Escreva — ou reviva a mesma discussão.","author":"Michael Nygard","context":"Release It! — popularizou Architecture Decision Records","related_to":"cat:arqsw","url":"https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions"},{"text":"Circuit breaker não é sobre falhar rápido. É sobre falhar com dignidade — e dar ao sistema a chance de se recuperar em paz.","author":"Michael Nygard","context":"Release It! — padrões de estabilidade em produção","related_to":"cat:arqsol","url":"https://pragprog.com/titles/mnee2/release-it-second-edition/"},{"text":"Landing zones existem porque ninguém quer admitir que começou a usar cloud sem um plano — e agora não consegue parar.","author":"Gregor Hohpe","context":"Cloud Strategy — governança como recuperação de dívida","related_to":"cat:arqsol","url":"https://architectelevator.com/cloud/"},{"text":"Todo CTO que promete transformação digital sem tocar no data model está vendendo teatro — não engenharia.","author":"Gregor Hohpe","context":"The Software Architect Elevator","related_to":"cat:arqsol","url":"https://architectelevator.com/book/"},{"text":"TOGAF é um vocabulário compartilhado, não um método. Use como dicionário — não como manual de instruções.","author":"Jan Hoogervorst","context":"Enterprise Governance and Enterprise Engineering","related_to":"cat:arqsol","url":"https://www.opengroup.org/togaf"},{"text":"A melhor arquitetura é a que você consegue explicar para o time em 30 minutos — e eles não precisam anotar nada porque já sabem o que faz sentido.","author":"Ward Cunningham","context":"Criador do Wiki — simplicidade como comunicação","related_to":"cat:arqsw","url":"http://wiki.c2.com/?SimplicityAndStrictness"},{"text":"Idempotent consumer é o padrão mais importante de event-driven. Ignorá-lo é convidar duplicatas para a sua festa de produção.","author":"Chris Richardson","context":"Microservices Patterns — padrões essenciais de mensageria","related_to":"cat:integ","url":"https://microservices.io/patterns/communication-style/idempotent-consumer.html"},{"text":"Saga não resolve o problema de transações distribuídas — ela o transfere para o domínio, onde é visível e debatível.","author":"Chris Richardson","context":"Saga pattern — compensating transactions","related_to":"cat:arqsol","url":"https://microservices.io/patterns/data/saga.html"},{"text":"Event-driven architecture não é a solução para acoplamento. É uma escolha sobre onde o acoplamento vai aparecer — e se ele vai ser visível ou escondido.","author":"Sam Newman","context":"Building Microservices 2nd Edition","related_to":"cat:integ","url":"https://samnewman.io/"},{"text":"Ferramentas não te salvam de más decisões arquiteturais. Elas te deixam tomar as más decisões mais rápido.","author":"Gregor Hohpe","context":"Enterprise Integration Patterns — sobre o papel de iPaaS","related_to":"general","url":"https://www.enterpriseintegrationpatterns.com/"},{"text":"A primeira vez que você precisou fazer um hotfix em produção no sábado à noite, você entendeu por que CI/CD existe. A segunda vez, você entendeu por que feature flags existem.","author":"David Farley","context":"Continuous Delivery — a origem do movimento","related_to":"cat:devops","url":"https://continuousdelivery.com/"},{"text":"Clean Code é aspiração, não checklist. Quem aplica como dogma acaba com código tão engessado que ninguém consegue mexer.","author":"Dan North","context":"Criador do BDD — crítica ao dogmatismo em boas práticas","related_to":"cat:arqsw","url":"https://dannorth.net/"},{"text":"Regras são para pessoas sem experiência. Com experiência, você entende que toda regra tem contexto — e o contexto importa mais que a regra.","author":"Rich Hickey","context":"Criador do Clojure — Simple Made Easy","related_to":"cat:arqsw","url":"https://www.infoq.com/presentations/Simple-Made-Easy/"},{"text":"Simple e easy são palavras diferentes. Easy é familiar. Simple é sem partes entrelaçadas — e só uma delas escala.","author":"Rich Hickey","context":"Simple Made Easy — talk seminal","related_to":"cat:arqsw","url":"https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md"},{"text":"A melhor DX é aquela que o desenvolvedor não percebe. Atrito invisível é o que mata produtividade em escala.","author":"Kathryn Koehler","context":"Netflix Productivity Engineering","related_to":"cat:devops","url":"https://netflixtechblog.com/"},{"text":"Nenhum framework te salva de não entender seu domínio. Você só vai construir o errado mais rápido.","author":"Vaughn Vernon","context":"Implementing DDD — crítica à cultura de framework-first","related_to":"tool:springboot","url":"https://vaughnvernon.com/"},{"text":"GraphQL resolve o problema N+1 que REST criou — e introduz três novos problemas que ninguém documenta até estar em produção.","author":"Lee Byron","context":"Co-criador do GraphQL — honestidade sobre trade-offs","related_to":"cat:integ","url":"https://graphql.org/"},{"text":"gRPC é melhor que REST em latência. REST é melhor que gRPC em evolução. Você raramente precisa dos dois — mas quase sempre escolhe errado primeiro.","author":"Martin Fowler","context":"Microservices communication — trade-offs entre estilos","related_to":"cat:integ","url":"https://martinfowler.com/articles/microservices.html"},{"text":"A única documentação que permanece verdadeira é a que o compilador verifica. Tudo mais é ficção esperando ser descoberta.","author":"Joshua Bloch","context":"Effective Java — APIs como documentação viva","related_to":"tool:java","url":"https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/"}]};
+
+/* ====================================================
+   CONSTANTS
+   ==================================================== */
+const LANGS = ['python','javascript','java'];
+
+const CAT_COLORS = {
+  sec:'#FF453A',aiops:'#8E5BF6',ai:'#C64BFF',devops:'#34C759',
+  obs:'#FF9F0A',cloud:'#5AC8FA',backend:'#30D5C8',integ:'#FF375F',
+  frontend:'#FF8E2E',testing:'#A3E635',distarch:'#5E5CE6',
+  enterprise:'#8E8E93',design:'#FF6482',data:'#FFCC00',
+  fintech:'#30D158',fundamentals:'#BF5AF2'
+};
+
+const TOOL_COLORS = {
+  kubernetes:'#326CE5',docker:'#2496ED',python:'#3776AB',
+  javascript:'#F7DF1E',java:'#ED8B00',springboot:'#6DB33F',
+  istio:'#466BB0',keycloak:'#4A90D9',vscode:'#007ACC',
+  claudecode:'#CC785C',ghactions:'#2088FF',databricks:'#FF3621',
+  kafka:'#231F20',terraform:'#7B42BC',intellij:'#FE2857',
+  cursor:'#555555',argocd:'#EF7B4D',postgres:'#336791'
+};
+
+const TOOL_SLUGS = {
+  kubernetes:'kubernetes',docker:'docker',python:'python',
+  javascript:'javascript',java:'openjdk',springboot:'springboot',
+  istio:'istio',keycloak:'keycloak',vscode:'visualstudiocode',
+  claudecode:'anthropic',ghactions:'githubactions',databricks:'databricks',
+  kafka:'apachekafka',terraform:'terraform',intellij:'intellijidea',
+  cursor:'cursor',argocd:'argo',postgres:'postgresql'
+};
+
+const TOOL_EMOJI = {
+  kubernetes:'☸️',docker:'🐳',python:'🐍',javascript:'🟨',
+  java:'☕',springboot:'🌱',istio:'🕸️',keycloak:'🔑',
+  vscode:'💻',claudecode:'🤖',ghactions:'⚙️',databricks:'🧱',
+  kafka:'📨',terraform:'🧰',intellij:'🟣',cursor:'🖱️',
+  argocd:'🔄',postgres:'🐘'
+};
+
+const MONTHS_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun',
+  'Jul','Ago','Set','Out','Nov','Dez'];
+
+/* ====================================================
+   THEME
+   ==================================================== */
+let _theme = localStorage.getItem('csr-theme') || 'auto';
+
+function applyTheme(t) {
+  _theme = t;
+  localStorage.setItem('csr-theme', t);
+  const dark = t === 'dark' || (t === 'auto' && window.matchMedia('(prefers-color-scheme:dark)').matches);
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+}
+
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+  renderAll();
+}
+
+function isDark() {
+  return document.documentElement.getAttribute('data-theme') === 'dark';
+}
+
+// Apply immediately to prevent flash
+applyTheme(_theme);
+
+/* ====================================================
+   ROUTER
+   ==================================================== */
+let _state = {view:'home', slug:null};
+let _calYear, _calMonth;
+let _quoteRel = null, _curQuote = null;
+
+function nav(path) { location.hash = '#' + path; }
+function navLatest() {
+  const dates = DATA.editions.editions.map(e=>e.date).sort().reverse();
+  if (dates.length) nav('/day/' + dates[0]);
+}
+
+function parseHash() {
+  const h = (location.hash || '#/home').replace('#','');
+  const parts = h.split('/').filter(Boolean);
+  return { view: parts[0] || 'home', slug: parts[1] || null };
+}
+
+window.addEventListener('hashchange', () => { _state = parseHash(); renderAll(); });
+window.addEventListener('load', () => {
+  applyTheme(_theme);
+  _state = parseHash();
+  const t = new Date();
+  _calYear = t.getFullYear();
+  _calMonth = t.getMonth();
+  renderAll();
+});
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', () => {
+  if (_theme === 'auto') { applyTheme('auto'); renderAll(); }
+});
+
+/* ====================================================
+   DATA HELPERS
+   ==================================================== */
+function sortedDates() {
+  return DATA.editions.editions.map(e=>e.date).sort().reverse();
+}
+
+function getAllNews(filterFn) {
+  const all = [];
+  for (const [date, day] of Object.entries(DATA.days)) {
+    for (const item of (day.news||[])) {
+      all.push({...item, _date:date, _dateFmt:day.formatted_date});
+    }
+  }
+  return all.filter(filterFn).sort((a,b) => new Date(b._date)-new Date(a._date));
+}
+
+function getAllToolItems(key) {
+  const all = [];
+  const seen = new Set();
+  for (const [date, day] of Object.entries(DATA.days)) {
+    // From tools array
+    for (const t of (day.tools||[])) {
+      if (t.tool_key === key && !seen.has(t.headline)) {
+        seen.add(t.headline);
+        all.push({...t, _date:date, _dateFmt:day.formatted_date});
+      }
+    }
+    // From news where tags include key
+    for (const n of (day.news||[])) {
+      if ((n.tags||[]).includes(key) && !seen.has(n.headline)) {
+        seen.add(n.headline);
+        all.push({...n, _date:date, _dateFmt:day.formatted_date});
+      }
+    }
+  }
+  return all.sort((a,b) => new Date(b._date)-new Date(a._date));
+}
+
+function getToolName(key) {
+  for (const [,day] of Object.entries(DATA.days)) {
+    const t = (day.tools||[]).find(t=>t.tool_key===key);
+    if (t) return t.name;
+  }
+  return key;
+}
+
+function getCatInfo(slug) {
+  for (const [,day] of Object.entries(DATA.days)) {
+    for (const n of [...(day.news||[]),...(day.highlights||[])]) {
+      if (n.category === slug) return {label: n.category_label||slug, icon: n.category_icon||'📌'};
+    }
+  }
+  return {label:slug, icon:'📌'};
+}
+
+function quoteFor(rel) {
+  const q = DATA.quotes;
+  let pool = rel ? q.filter(x=>x.related_to===rel) : [];
+  if (!pool.length) pool = q.filter(x=>x.related_to==='general');
+  if (!pool.length) pool = q;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* ====================================================
+   ICON HELPERS
+   ==================================================== */
+function toolIcon(key, size=22) {
+  const slug = TOOL_SLUGS[key];
+  const color = TOOL_COLORS[key] || '#888';
+  const emoji = TOOL_EMOJI[key] || '🔧';
+  const iconColor = isDark() ? 'ffffff' : color.replace('#','');
+  const bg = `color-mix(in srgb,${color} 15%,transparent)`;
+  const wrap = size + 14;
+  const br = Math.round(wrap * 0.24);
+  if (slug) {
+    return `<span style="width:${wrap}px;height:${wrap}px;border-radius:${br}px;background:${bg};display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0"><img src="https://cdn.simpleicons.org/${slug}/${iconColor}" width="${size}" height="${size}" style="object-fit:contain;display:block" alt="${key}" onerror="this.parentNode.textContent='${emoji}'"></span>`;
+  }
+  return `<span style="width:${wrap}px;height:${wrap}px;border-radius:${br}px;background:${bg};display:inline-flex;align-items:center;justify-content:center;font-size:${size-2}px;flex-shrink:0">${emoji}</span>`;
+}
+
+function catIcon(cat, emoji, size=16) {
+  const color = CAT_COLORS[cat] || '#888';
+  const bg = `color-mix(in srgb,${color} 15%,transparent)`;
+  const wrap = size + 14;
+  return `<span style="width:${wrap}px;height:${wrap}px;border-radius:50%;background:${bg};display:inline-flex;align-items:center;justify-content:center;font-size:${size}px;flex-shrink:0">${emoji}</span>`;
+}
+
+/* ====================================================
+   SIDEBAR LEFT
+   ==================================================== */
+function renderSidebar() {
+  const {view, slug} = _state;
+
+  // Category counts
+  const catCount = {};
+  const catInfoMap = {};
+  for (const [,day] of Object.entries(DATA.days)) {
+    for (const n of (day.news||[])) {
+      catCount[n.category] = (catCount[n.category]||0)+1;
+      if (!catInfoMap[n.category]) catInfoMap[n.category] = {label:n.category_label||n.category, icon:n.category_icon||'📌'};
+    }
+    for (const n of (day.highlights||[])) {
+      if (n.category && !catInfoMap[n.category]) catInfoMap[n.category] = {label:n.category_label||n.category, icon:n.category_icon||'📌'};
+    }
+  }
+
+  // Tool/lang tallies
+  const toolMap = {};
+  for (const [,day] of Object.entries(DATA.days)) {
+    for (const t of (day.tools||[])) {
+      if (!toolMap[t.tool_key]) toolMap[t.tool_key] = {name:t.name, count:0};
+      toolMap[t.tool_key].count++;
+    }
+  }
+
+  const langKeys = LANGS.filter(k=>toolMap[k]);
+  const toolKeys = Object.keys(toolMap).filter(k=>!LANGS.includes(k)).sort((a,b)=>toolMap[b].count-toolMap[a].count);
+
+  const cats = Object.keys(catInfoMap).sort((a,b)=>{
+    const oa=Object.keys(CAT_COLORS).indexOf(a), ob=Object.keys(CAT_COLORS).indexOf(b);
+    return (oa<0?99:oa)-(ob<0?99:ob);
+  });
+
+  let h = '';
+
+  // Categories
+  h += `<div class="sb-section" id="sbc-cats">
+    <div class="sb-section-hdr" onclick="sbToggle('sbc-cats')">
+      <span>Categorias</span><span class="sb-toggle">▾</span>
+    </div>
+    <ul class="sb-items">`;
+  for (const c of cats) {
+    const info = catInfoMap[c];
+    const color = CAT_COLORS[c]||'#888';
+    const act = view==='cat'&&slug===c?' active':'';
+    h += `<li class="sb-item${act}" style="--ic:${color}" onclick="nav('/cat/${c}')">
+      ${catIcon(c,info.icon,12)}
+      <span class="sb-label">${e(info.label)}</span>
+      <span class="sb-count">${catCount[c]||''}</span>
+    </li>`;
+  }
+  h += `</ul></div>`;
+
+  // Languages
+  h += `<div class="sb-section" id="sbc-langs">
+    <div class="sb-section-hdr" onclick="sbToggle('sbc-langs')">
+      <span>Linguagens</span><span class="sb-toggle">▾</span>
+    </div>
+    <ul class="sb-items">`;
+  for (const k of langKeys) {
+    const color = TOOL_COLORS[k]||'#888';
+    const act = view==='lang'&&slug===k?' active':'';
+    h += `<li class="sb-item${act}" style="--ic:${color}" onclick="nav('/lang/${k}')">
+      ${toolIcon(k,14)}
+      <span class="sb-label">${e(toolMap[k].name)}</span>
+    </li>`;
+  }
+  h += `</ul></div>`;
+
+  // Tools
+  h += `<div class="sb-section" id="sbc-tools">
+    <div class="sb-section-hdr" onclick="sbToggle('sbc-tools')">
+      <span>Ferramentas</span><span class="sb-toggle">▾</span>
+    </div>
+    <ul class="sb-items">`;
+  for (const k of toolKeys) {
+    const color = TOOL_COLORS[k]||'#888';
+    const act = view==='tool'&&slug===k?' active':'';
+    h += `<li class="sb-item${act}" style="--ic:${color}" onclick="nav('/tool/${k}')">
+      ${toolIcon(k,14)}
+      <span class="sb-label">${e(toolMap[k].name)}</span>
+    </li>`;
+  }
+  h += `</ul></div>`;
+
+  document.getElementById('sb-content').innerHTML = h;
+}
+
+function sbToggle(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+/* ====================================================
+   CALENDAR
+   ==================================================== */
+function renderCalendar() {
+  const edDates = new Set(DATA.editions.editions.map(e=>e.date));
+  const selDate = _state.view==='day' ? _state.slug : null;
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+  if (_calYear===undefined) { _calYear=today.getFullYear(); _calMonth=today.getMonth(); }
+
+  const first = new Date(_calYear,_calMonth,1);
+  const days = new Date(_calYear,_calMonth+1,0).getDate();
+  const startDow = (first.getDay()+6)%7;
+  const wds = ['S','T','Q','Q','S','S','D'];
+
+  let h = `<div class="cal-title-row">
+    <button class="cal-nav" onclick="calPrev()">‹</button>
+    <span class="cal-month">${MONTHS_PT[_calMonth]} ${_calYear}</span>
+    <button class="cal-nav" onclick="calNext()">›</button>
+  </div><div class="cal-grid">`;
+
+  wds.forEach(w => h += `<div class="cal-wd">${w}</div>`);
+  for (let i=0;i<startDow;i++) h += `<div class="cal-d"></div>`;
+
+  for (let d=1;d<=days;d++) {
+    const mm = String(_calMonth+1).padStart(2,'0');
+    const dd = String(d).padStart(2,'0');
+    const ds = `${_calYear}-${mm}-${dd}`;
+    const hasEd = edDates.has(ds);
+    const isSel = ds===selDate;
+    const isToday = ds===todayStr;
+    let cls='cal-d';
+    if(hasEd) cls+=' has';
+    if(isSel) cls+=' sel';
+    if(isToday&&!isSel) cls+=' today';
+    const click = hasEd?`onclick="nav('/day/${ds}')"`:'';
+    h += `<div class="${cls}" ${click}>${d}${hasEd&&!isSel?'<span class="cal-dot"></span>':''}</div>`;
+  }
+  h += `</div>`;
+  document.getElementById('calendar').innerHTML = h;
+}
+
+function calPrev() {
+  _calMonth--;
+  if(_calMonth<0){_calMonth=11;_calYear--;}
+  renderCalendar();
+}
+function calNext() {
+  _calMonth++;
+  if(_calMonth>11){_calMonth=0;_calYear++;}
+  renderCalendar();
+}
+
+/* ====================================================
+   QUOTE
+   ==================================================== */
+function renderQuote() {
+  const q = _curQuote || quoteFor(_quoteRel);
+  _curQuote = q;
+  if (!q) { document.getElementById('quote-area').innerHTML=''; return; }
+  document.getElementById('quote-area').innerHTML = `<div class="quote-card">
+    <div class="quote-wm">"</div>
+    <p class="quote-text">${e(q.text)}</p>
+    <div class="quote-author">— ${e(q.author)}</div>
+    ${q.context?`<div class="quote-ctx">${e(q.context)}</div>`:''}
+    <div class="quote-footer"><button class="btn-nq" onclick="nextQuote()">↻ próxima</button></div>
+  </div>`;
+}
+
+function nextQuote() {
+  _curQuote = quoteFor(_quoteRel);
+  renderQuote();
+}
+
+/* ====================================================
+   HOME
+   ==================================================== */
+function renderHome() {
+  const dates = sortedDates();
+  let cards = '';
+  for (const d of dates.slice(0,4)) {
+    const ed = DATA.editions.editions.find(x=>x.date===d);
+    const day = DATA.days[d];
+    if (!ed||!day) continue;
+    const total = Object.values(ed.counts_by_category||{}).reduce((a,b)=>a+b,0);
+    const tools = Object.keys(ed.counts_by_tool||{}).length;
+    const summary = ed.summary||day.hero_title||'';
+    cards += `<div class="edition-card" onclick="nav('/day/${d}')">
+      <div class="edition-card-date">${e(day.formatted_date)}</div>
+      <div class="edition-card-title">${e(summary.length>100?summary.slice(0,100)+'…':summary)}</div>
+      <div class="edition-card-meta">
+        <span class="meta-chip">📰 ${total} notícias</span>
+        <span class="meta-chip">🔧 ${tools} ferramentas</span>
+      </div>
+    </div>`;
+  }
+
+  // Latest highlights
+  const latestDate = dates[0];
+  const latestDay = DATA.days[latestDate];
+  let hls = '';
+  if (latestDay?.highlights) {
+    for (const h of latestDay.highlights.slice(0,3)) {
+      const cc = CAT_COLORS[h.category]||'#888';
+      hls += `<div class="hl-card" onclick="window.open('${h.url}','_blank')">
+        <div class="hl-card-top">
+          <img class="hl-favicon" src="${h.image}" onerror="this.style.display='none'" alt="">
+          <span class="cat-chip" style="--cc:${cc}">${h.category_icon||''} ${e(h.category_label||h.category)}</span>
+        </div>
+        <div class="hl-title">${e(h.headline)}</div>
+        <div class="hl-summary">${e((h.summary||'').slice(0,130))}${(h.summary||'').length>130?'…':''}</div>
+        <div class="hl-footer">
+          <span>${e(h.source||'')}</span>
+          ${h.read_time?`<span>· ${h.read_time} min</span>`:''}
+        </div>
+      </div>`;
+    }
+  }
+
+  const heroClass = 'home-hero';
+
+  return `<div class="${heroClass}">
+    <img class="home-mascot" src="data/img/mascote.png" alt="CSR News" onerror="this.style.display='none'">
+    <h1 class="home-title">CSR News</h1>
+    <p class="home-sub">Arquitetura, plataformas e IA<br>para quem constrói software sério.</p>
+    <div class="home-ctas">
+      <button class="btn-p" onclick="navLatest()">Última edição</button>
+      <button class="btn-o" onclick="nav('/cat/sec')">Explorar categorias</button>
+    </div>
+    ${cards||hls ? `
+    <div class="home-section">
+      ${cards?`<h2 class="home-sect-title">Edições recentes</h2><div class="editions-grid">${cards}</div>`:''}`
+      + `${hls?`<h2 class="home-sect-title" style="margin-top:40px">Destaques da última edição</h2><div class="hl-grid">${hls}</div>`:''}`
+      + `</div>` : ''}
+  </div>`;
+}
+
+/* ====================================================
+   DAY VIEW
+   ==================================================== */
+function renderDay(date) {
+  const day = DATA.days[date];
+  if (!day) return emptyState('Edição não encontrada para ' + date);
+
+  const totalNews = (day.news||[]).length;
+  const totalTools = (day.tools||[]).length;
+  const dates = sortedDates();
+  const idx = dates.indexOf(date);
+  const prev = dates[idx+1];
+  const next = dates[idx-1];
+
+  let h = `<div class="day-header">
+    <div class="day-breadcrumb">Edição diária</div>
+    <div class="day-date">${e(day.formatted_date)}</div>
+    <div class="day-meta">${totalNews} notícias · ${totalTools} releases/tools</div>
+    <div class="day-hero-title">${e(day.hero_title||'')}</div>
+    <div class="day-hero-desc">${e(day.hero_description||'')}</div>
+  </div>
+  <div class="day-content">`;
+
+  // Highlights
+  if (day.highlights?.length) {
+    h += `<h2 class="sect-title">✨ Destaques <span class="sect-count">${day.highlights.length}</span></h2>
+    <div class="hl-grid">`;
+    for (const item of day.highlights) {
+      const cc = CAT_COLORS[item.category]||'#888';
+      h += `<div class="hl-card" onclick="window.open('${item.url}','_blank')">
+        <div class="hl-card-top">
+          <img class="hl-favicon" src="${item.image}" onerror="this.style.display='none'" alt="">
+          <span class="cat-chip" style="--cc:${cc}">${item.category_icon||''} ${e(item.category_label||item.category)}</span>
+          ${item.urgent?'<span class="badge badge-u">Urgente</span>':''}
+        </div>
+        <div class="hl-title">${e(item.headline)}</div>
+        <div class="hl-summary">${e(item.summary||'')}</div>
+        <div class="hl-footer">
+          <span>${e(item.source||'')}</span>
+          ${item.read_time?`<span>· ${item.read_time} min</span>`:''}
+        </div>
+      </div>`;
+    }
+    h += `</div>`;
+  }
+
+  // News by category
+  const bycat = {};
+  for (const n of (day.news||[])) {
+    (bycat[n.category]||(bycat[n.category]=[])).push(n);
+  }
+  const catOrder = Object.keys(CAT_COLORS);
+  const sortedCats = Object.keys(bycat).sort((a,b)=>{
+    const ia=catOrder.indexOf(a), ib=catOrder.indexOf(b);
+    return (ia<0?99:ia)-(ib<0?99:ib);
+  });
+
+  h += `<h2 class="sect-title" style="margin-top:40px">📰 Por categoria</h2>`;
+
+  for (const cat of sortedCats) {
+    const items = bycat[cat].sort((a,b)=>(b.urgent?1:0)-(a.urgent?1:0)||new Date(b.published_at||b._date)-new Date(a.published_at||a._date));
+    const color = CAT_COLORS[cat]||'#888';
+    const fi = items[0];
+    h += `<div class="cat-group" style="--cc:${color}">
+      <div class="cat-group-hdr">
+        ${catIcon(cat,fi.category_icon||'📌',16)}
+        <div>
+          <div class="cg-name" onclick="nav('/cat/${cat}')">${e(fi.category_label||cat)}</div>
+          <div class="cg-count">${items.length} ${items.length===1?'item':'itens'}</div>
+        </div>
+      </div>`;
+    for (const item of items) h += newsCard(item, color);
+    h += `</div>`;
+  }
+
+  // Tools
+  if (day.tools?.length) {
+    h += `<h2 class="sect-title" style="margin-top:40px">🔧 Ferramentas & Linguagens <span class="sect-count">${day.tools.length}</span></h2>
+    <div class="tools-grid">`;
+    for (const t of day.tools) {
+      const color = TOOL_COLORS[t.tool_key]||'#888';
+      const isL = LANGS.includes(t.tool_key);
+      const tgt = isL ? `/lang/${t.tool_key}` : `/tool/${t.tool_key}`;
+      h += `<div class="tool-card" style="--tc:${color}" onclick="nav('${tgt}')">
+        <div class="tc-icon" style="--tc:${color}">${toolIcon(t.tool_key,22)}</div>
+        <div class="tc-body">
+          <div class="tc-name">${e(t.name)}</div>
+          <div class="tc-ver">${t.version?e(t.version)+' · ':''}${t.kind==='release'?'🚀 Release':'📰 News'}</div>
+          <div class="tc-hl">${e(t.headline||'')}</div>
+        </div>
+      </div>`;
+    }
+    h += `</div>`;
+  }
+
+  // Day nav
+  h += `<div class="day-nav-btns">
+    ${prev?`<button class="day-nav-btn" onclick="nav('/day/${prev}')">← ${prev}</button>`:'<span></span>'}
+    ${next?`<button class="day-nav-btn" onclick="nav('/day/${next}')">${next} →</button>`:'<span></span>'}
+  </div>`;
+
+  h += `</div>`; // .day-content
+  return h;
+}
+
+/* ====================================================
+   CATEGORY PAGE
+   ==================================================== */
+function renderCat(slug) {
+  const info = getCatInfo(slug);
+  const color = CAT_COLORS[slug]||'#888';
+  const items = getAllNews(n=>n.category===slug);
+
+  let h = `<div class="tl-hero" style="--tc:${color}">
+    ${catIcon(slug,info.icon,28)}
+    <div>
+      <div class="tl-name">${e(info.label)}</div>
+      <div class="tl-kind">Categoria · ${items.length} ${items.length===1?'notícia':'notícias'}</div>
+    </div>
+  </div>`;
+
+  if (!items.length) return h + emptyState('Nenhuma notícia nesta categoria.');
+
+  h += `<div class="tl-list">`;
+  for (const item of items) h += tlItem(item, color);
+  h += `</div>`;
+  return h;
+}
+
+/* ====================================================
+   LANGUAGE / TOOL PAGE
+   ==================================================== */
+function renderEntity(slug, kind) {
+  const color = TOOL_COLORS[slug]||'#888';
+  const name = getToolName(slug);
+  const items = getAllToolItems(slug);
+  const kindLabel = kind==='lang' ? 'Linguagem' : 'Ferramenta';
+
+  let h = `<div class="tl-hero" style="--tc:${color}">
+    ${toolIcon(slug,36)}
+    <div>
+      <div class="tl-name">${e(name)}</div>
+      <div class="tl-kind">${kindLabel} · ${items.length} ${items.length===1?'entrada':'entradas'}</div>
+    </div>
+  </div>`;
+
+  if (!items.length) return h + emptyState('Nenhum conteúdo encontrado.');
+
+  h += `<div class="tl-list">`;
+  for (const item of items) h += tlItem(item, color);
+  h += `</div>`;
+  return h;
+}
+
+/* ====================================================
+   NEWS CARD
+   ==================================================== */
+function newsCard(item, color) {
+  const lc = color||'var(--border)';
+  const tags = (item.tags||[]).slice(0,5);
+  const urg = item.urgent;
+  return `<div class="news-card${urg?' urgent':''}" style="--lc:${lc}">
+    <div class="nc-hdr">
+      <div class="nc-title">
+        ${item.url?`<a href="${item.url}" target="_blank" rel="noopener">${e(item.headline)}</a>`:e(item.headline)}
+      </div>
+      ${urg?'<span class="badge badge-u">Urgente</span>':''}
+    </div>
+    <div class="nc-summary">${e(item.summary||'')}</div>
+    ${item.why_it_matters?`<div class="nc-why"><div class="nc-why-lbl">Por que importa</div>${e(item.why_it_matters)}</div>`:''}
+    <div class="nc-footer">
+      <span class="nc-source">${e(item.source||'')}</span>
+      ${item.read_time?`<span>· ${item.read_time} min</span>`:''}
+      <div class="tags">${tags.map(t=>`<span class="tag">${e(t)}</span>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+/* ====================================================
+   TIMELINE ITEM
+   ==================================================== */
+function tlItem(item, color) {
+  const d = new Date((item.published_at||item._date+'T12:00:00').replace('Z',''));
+  const day = d.getDate();
+  const mon = MONTHS_SHORT[d.getMonth()];
+  const tags = (item.tags||[]).slice(0,5);
+  const urg = item.urgent;
+  return `<div class="tl-item"${urg?' style="border-left:3px solid #FF453A;padding-left:18px"':''}>
+    <div class="tl-date">
+      <div class="tl-day">${day}</div>
+      <div class="tl-mon">${mon}</div>
+    </div>
+    <div class="tl-content">
+      ${urg?'<span class="badge badge-u" style="margin-bottom:6px;display:inline-block">Urgente</span>':''}
+      <div class="tl-title">
+        ${item.url?`<a href="${item.url}" target="_blank" rel="noopener">${e(item.headline)}</a>`:e(item.headline)}
+      </div>
+      <div class="tl-summary">${e(item.summary||item.description||'')}</div>
+      ${item.why_it_matters?`<div class="tl-why"><div class="tl-why-lbl">Por que importa</div>${e(item.why_it_matters)}</div>`:''}
+      <div class="tl-footer">
+        ${item.source?`<span class="nc-source">${e(item.source)}</span>`:''}
+        ${item.read_time?`<span>· ${item.read_time} min</span>`:''}
+        ${item.version?`<span class="badge badge-r">${e(item.version)}</span>`:''}
+        <div class="tags">${tags.map(t=>`<span class="tag">${e(t)}</span>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ====================================================
+   EMPTY STATE
+   ==================================================== */
+function emptyState(msg) {
+  return `<div class="empty-state">
+    <img class="empty-mascot" src="data/img/mascote-pensativo.png" alt="" onerror="this.style.display='none'">
+    <p class="empty-text">${e(msg)}</p>
+  </div>`;
+}
+
+/* ====================================================
+   ESCAPE HTML
+   ==================================================== */
+function e(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ====================================================
+   MAIN RENDER
+   ==================================================== */
+function renderAll() {
+  const {view, slug} = _state;
+
+  // Quote context
+  let newRel = null;
+  if (view==='cat') newRel = `cat:${slug}`;
+  else if (view==='lang'||view==='tool') newRel = `tool:${slug}`;
+  if (newRel !== _quoteRel) { _quoteRel=newRel; _curQuote=null; }
+
+  // Sync calendar selection
+  if (view==='day' && slug) {
+    const d = new Date(slug);
+    _calYear = d.getFullYear();
+    _calMonth = d.getMonth();
+  }
+
+  renderSidebar();
+  renderCalendar();
+  renderQuote();
+
+  // Nav active
+  document.querySelectorAll('.nav-link').forEach(el=>el.classList.remove('active'));
+  if (view==='home') document.querySelector('[data-v="home"]')?.classList.add('active');
+
+  // Content
+  let content;
+  switch(view) {
+    case 'home': content = renderHome(); break;
+    case 'day':  content = renderDay(slug); break;
+    case 'cat':  content = renderCat(slug); break;
+    case 'lang': content = renderEntity(slug,'lang'); break;
+    case 'tool': content = renderEntity(slug,'tool'); break;
+    default:     content = renderHome();
+  }
+  document.getElementById('main').innerHTML = content;
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+/* ====================================================
+   HAMBURGER / MOBILE SIDEBAR
+   ==================================================== */
+document.getElementById('hamburger').addEventListener('click', () => {
+  const sl = document.getElementById('sidebar-left');
+  const ov = document.getElementById('overlay');
+  sl.classList.toggle('open');
+  ov.classList.toggle('on');
+});
+
+function closeSidebar() {
+  document.getElementById('sidebar-left').classList.remove('open');
+  document.getElementById('overlay').classList.remove('on');
+}
+</script>
+</body>
+</html>

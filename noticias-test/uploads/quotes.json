@@ -1,0 +1,828 @@
+[
+  {
+    "text": "Qualquer tolo pode escrever código que um computador entenda. Bons programadores escrevem código que seres humanos entendam.",
+    "author": "Martin Fowler",
+    "context": "Legibilidade como princípio de arquitetura — do livro Refactoring",
+    "related_to": "cat:arqsw",
+    "url": "https://martinfowler.com/bliki/BeckDesignRules.html"
+  },
+  {
+    "text": "Se você tem medo de implantar na sexta-feira, o problema não é a sexta — é o seu processo de implantação.",
+    "author": "Jez Humble",
+    "context": "Continuous Delivery como resposta ao medo de deploy",
+    "related_to": "cat:devops",
+    "url": "https://continuousdelivery.com/2015/02/why-enterprises-must-adopt-devops-to-enable-continuous-delivery/"
+  },
+  {
+    "text": "Dívida técnica não é ruim. Dívida técnica que ninguém sabe que existe é.",
+    "author": "Martin Fowler",
+    "context": "Sobre o quadrante de dívida técnica — consciência é o que distingue estratégia de descaso",
+    "related_to": "cat:arqsw",
+    "url": "https://martinfowler.com/bliki/TechnicalDebtQuadrant.html"
+  },
+  {
+    "text": "Teste manual repetitivo não é garantia de qualidade — é postergação de automação.",
+    "author": "Lisa Crispin",
+    "context": "Agile Testing Condensed — a automação libera o testador para o trabalho cognitivo",
+    "related_to": "cat:devops",
+    "url": "https://lisacrispin.com/2018/08/22/whole-team-approach-to-test-automation/"
+  },
+  {
+    "text": "Todo mundo quer escalabilidade. Ninguém quer pagar o preço em complexidade que ela exige.",
+    "author": "Martin Kleppmann",
+    "context": "Designing Data-Intensive Applications — escolhas arquiteturais envolvem trade-offs reais",
+    "related_to": "cat:arqsol",
+    "url": "https://dataintensive.net/"
+  },
+  {
+    "text": "Você não tem um problema de microsserviços. Você tem um problema de domínio que agora está espalhado em 30 serviços.",
+    "author": "Sam Newman",
+    "context": "Building Microservices — decomposição ruim vira sistema distribuído quebrado",
+    "related_to": "cat:arqsol",
+    "url": "https://samnewman.io/books/building_microservices_2nd_edition/"
+  },
+  {
+    "text": "Zero-trust significa que você não confia nem na sua própria rede interna. Se isso incomoda alguém, esse alguém nunca leu um relatório de breach.",
+    "author": "John Kindervag",
+    "context": "Criador do modelo zero-trust na Forrester em 2010",
+    "related_to": "cat:sec",
+    "url": "https://www.forrester.com/blogs/tag/zero-trust/"
+  },
+  {
+    "text": "Observabilidade não é um painel bonito — é a capacidade de fazer perguntas que você ainda não sabia que precisaria fazer.",
+    "author": "Charity Majors",
+    "context": "Fundadora da Honeycomb — diferencia monitoring de observability",
+    "related_to": "cat:obs",
+    "url": "https://www.honeycomb.io/blog/observability-a-manifesto"
+  },
+  {
+    "text": "Se você só testa em produção, produção é o seu ambiente de teste — e seus clientes são os QAs.",
+    "author": "Michael Feathers",
+    "context": "Working Effectively with Legacy Code — testes como rede de segurança",
+    "related_to": "cat:arqsw",
+    "url": "https://michaelfeathers.silvrback.com/characterization-testing"
+  },
+  {
+    "text": "Código que você tem medo de mudar é código que você não entende. E software que não muda morre.",
+    "author": "Kent Beck",
+    "context": "Extreme Programming Explained — refatoração contínua como higiene",
+    "related_to": "cat:arqsw",
+    "url": "https://www.kentbeck.com/posts/tidy-first"
+  },
+  {
+    "text": "Mover rápido quebrando coisas é uma ilusão. Você paga a conta com juros — e o banco cobra em horas de plantão.",
+    "author": "Nicole Forsgren",
+    "context": "Accelerate — velocidade sustentável vem de qualidade, não de pressa",
+    "related_to": "cat:devops",
+    "url": "https://itrevolution.com/product/accelerate/"
+  },
+  {
+    "text": "Organizações que projetam sistemas são limitadas a produzir designs que são cópias de suas estruturas de comunicação.",
+    "author": "Melvin Conway",
+    "context": "Lei de Conway — arquitetura espelha o organograma",
+    "related_to": "cat:arqsol",
+    "url": "https://www.melconway.com/Home/Committees_Paper.html"
+  },
+  {
+    "text": "Otimização prematura é a raiz de todos os males. Mas ignorar performance até o último minuto é a raiz de produtos mortos.",
+    "author": "Donald Knuth",
+    "context": "Structured Programming with go to Statements — a frase original com contexto completo",
+    "related_to": "general",
+    "url": "https://web.archive.org/web/20130731202547/http://pplab.snu.ac.kr/courses/adv_pl05/papers/p261-knuth.pdf"
+  },
+  {
+    "text": "Simplicidade é pré-requisito para confiabilidade.",
+    "author": "Edsger Dijkstra",
+    "context": "EWD648 — complexidade é inimiga da correção",
+    "related_to": "general",
+    "url": "https://www.cs.utexas.edu/users/EWD/transcriptions/EWD06xx/EWD648.html"
+  },
+  {
+    "text": "Não existe arquitetura de solução sem trade-off. Se alguém te mostra uma sem trade-offs, pode ser certeza que ele está vendendo algo.",
+    "author": "Mark Richards",
+    "context": "Fundamentals of Software Architecture — everything in architecture is a trade-off",
+    "related_to": "cat:arqsol",
+    "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/"
+  },
+  {
+    "text": "Monólito primeiro. Só depois, se o domínio provar que é necessário, particione.",
+    "author": "Martin Fowler",
+    "context": "MonolithFirst — separar por engano cria mais dor do que monolito bem modelado",
+    "related_to": "cat:arqsw",
+    "url": "https://martinfowler.com/bliki/MonolithFirst.html"
+  },
+  {
+    "text": "DDD não é sobre modelagem de dados. É sobre falar a mesma língua que o negócio fala.",
+    "author": "Eric Evans",
+    "context": "Domain-Driven Design — Ubiquitous Language como fundação",
+    "related_to": "cat:arqsw",
+    "url": "https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf"
+  },
+  {
+    "text": "Event sourcing é fácil de explicar e brutalmente difícil de operar. Não faça isso porque está na moda.",
+    "author": "Greg Young",
+    "context": "Sobre o custo real de event sourcing em produção",
+    "related_to": "cat:integ",
+    "url": "https://cqrs.wordpress.com/documents/cqrs-and-event-sourcing-synergy/"
+  },
+  {
+    "text": "A rede é confiável. A latência é zero. A largura de banda é infinita. Todas mentiras que seu código acredita até falhar.",
+    "author": "Peter Deutsch",
+    "context": "As 8 Falácias da Computação Distribuída — ponto 1, 2 e 3",
+    "related_to": "cat:arqsol",
+    "url": "https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing"
+  },
+  {
+    "text": "Idempotência não é luxo em sistemas distribuídos — é a diferença entre um retry e uma catástrofe.",
+    "author": "Pat Helland",
+    "context": "Data on the Outside vs Data on the Inside — papers seminais de sistemas distribuídos",
+    "related_to": "cat:integ",
+    "url": "https://pathelland.substack.com/p/idempotence-is-not-a-medical-condition"
+  },
+  {
+    "text": "Consistência eventual não é desculpa para design preguiçoso. É um convite para pensar em invariantes com mais cuidado.",
+    "author": "Pat Helland",
+    "context": "Paper Life Beyond Distributed Transactions",
+    "related_to": "cat:data",
+    "url": "https://www.ics.uci.edu/~cs223/papers/cidr07p15.pdf"
+  },
+  {
+    "text": "O log é a estrutura de dados mais subestimada da engenharia de software.",
+    "author": "Jay Kreps",
+    "context": "Co-criador do Kafka — sobre o poder do append-only log",
+    "related_to": "tool:kafka",
+    "url": "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"
+  },
+  {
+    "text": "Kafka não é uma fila. Tratar Kafka como fila é o primeiro passo para um sistema distribuído quebrado.",
+    "author": "Jay Kreps",
+    "context": "Streams vs queues — mental model importa",
+    "related_to": "tool:kafka",
+    "url": "https://www.confluent.io/blog/okay-store-data-apache-kafka/"
+  },
+  {
+    "text": "API é contrato. Contrato quebrado sem versionamento é vendor lock-in ao contrário — o cliente fica refém do seu bug.",
+    "author": "Roy Fielding",
+    "context": "Tese de doutorado sobre REST e hypermedia",
+    "related_to": "cat:integ",
+    "url": "https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
+  },
+  {
+    "text": "Enterprise Integration Patterns existe porque ninguém quer admitir que a maior parte do software é mover dados entre sistemas.",
+    "author": "Gregor Hohpe",
+    "context": "EIP — catálogo fundamental de padrões de integração",
+    "related_to": "cat:integ",
+    "url": "https://www.enterpriseintegrationpatterns.com/"
+  },
+  {
+    "text": "Arquitetura é sobre as coisas que são caras de mudar. Se é fácil de mudar, não é arquitetura — é código.",
+    "author": "Ralph Johnson",
+    "context": "Citada por Fowler em Who Needs an Architect",
+    "related_to": "cat:arqsw",
+    "url": "https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf"
+  },
+  {
+    "text": "Todo arquiteto que se recusa a escrever código acaba desenhando sistemas impossíveis de construir.",
+    "author": "Robert C. Martin",
+    "context": "Clean Architecture — o arquiteto é o melhor programador do time",
+    "related_to": "cat:arqsw",
+    "url": "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"
+  },
+  {
+    "text": "A primeira regra de uma hierarquia de dependências: dependências apontam para abstrações, nunca para detalhes.",
+    "author": "Robert C. Martin",
+    "context": "Dependency Inversion Principle — o D do SOLID",
+    "related_to": "cat:arqsw",
+    "url": "https://web.archive.org/web/20110714224327/http://www.objectmentor.com/resources/articles/dip.pdf"
+  },
+  {
+    "text": "Se você não consegue descrever o fluxo principal do seu sistema em um diagrama C4 de nível 2, você não entende o seu sistema.",
+    "author": "Simon Brown",
+    "context": "C4 Model — visualizar arquitetura é pré-requisito para comunicá-la",
+    "related_to": "tool:structurizr",
+    "url": "https://c4model.com/"
+  },
+  {
+    "text": "Arquitetura como código não é luxo — é a única forma de manter a documentação verdadeira enquanto o sistema evolui.",
+    "author": "Simon Brown",
+    "context": "Structurizr DSL — diagramas que vivem no repositório",
+    "related_to": "tool:structurizr",
+    "url": "https://structurizr.com/"
+  },
+  {
+    "text": "A beleza do código é inversamente proporcional à quantidade de comentários que explicam o que ele faz.",
+    "author": "Kent Beck",
+    "context": "Smalltalk Best Practice Patterns — código autoexplicativo",
+    "related_to": "cat:arqsw",
+    "url": "https://www.kentbeck.com/posts"
+  },
+  {
+    "text": "Se o deploy é um evento, você perdeu. Deploy tem que ser um não-evento: frequente, sem drama, sem rollback improvisado.",
+    "author": "Charity Majors",
+    "context": "Deploys vs releases — feature flags separam os dois",
+    "related_to": "cat:devops",
+    "url": "https://charity.wtf/2020/08/19/how-often-should-you-deploy/"
+  },
+  {
+    "text": "Ninguém foi demitido por escolher Kubernetes. Mas muita gente deveria ter sido — elas escolheram Kubernetes sem precisar.",
+    "author": "Kelsey Hightower",
+    "context": "Kubernetes é poderoso, mas é overengineering para muitos casos",
+    "related_to": "tool:kubernetes",
+    "url": "https://github.com/kelseyhightower/kubernetes-the-hard-way"
+  },
+  {
+    "text": "Platform engineering não é devops rebatizado. É o reconhecimento de que nem todo time deveria virar especialista em Kubernetes.",
+    "author": "Gregor Hohpe",
+    "context": "The Software Architect Elevator",
+    "related_to": "cat:devops",
+    "url": "https://architectelevator.com/book/"
+  },
+  {
+    "text": "A melhor forma de escalar um time é escalando a capacidade de cada engenheiro tomar boas decisões — não adicionando mais aprovações.",
+    "author": "Nicole Forsgren",
+    "context": "Accelerate — high-trust, high-performance organizations",
+    "related_to": "cat:devops",
+    "url": "https://cloud.google.com/devops/state-of-devops"
+  },
+  {
+    "text": "Chaos Engineering é a aceitação de que seu sistema vai falhar. A questão é se você quer descobrir como na sua frente ou na frente do cliente.",
+    "author": "Nora Jones",
+    "context": "Pioneira em Chaos Engineering na Netflix",
+    "related_to": "cat:devops",
+    "url": "https://principlesofchaos.org/"
+  },
+  {
+    "text": "SLO sem error budget é só número em dashboard. Error budget é o que transforma confiabilidade em decisão de produto.",
+    "author": "Liz Fong-Jones",
+    "context": "SRE na prática — budget como ferramenta de negociação",
+    "related_to": "cat:obs",
+    "url": "https://sre.google/sre-book/embracing-risk/"
+  },
+  {
+    "text": "Um alerta que ninguém age é ruído. Ruído treina o time a ignorar alertas — incluindo os que importam.",
+    "author": "Cindy Sridharan",
+    "context": "Distributed Systems Observability",
+    "related_to": "cat:obs",
+    "url": "https://copyconstruct.medium.com/monitoring-in-the-time-of-cloud-native-c87c7a5bfa3e"
+  },
+  {
+    "text": "Logs sem correlação entre serviços são diário de bordo — não ferramenta de diagnóstico.",
+    "author": "Cindy Sridharan",
+    "context": "Observability as a discipline",
+    "related_to": "cat:obs",
+    "url": "https://copyconstruct.medium.com/logs-and-metrics-6d34d3026e38"
+  },
+  {
+    "text": "Segurança é característica emergente de um sistema bem projetado — não é uma camada que você adiciona no final.",
+    "author": "Bruce Schneier",
+    "context": "Applied Cryptography — segurança como propriedade arquitetural",
+    "related_to": "cat:sec",
+    "url": "https://www.schneier.com/books/"
+  },
+  {
+    "text": "Senha em código é o equivalente digital de deixar a chave embaixo do tapete — com a diferença de que qualquer crawler pode copiá-la em segundos.",
+    "author": "Bruce Schneier",
+    "context": "Secrets Management — princípio básico ignorado",
+    "related_to": "cat:sec",
+    "url": "https://www.schneier.com/blog/archives/2016/09/stealing_credentials_.html"
+  },
+  {
+    "text": "Supply chain attacks só são uma surpresa para quem nunca olhou para a sua árvore de dependências.",
+    "author": "Kelly Shortridge",
+    "context": "Security Chaos Engineering",
+    "related_to": "cat:sec",
+    "url": "https://kellyshortridge.com/"
+  },
+  {
+    "text": "A melhor senha é aquela que nunca precisa existir. Passwordless não é novidade — é correção de um erro histórico.",
+    "author": "Troy Hunt",
+    "context": "Have I Been Pwned — sobre o futuro da autenticação",
+    "related_to": "cat:sec",
+    "url": "https://www.troyhunt.com/passwords-evolved-authentication-guidance-for-the-modern-era/"
+  },
+  {
+    "text": "Toda IA é probabilística. Todo arquiteto que trata resposta de LLM como verdade está projetando um sistema que mente em escala.",
+    "author": "Andrej Karpathy",
+    "context": "Sobre hallucination como feature, não bug, de LLMs",
+    "related_to": "cat:ai",
+    "url": "https://karpathy.medium.com/software-2-0-a64152b37c35"
+  },
+  {
+    "text": "Retrieval-Augmented Generation é atestar que o modelo sozinho não sabe o que você precisa. Isso não é fraqueza — é honestidade arquitetural.",
+    "author": "Patrick Lewis",
+    "context": "Paper original de RAG — 2020",
+    "related_to": "cat:ai",
+    "url": "https://arxiv.org/abs/2005.11401"
+  },
+  {
+    "text": "AI coding tools não substituem juízo. Elas amplificam o juízo do usuário — bom ou ruim.",
+    "author": "Simon Willison",
+    "context": "LLM tools e qualidade do prompt",
+    "related_to": "cat:ai",
+    "url": "https://simonwillison.net/2023/Aug/3/weird-world-of-llms/"
+  },
+  {
+    "text": "Generative AI é cara. Não caro em dólares — caro em cycles que poderiam ter sido gastos em engenharia que você realmente precisa.",
+    "author": "Simon Willison",
+    "context": "Sobre o custo oculto da experimentação com LLMs",
+    "related_to": "cat:ai",
+    "url": "https://simonwillison.net/tags/llms/"
+  },
+  {
+    "text": "Vendor lock-in em cloud não é quando você usa serviços proprietários. É quando você não consegue responder em quanto tempo sairia se quisesse.",
+    "author": "Gregor Hohpe",
+    "context": "The Software Architect Elevator — cloud strategy real",
+    "related_to": "cat:aws",
+    "url": "https://architectelevator.com/cloud/cloud-strategy-book/"
+  },
+  {
+    "text": "Lift-and-shift para cloud sem refatoração entrega o pior dos dois mundos: o custo da cloud com a arquitetura do datacenter.",
+    "author": "Adrian Cockcroft",
+    "context": "Ex-Netflix, ex-AWS — cloud migration patterns",
+    "related_to": "cat:aws",
+    "url": "https://adrianco.medium.com/"
+  },
+  {
+    "text": "Serverless não é sem servidor. É servidor que é problema do seu provedor — e problema do seu provedor custa caro quando escala mal.",
+    "author": "Werner Vogels",
+    "context": "CTO da Amazon — sobre trade-offs reais de serverless",
+    "related_to": "cat:aws",
+    "url": "https://www.allthingsdistributed.com/"
+  },
+  {
+    "text": "A cloud não é o datacenter de outra pessoa. É um sistema distribuído gigante que você está alugando um pedaço — e sistemas distribuídos falham.",
+    "author": "Werner Vogels",
+    "context": "Frugal Architect — princípios de design para cloud",
+    "related_to": "cat:aws",
+    "url": "https://www.allthingsdistributed.com/2024/02/the-frugal-architect.html"
+  },
+  {
+    "text": "Cost optimization em AWS não começa na fatura. Começa na decisão arquitetural de três meses atrás que ninguém lembra de revisar.",
+    "author": "Corey Quinn",
+    "context": "Last Week in AWS — economia de cloud na prática",
+    "related_to": "cat:aws",
+    "url": "https://www.lastweekinaws.com/"
+  },
+  {
+    "text": "Databases são mais difíceis de substituir do que linguagens de programação. Escolha com calma e com humildade.",
+    "author": "Martin Kleppmann",
+    "context": "Designing Data-Intensive Applications — long-term thinking em data",
+    "related_to": "cat:data",
+    "url": "https://dataintensive.net/"
+  },
+  {
+    "text": "Schema é contrato com seu futuro. Schema sem versão é dívida com juros compostos.",
+    "author": "Martin Kleppmann",
+    "context": "Evolução de schemas — capítulo 4 de DDIA",
+    "related_to": "cat:data",
+    "url": "https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html"
+  },
+  {
+    "text": "NoSQL não significa sem schema. Significa que o schema vive no seu código — e geralmente em mais de um lugar.",
+    "author": "Rick Houlihan",
+    "context": "DynamoDB e NoSQL data modeling",
+    "related_to": "cat:data",
+    "url": "https://www.youtube.com/watch?v=HaEPXoXVf2k"
+  },
+  {
+    "text": "Migrations de banco assustam porque tratamos dados como se fossem código. Não são — dados têm história, código não.",
+    "author": "Mike Hadlow",
+    "context": "Sobre o custo real de mudanças de schema em produção",
+    "related_to": "cat:data",
+    "url": "https://mikehadlow.blogspot.com/"
+  },
+  {
+    "text": "OWASP Top 10 existe porque os mesmos erros continuam sendo cometidos há 20 anos. Leia como um espelho, não como uma checklist.",
+    "author": "Jim Manico",
+    "context": "Fundador da Manicode — sobre application security",
+    "related_to": "tool:owasp",
+    "url": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "text": "SQL injection em 2026 não é mau-caratismo do atacante. É negligência do desenvolvedor.",
+    "author": "Jim Manico",
+    "context": "OWASP — prepared statements resolvem isso há décadas",
+    "related_to": "cat:sec",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+  },
+  {
+    "text": "OIDC não é apenas autenticação — é a renúncia coletiva à tentativa de manter seu próprio sistema de identidade.",
+    "author": "Nat Sakimura",
+    "context": "Co-editor de OIDC — sobre federação de identidade",
+    "related_to": "tool:keycloak",
+    "url": "https://openid.net/specs/openid-connect-core-1_0.html"
+  },
+  {
+    "text": "Commit early, commit often — e nunca reescreva a história em uma branch compartilhada.",
+    "author": "Linus Torvalds",
+    "context": "Git — design escolhido para paralelismo e resiliência",
+    "related_to": "tool:git",
+    "url": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing"
+  },
+  {
+    "text": "Trunk-based development não é perigoso. Branches de vida longa são.",
+    "author": "Paul Hammant",
+    "context": "Trunk Based Development — referência essencial",
+    "related_to": "tool:git",
+    "url": "https://trunkbaseddevelopment.com/"
+  },
+  {
+    "text": "Merge vs rebase é guerra santa. Escolha um padrão no time e pare de discutir — o problema real é o tamanho dos seus PRs.",
+    "author": "Scott Chacon",
+    "context": "Pro Git — livro canônico do Git",
+    "related_to": "tool:git",
+    "url": "https://git-scm.com/book/en/v2"
+  },
+  {
+    "text": "Containers são packaging. Orquestração é quem resolve o problema que você não tinha antes de containers.",
+    "author": "Kelsey Hightower",
+    "context": "Kubernetes The Hard Way — entender o problema antes da solução",
+    "related_to": "tool:kubernetes",
+    "url": "https://github.com/kelseyhightower/kubernetes-the-hard-way"
+  },
+  {
+    "text": "Docker Compose é o YAML mais poderoso da indústria. E o mais perigoso — porque convida você a subir em produção o que é ótimo em dev.",
+    "author": "Bret Fisher",
+    "context": "Docker Captain — sobre produção vs desenvolvimento",
+    "related_to": "tool:docker",
+    "url": "https://www.bretfisher.com/"
+  },
+  {
+    "text": "Imagem base Alpine é ótima até o dia em que você precisa debugar libc. Escolha com conhecimento, não por moda.",
+    "author": "Solomon Hykes",
+    "context": "Criador do Docker — pragmatismo em escolhas de imagem",
+    "related_to": "tool:docker",
+    "url": "https://www.docker.com/blog/"
+  },
+  {
+    "text": "Spring Boot resolve 80% dos problemas que times Java costumavam reinventar. O problema são os outros 20% que ninguém documenta.",
+    "author": "Josh Long",
+    "context": "Spring Developer Advocate — a bênção e a maldição da convenção sobre configuração",
+    "related_to": "tool:springboot",
+    "url": "https://spring.io/blog"
+  },
+  {
+    "text": "Virtual threads não resolvem CPU-bound. Resolvem I/O-bound. Entender a diferença é a diferença entre speedup e regressão.",
+    "author": "Brian Goetz",
+    "context": "Java Language Architect — Project Loom",
+    "related_to": "tool:java",
+    "url": "https://openjdk.org/jeps/444"
+  },
+  {
+    "text": "Java não é mais a linguagem dos dinossauros. É a linguagem dos sistemas que precisam continuar funcionando em 2040.",
+    "author": "Brian Goetz",
+    "context": "Sobre compatibilidade e longevidade da JVM",
+    "related_to": "tool:java",
+    "url": "https://inside.java/"
+  },
+  {
+    "text": "Gradle é poderoso porque é código. Gradle é doloroso porque é código que você esqueceu que escreveu.",
+    "author": "Hans Dockter",
+    "context": "Criador do Gradle — build scripts como engenharia",
+    "related_to": "tool:gradle",
+    "url": "https://blog.gradle.org/"
+  },
+  {
+    "text": "Maven venceu não porque era o melhor — venceu porque foi o primeiro a dizer que build precisava de convenção.",
+    "author": "Jason van Zyl",
+    "context": "Criador do Maven — convention over configuration",
+    "related_to": "tool:maven",
+    "url": "https://maven.apache.org/"
+  },
+  {
+    "text": "IDE não é editor de texto com autocomplete. É um compilador interativo que conhece seu código melhor do que você.",
+    "author": "Sergey Dmitriev",
+    "context": "Co-fundador da JetBrains — o propósito original de uma IDE",
+    "related_to": "tool:intellij",
+    "url": "https://blog.jetbrains.com/"
+  },
+  {
+    "text": "Postman virou padrão porque a alternativa era testar API manualmente com curl — e quem faz isso no terceiro endpoint desiste.",
+    "author": "Abhinav Asthana",
+    "context": "Co-fundador do Postman — sobre adoção viral de ferramentas",
+    "related_to": "tool:postman",
+    "url": "https://www.postman.com/"
+  },
+  {
+    "text": "OpenAPI é o melhor tipo de documentação: a que seu código é obrigado a respeitar sob pena de quebrar em CI.",
+    "author": "Erik Wilde",
+    "context": "API designer — sobre contract-first design",
+    "related_to": "tool:openapi",
+    "url": "https://www.openapis.org/"
+  },
+  {
+    "text": "Mongo não é banco de dados. É um modelo de dados que admite que JSON venceu — para o bem e para o mal.",
+    "author": "Eliot Horowitz",
+    "context": "Co-fundador do MongoDB — document store como filosofia",
+    "related_to": "tool:mongocompass",
+    "url": "https://www.mongodb.com/company/blog"
+  },
+  {
+    "text": "PostgreSQL é o melhor banco relacional do mundo porque se recusa a ser qualquer outra coisa — e isso é vantagem competitiva.",
+    "author": "Simon Riggs",
+    "context": "PostgreSQL core team — foco como estratégia",
+    "related_to": "tool:postgres",
+    "url": "https://www.postgresql.org/about/press/"
+  },
+  {
+    "text": "Databricks não é Spark em cloud. É a aposta de que data lake e data warehouse eram a mesma coisa o tempo todo.",
+    "author": "Matei Zaharia",
+    "context": "Co-fundador do Databricks — lakehouse como arquitetura unificada",
+    "related_to": "tool:databricks",
+    "url": "https://www.databricks.com/blog/2020/01/30/what-is-a-data-lakehouse.html"
+  },
+  {
+    "text": "ChatGPT não é inteligente. Ele é convincente. A diferença é o que mata projetos de IA em produção.",
+    "author": "Emily Bender",
+    "context": "Paper Stochastic Parrots — sobre o hype de LLMs",
+    "related_to": "tool:chatgpt",
+    "url": "https://dl.acm.org/doi/10.1145/3442188.3445922"
+  },
+  {
+    "text": "Claude Code não escreve código por você. Ele remove o atrito entre você e o código que você já sabe que precisa escrever.",
+    "author": "Anthropic Engineering",
+    "context": "Sobre a filosofia de AI coding — amplificação, não substituição",
+    "related_to": "tool:claudecode",
+    "url": "https://www.anthropic.com/news/claude-code"
+  },
+  {
+    "text": "Cursor virou default porque entendeu que IDE com IA embutida não é feature — é mudança de paradigma de edição.",
+    "author": "Aman Sanger",
+    "context": "Co-fundador do Cursor — sobre a integração profunda de LLM na IDE",
+    "related_to": "tool:cursor",
+    "url": "https://cursor.com/blog"
+  },
+  {
+    "text": "VS Code venceu não por ser o melhor editor, mas porque foi o primeiro a tratar extensões como cidadãos de primeira classe.",
+    "author": "Erich Gamma",
+    "context": "Co-criador do VS Code e do Eclipse — aprendizado entre gerações",
+    "related_to": "tool:vscode",
+    "url": "https://code.visualstudio.com/blogs"
+  },
+  {
+    "text": "O problema de CVE não é a lista ser longa. É a gente descobrir todo dia que usa uma dependência que ninguém mapeou.",
+    "author": "Kim Zetter",
+    "context": "Jornalista de segurança — sobre SBOM e supply chain",
+    "related_to": "tool:cve",
+    "url": "https://zetter.substack.com/"
+  },
+  {
+    "text": "Python é a linguagem que vence porque se recusa a ser elegante. Ela é prática — e prática é o que roda em produção.",
+    "author": "Guido van Rossum",
+    "context": "Criador do Python — filosofia do design",
+    "related_to": "tool:python",
+    "url": "https://peps.python.org/pep-0020/"
+  },
+  {
+    "text": "JavaScript é universalmente odiado e universalmente usado. Isso diz mais sobre a indústria do que sobre a linguagem.",
+    "author": "Brendan Eich",
+    "context": "Criador do JavaScript — sobre pragmatismo vs pureza",
+    "related_to": "tool:javascript",
+    "url": "https://brendaneich.com/"
+  },
+  {
+    "text": "A melhor ferramenta de diagrama é a que sobrevive ao próximo retro do time. Tudo mais é arte que ninguém olha de novo.",
+    "author": "Simon Brown",
+    "context": "Ferramentas de modelagem — pragmatismo acima de beleza",
+    "related_to": "tool:whimsical",
+    "url": "https://c4model.com/"
+  },
+  {
+    "text": "PlantUML ganhou porque diagrama é texto. E texto tem diff, review, história — coisas que imagem não tem.",
+    "author": "Arnaud Roques",
+    "context": "Criador do PlantUML — diagrams-as-code como filosofia",
+    "related_to": "tool:plantuml",
+    "url": "https://plantuml.com/"
+  },
+  {
+    "text": "Warp reinventou o terminal porque o terminal parou no tempo. Às vezes a inovação é admitir que 40 anos sem mudança não é qualidade — é negligência.",
+    "author": "Zach Lloyd",
+    "context": "Fundador do Warp — sobre o terminal moderno",
+    "related_to": "tool:warp",
+    "url": "https://www.warp.dev/blog"
+  },
+  {
+    "text": "GitHub não é o Git. É a plataforma social que colou Git em todos os desenvolvedores do mundo — e a captura de mercado é difícil de reverter.",
+    "author": "Chris Wanstrath",
+    "context": "Co-fundador do GitHub — network effects em dev tools",
+    "related_to": "tool:github",
+    "url": "https://github.blog/"
+  },
+  {
+    "text": "Dynatrace é caro. Observabilidade artesanal em escala também é — só que você paga em engenharia e em incidents que duram mais.",
+    "author": "Bernd Greifeneder",
+    "context": "CTO da Dynatrace — sobre o trade-off buy vs build em observabilidade",
+    "related_to": "tool:dynatrace",
+    "url": "https://www.dynatrace.com/news/blog/"
+  },
+  {
+    "text": "MySQL continua vivo em 2026 não por mérito técnico — mas porque meio mundo da internet ainda roda em cima dele. Legado é força.",
+    "author": "Monty Widenius",
+    "context": "Co-criador do MySQL — sobre adoção massiva",
+    "related_to": "tool:mysql",
+    "url": "https://mariadb.org/about/"
+  },
+  {
+    "text": "DBeaver ganhou contra ferramentas proprietárias porque ninguém quer pagar licença para ver tabela. Simplicidade às vezes vence complexidade comercial.",
+    "author": "Serge Rider",
+    "context": "Criador do DBeaver — open source vs enterprise em dev tooling",
+    "related_to": "tool:dbeaver",
+    "url": "https://dbeaver.io/"
+  },
+  {
+    "text": "A verdade é que a maioria dos sistemas distribuídos que vejo em produção são sistemas centralizados disfarçados — com a latência dos distribuídos e a fragilidade dos centralizados.",
+    "author": "Tim Bray",
+    "context": "Ex-arquiteto AWS — sobre arquitetura real",
+    "related_to": "cat:arqsol",
+    "url": "https://www.tbray.org/ongoing/"
+  },
+  {
+    "text": "Não há silver bullet. Não há fork-lift. Não há IA que pense por você. Engenharia continua sendo escolha entre trade-offs desagradáveis.",
+    "author": "Fred Brooks",
+    "context": "No Silver Bullet — ensaio seminal sobre complexidade essencial",
+    "related_to": "general",
+    "url": "https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf"
+  },
+  {
+    "text": "Adicionar pessoas a um projeto atrasado só atrasa mais ainda. Brooks's Law não envelheceu — só ganhou mais exemplos.",
+    "author": "Fred Brooks",
+    "context": "The Mythical Man-Month — lei clássica que ninguém aprende",
+    "related_to": "general",
+    "url": "https://archive.org/details/MythicalManMonth"
+  },
+  {
+    "text": "Refatorar sem testes é remodelar casa sem planta — você descobre o que era estrutural quando o teto cai.",
+    "author": "Michael Feathers",
+    "context": "Working Effectively with Legacy Code — characterization tests",
+    "related_to": "cat:arqsw",
+    "url": "https://www.oreilly.com/library/view/working-effectively-with/0131177052/"
+  },
+  {
+    "text": "REST venceu SOAP não porque era mais elegante — venceu porque desenvolvedor comum conseguia entender em 10 minutos.",
+    "author": "Roy Fielding",
+    "context": "Tese sobre REST — simplicidade como estratégia",
+    "related_to": "cat:integ",
+    "url": "https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm"
+  },
+  {
+    "text": "Sidecars são um padrão lindo no papel. Em produção, eles dobram sua superfície de falha — e triplicam sua fatura de cloud.",
+    "author": "Christian Posta",
+    "context": "Service mesh na prática — sobre custos reais de Istio/Envoy",
+    "related_to": "cat:arqsol",
+    "url": "https://www.christianposta.com/"
+  },
+  {
+    "text": "O que você chama de microsserviços, eu chamo de sistema distribuído. A diferença é que você está construindo com intenção — ou acidente?",
+    "author": "Tyler Treat",
+    "context": "Sobre decomposição de serviços consciente",
+    "related_to": "cat:arqsol",
+    "url": "https://bravenewgeek.com/"
+  },
+  {
+    "text": "Se você consegue medir, você pode gerenciar. Se você não mede SLO, você está gerenciando por fé.",
+    "author": "Benjamin Treynor Sloss",
+    "context": "VP da Google SRE — criador do termo Site Reliability Engineering",
+    "related_to": "cat:obs",
+    "url": "https://sre.google/sre-book/introduction/"
+  },
+  {
+    "text": "Toda arquitetura é boa até encontrar seu primeiro requisito não-funcional real.",
+    "author": "Neal Ford",
+    "context": "Building Evolutionary Architectures — fitness functions",
+    "related_to": "cat:arqsw",
+    "url": "https://nealford.com/books/evolutionaryarchitectures.html"
+  },
+  {
+    "text": "ADRs existem porque a memória humana é mais curta que o ciclo de vida do software. Escreva — ou reviva a mesma discussão.",
+    "author": "Michael Nygard",
+    "context": "Release It! — popularizou Architecture Decision Records",
+    "related_to": "cat:arqsw",
+    "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions"
+  },
+  {
+    "text": "Circuit breaker não é sobre falhar rápido. É sobre falhar com dignidade — e dar ao sistema a chance de se recuperar em paz.",
+    "author": "Michael Nygard",
+    "context": "Release It! — padrões de estabilidade em produção",
+    "related_to": "cat:arqsol",
+    "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/"
+  },
+  {
+    "text": "Landing zones existem porque ninguém quer admitir que começou a usar cloud sem um plano — e agora não consegue parar.",
+    "author": "Gregor Hohpe",
+    "context": "Cloud Strategy — governança como recuperação de dívida",
+    "related_to": "cat:arqsol",
+    "url": "https://architectelevator.com/cloud/"
+  },
+  {
+    "text": "Todo CTO que promete transformação digital sem tocar no data model está vendendo teatro — não engenharia.",
+    "author": "Gregor Hohpe",
+    "context": "The Software Architect Elevator",
+    "related_to": "cat:arqsol",
+    "url": "https://architectelevator.com/book/"
+  },
+  {
+    "text": "TOGAF é um vocabulário compartilhado, não um método. Use como dicionário — não como manual de instruções.",
+    "author": "Jan Hoogervorst",
+    "context": "Enterprise Governance and Enterprise Engineering",
+    "related_to": "cat:arqsol",
+    "url": "https://www.opengroup.org/togaf"
+  },
+  {
+    "text": "A melhor arquitetura é a que você consegue explicar para o time em 30 minutos — e eles não precisam anotar nada porque já sabem o que faz sentido.",
+    "author": "Ward Cunningham",
+    "context": "Criador do Wiki — simplicidade como comunicação",
+    "related_to": "cat:arqsw",
+    "url": "http://wiki.c2.com/?SimplicityAndStrictness"
+  },
+  {
+    "text": "Idempotent consumer é o padrão mais importante de event-driven. Ignorá-lo é convidar duplicatas para a sua festa de produção.",
+    "author": "Chris Richardson",
+    "context": "Microservices Patterns — padrões essenciais de mensageria",
+    "related_to": "cat:integ",
+    "url": "https://microservices.io/patterns/communication-style/idempotent-consumer.html"
+  },
+  {
+    "text": "Saga não resolve o problema de transações distribuídas — ela o transfere para o domínio, onde é visível e debatível.",
+    "author": "Chris Richardson",
+    "context": "Saga pattern — compensating transactions",
+    "related_to": "cat:arqsol",
+    "url": "https://microservices.io/patterns/data/saga.html"
+  },
+  {
+    "text": "Event-driven architecture não é a solução para acoplamento. É uma escolha sobre onde o acoplamento vai aparecer — e se ele vai ser visível ou escondido.",
+    "author": "Sam Newman",
+    "context": "Building Microservices 2nd Edition",
+    "related_to": "cat:integ",
+    "url": "https://samnewman.io/"
+  },
+  {
+    "text": "Ferramentas não te salvam de más decisões arquiteturais. Elas te deixam tomar as más decisões mais rápido.",
+    "author": "Gregor Hohpe",
+    "context": "Enterprise Integration Patterns — sobre o papel de iPaaS",
+    "related_to": "general",
+    "url": "https://www.enterpriseintegrationpatterns.com/"
+  },
+  {
+    "text": "A primeira vez que você precisou fazer um hotfix em produção no sábado à noite, você entendeu por que CI/CD existe. A segunda vez, você entendeu por que feature flags existem.",
+    "author": "David Farley",
+    "context": "Continuous Delivery — a origem do movimento",
+    "related_to": "cat:devops",
+    "url": "https://continuousdelivery.com/"
+  },
+  {
+    "text": "Clean Code é aspiração, não checklist. Quem aplica como dogma acaba com código tão engessado que ninguém consegue mexer.",
+    "author": "Dan North",
+    "context": "Criador do BDD — crítica ao dogmatismo em boas práticas",
+    "related_to": "cat:arqsw",
+    "url": "https://dannorth.net/"
+  },
+  {
+    "text": "Regras são para pessoas sem experiência. Com experiência, você entende que toda regra tem contexto — e o contexto importa mais que a regra.",
+    "author": "Rich Hickey",
+    "context": "Criador do Clojure — Simple Made Easy",
+    "related_to": "cat:arqsw",
+    "url": "https://www.infoq.com/presentations/Simple-Made-Easy/"
+  },
+  {
+    "text": "Simple e easy são palavras diferentes. Easy é familiar. Simple é sem partes entrelaçadas — e só uma delas escala.",
+    "author": "Rich Hickey",
+    "context": "Simple Made Easy — talk seminal",
+    "related_to": "cat:arqsw",
+    "url": "https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md"
+  },
+  {
+    "text": "A melhor DX é aquela que o desenvolvedor não percebe. Atrito invisível é o que mata produtividade em escala.",
+    "author": "Kathryn Koehler",
+    "context": "Netflix Productivity Engineering",
+    "related_to": "cat:devops",
+    "url": "https://netflixtechblog.com/"
+  },
+  {
+    "text": "Nenhum framework te salva de não entender seu domínio. Você só vai construir o errado mais rápido.",
+    "author": "Vaughn Vernon",
+    "context": "Implementing DDD — crítica à cultura de framework-first",
+    "related_to": "tool:springboot",
+    "url": "https://vaughnvernon.com/"
+  },
+  {
+    "text": "GraphQL resolve o problema N+1 que REST criou — e introduz três novos problemas que ninguém documenta até estar em produção.",
+    "author": "Lee Byron",
+    "context": "Co-criador do GraphQL — honestidade sobre trade-offs",
+    "related_to": "cat:integ",
+    "url": "https://graphql.org/"
+  },
+  {
+    "text": "gRPC é melhor que REST em latência. REST é melhor que gRPC em evolução. Você raramente precisa dos dois — mas quase sempre escolhe errado primeiro.",
+    "author": "Martin Fowler",
+    "context": "Microservices communication — trade-offs entre estilos",
+    "related_to": "cat:integ",
+    "url": "https://martinfowler.com/articles/microservices.html"
+  },
+  {
+    "text": "A única documentação que permanece verdadeira é a que o compilador verifica. Tudo mais é ficção esperando ser descoberta.",
+    "author": "Joshua Bloch",
+    "context": "Effective Java — APIs como documentação viva",
+    "related_to": "tool:java",
+    "url": "https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/"
+  }
+]

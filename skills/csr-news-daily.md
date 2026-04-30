@@ -91,6 +91,7 @@ Escrever o arquivo em disco antes de pesquisar garante que compressão de contex
   "highlights": [],
   "news": [],
   "tools": [],
+  "videos": [],
   "quotes": [],
   "sources": []
 }
@@ -241,6 +242,61 @@ Se não houver update real E a rotação levar você a uma ferramenta sem conte�
 
 ---
 
+### FASE 5B — Vídeos do YouTube (3 por edição)
+
+Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da edição. Os vídeos aparecem na home como carrossel ao lado dos destaques.
+
+**Perfil dos vídeos**:
+- Conteúdo dos canais fixos abaixo — **não busque fora dessa lista**.
+- Relevância temática: escolha vídeos que se conectem aos temas cobertos na edição (`highlights[]` e top `news[]`). Se não houver vídeo temático disponível, escolha qualquer vídeo recente dos canais.
+- Varie os canais a cada edição — não repita o mesmo canal nas 3 slots.
+- Não repita `id` de vídeos de edições anteriores.
+
+**Canais autorizados** (busque exclusivamente nesses):
+
+| Canal | URL | Idioma |
+|---|---|---|
+| ByteByteGo | https://www.youtube.com/@ByteByteGo | EN |
+| Mano Deyvin | https://www.youtube.com/@manodeyvin | PT-BR |
+| Renato Augusto Tech | https://www.youtube.com/@RenatoAugustoTech | PT-BR |
+| Fabricio Veronez | https://www.youtube.com/@fabricioveronez | PT-BR |
+| Lucas Montano | https://www.youtube.com/@LucasMontano | PT-BR |
+| Guto Galego | https://www.youtube.com/@GutoGalego | PT-BR |
+| Cortes do Mano (ofc) | https://www.youtube.com/@cortesdomanoofc | PT-BR |
+| Compilado Podcast | https://www.youtube.com/@CompiladoPodcast | PT-BR |
+| Código Fonte TV | https://www.youtube.com/@codigofontetv | PT-BR |
+
+**Como buscar**:
+- `WebFetch("https://www.youtube.com/@{handle}/videos", "List the 10 most recent videos with title, URL and publish date.")` — faça isso para 3-4 canais, priorizando os mais relevantes para o tema do dia.
+- Escolha 1 vídeo por canal, variando entre PT-BR e EN. ByteByteGo deve aparecer com frequência quando o tema for arquitetura/sistemas.
+- Se o WebFetch do canal não retornar vídeos, tente `WebSearch("site:youtube.com \"<nome do canal>\" \"<tópico>\"")` como fallback.
+
+**Como preencher os campos**:
+1. Extraia `id` da URL YouTube (a parte após `?v=` ou após `youtu.be/`).
+2. Tente `WebFetch("https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={id}&format=json", "Return title and author_name.")` para obter `title` e `channel`.
+3. Preencha `published_at` (formato `YYYY-MM-DD`) e `duration` (texto legível como `"12 min"` ou `"1h 05 min"`) se conseguir extrair da página ou da busca.
+4. `channel_avatar`: opcional — URL do avatar do canal (`https://yt3.ggpht.com/...`). Tente extrair do HTML do vídeo via WebFetch; se não for possível, omita o campo.
+5. Se `title` e `channel` não forem obtidos, deixe como `""` — a SPA busca via oEmbed em runtime automaticamente.
+
+**Estrutura de cada item de `videos[]`**:
+```json
+{
+  "id": "dQw4w9WgXcQ",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "title": "Título do vídeo (vazio se não obtido)",
+  "channel": "Nome do canal (vazio se não obtido)",
+  "channel_avatar": "https://yt3.ggpht.com/...(omitir se não disponível)",
+  "published_at": "2026-04-15",
+  "duration": "12 min"
+}
+```
+
+> Não inclua campo `start` — todos os vídeos sempre iniciam do segundo zero.
+
+**Ao fim da FASE 5B**: CHECKPOINT → Read / adicione `videos[]` / Write.
+
+---
+
 ### FASE 6 — Hero + quotes + highlights + imagens pendentes
 
 **Score explícito** (aplique a cada item de `news[]` e `tools[]`):
@@ -287,6 +343,7 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Imagens**: highlights[] 3/3; news[] ≥80%.
 - [ ] **`tools[]` chaves válidas** — ver conjunto autoritativo em `scripts/validate_editions.py` (`TOOL_KEYS`). Sempre sincronize ao adicionar/remover ferramentas.
 - [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
+- [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id` e `url`. Campos `title` e `channel` podem ficar vazios (buscados em runtime via oEmbed). Campo `start` **não deve existir**.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Diversidade de fonte**: nenhum domínio aparece em >3 itens por edição.
 - [ ] **Anti-clickbait**: nenhum `headline`/`summary` com `"top N"`, `"N razões"`, `"N ways"`, `"N things"`, `"melhores N"`, `"você não vai acreditar"`.
@@ -324,7 +381,7 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 
 *MODO NORMAL:*
 1. Leia `data/editions.json`.
-2. Adicione a nova edição no início de `editions[]` (com `date`, `summary`, `counts_by_category`, `counts_by_tool`, `highlights`).
+2. Adicione a nova edição no início de `editions[]` (com `date`, `hero_title`, `hero_description`, `counts_by_category`, `counts_by_tool`, `highlights`).
 3. Atualize `last_generated`.
 4. Escreva `data/editions.json` **PRIMEIRO**.
 5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
@@ -635,6 +692,15 @@ Exemplos por item (não exaustivos):
 | `java` | JDK release, JEP aprovada | Java performance, GC tuning, virtual threads, record patterns, sealed classes |
 | `javascript` | Node.js/Deno/Bun release, TC39 proposal | TypeScript features, ESM, Web APIs, npm ecosystem, Next.js/Vite/Biome (frontend toolchain) |
 | `python` | CPython release, PEP aprovada, uv update | FastAPI, async Python, type hints, packaging, AI/ML libs (LangGraph, Ollama SDK) |
+| `mongodb` | Release, CVE, novo operador | Atlas Search, aggregation pipeline, change streams, MongoDB vs PostgreSQL JSONB, Mongoose |
+| `angular` | Release, novo sinal, breaking change | RxJS, Zone.js, Angular CLI, SSR com Angular Universal, migração para signals |
+| `react` | Release, RFC aprovada, RSC update | React Server Components, Next.js/Remix, estado global (Zustand/Jotai), concurrent features |
+| `spring` | Release Spring Framework (core), novo módulo | Spring Security, Spring Data, Spring Integration, diferença Spring vs Spring Boot |
+| `rabbitmq` | Release, CVE, nova feature de roteamento | AMQP patterns, exchanges/queues/bindings, comparado a Kafka, dead-letter queues |
+| `sns` | Nova feature AWS SNS, update de integração | Pub/sub na AWS, SNS + SQS fanout, FIFO topics, filtros de mensagem, integração Lambda |
+| `sqs` | Nova feature AWS SQS, update de pricing | Queue patterns na AWS, SQS FIFO vs Standard, DLQ, visibility timeout, integração ECS/Lambda |
+| `checkmarx` | Release, nova engine SAST/SCA, CVE detectado | SAST, SCA, supply chain security, integração CI/CD, comparado a Snyk/Semgrep |
+| `sonar` | Release SonarQube/SonarCloud, nova regra | Code quality gates, cobertura de testes, technical debt, integração GitHub Actions/Azure DevOps |
 
 ### Tabela completa — `tool_key` · Categoria · Changelog/Blog
 
@@ -668,8 +734,17 @@ Exemplos por item (não exaustivos):
 | `java` | Java & JVM | `backend` | https://openjdk.org · https://inside.java · https://foojay.io/today |
 | `javascript` | JavaScript / TS | `frontend` | https://tc39.es/proposals · https://nodejs.org/en/blog · https://deno.com/blog · https://bun.sh/blog |
 | `python` | Python | `backend` | https://www.python.org/downloads · https://peps.python.org · https://realpython.com |
+| `mongodb` | MongoDB | `data` | https://www.mongodb.com/blog · https://github.com/mongodb/mongo/releases |
+| `angular` | Angular | `frontend` | https://blog.angular.dev · https://github.com/angular/angular/releases |
+| `react` | React | `frontend` | https://react.dev/blog · https://github.com/facebook/react/releases |
+| `spring` | Spring Framework | `backend` | https://spring.io/blog · https://github.com/spring-projects/spring-framework/releases |
+| `rabbitmq` | RabbitMQ | `integ` | https://www.rabbitmq.com/changelog.html · https://blog.rabbitmq.com |
+| `sns` | AWS SNS | `integ` | https://aws.amazon.com/about-aws/whats-new/ (filtrar SNS) · https://aws.amazon.com/sns/ |
+| `sqs` | AWS SQS | `integ` | https://aws.amazon.com/about-aws/whats-new/ (filtrar SQS) · https://aws.amazon.com/sqs/ |
+| `checkmarx` | Checkmarx | `sec` | https://checkmarx.com/blog · https://checkmarx.com/resource/documents/en/34965-46283-checkmarx-release-notes.html |
+| `sonar` | SonarQube / SonarCloud | `sec` | https://www.sonarsource.com/blog · https://github.com/SonarSource/sonarqube/releases |
 
-**Total**: 3 linguagens + 25 ferramentas = **28 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
+**Total**: 3 linguagens + 34 ferramentas = **37 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
 
 ### Sub-tópicos cobertos em subcategorias (não são `tool_key` dedicados)
 
@@ -795,6 +870,17 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "related_to": "cat:design"
     }
   ],
+  "videos": [
+    {
+      "id": "dQw4w9WgXcQ",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "title": "Título do vídeo",
+      "channel": "Nome do Canal",
+      "channel_avatar": "https://yt3.ggpht.com/...(opcional)",
+      "published_at": "2026-04-15",
+      "duration": "12 min"
+    }
+  ],
   "sources": [
     { "name": "AWS News", "url": "https://aws.amazon.com/blogs/aws/" }
   ]
@@ -803,7 +889,13 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 
 ### Campos por objeto
 
-**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `highlights[]`, `news[]`, `tools[]`, `quotes[]`. Opcionais: `sources[]`.
+**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `highlights[]`, `news[]`, `tools[]`, `videos[]`, `quotes[]`. Opcionais: `sources[]`.
+
+**Item de `videos[]`** (exatamente 3 itens):
+- **Obrigatórios**: `id` (YouTube video ID), `url`.
+- **Preencher se obtido**: `title`, `channel`, `published_at` (YYYY-MM-DD), `duration` (texto legível, ex: `"9 min"`, `"1h 21 min"`).
+- **Opcional**: `channel_avatar` (URL `https://yt3.ggpht.com/...`).
+- **Nunca incluir**: campo `start` — todos os vídeos iniciam do segundo zero.
 
 **Item de `news[]` (mesma estrutura usada dentro de `highlights[]`)**:
 - **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `why_it_matters`, `source`, `url`, `read_time`.
@@ -885,7 +977,8 @@ Escolha 1 dona e liste as outras em `tags[]`:
   "editions": [
     {
       "date": "2026-04-17",
-      "summary": "Resumo de 1-2 frases do dia.",
+      "hero_title": "Título curto e impactante (copiado do JSON diário)",
+      "hero_description": "2-3 frases sintetizando o dia (copiado do JSON diário).",
       "counts_by_category": { "sec": 3, "ai": 2, "aiops": 3, "cloud": 2, "devops": 2 },
       "counts_by_tool": { "cursor": 1, "docker": 1, "langfuse": 1 },
       "highlights": [
@@ -898,7 +991,7 @@ Escolha 1 dona e liste as outras em `tags[]`:
 
 - Array `editions` ordenado do mais recente para o mais antigo.
 - Cada edição tem exatamente 3 highlights (os 3 itens top-ranqueados do dia por score, reduzidos aqui a `title`+`url`).
-- `summary` é o mesmo do `hero_description` do JSON diário, mas mais curto (1-2 frases).
+- `hero_title` e `hero_description` devem ser **idênticos** ao `hero_title` e `hero_description` do JSON diário (`data/{date}.json`). Não há campo `summary` — foi removido.
 - `counts_by_category`: mapa `chave_categoria → número de itens` em `news[]`. Omita categorias com 0. Chaves válidas (16): ver tabela acima.
 - `counts_by_tool`: mapa `tool_key → número de itens` em `tools[]`. Chaves válidas: conjunto em `scripts/validate_editions.py` (`TOOL_KEYS`). Omita chaves com 0.
 

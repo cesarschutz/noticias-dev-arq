@@ -1305,7 +1305,7 @@
             <p class="hero-sub">
               Todo dia, uma IA pesquisa notícias, releases, changelogs, CVEs,
               incidentes e tutoriais em <strong>16 categorias</strong>,
-              <strong>3 linguagens</strong> e <strong>29 ferramentas</strong>
+              <strong>3 linguagens</strong> e <strong>34 ferramentas</strong>
               monitoradas — e entrega o que importa para engenheiros e arquitetos.
             </p>
           </div>
@@ -1348,7 +1348,7 @@
     <div class="section-head">
       <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>Linguagens</div>
       <h2 class="section-title">Java, JavaScript e Python.</h2>
-      <p class="section-sub">Versões, releases e evolução da linguagem — os três ecossistemas monitorados diariamente.</p>
+      <p class="section-sub">Versões, releases e evolução da linguagem — os cinco ecossistemas monitorados diariamente.</p>
     </div>
     <div class="lang-grid" id="langsGrid"></div>
   </div>
@@ -1359,7 +1359,7 @@
   <div class="section-inner">
     <div class="section-head">
       <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Ferramentas</div>
-      <h2 class="section-title">29 ferramentas monitoradas.</h2>
+      <h2 class="section-title">34 ferramentas monitoradas.</h2>
       <p class="section-sub">Kubernetes, Kafka, Postgres, Docker, Grafana e mais — releases, changelogs, CVEs e tutoriais para as ferramentas que importam.</p>
     </div>
     <div id="toolsGrid"></div>
@@ -1478,15 +1478,17 @@ function applyTheme(theme){
 
 /* ════════ ÍCONES DE SEÇÃO E SUBGRUPO ════════ */
 const HEADER_ICONS = {
-  'cats':     '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
-  'ai-ide':   '<path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>',
-  'gitci':    '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
-  'platform': '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
-  'dados':    '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
-  'obs-iam':  '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
-  'jvm':      '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
+  'cats':        '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
+  'cloud-infra': '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
+  'dados':       '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+  'devops':      '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
   'diagrams':    '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
+  'frontend':    '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+  'ai-ide':      '<path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>',
+  'jvm':         '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
   'mensageria':  '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M20.49 3.51a14 14 0 0 1 0 19.8"/><path d="M3.51 20.49a14 14 0 0 1 0-19.8"/>',
+  'obs-iam':     '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  'sec-code':    '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${paths}</svg>`;
@@ -1570,6 +1572,11 @@ const TOOLS = [
   {key:'structurizr',name:'Structurizr',  color:'#4a9aba', logo:'https://www.google.com/s2/favicons?domain=structurizr.com&sz=128',                                           desc:'Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.'},
   {key:'plantuml',  name:'PlantUML',      color:'#1168BD', logo:'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plantuml.svg',                                              desc:'Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.'},
   {key:'mermaid',   name:'Mermaid',       color:'#FF3670', logo:'https://cdn.simpleicons.org/mermaid/FF3670',                                                                 desc:'Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub.'},
+  {key:'sonar',     name:'SonarQube',     color:'#4E9BCD', logo:'https://cdn.simpleicons.org/sonar/4E9BCD',                                                               desc:'Análise estática de qualidade e segurança de código — cobertura, bugs e vulnerabilidades.'},
+  {key:'checkmarx', name:'Checkmarx',    color:'#6B34FC', logo:'https://www.google.com/s2/favicons?domain=checkmarx.com&sz=128',                                                             desc:'Plataforma de segurança de aplicações — SAST, SCA, DAST e análise de IaC.'},
+  {key:'angular',   name:'Angular',      color:'#DD0031', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angular/angular-original.svg',                                              desc:'Framework frontend Google — componentes, signals, SSR com Angular Universal.'},
+  {key:'react',     name:'React',        color:'#61DAFB', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',                                                  desc:'Biblioteca UI Meta — hooks, RSC, Next.js e ecossistema moderno.'},
+  {key:'spring',    name:'Spring Framework',color:'#6DB33F',logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg',                                             desc:'Framework Java — DI, AOP, MVC, Data, Security e integração com o ecossistema Spring.'},
 ];
 
 function esc(s) {
@@ -1600,14 +1607,16 @@ function renderCards() {
   `).join('');
 
   const TOOL_SUBGROUPS = [
-    { key:'dados',      label: 'Dados & Bancos',           tools: ['mongodb','databricks','postgres','redis'] },
-    { key:'mensageria', label: 'Mensageria & Filas',        tools: ['kafka','rabbitmq','sns','sqs'] },
-    { key:'diagrams',   label: 'Diagramas como Código',    tools: ['mermaid','plantuml','structurizr'] },
-    { key:'gitci',      label: 'Git, CI/CD & Containers',  tools: ['argocd','docker','github','ghactions'] },
-    { key:'ai-ide',     label: 'IDEs & AI Coding',         tools: ['claudecode','cursor','intellij','vscode'] },
-    { key:'jvm',        label: 'JVM: Build & Frameworks',  tools: ['maven','gradle','springboot'] },
-    { key:'obs-iam',    label: 'Observabilidade & IAM',    tools: ['datadog','dynatrace','keycloak'] },
-    { key:'platform',   label: 'Plataforma Cloud Native',  tools: ['istio','kubernetes','nginx','terraform'] },
+    { key:'cloud-infra', label: 'Cloud & Infra',                tools: ['istio','kubernetes','nginx','terraform'] },
+    { key:'dados',       label: 'Dados & Bancos',               tools: ['databricks','mongodb','postgres','redis'] },
+    { key:'devops',      label: 'DevOps & CI/CD',               tools: ['argocd','docker','ghactions','github'] },
+    { key:'diagrams',    label: 'Diagramas',                    tools: ['mermaid','plantuml','structurizr'] },
+    { key:'frontend',    label: 'Frontend',                     tools: ['angular','react'] },
+    { key:'ai-ide',      label: 'IDEs & IA',                    tools: ['claudecode','cursor','intellij','vscode'] },
+    { key:'jvm',         label: 'Java & JVM',                   tools: ['gradle','maven','spring','springboot'] },
+    { key:'mensageria',  label: 'Mensageria',                   tools: ['kafka','rabbitmq','sns','sqs'] },
+    { key:'obs-iam',     label: 'Observabilidade & Identidade', tools: ['datadog','dynatrace','keycloak'] },
+    { key:'sec-code',    label: 'Segurança de Código',          tools: ['checkmarx','sonar'] },
   ];
   const toolByKey = Object.fromEntries(TOOLS.map(t => [t.key, t]));
   const renderToolCard = t => `

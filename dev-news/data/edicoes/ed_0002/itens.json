@@ -1,0 +1,482 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "item_ed0002_001",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "OpenAI simplifica seleção de modelos no ChatGPT e expõe controle de esforço de raciocínio",
+      "titulo_curto": "OpenAI simplifica seleção de modelos no ChatGPT e expõe controle de es",
+      "subtitulo": "",
+      "categoria_id": "aiops",
+      "categoria_nome": "AIOps & Agents",
+      "categoria_icone": "🧠",
+      "subcategoria_principal_id": "aiops__ai_coding_em_producao",
+      "resumo": "A mudança coloca seleção de modelo e esforço de raciocínio mais perto do fluxo de trabalho.",
+      "o_que_aconteceu": "As notas de release do ChatGPT informam que o seletor de modelo foi movido para o composer e controles de thinking effort para o model picker.",
+      "por_que_importa": "Escolha de modelo vira parte da UX operacional de trabalho com IA, não configuração escondida.",
+      "impacto_tecnico": "Crie guias internos de quando usar modelos rápidos, thinking e pro; registre critérios de custo e confidencialidade.",
+      "acao_recomendada": "monitor",
+      "maturidade": "assess",
+      "nivel_impacto": "médio",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "governança_de_ia",
+        "produtividade",
+        "devex",
+        "segurança"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": true,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_openai_help",
+        "nome": "OpenAI Help Center",
+        "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-28T10:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "claudecode",
+          "cursor"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "model-selection",
+          "ai",
+          "governance"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_002",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "Grafana 13 e nova arquitetura do Loki reforçam observabilidade aberta em escala",
+      "titulo_curto": "Grafana 13 e nova arquitetura do Loki reforçam observabilidade aberta ",
+      "subtitulo": "",
+      "categoria_id": "obs",
+      "categoria_nome": "Observabilidade & SRE",
+      "categoria_icone": "📈",
+      "subcategoria_principal_id": "obs__dashboards_grafana_loki_tempo_mimir",
+      "resumo": "A Grafana Labs anunciou Grafana 13, evolução do Loki e melhorias no caminho de adoção de OpenTelemetry.",
+      "o_que_aconteceu": "A Grafana Labs apresentou Grafana 13 no GrafanaCON 2026 com nova arquitetura para Loki e atualizações de OpenTelemetry.",
+      "por_que_importa": "Observabilidade moderna depende de padrões abertos, mas a complexidade operacional ainda é o maior freio.",
+      "impacto_tecnico": "Revise pipeline de logs, traces e métricas; padronize OTel antes de trocar fornecedor ou ferramenta.",
+      "acao_recomendada": "assess",
+      "maturidade": "trial",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "observabilidade",
+        "confiabilidade",
+        "operação"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 8,
+      "destaque": true,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_grafana",
+        "nome": "Grafana Labs",
+        "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-21T10:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "datadog",
+          "dynatrace"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "grafana",
+          "loki",
+          "opentelemetry",
+          "observability"
+        ],
+        "video_ids": [
+          "vid_ed0002_001"
+        ],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_003",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "MongoDB 8.2 traz ajustes operacionais e alerta para kernel Linux 6.19",
+      "titulo_curto": "MongoDB 8.2 traz ajustes operacionais e alerta para kernel Linux 6.19",
+      "subtitulo": "",
+      "categoria_id": "data",
+      "categoria_nome": "Dados & Streaming",
+      "categoria_icone": "🗄️",
+      "subcategoria_principal_id": "data__relacionais",
+      "resumo": "As notas do MongoDB 8.2 combinam melhorias, CVEs e alerta de compatibilidade com kernel.",
+      "o_que_aconteceu": "A documentação do MongoDB 8.2 descreve mudanças da release, CVEs corrigidas e incompatibilidade de MongoDB 8.0+ com Linux kernel 6.19.",
+      "por_que_importa": "Compatibilidade entre banco, SO e memória pode derrubar produção mesmo quando a aplicação não mudou.",
+      "impacto_tecnico": "Antes de upgrade, valide kernel, TCMalloc, storage, índices e comportamento de sharding em ambiente espelho.",
+      "acao_recomendada": "assess",
+      "maturidade": "trial",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "modelagem_de_dados",
+        "performance",
+        "operação"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 7,
+      "destaque": true,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_mongodb_docs",
+        "nome": "MongoDB Docs",
+        "url": "https://www.mongodb.com/docs/manual/release-notes/8.2/",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-28T07:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "mongodb"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "mongodb",
+          "linux",
+          "database",
+          "upgrade"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_004",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "release",
+      "status": "publicado",
+      "titulo": "Spring Data 2026.0.0-RC1 adiciona upsert relacional e melhorias para Redis",
+      "titulo_curto": "Spring Data 2026.0.0-RC1 adiciona upsert relacional e melhorias para R",
+      "subtitulo": "",
+      "categoria_id": "backend",
+      "categoria_nome": "Backend & Runtimes",
+      "categoria_icone": "🔧",
+      "subcategoria_principal_id": "backend__spring_boot_quarkus_micronaut",
+      "resumo": "A release candidate prepara terreno para Spring Boot 4.1 e traz upsert na API de Template.",
+      "o_que_aconteceu": "A equipe Spring anunciou Spring Data 2026.0.0-RC1 em fase de release candidate.",
+      "por_que_importa": "Upsert e cache reset afetam padrões comuns de persistência, concorrência e integração com Redis.",
+      "impacto_tecnico": "Avalie casos em que upsert reduz código manual, mas revise conflitos, transações e idempotência.",
+      "acao_recomendada": "trial",
+      "maturidade": "trial",
+      "nivel_impacto": "médio",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "manutenibilidade",
+        "segurança",
+        "evolução"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": false,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_spring_blog",
+        "nome": "Spring Blog",
+        "url": "https://spring.io/blog/2026/04/17/spring-data-2026-0-0-goes-RC",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-17T10:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "spring",
+          "springboot",
+          "redis"
+        ],
+        "linguagem_ids": [
+          "java"
+        ],
+        "tag_ids": [
+          "spring-data",
+          "redis",
+          "upsert"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_005",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "Novo formato de tokens de instalação do GitHub App exige revisão de integrações",
+      "titulo_curto": "Novo formato de tokens de instalação do GitHub App exige revisão de in",
+      "subtitulo": "",
+      "categoria_id": "sec",
+      "categoria_nome": "Segurança & IAM",
+      "categoria_icone": "🔐",
+      "subcategoria_principal_id": "sec__supply_chain_sbom_slsa",
+      "resumo": "Mudanças no formato de tokens podem quebrar integrações que validam estrutura de token de forma frágil.",
+      "o_que_aconteceu": "O GitHub publicou aviso sobre mudança futura no formato de installation tokens de GitHub Apps.",
+      "por_que_importa": "Integrações de CI/CD, automação e segurança dependem desses tokens; parsing frágil pode causar falha ou bypass.",
+      "impacto_tecnico": "Revise automações que inspecionam tokens; valide por contrato/documentação, não por regex improvisada.",
+      "acao_recomendada": "assess",
+      "maturidade": "adopt",
+      "nivel_impacto": "médio",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "segurança",
+        "risco",
+        "governança"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": false,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_github_blog",
+        "nome": "GitHub Changelog",
+        "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-24T10:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "github",
+          "ghactions"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "github-apps",
+          "tokens",
+          "security",
+          "cicd"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_006",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "guia_decisao",
+      "status": "publicado",
+      "titulo": "Kafka 4.2 como gancho: broker de eventos não é fila genérica",
+      "titulo_curto": "Kafka 4.2 como gancho: broker de eventos não é fila genérica",
+      "subtitulo": "",
+      "categoria_id": "integ",
+      "categoria_nome": "Integração & Eventos",
+      "categoria_icone": "🔌",
+      "subcategoria_principal_id": "integ__event_driven_architecture",
+      "resumo": "A página de downloads do Kafka mostra a linha 4.2 como suportada. O conteúdo usa isso para comparar Kafka, RabbitMQ, SQS e SNS.",
+      "o_que_aconteceu": "O Apache Kafka mantém releases suportadas e documentação de upgrade para a linha 4.x.",
+      "por_que_importa": "Escolher mensageria errada cria acoplamento, retry confuso e semântica incorreta de processamento.",
+      "impacto_tecnico": "Use Kafka para stream/event log; use filas para distribuição de trabalho; use pub/sub gerenciado quando simplicidade operacional pesar mais.",
+      "acao_recomendada": "assess",
+      "maturidade": "adopt",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "acoplamento",
+        "contratos",
+        "resiliência"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen_contextual",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 7,
+      "destaque": true,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_apache_kafka",
+        "nome": "Apache Kafka",
+        "url": "https://kafka.apache.org/community/downloads/",
+        "tipo": "oficial",
+        "publicado_em": "2026-04-28T07:30:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "kafka",
+          "rabbitmq",
+          "sqs",
+          "sns"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python"
+        ],
+        "tag_ids": [
+          "kafka",
+          "messaging",
+          "event-driven",
+          "queue"
+        ],
+        "video_ids": [
+          "vid_ed0002_002"
+        ],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_007",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "Vite 8 unifica o build em Rolldown e muda a conversa sobre toolchain frontend",
+      "titulo_curto": "Vite 8 unifica o build em Rolldown e muda a conversa sobre toolchain f",
+      "subtitulo": "",
+      "categoria_id": "frontend",
+      "categoria_nome": "Frontend & Web",
+      "categoria_icone": "🎨",
+      "subcategoria_principal_id": "frontend__build_tools_vite_biome_turbopack",
+      "resumo": "A release do Vite 8 troca a base para um bundler Rust unificado.",
+      "o_que_aconteceu": "O Vite 8 foi anunciado com Rolldown como bundler unificado baseado em Rust.",
+      "por_que_importa": "Build lento é custo invisível de engenharia; toolchain afeta feedback loop e produtividade.",
+      "impacto_tecnico": "Teste em um projeto real antes de migrar monorepo inteiro; meça build frio, HMR, plugins e pipeline CI.",
+      "acao_recomendada": "trial",
+      "maturidade": "trial",
+      "nivel_impacto": "médio",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "performance",
+        "devex",
+        "operação"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen_contextual",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": false,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_vite",
+        "nome": "Vite Blog",
+        "url": "https://vite.dev/blog/announcing-vite8",
+        "tipo": "oficial",
+        "publicado_em": "2026-03-12T10:00:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [],
+        "linguagem_ids": [
+          "javascript"
+        ],
+        "tag_ids": [
+          "vite",
+          "rolldown",
+          "frontend",
+          "build"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      }
+    },
+    {
+      "id": "item_ed0002_008",
+      "edicao_id": "ed_0002",
+      "tipo_conteudo": "fundamento",
+      "status": "publicado",
+      "titulo": "Outbox pattern: o elo entre banco transacional e mensageria confiável",
+      "titulo_curto": "Outbox pattern: o elo entre banco transacional e mensageria confiável",
+      "subtitulo": "",
+      "categoria_id": "fundamentals",
+      "categoria_nome": "Fundamentos de Computação",
+      "categoria_icone": "🧱",
+      "subcategoria_principal_id": "fundamentals__geral",
+      "resumo": "O padrão Outbox evita publicar evento fora da mesma unidade de consistência do banco.",
+      "o_que_aconteceu": "Conteúdo evergreen para complementar Kafka, Spring Data e arquitetura de integração.",
+      "por_que_importa": "Sem Outbox, eventos podem sumir, duplicar ou divergir do estado transacional.",
+      "impacto_tecnico": "Modele tabela de outbox, consumidor idempotente, retry e limpeza de mensagens processadas.",
+      "acao_recomendada": "adopt",
+      "maturidade": "adopt",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "base_técnica",
+        "resiliência",
+        "performance"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": false,
+      "criado_em": "2026-04-28T07:30:00-03:00",
+      "fonte": {
+        "id": "src_microservices_patterns",
+        "nome": "Microservices.io",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+        "tipo": "referencia",
+        "publicado_em": "2026-04-28T07:30:00-03:00",
+        "primaria": true,
+        "verificada": true,
+        "imagem": null
+      },
+      "rel": {
+        "ferramenta_ids": [
+          "kafka",
+          "rabbitmq"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python"
+        ],
+        "tag_ids": [
+          "outbox",
+          "event-driven",
+          "consistency"
+        ],
+        "video_ids": [
+          "vid_ed0002_002"
+        ],
+        "itens_relacionados_ids": []
+      }
+    }
+  ]
+}

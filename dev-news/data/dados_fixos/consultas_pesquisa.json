@@ -1,0 +1,741 @@
+{
+  "versao_schema": "2.0",
+  "observacao": "Queries baseadas na skill atual. A skill deve substituir {current_year} e aplicar janela por last_successful_run_at.",
+  "categorias": [
+    {
+      "categoria_id": "ai",
+      "consultas": [
+        "\"AI model\" OR \"LLM\" release OR launch site:techcrunch.com OR site:theverge.com",
+        "\"Claude\" OR \"GPT\" OR \"Gemini\" OR \"Llama\" new model OR update",
+        "site:simonwillison.net",
+        "site:openai.com/blog OR site:anthropic.com/news OR site:deepmind.google/blog",
+        "site:huggingface.co/blog model OR release OR dataset",
+        "\"model card\" OR \"benchmark\" OR \"eval\" AI {current_year}",
+        "\"multimodal\" OR \"inference\" OR \"fine-tuning\" AI release"
+      ],
+      "prioridade": "alta"
+    },
+    {
+      "categoria_id": "aiops",
+      "consultas": [
+        "\"MCP\" OR \"Model Context Protocol\" server OR client OR release site:modelcontextprotocol.io",
+        "\"AI agent\" OR \"agentic\" OR \"LangGraph\" OR \"Pydantic AI\" production OR architecture",
+        "\"RAG\" OR \"vector database\" OR \"pgvector\" OR \"retrieval augmented\" {current_year}",
+        "\"LLM observability\" OR \"Langfuse\" OR \"LangSmith\" OR \"LLM evals\" OR \"guardrails\"",
+        "\"Claude Code\" OR \"Cursor\" OR \"GitHub Copilot\" AI coding tool update",
+        "site:www.langchain.com/blog OR site:langfuse.com/blog agents OR RAG",
+        "\"Ollama\" OR \"LM Studio\" OR \"local LLM\" update OR benchmark",
+        "\"prompt engineering\" OR \"context window\" OR \"agentic workflow\" architecture"
+      ],
+      "prioridade": "alta"
+    },
+    {
+      "categoria_id": "sec",
+      "consultas": [
+        "\"critical CVE\" OR \"zero-day\" site:thehackernews.com OR site:bleepingcomputer.com",
+        "\"security advisory\" OR \"supply chain attack\" OR \"CVSS 9\"",
+        "\"Keycloak\" OR \"Auth0\" OR \"OIDC\" OR \"SAML\" release OR vulnerability OR update",
+        "\"zero-trust\" OR \"IAM\" OR \"identity provider\" update OR incident",
+        "\"SBOM\" OR \"Sigstore\" OR \"SLSA\" OR \"software supply chain\" security {current_year}",
+        "\"HashiCorp Vault\" OR \"secrets management\" OR \"secret rotation\" update OR best practice",
+        "\"Falco\" OR \"Trivy\" OR \"container security\" OR \"image scanning\" runtime security news",
+        "\"AI security\" OR \"prompt injection\" OR \"model poisoning\" OR \"LLM attack\" {current_year}",
+        "site:krebsonsecurity.com breach OR ransomware OR supply chain",
+        "site:isc.sans.edu diary"
+      ],
+      "prioridade": "alta"
+    },
+    {
+      "categoria_id": "cloud",
+      "consultas": [
+        "site:aws.amazon.com/about-aws/whats-new new service OR launch",
+        "\"AWS\" announcement OR release OR GA site:aws.amazon.com",
+        "\"Lambda\" OR \"DynamoDB\" OR \"SQS\" OR \"SNS\" OR \"API Gateway\" OR \"Bedrock\" update",
+        "\"Azure\" release OR GA site:azure.microsoft.com OR site:learn.microsoft.com/azure",
+        "\"Azure Functions\" OR \"Cosmos DB\" OR \"Azure OpenAI\" OR \"AKS\" update",
+        "\"Google Cloud\" OR \"GCP\" release OR GA site:cloud.google.com",
+        "\"Cloud Run\" OR \"BigQuery\" OR \"Spanner\" OR \"Vertex AI\" update",
+        "\"CDN\" OR \"edge delivery\" OR \"cloud networking\" OR \"VPC peering\" news",
+        "\"multi-cloud\" OR \"Well-Architected\" architecture OR best practice",
+        "\"cloud cost\" OR \"FinOps\" OR \"cloud migration\" article",
+        "site:lastweekinaws.com"
+      ],
+      "prioridade": "alta"
+    },
+    {
+      "categoria_id": "devops",
+      "consultas": [
+        "\"Kubernetes\" release OR deprecation OR security OR CVE",
+        "\"Docker Desktop\" OR \"containerd\" OR \"runc\" release OR update",
+        "\"GitHub Actions\" new feature OR workflow OR runner update",
+        "\"GitOps\" OR \"ArgoCD\" OR \"Flux\" OR \"platform engineering\" news",
+        "\"Backstage\" OR \"Port\" OR \"IDP\" OR \"developer portal\" {current_year}",
+        "\"HTTP/3\" OR \"QUIC\" OR \"nginx\" OR \"envoy\" OR \"API gateway\" news",
+        "site:kubernetes.io/blog",
+        "site:cncf.io/blog kubernetes OR helm OR argocd OR istio OR \"platform engineering\""
+      ],
+      "prioridade": "alta"
+    },
+    {
+      "categoria_id": "obs",
+      "consultas": [
+        "\"OpenTelemetry\" release OR update OR adoption",
+        "\"Grafana\" OR \"Datadog\" OR \"Dynatrace\" new feature OR release",
+        "\"distributed tracing\" OR \"observability\" OR \"SLO\" OR \"SLI\" OR \"error budget\" best practice",
+        "\"Prometheus\" OR \"Loki\" OR \"Tempo\" OR \"Mimir\" update OR release",
+        "\"eBPF\" OR \"continuous profiling\" OR \"Parca\" OR \"Pyroscope\" observability news",
+        "\"incident management\" OR \"on-call\" OR \"PagerDuty\" OR \"post-mortem\" best practice",
+        "\"capacity planning\" OR \"performance tuning\" OR \"load testing\" OR \"throughput\" architecture",
+        "site:grafana.com/blog OR site:opentelemetry.io/blog",
+        "site:charity.wtf OR site:honeycomb.io/blog"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "backend",
+      "consultas": [
+        "\"Spring Boot\" OR \"Spring Framework\" OR \"Quarkus\" OR \"Micronaut\" release",
+        "\"Java\" OR \"JDK\" OR \"GraalVM\" OR \"virtual threads\" update OR release",
+        "\"Go\" OR \"Rust\" OR \"Node.js\" language OR runtime release",
+        "\"Bun\" OR \"Deno\" OR \"Biome\" release OR benchmark",
+        "\"WebAssembly\" OR \"Wasmtime\" OR \"Spin\" OR \"WASI\" backend",
+        "\"microservices\" OR \"distributed systems\" pattern OR architecture",
+        "site:blog.bytebytego.com backend OR \"system design\" OR API",
+        "site:baeldung.com \"spring boot\" OR \"spring security\" OR \"java\" new article",
+        "site:spring.io/blog OR site:blog.jetbrains.com"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "data",
+      "consultas": [
+        "\"PostgreSQL\" OR \"Valkey\" OR \"Redis\" OR \"MongoDB\" release OR update",
+        "\"Kafka\" OR \"Pulsar\" OR \"Flink\" streaming data update",
+        "\"pgvector\" OR \"vector database\" OR \"semantic search\" release",
+        "\"DynamoDB\" OR \"Aurora\" OR \"Cosmos DB\" OR \"Snowflake\" new feature",
+        "\"Iceberg\" OR \"lakehouse\" OR \"dbt\" OR \"CDC\" news",
+        "site:blog.bytebytego.com database OR \"data engineering\" OR streaming",
+        "site:confluent.io/blog data OR streaming OR CDC OR lakehouse",
+        "site:databricks.com/blog lakehouse OR spark OR \"unity catalog\""
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "integ",
+      "consultas": [
+        "\"Apache Kafka\" release OR update OR incident",
+        "\"REST API\" OR \"GraphQL\" OR \"gRPC\" OR \"AsyncAPI\" specification update",
+        "\"event-driven architecture\" OR \"EDA\" OR \"event sourcing\" news",
+        "\"webhook\" OR \"idempotency\" OR \"schema registry\" best practice",
+        "\"iPaaS\" OR \"n8n\" OR \"Confluent\" OR \"MuleSoft\" release",
+        "\"API versioning\" OR \"URI versioning\" OR \"API deprecation\" OR \"API evolution\" best practice",
+        "\"API gateway\" OR \"rate limiting\" OR \"API throttling\" OR \"API design\" architecture",
+        "\"gRPC\" OR \"Protocol Buffers\" OR \"protobuf\" release OR article {current_year}",
+        "\"contract testing\" OR \"Pact\" OR \"consumer-driven contracts\" API",
+        "site:apisyouwonthate.com OR site:apihandyman.io",
+        "site:blog.postman.com OR site:nordicapis.com",
+        "site:graphql.org/blog OR site:asyncapi.com/blog OR site:confluent.io/blog"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "testing",
+      "consultas": [
+        "\"TDD\" OR \"test-driven development\" OR \"testing pyramid\" OR \"contract testing\" OR \"property-based testing\" article {current_year}",
+        "\"Playwright\" OR \"Cypress\" OR \"Vitest\" OR \"Jest\" release OR update",
+        "\"mutation testing\" OR \"chaos engineering\" OR \"fault injection\" article",
+        "\"load testing\" OR \"performance testing\" OR \"k6\" OR \"Gatling\" news",
+        "\"flaky tests\" OR \"test reliability\" OR \"CI testing\" best practice",
+        "\"contract testing\" OR \"Pact\" OR \"consumer-driven contracts\" article",
+        "site:testing.googleblog.com OR site:ministryoftesting.com",
+        "site:playwright.dev/blog OR site:cypress.io/blog"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "design",
+      "consultas": [
+        "\"software architecture\" OR \"design pattern\" OR \"DDD\" OR \"domain-driven design\" article",
+        "\"hexagonal architecture\" OR \"clean architecture\" OR \"event storming\" OR \"refactoring\" news",
+        "\"C4 model\" OR \"ADR\" OR \"architecture decision record\" OR \"Structurizr\"",
+        "\"system design\" OR \"high level design\" OR \"low level design\" OR \"HLD\" OR \"LLD\" article",
+        "\"back of the envelope\" OR \"capacity estimation\" OR \"system design estimation\" article",
+        "site:martinfowler.com OR site:infoq.com OR site:blog.bytebytego.com architecture",
+        "site:newsletter.systemdesign.one",
+        "site:thoughtworks.com/radar",
+        "site:domainlanguage.com OR site:ddd-community.com"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "distarch",
+      "consultas": [
+        "\"distributed systems\" OR \"microservices\" pattern OR \"event-driven\" architecture article",
+        "\"service mesh\" OR \"Istio\" OR \"Envoy\" OR \"Linkerd\" pattern OR release",
+        "\"saga pattern\" OR \"CQRS\" OR \"event sourcing\" OR \"eventual consistency\" article",
+        "\"stateless\" OR \"stateful\" architecture OR design trade-offs",
+        "\"cloud native\" OR \"CNCF\" OR \"platform engineering\" news",
+        "\"outage\" OR \"post-mortem\" OR \"incident report\" distributed OR cloud {current_year}",
+        "site:highscalability.com OR site:queue.acm.org architecture"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "enterprise",
+      "consultas": [
+        "\"enterprise architecture\" OR \"solution architecture\" reference OR pattern OR TOGAF",
+        "\"landing zone\" OR \"reference architecture\" OR \"cloud governance\" pattern",
+        "\"Team Topologies\" OR \"Conway's Law\" OR \"platform team\" OR \"stream-aligned\" news",
+        "\"Internal Developer Platform\" OR \"IDP\" OR \"Backstage\" OR \"golden path\" update",
+        "\"FinOps\" OR \"cloud cost\" OR \"cost optimization\" architecture",
+        "\"DevEx\" OR \"DORA\" OR \"SPACE\" OR \"developer productivity\" study",
+        "site:architectelevator.com OR site:teamtopologies.com/blog"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "fintech",
+      "consultas": [
+        "\"credit card\" OR \"payment network\" OR \"Visa\" OR \"Mastercard\" technology news",
+        "\"cooperativa de crédito\" OR \"fintech\" Brasil notícias",
+        "\"open finance\" OR \"Pix\" OR \"DREX\" Banco Central Brasil",
+        "\"PCI DSS\" compliance OR news OR update",
+        "\"payment rails\" OR \"embedded finance\" OR \"tokenização\" news",
+        "site:pymnts.com OR site:paymentsdive.com OR site:fintechfutures.com",
+        "site:finsidersbrasil.com.br OR site:bcb.gov.br",
+        "site:mundocoop.com.br OR site:somoscooperativismo.coop.br"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "frontend",
+      "consultas": [
+        "\"React\" OR \"Vue\" OR \"Svelte\" OR \"Angular\" OR \"Solid\" release OR update {current_year}",
+        "\"Next.js\" OR \"Nuxt\" OR \"Remix\" OR \"Astro\" OR \"SvelteKit\" release OR feature",
+        "\"Core Web Vitals\" OR \"INP\" OR \"hydration\" OR \"streaming SSR\" article",
+        "\"React Server Components\" OR \"RSC\" OR \"App Router\" OR \"edge runtime\" news",
+        "\"Vite\" OR \"Turbopack\" OR \"Bun\" OR \"Biome\" OR \"Rspack\" release OR benchmark",
+        "\"design system\" OR \"Tailwind\" OR \"shadcn/ui\" OR \"Radix UI\" article",
+        "\"Web Components\" OR \"PWA\" OR \"Service Worker\" new OR spec",
+        "\"a11y\" OR \"accessibility\" OR \"WCAG\" OR \"ARIA\" frontend best practice",
+        "site:web.dev OR site:developer.mozilla.org/en-US/blog",
+        "site:vercel.com/blog OR site:react.dev/blog OR site:nextjs.org/blog",
+        "site:2ality.com OR site:chromestatus.com OR site:v8.dev"
+      ],
+      "prioridade": "normal"
+    },
+    {
+      "categoria_id": "fundamentals",
+      "consultas": [
+        "\"operating system\" OR \"kernel\" OR \"syscall\" OR \"scheduler\" article",
+        "\"TCP/IP\" OR \"DNS\" OR \"latency\" OR \"throughput\" OR \"network stack\" deep dive",
+        "\"data structures\" OR \"algorithms\" OR \"big O\" OR \"complexity\" article",
+        "\"concurrency\" OR \"parallelism\" OR \"memory model\" OR \"lock-free\" OR \"CRDT\" article",
+        "\"queuing theory\" OR \"Little's Law\" OR \"performance modeling\" article",
+        "\"cache coherency\" OR \"NUMA\" OR \"SIMD\" OR \"CPU cache\" deep dive",
+        "site:queue.acm.org OR site:lwn.net",
+        "site:jvns.ca OR site:brendangregg.com/blog OR site:danluu.com",
+        "site:martin.kleppmann.com",
+        "site:paperswelove.org"
+      ],
+      "prioridade": "normal"
+    }
+  ],
+  "linguagens": [
+    {
+      "linguagem_id": "java",
+      "consultas": [
+        "\"JDK\" OR \"OpenJDK\" OR \"GraalVM\" release site:openjdk.org OR site:inside.java",
+        "\"Java\" OR \"JVM\" OR \"Project Loom\" OR \"virtual threads\" OR \"Project Valhalla\" news",
+        "\"Spring Boot\" OR \"Quarkus\" OR \"Micronaut\" release OR update",
+        "site:inside.java OR site:foojay.io/today",
+        "site:baeldung.com java OR \"spring boot\""
+      ]
+    },
+    {
+      "linguagem_id": "javascript",
+      "consultas": [
+        "\"TypeScript\" release OR update site:devblogs.microsoft.com/typescript",
+        "\"Node.js\" release OR breaking change site:nodejs.org",
+        "\"Deno\" OR \"Bun\" release OR update OR benchmark",
+        "\"TC39\" proposal OR stage OR ECMAScript site:tc39.es",
+        "site:2ality.com OR site:devblogs.microsoft.com/typescript"
+      ]
+    },
+    {
+      "linguagem_id": "python",
+      "consultas": [
+        "\"Python\" release OR update site:python.org OR site:blog.python.org",
+        "\"PEP\" approved OR accepted site:peps.python.org",
+        "\"uv\" OR \"pip\" OR \"Poetry\" Python package manager update",
+        "\"FastAPI\" OR \"Django\" OR \"Flask\" OR \"Pydantic\" release",
+        "site:realpython.com OR site:hynek.me OR site:pythonspeed.com"
+      ]
+    }
+  ],
+  "ferramentas": [
+    {
+      "ferramenta_id": "claudecode",
+      "consultas": [
+        "\"Claude Code\" release OR changelog OR update",
+        "\"Claude Code\" tutorial OR deep dive OR architecture",
+        "site:docs.anthropic.com \"Claude Code\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.anthropic.com/en/release-notes/claude-code"
+      ]
+    },
+    {
+      "ferramenta_id": "cursor",
+      "consultas": [
+        "\"Cursor IDE\" release OR changelog OR update",
+        "\"Cursor IDE\" tutorial OR deep dive OR architecture",
+        "site:cursor.com \"Cursor IDE\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://www.cursor.com/changelog"
+      ]
+    },
+    {
+      "ferramenta_id": "intellij",
+      "consultas": [
+        "\"IntelliJ IDEA\" release OR changelog OR update",
+        "\"IntelliJ IDEA\" tutorial OR deep dive OR architecture",
+        "site:blog.jetbrains.com \"IntelliJ IDEA\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://blog.jetbrains.com/idea/"
+      ]
+    },
+    {
+      "ferramenta_id": "vscode",
+      "consultas": [
+        "\"VS Code\" release OR changelog OR update",
+        "\"VS Code\" tutorial OR deep dive OR architecture",
+        "site:code.visualstudio.com \"VS Code\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://code.visualstudio.com/updates"
+      ]
+    },
+    {
+      "ferramenta_id": "argocd",
+      "consultas": [
+        "\"Argo CD\" release OR changelog OR update",
+        "\"Argo CD\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Argo CD\" release OR changelog OR update",
+        "site:blog.argoproj.io \"Argo CD\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.com/argoproj/argo-cd/releases",
+        "https://blog.argoproj.io/"
+      ]
+    },
+    {
+      "ferramenta_id": "ghactions",
+      "consultas": [
+        "\"GitHub Actions\" release OR changelog OR update",
+        "\"GitHub Actions\" tutorial OR deep dive OR architecture",
+        "site:github.blog \"GitHub Actions\" release OR changelog OR update",
+        "site:github.blog \"GitHub Actions\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.blog/changelog/",
+        "https://github.blog/category/engineering/actions/"
+      ]
+    },
+    {
+      "ferramenta_id": "github",
+      "consultas": [
+        "\"GitHub\" release OR changelog OR update",
+        "\"GitHub\" tutorial OR deep dive OR architecture",
+        "site:github.blog \"GitHub\" release OR changelog OR update",
+        "site:github.blog \"GitHub\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.blog/",
+        "https://github.blog/changelog/"
+      ]
+    },
+    {
+      "ferramenta_id": "docker",
+      "consultas": [
+        "\"Docker\" release OR changelog OR update",
+        "\"Docker\" tutorial OR deep dive OR architecture",
+        "site:docs.docker.com \"Docker\" release OR changelog OR update",
+        "site:docker.com \"Docker\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.docker.com/engine/release-notes/",
+        "https://docker.com/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "kubernetes",
+      "consultas": [
+        "\"Kubernetes\" release OR changelog OR update",
+        "\"Kubernetes\" tutorial OR deep dive OR architecture",
+        "site:kubernetes.io \"Kubernetes\" release OR changelog OR update",
+        "site:kubernetes.io \"Kubernetes\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://kubernetes.io/releases/",
+        "https://kubernetes.io/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "terraform",
+      "consultas": [
+        "\"Terraform\" release OR changelog OR update",
+        "\"Terraform\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Terraform\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.com/hashicorp/terraform/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "istio",
+      "consultas": [
+        "\"Istio\" release OR changelog OR update",
+        "\"Istio\" tutorial OR deep dive OR architecture",
+        "site:istio.io \"Istio\" release OR changelog OR update",
+        "site:istio.io \"Istio\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://istio.io/latest/news/",
+        "https://istio.io/latest/blog/"
+      ]
+    },
+    {
+      "ferramenta_id": "nginx",
+      "consultas": [
+        "\"Nginx\" release OR changelog OR update",
+        "\"Nginx\" tutorial OR deep dive OR architecture",
+        "site:nginx.org \"Nginx\" release OR changelog OR update",
+        "site:nginx.com \"Nginx\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://nginx.org/en/CHANGES",
+        "https://www.nginx.com/blog/"
+      ]
+    },
+    {
+      "ferramenta_id": "databricks",
+      "consultas": [
+        "\"Databricks\" release OR changelog OR update",
+        "\"Databricks\" tutorial OR deep dive OR architecture",
+        "site:docs.databricks.com \"Databricks\" release OR changelog OR update",
+        "site:databricks.com \"Databricks\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.databricks.com/en/release-notes/",
+        "https://databricks.com/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "postgres",
+      "consultas": [
+        "\"PostgreSQL\" release OR changelog OR update",
+        "\"PostgreSQL\" tutorial OR deep dive OR architecture",
+        "site:postgresql.org \"PostgreSQL\" release OR changelog OR update",
+        "site:planet.postgresql.org \"PostgreSQL\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://www.postgresql.org/docs/release/",
+        "https://planet.postgresql.org"
+      ]
+    },
+    {
+      "ferramenta_id": "redis",
+      "consultas": [
+        "\"Redis\" release OR changelog OR update",
+        "\"Redis\" tutorial OR deep dive OR architecture",
+        "site:redis.io \"Redis\" release OR changelog OR update",
+        "site:github.com \"Redis\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://redis.io/blog/",
+        "https://github.com/redis/redis/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "mongodb",
+      "consultas": [
+        "\"MongoDB\" release OR changelog OR update",
+        "\"MongoDB\" tutorial OR deep dive OR architecture",
+        "site:mongodb.com \"MongoDB\" release OR changelog OR update",
+        "site:mongodb.com \"MongoDB\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://www.mongodb.com/docs/manual/release-notes/",
+        "https://www.mongodb.com/company/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "kafka",
+      "consultas": [
+        "\"Apache Kafka\" release OR changelog OR update",
+        "\"Apache Kafka\" tutorial OR deep dive OR architecture",
+        "site:kafka.apache.org \"Apache Kafka\" release OR changelog OR update",
+        "site:confluent.io \"Apache Kafka\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://kafka.apache.org/downloads",
+        "https://confluent.io/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "rabbitmq",
+      "consultas": [
+        "\"RabbitMQ\" release OR changelog OR update",
+        "\"RabbitMQ\" tutorial OR deep dive OR architecture",
+        "site:rabbitmq.com \"RabbitMQ\" release OR changelog OR update",
+        "site:rabbitmq.com \"RabbitMQ\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://www.rabbitmq.com/release-information",
+        "https://www.rabbitmq.com/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "sns",
+      "consultas": [
+        "\"AWS SNS\" release OR changelog OR update",
+        "\"AWS SNS\" tutorial OR deep dive OR architecture",
+        "site:aws.amazon.com \"AWS SNS\" release OR changelog OR update",
+        "site:docs.aws.amazon.com \"AWS SNS\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://aws.amazon.com/sns/whats-new/",
+        "https://docs.aws.amazon.com/sns/latest/dg/"
+      ]
+    },
+    {
+      "ferramenta_id": "sqs",
+      "consultas": [
+        "\"AWS SQS\" release OR changelog OR update",
+        "\"AWS SQS\" tutorial OR deep dive OR architecture",
+        "site:aws.amazon.com \"AWS SQS\" release OR changelog OR update",
+        "site:docs.aws.amazon.com \"AWS SQS\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://aws.amazon.com/sqs/whats-new/",
+        "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/"
+      ]
+    },
+    {
+      "ferramenta_id": "dynatrace",
+      "consultas": [
+        "\"Dynatrace\" release OR changelog OR update",
+        "\"Dynatrace\" tutorial OR deep dive OR architecture",
+        "site:dynatrace.com \"Dynatrace\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://www.dynatrace.com/support/help/whats-new/release-notes"
+      ]
+    },
+    {
+      "ferramenta_id": "datadog",
+      "consultas": [
+        "\"Datadog\" release OR changelog OR update",
+        "\"Datadog\" tutorial OR deep dive OR architecture",
+        "site:docs.datadoghq.com \"Datadog\" release OR changelog OR update",
+        "site:datadoghq.com \"Datadog\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.datadoghq.com/release_notes",
+        "https://www.datadoghq.com/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "keycloak",
+      "consultas": [
+        "\"Keycloak\" release OR changelog OR update",
+        "\"Keycloak\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Keycloak\" release OR changelog OR update",
+        "site:keycloak.org \"Keycloak\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.com/keycloak/keycloak/releases",
+        "https://www.keycloak.org/blog"
+      ]
+    },
+    {
+      "ferramenta_id": "gradle",
+      "consultas": [
+        "\"Gradle\" release OR changelog OR update",
+        "\"Gradle\" tutorial OR deep dive OR architecture",
+        "site:docs.gradle.org \"Gradle\" release OR changelog OR update",
+        "site:blog.gradle.org \"Gradle\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.gradle.org/current/release-notes.html",
+        "https://blog.gradle.org"
+      ]
+    },
+    {
+      "ferramenta_id": "maven",
+      "consultas": [
+        "\"Apache Maven\" release OR changelog OR update",
+        "\"Apache Maven\" tutorial OR deep dive OR architecture",
+        "site:maven.apache.org \"Apache Maven\" release OR changelog OR update",
+        "site:search.maven.org \"Apache Maven\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://maven.apache.org/download.cgi",
+        "https://search.maven.org"
+      ]
+    },
+    {
+      "ferramenta_id": "springboot",
+      "consultas": [
+        "\"Spring Boot\" release OR changelog OR update",
+        "\"Spring Boot\" tutorial OR deep dive OR architecture",
+        "site:spring.io \"Spring Boot\" release OR changelog OR update",
+        "site:github.com \"Spring Boot\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://spring.io/blog",
+        "https://github.com/spring-projects/spring-boot/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "structurizr",
+      "consultas": [
+        "\"Structurizr\" release OR changelog OR update",
+        "\"Structurizr\" tutorial OR deep dive OR architecture",
+        "site:structurizr.com \"Structurizr\" release OR changelog OR update",
+        "site:c4model.com \"Structurizr\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://structurizr.com/changelog",
+        "https://c4model.com"
+      ]
+    },
+    {
+      "ferramenta_id": "plantuml",
+      "consultas": [
+        "\"PlantUML\" release OR changelog OR update",
+        "\"PlantUML\" tutorial OR deep dive OR architecture",
+        "site:plantuml.com \"PlantUML\" release OR changelog OR update",
+        "site:github.com \"PlantUML\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://plantuml.com/news",
+        "https://github.com/plantuml/plantuml/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "mermaid",
+      "consultas": [
+        "\"Mermaid\" release OR changelog OR update",
+        "\"Mermaid\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Mermaid\" release OR changelog OR update",
+        "site:mermaid.js.org \"Mermaid\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://github.com/mermaid-js/mermaid/releases",
+        "https://mermaid.js.org/community/blog.html"
+      ]
+    },
+    {
+      "ferramenta_id": "sonar",
+      "consultas": [
+        "\"SonarQube\" release OR changelog OR update",
+        "\"SonarQube\" tutorial OR deep dive OR architecture",
+        "site:docs.sonarsource.com \"SonarQube\" release OR changelog OR update",
+        "site:sonarsource.com \"SonarQube\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://docs.sonarsource.com/sonarqube-server/latest/server-update-and-maintenance/release-notes/",
+        "https://www.sonarsource.com/blog/"
+      ]
+    },
+    {
+      "ferramenta_id": "checkmarx",
+      "consultas": [
+        "\"Checkmarx\" release OR changelog OR update",
+        "\"Checkmarx\" tutorial OR deep dive OR architecture",
+        "site:checkmarx.com \"Checkmarx\" release OR changelog OR update",
+        "site:docs.checkmarx.com \"Checkmarx\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://checkmarx.com/blog/",
+        "https://docs.checkmarx.com/en/34965-68702-release-notes.html"
+      ]
+    },
+    {
+      "ferramenta_id": "angular",
+      "consultas": [
+        "\"Angular\" release OR changelog OR update",
+        "\"Angular\" tutorial OR deep dive OR architecture",
+        "site:blog.angular.dev \"Angular\" release OR changelog OR update",
+        "site:github.com \"Angular\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://blog.angular.dev/",
+        "https://github.com/angular/angular/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "react",
+      "consultas": [
+        "\"React\" release OR changelog OR update",
+        "\"React\" tutorial OR deep dive OR architecture",
+        "site:react.dev \"React\" release OR changelog OR update",
+        "site:github.com \"React\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://react.dev/blog",
+        "https://github.com/facebook/react/releases"
+      ]
+    },
+    {
+      "ferramenta_id": "spring",
+      "consultas": [
+        "\"Spring Framework\" release OR changelog OR update",
+        "\"Spring Framework\" tutorial OR deep dive OR architecture",
+        "site:spring.io \"Spring Framework\" release OR changelog OR update",
+        "site:github.com \"Spring Framework\" release OR changelog OR update"
+      ],
+      "links_oficiais": [
+        "https://spring.io/blog/category/releases",
+        "https://github.com/spring-projects/spring-framework/releases"
+      ]
+    }
+  ],
+  "pulso_social": [
+    {
+      "id": "hacker_news_front",
+      "nome": "Hacker News Front Page",
+      "url": "https://news.ycombinator.com/front",
+      "criterio": "Candidatos com >=150 pontos ou >=50 comentários."
+    },
+    {
+      "id": "hacker_news_show",
+      "nome": "Show HN",
+      "url": "https://news.ycombinator.com/show",
+      "criterio": "Show HN com >=100 pontos."
+    },
+    {
+      "id": "lobsters",
+      "nome": "Lobste.rs",
+      "url": "https://lobste.rs/",
+      "criterio": "Top 10 do dia, priorizando tags técnicas."
+    },
+    {
+      "id": "github_trending",
+      "nome": "GitHub Trending",
+      "url_template": "https://github.com/trending/{linguagem}?since=daily",
+      "linguagens": [
+        "go",
+        "rust",
+        "python",
+        "typescript",
+        "java"
+      ],
+      "criterio": "Repositórios com sinal técnico real ou lançamento relevante."
+    }
+  ]
+}

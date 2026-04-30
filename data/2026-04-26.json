@@ -878,5 +878,31 @@
       "name": "Surfing Complexity",
       "url": "https://surfingcomplexity.blog/"
     }
+  ],
+  "videos": [
+    {
+      "id": "1LJ83ZOGsE0",
+      "url": "https://www.youtube.com/watch?v=1LJ83ZOGsE0",
+      "title": "BOMBA: FIM DA VERCEL?? DADOS À VENDA E CAOS NA BOOKING!",
+      "channel": "Cortes do Mano OFC",
+      "published_at": "2026-04-24",
+      "duration": ""
+    },
+    {
+      "id": "dUMsFQ8y3gM",
+      "url": "https://www.youtube.com/watch?v=dUMsFQ8y3gM",
+      "title": "Lessons from Building Cursor",
+      "channel": "ByteByteGo",
+      "published_at": "2026-03-06",
+      "duration": ""
+    },
+    {
+      "id": "px033FNw1h8",
+      "url": "https://www.youtube.com/watch?v=px033FNw1h8",
+      "title": "Como Preparar a Sua Codebase para IA",
+      "channel": "Guto Galego",
+      "published_at": "2026-04-20",
+      "duration": ""
+    }
   ]
 }

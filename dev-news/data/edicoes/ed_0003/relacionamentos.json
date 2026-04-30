@@ -1,0 +1,195 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "item_id": "item_ed0003_001",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [],
+      "linguagem_ids": [],
+      "tag_ids": [
+        "aws",
+        "agents",
+        "cloud",
+        "governance"
+      ],
+      "subcategoria_ids": [
+        "cloud__aws_lambda_dynamodb_s3_bedrock"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_001"
+      ],
+      "video_ids": [],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_002",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [],
+      "linguagem_ids": [],
+      "tag_ids": [
+        "ai-safety",
+        "red-teaming",
+        "gpt-5.5",
+        "security"
+      ],
+      "subcategoria_ids": [
+        "sec__ai_security"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_002"
+      ],
+      "video_ids": [],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_003",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [
+        "github",
+        "cursor",
+        "claudecode"
+      ],
+      "linguagem_ids": [],
+      "tag_ids": [
+        "ai",
+        "architecture",
+        "sociotechnical"
+      ],
+      "subcategoria_ids": [
+        "design__system_design_process_hld_lld"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_003"
+      ],
+      "video_ids": [
+        "vid_ed0003_001"
+      ],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_004",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [
+        "claudecode",
+        "cursor"
+      ],
+      "linguagem_ids": [
+        "python",
+        "javascript"
+      ],
+      "tag_ids": [
+        "agents",
+        "workflow",
+        "architecture"
+      ],
+      "subcategoria_ids": [
+        "aiops__ai_agents"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_004"
+      ],
+      "video_ids": [
+        "vid_ed0003_001"
+      ],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_005",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [
+        "cursor",
+        "claudecode",
+        "github"
+      ],
+      "linguagem_ids": [],
+      "tag_ids": [
+        "ai-generated-code",
+        "adr",
+        "architecture"
+      ],
+      "subcategoria_ids": [
+        "enterprise__devex_dora_space_developer_productivity"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_005"
+      ],
+      "video_ids": [
+        "vid_ed0003_001"
+      ],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_006",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [],
+      "linguagem_ids": [],
+      "tag_ids": [
+        "gpt-5.5",
+        "llm",
+        "coding",
+        "agents"
+      ],
+      "subcategoria_ids": [
+        "ai__modelos_fundacionais"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_006"
+      ],
+      "video_ids": [],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_007",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [
+        "kafka",
+        "rabbitmq",
+        "sqs"
+      ],
+      "linguagem_ids": [
+        "java",
+        "python",
+        "javascript"
+      ],
+      "tag_ids": [
+        "backpressure",
+        "resilience",
+        "streaming"
+      ],
+      "subcategoria_ids": [
+        "fundamentals__geral"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_007"
+      ],
+      "video_ids": [],
+      "itens_relacionados_ids": []
+    },
+    {
+      "item_id": "item_ed0003_008",
+      "edicao_id": "ed_0003",
+      "ferramenta_ids": [
+        "postgres",
+        "mongodb"
+      ],
+      "linguagem_ids": [
+        "java",
+        "python"
+      ],
+      "tag_ids": [
+        "database-choice",
+        "postgres",
+        "mongodb",
+        "dynamodb"
+      ],
+      "subcategoria_ids": [
+        "data__relacionais"
+      ],
+      "aprendizado_ids": [
+        "apr_ed0003_008"
+      ],
+      "video_ids": [],
+      "itens_relacionados_ids": []
+    }
+  ]
+}

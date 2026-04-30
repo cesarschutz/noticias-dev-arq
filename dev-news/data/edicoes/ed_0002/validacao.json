@@ -1,0 +1,20 @@
+{
+  "edicao_id": "ed_0002",
+  "validado_em": "2026-04-28T07:30:00-03:00",
+  "status": "aprovado_para_preview",
+  "observacao": "Edição de demonstração gerada para validar o modelo de dados. Em produção, a skill deve buscar mais itens, verificar links e aplicar blocklist completa.",
+  "checks": {
+    "itens_minimos_preview": true,
+    "destaques_tres": true,
+    "aprendizados_vinculados": true,
+    "fontes_presentes": true,
+    "relacionamentos_presentes": true,
+    "videos_presentes": true
+  },
+  "avisos": [
+    {
+      "tipo": "preview",
+      "mensagem": "Volume reduzido em relação à produção para facilitar revisão manual dos arquivos."
+    }
+  ]
+}

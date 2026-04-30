@@ -1,0 +1,161 @@
+{
+  "versao_schema": "2.0",
+  "tipos": [
+    {
+      "id": "news",
+      "nome": "Notícia",
+      "descricao": "Notícia factual, curta, com contexto mínimo."
+    },
+    {
+      "id": "news_explained",
+      "nome": "Notícia explicada",
+      "descricao": "Notícia com contexto, impacto e bloco de aprendizado."
+    },
+    {
+      "id": "tool_update",
+      "nome": "Atualização de ferramenta",
+      "descricao": "Release, changelog ou novidade de ferramenta monitorada."
+    },
+    {
+      "id": "release_note",
+      "nome": "Release oficial",
+      "descricao": "Nova versão oficial, com version obrigatório."
+    },
+    {
+      "id": "security_alert",
+      "nome": "Alerta de segurança",
+      "descricao": "CVE, zero-day, incidente ou ação urgente."
+    },
+    {
+      "id": "decision_guide",
+      "nome": "Guia de decisão",
+      "descricao": "Comparação prática: quando usar X ou Y, trade-offs e critérios."
+    },
+    {
+      "id": "tutorial",
+      "nome": "Tutorial prático",
+      "descricao": "Passo a passo técnico ligado a um problema real."
+    },
+    {
+      "id": "deep_dive",
+      "nome": "Deep dive",
+      "descricao": "Conteúdo denso que aprofunda conceitos, arquitetura ou funcionamento interno."
+    },
+    {
+      "id": "fundamental",
+      "nome": "Fundamento",
+      "descricao": "Conceito atemporal: redes, SO, filas, cache, concorrência, performance."
+    },
+    {
+      "id": "case_study",
+      "nome": "Estudo de caso",
+      "descricao": "Caso real de empresa, incidente, migração ou arquitetura em produção."
+    },
+    {
+      "id": "video_lesson",
+      "nome": "Vídeo-aula curada",
+      "descricao": "Vídeo selecionado como aprendizado principal ou complementar."
+    }
+  ],
+  "acoes_recomendadas": [
+    {
+      "id": "read",
+      "nome": "Ler",
+      "descricao": "Apenas conhecer e entender."
+    },
+    {
+      "id": "monitor",
+      "nome": "Monitorar",
+      "descricao": "Acompanhar evolução antes de agir."
+    },
+    {
+      "id": "assess",
+      "nome": "Avaliar",
+      "descricao": "Discutir impacto e encaixe na arquitetura."
+    },
+    {
+      "id": "trial",
+      "nome": "Testar",
+      "descricao": "Fazer PoC controlada."
+    },
+    {
+      "id": "adopt",
+      "nome": "Adotar",
+      "descricao": "Usar ou planejar adoção quando fizer sentido."
+    },
+    {
+      "id": "patch",
+      "nome": "Corrigir/Atualizar",
+      "descricao": "Ação prática necessária, comum em segurança."
+    },
+    {
+      "id": "avoid",
+      "nome": "Evitar",
+      "descricao": "Risco alto ou baixa maturidade para adoção."
+    }
+  ],
+  "maturidade": [
+    {
+      "id": "adopt",
+      "nome": "Adotar"
+    },
+    {
+      "id": "trial",
+      "nome": "Testar"
+    },
+    {
+      "id": "assess",
+      "nome": "Avaliar"
+    },
+    {
+      "id": "caution",
+      "nome": "Cuidado"
+    }
+  ],
+  "niveis": [
+    {
+      "id": "beginner",
+      "nome": "Iniciante"
+    },
+    {
+      "id": "intermediate",
+      "nome": "Intermediário"
+    },
+    {
+      "id": "advanced",
+      "nome": "Avançado"
+    }
+  ],
+  "impacto": [
+    {
+      "id": "low",
+      "nome": "Baixo"
+    },
+    {
+      "id": "medium",
+      "nome": "Médio"
+    },
+    {
+      "id": "high",
+      "nome": "Alto"
+    },
+    {
+      "id": "critical",
+      "nome": "Crítico"
+    }
+  ],
+  "confianca": [
+    {
+      "id": "low",
+      "nome": "Baixa"
+    },
+    {
+      "id": "medium",
+      "nome": "Média"
+    },
+    {
+      "id": "high",
+      "nome": "Alta"
+    }
+  ]
+}

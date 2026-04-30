@@ -1,0 +1,746 @@
+{
+  "date": "2026-04-29",
+  "weekday": "Quarta-feira",
+  "formatted_date": "Quarta, 29 de Abril de 2026",
+  "generated_at": "2026-04-29T10:00:00-03:00",
+  "hero_title": "OpenAI abre Symphony, Microsoft solta cláusula AGI e LeRobot ganha RCE 9.8",
+  "hero_description": "Quarta-feira começa com três movimentos que reposicionam plataformas de IA: OpenAI publica Symphony, spec aberta para Codex orquestrar tarefas direto do Linear, Microsoft renegocia parceria de US$ bilhões e libera modelos OpenAI para AWS/GCP, e Hugging Face LeRobot fica unpatched contra RCE pré-autenticado via pickle (CVSS 9.8). No mesmo dia, Cequence sai com RBAC por persona para agents MCP em GA, Cloudflare reporta XFF duplicado em produção e Snowflake promove Inter-App Communication. Big tech reporta Q1 hoje à noite — capex IA combinado mira US$ 700 bi.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "OpenAI publica Symphony — spec aberta que orquestra Codex direto de boards Linear, com 500% mais PRs aterrissados",
+      "summary": "OpenAI lançou em 28/abr a Symphony, especificação aberta + reference implementation em Elixir que transforma um board do Linear em control plane de coding agents. O orchestrator monitora issues sem bloqueio, cria workspace isolado por ticket, dispara sessão do Codex e shepherds o PR pelo CI. Times internos reportam 500% mais PRs aterrissados em 3 semanas. OpenAI declara Symphony como reference impl, não produto — pede que cada empresa aponte seu coding agent favorito ao spec e crie a própria.",
+      "why_it_matters": "Sinaliza padrão emergente para agents em escala: orchestrator separado do agent, contrato via issue tracker, isolation por workspace. Quem tem times de 50+ devs usando Cursor/Claude Code precisa modelar Symphony-like agora.",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "openai",
+        "codex",
+        "agents",
+        "linear",
+        "elixir"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Hugging Face LeRobot continua sem patch para CVE-2026-25874 (CVSS 9.8) — pickle.loads em gRPC sem TLS vira RCE pré-autenticado",
+      "summary": "Resecurity publicou em 28/abr análise técnica do CVE-2026-25874: o PolicyServer do Hugging Face LeRobot (framework de robótica para inferência GPU) usa pickle.loads() para deserializar payloads sobre gRPC com add_insecure_port — sem TLS, sem auth. Atacante que alcance a porta envia payload pickle malicioso em SendPolicyInstructions e executa comandos arbitrários no host. Como o servidor frequentemente roda com privilégios elevados, acesso a hardware e rede interna, o blast radius é catastrófico.",
+      "why_it_matters": "Risco crítico para qualquer fleet de robôs/inferência GPU expostos: substitua pickle por safetensors/protobuf, troque add_insecure_port por add_secure_port com TLS e adicione interceptors gRPC para token auth.",
+      "source": "Resecurity",
+      "url": "https://www.resecurity.com/blog/article/cve-2026-25874-hugging-face-lerobot-unauthenticated-rce-via-pickle-deserialization",
+      "published_at": "2026-04-28T16:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cve",
+        "huggingface",
+        "lerobot",
+        "pickle",
+        "grpc"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=resecurity.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "Microsoft e OpenAI reescrevem parceria: cláusula AGI morre, licença vira não-exclusiva e Codex passa a vender em AWS/GCP",
+      "summary": "Comunicado conjunto publicado em 27/abr e detalhado em 28/abr derruba quatro pilares do contrato de 2019: a cláusula AGI que dava à OpenAI direito de cortar acesso da Microsoft some, a exclusividade da Azure como única cloud para vender modelos OpenAI termina, o revenue share de 20% ganha um teto não divulgado até 2030 e a licença até 2032 vira não-exclusiva sobre IP. Para arquitetos, GPT-5.5 e Codex podem chegar a Bedrock, Vertex AI e Oracle em poucas semanas — contratos enterprise da Azure precisam ser relidos.",
+      "why_it_matters": "Quem desenhou plataformas de IA assumindo Azure como única origem de modelos OpenAI agora ganha alternativas reais — mas precisa repensar lock-in, billing cross-cloud e cláusulas de data residency.",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/next-phase-of-microsoft-partnership/",
+      "published_at": "2026-04-27T17:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "openai",
+        "microsoft",
+        "azure",
+        "partnership",
+        "agi"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": true,
+      "headline": "Microsoft e OpenAI reescrevem parceria: cláusula AGI morre, licença vira não-exclusiva e Codex passa a vender em AWS/GCP",
+      "summary": "Comunicado conjunto publicado em 27/abr e detalhado em 28/abr derruba quatro pilares do contrato de 2019: a cláusula AGI que dava à OpenAI direito de cortar acesso da Microsoft some, a exclusividade da Azure como única cloud para vender modelos OpenAI termina, o revenue share de 20% ganha um teto não divulgado até 2030 e a licença até 2032 vira não-exclusiva sobre IP. Para arquitetos, GPT-5.5 e Codex podem chegar a Bedrock, Vertex AI e Oracle em poucas semanas — contratos enterprise da Azure precisam ser relidos.",
+      "why_it_matters": "Quem desenhou plataformas de IA assumindo Azure como única origem de modelos OpenAI agora ganha alternativas reais — mas precisa repensar lock-in, billing cross-cloud e cláusulas de data residency.",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/next-phase-of-microsoft-partnership/",
+      "published_at": "2026-04-27T17:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "openai",
+        "microsoft",
+        "azure",
+        "partnership",
+        "agi"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "OpenAI publica Symphony — spec aberta que orquestra Codex direto de boards Linear, com 500% mais PRs aterrissados",
+      "summary": "OpenAI lançou em 28/abr a Symphony, especificação aberta + reference implementation em Elixir que transforma um board do Linear em control plane de coding agents. O orchestrator monitora issues sem bloqueio, cria workspace isolado por ticket, dispara sessão do Codex e shepherds o PR pelo CI. Times internos reportam 500% mais PRs aterrissados em 3 semanas. OpenAI declara Symphony como reference impl, não produto — pede que cada empresa aponte seu coding agent favorito ao spec e crie a própria.",
+      "why_it_matters": "Sinaliza padrão emergente para agents em escala: orchestrator separado do agent, contrato via issue tracker, isolation por workspace. Quem tem times de 50+ devs usando Cursor/Claude Code precisa modelar Symphony-like agora.",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "openai",
+        "codex",
+        "agents",
+        "linear",
+        "elixir"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cequence lança Agent Personas em GA — primeiro RBAC infraestrutural por persona para agents MCP",
+      "summary": "O Cequence AI Gateway sai do beta com Agent Personas em GA: cada agente recebe um endpoint MCP virtual com escopo definido em linguagem natural (ex.: 'agente de atendimento — leitura no CRM, sem update'), Agent Access Keys que amarram identidade do humano + identidade do agente + persona, rate limit e data masking por tool, e enforcement model-agnostic em OpenAI/Anthropic/Google. Resolve o gap clássico em que autenticar quem o agente é não controla o que ele pode fazer com tools que herdou.",
+      "why_it_matters": "Plataformas com MCP em produção precisam de RBAC por persona — não basta IAM por usuário. Agent Personas vira referência de design de governança para agentes autônomos.",
+      "source": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/2026/04/28/cequence-agent-personas/",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "mcp",
+        "agents",
+        "rbac",
+        "ai-gateway",
+        "governance"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=helpnetsecurity.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Anthropic lança 9 connectors do Claude para Adobe, Blender, Autodesk, Ableton e mais — MCP entra na suíte criativa",
+      "summary": "Em 28/abr, Anthropic publicou nove connectors MCP para softwares profissionais: Adobe, Blender, Autodesk, Ableton, Splice, Affinity by Canva, SketchUp, Resolume Arena e Resolume Wire. O connector do Blender expõe a API Python completa para Claude executar código diretamente na cena 3D; o do Ableton é primariamente um assistente de docs. Todos disponíveis em planos Free, Pro e Max, conectados via OAuth.",
+      "why_it_matters": "Sinaliza que MCP virou padrão de integração não só para devtools — arquitetos de plataformas criativas e workflow engines precisam considerar MCP como contrato de extensibilidade default.",
+      "source": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-for-creative-work",
+      "published_at": "2026-04-28T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "claude",
+        "mcp",
+        "connectors",
+        "creative-tools"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "critical",
+      "cves": [
+        "CVE-2026-25874"
+      ],
+      "headline": "Hugging Face LeRobot continua sem patch para CVE-2026-25874 (CVSS 9.8) — pickle.loads em gRPC sem TLS vira RCE pré-autenticado",
+      "summary": "Resecurity publicou em 28/abr análise técnica do CVE-2026-25874: o PolicyServer do Hugging Face LeRobot (framework de robótica para inferência GPU) usa pickle.loads() para deserializar payloads sobre gRPC com add_insecure_port — sem TLS, sem auth. Atacante que alcance a porta envia payload pickle malicioso em SendPolicyInstructions e executa comandos arbitrários no host. Como o servidor frequentemente roda com privilégios elevados, acesso a hardware e rede interna, o blast radius é catastrófico.",
+      "why_it_matters": "Risco crítico para qualquer fleet de robôs/inferência GPU expostos: substitua pickle por safetensors/protobuf, troque add_insecure_port por add_secure_port com TLS e adicione interceptors gRPC para token auth.",
+      "source": "Resecurity",
+      "url": "https://www.resecurity.com/blog/article/cve-2026-25874-hugging-face-lerobot-unauthenticated-rce-via-pickle-deserialization",
+      "published_at": "2026-04-28T16:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cve",
+        "huggingface",
+        "lerobot",
+        "pickle",
+        "grpc"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=resecurity.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "high",
+      "cves": [
+        "CVE-2026-32202",
+        "CVE-2024-1708"
+      ],
+      "headline": "CISA adiciona Windows Shell zero-day (CVE-2026-32202) e ConnectWise ScreenConnect ao KEV — patch obrigatório até 12/maio",
+      "summary": "Em 28/abr, CISA adicionou duas vulnerabilidades sob exploração ativa ao Known Exploited Vulnerabilities catalog. CVE-2026-32202 é falha de protection mechanism no Windows Shell que permite roubar hashes NTLMv2 sem interação além de navegar em uma pasta — patch incompleto da CVE-2026-21510, usada pelo APT28 contra Ucrânia em dezembro. CVE-2024-1708, no ConnectWise ScreenConnect, completa a dupla. FCEB tem prazo até 12 de maio.",
+      "why_it_matters": "Quem opera fleet Windows com SSO em domínio precisa priorizar patch agora — captura de NTLMv2 sem interação vira ponto de entrada para movimento lateral em qualquer rede corporativa.",
+      "source": "Cyberpress",
+      "url": "https://cyberpress.org/cisa-alerts-on-microsoft-windows/",
+      "published_at": "2026-04-28T15:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cve",
+        "kev",
+        "windows",
+        "ntlm",
+        "apt28"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cyberpress.org&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Checkmarx confirma vazamento de 95 GB pela Lapsus$ — campanha TeamPCP segue rolando após Trivy/KICS/LiteLLM",
+      "summary": "Em comunicado de 27/abr, Checkmarx confirmou que os 95 GB que a Lapsus$ publicou em portal de extorsão saíram de seu repositório GitHub, comprometido em 23/03 via campanha TeamPCP — os mesmos atacantes que pegaram Trivy, KICS e LiteLLM em fevereiro/março. Pacote inclui código-fonte, base de funcionários, API keys e credenciais MongoDB/MySQL. TeamPCP fechou parceria com Vect e Lapsus$ e prometeu encadear isso em ataques de ransomware.",
+      "why_it_matters": "A campanha TeamPCP vira referência: quem usa Trivy/KICS/LiteLLM em CI/CD precisa rotacionar tudo que passou pelo scanner desde fevereiro e auditar logs de outbound.",
+      "source": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/news/security/checkmarx-confirms-lapsus-hackers-leaked-its-stolen-github-data/",
+      "published_at": "2026-04-27T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "lapsus",
+        "checkmarx",
+        "supply-chain",
+        "teampcp",
+        "kics"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": true,
+      "breaking": false,
+      "headline": "Cloudflare reporta X-Forwarded-For duplicado em 28/abr — origens que decidem por IP veem comportamento errático",
+      "summary": "Cloudflare abriu incident às 18:31 UTC de 28/abr informando que o cabeçalho X-Forwarded-For estava chegando com valores duplicados em parte da rede. Origens que dependem do XFF para rate limit, geolocation ou bloqueio podem aplicar regra para IP errado (o cliente certo vem na lista, mas com pares duplicados). Fix identificado às 19:00 UTC com rollout gradual previsto até ~07:00 UTC de 29/abr.",
+      "why_it_matters": "Toda app que faz authz/rate-limit pelo XFF precisa parsear a lista e pegar o segundo-último valor — ou aceitar duplicidade — até o rollout terminar; vale revisar se o pipeline foi afetado.",
+      "source": "Cloudflare Status",
+      "url": "https://www.cloudflarestatus.com/",
+      "published_at": "2026-04-28T18:31:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cloudflare",
+        "incident",
+        "http-headers",
+        "xff"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cloudflarestatus.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Snowflake Native Apps ganham Inter-App Communication em GA — apps trocam funções e procedures dentro do mesmo account",
+      "summary": "Em 28/abr Snowflake promoveu Inter-App Communication a GA: um Native App pode expor funções e procedures que outros Native Apps no mesmo account chamam. Caso clássico: app que resolve customer ID enriquece dados de apps de vendors diferentes que se juntam à mesma tabela governada por Unity. Mantém isolation boundary do app provider mas habilita composição via interface estável.",
+      "why_it_matters": "Permite arquitetura de marketplace dentro do data cloud: vendors compõem capabilities em vez de cada um trazer dataset inteiro — repensa licenciamento e telemetria de uso.",
+      "source": "Snowflake Documentation",
+      "url": "https://docs.snowflake.com/en/release-notes/new-features",
+      "published_at": "2026-04-28T09:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "snowflake",
+        "native-apps",
+        "data-cloud"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=snowflake.com&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Microsoft, Google e Amazon reportam Q1 hoje (29/abr) — capex de IA combinado mira US$ 700 bi em 2026",
+      "summary": "Os três hyperscalers fecham reporting hoje à noite e o foco do mercado é se o capex acelerado (Amazon US$ 200 bi, Alphabet US$ 185 bi, Meta US$ 115-135 bi para 2026) está virando receita de cloud. Aceleração em AWS/Azure/GCP valida o gasto; desaceleração pressiona o setor. Morgan Stanley já projeta FCF negativo de US$ 17 bi para Amazon em 2026.",
+      "why_it_matters": "Para arquitetos de FinOps: linhagem de preços de instâncias GPU, créditos AI e descontos enterprise vai mudar conforme cada hyperscaler revisar guidance — vale antecipar negociação de contratos longos.",
+      "source": "HeyGoTrade",
+      "url": "https://www.heygotrade.com/en/news/big-tech-earnings-week-ai-capex-spotlight/",
+      "published_at": "2026-04-29T07:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "earnings",
+        "capex",
+        "aws",
+        "azure",
+        "gcp"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=heygotrade.com&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Warp abre código de seu Agentic Development Environment e lança Oz — orquestrador para agents na cloud com OpenAI como sponsor",
+      "summary": "Em 28/abr, Warp publicou seu IDE/terminal como projeto open source e introduziu Oz, plataforma cloud para gerenciar coding agents em escala. Modelo proposto, 'Open Agentic Development', permite que não-devs descrevam features que agents (rodando em Oz) implementam, abrem PR e shepherdam até deploy. OpenAI é o flagship sponsor e GPT-5.5 alimenta os workflows. Oz vai além do repositório do Warp e é oferecido para outros projetos open source.",
+      "why_it_matters": "Junto com Symphony, sinaliza que 2026 é o ano do agent orchestrator desacoplado do IDE — arquitetos que escolhem stack de devtools precisam avaliar Warp/Oz, Symphony, Cursor e Claude Code lado a lado.",
+      "source": "Warp Blog",
+      "url": "https://www.warp.dev/blog/warp-is-now-open-source",
+      "published_at": "2026-04-28T11:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "warp",
+        "open-source",
+        "agents",
+        "ide",
+        "openai"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=warp.dev&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "GitHub publica post-mortem do merge queue: 658 repos e 2.092 PRs com squash gerando commit do estado errado",
+      "summary": "GitHub atualizou em 28/abr o post-mortem do incidente de 23/04: entre 16:05 e 20:43 UTC, merge queue com squash em grupos com mais de um PR produziu merge commits a partir da base errada — fazendo mudanças anteriores aparecerem como revertidas no histórico. Causa: novo code path para merge base computation deveria estar atrás de feature flag mas o gating ficou incompleto, e a cobertura de testes só exercitava grupos com 1 PR. Detecção pelos suporte ao cliente após 3h33min — monitoring automático não pegou porque o problema era de correctness, não de availability.",
+      "why_it_matters": "Lembrete: code paths gated por feature flags precisam de testes que validem o gating em si, não apenas o feature. E observability sobre 'correctness do output' é capability separada de uptime.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/29/github_says_sorry_and_says/",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "github",
+        "merge-queue",
+        "post-mortem",
+        "feature-flags"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Honeycomb anuncia O11yCon 2026 com foco em era dos agents — early bird vence hoje",
+      "summary": "Honeycomb publicou em 28/abr a programação completa do O11yCon 2026 (20-21/maio em San Francisco): 14 sessions com Charity Majors abrindo sobre 'observability as the API for engineering teams', case studies de Block, Slack e Spotify sobre observability para LLMs em produção, e workshop de SLO derivation a partir de events em vez de metrics. Tema central: como instrumentar sistemas onde 60% dos commits vêm de agents.",
+      "why_it_matters": "SREs precisam parar de tratar observability 1.0 (metrics+logs+traces) como suficiente — eventos ricos com cardinality alta viram requisito quando agents geram código que humanos não revisam linha a linha.",
+      "source": "Honeycomb Blog",
+      "url": "https://www.honeycomb.io/blog/honeycomb-announces-o11ycon-2026-bring-together-engineering-teams-building-agent-era",
+      "published_at": "2026-04-28T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "observability",
+        "honeycomb",
+        "slo",
+        "agents"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=honeycomb.io&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Simon Willison testa 'talkie': modelo 13B treinado em 260B tokens de inglês pré-1931 — pelican on bicycle vira anacrônico",
+      "summary": "Em 28/abr, Simon Willison publicou seu teste do talkie, modelo de 13B que Nick Levine, David Duvenaud e Alec Radford treinaram exclusivamente em corpus pré-1931. O resultado do classic SVG-pelican-on-bicycle prompt produz uma narrativa de 1860 com pelicanos pescando 'on the banks of the Rhine' — sinal claro de que o modelo nunca viu fotografias, programação web ou conceitos pós-revolução industrial.",
+      "why_it_matters": "Lab de retórica útil: como avaliar conhecimento factual e domain shift quando o modelo tem 'cutoff' editorial em vez de temporal — relevante para fine-tuning regulado.",
+      "source": "Simon Willison's Blog",
+      "url": "https://simonwillison.net/2026/Apr/28/",
+      "published_at": "2026-04-28T14:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "llm",
+        "training-data",
+        "evals"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "breaking": false,
+      "headline": "USTR formaliza Pix como barreira em 'National Trade Estimate' — Banco Central reage e investigação Section 301 entra em fase final",
+      "summary": "Em 27-28/abr, a Casa Branca confirmou via 2026 National Trade Estimate Report que considera o Pix barreira técnica para empresas americanas: BC 'opera, possui e regula' o sistema, e a obrigatoriedade para instituições com >500K contas dá vantagem competitiva contra Visa/Mastercard. BC publicou nota defendendo Pix como soberania de pagamentos. Section 301 entra em fase final em meses; tarifa específica pode disparar reação política em ano eleitoral.",
+      "why_it_matters": "Bancos brasileiros e fintechs com integrações de Pix precisam mapear cenário de imposição tarifária recíproca dos EUA: muda compliance, contratos com bandeiras americanas e pricing de cartões.",
+      "source": "Rio Times Online",
+      "url": "https://www.riotimesonline.com/us-attacks-brazil-pix-blusinhas-tax-2026/",
+      "published_at": "2026-04-27T16:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "pix",
+        "ustr",
+        "regulacao",
+        "brasil"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=riotimesonline.com&sz=256"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "InfoQ publica deep-dive de Cell-Based Architecture — bulkhead pattern em escala de availability zone",
+      "summary": "Em 28/abr, InfoQ publicou artigo extenso sobre Cell-Based Architecture: padrão emergente que aplica o bulkhead pattern em granularidade de cell (subset isolado de infra que serve uma fração do tráfego) para conter blast radius de falhas. Cobre design de cell sharding (por tenant, por região), cell routing layer, cell-level deploys e os contratos cross-cell. Casos da AWS, Slack e DoorDash são referenciados com detalhamento das trade-offs.",
+      "why_it_matters": "Para quem arquiteta SaaS multi-tenant em escala, cell-based supera microserviços tradicionais em isolamento de falhas — leitura obrigatória antes de revisar topologia em ano de incidente.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/articles/cell-based-architecture-distributed-systems/",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "read_time": 12,
+      "tags": [
+        "cell-based",
+        "bulkhead",
+        "resilience",
+        "saas"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "release",
+      "version": "2.1.123",
+      "headline": "Claude Code 2.1.123 (28-29/abr) ganha skill search box, hooks que substituem output de tools e subcommand `claude ultrareview`",
+      "description": "Update do dia 28/abr e patch de 29/abr trazem melhorias amplas: tipo-para-filtrar /skills, PostToolUse hooks que substituem tool output via hookSpecificOutput.updatedToolOutput, novo subcommand `claude ultrareview` para CI rodar /ultrareview non-interactively, e Windows passa a usar PowerShell quando Git for Windows não está instalado. Patch de 29/abr corrige loop 401 OAuth quando CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1.",
+      "why_it_matters": "Hooks reescrevendo output de tools abrem caminho para policies de PII redaction, secret scanning e telemetry no client-side — capability nova de governança em coding agents.",
+      "source": "Claude Code Changelog",
+      "url": "https://code.claude.com/docs/en/changelog",
+      "published_at": "2026-04-28T18:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=code.claude.com&sz=256",
+      "tags": [
+        "release",
+        "hooks",
+        "ultrareview"
+      ]
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "📝",
+      "kind": "release",
+      "version": "1.118",
+      "headline": "VS Code 1.118 sai em 27/abr com remote control de Copilot CLI via GitHub.com e suporte a sessões do Claude Code",
+      "description": "Release de 27/abr marca o início da nova cadência semanal anunciada pela Microsoft. Destaques: monitorar e dirigir sessões Copilot CLI direto do GitHub.com ou app mobile do GitHub, adoção de Copilot CLI SDK session-title APIs, keybindings Ctrl+1/Ctrl+2 para alternar sessões no Agents app, e suporte oficial a sessões do Claude Code agent dentro do Agents app.",
+      "why_it_matters": "Times com agents rodando em CI passam a ter UI single-pane para CLI agents heterogêneos — design de plataforma de devex precisa considerar essa convergência.",
+      "source": "Visual Studio Code",
+      "url": "https://code.visualstudio.com/updates/v1_118",
+      "published_at": "2026-04-27T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=256",
+      "tags": [
+        "release",
+        "copilot",
+        "agents"
+      ]
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "headline": "GitHub publica desculpas formais e roadmap de availability após merge queue corromper 2.092 PRs",
+      "description": "Em 28-29/abr, Kyle Daigle publicou explicação detalhada do incidente de 23/04 e GitHub anunciou três compromissos: gating mais rigoroso de novos code paths atrás de feature flags com testes de gating dedicados, monitoring específico para correctness (não só availability) e novo reporte mensal de uptime por serviço. Affected: 658 repos, 2.092 PRs.",
+      "why_it_matters": "Incidente vira case study para arquitetos: monitoring tradicional pega availability mas deixa correctness como blind spot — observability evolved precisa cobrir output validity.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/29/github_says_sorry_and_says/",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot (+ Spring Cloud)",
+      "icon": "🍃",
+      "kind": "news",
+      "headline": "This Week in Spring (28/abr): Spring AI 1.0.6/1.1.5/2.0.0-M5, Spring Modulith 2.1 RC1, Spring Shell 4.0.2",
+      "description": "Edição de 28/abr do This Week in Spring consolida onda de releases do ecossistema: Spring AI sai em três linhas paralelas (1.0.6 LTS, 1.1.5, 2.0.0-M5 com MCP em auto-config), Spring Modulith 2.1 RC1 traz @ModuleSlicing para evitar falhas em testes com múltiplos @SpringBootApplication e tx handling do JobRunr, e Spring Shell 4.0.2 ajusta CLI ergonomics.",
+      "why_it_matters": "Quem mantém estágios de IA em Java (Spring AI 2.0.0-M5 + auto-config MCP) precisa decidir se acompanha milestone ou trava em 1.x estável — calendário de upgrade sente.",
+      "source": "Spring Blog",
+      "url": "https://spring.io/blog/2026/04/28/this-week-in-spring-april-28-2026/",
+      "published_at": "2026-04-28T15:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256",
+      "tags": [
+        "spring-ai",
+        "mcp",
+        "modulith"
+      ]
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "news",
+      "headline": "Kubernetes 1.33 entra em maintenance mode em 28/abr — só patches de segurança até EOL em 28/junho",
+      "description": "Em 28/abr Kubernetes 1.33 saiu da janela de patch regular e entrou em maintenance mode oficial: apenas correções de segurança críticas até o EOL em 28/06/2026. Operadores em 1.33 precisam planejar upgrade para 1.34, 1.35 ou 1.36 (lançado em 22/abr) antes do prazo. Conjunto suportado a partir de hoje: 1.34, 1.35, 1.36.",
+      "why_it_matters": "Quem rebobina K8s em produção precisa abrir janela de upgrade nas próximas 8 semanas — esperar até junho corre risco de pegar surto de CVE sem patch.",
+      "source": "Kubernetes Releases",
+      "url": "https://kubernetes.io/releases/patch-releases/",
+      "published_at": "2026-04-28T00:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256",
+      "tags": [
+        "kubernetes",
+        "lifecycle",
+        "eol"
+      ]
+    },
+    {
+      "tool_key": "datadog",
+      "name": "Datadog",
+      "icon": "🐶",
+      "kind": "news",
+      "headline": "Datadog State of AI Engineering 2026: 5% das chamadas LLM falham em produção — 60% disso é capacity, não modelo",
+      "description": "Relatório de 21/abr da Datadog (com leitura ativa essa semana) mostra: 69% das companhias usam ≥3 modelos em produção, OpenAI lidera com 63% mas Google Gemini e Anthropic Claude crescem 20 e 23 pp respectivamente, 5% das chamadas LLM falham e quase 60% disso é rate limit estourado, e somente 28% das spans com cache support reportam cache-read tokens — prompt caching está sub-utilizado.",
+      "why_it_matters": "Para arquiteto de plataforma de IA: rate limit virou bottleneck principal, não throughput de modelo. Vale mapear failover entre providers e planejar prompt caching antes de escalar QPS.",
+      "source": "Datadog",
+      "url": "https://www.datadoghq.com/about/latest-news/press-releases/datadog-state-of-ai-engineering-report-2026/",
+      "published_at": "2026-04-21T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=datadoghq.com&sz=256",
+      "tags": [
+        "llm-observability",
+        "report",
+        "capacity"
+      ]
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "💡",
+      "kind": "tutorial",
+      "headline": "Java Annotated Monthly de abril (JetBrains) destaca Voxxed Days Bucharest 28-29/abr e estado do Junie CLI",
+      "description": "JAM de abril/26 cobre Voxxed Days Bucharest acontecendo hoje (28-29/abr), JEP 501 (Project Leyden AOT Code Caching), Junie CLI evoluindo para multi-agent com ACP, Spring AI 2.0 milestones e essays sobre virtual threads em 2026. Boa parada para architects que querem não-só-releases mas tendência editorial da JVM.",
+      "why_it_matters": "Para quem decide stack Java/JVM: JAM consolida sinais que ferramentas individuais não consolidam — útil para revisão semestral de tech radar interno.",
+      "source": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=blog.jetbrains.com&sz=256",
+      "tags": [
+        "java",
+        "junie",
+        "leyden"
+      ]
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "release",
+      "version": "0.11.10",
+      "headline": "uv 0.11.10 sai em 27/abr com --python-downloads-json-url e timestamp sentinela em exclude-newer",
+      "description": "Release da Astral em 27/abr adiciona `--python-downloads-json-url` ao `python pin` (escolha de mirror para downloads de Python), timestamp sentinela em valores relativos de exclude-newer/exclude-newer-package em lockfiles e progride o suporte free-threaded a Python 3.14+ — uv aceita interpreters free-threaded nativamente, embora ainda prefira GIL-enabled em `uv python install 3.14`.",
+      "why_it_matters": "Para platform teams Python: control de mirror de downloads e exclude-newer estável fecham gap pra ambientes air-gapped — fica fácil reproduzir build em CI sem internet aberta.",
+      "source": "GitHub",
+      "url": "https://github.com/astral-sh/uv/releases",
+      "published_at": "2026-04-27T16:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "tags": [
+        "uv",
+        "python",
+        "free-threading"
+      ]
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "news",
+      "headline": "Cursor 3.2 reframes IDE como agent execution runtime — /multitask spawneja subagents async em paralelo",
+      "description": "Análise de 28/abr da Futurum sobre Cursor 3.2 (lançado 24/abr) destaca o reframe arquitetural: IDE deixa de ser editor + chat e vira runtime de execução com subagents paralelos via /multitask, multi-root workspaces para changes cross-repo e snapshot recovery integrado ao Linear. Coloca Cursor lado a lado com Symphony (OpenAI) e Oz (Warp) na disputa pelo control plane de coding agents.",
+      "why_it_matters": "Arquitetos avaliando Cursor para enterprise precisam mapear se /multitask vai conviver com Symphony/Oz ou competir — definição vira chave para roadmap de 12 meses.",
+      "source": "Futurum",
+      "url": "https://futurumgroup.com/insights/cursor-3-2-reframes-the-ide-as-an-agent-execution-runtime/",
+      "published_at": "2026-04-28T12:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=futurumgroup.com&sz=256",
+      "tags": [
+        "cursor",
+        "agents",
+        "multitask"
+      ]
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "Voxxed Days Bucharest acontece 28-29/abr — keynote de JEP 501 (Leyden AOT Code Caching) atrai foco do roadmap Java 26",
+      "description": "Voxxed Days Bucharest acontece exatamente nesta janela. Programação inclui keynote sobre JEP 501 do Project Leyden (AOT Code Caching) — feature que reduz startup em até 70% e que entra em rampa para Java 25 GA. Também tem sessão de Hibernate 7 com agentes de IA, sessions de virtual threads em produção e do estado do Jakarta EE 12.",
+      "why_it_matters": "Java 25 GA com Leyden default muda startup de microsserviços JVM em FaaS — quem hoje tem cold start como problema deve testar antes de saída GA.",
+      "source": "Voxxed Days",
+      "url": "https://romania.voxxeddays.com/",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=voxxeddays.com&sz=256",
+      "tags": [
+        "voxxed",
+        "leyden",
+        "jep-501"
+      ]
+    }
+  ],
+  "quotes": [
+    {
+      "text": "The best way to predict the future is to implement it.",
+      "author": "Alan Kay",
+      "context": "Sobre Symphony da OpenAI virar reference impl em vez de produto — outras empresas devem implementar a spec para o stack delas",
+      "related_to": "cat:aiops"
+    },
+    {
+      "text": "Your scientists were so preoccupied with whether or not they could, they didn't stop to think if they should.",
+      "author": "Ian Malcolm (Michael Crichton)",
+      "context": "Aplicado a pickle.loads() em servidor gRPC público — exatamente o que aconteceu com LeRobot CVE-2026-25874",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "All non-trivial abstractions, to some degree, are leaky.",
+      "author": "Joel Spolsky",
+      "context": "Sobre o caso do XFF duplicado da Cloudflare — a abstração 'IP do cliente' vaza pelo formato do cabeçalho",
+      "related_to": "cat:cloud"
+    },
+    {
+      "text": "There are only two hard things in Computer Science: cache invalidation and naming things.",
+      "author": "Phil Karlton",
+      "context": "Sobre os 28% de prompt caching reportados pelo State of AI Engineering da Datadog — caching é difícil, mas em LLMs vira diferença de 5× no custo",
+      "related_to": "tool:datadog"
+    },
+    {
+      "text": "Software is a great combination between artistry and engineering.",
+      "author": "Bill Gates",
+      "context": "Aplicado aos 9 connectors do Claude para Adobe/Blender/Autodesk — IA agora compõe diretamente em ferramentas criativas profissionais",
+      "related_to": "cat:aiops"
+    }
+  ],
+  "sources": [
+    {
+      "name": "OpenAI Blog",
+      "url": "https://openai.com/blog"
+    },
+    {
+      "name": "Anthropic News",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog/"
+    },
+    {
+      "name": "Cloudflare Status",
+      "url": "https://www.cloudflarestatus.com/"
+    },
+    {
+      "name": "Snowflake Documentation",
+      "url": "https://docs.snowflake.com/en/release-notes/new-features"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "Resecurity",
+      "url": "https://www.resecurity.com/blog"
+    },
+    {
+      "name": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/"
+    },
+    {
+      "name": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/"
+    },
+    {
+      "name": "The Register",
+      "url": "https://www.theregister.com/"
+    },
+    {
+      "name": "Honeycomb Blog",
+      "url": "https://www.honeycomb.io/blog"
+    },
+    {
+      "name": "Datadog",
+      "url": "https://www.datadoghq.com/about/latest-news/"
+    },
+    {
+      "name": "Visual Studio Code",
+      "url": "https://code.visualstudio.com/updates/"
+    },
+    {
+      "name": "Claude Code Changelog",
+      "url": "https://code.claude.com/docs/en/changelog"
+    },
+    {
+      "name": "Simon Willison's Blog",
+      "url": "https://simonwillison.net/"
+    },
+    {
+      "name": "Warp Blog",
+      "url": "https://www.warp.dev/blog"
+    },
+    {
+      "name": "Cyberpress",
+      "url": "https://cyberpress.org/"
+    },
+    {
+      "name": "Rio Times Online",
+      "url": "https://www.riotimesonline.com/"
+    },
+    {
+      "name": "Kubernetes Releases",
+      "url": "https://kubernetes.io/releases/"
+    },
+    {
+      "name": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/"
+    }
+  ],
+  "videos": [
+    {
+      "id": "wDYtmXOfTOg",
+      "url": "https://www.youtube.com/watch?v=wDYtmXOfTOg",
+      "title": "GitHub suspende novos cadastros no Copilot devido à alta demanda de agentes",
+      "channel": "Compilado Podcast",
+      "published_at": "2026-04-29",
+      "duration": ""
+    },
+    {
+      "id": "OHoXAJ0W2aA",
+      "url": "https://www.youtube.com/watch?v=OHoXAJ0W2aA",
+      "title": "A Nota de corte de TI passou Medicina.",
+      "channel": "Mano Deyvin",
+      "published_at": "2026-04-29",
+      "duration": ""
+    },
+    {
+      "id": "nCTSnMH4oq4",
+      "url": "https://www.youtube.com/watch?v=nCTSnMH4oq4",
+      "title": "IA não faz sentido (Coding Jesus)",
+      "channel": "Lucas Montano",
+      "published_at": "2026-04-28",
+      "duration": ""
+    }
+  ]
+}

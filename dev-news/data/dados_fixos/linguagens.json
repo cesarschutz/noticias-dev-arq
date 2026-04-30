@@ -1,0 +1,91 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "java",
+      "nome": "Java & JVM",
+      "rotulo": "Java & JVM",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#f8981d",
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/java.svg",
+      "descricao": "Ecossistema JVM maduro — Spring, Quarkus, virtual threads e Loom/Valhalla.",
+      "links_oficiais": [
+        "https://openjdk.org",
+        "https://inside.java",
+        "https://foojay.io/today"
+      ],
+      "consultas_padrao": [
+        "\"JDK\" OR \"OpenJDK\" OR \"GraalVM\" release site:openjdk.org OR site:inside.java",
+        "\"Java\" OR \"JVM\" OR \"Project Loom\" OR \"virtual threads\" OR \"Project Valhalla\" news",
+        "\"Spring Boot\" OR \"Quarkus\" OR \"Micronaut\" release OR update",
+        "site:inside.java OR site:foojay.io/today",
+        "site:baeldung.com java OR \"spring boot\""
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 1,
+      "uso_no_site": "Filtro, página da linguagem e agrupamento de notícias/tutoriais por ecossistema.",
+      "uso_na_skill": "Busca de releases de linguagem, evolução da plataforma, PEP/JEP/TC39 e tutoriais profundos."
+    },
+    {
+      "id": "javascript",
+      "nome": "JavaScript / TS",
+      "rotulo": "JavaScript / TS",
+      "categoria_ids": [
+        "frontend",
+        "backend"
+      ],
+      "cor_destaque": "#F7DF1E",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+      "descricao": "Linguagem da web — TypeScript, Node, Deno, Bun e ecossistema frontend moderno.",
+      "links_oficiais": [
+        "https://tc39.es/proposals",
+        "https://nodejs.org/en/blog",
+        "https://deno.com/blog",
+        "https://bun.sh/blog"
+      ],
+      "consultas_padrao": [
+        "\"TypeScript\" release OR update site:devblogs.microsoft.com/typescript",
+        "\"Node.js\" release OR breaking change site:nodejs.org",
+        "\"Deno\" OR \"Bun\" release OR update OR benchmark",
+        "\"TC39\" proposal OR stage OR ECMAScript site:tc39.es",
+        "site:2ality.com OR site:devblogs.microsoft.com/typescript"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 2,
+      "uso_no_site": "Filtro, página da linguagem e agrupamento de notícias/tutoriais por ecossistema.",
+      "uso_na_skill": "Busca de releases de linguagem, evolução da plataforma, PEP/JEP/TC39 e tutoriais profundos."
+    },
+    {
+      "id": "python",
+      "nome": "Python",
+      "rotulo": "Python",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#3776AB",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+      "descricao": "Scripts, data science, IA e automação — PyPI com 500k+ pacotes.",
+      "links_oficiais": [
+        "https://www.python.org/downloads",
+        "https://peps.python.org",
+        "https://realpython.com"
+      ],
+      "consultas_padrao": [
+        "\"Python\" release OR update site:python.org OR site:blog.python.org",
+        "\"PEP\" approved OR accepted site:peps.python.org",
+        "\"uv\" OR \"pip\" OR \"Poetry\" Python package manager update",
+        "\"FastAPI\" OR \"Django\" OR \"Flask\" OR \"Pydantic\" release",
+        "site:realpython.com OR site:hynek.me OR site:pythonspeed.com"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 3,
+      "uso_no_site": "Filtro, página da linguagem e agrupamento de notícias/tutoriais por ecossistema.",
+      "uso_na_skill": "Busca de releases de linguagem, evolução da plataforma, PEP/JEP/TC39 e tutoriais profundos."
+    }
+  ]
+}

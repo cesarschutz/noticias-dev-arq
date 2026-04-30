@@ -18,7 +18,13 @@
       "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/",
       "published_at": "2026-04-24T17:00:00-03:00",
       "read_time": 5,
-      "tags": ["anthropic", "claude", "managed-agents", "memory", "beta"],
+      "tags": [
+        "anthropic",
+        "claude",
+        "managed-agents",
+        "memory",
+        "beta"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=sdtimes.com&sz=256"
     },
     {
@@ -33,7 +39,12 @@
       "url": "https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/",
       "published_at": "2026-04-24T13:00:00-03:00",
       "read_time": 6,
-      "tags": ["anthropic", "google", "investment", "compute"],
+      "tags": [
+        "anthropic",
+        "google",
+        "investment",
+        "compute"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
     },
     {
@@ -48,7 +59,13 @@
       "url": "https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/",
       "published_at": "2026-04-24T08:00:00-03:00",
       "read_time": 6,
-      "tags": ["kubernetes", "rbac", "kubelet", "ga", "release"],
+      "tags": [
+        "kubernetes",
+        "rbac",
+        "kubelet",
+        "ga",
+        "release"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
     }
   ],
@@ -66,7 +83,12 @@
       "url": "https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/",
       "published_at": "2026-04-24T13:00:00-03:00",
       "read_time": 6,
-      "tags": ["anthropic", "google", "investment", "compute"],
+      "tags": [
+        "anthropic",
+        "google",
+        "investment",
+        "compute"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
     },
     {
@@ -80,7 +102,12 @@
       "url": "https://ai2.work/blog/google-s-brin-forms-deepmind-strike-team-to-close-anthropic-coding-gap",
       "published_at": "2026-04-21T11:00:00-03:00",
       "read_time": 4,
-      "tags": ["google", "deepmind", "anthropic", "coding-agents"],
+      "tags": [
+        "google",
+        "deepmind",
+        "anthropic",
+        "coding-agents"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=ai2.work&sz=256"
     },
     {
@@ -95,7 +122,13 @@
       "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/",
       "published_at": "2026-04-24T17:00:00-03:00",
       "read_time": 5,
-      "tags": ["anthropic", "claude", "managed-agents", "memory", "beta"],
+      "tags": [
+        "anthropic",
+        "claude",
+        "managed-agents",
+        "memory",
+        "beta"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=sdtimes.com&sz=256"
     },
     {
@@ -109,7 +142,12 @@
       "url": "https://www.infoq.com/news/2026/04/cloudflare-sandboxes-ga/",
       "published_at": "2026-04-22T13:00:00-03:00",
       "read_time": 5,
-      "tags": ["cloudflare", "sandboxes", "agents", "ga"],
+      "tags": [
+        "cloudflare",
+        "sandboxes",
+        "agents",
+        "ga"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
     },
     {
@@ -124,7 +162,13 @@
       "url": "https://venturebeat.com/security/ai-agent-runtime-security-system-card-audit-comment-and-control-2026",
       "published_at": "2026-04-21T16:00:00-03:00",
       "read_time": 7,
-      "tags": ["prompt-injection", "claude-code", "gemini-cli", "copilot", "secrets"],
+      "tags": [
+        "prompt-injection",
+        "claude-code",
+        "gemini-cli",
+        "copilot",
+        "secrets"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=venturebeat.com&sz=256"
     },
     {
@@ -140,8 +184,19 @@
       "url": "https://www.cisa.gov/news-events/alerts/2026/04/24/cisa-adds-four-known-exploited-vulnerabilities-catalog",
       "published_at": "2026-04-24T11:00:00-03:00",
       "read_time": 4,
-      "cves": ["CVE-2024-7399", "CVE-2024-57726", "CVE-2024-57728", "CVE-2025-29635"],
-      "tags": ["cisa", "kev", "simplehelp", "samsung", "d-link"],
+      "cves": [
+        "CVE-2024-7399",
+        "CVE-2024-57726",
+        "CVE-2024-57728",
+        "CVE-2025-29635"
+      ],
+      "tags": [
+        "cisa",
+        "kev",
+        "simplehelp",
+        "samsung",
+        "d-link"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=cisa.gov&sz=256"
     },
     {
@@ -157,8 +212,16 @@
       "url": "https://securityonline.info/apache-kafka-jwt-authentication-bypass-logging-vulnerabilities-2026/",
       "published_at": "2026-04-20T10:00:00-03:00",
       "read_time": 5,
-      "cves": ["CVE-2026-33557"],
-      "tags": ["kafka", "cve", "oauthbearer", "jwt", "auth-bypass"],
+      "cves": [
+        "CVE-2026-33557"
+      ],
+      "tags": [
+        "kafka",
+        "cve",
+        "oauthbearer",
+        "jwt",
+        "auth-bypass"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=securityonline.info&sz=256"
     },
     {
@@ -172,7 +235,12 @@
       "url": "https://security.googleblog.com/2026/04/ai-threats-in-wild-current-state-of.html",
       "published_at": "2026-04-23T14:00:00-03:00",
       "read_time": 7,
-      "tags": ["google", "ai-security", "prompt-injection", "threat-intelligence"],
+      "tags": [
+        "google",
+        "ai-security",
+        "prompt-injection",
+        "threat-intelligence"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=security.googleblog.com&sz=256"
     },
     {
@@ -186,7 +254,12 @@
       "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/elastic-beanstalk-ai-analysis-windows/",
       "published_at": "2026-04-24T15:00:00-03:00",
       "read_time": 3,
-      "tags": ["aws", "elastic-beanstalk", "bedrock", "windows"],
+      "tags": [
+        "aws",
+        "elastic-beanstalk",
+        "bedrock",
+        "windows"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
     },
     {
@@ -200,7 +273,12 @@
       "url": "https://www.infoq.com/news/2026/04/cache-parallelism-cloudflare/",
       "published_at": "2026-04-23T10:00:00-03:00",
       "read_time": 6,
-      "tags": ["cloudflare", "edge", "epyc", "performance"],
+      "tags": [
+        "cloudflare",
+        "edge",
+        "epyc",
+        "performance"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
     },
     {
@@ -215,7 +293,13 @@
       "url": "https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/",
       "published_at": "2026-04-24T08:00:00-03:00",
       "read_time": 6,
-      "tags": ["kubernetes", "rbac", "kubelet", "ga", "release"],
+      "tags": [
+        "kubernetes",
+        "rbac",
+        "kubelet",
+        "ga",
+        "release"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
     },
     {
@@ -229,7 +313,12 @@
       "url": "https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/",
       "published_at": "2026-04-22T09:00:00-03:00",
       "read_time": 7,
-      "tags": ["kubernetes", "release", "haru", "kep"],
+      "tags": [
+        "kubernetes",
+        "release",
+        "haru",
+        "kep"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
     },
     {
@@ -243,7 +332,12 @@
       "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
       "published_at": "2026-04-24T18:00:00-03:00",
       "read_time": 3,
-      "tags": ["github", "tokens", "github-apps", "breaking-change"],
+      "tags": [
+        "github",
+        "tokens",
+        "github-apps",
+        "breaking-change"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
     },
     {
@@ -257,7 +351,12 @@
       "url": "https://www.stocktitan.net/news/DDOG/ai-is-hitting-operational-limits-as-companies-rush-to-scale-datadog-h6mlfilk3vqi.html",
       "published_at": "2026-04-21T09:00:00-03:00",
       "read_time": 5,
-      "tags": ["datadog", "llm-observability", "capacity", "aws"],
+      "tags": [
+        "datadog",
+        "llm-observability",
+        "capacity",
+        "aws"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=stocktitan.net&sz=256"
     },
     {
@@ -271,7 +370,12 @@
       "url": "https://www.infoq.com/news/2026/04/cloudflare-ai-caching-strategies/",
       "published_at": "2026-04-22T11:00:00-03:00",
       "read_time": 6,
-      "tags": ["cloudflare", "eth-zurich", "caching", "ml"],
+      "tags": [
+        "cloudflare",
+        "eth-zurich",
+        "caching",
+        "ml"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
     },
     {
@@ -285,7 +389,13 @@
       "url": "https://www.uber.com/us/en/blog/hybrid-core-allocation/",
       "published_at": "2026-04-21T15:00:00-03:00",
       "read_time": 8,
-      "tags": ["uber", "odin", "cpu", "containers", "cpuset"],
+      "tags": [
+        "uber",
+        "odin",
+        "cpu",
+        "containers",
+        "cpuset"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=uber.com&sz=256"
     },
     {
@@ -299,7 +409,12 @@
       "url": "https://getkafkanated.substack.com/p/get-kafka-nated-espresso-april-2026",
       "published_at": "2026-04-17T08:00:00-03:00",
       "read_time": 4,
-      "tags": ["kafka", "release", "code-freeze", "kip"],
+      "tags": [
+        "kafka",
+        "release",
+        "code-freeze",
+        "kip"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=getkafkanated.substack.com&sz=256"
     },
     {
@@ -313,7 +428,12 @@
       "url": "https://www.demarest.com.br/bc-regulamenta-pix-por-aproximacao-e-altera-regras-para-instituicoes-de-pagamento/",
       "published_at": "2026-04-22T10:00:00-03:00",
       "read_time": 5,
-      "tags": ["pix", "nfc", "banco-central", "regulamentação"],
+      "tags": [
+        "pix",
+        "nfc",
+        "banco-central",
+        "regulamentação"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=demarest.com.br&sz=256"
     },
     {
@@ -327,7 +447,13 @@
       "url": "https://blog.cloudflare.com/gen13-config/",
       "published_at": "2026-04-23T10:00:00-03:00",
       "read_time": 6,
-      "tags": ["cache", "parallelism", "amdahl", "hardware", "evergreen"],
+      "tags": [
+        "cache",
+        "parallelism",
+        "amdahl",
+        "hardware",
+        "evergreen"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256"
     }
   ],
@@ -343,7 +469,11 @@
       "source": "Anthropic / SD Times",
       "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/",
       "published_at": "2026-04-24T17:00:00-03:00",
-      "tags": ["claude-code", "memory", "managed-agents"],
+      "tags": [
+        "claude-code",
+        "memory",
+        "managed-agents"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=sdtimes.com&sz=256"
     },
     {
@@ -358,7 +488,11 @@
       "source": "Kubernetes Blog",
       "url": "https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/",
       "published_at": "2026-04-22T09:00:00-03:00",
-      "tags": ["kubernetes", "release", "rbac"],
+      "tags": [
+        "kubernetes",
+        "release",
+        "rbac"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
     },
     {
@@ -372,7 +506,11 @@
       "source": "GitHub Changelog",
       "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
       "published_at": "2026-04-24T18:00:00-03:00",
-      "tags": ["github", "tokens", "github-apps"],
+      "tags": [
+        "github",
+        "tokens",
+        "github-apps"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
     },
     {
@@ -387,7 +525,11 @@
       "source": "Spring Blog",
       "url": "https://spring.io/blog/2026/04/23/spring-boot-4-0-6-available-now/",
       "published_at": "2026-04-23T11:00:00-03:00",
-      "tags": ["spring-boot", "release", "java"],
+      "tags": [
+        "spring-boot",
+        "release",
+        "java"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256"
     },
     {
@@ -402,7 +544,12 @@
       "source": "GitHub Releases",
       "url": "https://github.com/argoproj/argo-workflows/releases/tag/v4.0.4",
       "published_at": "2026-04-02T10:00:00-03:00",
-      "tags": ["argo-workflows", "argocd", "release", "gitops"],
+      "tags": [
+        "argo-workflows",
+        "argocd",
+        "release",
+        "gitops"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
     },
     {
@@ -416,7 +563,12 @@
       "source": "Datadog Blog",
       "url": "https://www.datadoghq.com/blog/llm-aws-strands/",
       "published_at": "2026-04-21T10:00:00-03:00",
-      "tags": ["datadog", "aws", "strands", "llm-observability"],
+      "tags": [
+        "datadog",
+        "aws",
+        "strands",
+        "llm-observability"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=datadoghq.com&sz=256"
     },
     {
@@ -431,7 +583,12 @@
       "source": "OpenTofu",
       "url": "https://opentofu.org/blog/help-us-test-opentofu-1-12-0-beta1/",
       "published_at": "2026-04-15T10:00:00-03:00",
-      "tags": ["opentofu", "terraform", "iac", "beta"],
+      "tags": [
+        "opentofu",
+        "terraform",
+        "iac",
+        "beta"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=opentofu.org&sz=256"
     },
     {
@@ -446,7 +603,11 @@
       "source": "Docker Docs",
       "url": "https://docs.docker.com/engine/release-notes/29/",
       "published_at": "2026-04-07T13:00:00-03:00",
-      "tags": ["docker", "release", "security"],
+      "tags": [
+        "docker",
+        "release",
+        "security"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=docs.docker.com&sz=256"
     },
     {
@@ -461,7 +622,12 @@
       "source": "Astral / uv Releases",
       "url": "https://github.com/astral-sh/uv/releases/tag/0.11.7",
       "published_at": "2026-04-15T11:00:00-03:00",
-      "tags": ["python", "uv", "openssl", "pep-750"],
+      "tags": [
+        "python",
+        "uv",
+        "openssl",
+        "pep-750"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
     },
     {
@@ -475,7 +641,12 @@
       "source": "Apache Kafka CVE List",
       "url": "https://kafka.apache.org/community/cve-list/",
       "published_at": "2026-04-20T09:00:00-03:00",
-      "tags": ["kafka", "cve", "release", "oauthbearer"],
+      "tags": [
+        "kafka",
+        "cve",
+        "release",
+        "oauthbearer"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=kafka.apache.org&sz=256"
     },
     {
@@ -490,7 +661,12 @@
       "source": "VS Code Updates",
       "url": "https://code.visualstudio.com/updates/v1_116",
       "published_at": "2026-04-15T14:00:00-03:00",
-      "tags": ["vscode", "copilot", "agents", "release"],
+      "tags": [
+        "vscode",
+        "copilot",
+        "agents",
+        "release"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=256"
     },
     {
@@ -504,7 +680,12 @@
       "source": "Vercel Changelog",
       "url": "https://vercel.com/changelog/deepseek-v4-on-ai-gateway",
       "published_at": "2026-04-23T10:00:00-03:00",
-      "tags": ["vercel", "deepseek", "ai-gateway", "javascript"],
+      "tags": [
+        "vercel",
+        "deepseek",
+        "ai-gateway",
+        "javascript"
+      ],
       "image": "https://www.google.com/s2/favicons?domain=vercel.com&sz=256"
     }
   ],
@@ -541,18 +722,83 @@
     }
   ],
   "sources": [
-    { "name": "TechCrunch", "url": "https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/" },
-    { "name": "SD Times", "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/" },
-    { "name": "Kubernetes Blog", "url": "https://kubernetes.io/blog/" },
-    { "name": "InfoQ", "url": "https://www.infoq.com/news/" },
-    { "name": "VentureBeat", "url": "https://venturebeat.com/security/" },
-    { "name": "CISA", "url": "https://www.cisa.gov/news-events/alerts/2026/04/24/cisa-adds-four-known-exploited-vulnerabilities-catalog" },
-    { "name": "Security Online", "url": "https://securityonline.info/" },
-    { "name": "Google Security Blog", "url": "https://security.googleblog.com/" },
-    { "name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/" },
-    { "name": "GitHub Changelog", "url": "https://github.blog/changelog/" },
-    { "name": "Spring Blog", "url": "https://spring.io/blog/" },
-    { "name": "Datadog", "url": "https://www.datadoghq.com/about/latest-news/press-releases/datadog-expands-llm-observability-with-new-capabilities-to-monitor-agentic-ai-accelerate-development-and-improve-model-performance/" },
-    { "name": "Uber Engineering", "url": "https://www.uber.com/us/en/blog/hybrid-core-allocation/" }
+    {
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/"
+    },
+    {
+      "name": "SD Times",
+      "url": "https://sdtimes.com/anthropic/anthropic-adds-memory-to-claude-managed-agents/"
+    },
+    {
+      "name": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/news/"
+    },
+    {
+      "name": "VentureBeat",
+      "url": "https://venturebeat.com/security/"
+    },
+    {
+      "name": "CISA",
+      "url": "https://www.cisa.gov/news-events/alerts/2026/04/24/cisa-adds-four-known-exploited-vulnerabilities-catalog"
+    },
+    {
+      "name": "Security Online",
+      "url": "https://securityonline.info/"
+    },
+    {
+      "name": "Google Security Blog",
+      "url": "https://security.googleblog.com/"
+    },
+    {
+      "name": "AWS What's New",
+      "url": "https://aws.amazon.com/about-aws/whats-new/"
+    },
+    {
+      "name": "GitHub Changelog",
+      "url": "https://github.blog/changelog/"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog/"
+    },
+    {
+      "name": "Datadog",
+      "url": "https://www.datadoghq.com/about/latest-news/press-releases/datadog-expands-llm-observability-with-new-capabilities-to-monitor-agentic-ai-accelerate-development-and-improve-model-performance/"
+    },
+    {
+      "name": "Uber Engineering",
+      "url": "https://www.uber.com/us/en/blog/hybrid-core-allocation/"
+    }
+  ],
+  "videos": [
+    {
+      "id": "ueuyINzwzIY",
+      "url": "https://www.youtube.com/watch?v=ueuyINzwzIY",
+      "title": "Sobre o novo Opus 4.7...",
+      "channel": "Lucas Montano",
+      "published_at": "2026-04-17",
+      "duration": ""
+    },
+    {
+      "id": "u2vADKJzYi8",
+      "url": "https://www.youtube.com/watch?v=u2vADKJzYi8",
+      "title": "Testei o OpenClaude... e voltei pro Claude pago",
+      "channel": "Mano Deyvin",
+      "published_at": "2026-04-24",
+      "duration": ""
+    },
+    {
+      "id": "taSmwcqdkQk",
+      "url": "https://www.youtube.com/watch?v=taSmwcqdkQk",
+      "title": "What is a Data Lakehouse?",
+      "channel": "ByteByteGo",
+      "published_at": "2026-04-16",
+      "duration": ""
+    }
   ]
 }

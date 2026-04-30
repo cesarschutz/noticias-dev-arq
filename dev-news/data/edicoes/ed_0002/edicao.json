@@ -1,0 +1,28 @@
+{
+  "versao_schema": "2.0",
+  "id": "ed_0002",
+  "numero": 2,
+  "data": "2026-04-28",
+  "dia_semana": "Terça-feira",
+  "data_formatada": "Terça-feira, 28 de abril de 2026",
+  "status": "publicada",
+  "publicado_em": "2026-04-28T07:30:00-03:00",
+  "gerado_em": "2026-04-28T07:30:00-03:00",
+  "janela_busca_inicio": "2026-04-27T07:30:00-03:00",
+  "janela_busca_fim": "2026-04-28T07:30:00-03:00",
+  "titulo": "Modelos, observabilidade e dados pedem decisão com critério",
+  "subtitulo": "Notícias, contexto e aprendizado para decisões melhores em arquitetura e engenharia.",
+  "resumo": "A edição conecta mudanças em IA, Grafana/Loki, MongoDB, Spring Data e mensageria com aprendizados sobre governança, observabilidade e integração confiável.",
+  "nota_editorial": "Edição de demonstração no modelo novo: cada notícia pode carregar aprendizado, decisão técnica, fontes, relações e vídeos.",
+  "tempo_leitura_min": 40,
+  "publico": [
+    "arquiteto_de_software",
+    "tech_lead",
+    "engenheiro_senior"
+  ],
+  "hero": {
+    "titulo": "O que merece atenção técnica hoje",
+    "descricao": "A edição conecta mudanças em IA, Grafana/Loki, MongoDB, Spring Data e mensageria com aprendizados sobre governança, observabilidade e integração confiável.",
+    "item_principal_id": "item_ed0002_002"
+  }
+}

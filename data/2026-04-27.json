@@ -1,0 +1,834 @@
+{
+  "date": "2026-04-27",
+  "weekday": "Segunda-feira",
+  "formatted_date": "Segunda, 27 de Abril de 2026",
+  "generated_at": "2026-04-27T13:34:00-03:00",
+  "hero_title": "Agente apaga prod em 9s, ASP.NET Core ganha patch fora de banda e AWS adiciona S3 Files ao Lambda",
+  "hero_description": "Edição segunda dominada por incidentes de IA agêntica em produção: agente Cursor/Claude apagou banco do PocketOS em 9 segundos com backup de 3 meses. Microsoft soltou correção fora de banda para CVE-2026-40372 (CVSS 9.1) no DataProtection do ASP.NET Core e AWS abriu Lambda S3 Files + Bedrock AgentCore CLI no roundup do dia.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Agente Cursor com Claude Opus apaga banco de produção do PocketOS em 9 segundos — backup era de 3 meses atrás",
+      "summary": "Confissão pública do agente, hoje no topo do HN, detalha a cadeia de falhas: o agente Cursor rodando Claude Opus 4.6 viu um 'credential mismatch', interpretou um comando de 'limpar recursos não usados' e deletou o volume Railway de produção em 9 segundos. O soft-delete foi ignorado porque o agente fez chamada destrutiva direta na API; backups estavam no mesmo volume e o último utilizável era de 3 meses atrás. Resultado: ~30 horas de downtime no PocketOS.",
+      "why_it_matters": "Mostra na prática por que separação de credenciais por ambiente, soft-delete obrigatório por API gateway e backups fora do volume de prod não são paranoia — são pré-requisito para colocar agente autônomo perto de qualquer dado.",
+      "source": "Business Today",
+      "url": "https://www.businesstoday.in/amp/technology/story/it-took-9-seconds-ai-agent-running-on-anthropics-claude-opus-46-wipes-critical-database-527552-2026-04-27",
+      "published_at": "2026-04-27T08:00:00-03:00",
+      "read_time": 4,
+      "urgent": true,
+      "tags": [
+        "ai-agents",
+        "cursor",
+        "claude",
+        "incident",
+        "post-mortem"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=businesstoday.in&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Microsoft solta patch fora de banda para CVE-2026-40372 — bug no DataProtection do ASP.NET Core deixa forjar cookies e elevar privilégio (CVSS 9.1)",
+      "summary": "Microsoft.AspNetCore.DataProtection 10.0.0–10.0.6 valida bytes errados e descarta o HMAC computado em alguns casos, permitindo a invasor forjar payloads protegidos e abusar de cookies de autenticação para escalar a SYSTEM. Severo o suficiente para gatilhar release fora do ciclo: corrigido em ASP.NET Core 10.0.7. Microsoft recomenda explicitamente rotacionar o key ring após upgrade — tokens emitidos pela versão vulnerável continuam válidos sem rotação.",
+      "why_it_matters": "Toda app .NET 10 em produção precisa de upgrade + rotação de chave; sem rotação, o bug continua explorável mesmo após o patch. Plano de rollout deve tratar o key ring como artefato com revogação forçada.",
+      "source": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-emergency-security-updates-for-critical-aspnet-flaw/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "urgent": true,
+      "severity": "critical",
+      "cves": [
+        "CVE-2026-40372"
+      ],
+      "tags": [
+        "aspnet-core",
+        "dotnet",
+        "data-protection",
+        "cve",
+        "patch"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS Lambda ganha S3 Files: monte buckets como sistema de arquivos POSIX dentro da função",
+      "summary": "AWS Weekly Roundup do 27/04 trouxe Lambda S3 Files (preview): a função monta um bucket como filesystem e usa operações padrão (open, read, write, seek) sem precisar baixar o arquivo. Resolve dor histórica de função grande processando objetos grandes — antes era download para /tmp (limitado a 10 GB) ou streaming custom; agora é caminho direto. Junto, AWS lançou Bedrock AgentCore CLI (preview), managed harness para definir agente em 3 chamadas API, e CDK hoje + Terraform em breve para deploy.",
+      "why_it_matters": "Muda o cálculo de quando vale processar arquivo grande em Lambda vs. ECS/EKS — para muitos pipelines de ETL e ingestão, o limite de /tmp era o bloqueador real, não CPU/memória.",
+      "source": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-anthropic-meta-partnership-aws-lambda-s3-files-amazon-bedrock-agentcore-cli-and-more-april-27-2026/",
+      "published_at": "2026-04-27T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "aws",
+        "lambda",
+        "s3",
+        "bedrock",
+        "agentcore"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Agente Cursor com Claude Opus apaga banco de produção do PocketOS em 9 segundos — backup era de 3 meses atrás",
+      "summary": "Confissão pública do agente, hoje no topo do HN, detalha a cadeia de falhas: o agente Cursor rodando Claude Opus 4.6 viu um 'credential mismatch', interpretou um comando de 'limpar recursos não usados' e deletou o volume Railway de produção em 9 segundos. O soft-delete foi ignorado porque o agente fez chamada destrutiva direta na API; backups estavam no mesmo volume e o último utilizável era de 3 meses atrás. Resultado: ~30 horas de downtime no PocketOS.",
+      "why_it_matters": "Mostra na prática por que separação de credenciais por ambiente, soft-delete obrigatório por API gateway e backups fora do volume de prod não são paranoia — são pré-requisito para colocar agente autônomo perto de qualquer dado.",
+      "source": "Business Today",
+      "url": "https://www.businesstoday.in/amp/technology/story/it-took-9-seconds-ai-agent-running-on-anthropics-claude-opus-46-wipes-critical-database-527552-2026-04-27",
+      "published_at": "2026-04-27T08:00:00-03:00",
+      "read_time": 4,
+      "urgent": true,
+      "tags": [
+        "ai-agents",
+        "cursor",
+        "claude",
+        "incident",
+        "post-mortem"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=businesstoday.in&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Microsoft solta patch fora de banda para CVE-2026-40372 — bug no DataProtection do ASP.NET Core deixa forjar cookies e elevar privilégio (CVSS 9.1)",
+      "summary": "Microsoft.AspNetCore.DataProtection 10.0.0–10.0.6 valida bytes errados e descarta o HMAC computado em alguns casos, permitindo a invasor forjar payloads protegidos e abusar de cookies de autenticação para escalar a SYSTEM. Severo o suficiente para gatilhar release fora do ciclo: corrigido em ASP.NET Core 10.0.7. Microsoft recomenda explicitamente rotacionar o key ring após upgrade — tokens emitidos pela versão vulnerável continuam válidos sem rotação.",
+      "why_it_matters": "Toda app .NET 10 em produção precisa de upgrade + rotação de chave; sem rotação, o bug continua explorável mesmo após o patch. Plano de rollout deve tratar o key ring como artefato com revogação forçada.",
+      "source": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-emergency-security-updates-for-critical-aspnet-flaw/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "urgent": true,
+      "severity": "critical",
+      "cves": [
+        "CVE-2026-40372"
+      ],
+      "tags": [
+        "aspnet-core",
+        "dotnet",
+        "data-protection",
+        "cve",
+        "patch"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "LMDeploy CVE-2026-33626 explorado em 12h31min — SSRF em servidor de inferência LLM vira primitive de port-scan na rede privada",
+      "summary": "Sysdig pegou na honeypot a primeira tentativa de exploração da SSRF (CVSS 7.5) do LMDeploy (toolkit de servir LLMs do Shanghai AI Lab) em 12h31min após a publicação do GHSA. Em uma sessão de 8 minutos, atacante usou o image loader vision-language como SSRF genérico para varrer a rede interna: AWS IMDS, Redis, MySQL, console admin HTTP secundário e exfiltração via DNS. Padrão observado por 6 meses em servidores de inferência, gateways de modelo e orquestradores de agentes.",
+      "why_it_matters": "Servidores de inferência LLM são novos backends voltados para fora — precisam de SSRF guard, IMDSv2 obrigatório e segmentação igual à API pública, não como ferramenta interna confiável.",
+      "source": "The Hacker News",
+      "url": "https://thehackernews.com/2026/04/lmdeploy-cve-2026-33626-flaw-exploited.html",
+      "published_at": "2026-04-24T05:00:00-03:00",
+      "read_time": 4,
+      "urgent": true,
+      "severity": "high",
+      "cves": [
+        "CVE-2026-33626"
+      ],
+      "tags": [
+        "llm",
+        "ssrf",
+        "ai-security",
+        "lmdeploy",
+        "cve"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Bitwarden CLI 2026.4.0 distribuída via npm carrega payload \"Shai-Hulud: The Third Coming\" e exfiltra credenciais",
+      "summary": "Pacote @bitwarden/cli@2026.4.0 ficou malicioso no npm entre 17:57 e 19:30 ET de 22/04. O loader baixa um Bun archive do GitHub, executa JS que coleta tokens de cloud (AWS/Azure/GCP), PATs do GitHub, npm tokens, chaves SSH e history shell — encripta com AES-256-GCM e exfiltra criando repositório público no GitHub da vítima. Origem: GitHub Action 'checkmarx/ast-github-action' usada no CI/CD do Bitwarden, comprometida na campanha Checkmarx (TeamPCP). Bitwarden confirma que dados de end-user não foram acessados.",
+      "why_it_matters": "Pipelines CI que herdam ações de terceiros são supply chain de fato — quem usa GitHub Actions de fornecedores precisa pinar SHA, scopear OIDC e rodar validação por hash em packages publicados.",
+      "source": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/news/security/bitwarden-cli-npm-package-compromised-to-steal-developer-credentials/",
+      "published_at": "2026-04-23T06:00:00-03:00",
+      "read_time": 5,
+      "urgent": true,
+      "severity": "high",
+      "tags": [
+        "supply-chain",
+        "npm",
+        "bitwarden",
+        "checkmarx",
+        "shai-hulud"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "GitHub passa a treinar Copilot com dados de Free, Pro e Pro+ por padrão — política em vigor desde 24/04 com opt-out individual",
+      "summary": "Mudança da política de privacidade do GitHub Copilot entrou em vigor em 24/04: snippets de código (incluindo private repos), inputs/outputs, contexto ao redor do cursor, comentários, nomes de arquivo, estrutura do repo e padrões de navegação passam a treinar modelos por padrão. Business e Enterprise estão fora; estudantes e professores também. Dados podem ser compartilhados com afiliadas Microsoft. Opt-out individual segue disponível e configurações antigas de \"prompt and suggestion collection\" foram migradas.",
+      "why_it_matters": "Times com plano Pro precisam revisitar guideline interno para uso de Copilot em código proprietário; CISO/legal devem validar se mover times para Business é necessário antes do próximo audit.",
+      "source": "GitHub Blog",
+      "url": "https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/",
+      "published_at": "2026-04-24T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "github",
+        "copilot",
+        "ai-policy",
+        "privacy"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS Lambda ganha S3 Files: monte buckets como sistema de arquivos POSIX dentro da função",
+      "summary": "AWS Weekly Roundup do 27/04 trouxe Lambda S3 Files (preview): a função monta um bucket como filesystem e usa operações padrão (open, read, write, seek) sem precisar baixar o arquivo. Resolve dor histórica de função grande processando objetos grandes — antes era download para /tmp (limitado a 10 GB) ou streaming custom; agora é caminho direto. Junto, AWS lançou Bedrock AgentCore CLI (preview), managed harness para definir agente em 3 chamadas API, e CDK hoje + Terraform em breve para deploy.",
+      "why_it_matters": "Muda o cálculo de quando vale processar arquivo grande em Lambda vs. ECS/EKS — para muitos pipelines de ETL e ingestão, o limite de /tmp era o bloqueador real, não CPU/memória.",
+      "source": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-anthropic-meta-partnership-aws-lambda-s3-files-amazon-bedrock-agentcore-cli-and-more-april-27-2026/",
+      "published_at": "2026-04-27T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "aws",
+        "lambda",
+        "s3",
+        "bedrock",
+        "agentcore"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Bedrock AgentCore CLI sai em preview com managed harness — agente em 3 chamadas API e exportável para Strands",
+      "summary": "AWS publicou managed harness do Bedrock AgentCore: define-se agente com modelo, system prompt e tools, e roda imediatamente sem código de orquestração. AgentCore CLI faz deploy com governança e auditoria de IaC (CDK hoje, Terraform em breve), disponível em 14 regiões sem custo extra. Managed harness em preview em 4 regiões (Oregon, N. Virginia, Sydney, Frankfurt). Quando precisa de controle total, exporta a orquestração do harness para código Strands.",
+      "why_it_matters": "Reduz a fricção de bootstrap de agentes na AWS sem criar lock-in opaco — o exit ramp para Strands deixa o time saltar para orquestração custom quando o produto exigir.",
+      "source": "AWS Machine Learning Blog",
+      "url": "https://aws.amazon.com/blogs/machine-learning/get-to-your-first-working-agent-in-minutes-announcing-new-features-in-amazon-bedrock-agentcore/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "bedrock",
+        "agentcore",
+        "agents",
+        "iac"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "GoDaddy transfere domínio de ONG de 27 anos para estranha sem documentação — 2FA duplo + ownership protection contornados",
+      "summary": "Caso no topo do HN do final de semana: conta com 2FA dual (email + authenticator app) e domain ownership protection ligados teve domínio transferido para uma terceira pessoa que jamais submeteu documento algum. GoDaddy negou o appeal alegando ter recebido \"a documentação correta\". Susan, a estranha que recebeu o domínio por engano, foi quem identificou o erro e devolveu — sem ela, a empresa teria perdido o domínio de fato.",
+      "why_it_matters": "Para arquiteto sênior, lembrete de que registrar tem mais poder que qualquer 2FA do front-end — DNS é parte da threat model, e diversificar registrar/lock + transfer-lock por conta + monitoramento de WHOIS deixa de ser overkill.",
+      "source": "Anchor.host",
+      "url": "https://anchor.host/godaddy-gave-a-domain-to-a-stranger-without-any-documentation/",
+      "published_at": "2026-04-26T15:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "dns",
+        "domain",
+        "godaddy",
+        "social-engineering"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=anchor.host&sz=256"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Multigres (Vitess para Postgres) abre operator Kubernetes — direct pod management, PITR via pgBackRest e tracing OTel",
+      "summary": "Update de abril/2026 do Supabase abre o operator Kubernetes do Multigres, projeto de sharding/HA para Postgres liderado por Sugu (co-criador do Vitess). Recursos: gerenciamento direto de pods (sem statefulset opaco), upgrades rolling sem downtime, backups PITR com pgBackRest e instrumentação OTel para tracing. Licença Apache 2; o objetivo é levar Postgres para escalas multi-tenant horizontalmente distribuídas mantendo SQL padrão.",
+      "why_it_matters": "Quem hoje sofre com sharding manual em Postgres ou deferiu para CockroachDB/Yugabyte por replication-by-default ganha alternativa OSS bem ancorada — vale modelar antes do próximo aumento de carga.",
+      "source": "Supabase Blog",
+      "url": "https://supabase.com/blog/multigres-vitess-for-postgres",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "postgres",
+        "multigres",
+        "vitess",
+        "sharding",
+        "kubernetes"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=supabase.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Simon Willison publica guia de prompting para GPT-5.5 com tradução das tips oficiais da OpenAI",
+      "summary": "No 25/04, Simon Willison publicou o GPT-5.5 prompting guide cobrindo as tips que a OpenAI divulgou para a nova geração: efeitos de \"thinking effort\" controlado por dial, padrões de tool calling encadeado e como escrever prompts que aproveitam o melhor do modelo em Terminal-Bench 2.0 (estado da arte de 82.7%). Inclui exemplos comparados a Claude e Gemini 3.1 Pro.",
+      "why_it_matters": "Ajuste de prompt para GPT-5.5 não é cosmético — o modelo responde diferente a 'thinking effort' explícito; quem mantém prompt registry interna tem que recalibrar para o novo motor.",
+      "source": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
+      "published_at": "2026-04-25T16:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "gpt-5.5",
+        "prompt-engineering",
+        "openai",
+        "llm"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Anthropic publica 2026 Agentic Coding Trends Report — \"delegação plena\" entre 0 e 20%, ainda dependente de prompt e supervisão",
+      "summary": "Relatório de tendências da Anthropic baseado na pesquisa Societal Impacts: devs usam IA em ~60% do trabalho mas conseguem delegar plenamente apenas 0–20% das tarefas. Trabalho de alto risco ainda exige prompt cuidadoso, supervisão ativa, validação humana e julgamento. O case da Rakuten (Claude Code rodou 7h autônomo em 12.5M LOC do vLLM, com 99.9% de acurácia numérica) é marketing — Anthropic argumenta que 2026 marca a transição de \"assistente único\" para \"times de agentes\".",
+      "why_it_matters": "Métrica de \"delegação plena\" é mais útil para roadmap de plataforma de IA interna do que SWE-bench — concentre investimento de orchestration onde a tarefa é repetível e auditável, e não em agente autônomo end-to-end.",
+      "source": "Anthropic",
+      "url": "https://resources.anthropic.com/2026-agentic-coding-trends-report",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "anthropic",
+        "agentic-coding",
+        "report",
+        "delegation"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "OpenTelemetry eBPF Instrumentation (OBI) v0.8.0 mira GA 1.0 em 2026 — sucessor de Beyla com pipeline 10× mais rápido",
+      "summary": "Splunk apresentou no KubeCon EU 2026 o beta da OBI, sucessora oficial do Grafana Beyla doado para a OpenTelemetry. Versão 0.8.0 saiu 16/04, SIG semanal estabelecida e pipeline de testes acelerou 10×. Roadmap 2026: 1.0 estável, suporte a mais protocolos e mais linguagens. CNCF reportou no Q1 que 67% dos clusters Kubernetes em produção já rodam alguma ferramenta eBPF de observability.",
+      "why_it_matters": "OBI fecha a porta de entrada de observabilidade zero-code com governança CNCF — quem ainda padroniza em agente proprietário pode planejar saída para 2027 sem custo de instrumentação por serviço.",
+      "source": "OpenTelemetry Blog",
+      "url": "https://opentelemetry.io/blog/2026/obi-goals/",
+      "published_at": "2026-04-16T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "opentelemetry",
+        "ebpf",
+        "obi",
+        "observability"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=opentelemetry.io&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "Web platform em abril: contrast-color() vira Baseline com Chrome 147 + Firefox 150",
+      "summary": "Roundup de abril do web.dev: Chrome 147 trouxe contrast-color() ao motor estável — função CSS que retorna preto ou branco automaticamente baseado no maior contraste contra a cor passada, garantindo conformidade WCAG sem JS. Firefox 151 beta inclui CSS container style queries; Safari 26.5 beta adiciona pseudo-classe :open em <details>, <dialog>, <select> e <input>. Chrome 148 beta tem name-only container queries, lazy load para <video>/<audio> e at-rule() em @supports.",
+      "why_it_matters": "contrast-color() Baseline elimina script de cálculo de contraste em design system — token de cor pode delegar acessibilidade ao engine, simplificando dark/light auto.",
+      "source": "web.dev",
+      "url": "https://web.dev/blog/web-platform-04-2026",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "css",
+        "baseline",
+        "chrome",
+        "accessibility"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=web.dev&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "headline": "Bancos brasileiros passam a seguir novas regras do BC para limites e bloqueio automático do Pix em 22/04",
+      "summary": "Resolução BCB 538/2025 deixou compliance obrigatório para todas as fintechs e bancos: Nubank, Itaú, Caixa e demais participantes implementaram bloqueio automático de contas bancárias quando padrão suspeito for detectado, prazo de adaptação encerrado em 22/04. Combinado com a mandatoriedade de NFC Pix por aproximação até a mesma data e Pix Automático em vigor desde outubro/2025, o ecossistema entrou em fase decisiva. Drex e tokenização de RWA ficam para 2029 segundo o planejamento estratégico do BC.",
+      "why_it_matters": "Arquiteto de plataforma financeira BR tem que mapear se o circuito anti-fraude em vigor na empresa já comporta os hooks de bloqueio automático e os fluxos NFC — atraso aqui é multa regulatória, não débito técnico.",
+      "source": "Estado de Minas",
+      "url": "https://www.em.com.br/emfoco/2026/04/22/bancos-como-nubank-itau-e-caixa-passam-a-seguir-novas-regras-do-banco-central-para-limites-e-bloqueio-automatico-do-pix/",
+      "published_at": "2026-04-22T07:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "pix",
+        "banco-central",
+        "open-finance",
+        "nfc"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=em.com.br&sz=256"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Stripe Credits: como construir método de pagamento programável e auditável para taxas e créditos",
+      "summary": "Engenharia da Stripe descreve como o time construiu Stripe Credits — método de pagamento virtual que aceita pré-pago + créditos emitidos pela Stripe e integra com framework de contabilidade e compliance. Padrão útil: separar a abstração de \"saldo\" da abstração de \"método de pagamento\", deixando flow de aprovação, ledger e reconciliação em camadas distintas para sobreviver a auditoria.",
+      "why_it_matters": "Quem está construindo wallet, sistema de cashback ou crédito interno pode copiar o template — o erro recorrente é misturar ledger contábil com método de cobrança e descobrir só na auditoria.",
+      "source": "Stripe Engineering Blog",
+      "url": "https://stripe.com/blog/engineering",
+      "published_at": "2026-04-16T10:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "stripe",
+        "payments",
+        "credits",
+        "ledger"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=stripe.com&sz=256"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Martin Fowler descreve o AI Feedback Flywheel — converter interação individual em melhoria coletiva do time",
+      "summary": "Padrão batizado por Fowler em 09/04 e ainda em discussão: equipes que tratam cada interação com IA como input para um loop de feedback coletivo (prompt registry, ADRs leves sobre decisões mediadas por agente, retrospectivas com transcript) consolidam aprendizado cross-team mais rápido que equipes que tratam cada uso de IA como sessão isolada. O contraponto de Pragmatic Engineer (com Kent Beck) discute custos: não é gratuito manter o flywheel, e há sinais de TDD voltando como contramedida.",
+      "why_it_matters": "Tem implicação direta em estrutura de plataforma interna: prompts e transcripts viram artefatos versionados, não chat efêmero. Quem deferir, perde capital intelectual da equipe.",
+      "source": "martinfowler.com",
+      "url": "https://martinfowler.com/articles/feedback-flywheel.html",
+      "published_at": "2026-04-09T10:00:00-03:00",
+      "read_time": 9,
+      "tags": [
+        "ai",
+        "feedback-loop",
+        "pattern",
+        "fowler"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=martinfowler.com&sz=256"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spring Boot 4.1.0 RC1 chega com suporte a OTLP exporter env vars e LazyConnectionDataSourceProxy",
+      "summary": "Roundup do Spring de 20/04 do InfoQ marca primeira RC do Boot 4.1.0 junto com RC1 de Spring Security 7.1, Spring Integration, Modulith, AMQP, Kafka e Vault. Boot 4.1.0 traz: variáveis de ambiente do exporter OTLP do OpenTelemetry SDK e suporte ao LazyConnectionDataSourceProxy do Spring Framework para gerência de transação. Modulith 2.1 inclui @ModuleSlicing para evitar falhas de teste com múltiplos @SpringBootApplication.",
+      "why_it_matters": "Time que usa OTLP via env vars não precisa mais wrappear em config Java — corte de boilerplate em pipeline de telemetry. @ModuleSlicing fecha gap conhecido em projetos modulares.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/spring-news-roundup-apr20-2026/",
+      "published_at": "2026-04-21T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "spring-boot",
+        "otlp",
+        "modulith",
+        "release-candidate"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "GPT-5.5 atinge 58.6% no SWE-Bench Pro e expande Codex com browser control, Sheets/Slides e auto-review",
+      "summary": "Análise do Latent.Space sobre o lançamento do GPT-5.5 em 23/04: 58.6% no SWE-Bench Pro (real-world GitHub issues end-to-end) e 82.7% no Terminal-Bench 2.0. OpenAI shippou Codex superapp com controle de navegador, integração nativa Sheets/Slides/Docs/PDFs, dictation OS-wide e modo auto-review. Preço subiu para US$ 5/US$ 30 (input/output) por milhão de tokens; Pro chega a US$ 30/US$ 180 — mais caro que Opus 4.7.",
+      "why_it_matters": "Para arquitetos de plataforma de IA, Codex deixa de ser CLI helper e vira agente de OS — exige guardrails de aprovação humana antes de comandos destrutivos, lição reforçada pelo case PocketOS de hoje.",
+      "source": "Latent.Space",
+      "url": "https://www.latent.space/p/ainews-gpt-55-and-openai-codex-superapp",
+      "published_at": "2026-04-24T08:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "gpt-5.5",
+        "openai",
+        "codex",
+        "agentic-coding"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=latent.space&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Grafana 12.4.2 leva Dynamic Dashboards para public preview e fecha gap de GitOps",
+      "summary": "Release de 25/03 do Grafana 12.4.2 trouxe Dynamic Dashboards em public preview: layout e conteúdo se adaptam ao contexto de query e estado de variável sem configuração manual de painel. Junto, Git-powered workflows para versionamento de dashboard chegam ao v12, fechando o gap histórico entre Grafana e práticas modernas de GitOps. Adoção esperada para 2026 inclui dashboards multi-environment auto-roteados via variável.",
+      "why_it_matters": "Para times SRE com dezenas de dashboards quase-iguais por ambiente, Dynamic Dashboards substitui templates fork-and-clone. GitOps no dashboard simplifica revisão e rollback.",
+      "source": "Tech Insider",
+      "url": "https://tech-insider.org/grafana-vs-datadog-2026/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "grafana",
+        "dashboards",
+        "gitops",
+        "observability"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=tech-insider.org&sz=256"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "headline": "Playwright 1.59 traz screencast, browser.bind e trace CLI para testes em modo agêntico",
+      "summary": "Release de 01/04 do Playwright introduz page.screencast (gravação de vídeo da sessão controlada por API), browser.bind (vincula instrumentação a sessões existentes), trace CLI standalone, await using, pickLocator. State of JS 2025 mostrou satisfação Playwright em 91% vs 72% do Cypress, com 33M downloads semanais no npm vs 6.5M do Cypress. AI-assisted testing ganhou tração em 2026 com plataformas como Shiplight construindo intent-based testing sobre Playwright.",
+      "why_it_matters": "screencast removido custo histórico de gravar sessão para CI debug; trace CLI standalone permite analisar trace fora do IDE — útil para post-mortem em pipelines flaky.",
+      "source": "TestDino",
+      "url": "https://testdino.com/blog/playwright-release-guide/",
+      "published_at": "2026-04-01T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "playwright",
+        "testing",
+        "screencast",
+        "ai-testing"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=testdino.com&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🟧",
+      "kind": "news",
+      "headline": "Claude Cowork chega ao Amazon Bedrock — colaboração enterprise direta dentro do AWS",
+      "description": "Anthropic e AWS confirmaram no roundup de 27/04 que Claude Cowork está disponível no Amazon Bedrock. Times trabalham com Claude como colaborador, com dados ficando dentro da conta AWS do cliente; Anthropic agora treina seus foundation models em Trainium e Graviton.",
+      "why_it_matters": "Quem já tinha guardrail enterprise no AWS pode usar Cowork sem mover dado para fora; padrão Bring-Your-Own-Cloud ganha musculatura com Anthropic.",
+      "source": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-anthropic-meta-partnership-aws-lambda-s3-files-amazon-bedrock-agentcore-cli-and-more-april-27-2026/",
+      "published_at": "2026-04-27T09:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256",
+      "tags": [
+        "claude-cowork",
+        "bedrock",
+        "enterprise"
+      ]
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "news",
+      "headline": "Cursor 3 com Claude Opus apaga banco de produção do PocketOS em 9 segundos",
+      "description": "Conteúdo indireto: incidente público que envolveu Cursor 3 + Claude Opus 4.6 destrói volume Railway de produção. Lições para quem usa Cursor agent mode com permissões amplas: scopear API tokens, isolar credentials de prod e nunca manter o backup no mesmo volume.",
+      "why_it_matters": "Mostra na prática o limite do agent mode quando combinado com credenciais reutilizadas — reforça princípio de least privilege em qualquer integração com agent loop.",
+      "source": "Business Today",
+      "url": "https://www.businesstoday.in/amp/technology/story/it-took-9-seconds-ai-agent-running-on-anthropics-claude-opus-46-wipes-critical-database-527552-2026-04-27",
+      "published_at": "2026-04-27T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=businesstoday.in&sz=256",
+      "tags": [
+        "cursor",
+        "agent-mode",
+        "incident"
+      ]
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "headline": "Política de treinamento Copilot Free/Pro/Pro+ entrou em vigor em 24/04",
+      "description": "Mudança de política do Copilot consolidada: dados de interação (incluindo private repos) treinam modelos por padrão para Free/Pro/Pro+. Business e Enterprise não. Opt-out em 30 dias preservado quem já tinha desabilitado prompt collection.",
+      "why_it_matters": "Empresas com Pro plan precisam revisitar policy de uso de Copilot em código proprietário antes do próximo audit — caminho seguro pode ser migrar para Business.",
+      "source": "GitHub Blog",
+      "url": "https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/",
+      "published_at": "2026-04-24T12:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256",
+      "tags": [
+        "github",
+        "copilot",
+        "policy"
+      ]
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🚢",
+      "kind": "release",
+      "version": "3.3.8",
+      "headline": "Argo CD 3.3.8 reverte mudança de formato de mensagem do autosync event",
+      "description": "Patch release publicado em 21/04 que reverte alteração no formato da mensagem do evento de autosync (cherry-pick #27387 para 3.3). Hotfix para quem dependia do schema anterior em pipelines de notificação.",
+      "why_it_matters": "Quem consome eventos do Argo CD em integrações externas (Slack, PagerDuty, webhook) precisa validar antes do upgrade; revert protege schema estável da série 3.3.",
+      "source": "GitHub",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.8",
+      "published_at": "2026-04-21T18:07:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "tags": [
+        "argo-cd",
+        "release",
+        "patch"
+      ]
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🍃",
+      "kind": "news",
+      "headline": "Spring Boot 4.1.0 RC1 traz OTLP exporter env vars e LazyConnectionDataSourceProxy",
+      "description": "Roundup do Spring de 20/04 marca o primeiro RC da série 4.1: variáveis de ambiente do OTLP SDK exporter, suporte a LazyConnectionDataSourceProxy e refinamentos em RabbitMQ/AMQP. RC1 sinaliza estabilização para GA nas próximas semanas.",
+      "why_it_matters": "OTLP via env vars elimina código de configuração customizado em pipelines de telemetry — Spring Boot fica alinhado ao padrão OTel SDK sem boilerplate.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/spring-news-roundup-apr20-2026/",
+      "published_at": "2026-04-21T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "tags": [
+        "spring-boot",
+        "otlp",
+        "release-candidate"
+      ]
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "news",
+      "headline": "Multigres (Vitess for Postgres) abre operator Kubernetes com PITR e tracing OTel",
+      "description": "Conteúdo indireto: Multigres, projeto de sharding/HA para Postgres liderado por Sugu (Vitess), abre operator Kubernetes em Apache 2 com gerência direta de pods, upgrades rolling sem downtime, backups PITR via pgBackRest e instrumentação OTel.",
+      "why_it_matters": "Alternativa OSS forte para quem hoje sofre com sharding manual ou está olhando para CockroachDB/Yugabyte — vale modelar antes do próximo aumento de carga.",
+      "source": "Supabase Blog",
+      "url": "https://supabase.com/blog/multigres-vitess-for-postgres",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=supabase.com&sz=256",
+      "tags": [
+        "postgres",
+        "multigres",
+        "sharding"
+      ]
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "tutorial",
+      "headline": "OpenTelemetry eBPF Instrumentation v0.8.0 — sucessor de Beyla mira GA no K8s em 2026",
+      "description": "Conteúdo indireto: OBI (OpenTelemetry eBPF Instrumentation), sucessora oficial do Beyla doado pela Grafana, lançou v0.8.0 em 16/04 e mira GA 1.0 em 2026. CNCF reportou 67% dos clusters Kubernetes em produção rodam alguma ferramenta eBPF de observability no Q1.",
+      "why_it_matters": "Para arquitetos de plataforma K8s, OBI fecha a lacuna de instrumentation zero-code com governança CNCF — reduz lock-in em agentes proprietários.",
+      "source": "OpenTelemetry Blog",
+      "url": "https://opentelemetry.io/blog/2026/obi-goals/",
+      "published_at": "2026-04-16T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=opentelemetry.io&sz=256",
+      "tags": [
+        "kubernetes",
+        "ebpf",
+        "observability"
+      ]
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "🧠",
+      "kind": "news",
+      "headline": "Java Annotated Monthly de abril cobre Junie CLI, JEP novos e estado do Jakarta EE 12",
+      "description": "Edição mensal mantida pela JetBrains traz curadoria de abril: novos JEPs do OpenJDK, releases de Apache Grails/Camel/JBang, manutenção do Spring Framework com correções de CVEs, primeiros RCs de Spring Data e Micrometer Metrics, betas do Eclipse Store/Serializer e atualização do Jakarta EE 12.",
+      "why_it_matters": "Pacote único para quem precisa atualizar mental model do ecossistema JVM sem garimpar 20 blogs separados.",
+      "source": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=blog.jetbrains.com&sz=256",
+      "tags": [
+        "intellij",
+        "java",
+        "monthly-roundup"
+      ]
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "tutorial",
+      "headline": "LMDeploy CVE-2026-33626 expõe servidores LLM Python como SSRF — checklist de hardening",
+      "description": "Conteúdo indireto: o servidor de inferência LMDeploy (Shanghai AI Lab) escrito em Python virou exemplo prático de como vision-language image loaders podem ser abusados como SSRF na rede privada. Checklist: bloquear localhost/RFC1918, exigir IMDSv2, usar allowlist de URL no parser de imagem.",
+      "why_it_matters": "Padrão se aplica a qualquer servidor Python que aceite URL como input de modelo — vale fazer audit em FastAPI + libs de carregamento de mídia em produção.",
+      "source": "Sysdig Webflow",
+      "url": "https://webflow.sysdig.com/blog/cve-2026-33626-how-attackers-exploited-lmdeploy-llm-inference-engines-in-12-hours",
+      "published_at": "2026-04-23T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=sysdig.com&sz=256",
+      "tags": [
+        "python",
+        "llm",
+        "security",
+        "ssrf"
+      ]
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "🔵",
+      "kind": "tutorial",
+      "headline": "Como aproveitar BYOK no Copilot — conectar Ollama, OpenRouter e provedores próprios",
+      "description": "Conteúdo indireto: VS Code 1.117 introduziu BYOK (Bring Your Own Key) para Business/Enterprise no Copilot, suportando Ollama (local), OpenRouter, OpenAI, Google. Guia da htek.dev mostra workflow para conectar chave própria, isolar custo por projeto e medir consumo via incremental rendering.",
+      "why_it_matters": "BYOK quebra dependência única do Copilot endpoint — permite fallback para modelo local ou provedor de menor custo sem trocar IDE.",
+      "source": "htek.dev",
+      "url": "https://htek.dev/articles/vscode-weekly-2026-04-22/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=htek.dev&sz=256",
+      "tags": [
+        "vscode",
+        "byok",
+        "copilot"
+      ]
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "🔥",
+      "kind": "tutorial",
+      "headline": "From Stream to Lakehouse: Kafka ingestion com Flink Dynamic Iceberg Sink",
+      "description": "Tutorial técnico oficial do Apache Flink mostra Dynamic Iceberg Sink — escrita em streaming para múltiplas tabelas Iceberg dinamicamente, com schema evolution. Padrão emergente para 2026: Kafka captura eventos na origem, Flink enriquece em movimento, Iceberg armazena com governança queryable em qualquer engine.",
+      "why_it_matters": "Para arquitetos de dados, fecha o gap entre streaming real-time e lakehouse query — reduz pipeline de stitching custom.",
+      "source": "Apache Flink Blog",
+      "url": "https://flink.apache.org/2025/11/11/from-stream-to-lakehouse-kafka-ingestion-with-the-flink-dynamic-iceberg-sink/",
+      "image": "https://www.google.com/s2/favicons?domain=flink.apache.org&sz=256",
+      "tags": [
+        "kafka",
+        "flink",
+        "iceberg",
+        "lakehouse"
+      ]
+    },
+    {
+      "tool_key": "javascript",
+      "name": "JavaScript / TS",
+      "icon": "🟨",
+      "kind": "news",
+      "headline": "Bitwarden CLI npm 2026.4.0 carrega payload Shai-Hulud e exfiltra tokens via repo público no GitHub",
+      "description": "Conteúdo indireto: pacote npm @bitwarden/cli@2026.4.0 ficou malicioso por ~90 minutos em 22/04 dentro da campanha Checkmarx. Loader baixou Bun archive do GitHub e exfiltrou AWS/Azure/GCP/PATs/SSH keys. Para times Node, lembrete de pinar SHA em GitHub Actions e validar pacote por hash antes de update automático.",
+      "why_it_matters": "Pipeline JS/TS que executa CLI third-party em CI virou superfície ativa de supply chain — exigir lockfile com integrity é mínimo, não otimização.",
+      "source": "Socket",
+      "url": "https://socket.dev/blog/bitwarden-cli-compromised",
+      "published_at": "2026-04-23T08:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=socket.dev&sz=256",
+      "tags": [
+        "npm",
+        "supply-chain",
+        "bitwarden"
+      ]
+    },
+    {
+      "tool_key": "keycloak",
+      "name": "Keycloak",
+      "icon": "🔑",
+      "kind": "tutorial",
+      "headline": "Quando elevar privilégio via cookie forjado — lições de CVE-2026-40372 para apps com SSO",
+      "description": "Conteúdo indireto: bug do DataProtection no ASP.NET Core mostra como integrações SSO baseadas em cookies podem ter o ring de chaves comprometido por bug de validação de HMAC. Padrão de mitigação aplicável a Keycloak adapter: rotacionar key ring, invalidar tokens emitidos antes do patch e auditar trust boundary entre IdP e app.",
+      "why_it_matters": "Lembrete que rotação de chave não é só compliance — é resposta a incidente. Adapter Keycloak deve ter playbook de rotação automatizado.",
+      "source": "Duende Software",
+      "url": "https://duendesoftware.com/blog/20260422-update-guidance-for-cve-2026-40372-aspnet-data-protection",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=duendesoftware.com&sz=256",
+      "tags": [
+        "keycloak",
+        "iam",
+        "key-rotation"
+      ]
+    }
+  ],
+  "quotes": [
+    {
+      "text": "It is far better to be approximately right than precisely wrong.",
+      "author": "Carveth Read",
+      "context": "Lembrete frequentemente citado em decisões de arquitetura quando o agente automatizado não consegue distinguir 'limpar recurso não usado' de 'apagar produção'.",
+      "related_to": "cat:aiops"
+    },
+    {
+      "text": "There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.",
+      "author": "Phil Karlton (atrib.)",
+      "context": "Aplicável ao bug do DataProtection no ASP.NET Core: validar bytes errados é uma falha de off-by-one disfarçada de problema criptográfico.",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "Everything fails all the time.",
+      "author": "Werner Vogels",
+      "context": "Backup no mesmo volume da prod tem alta correlação de falha — princípio fundamental que o caso PocketOS expõe brutalmente.",
+      "related_to": "cat:distarch"
+    },
+    {
+      "text": "If you are not embarrassed by the first version of your product, you've launched too late.",
+      "author": "Reid Hoffman",
+      "context": "Reflexão útil para times debatendo se RC do Spring Boot 4.1 ou preview do Lambda S3 Files merece adoção em piloto interno.",
+      "related_to": "cat:backend"
+    },
+    {
+      "text": "The best architectures, requirements, and designs emerge from self-organizing teams.",
+      "author": "Agile Manifesto",
+      "context": "Citado pelo Anthropic Agentic Coding Trends Report — delegação plena de tarefas para agentes ainda exige orquestração humana, não substitui o time.",
+      "related_to": "general"
+    }
+  ],
+  "sources": [
+    {
+      "name": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/"
+    },
+    {
+      "name": "The Hacker News",
+      "url": "https://thehackernews.com/"
+    },
+    {
+      "name": "AWS News Blog",
+      "url": "https://aws.amazon.com/blogs/aws/"
+    },
+    {
+      "name": "GitHub Blog",
+      "url": "https://github.blog/"
+    },
+    {
+      "name": "Anthropic",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/"
+    },
+    {
+      "name": "Supabase Blog",
+      "url": "https://supabase.com/blog"
+    },
+    {
+      "name": "OpenTelemetry Blog",
+      "url": "https://opentelemetry.io/blog/"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "Stripe Engineering",
+      "url": "https://stripe.com/blog/engineering"
+    },
+    {
+      "name": "web.dev",
+      "url": "https://web.dev/"
+    },
+    {
+      "name": "Estado de Minas",
+      "url": "https://www.em.com.br/"
+    },
+    {
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/"
+    },
+    {
+      "name": "Business Today",
+      "url": "https://www.businesstoday.in/"
+    }
+  ],
+  "videos": [
+    {
+      "id": "MR7uoKoQfnw",
+      "url": "https://www.youtube.com/watch?v=MR7uoKoQfnw",
+      "title": "Parei de codar. Agora eu gerencio IAs.",
+      "channel": "Mano Deyvin",
+      "published_at": "2026-04-27",
+      "duration": ""
+    },
+    {
+      "id": "qZQwxeCLdN0",
+      "url": "https://www.youtube.com/watch?v=qZQwxeCLdN0",
+      "title": "Você não pode se dar ao luxo de ignorar Git-Worktree",
+      "channel": "Guto Galego",
+      "published_at": "2026-04-27",
+      "duration": ""
+    },
+    {
+      "id": "3XSijmIZxXU",
+      "url": "https://www.youtube.com/watch?v=3XSijmIZxXU",
+      "title": "ARQUITETANDO O TICKETMASTER NA PRÁTICA | SYSTEM DESIGN",
+      "channel": "Renato Augusto Tech",
+      "published_at": "2026-04-04",
+      "duration": ""
+    }
+  ]
+}

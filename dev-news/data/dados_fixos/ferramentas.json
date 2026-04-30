@@ -1,0 +1,1186 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "claudecode",
+      "nome": "Claude Code",
+      "rotulo": "Claude Code",
+      "grupo_id": "ai-ide",
+      "categoria_ids": [
+        "aiops"
+      ],
+      "cor_destaque": "#d97706",
+      "logo": "https://cdn.simpleicons.org/anthropic/ffffff",
+      "descricao": "CLI de IA da Anthropic para engenharia de software no terminal.",
+      "links_oficiais": [
+        "https://docs.anthropic.com/en/release-notes/claude-code"
+      ],
+      "consultas_padrao": [
+        "\"Claude Code\" release OR changelog OR update",
+        "\"Claude Code\" tutorial OR deep dive OR architecture",
+        "site:docs.anthropic.com \"Claude Code\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release Claude Code, nova feature CLI",
+      "conteudo_indireto_aceito": "CLI workflows, agentic coding, MCP integration, subagents",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 1,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "cursor",
+      "nome": "Cursor IDE",
+      "rotulo": "Cursor IDE",
+      "grupo_id": "ai-ide",
+      "categoria_ids": [
+        "aiops"
+      ],
+      "cor_destaque": "#6b7280",
+      "logo": "https://cdn.simpleicons.org/cursor/ffffff",
+      "descricao": "IDE com IA — autocomplete, chat e edição contextual avançada.",
+      "links_oficiais": [
+        "https://www.cursor.com/changelog"
+      ],
+      "consultas_padrao": [
+        "\"Cursor IDE\" release OR changelog OR update",
+        "\"Cursor IDE\" tutorial OR deep dive OR architecture",
+        "site:cursor.com \"Cursor IDE\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release Cursor, feature de IA, tab model",
+      "conteudo_indireto_aceito": "AI coding patterns, agent mode, context management",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 2,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "intellij",
+      "nome": "IntelliJ IDEA",
+      "rotulo": "IntelliJ IDEA",
+      "grupo_id": "ai-ide",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#fe2857",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg",
+      "descricao": "IDE Java/Kotlin da JetBrains com refactoring e análise estática.",
+      "links_oficiais": [
+        "https://blog.jetbrains.com/idea/"
+      ],
+      "consultas_padrao": [
+        "\"IntelliJ IDEA\" release OR changelog OR update",
+        "\"IntelliJ IDEA\" tutorial OR deep dive OR architecture",
+        "site:blog.jetbrains.com \"IntelliJ IDEA\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novas inspeções",
+      "conteudo_indireto_aceito": "JetBrains AI Assistant, refactorings modernos, IDE performance",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 3,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "vscode",
+      "nome": "VS Code",
+      "rotulo": "VS Code",
+      "grupo_id": "ai-ide",
+      "categoria_ids": [
+        "aiops"
+      ],
+      "cor_destaque": "#007ACC",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",
+      "descricao": "Editor extensível da Microsoft — extensões, Copilot e remote dev.",
+      "links_oficiais": [
+        "https://code.visualstudio.com/updates"
+      ],
+      "consultas_padrao": [
+        "\"VS Code\" release OR changelog OR update",
+        "\"VS Code\" tutorial OR deep dive OR architecture",
+        "site:code.visualstudio.com \"VS Code\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova extensão oficial",
+      "conteudo_indireto_aceito": "Dev Containers, Remote dev, Copilot integration, LSP",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 4,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "argocd",
+      "nome": "Argo CD",
+      "rotulo": "Argo CD",
+      "grupo_id": "devops",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#EF7B4D",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/argocd/argocd-original.svg",
+      "descricao": "GitOps para Kubernetes — sync declarativo e rollbacks automáticos.",
+      "links_oficiais": [
+        "https://github.com/argoproj/argo-cd/releases",
+        "https://blog.argoproj.io/"
+      ],
+      "consultas_padrao": [
+        "\"Argo CD\" release OR changelog OR update",
+        "\"Argo CD\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Argo CD\" release OR changelog OR update",
+        "site:blog.argoproj.io \"Argo CD\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova feature GitOps",
+      "conteudo_indireto_aceito": "Argo Workflows, Argo Rollouts, progressive delivery, GitOps patterns, Helm vs Argo CD",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 5,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "ghactions",
+      "nome": "GitHub Actions",
+      "rotulo": "GitHub Actions",
+      "grupo_id": "devops",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#2088FF",
+      "logo": "https://cdn.simpleicons.org/githubactions/2088FF",
+      "descricao": "CI/CD nativo do GitHub — workflows, runners e Actions marketplace.",
+      "links_oficiais": [
+        "https://github.blog/changelog/",
+        "https://github.blog/category/engineering/actions/"
+      ],
+      "consultas_padrao": [
+        "\"GitHub Actions\" release OR changelog OR update",
+        "\"GitHub Actions\" tutorial OR deep dive OR architecture",
+        "site:github.blog \"GitHub Actions\" release OR changelog OR update",
+        "site:github.blog \"GitHub Actions\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release runner, nova action oficial",
+      "conteudo_indireto_aceito": "CI/CD pipelines, reusable workflows, OIDC com cloud providers",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 6,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "github",
+      "nome": "GitHub",
+      "rotulo": "GitHub",
+      "grupo_id": "devops",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#888888",
+      "logo": "https://cdn.simpleicons.org/github/ffffff",
+      "descricao": "Plataforma de hospedagem de código — Copilot, Actions e Advanced Security.",
+      "links_oficiais": [
+        "https://github.blog/",
+        "https://github.blog/changelog/"
+      ],
+      "consultas_padrao": [
+        "\"GitHub\" release OR changelog OR update",
+        "\"GitHub\" tutorial OR deep dive OR architecture",
+        "site:github.blog \"GitHub\" release OR changelog OR update",
+        "site:github.blog \"GitHub\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova feature, Copilot update",
+      "conteudo_indireto_aceito": "Code review culture, branch protection, CODEOWNERS, Dependabot, Advanced Security",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 7,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "docker",
+      "nome": "Docker",
+      "rotulo": "Docker",
+      "grupo_id": "devops",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#2496ED",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+      "descricao": "Containers — Docker Engine/Desktop, Compose e Docker Scout.",
+      "links_oficiais": [
+        "https://docs.docker.com/engine/release-notes/",
+        "https://docker.com/blog"
+      ],
+      "consultas_padrao": [
+        "\"Docker\" release OR changelog OR update",
+        "\"Docker\" tutorial OR deep dive OR architecture",
+        "site:docs.docker.com \"Docker\" release OR changelog OR update",
+        "site:docker.com \"Docker\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release Engine/Desktop, CVE, nova feature Compose",
+      "conteudo_indireto_aceito": "OCI containers, runtimes (containerd, runc), multi-stage build, segurança de imagens",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 8,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "kubernetes",
+      "nome": "Kubernetes",
+      "rotulo": "Kubernetes",
+      "grupo_id": "cloud-infra",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#326CE5",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg",
+      "descricao": "Orquestração de containers — KEPs, releases e CNCF ecosystem.",
+      "links_oficiais": [
+        "https://kubernetes.io/releases/",
+        "https://kubernetes.io/blog"
+      ],
+      "consultas_padrao": [
+        "\"Kubernetes\" release OR changelog OR update",
+        "\"Kubernetes\" tutorial OR deep dive OR architecture",
+        "site:kubernetes.io \"Kubernetes\" release OR changelog OR update",
+        "site:kubernetes.io \"Kubernetes\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, KEP aprovada, incidente de segurança",
+      "conteudo_indireto_aceito": "Helm, Kustomize, GitOps, KEDA, kubelet, etcd, cluster architecture, Backstage como IDP",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 9,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "terraform",
+      "nome": "Terraform",
+      "rotulo": "Terraform",
+      "grupo_id": "cloud-infra",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#7B42BC",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg",
+      "descricao": "IaC da HashiCorp — providers, modules e Terraform Cloud.",
+      "links_oficiais": [
+        "https://github.com/hashicorp/terraform/releases"
+      ],
+      "consultas_padrao": [
+        "\"Terraform\" release OR changelog OR update",
+        "\"Terraform\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Terraform\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo provider, RFC aprovada",
+      "conteudo_indireto_aceito": "IaC patterns, Terraform Cloud, módulos reutilizáveis, OpenTofu (fork OSS), drift detection",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 10,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "istio",
+      "nome": "Istio",
+      "rotulo": "Istio",
+      "grupo_id": "cloud-infra",
+      "categoria_ids": [
+        "distarch"
+      ],
+      "cor_destaque": "#466BB0",
+      "logo": "https://cdn.simpleicons.org/istio/466BB0",
+      "descricao": "Service mesh — traffic management, mTLS e observabilidade.",
+      "links_oficiais": [
+        "https://istio.io/latest/news/",
+        "https://istio.io/latest/blog/"
+      ],
+      "consultas_padrao": [
+        "\"Istio\" release OR changelog OR update",
+        "\"Istio\" tutorial OR deep dive OR architecture",
+        "site:istio.io \"Istio\" release OR changelog OR update",
+        "site:istio.io \"Istio\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, ambient mode",
+      "conteudo_indireto_aceito": "Service mesh comparado (Linkerd, Cilium), Envoy (base), mTLS, observability",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 11,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "nginx",
+      "nome": "Nginx",
+      "rotulo": "Nginx",
+      "grupo_id": "cloud-infra",
+      "categoria_ids": [
+        "devops"
+      ],
+      "cor_destaque": "#009639",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg",
+      "descricao": "Web server e reverse proxy — caching, load balancing e TLS termination.",
+      "links_oficiais": [
+        "https://nginx.org/en/CHANGES",
+        "https://www.nginx.com/blog/"
+      ],
+      "consultas_padrao": [
+        "\"Nginx\" release OR changelog OR update",
+        "\"Nginx\" tutorial OR deep dive OR architecture",
+        "site:nginx.org \"Nginx\" release OR changelog OR update",
+        "site:nginx.com \"Nginx\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release Nginx/Plus, novo módulo",
+      "conteudo_indireto_aceito": "Reverse proxy, load balancing, TLS termination, caching, API gateway",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 12,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "databricks",
+      "nome": "Databricks",
+      "rotulo": "Databricks",
+      "grupo_id": "dados",
+      "categoria_ids": [
+        "data"
+      ],
+      "cor_destaque": "#FF3621",
+      "logo": "https://cdn.simpleicons.org/databricks/FF3621",
+      "descricao": "Plataforma de dados unificada — Delta Lake, MLflow e Unity Catalog.",
+      "links_oficiais": [
+        "https://docs.databricks.com/en/release-notes/",
+        "https://databricks.com/blog"
+      ],
+      "consultas_padrao": [
+        "\"Databricks\" release OR changelog OR update",
+        "\"Databricks\" tutorial OR deep dive OR architecture",
+        "site:docs.databricks.com \"Databricks\" release OR changelog OR update",
+        "site:databricks.com \"Databricks\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo recurso",
+      "conteudo_indireto_aceito": "Delta Lake, lakehouse, Apache Spark, MLflow, Unity Catalog, dbt (transformação)",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 13,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "postgres",
+      "nome": "PostgreSQL",
+      "rotulo": "PostgreSQL",
+      "grupo_id": "dados",
+      "categoria_ids": [
+        "data"
+      ],
+      "cor_destaque": "#336791",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+      "descricao": "Banco relacional avançado — extensões (inclui pgvector para RAG), JSONB e replicação lógica.",
+      "links_oficiais": [
+        "https://www.postgresql.org/docs/release/",
+        "https://planet.postgresql.org"
+      ],
+      "consultas_padrao": [
+        "\"PostgreSQL\" release OR changelog OR update",
+        "\"PostgreSQL\" tutorial OR deep dive OR architecture",
+        "site:postgresql.org \"PostgreSQL\" release OR changelog OR update",
+        "site:planet.postgresql.org \"PostgreSQL\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release major/minor, CVE, extension nova",
+      "conteudo_indireto_aceito": "Extensões (pgvector para RAG, pg_trgm), JSONB patterns, replicação, logical decoding",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 14,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "redis",
+      "nome": "Redis",
+      "rotulo": "Redis",
+      "grupo_id": "dados",
+      "categoria_ids": [
+        "data"
+      ],
+      "cor_destaque": "#DC382D",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+      "descricao": "Cache in-memory — Redis Stack, Pub/Sub e Streams.",
+      "links_oficiais": [
+        "https://redis.io/blog/",
+        "https://github.com/redis/redis/releases"
+      ],
+      "consultas_padrao": [
+        "\"Redis\" release OR changelog OR update",
+        "\"Redis\" tutorial OR deep dive OR architecture",
+        "site:redis.io \"Redis\" release OR changelog OR update",
+        "site:github.com \"Redis\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, mudança de licença",
+      "conteudo_indireto_aceito": "Caching patterns, pub/sub, Streams, Valkey (fork), cache-aside",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 15,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "mongodb",
+      "nome": "MongoDB",
+      "rotulo": "MongoDB",
+      "grupo_id": "dados",
+      "categoria_ids": [
+        "data"
+      ],
+      "cor_destaque": "#47A248",
+      "logo": "https://cdn.simpleicons.org/mongodb/47A248",
+      "descricao": "Banco de documentos NoSQL — Atlas, Change Streams, agregações e full-text search.",
+      "links_oficiais": [
+        "https://www.mongodb.com/docs/manual/release-notes/",
+        "https://www.mongodb.com/company/blog"
+      ],
+      "consultas_padrao": [
+        "\"MongoDB\" release OR changelog OR update",
+        "\"MongoDB\" tutorial OR deep dive OR architecture",
+        "site:mongodb.com \"MongoDB\" release OR changelog OR update",
+        "site:mongodb.com \"MongoDB\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 16,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "kafka",
+      "nome": "Apache Kafka",
+      "rotulo": "Apache Kafka",
+      "grupo_id": "mensageria",
+      "categoria_ids": [
+        "integ"
+      ],
+      "cor_destaque": "#b0b0b0",
+      "logo": "https://cdn.simpleicons.org/apachekafka/ffffff",
+      "descricao": "Streaming distribuído — topics, consumers, Kafka Streams e Connect.",
+      "links_oficiais": [
+        "https://kafka.apache.org/downloads",
+        "https://confluent.io/blog"
+      ],
+      "consultas_padrao": [
+        "\"Apache Kafka\" release OR changelog OR update",
+        "\"Apache Kafka\" tutorial OR deep dive OR architecture",
+        "site:kafka.apache.org \"Apache Kafka\" release OR changelog OR update",
+        "site:confluent.io \"Apache Kafka\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, KIP aprovada, artigo Confluent",
+      "conteudo_indireto_aceito": "Event-driven architecture, CDC, stream processing, Schema Registry, Debezium, Temporal (workflows)",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 17,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "rabbitmq",
+      "nome": "RabbitMQ",
+      "rotulo": "RabbitMQ",
+      "grupo_id": "mensageria",
+      "categoria_ids": [
+        "integ"
+      ],
+      "cor_destaque": "#FF6600",
+      "logo": "https://cdn.simpleicons.org/rabbitmq/FF6600",
+      "descricao": "Message broker AMQP — exchanges, queues, bindings e streams.",
+      "links_oficiais": [
+        "https://www.rabbitmq.com/release-information",
+        "https://www.rabbitmq.com/blog"
+      ],
+      "consultas_padrao": [
+        "\"RabbitMQ\" release OR changelog OR update",
+        "\"RabbitMQ\" tutorial OR deep dive OR architecture",
+        "site:rabbitmq.com \"RabbitMQ\" release OR changelog OR update",
+        "site:rabbitmq.com \"RabbitMQ\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 18,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "sns",
+      "nome": "AWS SNS",
+      "rotulo": "AWS SNS",
+      "grupo_id": "mensageria",
+      "categoria_ids": [
+        "cloud",
+        "integ"
+      ],
+      "cor_destaque": "#E7157B",
+      "logo": "https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/ApplicationIntegration/SimpleNotificationService.png",
+      "descricao": "Pub/Sub gerenciado da AWS — fan-out para SQS, Lambda, HTTP e e-mail.",
+      "links_oficiais": [
+        "https://aws.amazon.com/sns/whats-new/",
+        "https://docs.aws.amazon.com/sns/latest/dg/"
+      ],
+      "consultas_padrao": [
+        "\"AWS SNS\" release OR changelog OR update",
+        "\"AWS SNS\" tutorial OR deep dive OR architecture",
+        "site:aws.amazon.com \"AWS SNS\" release OR changelog OR update",
+        "site:docs.aws.amazon.com \"AWS SNS\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 19,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "sqs",
+      "nome": "AWS SQS",
+      "rotulo": "AWS SQS",
+      "grupo_id": "mensageria",
+      "categoria_ids": [
+        "cloud",
+        "integ"
+      ],
+      "cor_destaque": "#FF4F8B",
+      "logo": "https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/ApplicationIntegration/SimpleQueueService.png",
+      "descricao": "Fila de mensagens gerenciada da AWS — FIFO, DLQ e visibilidade de mensagens.",
+      "links_oficiais": [
+        "https://aws.amazon.com/sqs/whats-new/",
+        "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/"
+      ],
+      "consultas_padrao": [
+        "\"AWS SQS\" release OR changelog OR update",
+        "\"AWS SQS\" tutorial OR deep dive OR architecture",
+        "site:aws.amazon.com \"AWS SQS\" release OR changelog OR update",
+        "site:docs.aws.amazon.com \"AWS SQS\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 20,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "dynatrace",
+      "nome": "Dynatrace",
+      "rotulo": "Dynatrace",
+      "grupo_id": "obs-iam",
+      "categoria_ids": [
+        "obs"
+      ],
+      "cor_destaque": "#1496FF",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg",
+      "descricao": "Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).",
+      "links_oficiais": [
+        "https://www.dynatrace.com/support/help/whats-new/release-notes"
+      ],
+      "consultas_padrao": [
+        "\"Dynatrace\" release OR changelog OR update",
+        "\"Dynatrace\" tutorial OR deep dive OR architecture",
+        "site:dynatrace.com \"Dynatrace\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova integração",
+      "conteudo_indireto_aceito": "OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s, Grafana/Prometheus stack",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 21,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "datadog",
+      "nome": "Datadog",
+      "rotulo": "Datadog",
+      "grupo_id": "obs-iam",
+      "categoria_ids": [
+        "obs"
+      ],
+      "cor_destaque": "#632CA6",
+      "logo": "https://cdn.simpleicons.org/datadog/632CA6",
+      "descricao": "Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.",
+      "links_oficiais": [
+        "https://docs.datadoghq.com/release_notes",
+        "https://www.datadoghq.com/blog"
+      ],
+      "consultas_padrao": [
+        "\"Datadog\" release OR changelog OR update",
+        "\"Datadog\" tutorial OR deep dive OR architecture",
+        "site:docs.datadoghq.com \"Datadog\" release OR changelog OR update",
+        "site:datadoghq.com \"Datadog\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova integração",
+      "conteudo_indireto_aceito": "APM, RUM, SLOs, monitoring patterns, OpenTelemetry",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 22,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "keycloak",
+      "nome": "Keycloak",
+      "rotulo": "Keycloak",
+      "grupo_id": "obs-iam",
+      "categoria_ids": [
+        "sec"
+      ],
+      "cor_destaque": "#4D9CF8",
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/keycloak.svg",
+      "descricao": "IAM open-source — SSO, OIDC, SAML e federation.",
+      "links_oficiais": [
+        "https://github.com/keycloak/keycloak/releases",
+        "https://www.keycloak.org/blog"
+      ],
+      "consultas_padrao": [
+        "\"Keycloak\" release OR changelog OR update",
+        "\"Keycloak\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Keycloak\" release OR changelog OR update",
+        "site:keycloak.org \"Keycloak\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, CVE, tutorial de configuração",
+      "conteudo_indireto_aceito": "OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO, Vault (secrets management)",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 23,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "gradle",
+      "nome": "Gradle",
+      "rotulo": "Gradle",
+      "grupo_id": "jvm",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#02303A",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg",
+      "descricao": "Build automation moderna — build cache e convention plugins.",
+      "links_oficiais": [
+        "https://docs.gradle.org/current/release-notes.html",
+        "https://blog.gradle.org"
+      ],
+      "consultas_padrao": [
+        "\"Gradle\" release OR changelog OR update",
+        "\"Gradle\" tutorial OR deep dive OR architecture",
+        "site:docs.gradle.org \"Gradle\" release OR changelog OR update",
+        "site:blog.gradle.org \"Gradle\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo plugin",
+      "conteudo_indireto_aceito": "Build systems JVM, Gradle vs Maven, build cache, configuration cache",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 24,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "maven",
+      "nome": "Apache Maven",
+      "rotulo": "Apache Maven",
+      "grupo_id": "jvm",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#C71A36",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg",
+      "descricao": "Build system Java — POM, lifecycle e Maven Central.",
+      "links_oficiais": [
+        "https://maven.apache.org/download.cgi",
+        "https://search.maven.org"
+      ],
+      "consultas_padrao": [
+        "\"Apache Maven\" release OR changelog OR update",
+        "\"Apache Maven\" tutorial OR deep dive OR architecture",
+        "site:maven.apache.org \"Apache Maven\" release OR changelog OR update",
+        "site:search.maven.org \"Apache Maven\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo plugin central",
+      "conteudo_indireto_aceito": "Maven Central, gestão de dependências Java, BOM, multi-module projects",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 25,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "springboot",
+      "nome": "Spring Boot",
+      "rotulo": "Spring Boot",
+      "grupo_id": "jvm",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#6DB33F",
+      "logo": "https://cdn.simpleicons.org/springboot/6DB33F",
+      "descricao": "Framework Java líder — auto-config, starters e Spring Cloud.",
+      "links_oficiais": [
+        "https://spring.io/blog",
+        "https://github.com/spring-projects/spring-boot/releases"
+      ],
+      "consultas_padrao": [
+        "\"Spring Boot\" release OR changelog OR update",
+        "\"Spring Boot\" tutorial OR deep dive OR architecture",
+        "site:spring.io \"Spring Boot\" release OR changelog OR update",
+        "site:github.com \"Spring Boot\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova feature, starter novo",
+      "conteudo_indireto_aceito": "Spring Cloud, Spring Security, auto-config, GraalVM native, reactive, Wasmtime (WASM backend)",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 26,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "structurizr",
+      "nome": "Structurizr",
+      "rotulo": "Structurizr",
+      "grupo_id": "diagrams",
+      "categoria_ids": [
+        "design"
+      ],
+      "cor_destaque": "#4a9aba",
+      "logo": "https://www.google.com/s2/favicons?domain=structurizr.com&sz=128",
+      "descricao": "Arquitetura como código — modelo C4, DSL (.dsl), workspace JSON, integração MCP.",
+      "links_oficiais": [
+        "https://structurizr.com/changelog",
+        "https://c4model.com"
+      ],
+      "consultas_padrao": [
+        "\"Structurizr\" release OR changelog OR update",
+        "\"Structurizr\" tutorial OR deep dive OR architecture",
+        "site:structurizr.com \"Structurizr\" release OR changelog OR update",
+        "site:c4model.com \"Structurizr\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, nova feature DSL",
+      "conteudo_indireto_aceito": "C4 Model, arquitetura como código, diagramas, ADRs, integração MCP",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 27,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "plantuml",
+      "nome": "PlantUML",
+      "rotulo": "PlantUML",
+      "grupo_id": "diagrams",
+      "categoria_ids": [
+        "design"
+      ],
+      "cor_destaque": "#1168BD",
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plantuml.svg",
+      "descricao": "Diagramas UML e arquiteturais como código — sequência, classe, componente, C4 via extensão.",
+      "links_oficiais": [
+        "https://plantuml.com/news",
+        "https://github.com/plantuml/plantuml/releases"
+      ],
+      "consultas_padrao": [
+        "\"PlantUML\" release OR changelog OR update",
+        "\"PlantUML\" tutorial OR deep dive OR architecture",
+        "site:plantuml.com \"PlantUML\" release OR changelog OR update",
+        "site:github.com \"PlantUML\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo diagrama",
+      "conteudo_indireto_aceito": "Diagramas como código, integração com editores, PlantUML vs Mermaid",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 28,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "mermaid",
+      "nome": "Mermaid",
+      "rotulo": "Mermaid",
+      "grupo_id": "diagrams",
+      "categoria_ids": [
+        "design"
+      ],
+      "cor_destaque": "#FF3670",
+      "logo": "https://cdn.simpleicons.org/mermaid/FF3670",
+      "descricao": "Diagramas como código — fluxograma, sequência, ER, gantt; render nativo no GitHub.",
+      "links_oficiais": [
+        "https://github.com/mermaid-js/mermaid/releases",
+        "https://mermaid.js.org/community/blog.html"
+      ],
+      "consultas_padrao": [
+        "\"Mermaid\" release OR changelog OR update",
+        "\"Mermaid\" tutorial OR deep dive OR architecture",
+        "site:github.com \"Mermaid\" release OR changelog OR update",
+        "site:mermaid.js.org \"Mermaid\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, novo tipo de diagrama",
+      "conteudo_indireto_aceito": "Diagramas em Markdown, GitHub rendering, integração com Obsidian/Notion",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 29,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "sonar",
+      "nome": "SonarQube",
+      "rotulo": "SonarQube",
+      "grupo_id": "sec-code",
+      "categoria_ids": [
+        "sec",
+        "testing"
+      ],
+      "cor_destaque": "#4E9BCD",
+      "logo": "https://cdn.simpleicons.org/sonar/4E9BCD",
+      "descricao": "Análise estática de qualidade e segurança de código — cobertura, bugs e vulnerabilidades.",
+      "links_oficiais": [
+        "https://docs.sonarsource.com/sonarqube-server/latest/server-update-and-maintenance/release-notes/",
+        "https://www.sonarsource.com/blog/"
+      ],
+      "consultas_padrao": [
+        "\"SonarQube\" release OR changelog OR update",
+        "\"SonarQube\" tutorial OR deep dive OR architecture",
+        "site:docs.sonarsource.com \"SonarQube\" release OR changelog OR update",
+        "site:sonarsource.com \"SonarQube\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 30,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "checkmarx",
+      "nome": "Checkmarx",
+      "rotulo": "Checkmarx",
+      "grupo_id": "sec-code",
+      "categoria_ids": [
+        "sec"
+      ],
+      "cor_destaque": "#6B34FC",
+      "logo": "https://www.google.com/s2/favicons?domain=checkmarx.com&sz=128",
+      "descricao": "Plataforma de segurança de aplicações — SAST, SCA, DAST e análise de IaC.",
+      "links_oficiais": [
+        "https://checkmarx.com/blog/",
+        "https://docs.checkmarx.com/en/34965-68702-release-notes.html"
+      ],
+      "consultas_padrao": [
+        "\"Checkmarx\" release OR changelog OR update",
+        "\"Checkmarx\" tutorial OR deep dive OR architecture",
+        "site:checkmarx.com \"Checkmarx\" release OR changelog OR update",
+        "site:docs.checkmarx.com \"Checkmarx\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 31,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "angular",
+      "nome": "Angular",
+      "rotulo": "Angular",
+      "grupo_id": "frontend",
+      "categoria_ids": [
+        "frontend"
+      ],
+      "cor_destaque": "#DD0031",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angular/angular-original.svg",
+      "descricao": "Framework frontend Google — componentes, signals, SSR com Angular Universal.",
+      "links_oficiais": [
+        "https://blog.angular.dev/",
+        "https://github.com/angular/angular/releases"
+      ],
+      "consultas_padrao": [
+        "\"Angular\" release OR changelog OR update",
+        "\"Angular\" tutorial OR deep dive OR architecture",
+        "site:blog.angular.dev \"Angular\" release OR changelog OR update",
+        "site:github.com \"Angular\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 32,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "react",
+      "nome": "React",
+      "rotulo": "React",
+      "grupo_id": "frontend",
+      "categoria_ids": [
+        "frontend"
+      ],
+      "cor_destaque": "#61DAFB",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+      "descricao": "Biblioteca UI Meta — hooks, RSC, Next.js e ecossistema moderno.",
+      "links_oficiais": [
+        "https://react.dev/blog",
+        "https://github.com/facebook/react/releases"
+      ],
+      "consultas_padrao": [
+        "\"React\" release OR changelog OR update",
+        "\"React\" tutorial OR deep dive OR architecture",
+        "site:react.dev \"React\" release OR changelog OR update",
+        "site:github.com \"React\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 33,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    },
+    {
+      "id": "spring",
+      "nome": "Spring Framework",
+      "rotulo": "Spring Framework",
+      "grupo_id": "jvm",
+      "categoria_ids": [
+        "backend"
+      ],
+      "cor_destaque": "#6DB33F",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg",
+      "descricao": "Framework Java — DI, AOP, MVC, Data, Security e integração com o ecossistema Spring.",
+      "links_oficiais": [
+        "https://spring.io/blog/category/releases",
+        "https://github.com/spring-projects/spring-framework/releases"
+      ],
+      "consultas_padrao": [
+        "\"Spring Framework\" release OR changelog OR update",
+        "\"Spring Framework\" tutorial OR deep dive OR architecture",
+        "site:spring.io \"Spring Framework\" release OR changelog OR update",
+        "site:github.com \"Spring Framework\" release OR changelog OR update"
+      ],
+      "conteudo_direto_preferido": "Release, changelog, CVE, tutorial profundo ou caso real de engenharia.",
+      "conteudo_indireto_aceito": "Conteúdo profundo do ecossistema relacionado, evitando tutoriais genéricos.",
+      "tipos_aceitos": [
+        "release",
+        "news",
+        "tutorial",
+        "tip"
+      ],
+      "ativo": true,
+      "monitorado_na_interface": true,
+      "ordem": 34,
+      "uso_no_site": "Filtro, página da ferramenta, chips em cards e relacionamento com aprendizados.",
+      "uso_na_skill": "Busca por release/changelog/notícia/tutorial e rotação diária de ferramentas."
+    }
+  ]
+}

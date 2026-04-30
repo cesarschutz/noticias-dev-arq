@@ -1,0 +1,50 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "vid_ed0003_001",
+      "edicao_id": "ed_0003",
+      "titulo": "AI Autonomy is Redefining Architecture: Boundaries Now Matter Most",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "infoq",
+      "url": "https://www.infoq.com/infoq/",
+      "canal": "InfoQ",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "52min",
+      "categoria_id": "design",
+      "tag_ids": [
+        "ai",
+        "architecture",
+        "boundaries"
+      ],
+      "item_ids_relacionados": [
+        "item_ed0003_003",
+        "item_ed0003_004",
+        "item_ed0003_005"
+      ],
+      "posicao": "aprenda_mais",
+      "ordem": 1
+    },
+    {
+      "id": "vid_ed0003_002",
+      "edicao_id": "ed_0003",
+      "titulo": "Understanding Kubernetes Through Real-World Phenomena and Analogies",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "youtube",
+      "url": "https://www.youtube.com/watch?v=GpJz-Ab8R9M",
+      "canal": "CNCF / Kubernetes Community",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "aprox. 45min",
+      "categoria_id": "devops",
+      "tag_ids": [
+        "kubernetes",
+        "distributed-systems"
+      ],
+      "item_ids_relacionados": [],
+      "posicao": "aprenda_mais",
+      "ordem": 2
+    }
+  ]
+}

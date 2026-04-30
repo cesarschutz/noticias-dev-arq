@@ -1,0 +1,65 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "transversal",
+      "nome": "Transversal",
+      "rotulo": "Transversal",
+      "descricao": "Temas que atravessam produto, engenharia, arquitetura, operação e segurança.",
+      "ordem": 1,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    },
+    {
+      "id": "plataforma",
+      "nome": "Plataforma",
+      "rotulo": "Plataforma",
+      "descricao": "Cloud, DevOps, observabilidade e práticas de operação de software.",
+      "ordem": 2,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    },
+    {
+      "id": "desenvolvimento",
+      "nome": "Desenvolvimento",
+      "rotulo": "Desenvolvimento",
+      "descricao": "Linguagens, backend, frontend, dados, integração e qualidade.",
+      "ordem": 3,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    },
+    {
+      "id": "arquitetura",
+      "nome": "Arquitetura",
+      "rotulo": "Arquitetura",
+      "descricao": "Design, padrões, sistemas distribuídos e arquitetura corporativa.",
+      "ordem": 4,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    },
+    {
+      "id": "fundacao",
+      "nome": "Fundação",
+      "rotulo": "Fundação",
+      "descricao": "Base técnica clássica: redes, sistemas operacionais, algoritmos, concorrência e performance.",
+      "ordem": 6,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    },
+    {
+      "id": "dominio",
+      "nome": "Domínio",
+      "rotulo": "Domínio",
+      "descricao": "",
+      "ordem": 99,
+      "ativo": true,
+      "uso_no_site": "Agrupar categorias na landing, navegação simplificada e filtros macro.",
+      "uso_na_skill": "Permitir cobertura editorial balanceada entre áreas macro sem perder categorias específicas."
+    }
+  ]
+}

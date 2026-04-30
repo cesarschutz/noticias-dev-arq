@@ -1,0 +1,55 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "quote_ed_0001_001",
+      "edicao_id": "ed_0001",
+      "slot": "top_bar",
+      "ordem": 1,
+      "texto": "Architecture is about the important stuff. Whatever that is.",
+      "autor": "Ralph Johnson",
+      "contexto": "Decisão arquitetural",
+      "relacionado_a": "cat:design"
+    },
+    {
+      "id": "quote_ed_0001_002",
+      "edicao_id": "ed_0001",
+      "slot": "edicao",
+      "ordem": 2,
+      "texto": "Make it work, make it right, make it fast.",
+      "autor": "Kent Beck",
+      "contexto": "Evolução incremental",
+      "relacionado_a": "cat:backend"
+    },
+    {
+      "id": "quote_ed_0001_003",
+      "edicao_id": "ed_0001",
+      "slot": "edicao",
+      "ordem": 3,
+      "texto": "The purpose of software engineering is to control complexity, not to create it.",
+      "autor": "Pamela Zave",
+      "contexto": "Complexidade",
+      "relacionado_a": "cat:architecture"
+    },
+    {
+      "id": "quote_ed_0001_004",
+      "edicao_id": "ed_0001",
+      "slot": "edicao",
+      "ordem": 4,
+      "texto": "Premature optimization is the root of all evil.",
+      "autor": "Donald Knuth",
+      "contexto": "Performance e trade-offs",
+      "relacionado_a": "cat:fundamentals"
+    },
+    {
+      "id": "quote_ed_0001_005",
+      "edicao_id": "ed_0001",
+      "slot": "edicao",
+      "ordem": 5,
+      "texto": "If you can't describe what you are doing as a process, you don't know what you're doing.",
+      "autor": "W. Edwards Deming",
+      "contexto": "Processo e qualidade",
+      "relacionado_a": "cat:enterprise"
+    }
+  ]
+}

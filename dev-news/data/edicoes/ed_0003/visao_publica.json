@@ -1,0 +1,1647 @@
+{
+  "versao_schema": "2.0",
+  "edicao": {
+    "versao_schema": "2.0",
+    "id": "ed_0003",
+    "numero": 3,
+    "data": "2026-04-29",
+    "dia_semana": "Quarta-feira",
+    "data_formatada": "Quarta-feira, 29 de abril de 2026",
+    "status": "publicada",
+    "publicado_em": "2026-04-29T07:30:00-03:00",
+    "gerado_em": "2026-04-29T07:30:00-03:00",
+    "janela_busca_inicio": "2026-04-28T07:30:00-03:00",
+    "janela_busca_fim": "2026-04-29T07:30:00-03:00",
+    "titulo": "Agentes, segurança de IA e decisões de arquitetura entram no centro",
+    "subtitulo": "Notícias, contexto e aprendizado para decisões melhores em arquitetura e engenharia.",
+    "resumo": "A terceira edição consolida a pegada do produto: notícias recentes viram aprendizado sobre agentes, segurança de IA, limites arquiteturais, backpressure e escolha de banco.",
+    "nota_editorial": "Edição de demonstração no modelo novo: cada notícia pode carregar aprendizado, decisão técnica, fontes, relações e vídeos.",
+    "tempo_leitura_min": 40,
+    "publico": [
+      "arquiteto_de_software",
+      "tech_lead",
+      "engenheiro_senior"
+    ],
+    "hero": {
+      "titulo": "O que merece atenção técnica hoje",
+      "descricao": "A terceira edição consolida a pegada do produto: notícias recentes viram aprendizado sobre agentes, segurança de IA, limites arquiteturais, backpressure e escolha de banco.",
+      "item_principal_id": "item_ed0003_001"
+    }
+  },
+  "destaques": [
+    {
+      "id": "dest_ed_0003_principal",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_001",
+      "slot": "principal",
+      "ordem": 1,
+      "motivo": "Maior impacto técnico da edição",
+      "item": {
+        "id": "item_ed0003_001",
+        "edicao_id": "ed_0003",
+        "tipo_conteudo": "noticia_explicada",
+        "status": "publicado",
+        "titulo": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+        "titulo_curto": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+        "subtitulo": "",
+        "categoria_id": "cloud",
+        "categoria_nome": "Cloud",
+        "categoria_icone": "☁️",
+        "subcategoria_principal_id": "cloud__aws_lambda_dynamodb_s3_bedrock",
+        "resumo": "O evento da AWS destacou assistentes e agentes integrados ao trabalho corporativo.",
+        "o_que_aconteceu": "A AWS publicou os principais anúncios do What’s Next with AWS 2026, incluindo Amazon Quick e discussões sobre agentes.",
+        "por_que_importa": "AI agents em cloud deixam de ser experimento isolado e passam a disputar espaço em arquitetura corporativa.",
+        "impacto_tecnico": "Antes de adotar, desenhe política de permissões, observabilidade de ações, custos por tarefa e segregação de dados.",
+        "acao_recomendada": "assess",
+        "maturidade": "assess",
+        "nivel_impacto": "alto",
+        "confianca": "alta",
+        "impactos_arquiteturais": [
+          "custo",
+          "escalabilidade",
+          "operação",
+          "governança"
+        ],
+        "evergreen": false,
+        "politica_frescor": "dentro_da_janela",
+        "tempo_leitura_min": 5,
+        "nivel": "intermediário",
+        "pontuacao": 9,
+        "destaque": true,
+        "criado_em": "2026-04-29T07:30:00-03:00",
+        "fonte": {
+          "id": "src_aws_news",
+          "nome": "AWS News Blog",
+          "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/",
+          "tipo": "oficial",
+          "publicado_em": "2026-04-28T12:00:00-03:00",
+          "primaria": true,
+          "verificada": true,
+          "imagem": null
+        },
+        "rel": {
+          "ferramenta_ids": [],
+          "linguagem_ids": [],
+          "tag_ids": [
+            "aws",
+            "agents",
+            "cloud",
+            "governance"
+          ],
+          "video_ids": [],
+          "itens_relacionados_ids": []
+        }
+      }
+    },
+    {
+      "id": "dest_ed_0003_risco",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_002",
+      "slot": "risco",
+      "ordem": 2,
+      "motivo": "Risco ou ação que merece atenção",
+      "item": {
+        "id": "item_ed0003_002",
+        "edicao_id": "ed_0003",
+        "tipo_conteudo": "noticia_explicada",
+        "status": "publicado",
+        "titulo": "GPT-5.5 System Card reforça segurança, red teaming e limites para modelos agentes",
+        "titulo_curto": "GPT-5.5 System Card reforça segurança, red teaming e limites para mode",
+        "subtitulo": "",
+        "categoria_id": "sec",
+        "categoria_nome": "Segurança & IAM",
+        "categoria_icone": "🔐",
+        "subcategoria_principal_id": "sec__ai_security",
+        "resumo": "O system card explicita avaliações de segurança e riscos. Segurança de IA precisa entrar como disciplina de engenharia.",
+        "o_que_aconteceu": "A OpenAI publicou o GPT-5.5 System Card com avaliações de segurança, red teaming e Preparedness Framework.",
+        "por_que_importa": "Quanto mais autônomo o modelo, maior a necessidade de governança, logging, limites de ferramenta e avaliação de abuso.",
+        "impacto_tecnico": "Inclua threat modeling de IA: ferramentas disponíveis, dados acessíveis, critérios de bloqueio e auditoria de ações.",
+        "acao_recomendada": "assess",
+        "maturidade": "assess",
+        "nivel_impacto": "alto",
+        "confianca": "alta",
+        "impactos_arquiteturais": [
+          "segurança",
+          "risco",
+          "governança"
+        ],
+        "evergreen": false,
+        "politica_frescor": "dentro_da_janela",
+        "tempo_leitura_min": 5,
+        "nivel": "intermediário",
+        "pontuacao": 8,
+        "destaque": true,
+        "criado_em": "2026-04-29T07:30:00-03:00",
+        "fonte": {
+          "id": "src_openai",
+          "nome": "OpenAI",
+          "url": "https://openai.com/index/gpt-5-5-system-card/",
+          "tipo": "oficial",
+          "publicado_em": "2026-04-23T10:00:00-03:00",
+          "primaria": true,
+          "verificada": true,
+          "imagem": null
+        },
+        "rel": {
+          "ferramenta_ids": [],
+          "linguagem_ids": [],
+          "tag_ids": [
+            "ai-safety",
+            "red-teaming",
+            "gpt-5.5",
+            "security"
+          ],
+          "video_ids": [],
+          "itens_relacionados_ids": []
+        }
+      }
+    },
+    {
+      "id": "dest_ed_0003_aprendizado",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_004",
+      "slot": "aprendizado",
+      "ordem": 3,
+      "motivo": "Melhor gancho para aprendizado técnico",
+      "item": {
+        "id": "item_ed0003_004",
+        "edicao_id": "ed_0003",
+        "tipo_conteudo": "guia_decisao",
+        "status": "publicado",
+        "titulo": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é melhor",
+        "titulo_curto": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é m",
+        "subtitulo": "",
+        "categoria_id": "aiops",
+        "categoria_nome": "AIOps & Agents",
+        "categoria_icone": "🧠",
+        "subcategoria_principal_id": "aiops__ai_agents",
+        "resumo": "A apresentação da InfoQ sobre agentic AI é usada como guia para separar automação tradicional de sistemas não determinísticos.",
+        "o_que_aconteceu": "A InfoQ publicou apresentação discutindo padrões, antipadrões e guardrails para sistemas com agentic AI.",
+        "por_que_importa": "Nem todo workflow precisa de agente; muitos casos pedem orquestração determinística, fila, regra ou workflow engine.",
+        "impacto_tecnico": "Use agente quando há ambiguidade, ferramentas variadas e necessidade de planejamento; prefira fluxo determinístico quando compliance e repetibilidade dominam.",
+        "acao_recomendada": "assess",
+        "maturidade": "trial",
+        "nivel_impacto": "alto",
+        "confianca": "alta",
+        "impactos_arquiteturais": [
+          "governança_de_ia",
+          "produtividade",
+          "devex",
+          "segurança"
+        ],
+        "evergreen": true,
+        "politica_frescor": "evergreen_contextual",
+        "tempo_leitura_min": 5,
+        "nivel": "intermediário",
+        "pontuacao": 8,
+        "destaque": true,
+        "criado_em": "2026-04-29T07:30:00-03:00",
+        "fonte": {
+          "id": "src_infoq",
+          "nome": "InfoQ",
+          "url": "https://www.infoq.com/presentations/agentic-ai",
+          "tipo": "editorial",
+          "publicado_em": "2025-10-01T10:00:00-03:00",
+          "primaria": true,
+          "verificada": true,
+          "imagem": null
+        },
+        "rel": {
+          "ferramenta_ids": [
+            "claudecode",
+            "cursor"
+          ],
+          "linguagem_ids": [
+            "python",
+            "javascript"
+          ],
+          "tag_ids": [
+            "agents",
+            "workflow",
+            "architecture"
+          ],
+          "video_ids": [
+            "vid_ed0003_001"
+          ],
+          "itens_relacionados_ids": []
+        }
+      }
+    }
+  ],
+  "itens": [
+    {
+      "id": "item_ed0003_001",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+      "titulo_curto": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+      "subtitulo": "",
+      "categoria_id": "cloud",
+      "categoria_nome": "Cloud",
+      "categoria_icone": "☁️",
+      "subcategoria_principal_id": "cloud__aws_lambda_dynamodb_s3_bedrock",
+      "resumo": "O evento da AWS destacou assistentes e agentes integrados ao trabalho corporativo.",
+      "o_que_aconteceu": "A AWS publicou os principais anúncios do What’s Next with AWS 2026, incluindo Amazon Quick e discussões sobre agentes.",
+      "por_que_importa": "AI agents em cloud deixam de ser experimento isolado e passam a disputar espaço em arquitetura corporativa.",
+      "impacto_tecnico": "Antes de adotar, desenhe política de permissões, observabilidade de ações, custos por tarefa e segregação de dados.",
+      "acao_recomendada": "assess",
+      "maturidade": "assess",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "custo",
+        "escalabilidade",
+        "operação",
+        "governança"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 9,
+      "destaque": true,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "aws",
+          "agents",
+          "cloud",
+          "governance"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_001",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_001",
+        "fonte_id": "src_aws_news",
+        "fonte_nome": "AWS News Blog",
+        "titulo": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+        "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/",
+        "tipo_fonte": "oficial",
+        "publicado_em": "2026-04-28T12:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_001",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_001",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como avaliar lançamento cloud pelo impacto em arquitetura e custo",
+        "resumo": "Aprendizado gerado a partir da notícia: AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "cloud",
+          "finops",
+          "serverless"
+        ],
+        "tag_ids": [
+          "finops",
+          "governance",
+          "cloud",
+          "aws",
+          "serverless",
+          "agents"
+        ],
+        "principais_aprendizados": [
+          "Serviço novo só importa se reduz operação, custo ou risco.",
+          "Workloads de IA aproximam estado, arquivos e execução efêmera.",
+          "Cloud gerenciada exige estratégia de governança e saída."
+        ],
+        "quando_usar": [
+          "Quando o serviço reduz operação real e tem controles maduros.",
+          "PoCs com métrica de custo, latência e segurança desde o começo."
+        ],
+        "quando_evitar": [
+          "Adoção por hype sem plano de observabilidade.",
+          "Dependência forte sem alternativa operacional."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: AWS What’s Next 2026 coloca agentes no centro da estratégia cloud."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_001",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "aws",
+          "agents",
+          "cloud",
+          "governance"
+        ],
+        "subcategoria_ids": [
+          "cloud__aws_lambda_dynamodb_s3_bedrock"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_001"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": []
+    },
+    {
+      "id": "item_ed0003_002",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "GPT-5.5 System Card reforça segurança, red teaming e limites para modelos agentes",
+      "titulo_curto": "GPT-5.5 System Card reforça segurança, red teaming e limites para mode",
+      "subtitulo": "",
+      "categoria_id": "sec",
+      "categoria_nome": "Segurança & IAM",
+      "categoria_icone": "🔐",
+      "subcategoria_principal_id": "sec__ai_security",
+      "resumo": "O system card explicita avaliações de segurança e riscos. Segurança de IA precisa entrar como disciplina de engenharia.",
+      "o_que_aconteceu": "A OpenAI publicou o GPT-5.5 System Card com avaliações de segurança, red teaming e Preparedness Framework.",
+      "por_que_importa": "Quanto mais autônomo o modelo, maior a necessidade de governança, logging, limites de ferramenta e avaliação de abuso.",
+      "impacto_tecnico": "Inclua threat modeling de IA: ferramentas disponíveis, dados acessíveis, critérios de bloqueio e auditoria de ações.",
+      "acao_recomendada": "assess",
+      "maturidade": "assess",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "segurança",
+        "risco",
+        "governança"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 8,
+      "destaque": true,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai-safety",
+          "red-teaming",
+          "gpt-5.5",
+          "security"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_002",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_002",
+        "fonte_id": "src_openai",
+        "fonte_nome": "OpenAI",
+        "titulo": "GPT-5.5 System Card reforça segurança, red teaming e limites para modelos agentes",
+        "url": "https://openai.com/index/gpt-5-5-system-card/",
+        "tipo_fonte": "oficial",
+        "publicado_em": "2026-04-23T10:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_002",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_002",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como tratar segurança como rotina de arquitetura",
+        "resumo": "Aprendizado gerado a partir da notícia: GPT-5.5 System Card reforça segurança, red teaming e limites para modelos agentes",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "cve",
+          "iam",
+          "supply_chain"
+        ],
+        "tag_ids": [
+          "security",
+          "ai-safety",
+          "red-teaming",
+          "supply_chain",
+          "iam",
+          "gpt-5.5",
+          "cve"
+        ],
+        "principais_aprendizados": [
+          "Patch de segurança precisa de esteira, inventário e dono.",
+          "IAM é componente de confiança e merece ciclo próprio de atualização.",
+          "Risco de supply chain cresce quando automações têm privilégio amplo."
+        ],
+        "quando_usar": [
+          "Atualização prioritária para componentes expostos ou de autenticação.",
+          "Threat modeling quando IA ou agentes acessam ferramentas."
+        ],
+        "quando_evitar": [
+          "Adiar patch de IAM por falta de smoke test.",
+          "Validar segurança por regex improvisada ou contrato não oficial."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: GPT-5.5 System Card reforça segurança, red teaming e limites para mode."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_002",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai-safety",
+          "red-teaming",
+          "gpt-5.5",
+          "security"
+        ],
+        "subcategoria_ids": [
+          "sec__ai_security"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_002"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": []
+    },
+    {
+      "id": "item_ed0003_003",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "InfoQ destaca IA como evolução de tooling, técnica e times de arquitetura",
+      "titulo_curto": "InfoQ destaca IA como evolução de tooling, técnica e times de arquitet",
+      "subtitulo": "",
+      "categoria_id": "design",
+      "categoria_nome": "Design & Padrões",
+      "categoria_icone": "🏛️",
+      "subcategoria_principal_id": "design__system_design_process_hld_lld",
+      "resumo": "A newsletter de arquitetos da InfoQ coloca IA como tema sociotécnico.",
+      "o_que_aconteceu": "A newsletter de abril da InfoQ Software Architects foca em AI Trends e impacto em tooling, técnicas e equipes.",
+      "por_que_importa": "IA muda fluxo de decisão, estrutura de equipe e governança de qualidade, não apenas produtividade individual.",
+      "impacto_tecnico": "Trate adoção de IA como mudança sociotécnica: papéis, políticas, métricas, revisões e padrões de arquitetura.",
+      "acao_recomendada": "monitor",
+      "maturidade": "assess",
+      "nivel_impacto": "médio",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "decisão_arquitetural",
+        "comunicação",
+        "evolução"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 6,
+      "destaque": false,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [
+          "github",
+          "cursor",
+          "claudecode"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai",
+          "architecture",
+          "sociotechnical"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_003",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_003",
+        "fonte_id": "src_infoq",
+        "fonte_nome": "InfoQ Architects Newsletter",
+        "titulo": "InfoQ destaca IA como evolução de tooling, técnica e times de arquitetura",
+        "url": "https://assets.infoq.com/newsletter/architect/en/newsletter_sample/105Architects_NL_April-2026.html",
+        "tipo_fonte": "editorial",
+        "publicado_em": "2026-04-25T10:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_003",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_003",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como transformar tendência em decisão arquitetural explícita",
+        "resumo": "Aprendizado gerado a partir da notícia: InfoQ destaca IA como evolução de tooling, técnica e times de arquitetura",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "adr",
+          "tradeoffs",
+          "sociotecnico"
+        ],
+        "tag_ids": [
+          "adr",
+          "tradeoffs",
+          "sociotechnical",
+          "architecture",
+          "ai",
+          "sociotecnico"
+        ],
+        "principais_aprendizados": [
+          "Arquitetura é decisão com consequência, não diagrama bonito.",
+          "IA muda limites, papéis e governança.",
+          "Trade-off sem registro vira dívida invisível."
+        ],
+        "quando_usar": [
+          "ADRs curtas para decisões de IA, plataforma e dados.",
+          "Radar técnico com status de adotar, testar, avaliar ou evitar."
+        ],
+        "quando_evitar": [
+          "Decidir por fornecedor antes de entender restrições.",
+          "Ignorar impacto em times, operação e segurança."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: InfoQ destaca IA como evolução de tooling, técnica e times de arquitet."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_003",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [
+          "github",
+          "cursor",
+          "claudecode"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai",
+          "architecture",
+          "sociotechnical"
+        ],
+        "subcategoria_ids": [
+          "design__system_design_process_hld_lld"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_003"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": [
+        {
+          "id": "vid_ed0003_001",
+          "edicao_id": "ed_0003",
+          "titulo": "AI Autonomy is Redefining Architecture: Boundaries Now Matter Most",
+          "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+          "provedor": "infoq",
+          "url": "https://www.infoq.com/infoq/",
+          "canal": "InfoQ",
+          "avatar_canal": null,
+          "publicado_em": null,
+          "duracao": "52min",
+          "categoria_id": "design",
+          "tag_ids": [
+            "ai",
+            "architecture",
+            "boundaries"
+          ],
+          "item_ids_relacionados": [
+            "item_ed0003_003",
+            "item_ed0003_004",
+            "item_ed0003_005"
+          ],
+          "posicao": "aprenda_mais",
+          "ordem": 1
+        }
+      ]
+    },
+    {
+      "id": "item_ed0003_004",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "guia_decisao",
+      "status": "publicado",
+      "titulo": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é melhor",
+      "titulo_curto": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é m",
+      "subtitulo": "",
+      "categoria_id": "aiops",
+      "categoria_nome": "AIOps & Agents",
+      "categoria_icone": "🧠",
+      "subcategoria_principal_id": "aiops__ai_agents",
+      "resumo": "A apresentação da InfoQ sobre agentic AI é usada como guia para separar automação tradicional de sistemas não determinísticos.",
+      "o_que_aconteceu": "A InfoQ publicou apresentação discutindo padrões, antipadrões e guardrails para sistemas com agentic AI.",
+      "por_que_importa": "Nem todo workflow precisa de agente; muitos casos pedem orquestração determinística, fila, regra ou workflow engine.",
+      "impacto_tecnico": "Use agente quando há ambiguidade, ferramentas variadas e necessidade de planejamento; prefira fluxo determinístico quando compliance e repetibilidade dominam.",
+      "acao_recomendada": "assess",
+      "maturidade": "trial",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "governança_de_ia",
+        "produtividade",
+        "devex",
+        "segurança"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen_contextual",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 8,
+      "destaque": true,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [
+          "claudecode",
+          "cursor"
+        ],
+        "linguagem_ids": [
+          "python",
+          "javascript"
+        ],
+        "tag_ids": [
+          "agents",
+          "workflow",
+          "architecture"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_004",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_004",
+        "fonte_id": "src_infoq",
+        "fonte_nome": "InfoQ",
+        "titulo": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é melhor",
+        "url": "https://www.infoq.com/presentations/agentic-ai",
+        "tipo_fonte": "editorial",
+        "publicado_em": "2025-10-01T10:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_004",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_004",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como avaliar agentes de IA sem criar dívida técnica acelerada",
+        "resumo": "Aprendizado gerado a partir da notícia: Agentic AI: quando usar agente e quando fluxo determinístico ainda é melhor",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "agentes",
+          "governanca_de_ia",
+          "avaliacao"
+        ],
+        "tag_ids": [
+          "governanca_de_ia",
+          "architecture",
+          "avaliacao",
+          "workflow",
+          "agentes",
+          "agents"
+        ],
+        "principais_aprendizados": [
+          "Agente precisa de escopo, permissão, log e avaliação.",
+          "Produtividade local não basta: meça qualidade, custo e retrabalho.",
+          "Autoaprovação deve ser exceção controlada, não padrão global."
+        ],
+        "quando_usar": [
+          "Tarefas com contexto recuperável, teste rápido e rollback claro.",
+          "Fluxos internos com auditoria e revisão humana."
+        ],
+        "quando_evitar": [
+          "Alteração autônoma em código crítico sem testes.",
+          "Acesso amplo a segredos, produção ou dados sensíveis."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: Agentic AI: quando usar agente e quando fluxo determinístico ainda é m."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_004",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [
+          "claudecode",
+          "cursor"
+        ],
+        "linguagem_ids": [
+          "python",
+          "javascript"
+        ],
+        "tag_ids": [
+          "agents",
+          "workflow",
+          "architecture"
+        ],
+        "subcategoria_ids": [
+          "aiops__ai_agents"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_004"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": [
+        {
+          "id": "vid_ed0003_001",
+          "edicao_id": "ed_0003",
+          "titulo": "AI Autonomy is Redefining Architecture: Boundaries Now Matter Most",
+          "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+          "provedor": "infoq",
+          "url": "https://www.infoq.com/infoq/",
+          "canal": "InfoQ",
+          "avatar_canal": null,
+          "publicado_em": null,
+          "duracao": "52min",
+          "categoria_id": "design",
+          "tag_ids": [
+            "ai",
+            "architecture",
+            "boundaries"
+          ],
+          "item_ids_relacionados": [
+            "item_ed0003_003",
+            "item_ed0003_004",
+            "item_ed0003_005"
+          ],
+          "posicao": "aprenda_mais",
+          "ordem": 1
+        }
+      ]
+    },
+    {
+      "id": "item_ed0003_005",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "Gerar MVP com IA cria decisões arquiteturais implícitas",
+      "titulo_curto": "Gerar MVP com IA cria decisões arquiteturais implícitas",
+      "subtitulo": "",
+      "categoria_id": "enterprise",
+      "categoria_nome": "Arq. Corporativa",
+      "categoria_icone": "🗺️",
+      "subcategoria_principal_id": "enterprise__devex_dora_space_developer_productivity",
+      "resumo": "O artigo da InfoQ sobre MVP gerado por IA alerta para decisões não documentadas.",
+      "o_que_aconteceu": "A InfoQ discutiu como código gerado por IA pode embutir decisões arquiteturais implícitas e qualidade não validada.",
+      "por_que_importa": "A velocidade de geração pode ocultar trade-offs de segurança, performance, acoplamento e evolução.",
+      "impacto_tecnico": "Exija ADR mínimo para MVP gerado por IA: requisitos de qualidade, riscos aceitos, validação e critérios de descarte.",
+      "acao_recomendada": "adopt",
+      "maturidade": "adopt",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "governança",
+        "produtividade",
+        "gestão_de_risco"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen_contextual",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 7,
+      "destaque": false,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [
+          "cursor",
+          "claudecode",
+          "github"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai-generated-code",
+          "adr",
+          "architecture"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_005",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_005",
+        "fonte_id": "src_infoq",
+        "fonte_nome": "InfoQ",
+        "titulo": "Gerar MVP com IA cria decisões arquiteturais implícitas",
+        "url": "https://www.infoq.com/architecture/articles/6/",
+        "tipo_fonte": "editorial",
+        "publicado_em": "2026-02-12T10:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_005",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_005",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como governar produtividade sem perder arquitetura",
+        "resumo": "Aprendizado gerado a partir da notícia: Gerar MVP com IA cria decisões arquiteturais implícitas",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "devex",
+          "governanca",
+          "adr"
+        ],
+        "tag_ids": [
+          "adr",
+          "governanca",
+          "architecture",
+          "devex",
+          "ai-generated-code"
+        ],
+        "principais_aprendizados": [
+          "MVP gerado por IA pode esconder decisões não revisadas.",
+          "Produtividade precisa vir com critérios de qualidade.",
+          "Governança boa acelera com segurança; governança ruim só bloqueia."
+        ],
+        "quando_usar": [
+          "Políticas leves, ADR mínimo e revisão orientada a risco.",
+          "Métricas de fluxo, qualidade e retrabalho."
+        ],
+        "quando_evitar": [
+          "Aceitar código gerado sem ownership.",
+          "Medir IA apenas por linhas de código ou velocidade."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: Gerar MVP com IA cria decisões arquiteturais implícitas."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_005",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [
+          "cursor",
+          "claudecode",
+          "github"
+        ],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "ai-generated-code",
+          "adr",
+          "architecture"
+        ],
+        "subcategoria_ids": [
+          "enterprise__devex_dora_space_developer_productivity"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_005"
+        ],
+        "video_ids": [
+          "vid_ed0003_001"
+        ],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": [
+        {
+          "id": "vid_ed0003_001",
+          "edicao_id": "ed_0003",
+          "titulo": "AI Autonomy is Redefining Architecture: Boundaries Now Matter Most",
+          "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+          "provedor": "infoq",
+          "url": "https://www.infoq.com/infoq/",
+          "canal": "InfoQ",
+          "avatar_canal": null,
+          "publicado_em": null,
+          "duracao": "52min",
+          "categoria_id": "design",
+          "tag_ids": [
+            "ai",
+            "architecture",
+            "boundaries"
+          ],
+          "item_ids_relacionados": [
+            "item_ed0003_003",
+            "item_ed0003_004",
+            "item_ed0003_005"
+          ],
+          "posicao": "aprenda_mais",
+          "ordem": 1
+        }
+      ]
+    },
+    {
+      "id": "item_ed0003_006",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "noticia_explicada",
+      "status": "publicado",
+      "titulo": "OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automação de trabalho",
+      "titulo_curto": "OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automaç",
+      "subtitulo": "",
+      "categoria_id": "ai",
+      "categoria_nome": "IA & LLMs",
+      "categoria_icone": "🤖",
+      "subcategoria_principal_id": "ai__modelos_fundacionais",
+      "resumo": "O lançamento do GPT-5.5 reforça a tendência de modelos orientados a tarefas longas.",
+      "o_que_aconteceu": "A OpenAI anunciou o GPT-5.5 como modelo voltado a trabalho complexo, coding, pesquisa e uso de ferramentas.",
+      "por_que_importa": "Modelos mais autônomos exigem arquitetura de permissões, contexto, memória, logs e validação.",
+      "impacto_tecnico": "Avalie casos de uso por risco: leitura, sugestão, alteração de código, execução de comandos e operação em sistemas reais.",
+      "acao_recomendada": "monitor",
+      "maturidade": "assess",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "governança_de_ia",
+        "produtividade",
+        "segurança"
+      ],
+      "evergreen": false,
+      "politica_frescor": "dentro_da_janela",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 8,
+      "destaque": false,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "gpt-5.5",
+          "llm",
+          "coding",
+          "agents"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_006",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_006",
+        "fonte_id": "src_openai",
+        "fonte_nome": "OpenAI",
+        "titulo": "OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automação de trabalho",
+        "url": "https://openai.com/pt-BR/index/introducing-gpt-5-5/",
+        "tipo_fonte": "oficial",
+        "publicado_em": "2026-04-23T10:00:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_006",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_006",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como avaliar modelo fundacional por capacidade, custo e risco",
+        "resumo": "Aprendizado gerado a partir da notícia: OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automação de trabalho",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "llm",
+          "modelos_fundacionais",
+          "avaliacao"
+        ],
+        "tag_ids": [
+          "llm",
+          "avaliacao",
+          "coding",
+          "modelos_fundacionais",
+          "gpt-5.5",
+          "agents"
+        ],
+        "principais_aprendizados": [
+          "Modelo mais forte não significa melhor para toda tarefa.",
+          "Custo, latência, contexto e segurança precisam entrar na seleção.",
+          "Uso de ferramentas exige limites e logs."
+        ],
+        "quando_usar": [
+          "Tarefas complexas com raciocínio, pesquisa e codificação assistida.",
+          "Pilotos com benchmark próprio do domínio."
+        ],
+        "quando_evitar": [
+          "Trocar modelo sem suite de avaliação.",
+          "Permitir tool use sem política de permissão."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automaç."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_006",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [],
+        "linguagem_ids": [],
+        "tag_ids": [
+          "gpt-5.5",
+          "llm",
+          "coding",
+          "agents"
+        ],
+        "subcategoria_ids": [
+          "ai__modelos_fundacionais"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_006"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": []
+    },
+    {
+      "id": "item_ed0003_007",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "fundamento",
+      "status": "publicado",
+      "titulo": "Backpressure: quando o sistema precisa dizer 'agora não'",
+      "titulo_curto": "Backpressure: quando o sistema precisa dizer 'agora não'",
+      "subtitulo": "",
+      "categoria_id": "fundamentals",
+      "categoria_nome": "Fundamentos de Computação",
+      "categoria_icone": "🧱",
+      "subcategoria_principal_id": "fundamentals__geral",
+      "resumo": "Backpressure é conceito central para APIs, mensageria, streaming e agentes que disparam trabalho em cadeia.",
+      "o_que_aconteceu": "Conteúdo evergreen para amarrar agentes, filas, streaming e observabilidade.",
+      "por_que_importa": "Sistemas distribuídos precisam limitar entrada conforme capacidade real de processamento.",
+      "impacto_tecnico": "Modele filas, timeouts, limites, circuit breakers e sinais de saturação antes de aumentar paralelismo.",
+      "acao_recomendada": "adopt",
+      "maturidade": "adopt",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "base_técnica",
+        "resiliência",
+        "performance"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 7,
+      "destaque": true,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [
+          "kafka",
+          "rabbitmq",
+          "sqs"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python",
+          "javascript"
+        ],
+        "tag_ids": [
+          "backpressure",
+          "resilience",
+          "streaming"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_007",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_007",
+        "fonte_id": "src_mechanical_sympathy",
+        "fonte_nome": "Mechanical Sympathy",
+        "titulo": "Backpressure: quando o sistema precisa dizer 'agora não'",
+        "url": "https://mechanical-sympathy.blogspot.com/2012/05/apply-back-pressure-when-overloaded.html",
+        "tipo_fonte": "referencia",
+        "publicado_em": "2026-04-29T07:30:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_007",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_007",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como ligar fundamento clássico com decisão moderna",
+        "resumo": "Aprendizado gerado a partir da notícia: Backpressure: quando o sistema precisa dizer 'agora não'",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "resiliencia",
+          "concorrencia",
+          "sistemas_distribuidos"
+        ],
+        "tag_ids": [
+          "concorrencia",
+          "resilience",
+          "resiliencia",
+          "backpressure",
+          "streaming",
+          "sistemas_distribuidos"
+        ],
+        "principais_aprendizados": [
+          "Fundamento evita decisão por moda.",
+          "Retries, filas e agentes exigem controle de pressão e duplicidade.",
+          "Simplicidade operacional costuma vencer sofisticação prematura."
+        ],
+        "quando_usar": [
+          "Em ADRs, revisões de arquitetura e desenho de APIs.",
+          "Antes de escolher ferramenta ou padrão distribuído."
+        ],
+        "quando_evitar": [
+          "Aumentar paralelismo sem backpressure.",
+          "Adicionar retry sem idempotência."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: Backpressure: quando o sistema precisa dizer 'agora não'."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_007",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [
+          "kafka",
+          "rabbitmq",
+          "sqs"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python",
+          "javascript"
+        ],
+        "tag_ids": [
+          "backpressure",
+          "resilience",
+          "streaming"
+        ],
+        "subcategoria_ids": [
+          "fundamentals__geral"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_007"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": []
+    },
+    {
+      "id": "item_ed0003_008",
+      "edicao_id": "ed_0003",
+      "tipo_conteudo": "guia_decisao",
+      "status": "publicado",
+      "titulo": "PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acesso",
+      "titulo_curto": "PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acess",
+      "subtitulo": "",
+      "categoria_id": "data",
+      "categoria_nome": "Dados & Streaming",
+      "categoria_icone": "🗄️",
+      "subcategoria_principal_id": "data__relacionais",
+      "resumo": "O guia usa notícias recentes de bancos como gancho para reforçar o critério clássico: primeiro padrões de acesso, depois tecnologia.",
+      "o_que_aconteceu": "Conteúdo de aprendizado derivado do radar de dados da semana.",
+      "por_que_importa": "Banco errado cria complexidade em todos os níveis: domínio, API, cache, relatórios e operação.",
+      "impacto_tecnico": "Desenhe queries críticas, cardinalidade, consistência e evolução de schema antes de escolher o banco.",
+      "acao_recomendada": "adopt",
+      "maturidade": "adopt",
+      "nivel_impacto": "alto",
+      "confianca": "alta",
+      "impactos_arquiteturais": [
+        "modelagem_de_dados",
+        "performance",
+        "operação"
+      ],
+      "evergreen": true,
+      "politica_frescor": "evergreen_contextual",
+      "tempo_leitura_min": 5,
+      "nivel": "intermediário",
+      "pontuacao": 7,
+      "destaque": false,
+      "criado_em": "2026-04-29T07:30:00-03:00",
+      "rel": {
+        "ferramenta_ids": [
+          "postgres",
+          "mongodb"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python"
+        ],
+        "tag_ids": [
+          "database-choice",
+          "postgres",
+          "mongodb",
+          "dynamodb"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "fonte_principal": {
+        "id": "link_item_ed0003_008",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_008",
+        "fonte_id": "src_mongodb_docs",
+        "fonte_nome": "MongoDB Docs",
+        "titulo": "PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acesso",
+        "url": "https://www.mongodb.com/docs/manual/release-notes/8.2/",
+        "tipo_fonte": "referencia",
+        "publicado_em": "2026-04-29T07:30:00-03:00",
+        "verificado_em": "2026-04-29T07:30:00-03:00",
+        "primaria": true,
+        "imagem": null
+      },
+      "aprendizado": {
+        "id": "apr_ed0003_008",
+        "edicao_id": "ed_0003",
+        "item_id": "item_ed0003_008",
+        "tipo": "aprendizado_vinculado",
+        "titulo": "Como transformar notícia de banco em decisão de modelagem",
+        "resumo": "Aprendizado gerado a partir da notícia: PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acesso",
+        "nivel": "intermediário",
+        "tempo_estimado_min": 7,
+        "conceitos_ids": [
+          "modelagem_de_dados",
+          "padroes_de_acesso",
+          "consistencia"
+        ],
+        "tag_ids": [
+          "dynamodb",
+          "padroes_de_acesso",
+          "modelagem_de_dados",
+          "database-choice",
+          "mongodb",
+          "consistencia",
+          "postgres"
+        ],
+        "principais_aprendizados": [
+          "Comece pelos padrões de leitura e escrita, não pelo nome da tecnologia.",
+          "Banco errado aparece depois como cache, duplicação ou join manual.",
+          "Compatibilidade de versão e sistema operacional também é arquitetura."
+        ],
+        "quando_usar": [
+          "Relacional quando transação e integridade são centrais.",
+          "NoSQL quando padrão de acesso e consistência estão claros."
+        ],
+        "quando_evitar": [
+          "Escolher NoSQL antes de conhecer queries críticas.",
+          "Separar bancos por moda, sem custo operacional explícito."
+        ],
+        "erros_comuns": [
+          "Decidir pela novidade sem critério explícito.",
+          "Ignorar custo operacional e governança.",
+          "Não registrar trade-offs em ADR ou radar técnico."
+        ],
+        "perguntas_para_decisao": [
+          "Isso afeta produção ou apenas laboratório?",
+          "Qual time opera e mantém essa decisão?",
+          "Como medimos sucesso, risco e rollback?"
+        ],
+        "exemplo": {
+          "titulo": "Mini-ADR sugerida",
+          "descricao": "Registre contexto, decisão, consequência e próxima ação para: PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acess."
+        }
+      },
+      "relacionamentos": {
+        "item_id": "item_ed0003_008",
+        "edicao_id": "ed_0003",
+        "ferramenta_ids": [
+          "postgres",
+          "mongodb"
+        ],
+        "linguagem_ids": [
+          "java",
+          "python"
+        ],
+        "tag_ids": [
+          "database-choice",
+          "postgres",
+          "mongodb",
+          "dynamodb"
+        ],
+        "subcategoria_ids": [
+          "data__relacionais"
+        ],
+        "aprendizado_ids": [
+          "apr_ed0003_008"
+        ],
+        "video_ids": [],
+        "itens_relacionados_ids": []
+      },
+      "videos_relacionados": []
+    }
+  ],
+  "videos": [
+    {
+      "id": "vid_ed0003_001",
+      "edicao_id": "ed_0003",
+      "titulo": "AI Autonomy is Redefining Architecture: Boundaries Now Matter Most",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "infoq",
+      "url": "https://www.infoq.com/infoq/",
+      "canal": "InfoQ",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "52min",
+      "categoria_id": "design",
+      "tag_ids": [
+        "ai",
+        "architecture",
+        "boundaries"
+      ],
+      "item_ids_relacionados": [
+        "item_ed0003_003",
+        "item_ed0003_004",
+        "item_ed0003_005"
+      ],
+      "posicao": "aprenda_mais",
+      "ordem": 1
+    },
+    {
+      "id": "vid_ed0003_002",
+      "edicao_id": "ed_0003",
+      "titulo": "Understanding Kubernetes Through Real-World Phenomena and Analogies",
+      "descricao": "Vídeo curado para aprofundar o aprendizado da edição.",
+      "provedor": "youtube",
+      "url": "https://www.youtube.com/watch?v=GpJz-Ab8R9M",
+      "canal": "CNCF / Kubernetes Community",
+      "avatar_canal": null,
+      "publicado_em": null,
+      "duracao": "aprox. 45min",
+      "categoria_id": "devops",
+      "tag_ids": [
+        "kubernetes",
+        "distributed-systems"
+      ],
+      "item_ids_relacionados": [],
+      "posicao": "aprenda_mais",
+      "ordem": 2
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote_ed_0003_001",
+      "edicao_id": "ed_0003",
+      "slot": "top_bar",
+      "ordem": 1,
+      "texto": "Architecture is about the important stuff. Whatever that is.",
+      "autor": "Ralph Johnson",
+      "contexto": "Decisão arquitetural",
+      "relacionado_a": "cat:design"
+    },
+    {
+      "id": "quote_ed_0003_002",
+      "edicao_id": "ed_0003",
+      "slot": "edicao",
+      "ordem": 2,
+      "texto": "Make it work, make it right, make it fast.",
+      "autor": "Kent Beck",
+      "contexto": "Evolução incremental",
+      "relacionado_a": "cat:backend"
+    },
+    {
+      "id": "quote_ed_0003_003",
+      "edicao_id": "ed_0003",
+      "slot": "edicao",
+      "ordem": 3,
+      "texto": "The purpose of software engineering is to control complexity, not to create it.",
+      "autor": "Pamela Zave",
+      "contexto": "Complexidade",
+      "relacionado_a": "cat:architecture"
+    },
+    {
+      "id": "quote_ed_0003_004",
+      "edicao_id": "ed_0003",
+      "slot": "edicao",
+      "ordem": 4,
+      "texto": "Premature optimization is the root of all evil.",
+      "autor": "Donald Knuth",
+      "contexto": "Performance e trade-offs",
+      "relacionado_a": "cat:fundamentals"
+    },
+    {
+      "id": "quote_ed_0003_005",
+      "edicao_id": "ed_0003",
+      "slot": "edicao",
+      "ordem": 5,
+      "texto": "If you can't describe what you are doing as a process, you don't know what you're doing.",
+      "autor": "W. Edwards Deming",
+      "contexto": "Processo e qualidade",
+      "relacionado_a": "cat:enterprise"
+    }
+  ],
+  "fontes": [
+    {
+      "id": "link_item_ed0003_001",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_001",
+      "fonte_id": "src_aws_news",
+      "fonte_nome": "AWS News Blog",
+      "titulo": "AWS What’s Next 2026 coloca agentes no centro da estratégia cloud",
+      "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/",
+      "tipo_fonte": "oficial",
+      "publicado_em": "2026-04-28T12:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_002",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_002",
+      "fonte_id": "src_openai",
+      "fonte_nome": "OpenAI",
+      "titulo": "GPT-5.5 System Card reforça segurança, red teaming e limites para modelos agentes",
+      "url": "https://openai.com/index/gpt-5-5-system-card/",
+      "tipo_fonte": "oficial",
+      "publicado_em": "2026-04-23T10:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_003",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_003",
+      "fonte_id": "src_infoq",
+      "fonte_nome": "InfoQ Architects Newsletter",
+      "titulo": "InfoQ destaca IA como evolução de tooling, técnica e times de arquitetura",
+      "url": "https://assets.infoq.com/newsletter/architect/en/newsletter_sample/105Architects_NL_April-2026.html",
+      "tipo_fonte": "editorial",
+      "publicado_em": "2026-04-25T10:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_004",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_004",
+      "fonte_id": "src_infoq",
+      "fonte_nome": "InfoQ",
+      "titulo": "Agentic AI: quando usar agente e quando fluxo determinístico ainda é melhor",
+      "url": "https://www.infoq.com/presentations/agentic-ai",
+      "tipo_fonte": "editorial",
+      "publicado_em": "2025-10-01T10:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_005",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_005",
+      "fonte_id": "src_infoq",
+      "fonte_nome": "InfoQ",
+      "titulo": "Gerar MVP com IA cria decisões arquiteturais implícitas",
+      "url": "https://www.infoq.com/architecture/articles/6/",
+      "tipo_fonte": "editorial",
+      "publicado_em": "2026-02-12T10:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_006",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_006",
+      "fonte_id": "src_openai",
+      "fonte_nome": "OpenAI",
+      "titulo": "OpenAI GPT-5.5 aumenta o peso de agentes em coding, pesquisa e automação de trabalho",
+      "url": "https://openai.com/pt-BR/index/introducing-gpt-5-5/",
+      "tipo_fonte": "oficial",
+      "publicado_em": "2026-04-23T10:00:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_007",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_007",
+      "fonte_id": "src_mechanical_sympathy",
+      "fonte_nome": "Mechanical Sympathy",
+      "titulo": "Backpressure: quando o sistema precisa dizer 'agora não'",
+      "url": "https://mechanical-sympathy.blogspot.com/2012/05/apply-back-pressure-when-overloaded.html",
+      "tipo_fonte": "referencia",
+      "publicado_em": "2026-04-29T07:30:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    },
+    {
+      "id": "link_item_ed0003_008",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_008",
+      "fonte_id": "src_mongodb_docs",
+      "fonte_nome": "MongoDB Docs",
+      "titulo": "PostgreSQL, MongoDB ou DynamoDB: escolha começa pelos padrões de acesso",
+      "url": "https://www.mongodb.com/docs/manual/release-notes/8.2/",
+      "tipo_fonte": "referencia",
+      "publicado_em": "2026-04-29T07:30:00-03:00",
+      "verificado_em": "2026-04-29T07:30:00-03:00",
+      "primaria": true,
+      "imagem": null
+    }
+  ],
+  "validacao": {
+    "edicao_id": "ed_0003",
+    "validado_em": "2026-04-29T07:30:00-03:00",
+    "status": "aprovado_para_preview",
+    "observacao": "Edição de demonstração gerada para validar o modelo de dados. Em produção, a skill deve buscar mais itens, verificar links e aplicar blocklist completa.",
+    "checks": {
+      "itens_minimos_preview": true,
+      "destaques_tres": true,
+      "aprendizados_vinculados": true,
+      "fontes_presentes": true,
+      "relacionamentos_presentes": true,
+      "videos_presentes": true
+    },
+    "avisos": [
+      {
+        "tipo": "preview",
+        "mensagem": "Volume reduzido em relação à produção para facilitar revisão manual dos arquivos."
+      }
+    ]
+  }
+}

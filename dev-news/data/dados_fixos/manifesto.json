@@ -1,0 +1,57 @@
+{
+  "versao_schema": "2.0",
+  "projeto": "CSR News",
+  "pasta_destino_sugerida": "data/dados_fixos",
+  "descricao": "Tabelas fixas em JSON para a skill e o frontend. Foram criadas a partir de nova-home.html, index.html e skills/csr-news-daily.md, ignorando alteracoes-skill.md e noticias-test.",
+  "modelo": "JSONs tratados como tabelas de um banco futuro. IDs devem ser estáveis.",
+  "arquivos": [
+    {
+      "arquivo": "grupos_categorias.json",
+      "uso": "Macrogrupos editoriais usados por landing, filtros e balanceamento editorial."
+    },
+    {
+      "arquivo": "categorias.json",
+      "uso": "Categorias atuais do projeto, mantendo IDs usados no frontend."
+    },
+    {
+      "arquivo": "subcategorias.json",
+      "uso": "Subtemas extraídos do escopo da skill; viram tags/filtros/trilhas."
+    },
+    {
+      "arquivo": "grupos_ferramentas.json",
+      "uso": "Agrupamento visual e editorial das ferramentas monitoradas."
+    },
+    {
+      "arquivo": "ferramentas.json",
+      "uso": "Catálogo das 34 ferramentas atuais do nova-home/index."
+    },
+    {
+      "arquivo": "linguagens.json",
+      "uso": "Catálogo das 3 linguagens atuais."
+    },
+    {
+      "arquivo": "consultas_pesquisa.json",
+      "uso": "Queries base para a skill pesquisar categorias, linguagens, ferramentas e pulso social."
+    },
+    {
+      "arquivo": "fontes_preferidas.json",
+      "uso": "Fontes por tier e fontes especializadas que a skill deve priorizar."
+    },
+    {
+      "arquivo": "regras_editoriais.json",
+      "uso": "Regras de curadoria, mínimos, scoring e princípios editoriais."
+    },
+    {
+      "arquivo": "tipos_conteudo.json",
+      "uso": "Enums de tipos de conteúdo, ações recomendadas, maturidade, impacto e confiança."
+    },
+    {
+      "arquivo": "autores_referencia.json",
+      "uso": "Autores canônicos para quotes, fundamentos e fallback evergreen."
+    },
+    {
+      "arquivo": "canais_video.json",
+      "uso": "Seed inicial para curadoria de vídeos."
+    }
+  ]
+}

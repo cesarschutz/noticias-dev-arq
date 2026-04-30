@@ -1,0 +1,29 @@
+{
+  "versao_schema": "2.0",
+  "itens": [
+    {
+      "id": "dest_ed_0003_principal",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_001",
+      "slot": "principal",
+      "ordem": 1,
+      "motivo": "Maior impacto técnico da edição"
+    },
+    {
+      "id": "dest_ed_0003_risco",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_002",
+      "slot": "risco",
+      "ordem": 2,
+      "motivo": "Risco ou ação que merece atenção"
+    },
+    {
+      "id": "dest_ed_0003_aprendizado",
+      "edicao_id": "ed_0003",
+      "item_id": "item_ed0003_004",
+      "slot": "aprendizado",
+      "ordem": 3,
+      "motivo": "Melhor gancho para aprendizado técnico"
+    }
+  ]
+}
