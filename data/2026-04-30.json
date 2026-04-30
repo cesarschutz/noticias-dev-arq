@@ -1,0 +1,848 @@
+{
+  "date": "2026-04-30",
+  "weekday": "Quinta-feira",
+  "formatted_date": "Quinta, 30 de Abril de 2026",
+  "generated_at": "2026-04-30T06:00:00-03:00",
+  "hero_title": "cPanel ganha auth-bypass 9.8 já explorado, Linux 'Copy Fail' rooteia tudo desde 2017 e Cloudflare faz agentes virarem clientes",
+  "hero_description": "Quinta acorda com três quedas pesadas: cPanel & WHM expõe CVE-2026-41940 (CVSS 9.8) explorado desde fevereiro via CRLF injection no whostmgrsession; Linux 'Copy Fail' (CVE-2026-31431) some 9 anos para revelar LPE com 732 bytes de Python; e Cloudflare faz agents virarem clientes oficialmente — conta + assinatura + domínio + token API tudo programaticamente. No mesmo dia, Stripe libera Link Wallet para agents pagar via SPT, Counterpoint coloca Anthropic à frente da OpenAI em receita Q1 (31,4% vs 29%) e os hyperscalers reportam capex AI de US$ 650 bi+ para 2026 — Meta cai 6% após elevar guide para US$ 145 bi.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS lança Amazon Quick — IDE de IA desktop que conecta Slack/Jira/GitHub/Salesforce e despacha agents Codex e Claude Code",
+      "summary": "No What's Next with AWS de 28-29/abr, Amazon revelou o Quick: AI assistant de produtividade rodando em desktop (preview) que monitora apps locais (calendário, comunicações, arquivos) sem precisar abrir browser. Quick conecta Slack, Teams, Outlook, Gmail, Salesforce, ServiceNow, Asana e Jira por integração nativa, automatiza workflows browser-based e dispara coding agents externos como Kiro CLI e Claude Code dentro do mesmo turno. Free + Plus pricing públicos; signup com e-mail pessoal, Google, Apple, GitHub ou Amazon — não precisa conta AWS. Em paralelo, OpenAI passa a vender GPT-5.5/Codex em Bedrock e Bedrock Managed Agents (powered by OpenAI) entra em limited preview.",
+      "why_it_matters": "AWS está construindo um AI-OS por cima do desktop tradicional. Para arquitetos de plataforma de produtividade enterprise, Quick + Amazon Connect agentic + Bedrock Managed Agents desenham um stack vertical concorrente com Microsoft 365 Copilot — repensar bundling e licenciamento.",
+      "source": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/",
+      "published_at": "2026-04-29T17:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "aws",
+        "amazon-quick",
+        "agents",
+        "openai",
+        "bedrock"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "cPanel & WHM CVE-2026-41940 (CVSS 9.8) é explorado desde fevereiro — CRLF no whostmgrsession dá auth bypass total",
+      "summary": "Help Net Security e watchTowr publicaram em 30/abr a análise técnica do CVE-2026-41940: injeção CRLF no parâmetro de autenticação básica do cPanel & WHM permite forjar sessões válidas sem senha, bypass total da autenticação na porta 2087. KnownHost confirma exploração ativa desde 23/fev — janela de exploração de pelo menos 30 dias antes do patch público. Hosts massivos como Namecheap, KnownHost, hosting.com, HostPapa e InMotion bloquearam preventivamente as portas cPanel no firewall enquanto aguardavam o fix.",
+      "why_it_matters": "Quem hospeda multi-tenant em cPanel precisa rotacionar credenciais e auditar logs de whostmgrsession desde fevereiro: a exploração é 1-shot sem ruído, e a base instalada ultrapassa 1 milhão de servidores expostos.",
+      "source": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/",
+      "published_at": "2026-04-30T08:00:00-03:00",
+      "read_time": 5,
+      "cves": [
+        "CVE-2026-41940"
+      ],
+      "tags": [
+        "cve",
+        "cpanel",
+        "auth-bypass",
+        "crlf",
+        "zero-day"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=helpnetsecurity.com&sz=256"
+    },
+    {
+      "source_array": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Cloudflare faz agents virarem clientes oficiais: conta, subscription, domínio e API token criados programaticamente",
+      "summary": "Cloudflare anunciou em 30/abr que agents agora podem ser clientes Cloudflare. Sem dashboard, sem copiar API token, sem inserir cartão: agent abre conta, ativa plano pago via Stripe, registra domínio e recebe API token de volta para deploy de Workers — tudo em uma sequência programática com humano opcionalmente in-the-loop concedendo permissões. Junto vieram scannable API tokens, OAuth visibility melhorado e resource-scoped permissions em GA.",
+      "why_it_matters": "Mudança operacional concreta: agents passam a ser identidade primária no IAM da Cloudflare, não só um proxy do humano. Quem desenha plataformas para agents precisa começar a tratar non-human identities como cidadãos de primeira ordem (não como service account de hack).",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/agents-stripe-projects/",
+      "published_at": "2026-04-30T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cloudflare",
+        "agents",
+        "stripe",
+        "non-human-identity",
+        "api-token"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "severity": "critical",
+      "headline": "cPanel & WHM CVE-2026-41940 (CVSS 9.8) é explorado desde fevereiro — CRLF no whostmgrsession dá auth bypass total",
+      "summary": "Help Net Security e watchTowr publicaram em 30/abr a análise técnica do CVE-2026-41940: injeção CRLF no parâmetro de autenticação básica do cPanel & WHM permite forjar sessões válidas sem senha, bypass total da autenticação na porta 2087. KnownHost confirma exploração ativa desde 23/fev — janela de exploração de pelo menos 30 dias antes do patch público. Hosts massivos como Namecheap, KnownHost, hosting.com, HostPapa e InMotion bloquearam preventivamente as portas cPanel no firewall enquanto aguardavam o fix. PoC público já disponível, todas as versões suportadas estão afetadas.",
+      "why_it_matters": "Quem hospeda multi-tenant em cPanel precisa rotacionar credenciais e auditar logs de whostmgrsession desde fevereiro: a exploração é 1-shot sem ruído, e a base instalada ultrapassa 1 milhão de servidores expostos.",
+      "source": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/",
+      "published_at": "2026-04-30T08:00:00-03:00",
+      "read_time": 5,
+      "cves": [
+        "CVE-2026-41940"
+      ],
+      "tags": [
+        "cve",
+        "cpanel",
+        "auth-bypass",
+        "crlf",
+        "zero-day"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=helpnetsecurity.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "severity": "high",
+      "headline": "Linux 'Copy Fail' (CVE-2026-31431) some 9 anos para virar root: 732 bytes de Python rooteiam toda distro pós-2017",
+      "summary": "Pesquisador Taeyang Lee (Theori) publicou em 29/abr o disclosure do CVE-2026-31431 — vuln no template criptográfico authencesn do kernel Linux que permite a usuário local não-privilegiado escrever 4 bytes controlados em qualquer página do page cache de arquivo legível e, com isso, editar binário setuid e ganhar root. PoC é um script Python de 10 linhas / 732 bytes; ao contrário de Dirty Cow e Dirty Pipe, não exige race condition. Surfaceada pelo scanner Xint Code (AI security scanning) em 1 hora de varredura, reportada em 23/mar, patch em 1/abr, CVE em 22/abr. Toda distribuição lançada desde 2017 é vulnerável até receber kernel patch — Ubuntu, Debian, RHEL, Amazon Linux 2, Alpine, todos.",
+      "why_it_matters": "Para arquitetos: qualquer fleet com workload multi-tenant não-confiável (CI runners, SaaS multi-cliente, dev sandboxes) precisa kpatch/livepatch agora. Em cluster Kubernetes onde pods têm acesso ao node, isso vira escape de container.",
+      "source": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/2026/04/30/copyfail-linux-lpe-vulnerability-cve-2026-31431/",
+      "published_at": "2026-04-29T22:00:00-03:00",
+      "read_time": 6,
+      "cves": [
+        "CVE-2026-31431"
+      ],
+      "tags": [
+        "cve",
+        "linux-kernel",
+        "lpe",
+        "copy-fail",
+        "root"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=helpnetsecurity.com&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "high",
+      "headline": "Wiz publica detalhes do CVE-2026-3854 — single git push virava RCE no GitHub.com e GHES via X-Stat header injection",
+      "summary": "Wiz Research divulgou em 28/abr o breakdown técnico do CVE-2026-3854 (CVSS 8.7), command injection no babeld que copiava push options verbatim para o header interno X-Stat sem sanitizar o delimitador `;`. Qualquer usuário autenticado conseguia RCE no backend compartilhado com um único `git push -o`. Como a infra do GitHub.com é multi-tenant, o atacante chegava a ler milhões de repositórios em nodes de storage compartilhado, independente de quem fosse o owner. GitHub.com foi corrigido em 4/mar (mesmo dia do report); GitHub Enterprise Server precisa ir para 3.19.3+. ~88% das instâncias GHES estavam vulneráveis na hora da disclosure pública.",
+      "why_it_matters": "Para times com GHES self-hosted: priorize 3.19.3 imediatamente. E lição arquitetural: single tenant boundary, multi-tenant blast radius — qualquer plataforma de SaaS com control-plane compartilhado tem o mesmo risco se o input user-supplied tocar headers internos.",
+      "source": "Wiz Blog",
+      "url": "https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "read_time": 7,
+      "cves": [
+        "CVE-2026-3854"
+      ],
+      "tags": [
+        "cve",
+        "github",
+        "rce",
+        "git-push",
+        "multi-tenant"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=wiz.io&sz=256"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "high",
+      "headline": "CISA adiciona CVE-2024-1708 (ConnectWise) e CVE-2026-32202 (Windows Shell) ao KEV — deadline FCEB em 12/mai",
+      "summary": "CISA publicou em 28/abr a inclusão de CVE-2024-1708 (path traversal no ScreenConnect — explorado por APT norte-coreano e gangues ransomware ligadas à China) e CVE-2026-32202 (Windows Shell spoofing, patch incompleto da CVE-2026-21510 que o APT28 russo usou em ataques contra Ucrânia em dezembro). Federal Civilian Executive Branch tem até 12/mai para remediar. CVE-2026-32202 é particularmente perigoso porque é 0-click — basta entregar arquivo crafted via e-mail/webdav para spoofing de UI confiável.",
+      "why_it_matters": "Quem opera ScreenConnect on-prem tem que parchar — está sob exploração ativa há meses. E em Windows endpoints, o Shell spoof vira phishing absurdamente convincente: arquitetura zero-trust precisa assumir que o ícone/título da janela mente.",
+      "source": "CISA",
+      "url": "https://www.cisa.gov/news-events/alerts/2026/04/28/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+      "published_at": "2026-04-28T16:00:00-03:00",
+      "read_time": 4,
+      "cves": [
+        "CVE-2024-1708",
+        "CVE-2026-32202"
+      ],
+      "tags": [
+        "cve",
+        "cisa-kev",
+        "connectwise",
+        "windows-shell",
+        "apt28"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=cisa.gov&sz=256"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": true,
+      "headline": "AWS lança Amazon Quick — IDE de IA desktop que conecta Slack/Jira/GitHub/Salesforce e despacha agents Codex e Claude Code",
+      "summary": "No What's Next with AWS de 28-29/abr, Amazon revelou o Quick: AI assistant de produtividade rodando em desktop (preview) que monitora apps locais (calendário, comunicações, arquivos) sem precisar abrir browser. Quick conecta Slack, Teams, Outlook, Gmail, Salesforce, ServiceNow, Asana e Jira por integração nativa, automatiza workflows browser-based e dispara coding agents externos como Kiro CLI e Claude Code dentro do mesmo turno. Free + Plus pricing públicos; signup com e-mail pessoal, Google, Apple, GitHub ou Amazon — não precisa conta AWS. Em paralelo, OpenAI passa a vender GPT-5.5/Codex em Bedrock e Bedrock Managed Agents (powered by OpenAI) entra em limited preview.",
+      "why_it_matters": "AWS está construindo um AI-OS por cima do desktop tradicional. Para arquitetos de plataforma de produtividade enterprise, Quick + Amazon Connect agentic + Bedrock Managed Agents desenham um stack vertical concorrente com Microsoft 365 Copilot — repensar bundling e licenciamento.",
+      "source": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/",
+      "published_at": "2026-04-29T17:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "aws",
+        "amazon-quick",
+        "agents",
+        "openai",
+        "bedrock"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": true,
+      "headline": "Cloudflare faz agents virarem clientes oficiais: conta, subscription, domínio e API token criados programaticamente",
+      "summary": "Cloudflare anunciou em 30/abr que agents agora podem ser clientes Cloudflare. Sem dashboard, sem copiar API token, sem inserir cartão: agent abre conta, ativa plano pago via Stripe, registra domínio e recebe API token de volta para deploy de Workers — tudo em uma sequência programática com humano opcionalmente in-the-loop concedendo permissões. Junto vieram scannable API tokens, OAuth visibility melhorado e resource-scoped permissions em GA. Agents podem agora rodar sua própria infra sem human handoff, com o humano só intervindo quando o agent pede approval explícito.",
+      "why_it_matters": "Mudança operacional concreta: agents passam a ser identidade primária no IAM da Cloudflare, não só um proxy do humano. Quem desenha plataformas para agents precisa começar a tratar non-human identities como cidadãos de primeira ordem (não como service account de hack).",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/agents-stripe-projects/",
+      "published_at": "2026-04-30T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cloudflare",
+        "agents",
+        "stripe",
+        "non-human-identity",
+        "api-token"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Stripe libera Link Wallet for Agents — OAuth + cartão one-time-use + Shared Payment Token para checkout autônomo",
+      "summary": "Em 29/abr, durante o Sessions 2026 (288 lançamentos), Stripe expandiu o Link como wallet para agents. Consumer concede ao agent acesso ao seu Link via OAuth padrão; agent emite spend request e recebe ou cartão one-time-use ou um Shared Payment Token (SPT) backed pelos cartões/contas bancárias do Link. O agent nunca toca credenciais brutas — wallet emite token escopado por transação. Aprovação por spend request acontece no app Link iOS/Android (ambos lançados hoje) ou na web. Stripe também trouxe x402 para USDC agent payments na Base e levou Merchant Checkout aos AI apps do Google.",
+      "why_it_matters": "Pagamento autônomo deixa de ser hack de webhook e ganha primitivo formal: OAuth + token escopado por task + UI de approval no celular do dono. Times de fintech BR que querem habilitar agentic commerce em Pix/cartão precisam estudar o modelo SPT antes que Visa/Mastercard publiquem o equivalente.",
+      "source": "Stripe Blog",
+      "url": "https://stripe.com/blog/giving-agents-the-ability-to-pay",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "stripe",
+        "link",
+        "agents",
+        "spt",
+        "oauth"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=stripe.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Counterpoint coloca Anthropic na liderança de receita LLM em Q1/26 — 31,4% vs 29% da OpenAI, com ARPU 7× maior",
+      "summary": "The Register publicou em 30/abr o relatório Counterpoint Research: em Q1/2026, Anthropic capturou 31,4% da receita global de LLMs, ultrapassando a OpenAI (29%). A diferença é estrutural — Anthropic tem ~134 milhões de MAU pagando ARPU mensal de US$ 16,20, enquanto OpenAI tem ~900 milhões de MAU com ARPU de US$ 2,20. Anthropic atingiu US$ 30 bi de ARR em abril, passando os US$ 25 bi da OpenAI; growth rate de 30× em 15 meses. Mercado total movimenta US$ 20,7 bi/trimestre com 3,8 bilhões de pessoas usando LLM/mês.",
+      "why_it_matters": "Para arquitetos planejando vendor mix em plataformas internas: a diferença operacional entre os dois é nítida — Anthropic ganha em high-end professional (B2B com SLA), OpenAI ganha em volume consumer. Vendor lock-in em qualquer um deles muda a economia da plataforma; abstrair via gateways (LiteLLM, Bedrock, Cloudflare AI Gateway) virou requisito.",
+      "source": "The Register",
+      "url": "https://www.theregister.com/2026/04/30/openai_anthropic_top_lines_research_counterpoint/",
+      "published_at": "2026-04-30T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "anthropic",
+        "openai",
+        "counterpoint",
+        "revenue",
+        "arpu"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Q1 dos hyperscalers: capex AI de US$ 650 bi+ em 2026, Meta sobe guide para US$ 145 bi e cai 6%",
+      "summary": "Microsoft, Meta, Alphabet e Amazon reportaram em 29/abr — capex combinado em 2026 ultrapassa US$ 650 bi. Microsoft fechou trimestre fiscal em US$ 82,89 bi de receita (+18% YoY), com AI business em US$ 37 bi de ARR (+123% YoY) e capex anual de US$ 190 bi (CFO Hood atribui US$ 25 bi a inflação de componentes). Meta bateu lucro/receita mas elevou guide de capex de US$ 115-135 bi para US$ 125-145 bi e a ação caiu 6% no after-hours. Alphabet foi o único a subir, puxado por força em Cloud. Mercado entra em fase de teste: capex passa, ROI ainda em rampa.",
+      "why_it_matters": "Para arquitetos de plataforma: o teto de gastos dos hyperscalers vira pressão real em GPU pricing, regional capacity e exclusividades de modelos. Espere preços de GPU on-demand subirem nas regiões com supply crunch e descontos crescerem em RIs/SPs de 3 anos para apertar lock-in.",
+      "source": "Fortune",
+      "url": "https://fortune.com/2026/04/29/microsoft-meta-google-ai-capex-spending-billions/",
+      "published_at": "2026-04-29T22:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "earnings",
+        "capex",
+        "ai",
+        "microsoft",
+        "meta",
+        "alphabet"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=fortune.com&sz=256"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Análise: Iceberg v3 unifica Deletion Vectors e Variant com Delta — fim do CTAS noturno em lakehouse multi-vendor",
+      "summary": "Análise técnica publicada em 29/abr no Databricks Community detalha por que o Iceberg v3 (Public Preview no Runtime 18.0+) muda o jogo: Deletion Vectors, Variant, Row IDs e geospatial types compartilham implementação binária entre Iceberg e Delta — pipelines com leitores Snowflake/Glue/Salesforce e escritores Databricks param de precisar conversão CTAS noturna. Unity Catalog Managed Iceberg v3 ganhou Row Lineage e VARIANT em GA, e ABAC promove row filter/column mask por tag para enforcement consistente em SQL/Spark/REST.",
+      "why_it_matters": "Para times com lakehouse multi-vendor: o custo de manter dois catálogos paralelos cai. Variant resolve JSON semi-estruturado nativamente — adeus aos tipos sintéticos por hash em ETL.",
+      "source": "Databricks Community (Medium)",
+      "url": "https://medium.com/databricks-community/iceberg-v3-opens-a-bigger-chapter-for-the-lakehouse-4cc1ed30515f",
+      "published_at": "2026-04-29T19:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "databricks",
+        "iceberg",
+        "delta",
+        "lakehouse",
+        "abac"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=medium.com&sz=256"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Orkes (criadores do Conductor da Netflix) levanta US$ 60 mi para escalar orchestration de agentes em produção",
+      "summary": "Orkes — fundada pelos engenheiros que escreveram o Conductor na Netflix para orquestrar microsserviços em hipercrescimento — fechou Série B de US$ 60 milhões liderada pela AVP, com Prosperity7, Nexus, Battery e Vertex US. Plataforma estende o open-source Conductor para AI agents + human-in-the-loop + microsserviços em um único runtime, com observabilidade, retry policies e durable state. Customer base triplicou desde a Série A de 2024. CEO Jeu George argumenta que a maioria dos times vai bater no mesmo problema da Netflix em 2014: orchestration sem retry idempotente, sem timeout e sem replay vira incidente toda semana.",
+      "why_it_matters": "Para quem está colocando agents em produção: a parte chata não é o LLM, é o orchestrator. Estudar Conductor (open-source) ou Temporal antes de tentar reinventar workflow engine economiza 6 meses de retrabalho — e Orkes é o player com pedigree real de escala.",
+      "source": "Business Wire",
+      "url": "https://www.businesswire.com/news/home/20260423550324/en/Orkes-Raises-$60M-as-Developers-Increasingly-Use-Its-Platform-to-Deploy-AI-Confidently-in-Production",
+      "published_at": "2026-04-23T13:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "orkes",
+        "conductor",
+        "agents",
+        "orchestration",
+        "funding"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=businesswire.com&sz=256"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "InfoQ analisa State of AI Engineering 2026: 5% das chamadas LLM falham em prod, 60% disso é rate limit — não modelo",
+      "summary": "InfoQ rebateu em análise de 22/abr os números do State of AI Engineering 2026: 5% das chamadas LLM em produção retornaram erro em fevereiro/26, e 60% desses erros foram de rate limit (não falha de modelo, não bug de prompt). 69% das empresas analisadas já usam 3+ modelos em workflow agentic complexo. OpenAI mantém 63% de share de provider, mas Google Gemini cresceu +20pp e Anthropic Claude +23pp em 12 meses. Tese central: 'a próxima onda de falhas de agents não é sobre o que agent não consegue fazer — é sobre o que time não consegue observar'.",
+      "why_it_matters": "Operação multi-LLM em prod virou problema de capacity planning, não de IA. Plataformas internas precisam: (a) rate-limit-aware routing entre providers, (b) dashboards de error budget por modelo, (c) circuit breaker quando latência sobe. Observabilidade LLM sai de 'nice to have' e vira pré-requisito.",
+      "source": "BigDATAwire (HPCWire)",
+      "url": "https://www.hpcwire.com/bigdatawire/2026/04/22/datadog-report-the-silent-failure-problem-in-ai-is-about-to-hit-enterprise-system/",
+      "published_at": "2026-04-22T13:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "llm-ops",
+        "rate-limit",
+        "observability",
+        "report",
+        "datadog"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=hpcwire.com&sz=256"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Visa aposenta o Level 2 Interchange e Mastercard troca regras de chargeback — abril vira inflexão B2B no card-present",
+      "summary": "Em 17/abr, Visa oficialmente sunsetou o programa Level 2 Interchange (exceto Commercial Fuel), substituindo pelo novo Commercial Enhanced Data Program (CEDP). Junto, Visa introduziu fee associada a Compelling Evidence 3.0 contra fraude first-party CNP. Mastercard reativou o chargeback de Fraudulent Processing of Transactions como compliance case e exige FPAN masking em toda documentação de disputa — multas para PAN completo. Amex lançou três novas tabelas (T&E Micro, T&E Small, Other Micro) e Discover atualizou rates de travel.",
+      "why_it_matters": "Adquirentes, gateways e fintechs que processam B2B precisam revalidar matriz de interchange — descontos de Level 2 que estavam embutidos em cálculos saem do dia para a noite. Quem tem motor de roteamento precisa atualizar rule engine antes do próximo billing cycle.",
+      "source": "Merchant Cost Consulting",
+      "url": "https://merchantcostconsulting.com/lower-credit-card-processing-fees/payment-news-today-april-2026/",
+      "published_at": "2026-04-17T13:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "visa",
+        "mastercard",
+        "interchange",
+        "amex",
+        "discover"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=merchantcostconsulting.com&sz=256"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Baeldung detalha API Versioning de primeira classe no Spring Boot 4 — header, query, media type e path nativos via ApiVersionConfigurer",
+      "summary": "Guia técnico publicado no Baeldung detalha o uso do API versioning nativo do Spring Boot 4: header-based, query param, media type e path segment, todos via campo `version` direto no mapping e configurador ApiVersionConfigurer. spring.mvc.apiversion.* e spring.webflux.apiversion.* configuram resolver, default version, deprecation handler e parser. Beans avançados (ApiVersionResolver, ApiVersionParser, ApiVersionDeprecationHandler) cobrem cenário de versionamento múltiplo simultâneo. Spring Boot 4.0.6 (ponto de manutenção atual em abril/26) já traz tudo estável.",
+      "why_it_matters": "API versioning tem sido feito a mão por anos (header parser custom, filtro WebFlux, anotações próprias). Tirar esse boilerplate e padronizar resolver na app inteira reduz drift de prática entre times. Quem mantém produto com 5+ years de API contracts ganha o resolver evolutivo grátis.",
+      "source": "Baeldung",
+      "url": "https://www.baeldung.com/spring-api-versioning",
+      "published_at": "2026-04-22T13:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "spring-boot",
+        "api-versioning",
+        "webflux",
+        "baeldung"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=baeldung.com&sz=256"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Lobste.rs viraliza tese: 'multi-agentic software development é problema de sistemas distribuídos — AGI não te salva'",
+      "summary": "Post curado no Lobste.rs nesta semana argumenta que multi-agent coding (Symphony, Claude Code parallel sub-agents, Cursor /multitask) entra direto na taxonomia de sistemas distribuídos: você tem múltiplos atores stateful disputando recursos compartilhados (filesystem, branch, banco), com falhas parciais e necessidade de orchestrator com retry idempotente. Logo, ler Lamport e Kleppmann é tão importante quanto ler papers de RLHF. CAP, idempotency, exactly-once, leader election — tudo aplica.",
+      "why_it_matters": "Para arquitetos liderando rollout de coding agents: comece pelo orquestrador, não pelo prompt. Use primitivos battle-tested (Temporal, Conductor, durable execution) para eliminar a classe inteira de bugs de race condition entre agents — antes que um deles delete `prod` em 9 segundos.",
+      "source": "Lobste.rs",
+      "url": "https://lobste.rs/s/vjcymq/multi_agentic_software_development_is",
+      "published_at": "2026-04-29T18:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "multi-agent",
+        "distributed-systems",
+        "agi",
+        "orchestration",
+        "kleppmann"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=lobste.rs&sz=256"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cloudflare publica engineering deep dive: Rust Workers ganham panic recovery via WebAssembly Exception Handling",
+      "summary": "Cloudflare descreveu em post de 21/abr a colaboração com o projeto wasm-bindgen para tornar panics de Rust Workers recuperáveis. Antes, qualquer panic envenenava o instance Worker inteiro — fim de jogo. Com WebAssembly Exception Handling em browsers/runtime modernos, agora panic faz unwinding sem matar a isolate. Resultado: workers Rust em alta concorrência ficam mais resilientes, e o time reduziu noise de alertas em produção. Documento técnico com stack frame walking e benchmark de overhead.",
+      "why_it_matters": "Para arquitetos rodando edge workloads em Wasm: panic recovery muda o playbook de defensive programming. Você pode usar `Result` e propagar erro em vez de programar para evitar panic de qualquer custo. Mesmo padrão chega em Wasmtime/Spin nas próximas releases.",
+      "source": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/improved-developer-security/",
+      "published_at": "2026-04-21T13:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "cloudflare",
+        "rust",
+        "wasm",
+        "panic",
+        "exception-handling"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Java 26 chega em setembro/26, Project Leyden corta tempo de boot do Spring PetClinic em 41% e GraalVM Mandrel 26 estabiliza",
+      "summary": "InfoQ e techlife.blog analisaram em meados de abril o estado do JDK em 2026: JDK 26 vira 17ª feature release on-time em setembro; Project Leyden divulgou que 21.000 classes do Spring PetClinic já aparecem loaded+linked com cache de AOT, derrubando boot time em 41%. Oracle GraalVM se separou do JDK em 24 e a comunidade adotou Mandrel (Red Hat) — Mandrel 26 e 27 garantem native-image timely para Quarkus sem dependência da Oracle. Spring tende a apostar em Leyden para native ahead-of-time em vez de GraalVM Native.",
+      "why_it_matters": "Para arquitetos avaliando boot time em containers/serverless Java: Leyden vira concorrente sério do GraalVM Native sem o trade-off de compatibilidade reflection-heavy. Vale rodar bench em produto antes de cravar GraalVM como default.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/java-news-roundup-apr20-2026/",
+      "published_at": "2026-04-20T13:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "java",
+        "jdk-26",
+        "leyden",
+        "graalvm",
+        "mandrel"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "ByteByteGo guia microservices em 2026: o foco voltou pra escala estratégica, não fragmentação",
+      "summary": "ByteByteGo publicou guia atualizado de microservices architecture para 2026: a evolução desde 2018 mudou — não é mais 'quebrar tudo em pedaços pequenos', é 'desenhar arquitetura que equilibra scale, simplicity e operational efficiency'. Padrões em alta: durable execution para workflows longos, event-driven contracts para integração, distroless containers + AOT para perf, AI-driven anomaly detection embutido em service mesh. Padrões em baixa: micro-front-ends sem coordenação, service-per-team sem platform team, eventual consistency aplicada onde ninguém precisa.",
+      "why_it_matters": "Boa leitura para arquitetos revisitando ADRs antigas: a temperatura da indústria desceu — gente que adotou 30 microservices há 5 anos está consolidando, e gente que adotou monólito está abrindo bounded contexts com calma. ByteByteGo serve de referência de equilíbrio.",
+      "source": "ByteByteGo",
+      "url": "https://blog.bytebytego.com/p/a-guide-to-microservices-architecture",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "microservices",
+        "architecture",
+        "design",
+        "scale",
+        "bounded-context"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=bytebytego.com&sz=256"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Turbopack: What's New in Next.js 16.2 — Server Fast Refresh, WASM Workers e 87% mais rápido em cold start",
+      "summary": "Vercel publicou breakdown técnico do Turbopack em Next.js 16.2: Server Fast Refresh para hot reload server-side fine-grained, Web Worker Origin (WASM em Workers), Subresource Integrity em JS, tree-shaking de dynamic imports, inline loader configuration via import attributes, Lightning CSS configurável, log filtering, postcss.config.ts em TypeScript e 200+ fixes. Em apps reais, refresh ficou 67-100% mais rápido, compile 400-900% mais rápido e dev server roughly 87% mais rápido que 16.1 (~4× speedup).",
+      "why_it_matters": "Para times que adiaram migração para 16.x esperando estabilidade: 16.2 é o ponto onde Turbopack fica mais rápido e estável que Webpack para a maioria dos casos. Vale piloto em CI antes de decidir mudar default em monorepo grande.",
+      "source": "Next.js Blog",
+      "url": "https://nextjs.org/blog/next-16-2-turbopack",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "nextjs",
+        "turbopack",
+        "wasm",
+        "fast-refresh",
+        "tree-shaking"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=nextjs.org&sz=256"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Theori demonstra como AI scanner Xint Code achou Copy Fail em 1h — e o que isso significa para auditoria de kernel",
+      "summary": "Em writeup técnico vinculado ao CVE-2026-31431, Theori detalhou como Xint Code surfaceou a vuln em ~1 hora de scan no subsistema crypto/ do Linux com 'um prompt de operador, sem harness'. O analisador inferiu invariante quebrada no template authencesn (boundary condition no copy_from_user com tamanho controlado pelo usuário). Theori argumenta que classe inteira de bugs em código C de baixo nível agora cai em escala — bugs que esperavam exploit dev humano agora caem em scan automatizado em produção. Contraponto: análise estática vs. correctness proof segue ortogonal — descobrir é fácil, provar ausência continua difícil.",
+      "why_it_matters": "Para arquitetos sêniores: bug bounty com AI não é hype — é reorganização da economia de descoberta de vulnerabilidades. Quem mantém SDK ou kernel module precisa pensar em pipeline de fuzzing+LLM agora, antes que adversários comoditizem.",
+      "source": "Theori (DeepWiki)",
+      "url": "https://deepwiki.com/theori-io/copy-fail-CVE-2026-31431/1.1-vulnerability-summary-and-affected-distributions",
+      "published_at": "2026-04-29T22:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "kernel",
+        "fuzzing",
+        "ai-security",
+        "static-analysis",
+        "vulnerability-research"
+      ],
+      "image": "https://www.google.com/s2/favicons?domain=deepwiki.com&sz=256"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "release",
+      "version": "SDK 0.1",
+      "headline": "Cursor lança SDK que expõe runtime, harness e modelos do produto para você construir agents próprios",
+      "description": "Em 29/abr, Anysphere anunciou o Cursor SDK: bibliotecas (TypeScript, Python) que dão acesso ao mesmo runtime, harness e roteamento de modelos que rodam dentro do Cursor IDE. Permite construir agents headless conectados ao mesmo /multitask, /debug e canvas do Cursor 3.2 — sem precisar replicar tooling. Roadmap inclui webhooks, MCP server first-party e integração nativa com Linear/Symphony.",
+      "why_it_matters": "Times com produto interno de coding agent agora podem reaproveitar o motor do Cursor em vez de manter wrapper próprio em cima de OpenAI/Anthropic. Reduz código de orquestração e transfere a complexidade de tool routing para o vendor.",
+      "source": "Cursor Changelog",
+      "url": "https://cursor.com/changelog/sdk-release",
+      "published_at": "2026-04-29T16:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=cursor.com&sz=256",
+      "tags": [
+        "cursor",
+        "sdk",
+        "agents",
+        "typescript",
+        "python"
+      ]
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "release",
+      "version": "2.1.101",
+      "headline": "Claude Code 2.1.95–2.1.101 trazem service tier no Bedrock, /resume com PR search e PostToolUse hooks que reescrevem output",
+      "description": "Em 28-29/abr, Anthropic empurrou várias point releases de Claude Code: alwaysLoad option em MCP server config (skipa tool-search deferral), search box em /skills, PostToolUse hook que pode substituir output de qualquer tool via hookSpecificOutput.updatedToolOutput (antes era só MCP), claude plugin prune para limpar deps órfãs, Bedrock service tier selection, melhorias em /resume com PR search e mais OpenTelemetry logging. Fix do loop 401 no OAuth quando CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1.",
+      "why_it_matters": "PostToolUse reescrevendo output abre playbook novo: você pode mascarar/redatar dados sensíveis antes do agent ver, ou injetar contexto adicional em sessão long-running.",
+      "source": "Claude Code CHANGELOG",
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "tags": [
+        "claude-code",
+        "mcp",
+        "hooks",
+        "bedrock",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "gradle",
+      "name": "Gradle",
+      "icon": "🐘",
+      "kind": "release",
+      "version": "9.5.0",
+      "headline": "Gradle 9.5.0 sai em 28/abr com task provenance em erros e diagnostics melhor — origem (script, settings, plugin) explícita em cada falha",
+      "description": "Gradle 9.5.0 (28/abr) traz diagnostics e reporting melhores: task provenance information aparece direto na mensagem de erro — você descobre se a task foi registrada por build script, settings script ou plugin, e por qual deles. Combina com reporting clean+actionable de Gradle 9.0 e Configuration Cache como modo preferred. Roda Kotlin 2.2.x runtime + Groovy 4 e exige Java 17+.",
+      "why_it_matters": "'Task X failed' sem provenance é um dos pesadelos clássicos de monorepo Gradle. Provenance no erro corta tempo de debug em métade quando a falha vem de plugin third-party. Quem está em 8.x deveria considerar bump para 9.5+.",
+      "source": "Gradle Docs",
+      "url": "https://docs.gradle.org/9.5.0/release-notes.html",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=gradle.org&sz=256",
+      "tags": [
+        "gradle",
+        "task-provenance",
+        "configuration-cache",
+        "kotlin",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform",
+      "icon": "🌍",
+      "kind": "release",
+      "version": "1.15.0",
+      "headline": "Terraform 1.15.0 sai em 29/abr com deprecation markers em variables/outputs, função convert() e backend validation no init",
+      "description": "Terraform 1.15.0 (29/abr) traz deprecation markers nativos em variables e outputs (warning explícito quando consumidor referencia recurso marcado como obsoleto), função convert() para coerção explícita de tipo, suporte a variables/locals dentro de module source e version attributes (configuração dinâmica de módulo finalmente possível), Windows ARM64 builds e backend validation rodando no init em vez de só no plan. S3 backend ganha aws login authentication (sem aws_access_key direto).",
+      "why_it_matters": "Deprecation markers são a feature que destrava migração suave em monorepos: você marca variable e o consumidor recebe aviso no plan, sem quebrar build. Module source dinâmico (com variável) era hack via locals; agora é first-class.",
+      "source": "Terraform Releases",
+      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=hashicorp.com&sz=256",
+      "tags": [
+        "terraform",
+        "deprecation",
+        "convert",
+        "backend",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "istio",
+      "name": "Istio",
+      "icon": "⛵",
+      "kind": "news",
+      "headline": "CNCF anuncia Istio future-ready para era AI: Ambient Multicluster Beta, Gateway API Inference Extension Beta e agentgateway experimental",
+      "description": "Em anúncio do KubeCon + CloudNativeCon Europe 2026, a CNCF detalhou a evolução do Istio para workloads AI-driven: Ambient Multicluster (beta) estende sidecar-less mode entre múltiplos clusters/regiões/clouds; Gateway API Inference Extension (beta) integra ML inference direto no fluxo de service mesh, com routing/control/observability consistentes via APIs Kubernetes-native; e o experimental agentgateway endereça padrões dinâmicos de tráfego de agents.",
+      "why_it_matters": "Para times com mesh em multi-cloud: ambient multicluster acaba sidecars sem perder observability cross-cluster. Inference Extension entra no caminho crítico do AI traffic — vale piloto antes que vire requisito de plataforma.",
+      "source": "CNCF",
+      "url": "https://www.cncf.io/announcements/2026/03/25/istio-brings-future-ready-service-mesh-to-the-ai-era-with-new-ambient-multicluster-gateway-api-inference-extension-and-more/",
+      "published_at": "2026-04-22T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=cncf.io&sz=256",
+      "tags": [
+        "istio",
+        "ambient-mode",
+        "multicluster",
+        "inference-extension",
+        "agentgateway"
+      ]
+    },
+    {
+      "tool_key": "nginx",
+      "name": "Nginx",
+      "icon": "🟢",
+      "kind": "news",
+      "headline": "nginx 1.30.0 sai e CVE-2026-33032 no nginx-ui (Singapore CSA alert) é exploitada para takeover total do server",
+      "description": "Em paralelo ao release de nginx 1.30.0 (1.28 EOL em 14/abr) e patches de buffer overflow no 1.29.7 (CVE-2026-27654 ngx_http_dav_module, CVE-2026-27784/32647 ngx_http_mp4_module), Cyber Security Agency de Singapore alertou em 18/abr sobre CVE-2026-33032 no nginx-ui — gerenciador web do nginx. Falta de autenticação em endpoints MCP do nginx-ui permite takeover total. Quem usa nginx-ui exposto a internet precisa parchar OU bloquear externally — nginx core não está afetado, mas o painel sim.",
+      "why_it_matters": "Atenção dupla: parchar core do nginx para CVEs do mp4_module (afetam streaming/CDN servers) E auditar nginx-ui — muito painel admin foi instalado sem hardening em PoC e ficou exposto. Servidores 1.28.x precisam migrar para 1.29.x stable ou 1.30.0 mainline.",
+      "source": "CSA Singapore",
+      "url": "https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-039/",
+      "published_at": "2026-04-18T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=csa.gov.sg&sz=256",
+      "tags": [
+        "nginx",
+        "nginx-ui",
+        "cve",
+        "buffer-overflow",
+        "takeover"
+      ]
+    },
+    {
+      "tool_key": "plantuml",
+      "name": "PlantUML",
+      "icon": "🌱",
+      "kind": "release",
+      "version": "1.2026.2",
+      "headline": "PlantUML 1.2026.2 expande chart diagrams e packetdiag e fecha bug de SVG em sub-diagrams",
+      "description": "PlantUML 1.2026.2 (lançado em 27/fev e ativamente atualizado ao longo de abril com qpr — script shell para render via Docker em 08/abr) consolida chart diagrams (introduzidas na 1.2026.0) com features completas: bar/line/stacked, switch tiles com repeat-while em diamond inside figure, packetdiag embeddable. Versionamento Plant é date-based (ano.mês.patch) e o ritmo é mensal — quem usa em docs-as-code precisa pin no patch para evitar surpresas.",
+      "why_it_matters": "Charts em PlantUML competem com Mermaid em diagramas básicos sem precisar JS runtime — útil em pipelines de docs-as-code servidos por Jekyll/Hugo. qpr Docker oneliner facilita preview em CI.",
+      "source": "PlantUML Releases",
+      "url": "https://github.com/plantuml/plantuml/releases/tag/v1.2026.2",
+      "published_at": "2026-04-08T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=plantuml.com&sz=256",
+      "tags": [
+        "plantuml",
+        "chart-diagram",
+        "packetdiag",
+        "docs-as-code",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "release",
+      "version": "Docker Desktop 4.66",
+      "headline": "Docker Desktop ganha MCP Toolkit profiles + custom catalogs e fecha CVE-2026-2664 (grpcfuse OOB read) e CVE-2026-28400",
+      "description": "Docker Desktop 4.66 (abril/26) introduz profiles para organizar MCP servers em coleções nomeadas e custom catalogs — coleções curadas de servers para o time. vLLM Metal entra em Docker Model Runner. Crash em QEMU 10.2.0+ corrigido. CVE-2026-2664 (out-of-bounds read no kernel module grpcfuse) e CVE-2026-28400 (runtime flag injection no Docker Model Runner) endereçados. Atenção: Windows MSI installer entre 4.56 e 4.65 precisa uninstall manual antes de reinstalar 4.66+.",
+      "why_it_matters": "Para times multi-projeto rodando MCP local, profiles eliminam o caos de servers misturados — você troca contexto sem editar config. CVE no grpcfuse é importante para quem usa volumes em macOS — atualizar.",
+      "source": "Docker Docs",
+      "url": "https://docs.docker.com/desktop/release-notes/",
+      "published_at": "2026-04-22T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=docker.com&sz=256",
+      "tags": [
+        "docker",
+        "mcp",
+        "cve",
+        "vllm",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "release",
+      "version": "3.14.4",
+      "headline": "Python 3.14.4 sai com 337 fixes; PEP 750 (t-strings) e PEP 779 (free-threaded) já em produção",
+      "description": "Python 3.14.4 foi liberado em 07/abr como 4ª maintenance release do 3.14, contendo ~337 fixes, melhorias de build e doc. A linha 3.14 já carrega PEP 779 (free-threaded oficialmente suportado), PEP 649 (deferred annotation evaluation), PEP 750 (template string literals — t-strings com sintaxe igual a f-strings para custom processing), PEP 734 (multiple interpreters na stdlib), PEP 784 (compression.zstd) e PEP 761 (assinatura via Sigstore em vez de PGP). Binário macOS/Windows oficial agora vem com JIT experimental.",
+      "why_it_matters": "Free-threaded sai do experimental e habilita CPU-bound real em prod — ainda exige tuning, mas a porta está aberta. T-strings ressuscitam DSLs seguros (SQL, HTML) em Python, atalho que faltava há 15 anos.",
+      "source": "Python.org",
+      "url": "https://www.python.org/downloads/release/python-3144/",
+      "published_at": "2026-04-07T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=python.org&sz=256",
+      "tags": [
+        "python",
+        "free-threaded",
+        "t-strings",
+        "jit",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "InfoQ Java News Roundup: JDK 26 EA, Oracle Critical Patches abril e Open Liberty 26.0.0.4",
+      "description": "InfoQ publicou em 20/abr o roundup mensal: JDK 26 (17ª feature release on-time em set/26) já em Early Access; Oracle Critical Patch Update de abril cobriu múltiplos CVEs em Java SE; Open Liberty 26.0.0.4 trouxe melhorias em performance e atualização de Jakarta EE 11; Project Leyden documentou ganhos de 41% em boot time do Spring PetClinic; Mandrel 26 da Red Hat ficou na linha de frente para native-image após Oracle separar GraalVM do JDK.",
+      "why_it_matters": "Para arquitetos avaliando boot time em containers/serverless: Leyden tira a desculpa do reflection-heavy. Vale rodar bench JFR antes de cravar GraalVM Native como default.",
+      "source": "InfoQ",
+      "url": "https://www.infoq.com/news/2026/04/java-news-roundup-apr20-2026/",
+      "published_at": "2026-04-20T13:00:00-03:00",
+      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "tags": [
+        "java",
+        "jdk-26",
+        "oracle-cpu",
+        "leyden",
+        "open-liberty"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "id": "nSU7wiTyI4Q",
+      "url": "https://www.youtube.com/watch?v=nSU7wiTyI4Q",
+      "title": "",
+      "channel": "",
+      "published_at": "2026-04-15",
+      "duration": "14 min"
+    },
+    {
+      "id": "Mw2ZnqI4VmQ",
+      "url": "https://www.youtube.com/watch?v=Mw2ZnqI4VmQ",
+      "title": "Dev Containers com Fabricio Veronez",
+      "channel": "Fabricio Veronez",
+      "published_at": "2026-04-20",
+      "duration": "1h 12 min"
+    },
+    {
+      "id": "GJ33JrPPuWg",
+      "url": "https://www.youtube.com/watch?v=GJ33JrPPuWg",
+      "title": "O colapso da engenharia de software por Renato Augusto",
+      "channel": "Renato Augusto",
+      "published_at": "2026-04-18",
+      "duration": "32 min"
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Security is always going to be a cat and mouse game, because there'll be people out there hunting for the zero day award, you know, the zero day prize.",
+      "author": "Kevin Mitnick",
+      "context": "Sobre o ciclo de descoberta de vulnerabilidades — vale para Copy Fail e cPanel auth bypass",
+      "related_to": "cat:sec"
+    },
+    {
+      "text": "The biggest danger, when designing distributed systems, is not what you know you don't know — it's what you don't know you don't know.",
+      "author": "Pat Helland",
+      "context": "Multi-agent coding herda toda a complexidade de sistemas distribuídos",
+      "related_to": "cat:distarch"
+    },
+    {
+      "text": "An evolutionary architecture supports guided, incremental change as a first principle across multiple dimensions.",
+      "author": "Neal Ford",
+      "context": "API versioning auto-config no Spring Boot 4 é evolução pragmática",
+      "related_to": "tool:springboot"
+    },
+    {
+      "text": "Observability is not about the data you collect; it's about the questions you can answer.",
+      "author": "Charity Majors",
+      "context": "Datadog mostra que 60% dos erros LLM são rate limit — ninguém olhava",
+      "related_to": "cat:obs"
+    },
+    {
+      "text": "Make it work, make it right, make it fast.",
+      "author": "Kent Beck",
+      "context": "Iceberg v3 unifica primitivos antes de otimizar — caminho certo",
+      "related_to": "cat:data"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Help Net Security",
+      "url": "https://www.helpnetsecurity.com/"
+    },
+    {
+      "name": "The Register",
+      "url": "https://www.theregister.com/"
+    },
+    {
+      "name": "Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/"
+    },
+    {
+      "name": "Stripe Blog",
+      "url": "https://stripe.com/blog"
+    },
+    {
+      "name": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/"
+    },
+    {
+      "name": "Databricks Blog",
+      "url": "https://www.databricks.com/blog"
+    },
+    {
+      "name": "Wiz Blog",
+      "url": "https://www.wiz.io/blog"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "Datadog",
+      "url": "https://www.datadoghq.com/"
+    },
+    {
+      "name": "ByteByteGo",
+      "url": "https://blog.bytebytego.com/"
+    }
+  ]
+}

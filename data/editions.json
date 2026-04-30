@@ -1,6 +1,53 @@
 {
-  "last_generated": "2026-04-29T10:00:00-03:00",
+  "last_generated": "2026-04-30T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-04-30",
+      "counts_by_category": {
+        "sec": 4,
+        "cloud": 1,
+        "aiops": 2,
+        "fintech": 2,
+        "ai": 2,
+        "data": 1,
+        "obs": 1,
+        "integ": 1,
+        "distarch": 1,
+        "devops": 1,
+        "backend": 1,
+        "design": 1,
+        "frontend": 1,
+        "fundamentals": 1
+      },
+      "counts_by_tool": {
+        "cursor": 1,
+        "claudecode": 1,
+        "gradle": 1,
+        "terraform": 1,
+        "istio": 1,
+        "nginx": 1,
+        "plantuml": 1,
+        "docker": 1,
+        "python": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "AWS lança Amazon Quick — IDE de IA desktop que conecta Slack/Jira/GitHub/Salesforce e despacha agents Codex e Claude Code",
+          "url": "https://aws.amazon.com/blogs/aws/top-announcements-of-the-whats-next-with-aws-2026/"
+        },
+        {
+          "title": "cPanel & WHM CVE-2026-41940 (CVSS 9.8) é explorado desde fevereiro — CRLF no whostmgrsession dá auth bypass total",
+          "url": "https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/"
+        },
+        {
+          "title": "Cloudflare faz agents virarem clientes oficiais: conta, subscription, domínio e API token criados programaticamente",
+          "url": "https://blog.cloudflare.com/agents-stripe-projects/"
+        }
+      ],
+      "hero_title": "cPanel ganha auth-bypass 9.8 já explorado, Linux 'Copy Fail' rooteia tudo desde 2017 e Cloudflare faz agentes virarem clientes",
+      "hero_description": "Quinta acorda com três quedas pesadas: cPanel & WHM expõe CVE-2026-41940 (CVSS 9.8) explorado desde fevereiro via CRLF injection no whostmgrsession; Linux 'Copy Fail' (CVE-2026-31431) some 9 anos para revelar LPE com 732 bytes de Python; e Cloudflare faz agents virarem clientes oficialmente — conta + assinatura + domínio + token API tudo programaticamente. No mesmo dia, Stripe libera Link Wallet para agents pagar via SPT, Counterpoint coloca Anthropic à frente da OpenAI em receita Q1 (31,4% vs 29%) e os hyperscalers reportam capex AI de US$ 650 bi+ para 2026 — Meta cai 6% após elevar guide para US$ 145 bi."
+    },
     {
       "date": "2026-04-29",
       "counts_by_category": {
