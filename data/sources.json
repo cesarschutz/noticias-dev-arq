@@ -1,16 +1,22 @@
 {
   "sources": [
     {
-      "key": "aitoolanalysis",
-      "name": "AI Tool Analysis",
-      "url": "https://aitoolanalysis.com/",
-      "image": "https://www.google.com/s2/favicons?domain=aitoolanalysis.com&sz=256"
-    },
-    {
       "key": "ai2work",
       "name": "AI2Work",
       "url": "https://ai2work.com/",
       "image": "https://www.google.com/s2/favicons?domain=ai2work.com&sz=256"
+    },
+    {
+      "key": "aikido",
+      "name": "Aikido Security",
+      "url": "https://www.aikido.dev/",
+      "image": "https://www.google.com/s2/favicons?domain=aikido.dev&sz=256"
+    },
+    {
+      "key": "aitoolanalysis",
+      "name": "AI Tool Analysis",
+      "url": "https://aitoolanalysis.com/",
+      "image": "https://www.google.com/s2/favicons?domain=aitoolanalysis.com&sz=256"
     },
     {
       "key": "anchorhost",
@@ -39,23 +45,16 @@
       "image": "https://cdn.simpleicons.org/apacheflink/E6526F"
     },
     {
-      "key": "kafka",
-      "name": "Apache Kafka",
-      "url": "https://kafka.apache.org/cve-list",
-      "image": "https://cdn.simpleicons.org/apachekafka/231F20",
-      "image_dark": "https://cdn.simpleicons.org/apachekafka/ffffff"
-    },
-    {
-      "key": "maven",
-      "name": "Apache Maven",
-      "url": "https://maven.apache.org/",
-      "image": "https://cdn.simpleicons.org/apachemaven/C71A36"
-    },
-    {
       "key": "apmdigest",
       "name": "APMdigest",
       "url": "https://www.apmdigest.com/",
       "image": "https://www.google.com/s2/favicons?domain=apmdigest.com&sz=256"
+    },
+    {
+      "key": "argo",
+      "name": "Argo Project",
+      "url": "https://argoproj.github.io/",
+      "image": "https://cdn.simpleicons.org/argo/EF7B4D"
     },
     {
       "key": "argohelm",
@@ -63,12 +62,6 @@
       "url": "https://github.com/argoproj/argo-helm",
       "image": "https://cdn.simpleicons.org/github/181717",
       "image_dark": "https://cdn.simpleicons.org/github/ffffff"
-    },
-    {
-      "key": "argo",
-      "name": "Argo Project",
-      "url": "https://argoproj.github.io/",
-      "image": "https://cdn.simpleicons.org/argo/EF7B4D"
     },
     {
       "key": "asyncapi",
@@ -114,12 +107,6 @@
       "image": "https://www.google.com/s2/favicons?domain=baeldung.com&sz=256"
     },
     {
-      "key": "hpcwire",
-      "name": "BigDATAwire/HPCWire",
-      "url": "https://www.hpcwire.com/bigdatawire/",
-      "image": "https://www.google.com/s2/favicons?domain=hpcwire.com&sz=256"
-    },
-    {
       "key": "blainsmith",
       "name": "Blain Smith",
       "url": "https://blainsmith.com/",
@@ -130,6 +117,12 @@
       "name": "BleepingComputer",
       "url": "https://www.bleepingcomputer.com/",
       "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+    },
+    {
+      "key": "breakingdefense",
+      "name": "Breaking Defense",
+      "url": "https://breakingdefense.com/",
+      "image": "https://www.google.com/s2/favicons?domain=breakingdefense.com&sz=256"
     },
     {
       "key": "brendangregg",
@@ -181,12 +174,6 @@
       "image_dark": "https://cdn.simpleicons.org/anthropic/ffffff"
     },
     {
-      "key": "cloudnativenow",
-      "name": "Cloud Native Now",
-      "url": "https://cloudnativenow.com/",
-      "image": "https://www.google.com/s2/favicons?domain=cloudnativenow.com&sz=256"
-    },
-    {
       "key": "cloudflare",
       "name": "Cloudflare Blog",
       "url": "https://blog.cloudflare.com/",
@@ -199,10 +186,28 @@
       "image": "https://cdn.simpleicons.org/cloudflare/F38020"
     },
     {
+      "key": "cloudnativenow",
+      "name": "Cloud Native Now",
+      "url": "https://cloudnativenow.com/",
+      "image": "https://www.google.com/s2/favicons?domain=cloudnativenow.com&sz=256"
+    },
+    {
+      "key": "cnbc",
+      "name": "CNBC",
+      "url": "https://www.cnbc.com/",
+      "image": "https://www.google.com/s2/favicons?domain=cnbc.com&sz=256"
+    },
+    {
       "key": "cncf",
       "name": "CNCF",
       "url": "https://www.cncf.io/blog/",
       "image": "https://www.google.com/s2/favicons?domain=cncf.io&sz=256"
+    },
+    {
+      "key": "cnn",
+      "name": "CNN Business",
+      "url": "https://www.cnn.com/business",
+      "image": "https://www.google.com/s2/favicons?domain=cnn.com&sz=256"
     },
     {
       "key": "containerd",
@@ -243,6 +248,12 @@
       "image": "https://www.google.com/s2/favicons?domain=cyberpress.org&sz=256"
     },
     {
+      "key": "darkreading",
+      "name": "Dark Reading",
+      "url": "https://www.darkreading.com/",
+      "image": "https://www.google.com/s2/favicons?domain=darkreading.com&sz=256"
+    },
+    {
       "key": "databricks",
       "name": "Databricks Blog",
       "url": "https://www.databricks.com/blog",
@@ -259,6 +270,12 @@
       "name": "DDD Europe",
       "url": "https://dddeurope.com/",
       "image": "https://www.google.com/s2/favicons?domain=dddeurope.com&sz=256"
+    },
+    {
+      "key": "defensenews",
+      "name": "Defense News",
+      "url": "https://www.defensenews.com/",
+      "image": "https://www.google.com/s2/favicons?domain=defensenews.com&sz=256"
     },
     {
       "key": "demarest",
@@ -385,23 +402,10 @@
       "image_dark": "https://cdn.simpleicons.org/gradle/07A8CB"
     },
     {
-      "key": "k6",
-      "name": "Grafana k6",
-      "url": "https://github.com/grafana/k6/releases",
-      "image": "https://cdn.simpleicons.org/github/181717",
-      "image_dark": "https://cdn.simpleicons.org/github/ffffff"
-    },
-    {
       "key": "grafana",
       "name": "Grafana Labs",
       "url": "https://grafana.com/blog/",
       "image": "https://cdn.simpleicons.org/grafana/F46800"
-    },
-    {
-      "key": "hn",
-      "name": "Hacker News",
-      "url": "https://news.ycombinator.com/",
-      "image": "https://cdn.simpleicons.org/ycombinator/FF6600"
     },
     {
       "key": "hackread",
@@ -422,10 +426,28 @@
       "image": "https://www.google.com/s2/favicons?domain=devcenter.heroku.com&sz=256"
     },
     {
+      "key": "hn",
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/",
+      "image": "https://cdn.simpleicons.org/ycombinator/FF6600"
+    },
+    {
       "key": "honeycomb",
       "name": "Honeycomb Blog",
       "url": "https://www.honeycomb.io/blog",
       "image": "https://www.google.com/s2/favicons?domain=honeycomb.io&sz=256"
+    },
+    {
+      "key": "horizon3",
+      "name": "Horizon3.ai",
+      "url": "https://horizon3.ai/",
+      "image": "https://www.google.com/s2/favicons?domain=horizon3.ai&sz=256"
+    },
+    {
+      "key": "hpcwire",
+      "name": "BigDATAwire/HPCWire",
+      "url": "https://www.hpcwire.com/bigdatawire/",
+      "image": "https://www.google.com/s2/favicons?domain=hpcwire.com&sz=256"
     },
     {
       "key": "htekdev",
@@ -471,6 +493,20 @@
       "image_dark": "https://cdn.simpleicons.org/jetbrains/ffffff"
     },
     {
+      "key": "k6",
+      "name": "Grafana k6",
+      "url": "https://github.com/grafana/k6/releases",
+      "image": "https://cdn.simpleicons.org/github/181717",
+      "image_dark": "https://cdn.simpleicons.org/github/ffffff"
+    },
+    {
+      "key": "kafka",
+      "name": "Apache Kafka",
+      "url": "https://kafka.apache.org/cve-list",
+      "image": "https://cdn.simpleicons.org/apachekafka/231F20",
+      "image_dark": "https://cdn.simpleicons.org/apachekafka/ffffff"
+    },
+    {
       "key": "keycloak",
       "name": "Keycloak Blog",
       "url": "https://www.keycloak.org/blog",
@@ -506,6 +542,12 @@
       "name": "martinfowler.com",
       "url": "https://martinfowler.com/",
       "image": "https://www.google.com/s2/favicons?domain=martinfowler.com&sz=256"
+    },
+    {
+      "key": "maven",
+      "name": "Apache Maven",
+      "url": "https://maven.apache.org/",
+      "image": "https://cdn.simpleicons.org/apachemaven/C71A36"
     },
     {
       "key": "medium",
@@ -589,6 +631,12 @@
       "image_dark": "https://cdn.simpleicons.org/opentofu/FFDA18"
     },
     {
+      "key": "paymentexpert",
+      "name": "Payment Expert",
+      "url": "https://paymentexpert.com/",
+      "image": "https://www.google.com/s2/favicons?domain=paymentexpert.com&sz=256"
+    },
+    {
       "key": "pcktblog",
       "name": "Pckt Blog",
       "url": "https://pckt.blog/",
@@ -643,6 +691,12 @@
       "name": "Pydantic",
       "url": "https://docs.pydantic.dev/latest/changelog/",
       "image": "https://cdn.simpleicons.org/pydantic/E92063"
+    },
+    {
+      "key": "pymnts",
+      "name": "PYMNTS",
+      "url": "https://www.pymnts.com/",
+      "image": "https://www.google.com/s2/favicons?domain=pymnts.com&sz=256"
     },
     {
       "key": "pypi",
@@ -742,6 +796,12 @@
       "image": "https://www.google.com/s2/favicons?domain=socradar.io&sz=256"
     },
     {
+      "key": "sophos",
+      "name": "Sophos News",
+      "url": "https://news.sophos.com/",
+      "image": "https://www.google.com/s2/favicons?domain=sophos.com&sz=256"
+    },
+    {
       "key": "spring",
       "name": "Spring Blog",
       "url": "https://spring.io/blog",
@@ -796,16 +856,16 @@
       "image": "https://www.google.com/s2/favicons?domain=sysdig.com&sz=256"
     },
     {
-      "key": "techinsider",
-      "name": "Tech Insider",
-      "url": "https://techinsider.io/",
-      "image": "https://www.google.com/s2/favicons?domain=techinsider.io&sz=256"
-    },
-    {
       "key": "techcrunch",
       "name": "TechCrunch",
       "url": "https://techcrunch.com/",
       "image": "https://cdn.simpleicons.org/techcrunch/0A9A28"
+    },
+    {
+      "key": "techinsider",
+      "name": "Tech Insider",
+      "url": "https://techinsider.io/",
+      "image": "https://www.google.com/s2/favicons?domain=techinsider.io&sz=256"
     },
     {
       "key": "techlife",
@@ -864,16 +924,16 @@
       "image": "https://www.google.com/s2/favicons?domain=thenextweb.com&sz=256"
     },
     {
-      "key": "theregister",
-      "name": "The Register",
-      "url": "https://www.theregister.com/",
-      "image": "https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.svg"
-    },
-    {
       "key": "theori",
       "name": "Theori",
       "url": "https://theori.io/",
       "image": "https://www.google.com/s2/favicons?domain=theori.io&sz=256"
+    },
+    {
+      "key": "theregister",
+      "name": "The Register",
+      "url": "https://www.theregister.com/",
+      "image": "https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.svg"
     },
     {
       "key": "thoughtworks",
@@ -937,6 +997,12 @@
       "name": "VS Code Updates",
       "url": "https://code.visualstudio.com/updates/",
       "image": "https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=256"
+    },
+    {
+      "key": "warDOD",
+      "name": "U.S. Department of War",
+      "url": "https://www.war.gov/",
+      "image": "https://www.google.com/s2/favicons?domain=war.gov&sz=256"
     },
     {
       "key": "warp",

@@ -1,6 +1,52 @@
 {
-  "last_generated": "2026-05-01T06:00:00-03:00",
+  "last_generated": "2026-05-02T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-05-02",
+      "counts_by_category": {
+        "aiops": 2,
+        "enterprise": 2,
+        "sec": 6,
+        "fintech": 2,
+        "ai": 1,
+        "cloud": 3,
+        "backend": 1,
+        "distarch": 1,
+        "obs": 1
+      },
+      "counts_by_tool": {
+        "claudecode": 1,
+        "github": 2,
+        "vscode": 1,
+        "argocd": 1,
+        "cursor": 1,
+        "kubernetes": 1,
+        "springboot": 1,
+        "docker": 1,
+        "postgres": 1,
+        "intellij": 1,
+        "datadog": 1
+      },
+      "highlights": [
+        {
+          "title": "TeamPCP lança 'Mini Shai-Hulud' contra pacotes oficiais SAP no npm — 4 libs do CAP/MTA roubam segredos de 2,2M downloads/mês",
+          "url": "https://www.wiz.io/blog/mini-shai-hulud-supply-chain-sap-npm",
+          "image": "https://images.ctfassets.net/g7n8oxgnma9c/4ngzhrAVJIRWbXUEMeY6nL/ad4be0c0f4d1d14c7de9d03e62d5a040/Frame_2147230423.png"
+        },
+        {
+          "title": "Pentagon assina IA com 8 big techs para redes classificadas e exclui formalmente Anthropic",
+          "url": "https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic",
+          "image": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2231290849.jpg?c=16x9&q=h_720,w_1280,c_fill"
+        },
+        {
+          "title": "Apple reporta Q2 FY26 com receita recorde de US$ 111,2 bi (+17%), Services bate US$ 31 bi e iPhone sobe 22%",
+          "url": "https://www.cnbc.com/2026/04/30/apple-aapl-q2-2026-earnings-report.html",
+          "image": "https://image.cnbcfm.com/api/v1/image/108180776-1746048273957-gettyimages-2213681731-AFP_46FQ4WB.jpeg?v=1746048307&w=1920&h=1080"
+        }
+      ],
+      "hero_title": "TeamPCP toma SAP, Pentagon barra Anthropic e Apple bate US$ 111 bi sem capex AI",
+      "hero_description": "Sábado começa com 'Mini Shai-Hulud' contra 4 pacotes oficiais SAP no npm — TeamPCP varre Vault e Kubernetes em CI/CD pipelines com 2,2M downloads/mês. No mesmo dia 1/mai, Pentagon anuncia 8 contratos de IA para redes IL6/IL7 (OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection, Oracle) e exclui formalmente Anthropic — segundo veto institucional na semana, depois de Apple confirmar que escolheu Gemini para Foundation Models on-device. Apple ainda assim bate Q2 recorde de US$ 111,2 bi com Services em US$ 31 bi sem queimar capex em GPU. CISA solta advisory sobre OT em infra crítica e adiciona cPanel ao KEV. Em ferramentas: Argo CD 3.4 chega 4/mai com Pause Reconciliation, Claude Code 1.0.40 e Copilot CLI 1.0.40 saem com OAuth headless para MCP, e Bedrock AgentCore aterra em sa-east-1 com runtime LGPD-friendly."
+    },
     {
       "date": "2026-05-01",
       "counts_by_category": {
