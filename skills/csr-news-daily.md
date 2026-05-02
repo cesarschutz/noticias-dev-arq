@@ -298,7 +298,183 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 ---
 
-### FASE 6 — Hero + highlights + imagens pendentes
+### FASE 5C — Imagens em lote (OBRIGATÓRIA — não pule)
+
+**Execute esta fase ANTES da FASE 6.** Objetivo: `news[]` e `tools[]` devem ter imagem grande e útil, preferencialmente editorial (`og:image`/`twitter:image`). Favicon, `simpleicons`, avatar, pixel e logo pequeno são apenas diagnóstico de trabalho incompleto.
+
+**Esta fase é bloqueante.** A edição não pode ser finalizada enquanto houver item de `news[]` sem `image` ou com fallback óbvio (`google.com/s2/favicons`, `simpleicons.org`, `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`). Para `tools[]`, aplique a mesma regra para `kind` in `{release, news, tutorial}`.
+
+**Para cada item de `news[]` e `tools[]` sem imagem editorial real**, execute a cascata abaixo em ordem, parando na primeira tentativa bem-sucedida. Faça em lote e salve checkpoints parciais. A cascata vale também para itens que já têm `image`, mas ela é favicon/simpleicon/logo.
+
+Ao criar itens nas FASES 3-5, já preencha `image` imediatamente se a busca/WebFetch trouxer `og:image`, `twitter:image`, `thumbnail`, `image_src` ou imagem editorial. A FASE 5C é a revisão final agressiva para limpar fallbacks.
+
+#### Tentativa 1 — Metadados do artigo (`og:image`/`twitter:image`)
+
+Extraia a imagem diretamente do HTML da URL do item. Prefira HTML bruto quando possível, porque muitas páginas escondem metadados no primeiro bloco de HTML.
+
+```
+WebFetch(url_da_noticia,
+  "Look in the HTML head and early page markup. Extract the FIRST match, in this order:
+   1. content of <meta property='og:image'>
+   2. content of <meta property='og:image:secure_url'>
+   3. content of <meta name='twitter:image'>
+   4. content of <meta name='twitter:image:src'>
+   5. href of <link rel='image_src'>
+   Return ONLY the absolute https:// URL. If URL starts with /, prepend the page origin. Return NONE if nothing found.")
+```
+
+Se estiver em ambiente com shell/rede, o equivalente prático é:
+
+```bash
+curl -L -s "$url" | rg -i 'og:image|twitter:image|image_src|og:title' -m 12
+```
+
+Se retornar URL válida e não for ícone/logo pequeno, salve como `image`.
+
+#### Tentativa 2 — Microlink API (preview externo)
+
+```
+WebFetch("https://api.microlink.io/?url={URL-encoded-da-noticia}",
+  "This returns JSON. Return ONLY the string value at data.image.url.
+   If data.image is null or absent, return NONE.
+   Do NOT fall back to data.logo.url.")
+```
+
+Aceite apenas se for imagem grande/editorial. Rejeite `data.logo.url`, favicon, avatar e ícone.
+
+#### Tentativa 3 — Feed RSS/Atom do domínio
+
+Use quando a página bloqueia HTML por Cloudflare/JS challenge, mas o feed público inclui `content:encoded`, `media:content`, `media:thumbnail`, `enclosure` ou imagens inline.
+
+Tente, nesta ordem:
+- `{origin}/feed/` (WordPress)
+- `{origin}/rss`
+- `{origin}/rss.xml`
+- `{origin}/atom.xml`
+
+Procure o item cujo `link` ou `title` bate com a URL/headline do item. Extraia a primeira imagem grande em:
+- `media:content url`
+- `media:thumbnail url`
+- `enclosure url`
+- `<img src="...">` dentro de `content:encoded`
+
+Exemplo de busca no shell:
+
+```bash
+curl -L -s "$origin/feed/" | rg -A 30 -B 5 'slug-ou-titulo-do-artigo|media:content|media:thumbnail|<img'
+```
+
+#### Tentativa 4 — oEmbed WordPress/Ghost
+
+```
+WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}",
+  "Return only the string value of thumbnail_url. Return NONE if absent.")
+```
+
+#### Tentativa 5 — Imagem inline do artigo
+
+Faça WebFetch na URL original:
+
+```
+"Return ALL image src/href URLs found in the article body (not header/nav/footer).
+ Prefer images with dimensions > 400px or URLs containing 'blog', 'post', 'content', 'article', 'header', 'hero', 'inline', 'uploads'.
+ Return the first valid https:// URL found, or NONE."
+```
+
+#### Tentativa 6 — Fonte oficial relacionada ao mesmo fato
+
+Se a fonte da notícia bloqueia imagem ou não publica `og:image`, busque a fonte oficial do mesmo fato (ex.: matéria sobre Stripe Sessions → post oficial da Stripe; notícia sobre ferramenta/vendor → blog/changelog oficial do vendor). Use a imagem editorial da fonte oficial **somente se o tema for o mesmo**. Mantenha a `url` original do item, mas salve a imagem oficial relacionada.
+
+Busca sugerida:
+
+```
+WebSearch("{produto/vendor} {tópico central} {ano} official blog announcement")
+```
+
+#### Tentativa 7 — Descoberta de asset oficial do projeto
+
+Use quando o artigo não tem imagem editorial boa, mas o projeto/vendor tem site oficial com assets maiores. Isso cobre posts de release/docs que expõem imagem ruim ou relativa (`/default-image.png`) e projetos com página de docs separada.
+
+Fluxo:
+1. Busque a home oficial e/ou docs oficiais do projeto (`origin`, domínio canônico do projeto, docs site antigo/novo).
+2. Extraia `og:image`, `twitter:image`, `image_src`, imagens de hero/header e assets com nomes como `header`, `hero`, `og`, `social`, `card`.
+3. Se encontrar URL relativa, resolva contra o domínio que a retornou.
+4. Valide a URL por `HEAD`/WebFetch: precisa retornar `200` e `content-type` `image/*`.
+5. Salve apenas se for imagem útil no card (idealmente horizontal/hero), não ícone pequeno.
+
+Exemplo prático: se `mermaid.ai` retornar `/default-image.png` e a imagem falhar ou for genérica, busque `mermaid.js.org`/site oficial e aceite um asset validado como `https://mermaid.js.org/header.png`.
+
+Com shell, o padrão é:
+
+```bash
+curl -L -s "$official_home" | rg -i 'og:image|twitter:image|image_src|hero|header|social|card' -m 20
+curl -I "$candidate_image"
+```
+
+#### Tentativa 8 — Imagem institucional grande (não favicon)
+
+Use apenas quando as tentativas 1-7 falharem. Prefira imagem institucional 16:9 ou logo grande hospedado pela própria fonte/vendor (ex.: `aws_logo_smile_1200x630.png`, página temática da CISA, `nginx.png`, card oficial de documentação). Nunca use `google.com/s2/favicons` nem `simpleicons.org` enquanto existir alternativa maior.
+
+#### Tentativa 9 — Favicon (último recurso absoluto; nunca em `highlights[]`)
+
+Só use se todas as tentativas acima falharem e o item não for highlight:
+
+```json
+"image": "https://www.google.com/s2/favicons?domain={domínio-sem-path}&sz=256"
+```
+
+Se isso acontecer, registre mentalmente que a edição ainda tem fallback visual fraco; antes de finalizar, tente substituir o item por outro candidato equivalente com imagem editorial.
+
+#### Padrões práticos que funcionam bem
+
+- **TechCrunch, The Hacker News, NVIDIA, Cloudflare, MongoDB, Grafana, InfoQ, GitHub Blog, Gradle, SonarSource, Simon Willison, ByteByteGo**: normalmente basta Tentativa 1 (`og:image`/`twitter:image`).
+- **Sites WordPress com Cloudflare/challenge**: tente feed RSS (`/feed/`) e procure `content:encoded`/`<img>` antes de desistir.
+- **Notícia sobre vendor sem imagem na fonte editorial**: busque post oficial do vendor sobre o mesmo fato e use o card social oficial (ex.: Stripe Sessions).
+- **Projeto/docs sem imagem no artigo**: busque asset oficial na home/docs e valide com `HEAD` (ex.: Mermaid → `mermaid.js.org/header.png`).
+- **Alertas oficiais secos (CISA, changelog puro, docs sem hero)**: prefira página temática/institucional grande do próprio site antes de favicon.
+
+**Regras de validação de imagem:**
+- URL deve começar com `https://`.
+- `http://` → converta para `https://` antes de salvar.
+- Rejeite URL com `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`, `1x1`, `tracking`, `adserver`.
+- Rejeite `simpleicons.org` e `google.com/s2/favicons` para `highlights[]` sempre, e para `news[]`/`tools[]` salvo último recurso absoluto.
+- URL com `logo` no path só é aceitável se for imagem institucional grande ou card social validado (ex.: `*_1200x630`, `*_1920x1080`, `nginx.png`), nunca logo pequeno de navegação.
+- Nunca escreva URL de imagem inventada por padrão de nome. Use somente URL retornada por página/artigo real, feed, Microlink, oEmbed, fonte oficial relacionada, homepage/docs oficial, página institucional real ou Google Favicon.
+- Se uma URL candidata retornar 401, 403, 404 ou `content-type` que não seja imagem, descarte e continue a cascata.
+- Para `highlights[]`, verifique cada `image`: precisa responder como imagem (`image/jpeg`, `image/png`, `image/webp`, `image/svg+xml`) e não pode retornar 403/404. Se falhar, rode as tentativas especiais A/B/C.
+
+**Meta obrigatória:** `highlights[]` 3/3 com imagem editorial; `news[]` 100% com `image`; `tools[]` 100% com `image` para `kind` in `{release, news, tutorial}`; `news[] + tools[]` com **0** ocorrências de `google.com/s2/favicons` e `simpleicons.org` sempre que houver alternativa pública.
+
+**Validação bloqueante ao fim da FASE 5C** — depois do Write, execute mentalmente/por ferramenta este check sobre `data/{YYYY-MM-DD}.json`:
+
+```bash
+jq -e '
+  def valid_img: type == "string" and startswith("https://") and length > 12;
+  ([.news[] | .image | valid_img] | all)
+  and ([.tools[] | select(.kind as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
+  and ([.highlights[] | .image | valid_img] | all)
+' data/{YYYY-MM-DD}.json
+```
+
+E execute também:
+
+```bash
+jq -e '
+  ([.news[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
+   | map(.image // "")
+   | map(test("google.com/s2/favicons|simpleicons.org"))
+   | any
+   | not)
+' data/{YYYY-MM-DD}.json
+```
+
+Se qualquer check falhar, **não siga para FASE 6**. Volte à cascata de imagens e corrija os itens faltantes ou substitua o item por candidato equivalente com imagem editorial.
+
+**Ao fim da FASE 5C**: CHECKPOINT → Read / atualize `image` em todos os itens / Write / valide o check acima.
+
+---
+
+### FASE 6 — Hero + highlights
 
 **Score explícito** (aplique a cada item de `news[]` e `tools[]`):
 
@@ -314,17 +490,15 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 **Highlights (top 3 do dia)**: selecione os **3 itens com maior score** — **score ≥5 preferido**; se nenhum chegar a 5, selecione os top 3 mesmo assim, documentando em `hero_description`. Preferir **pelo menos 2 categorias distintas**.
 
-**Antes de confirmar os 3 highlights**, verifique se cada candidato já tem `image` editorial (não favicon, não simpleicons). Se um candidato ainda não tem imagem, faça a tentativa 1 (Microlink) agora. Se retornar NONE, **prefira o próximo candidato no ranking que já tenha imagem confirmada** — a não ser que a diferença de score seja ≥3 pontos, nesse caso mantenha o candidato e aplique a regra especial de highlights (tentativas A, B, C) logo após.
+**A cascata de imagens já foi executada na FASE 5C.** Ao selecionar os highlights, verifique se cada candidato tem `image` editorial (não favicon genérico). Se algum candidato ainda estiver com favicon, aplique as tentativas especiais A, B, C da seção IMAGENS abaixo antes de aceitar.
 
-Cada item de `highlights[]` tem os mesmos campos de um item de `news[]`/`tools[]` + o campo extra `source_array: "news" | "tools"`. Campo `image` obrigatório nos 3.
+Cada item de `highlights[]` tem os mesmos campos de um item de `news[]`/`tools[]` + o campo extra `source_array: "news" | "tools"`. Campo `image` **obrigatório** nos 3 — Google Favicon é **inaceitável** em highlights.
 
-**Imagens** (cascata obrigatória para itens sem `image`) — ver seção IMAGENS abaixo.
-
-Meta: `highlights[]` 3/3 com `image`; `news[]` ≥80% com `image`.
+Meta: `highlights[]` 3/3 com `image` editorial; `news[]` 100% com `image`.
 
 **`edition_digest`** — escreva um resumo corrido de **toda a edição** (não só os highlights), em português, com tom descontraído e jornalístico. Deve ser um texto fluido que casa os assuntos de forma natural, sem títulos nem marcadores — parágrafos separados por `\n\n`. Tamanho ideal: 4–6 parágrafos curtos, entre 200 e 350 palavras. Comece pelo tema mais impactante do dia e agrupe assuntos relacionados no mesmo parágrafo. Termine sempre com as ferramentas e releases mais relevantes da semana. Exemplo de tom: "Sexta começa movimentada: Microsoft Agent 365 entrou em GA com aquela proposta de tudo-num-pacote... No mesmo dia, a Anthropic calou silenciosamente o contexto de 1M tokens... Segurança foi pesada: MOVEit voltou com CVSS 9.8 e sem patch..."
 
-**Ao fim da FASE 6**: CHECKPOINT → Read / atualize `hero_title`, `hero_description`, `edition_digest`, `highlights[]`, imagens pendentes / Write.
+**Ao fim da FASE 6**: CHECKPOINT → Read / atualize `hero_title`, `hero_description`, `edition_digest`, `highlights[]` / Write.
 
 ---
 
@@ -341,10 +515,10 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Sexta-feira**: `fundamentals` tem 2-3 itens, ≥1 evergreen canônico.
 - [ ] **`tools[]` rotação**: mínimo 10 itens, **sem repetir** `tool_key` com URL idêntica das últimas 7 edições.
 - [ ] **`kind === "release"` tem `version`**.
-- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`. **Usar `source_key`** (chave de `data/sources.json`) — nunca o campo `source` como string livre.
-- [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. Deve conter: `junior` (define termos do zero, 1-2 frases), `pleno` (contexto técnico, 1-2 frases), `senior` (impacto arquitetural e ação, 1 frase), `glossary` (array de `{term, def}` com os termos técnicos usados nas explicações).
+- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`, `image`. **Usar `source_key`** (chave de `data/sources.json`) — nunca o campo `source` como string livre.
+- [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O texto deve funcionar como um resumo guiado da própria notícia/release/tutorial: qualquer dev deve conseguir ler essas 3 passagens, abrir a fonte original e entender do que se trata. `junior` introduz o assunto e o vocabulário essencial sem pressupor contexto; `pleno` expande o mecanismo, o trade-off e o contexto do ecossistema; `senior` fecha com a decisão prática, o impacto arquitetural e o próximo passo técnico. As 3 passagens precisam falar sobre o mesmo assunto com profundidade crescente, não sobre perfis de leitor. `glossary` é um array de `{term, def}` só para siglas, produtos, empresas, protocolos e termos não óbvios que aparecem nessas passagens; cada definição deve ser curta, precisa e autônoma. Não use glossary para palavras genéricas nem para repetir a explicação inteira.
 - [ ] **`edition_digest`** preenchido: 4–6 parágrafos, 200–350 palavras, tom descontraído, texto corrido sem marcadores.
-- [ ] **Imagens**: highlights[] 3/3; news[] ≥80%.
+- [ ] **Imagens**: `highlights[]` 3/3 com imagem editorial (não favicon) e URL verificada; `news[]` 100% com `image`; `tools[]` 100% com `image` para `kind` in `{release, news, tutorial}`; `news[] + tools[]` sem `google.com/s2/favicons`/`simpleicons.org` quando houver qualquer alternativa pública. Se falhar, volte à FASE 5C antes de finalizar.
 - [ ] **`tools[]` chaves válidas** — ver conjunto autoritativo em `scripts/validate_editions.py` (`TOOL_KEYS`). Sempre sincronize ao adicionar/remover ferramentas.
 - [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id`, `url` e **`title` preenchido** (nunca `""`). Campo `channel` deve estar preenchido. Campo `start` **não deve existir**.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
@@ -355,6 +529,31 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Balanço de `kind`**: >70% de `tip`+`curiosity` em `tools[]` = edição fraca. Substitua com evergreen `tutorial`/`news`.
 
 Se algum check falhar: busque mais conteúdo e corrija.
+
+**Check obrigatório de imagens antes de salvar finais:**
+
+```bash
+jq -e '
+  def valid_img: type == "string" and startswith("https://") and length > 12;
+  ([.news[] | .image | valid_img] | all)
+  and ([.tools[] | select(.kind as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
+  and ([.highlights[] | .image | valid_img] | all)
+' data/{YYYY-MM-DD}.json
+```
+
+E o check anti-fallback também precisa passar:
+
+```bash
+jq -e '
+  ([.news[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
+   | map(.image // "")
+   | map(test("google.com/s2/favicons|simpleicons.org"))
+   | any
+   | not)
+' data/{YYYY-MM-DD}.json
+```
+
+Estes comandos precisam passar antes de escrever `data/editions.json` e `data/{YYYY-MM-DD}.json` finais. Se falharem, a edição está incompleta.
 
 ### FASE 7.1 — Verificação obrigatória de links
 
@@ -384,10 +583,20 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 
 *MODO NORMAL:*
 1. Leia `data/editions.json`.
-2. Adicione a nova edição no início de `editions[]` (com `date`, `hero_title`, `hero_description`, `counts_by_category`, `counts_by_tool`, `highlights`).
+2. Adicione a nova edição no início de `editions[]` (com `date`, `hero_title`, `hero_description`, `counts_by_category`, `counts_by_tool`, `highlights`). Em `editions[].highlights[]`, salve sempre `title`, `url` e `image` copiados dos 3 highlights do JSON diário.
 3. Atualize `last_generated`.
 4. Escreva `data/editions.json` **PRIMEIRO**.
-5. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
+5. Valide que `data/editions.json` também tem imagem nos 3 highlights da edição recém-inserida:
+
+```bash
+jq -e '
+  def valid_img: type == "string" and startswith("https://") and length > 12;
+  (.editions[0].highlights | length == 3)
+  and ([.editions[0].highlights[] | .image | valid_img] | all)
+' data/editions.json
+```
+
+6. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
 
 *MODO PRIMEIRA EXECUÇÃO — ordem de escrita:*
 1. `data/editions.json` (com primeira edição)
@@ -794,11 +1003,11 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "headline": "Manchete em português brasileiro (copie idêntica do item em news[] ou tools[])",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
       "explain": {
-        "junior": "Explique os termos e conceitos desta notícia do zero, como se o leitor nunca tivesse ouvido falar deles. 1-2 frases.",
-        "pleno": "Explique o mecanismo técnico e contexto no ecossistema. Assume conhecimento básico de dev. 1-2 frases.",
-        "senior": "Impacto arquitetural e ação concreta para o arquiteto sênior. 1 frase direta.",
+        "junior": "Introduza o assunto e o vocabulário essencial para que a notícia faça sentido logo de início. Explique o que é, por que surgiu e por que importa sem pressupor contexto. 1-2 frases.",
+        "pleno": "Aprofunde o mecanismo, o trade-off e o contexto do ecossistema. Mostre como isso funciona na prática e qual problema realmente resolve. 1-2 frases.",
+        "senior": "Feche com a leitura de decisão: impacto arquitetural, efeito na operação/projeto e próximo passo técnico. 1 frase direta.",
         "glossary": [
-          { "term": "Termo", "def": "Definição curtinha (1 frase) do que é esse termo, para quem não conhece." }
+          { "term": "Termo", "def": "Definição curta, objetiva e autônoma do termo, suficiente para quem não conhece." }
         ]
       },
       "source_key": "helpnetsecurity",
@@ -817,11 +1026,11 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto.",
       "explain": {
-        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
-        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
-        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "junior": "Introduza o assunto e o vocabulário essencial para que a release faça sentido logo de início. Explique o que é e por que importa sem pressupor contexto. 1-2 frases.",
+        "pleno": "Aprofunde o mecanismo, o trade-off e o contexto do ecossistema. Mostre como isso funciona na prática e qual problema realmente resolve. 1-2 frases.",
+        "senior": "Feche com a leitura de decisão: impacto arquitetural, efeito na operação/projeto e próximo passo técnico. 1 frase.",
         "glossary": [
-          { "term": "Termo", "def": "Definição curtinha." }
+          { "term": "Termo", "def": "Definição curta e precisa do termo, sem repetir a explicação principal." }
         ]
       },
       "source_key": "kubernetes",
@@ -839,11 +1048,11 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases.",
       "explain": {
-        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
-        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
-        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "junior": "Introduza o assunto e o vocabulário essencial para que a notícia faça sentido logo de início. Explique o que é e por que importa sem pressupor contexto. 1-2 frases.",
+        "pleno": "Aprofunde o mecanismo, o trade-off e o contexto do ecossistema. Mostre como isso funciona na prática e qual problema realmente resolve. 1-2 frases.",
+        "senior": "Feche com a leitura de decisão: impacto arquitetural, efeito na operação/projeto e próximo passo técnico. 1 frase.",
         "glossary": [
-          { "term": "Termo", "def": "Definição curtinha." }
+          { "term": "Termo", "def": "Definição curta e precisa do termo, sem repetir a explicação principal." }
         ]
       },
       "source_key": "anthropic",
@@ -864,18 +1073,19 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo na perspectiva do arquiteto.",
       "explain": {
-        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
-        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
-        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "junior": "Introduza o assunto e o vocabulário essencial para que a notícia faça sentido logo de início. Explique o que é e por que importa sem pressupor contexto. 1-2 frases.",
+        "pleno": "Aprofunde o mecanismo, o trade-off e o contexto do ecossistema. Mostre como isso funciona na prática e qual problema realmente resolve. 1-2 frases.",
+        "senior": "Feche com a leitura de decisão: impacto arquitetural, efeito na operação/projeto e próximo passo técnico. 1 frase.",
         "glossary": [
-          { "term": "Termo", "def": "Definição curtinha." }
+          { "term": "Termo", "def": "Definição curta e precisa do termo, sem repetir a explicação principal." }
         ]
       },
       "source_key": "awsblog",
       "url": "https://url-real.com",
       "published_at": "2026-04-17T03:00:00-03:00",
       "read_time": 3,
-      "tags": ["aws", "s3"]
+      "tags": ["aws", "s3"],
+      "image": "https://url-da-og-image-ou-fallback-da-fonte.com/img.jpg"
     }
   ],
   "tools": [
@@ -888,11 +1098,11 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "headline": "Cursor 3 lança Agents Window com paralelismo de agentes",
       "description": "Resumo de 1-2 frases: o que mudou + impacto.",
       "explain": {
-        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
-        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
-        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "junior": "Introduza o assunto e o vocabulário essencial para que a notícia faça sentido logo de início. Explique o que é e por que importa sem pressupor contexto. 1-2 frases.",
+        "pleno": "Aprofunde o mecanismo, o trade-off e o contexto do ecossistema. Mostre como isso funciona na prática e qual problema realmente resolve. 1-2 frases.",
+        "senior": "Feche com a leitura de decisão: impacto arquitetural, efeito na operação/projeto e próximo passo técnico. 1 frase.",
         "glossary": [
-          { "term": "Termo", "def": "Definição curtinha." }
+          { "term": "Termo", "def": "Definição curta e precisa do termo, sem repetir a explicação principal." }
         ]
       },
       "source_key": "cursor",
@@ -932,19 +1142,19 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 - **Nunca incluir**: campo `start` — todos os vídeos iniciam do segundo zero.
 
 **Item de `news[]` (mesma estrutura usada dentro de `highlights[]`)**:
-- **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `explain`, `source_key`, `url`, `read_time`.
+- **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `explain`, `source_key`, `url`, `read_time`, `image`.
 - **Booleans opcionais** (default `false`): `urgent`, `star`, `breaking`.
 - **Opcionais estruturados**:
   - `severity`: `"critical" | "high" | "medium" | "low"` — granularidade para itens `sec`.
   - `published_at`: ISO 8601 com timezone — quando o artigo/anúncio foi publicado pela fonte.
   - `cves`: array de strings `"CVE-YYYY-NNNNN"`.
   - `tags`: array de 2-6 strings curtas minúsculas.
-  - `image`: URL `https://` da imagem principal do artigo (og:image).
 
 **Item de `tools[]`**:
 - **Obrigatórios**: `tool_key`, `name`, `kind`, `headline`, `explain`, `source_key`, `url`.
 - **Obrigatório quando `kind === "release"`**: `version`.
-- **Opcionais**: `icon`, `description`, `published_at`, `image`, `tags`.
+- **Obrigatório quando `kind` in `{release, news, tutorial}`**: `image`.
+- **Opcionais**: `icon`, `description`, `published_at`, `tags`. `image` pode ser omitido somente para `kind` in `{tip, curiosity}` após a FASE 5C falhar em todas as tentativas.
 
 ### Emojis: unicode literal, não escapado
 
@@ -1009,7 +1219,11 @@ Escolha 1 dona e liste as outras em `tags[]`:
       "counts_by_category": { "sec": 3, "ai": 2, "aiops": 3, "cloud": 2, "devops": 2 },
       "counts_by_tool": { "cursor": 1, "docker": 1, "langfuse": 1 },
       "highlights": [
-        { "title": "Manchete do destaque", "url": "https://url.com" }
+        {
+          "title": "Manchete do destaque",
+          "url": "https://url.com",
+          "image": "https://url-da-og-image-do-artigo.com/img.jpg"
+        }
       ]
     }
   ]
@@ -1017,7 +1231,8 @@ Escolha 1 dona e liste as outras em `tags[]`:
 ```
 
 - Array `editions` ordenado do mais recente para o mais antigo.
-- Cada edição tem exatamente 3 highlights (os 3 itens top-ranqueados do dia por score, reduzidos aqui a `title`+`url`).
+- Cada edição tem exatamente 3 highlights (os 3 itens top-ranqueados do dia por score, reduzidos aqui a `title`+`url`+`image`).
+- `editions[].highlights[].image` é obrigatório e deve vir do `image` editorial do highlight correspondente no JSON diário. Nunca omita este campo no índice, porque a home usa `data/editions.json` antes de carregar todos os arquivos diários.
 - `hero_title` e `hero_description` devem ser **idênticos** ao `hero_title` e `hero_description` do JSON diário (`data/{date}.json`). Não há campo `summary` — foi removido.
 - `counts_by_category`: mapa `chave_categoria → número de itens` em `news[]`. Omita categorias com 0. Chaves válidas (16): ver tabela acima.
 - `counts_by_tool`: mapa `tool_key → número de itens` em `tools[]`. Chaves válidas: conjunto em `scripts/validate_editions.py` (`TOOL_KEYS`). Omita chaves com 0.
@@ -1066,63 +1281,9 @@ Exceção: `tools[].url` pode apontar para changelog oficial com âncora especí
 
 ## IMAGENS
 
-O campo `image` representa a **hero image do artigo** (og:image, twitter:image) — a imagem editorial que aparece quando o link é compartilhado. Não é o logo da fonte; é a imagem ilustrativa do conteúdo (ex: a ilustração do blog post da Cloudflare, a foto do artigo da AWS). A SPA renderiza thumbnails 16:9 nos cards. Sites reais (AWS Blog, Cloudflare Blog, Help Net Security, TechCrunch, InfoQ, Anthropic, GitHub) **sempre têm og:image**.
+O campo `image` representa a **hero image do artigo** (og:image, twitter:image) — a imagem editorial que aparece quando o link é compartilhado. Não é o logo pequeno da fonte; é a imagem ilustrativa do conteúdo (ex: a ilustração do blog post da Cloudflare, a foto do artigo da TechCrunch, o card social da NVIDIA). A SPA renderiza thumbnails 16:9 nos cards. Muitas fontes reais expõem isso no HTML, feed RSS/Atom ou post oficial relacionado.
 
-**Meta de cobertura — não negociável**:
-- `highlights[]`: **3/3 com imagem editorial** (og:image/twitter:image). Google Favicon é **inaceitável** nos highlights — se as tentativas 1–3 falharem, execute novamente a tentativa 2 com prompt mais específico antes de aceitar fallback.
-- `news[]`: **≥ 80% com imagem** (editorial ou fallback de fonte).
-- `tools[]` com `kind` in `{release, news}`: **≥ 60% com imagem**. Para `tip/tutorial/curiosity` opcional.
-
-### Quando executar
-
-Execute a cascata abaixo para **todos os itens** de `news[]` e `tools[]` que ainda não têm `image`, em lote, **antes de selecionar os highlights na FASE 6**. Assim os highlights já têm imagem garantida no momento da seleção.
-
-Ao fazer WebFetch na **FASE 7** para verificar links de `highlights[]` e top-5 `news[]`, **aproveite a mesma chamada** para extrair og:image se o item ainda não tiver imagem.
-
-### Cascata obrigatória (executar em ordem, parar na primeira bem-sucedida)
-
-**Tentativa 1 — Microlink API** ← chamada JSON leve, funciona para ~90% dos sites, faça para TODOS os itens
-
-```
-WebFetch("https://api.microlink.io/?url={URL-encoded-da-noticia}",
-  "This returns JSON. Return ONLY the string value at data.image.url.
-   If data.image is null or absent, return NONE.
-   Do NOT fall back to data.logo.url here.")
-```
-
-Se retornar URL válida (`https://`, não contém `favicon`, `icon`, `avatar`, `pixel`, `logo`): salve como `image`. **Fim da cascata para este item.**
-
-**Tentativa 2 — WebFetch direto no artigo** ← a tag og:image está sempre no `<head>`, nos primeiros 2 KB do HTML
-
-```
-WebFetch(url_da_noticia,
-  "Look ONLY in the HTML <head> section (first 2000 characters). Extract the FIRST match in this exact priority order:
-   1. content attribute of <meta property='og:image'>
-   2. content attribute of <meta property='og:image:secure_url'>
-   3. content attribute of <meta name='twitter:image'>
-   4. content attribute of <meta name='twitter:image:src'>
-   5. href attribute of <link rel='image_src'>
-   Return ONLY the absolute https:// URL. If the URL starts with /, prepend the article's domain (e.g. https://blog.example.com). Return NONE if nothing found.")
-```
-
-**Tentativa 3 — oEmbed WordPress** ← apenas para sites WordPress/Ghost
-
-```
-WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}",
-  "Return only the string value of thumbnail_url from this JSON. Return NONE if absent.")
-```
-
-**Tentativa 4 — sources.json** ← fallback de logo da fonte (melhor que favicon genérico)
-
-Leia `data/sources.json`. Localize a entrada cujo campo `key` corresponde ao campo `source` do item (ex: item com `"source": "cloudflare"` → entrada `{"key": "cloudflare", "image": "https://cdn.simpleicons.org/cloudflare/F38020", ...}`). Use o campo `image` dessa entrada.
-
-Se o item não tiver campo `source` ou a fonte não existir em sources.json, pule para tentativa 5.
-
-**Tentativa 5 — Google Favicon** ← último recurso absoluto; aceitável apenas em `news[]`/`tools[]`, nunca em `highlights[]`
-
-```
-image: "https://www.google.com/s2/favicons?domain={domínio-sem-path}&sz=256"
-```
+> **A cascata principal (Tentativas 1–9) está definida na FASE 5C.** Esta seção documenta apenas as tentativas especiais para `highlights[]` e as regras de validação.
 
 ### Regra especial para highlights[]
 
@@ -1132,7 +1293,7 @@ Se após a cascata um highlight ainda estiver com Google Favicon ou sem imagem e
 ```
 WebSearch("{headline do artigo} site:{domínio-da-fonte}")
 ```
-Pegue a primeira URL de resultado que seja do mesmo domínio mas diferente da URL original (ex: blog post, release page, announcement). Faça a cascata novamente (tentativas 1 e 2) nessa URL alternativa.
+Pegue a primeira URL de resultado que seja do mesmo domínio mas diferente da URL original (ex: blog post, release page, announcement). Faça a cascata da FASE 5C novamente nessa URL alternativa.
 
 **Tentativa B — Cobertura de terceiros**
 ```
@@ -1148,14 +1309,16 @@ Faça WebFetch na URL original pedindo:
  Return the first valid https:// URL found, or NONE."
 ```
 
-**Apenas se A, B e C falharem**: aceite o favicon. Isso indica que a página é SPA sem SSR e não tem imagem acessível via HTTP. Nesse caso, considere substituir o highlight pelo próximo item no ranking que tenha imagem confirmada.
+**Se A, B e C falharem**: substitua o highlight pelo próximo item no ranking que tenha imagem editorial confirmada. Não finalize `highlights[]` com Google Favicon.
 
 ### Validação de imagens
 
 - URL deve começar com `https://`.
-- Rejeite URLs com `avatar`, `profile`, `icon`, `pixel`, `ad`, `logo`, `favicon` no caminho (exceto as vindas da tentativa 4 e 5, que são logos intencionais).
+- Rejeite URLs com `avatar`, `profile`, `icon`, `pixel`, `ad`, `favicon` no caminho. URL com `logo` só é aceitável quando for card social/institucional grande validado, não logo pequeno de navegação.
 - `http://` → converta para `https://` antes de salvar.
-- Omita `image` **somente** se todas as tentativas falharam E o item é de `tools[]` com `kind` in `{tip, tutorial, curiosity}`.
+- `news[]` nunca pode omitir `image`; se não houver imagem editorial, use imagem institucional grande, fonte oficial relacionada ou substitua o item. Google Favicon é último recurso absoluto, não padrão.
+- `simpleicons.org` não é fallback aceitável em `news[]`, `tools[]` de `kind` release/news/tutorial nem `highlights[]`.
+- Omita `image` **somente** se todas as tentativas falharam E o item é de `tools[]` com `kind` in `{tip, curiosity}`.
 
 ---
 
@@ -1168,8 +1331,8 @@ Faça WebFetch na URL original pedindo:
 5. **Top 3 destaques** pelo score (≥5 preferido), com pelo menos 2 categorias distintas.
 6. **URLs específicas e verificáveis** (FASE 7.1 obrigatória).
 7. **Sem duplicatas** com as 7 edições anteriores.
-8. **Perspectiva em camadas**: o campo `explain` conta a mesma história em 3 níveis — júnior (define os termos), pleno (explica o mecanismo), sênior (impacto e ação para arquiteto).
-9. **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O `glossary` dentro de `explain` define os termos técnicos usados nas próprias explicações — não da notícia inteira. Mínimo 2 termos por item quando aplicável.
+8. **Perspectiva em camadas**: o campo `explain` aprofunda a mesma história em 3 passagens complementares e cumulativas — `junior` apresenta o assunto e o vocabulário essencial; `pleno` explica o mecanismo, o trade-off e o contexto; `senior` fecha com a decisão técnica e o impacto arquitetural. O resultado deve permitir que qualquer dev leia o resumo, depois abra a fonte, e já entre no texto original com entendimento do que está em jogo.
+9. **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O `glossary` dentro de `explain` serve só para termos realmente não óbvios citados nas explicações. Priorize siglas, nomes de produto/empresa, protocolos e conceitos específicos. Use de 2 a 4 itens quando houver termos suficientes; não force glossary se o texto já estiver autoexplicativo.
 10. **Português brasileiro**. Termos técnicos em inglês são aceitáveis.
 11. **Badges de status**:
     - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages.
@@ -1178,7 +1341,7 @@ Faça WebFetch na URL original pedindo:
 12. **`read_time`**: inteiro em minutos (2-5 típico).
 13. **`hero_title`**: máximo ~60 caracteres.
 14. **`hero_description`**: 2-3 frases resumindo o dia.
-15. **Imagens**: cascata obrigatória — 3/3 highlights; ≥80% news.
+15. **Imagens**: cascata obrigatória — 3/3 highlights com imagem editorial; 100% de `news[]` com `image`; 100% de `tools[]` com `image` para `kind` in `{release, news, tutorial}`.
 16. **`tools[]` rotação dinâmica**: mínimo 10/dia, sem repetir URL das últimas 7 edições. Ver FASE 5.
 17. **Novos campos estruturados** (opcionais):
     - **CVEs**: sempre extrair em notícias de segurança.
