@@ -1,51 +1,6 @@
 {
-  "last_generated": "2026-05-02T06:00:00-03:00",
+  "last_generated": "2026-05-01T06:00:00-03:00",
   "editions": [
-    {
-      "date": "2026-05-02",
-      "counts_by_category": {
-        "ai": 3,
-        "sec": 4,
-        "cloud": 1,
-        "fintech": 2,
-        "aiops": 1,
-        "data": 1,
-        "obs": 1,
-        "design": 1,
-        "fundamentals": 1
-      },
-      "counts_by_tool": {
-        "mongodb": 1,
-        "mermaid": 1,
-        "secrets-manager": 1,
-        "angular": 1,
-        "istio": 1,
-        "ghactions": 1,
-        "gradle": 1,
-        "sonar": 1,
-        "nginx": 1,
-        "python": 1
-      },
-      "highlights": [
-        {
-          "title": "Pentágono fecha contratos de IA classificada com OpenAI, Google, Microsoft, AWS, NVIDIA, SpaceX e Reflection — Anthropic fica de fora",
-          "url": "https://techcrunch.com/2026/05/01/pentagon-inks-deals-with-nvidia-microsoft-and-aws-to-deploy-ai-on-classified-networks/",
-          "image": "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1292192586.jpg?w=1024"
-        },
-        {
-          "title": "Mini Shai-Hulud volta com 4 pacotes npm do SAP CAP comprometidos (~572k downloads/sem) exfiltrando credenciais via GitHub público",
-          "url": "https://thehackernews.com/2026/04/sap-npm-packages-compromised-by-mini.html",
-          "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7ILiV-4oJHtNRt3-K52GIsgOaNUuN9owB5ky-Mk8FvRE3QmcqDg33oV3sCrzjgWEyIUfwTtn110bcMYVU3Lp61ArknIlPAcmMvbgJJ5-WheKYivyblon2tp79ux9pJmnYNv_ShhIAA5of3Wx7QzQRZs2mNuSQs6lLG23LKMVonvElcNMy6MXp6yVZO73F/s1700/sap-npm-hacks.jpg"
-        },
-        {
-          "title": "AWS Interconnect multicloud entra em GA com Google Cloud como primeiro parceiro — Azure e OCI vêm em 2026",
-          "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/aws-announces-ga-AWS-interconnect-multicloud/",
-          "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
-        }
-      ],
-      "hero_title": "Pentagon fecha contratos de IA classificada com 7 e exclui Anthropic, Mini Shai-Hulud volta no SAP CAP e AWS Interconnect multicloud entra em GA",
-      "hero_description": "Sábado começa com três movimentos pesados de plataforma e governança: o Pentágono assina acordos formais com OpenAI, Google, Microsoft, AWS, NVIDIA, SpaceX e Reflection para IA em redes classificadas — Anthropic fica de fora pela recusa em remover guardrails contra armas autônomas e vigilância em massa. Mini Shai-Hulud volta com 4 pacotes npm do SAP CAP comprometidos (≈572k downloads/semana) exfiltrando credenciais via GitHub. AWS Interconnect multicloud entra em GA com Google Cloud como primeiro parceiro, redefinindo o desenho de interconexão privada cross-cloud. Ainda no ar: Anthropic mira valuation de US$ 900 bi em rodada com janela de 48h para investidores, CISA adiciona o Linux Copy Fail (CVE-2026-31431) ao KEV, n8n recebe falha máxima e Stripe consolida a Agentic Commerce Suite ligando 250M wallets a agents."
-    },
     {
       "date": "2026-05-01",
       "counts_by_category": {
