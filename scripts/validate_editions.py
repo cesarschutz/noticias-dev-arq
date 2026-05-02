@@ -51,11 +51,15 @@ TOOL_KEYS = {
     # Mesh, Proxies & Edge
     'istio', 'nginx',
     # Dados & Streaming
-    'databricks', 'postgres', 'redis', 'kafka',
+    'databricks', 'postgres', 'redis', 'kafka', 'mongodb',
     # Obs & Segurança
-    'dynatrace', 'datadog', 'keycloak',
+    'dynatrace', 'datadog', 'keycloak', 'checkmarx', 'sonar',
     # Backend & Build
-    'gradle', 'maven', 'springboot',
+    'gradle', 'maven', 'springboot', 'spring',
+    # Frontend
+    'angular', 'react',
+    # Integração & Eventos
+    'rabbitmq', 'sns', 'sqs',
     # Design & Docs (docs-as-code)
     'structurizr', 'plantuml', 'mermaid',
 }

@@ -13,8 +13,16 @@
       "category_icon": "🔐",
       "headline": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
       "summary": "The Register descreve campanha em curso (TeamPCP + Lapsus$ + Vect) atingindo Checkmarx, LiteLLM, KICS, Trivy e agora Bitwarden CLI. Atacantes confessam que pretendem encadear comprometimentos em rounds de ransomware. Bitwarden tem 10M+ usuários e 50K+ empresas. Risco: ferramentas de segurança são deeply embedded e overprivileged — tornam-se choke points perfeitos para data theft e propagação lateral.",
-      "why_it_matters": "Campanha valida tese de que supply chain de ferramentas de segurança é o novo perímetro: arquitetos precisam tratar dependências de DevSecOps com isolamento e revogação rápida.",
-      "source": "The Register",
+      "explain": {
+        "junior": "Lapsus$ é um grupo de hackers que ataca empresas de tecnologia. Checkmarx é uma ferramenta usada por desenvolvedores para encontrar falhas no código, e Bitwarden CLI é um gerenciador de senhas. Ransomware é um tipo de vírus que sequestra dados e pede resgate.",
+        "pleno": "O grupo Lapsus$ comprometeu múltiplas ferramentas DevSecOps (Checkmarx, Trivy, KICS, LiteLLM) explorando o fato de que scanners de segurança têm acesso privilegiado a repositórios, tokens e secrets de CI/CD. A estratégia é encadear os comprometimentos: uma ferramenta invadida vira trampolim para roubar credenciais das que dependem dela.",
+        "senior": "Trate scanners de segurança como superfície de ataque tier-1: isolamento de rede, princípio de menor privilégio e rotação automática de tokens de CI/CD são controles não-negociáveis após essa campanha.",
+        "glossary": [
+          { "term": "DevSecOps", "def": "Prática de integrar segurança (Sec) no ciclo de desenvolvimento (Dev) e operações (Ops), com ferramentas automatizadas de análise em cada etapa." },
+          { "term": "Supply chain attack", "def": "Ataque que compromete não o alvo final, mas um fornecedor ou ferramenta que o alvo confia e usa — atingindo muitas vítimas de uma vez." },
+          { "term": "CI/CD", "def": "Continuous Integration / Continuous Deployment: pipeline automatizado que constrói, testa e publica código sempre que há mudança no repositório." }
+        ]
+      },
       "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
       "published_at": "2026-04-27T15:00:00-03:00",
       "read_time": 5,
@@ -26,7 +34,8 @@
         "bitwarden",
         "devsecops"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+      "image": "https://regmedia.co.uk/2024/07/30/shutetrstock_wow.jpg",
+      "source_key": "theregister"
     },
     {
       "source_array": "news",
@@ -35,8 +44,17 @@
       "category_icon": "🗄️",
       "headline": "Engenheiro da AWS reporta PostgreSQL com metade do throughput em kernel Linux 7.0 (Graviton4) — fix não é simples",
       "summary": "Bug regression rastreado por engenheiro Amazon: Linux 7.0 entrega ~0,51× do throughput de PostgreSQL em Graviton4 vs kernels anteriores, com tempo gasto em user-space spinlock disparando. Causa raiz é a mudança em modos de preemption restritivos no 7.0. Discussão dominou a front-page do HN e demanda revisão de rollouts de kernel em frotas de banco.",
-      "why_it_matters": "Quem opera Postgres gerenciado em ARM precisa segurar o upgrade para Linux 7.0 até patch ser confirmado — diferença de 50% em TPS impacta SLAs e capacity planning.",
-      "source": "Phoronix",
+      "explain": {
+        "junior": "PostgreSQL é um banco de dados muito usado por desenvolvedores. Kernel Linux é o núcleo do sistema operacional que controla hardware. Graviton4 é um processador ARM feito pela Amazon para servidores na nuvem.",
+        "pleno": "O kernel Linux 7.0 introduziu mudanças nos modos de preemption que fazem com que user-space spinlocks — mecanismos de trava de baixo nível usados pelo PostgreSQL para sincronização — consumam muito mais CPU, resultando em cerca de metade do throughput (transações por segundo) em chips ARM Graviton4. Não há fix simples porque a regressão está na lógica de escalonamento de tarefas do próprio kernel.",
+        "senior": "Congele o upgrade de kernel para Linux 7.0 em toda frota ARM com PostgreSQL até patch confirmado; impacto de 50% em TPS invalida SLAs e dimensionamento de capacidade.",
+        "glossary": [
+          { "term": "Throughput", "def": "Quantidade de trabalho que um sistema consegue processar em um intervalo de tempo, como transações por segundo em um banco de dados." },
+          { "term": "Spinlock", "def": "Mecanismo de sincronização em que uma thread fica em loop esperando um recurso ficar livre, evitando a troca de contexto mas consumindo CPU." },
+          { "term": "Preemption", "def": "Capacidade do sistema operacional de interromper uma tarefa em execução para dar CPU a outra tarefa de maior prioridade." },
+          { "term": "ARM / Graviton4", "def": "ARM é uma arquitetura de processador de baixo consumo. Graviton4 é a versão da Amazon desse processador, usada em instâncias EC2 da AWS." }
+        ]
+      },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
       "published_at": "2026-04-27T17:00:00-03:00",
       "read_time": 4,
@@ -46,7 +64,8 @@
         "graviton4",
         "performance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+      "image": "https://www.phoronix.net/image.php?id=2026&image=pgbench_regression",
+      "source_key": "phoronix"
     },
     {
       "source_array": "tools",
@@ -56,8 +75,16 @@
       "category_icon": "⚙️",
       "headline": "containerd 2.3.0-rc.0 sai e dá largada para a primeira release com cadência de 4 meses",
       "summary": "Tag v2.3.0-rc.0 publicada em 28/04/2026 marca o início da nova cadência fixa de minor releases a cada 4 meses anunciada pela maintainers da CNCF. Inclui ajustes finais antes do GA e marca o fim das releases ad-hoc — runtime do Docker, K8s e da maioria dos PaaS passa a ter previsibilidade para upgrades de fleets.",
-      "why_it_matters": "Cadência fixa do containerd permite alinhar janelas de manutenção e CVE patching com clareza — arquitetos podem planejar upgrades de runtime sem surpresas.",
-      "source": "containerd Releases",
+      "explain": {
+        "junior": "containerd é o programa que roda contêineres (como Docker) dentro de servidores. CNCF é a fundação que cuida de projetos de infraestrutura de nuvem, como Kubernetes. RC significa Release Candidate — uma versão quase final para testes antes do lançamento oficial.",
+        "pleno": "containerd é o container runtime padrão usado pelo Docker e pelo Kubernetes. Essa RC inaugura uma cadência de releases previsível a cada 4 meses, substituindo o modelo ad-hoc anterior. Isso permite que equipes de plataforma planejem janelas de manutenção, CVE patching e testes de upgrade de runtime com antecedência.",
+        "senior": "Alinhe calendário de upgrade de runtime em clusters K8s e frotas Docker com a nova janela trimestral do containerd para sincronizar CVE patching e testes de regressão de forma estruturada.",
+        "glossary": [
+          { "term": "containerd", "def": "Container runtime de baixo nível que gerencia o ciclo de vida de contêineres; é a base do Docker e do Kubernetes." },
+          { "term": "CNCF", "def": "Cloud Native Computing Foundation — fundação open source que hospeda e governa projetos de infraestrutura cloud-native como Kubernetes, Prometheus e containerd." },
+          { "term": "Runtime", "def": "Software que executa outros programas; no contexto de contêineres, é o componente responsável por iniciar, parar e isolar cada contêiner." }
+        ]
+      },
       "url": "https://github.com/containerd/containerd/releases",
       "published_at": "2026-04-28T08:00:00-03:00",
       "read_time": 3,
@@ -67,7 +94,8 @@
         "cncf",
         "runtime"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+      "image": "https://opengraph.githubassets.com/8e216043f28000232ec0f2d438ad5ded4a3be3411aa244a267296cae8b2cfb10/containerd/containerd",
+      "source_key": "containerd"
     }
   ],
   "news": [
@@ -80,8 +108,16 @@
       "severity": "high",
       "headline": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
       "summary": "The Register descreve campanha em curso (TeamPCP + Lapsus$ + Vect) atingindo Checkmarx, LiteLLM, KICS, Trivy e agora Bitwarden CLI. Bitwarden tem 10M+ usuários e 50K+ empresas. Atacantes ameaçam encadear comprometimentos em ransomware downstream.",
-      "why_it_matters": "Supply chain de DevSecOps virou o novo perímetro — isole credenciais, revogue tokens e exija MFA em fornecedores upstream.",
-      "source": "The Register",
+      "explain": {
+        "junior": "Lapsus$ é um grupo hacker que invade empresas de tecnologia. Checkmarx e Trivy são ferramentas que desenvolvedores usam para verificar se o código tem falhas de segurança. Bitwarden CLI é um gerenciador de senhas acessível pela linha de comando.",
+        "pleno": "A campanha TeamPCP/Lapsus$/Vect está comprometendo ferramentas DevSecOps — scanners e gerenciadores de segredos — aproveitando que elas têm acesso irrestrito a repositórios e tokens de CI. Comprometer o Bitwarden CLI, por exemplo, pode dar acesso a todas as credenciais que desenvolvedores armazenam, viabilizando ransomware em cascata nos clientes dessas ferramentas.",
+        "senior": "Audite imediatamente permissões e tokens associados a Checkmarx, Trivy, KICS e Bitwarden CLI em pipelines CI/CD; implemente rotação automática de credenciais e MFA em todos os fornecedores DevSecOps.",
+        "glossary": [
+          { "term": "MFA", "def": "Multi-Factor Authentication — autenticação de múltiplos fatores: exige além de senha, um segundo fator (código SMS, app autenticador) para confirmar identidade." },
+          { "term": "Ransomware", "def": "Malware que criptografa dados da vítima e exige pagamento (resgate) para devolver o acesso." },
+          { "term": "CI/CD", "def": "Continuous Integration / Continuous Deployment: pipeline automatizado que constrói, testa e publica código a cada mudança." }
+        ]
+      },
       "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
       "published_at": "2026-04-27T15:00:00-03:00",
       "read_time": 5,
@@ -91,7 +127,8 @@
         "bitwarden",
         "checkmarx"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256"
+      "image": "https://regmedia.co.uk/2024/07/30/shutetrstock_wow.jpg",
+      "source_key": "theregister"
     },
     {
       "category": "sec",
@@ -101,8 +138,17 @@
       "severity": "high",
       "headline": "Keycloak 26.5.7 corrige bypass de redirect URI por path traversal e quatro outras falhas em OIDC",
       "summary": "Release de segurança do Keycloak 26.5.7 cobre CVE-2026-3872 (redirect URI validation bypass via ..;/ no endpoint OIDC), CVE-2026-4282 (privilege escalation por authorization codes forjados), CVE-2026-4634 (DoS por scope processing), CVE-2026-4636 (UMA policy resource injection) e CVE-2026-3429 (account takeover via Account REST API). Operadores devem aplicar imediatamente.",
-      "why_it_matters": "Path traversal no fluxo OIDC abre porta para account takeover em qualquer SSO baseado em Keycloak — patch não é opcional.",
-      "source": "Keycloak Blog",
+      "explain": {
+        "junior": "Keycloak é um servidor de login único (SSO) muito usado por empresas — você faz login uma vez e ele libera acesso a vários sistemas. CVE é o identificador padrão mundial para vulnerabilidades de segurança. OIDC é o protocolo que define como fazer esse login seguro.",
+        "pleno": "O CVE-2026-3872 permite que um atacante use a sequência `..;/` na URL de redirect do fluxo OIDC para burlar a validação de URI, podendo roubar tokens de autenticação. Combinado com o CVE-2026-4282 (forjar authorization codes para elevar privilégios) e o CVE-2026-3429 (account takeover via REST API), o conjunto dessas falhas em Keycloak representa risco crítico para qualquer SSO corporativo construído sobre ele.",
+        "senior": "Aplique o patch para Keycloak 26.5.7 imediatamente; path traversal no redirect URI pode comprometer toda a cadeia de autenticação SSO — sem fix, qualquer sessão autenticada é interceptável.",
+        "glossary": [
+          { "term": "SSO", "def": "Single Sign-On — sistema que permite o usuário fazer login uma vez e acessar múltiplos serviços sem precisar se autenticar novamente em cada um." },
+          { "term": "OIDC", "def": "OpenID Connect — protocolo de autenticação construído sobre OAuth 2.0 que permite que aplicações verifiquem a identidade de um usuário." },
+          { "term": "Path traversal", "def": "Técnica de ataque onde o invasor usa sequências como `../` na URL para navegar para diretórios não autorizados ou contornar validações." },
+          { "term": "CVE", "def": "Common Vulnerabilities and Exposures — sistema de identificação e catalogação pública de vulnerabilidades de segurança conhecidas." }
+        ]
+      },
       "url": "https://www.keycloak.org/2026/04/keycloak-2657-released",
       "published_at": "2026-04-23T10:00:00-03:00",
       "read_time": 3,
@@ -120,7 +166,8 @@
         "iam",
         "sso"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=keycloak.org&sz=256"
+      "image": "https://cdn.simpleicons.org/keycloak/4D4D4D",
+      "source_key": "keycloak"
     },
     {
       "category": "sec",
@@ -130,8 +177,17 @@
       "severity": "critical",
       "headline": "FortiClient EMS CVE-2026-35616 (CVSS 9.1): exploração ativa, CISA KEV exige patch e Shadowserver detecta 2K+ instâncias expostas",
       "summary": "Pre-auth API access bypass leading to privilege escalation. watchTowr detectou exploração desde 31/03; Fortinet liberou hotfix em 04/04; CISA adicionou ao KEV em 06/04 com prazo FCEB de 09/04. Versão 7.4.7 traz fix completo. Shadowserver mapeou 2.000+ instâncias públicas; duas confirmadamente exploradas.",
-      "why_it_matters": "Sem fix, qualquer instância FortiClient EMS exposta vira ponto de pivô — catalogue inventário, isole gestão e aplique hotfix antes de novo round de ransomware.",
-      "source": "The Hacker News",
+      "explain": {
+        "junior": "FortiClient EMS é um software da Fortinet para gerenciar a segurança de computadores em uma empresa. CVSS 9.1 é uma pontuação de gravidade de vulnerabilidade — quanto mais próximo de 10, mais crítico. CISA é a agência americana de segurança cibernética. KEV é a lista de vulnerabilidades que o governo dos EUA exige que órgãos federais corrijam urgentemente.",
+        "pleno": "A falha CVE-2026-35616 permite que um atacante sem credenciais acesse a API do FortiClient EMS e escale privilégios — ou seja, obter acesso administrativo sem precisar de login. Com mais de 2.000 instâncias expostas na internet e exploração ativa confirmada desde março, qualquer servidor sem o hotfix da versão 7.4.7 é um ponto de entrada viável para um ataque de ransomware.",
+        "senior": "Aplique o hotfix para FortiClient EMS 7.4.7 imediatamente e isole o painel de gestão da internet; cada instância não corrigida é ponto de pivô confirmado em redes corporativas.",
+        "glossary": [
+          { "term": "CVSS", "def": "Common Vulnerability Scoring System — sistema de pontuação de 0 a 10 que indica a gravidade de uma vulnerabilidade de segurança." },
+          { "term": "Pre-auth bypass", "def": "Vulnerabilidade que permite a um atacante contornar a autenticação e acessar recursos do sistema sem fornecer credenciais válidas." },
+          { "term": "Privilege escalation", "def": "Técnica onde um atacante amplia seus privilégios dentro de um sistema, de usuário comum para administrador, por exemplo." },
+          { "term": "CISA KEV", "def": "Known Exploited Vulnerabilities catalog da CISA — lista de vulnerabilidades confirmadamente exploradas em campo, com prazo obrigatório de correção para órgãos federais dos EUA." }
+        ]
+      },
       "url": "https://thehackernews.com/2026/04/fortinet-patches-actively-exploited-cve.html",
       "published_at": "2026-04-04T12:00:00-03:00",
       "read_time": 4,
@@ -144,7 +200,8 @@
         "cve",
         "kev"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256"
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh61_DDvLhdLZ8tHMrmQ8XlQ1vWwnEk-2lmYFnjw_1ZvJ4IUB4G7ffXU8pSd7JDknP0bqyaVVOTb1HJ62ujlQ_zfG3Lc7XMtLKUuZTO6v4jgrdqon90wrix6EaQNKtou3yz7Txf3ni5JOVn-D1-OcHB7e-UDxQI2ifZOBHAeDwFBnwAfanSeFn8EyP8oilj/s16000/fortinet.jpg",
+      "source_key": "thehackernews"
     },
     {
       "category": "cloud",
@@ -153,8 +210,16 @@
       "urgent": false,
       "headline": "Anthropic se compromete com US$ 100 bi de gasto em AWS por uma década e Amazon eleva aporte para até US$ 25 bi",
       "summary": "Anúncio formaliza nova etapa: Anthropic vai treinar Claude em AWS Trainium e Graviton (co-engenharia com Annapurna Labs), garantindo até 5 GW de compute. Amazon coloca US$ 5 bi agora e até US$ 20 bi adicionais. Receita run-rate da Anthropic estourou US$ 30 bi em 2026 vs ~US$ 9 bi no fim de 2025.",
-      "why_it_matters": "Frontier AI passa a depender de silicon não-NVIDIA — arquitetos de IA devem testar Trainium/Graviton para inferência e custo agora, antes do mercado se mover.",
-      "source": "TechCrunch",
+      "explain": {
+        "junior": "Anthropic é a empresa que criou o Claude, um modelo de inteligência artificial. Trainium é um chip personalizado da Amazon feito especificamente para treinar IAs, e Graviton é o processador ARM da Amazon. Esse acordo significa que o Claude vai ser treinado nos computadores da Amazon em vez de em chips NVIDIA tradicionais.",
+        "pleno": "O acordo formaliza que a Anthropic vai usar AWS Trainium para treinar modelos e Graviton para inferência, co-desenvolvendo chips com Annapurna Labs. Isso sinaliza uma diversificação do ecossistema de AI compute além da NVIDIA — com implicações de custo e disponibilidade para qualquer equipe que rodar Claude via Bedrock.",
+        "senior": "Avalie Trainium e Graviton como alternativa de custo para inferência de LLMs em escala; o lock-in de workloads AI na AWS se aprofunda com esse acordo — renegociação de contratos enterprise deve antecipar esse cenário.",
+        "glossary": [
+          { "term": "Trainium", "def": "Chip de acelerador de IA personalizado da Amazon Web Services, otimizado para treinar modelos de machine learning de grande escala." },
+          { "term": "Graviton", "def": "Processador ARM de alto desempenho projetado pela Amazon para servidores AWS, com melhor relação preço-desempenho para muitas cargas de trabalho." },
+          { "term": "Run-rate", "def": "Projeção anualizada de receita baseada no desempenho recente — se uma empresa faturou US$ 2,5 bi em um mês, o run-rate anual é US$ 30 bi." }
+        ]
+      },
       "url": "https://techcrunch.com/2026/04/20/anthropic-takes-5b-from-amazon-and-pledges-100b-in-cloud-spending-in-return/",
       "published_at": "2026-04-20T10:00:00-03:00",
       "read_time": 4,
@@ -165,7 +230,8 @@
         "graviton",
         "compute"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
+      "image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1445867611.jpg?w=1024",
+      "source_key": "techcrunch"
     },
     {
       "category": "cloud",
@@ -174,8 +240,16 @@
       "urgent": false,
       "headline": "Meta fecha acordo histórico com AWS para milhões de chips Graviton — CPU para AI agents",
       "summary": "TechCrunch reporta que Meta vai usar dezenas de milhões de cores Graviton para workloads CPU-intensivos de agentic AI: real-time reasoning, code generation, search e orquestração multi-step. Movimento confirma o pivô da arquitetura: depois do treino em GPU, agentes rodam em CPU otimizada.",
-      "why_it_matters": "ARM no datacenter para AI agents virou commodity — quem desenha plataforma de inferência precisa modelar custo Graviton vs x86 vs GPU para cada perfil de carga.",
-      "source": "TechCrunch",
+      "explain": {
+        "junior": "Meta é a empresa do Facebook e Instagram. Esse acordo significa que eles vão alugar uma quantidade enorme de processadores Graviton da Amazon para rodar seus sistemas de inteligência artificial. AI agents são programas que tomam decisões e executam tarefas de forma autônoma, como fazer pesquisas ou escrever código.",
+        "pleno": "A Meta vai usar Graviton (CPU ARM) para tarefas de inferência de agentes — reasoning em tempo real, orquestração multi-step e geração de código — separando essas cargas das GPUs usadas para treino. O padrão emergente é: GPU para treinar, CPU otimizada (ARM) para inferir. Isso muda significativamente a equação de custo de plataformas agênticas.",
+        "senior": "Modele custo por perfil de carga: cargas de inferência de agentes leves-a-médios tendem a ser mais econômicas em Graviton do que em GPU on-demand; benchmarks próprios são necessários antes de decisão de arquitetura.",
+        "glossary": [
+          { "term": "AI agents", "def": "Sistemas de IA que percebem o ambiente, tomam decisões e executam ações de forma autônoma ou semi-autônoma para atingir objetivos." },
+          { "term": "Inferência", "def": "Fase de uso de um modelo de IA já treinado para gerar respostas ou previsões — diferente do treino, que é quando o modelo aprende." },
+          { "term": "ARM", "def": "Arquitetura de processador de baixo consumo amplamente usada em smartphones e, crescentemente, em servidores de datacenter como o Graviton da AWS." }
+        ]
+      },
       "url": "https://techcrunch.com/2026/04/24/in-another-wild-turn-for-ai-chips-meta-signs-deal-for-millions-of-amazon-ai-cpus/",
       "published_at": "2026-04-24T13:00:00-03:00",
       "read_time": 3,
@@ -186,7 +260,8 @@
         "ai-agents",
         "arm"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256"
+      "image": "https://techcrunch.com/wp-content/uploads/2022/09/GettyImages-1415078085.jpg?resize=1200,721",
+      "source_key": "techcrunch"
     },
     {
       "category": "cloud",
@@ -195,8 +270,17 @@
       "urgent": false,
       "headline": "Cloudflare publica novo padrão de erros 5xx: JSON estruturado RFC 9457 + Markdown com Retry-After",
       "summary": "Core platform da Cloudflare passa a responder erros 5xx gerados internamente em JSON estruturado (RFC 9457 — Problem Details for HTTP APIs) ou Markdown, e adiciona Retry-After em códigos retryáveis. Padronização melhora tooling de SRE e clientes que precisam diferenciar transient vs permanent.",
-      "why_it_matters": "Edge platforms começam a falar RFC 9457 — clients e gateways internos devem adotar Problem Details para tratamento uniforme de falhas.",
-      "source": "Cloudflare Release Notes",
+      "explain": {
+        "junior": "Cloudflare é um serviço que fica entre o seu site e os visitantes, protegendo e acelerando o tráfego. Erros 5xx são erros do servidor (500, 502, 503...). Agora, em vez de retornar uma página genérica, a Cloudflare vai retornar os erros em JSON, que é um formato fácil de ler por código.",
+        "pleno": "A Cloudflare adotou o RFC 9457 (Problem Details for HTTP APIs), que define um formato JSON padrão para descrever erros HTTP — incluindo tipo, título, status e detalhes. O campo `Retry-After` nos erros retryáveis permite que clientes façam backoff inteligente. Isso uniformiza como clientes, gateways e ferramentas de SRE tratam falhas originadas na borda (edge).",
+        "senior": "Atualize gateways internos e clientes HTTP para parsear Problem Details (RFC 9457) — a adoção pela Cloudflare é sinal de que se tornará padrão de fato para APIs públicas; implemente tratamento diferenciado para erros transient vs permanent.",
+        "glossary": [
+          { "term": "RFC 9457", "def": "Padrão da IETF que define um formato JSON estruturado para respostas de erro em APIs HTTP, incluindo campos como `type`, `title`, `status` e `detail`." },
+          { "term": "5xx", "def": "Classe de códigos de status HTTP que indicam erros do lado do servidor (ex: 500 Internal Server Error, 503 Service Unavailable)." },
+          { "term": "Retry-After", "def": "Cabeçalho HTTP que informa ao cliente quanto tempo deve esperar antes de tentar a requisição novamente após um erro temporário." },
+          { "term": "Edge", "def": "Infraestrutura de computação posicionada fisicamente próxima aos usuários finais, reduzindo latência — como os servidores globais da Cloudflare." }
+        ]
+      },
       "url": "https://developers.cloudflare.com/fundamentals/reference/release-notes/",
       "published_at": "2026-04-27T11:00:00-03:00",
       "read_time": 2,
@@ -206,7 +290,8 @@
         "rfc-9457",
         "edge"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=developers.cloudflare.com&sz=256"
+      "image": "https://developers.cloudflare.com/core-services-preview.png",
+      "source_key": "cloudflare"
     },
     {
       "category": "aiops",
@@ -215,8 +300,16 @@
       "urgent": false,
       "headline": "Amazon Bedrock AgentCore ganha CLI, managed harness e skills para coding assistants",
       "summary": "Managed harness define agente por modelo + system prompt + tools sem código de orquestração; quando precisar de controle total, exporta para Strands. AgentCore CLI deploya com governança de IaC (AWS CDK hoje, Terraform em breve), em 14 regiões, sem custo adicional. Quality evaluations e policy controls no mesmo release.",
-      "why_it_matters": "Time pode prototipar agente de produção em horas com guardrails nativos — diminui distância entre POC e deploy auditável em scale.",
-      "source": "AWS News Blog",
+      "explain": {
+        "junior": "Amazon Bedrock é uma plataforma da AWS para usar modelos de IA. AgentCore é a parte dela que ajuda a criar e gerenciar agentes de IA. Um harness é como um molde que configura o agente sem precisar escrever muito código. CLI é a interface de linha de comando — você digita comandos no terminal para fazer o deploy.",
+        "pleno": "O managed harness do AgentCore permite definir um agente especificando apenas modelo, system prompt e tools, sem precisar escrever código de orquestração. O CLI integra com IaC (AWS CDK e em breve Terraform), permitindo deploy auditável e versionado do agente em 14 regiões. O recurso de exportar para Strands mantém a porta aberta para quem precisar de controle fino.",
+        "senior": "AgentCore reduz time-to-production para agentes com guardrails nativos e IaC integrado — avalie se o managed harness cobre os casos de uso antes de construir orquestração customizada.",
+        "glossary": [
+          { "term": "IaC", "def": "Infrastructure as Code — prática de descrever e gerenciar infraestrutura (servidores, redes, serviços) em arquivos de código versionáveis, como Terraform ou AWS CDK." },
+          { "term": "System prompt", "def": "Instrução inicial enviada a um modelo de IA antes do diálogo com o usuário, que define o comportamento, persona e restrições do agente." },
+          { "term": "AWS CDK", "def": "AWS Cloud Development Kit — framework que permite definir infraestrutura AWS usando linguagens de programação como TypeScript ou Python em vez de YAML." }
+        ]
+      },
       "url": "https://aws.amazon.com/blogs/aws/amazon-bedrock-agentcore-adds-quality-evaluations-and-policy-controls-for-deploying-trusted-ai-agents/",
       "published_at": "2026-04-22T10:00:00-03:00",
       "read_time": 4,
@@ -226,7 +319,8 @@
         "agents",
         "iac"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256"
+      "image": "https://d2908q01vomqb2.cloudfront.net/da4b9237bacccdf19c0760cab7aec4a8359010b0/2025/11/25/Bedrock-Agentcore.png",
+      "source_key": "awsblog"
     },
     {
       "category": "aiops",
@@ -235,8 +329,16 @@
       "urgent": false,
       "headline": "MCP Dev Summit NA reúne 1.200 — protocolo cresce para 10K+ servers e 97M downloads/mês",
       "summary": "Cúpula em NY consolidou MCP como protocolo de fato para agents. Métricas: 10.000+ public MCP servers ativos, 97 milhões de downloads mensais de SDK Python+TypeScript. Roadmap 2026 prioriza transport scalability, agent-to-agent communication, governance maturation e enterprise readiness — stateless HTTP transport variant em revisão.",
-      "why_it_matters": "MCP saiu da fase experimental — arquitetos devem padronizar integrações de agentes via MCP em vez de orquestrações ad-hoc.",
-      "source": "The New Stack",
+      "explain": {
+        "junior": "MCP (Model Context Protocol) é um padrão criado pela Anthropic que define como agentes de IA se conectam a ferramentas externas (como bancos de dados, APIs, editores). Um MCP server é um programa que expõe essas ferramentas para o agente usar. SDK é um kit de ferramentas de desenvolvimento para programadores.",
+        "pleno": "MCP atingiu massa crítica: 10K+ servidores públicos e 97M downloads mensais indicam que virou o padrão dominante de integração de tools para agentes. O roadmap 2026 foca em escalabilidade de transport (incluindo variante HTTP stateless para APIs web) e comunicação agent-to-agent, o que vai permitir pipelines agênticos multi-hop mais sofisticados.",
+        "senior": "Padronize integrações de agentes em MCP em vez de contratos ad-hoc; o ecossistema já tem massa suficiente para garantir manutenção de longo prazo — decida arquitetura de MCP server antes que a proliferação vire dívida técnica.",
+        "glossary": [
+          { "term": "MCP", "def": "Model Context Protocol — protocolo aberto que padroniza como modelos de IA se comunicam com ferramentas, serviços e fontes de dados externas." },
+          { "term": "Stateless HTTP", "def": "Variante de transport onde cada requisição HTTP é independente e não mantém estado de sessão no servidor — mais simples de escalar horizontalmente." },
+          { "term": "Agent-to-agent communication", "def": "Capacidade de um agente de IA se comunicar diretamente com outro agente, permitindo pipelines onde múltiplos agentes colaboram em uma tarefa." }
+        ]
+      },
       "url": "https://thenewstack.io/model-context-protocol-roadmap-2026/",
       "published_at": "2026-04-23T10:00:00-03:00",
       "read_time": 5,
@@ -246,7 +348,8 @@
         "anthropic",
         "protocol"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thenewstack.io&sz=256"
+      "image": "https://cdn.thenewstack.io/media/2026/03/9702bcf9-tri-wiranto-jqzvz3diuc4-unsplash-scaled.jpg",
+      "source_key": "thenewstack"
     },
     {
       "category": "aiops",
@@ -255,8 +358,16 @@
       "urgent": false,
       "headline": "Anthropic abre escritório em Sydney e nomeia Theo Hourmouzis GM Austrália/NZ",
       "summary": "Movimento marca expansão regional para APAC pós run-rate de US$ 30 bi. Hourmouzis assume operação local com foco em enterprise e parcerias estratégicas. Ele vinha liderando go-to-market em mercados asiáticos.",
-      "why_it_matters": "Presença local da Anthropic na APAC reduz fricção contratual e de compliance para empresas regionais que precisavam de SLA na linha do tempo certa.",
-      "source": "Anthropic News",
+      "explain": {
+        "junior": "Anthropic é a empresa criadora do Claude. APAC significa Ásia-Pacífico, uma região geográfica que inclui Austrália, Nova Zelândia e países asiáticos. GM (General Manager) é o diretor geral responsável pela operação em uma região.",
+        "pleno": "A abertura de escritório físico em Sydney sinaliza que a Anthropic está passando de vendas remotas para presença local na região APAC. Isso tem implicações práticas para empresas australianas e neozelandesas: contratos enterprise, SLAs regionais e compliance com leis locais de dados ficam mais fáceis de negociar com um ponto de contato local.",
+        "senior": "Presença local da Anthropic na APAC reduz barreiras contratuais e de conformidade regulatória — avalie migrar discussões enterprise de canais digitais para relacionamento direto.",
+        "glossary": [
+          { "term": "APAC", "def": "Asia-Pacific — região geográfica e comercial que engloba Ásia, Austrália, Nova Zelândia e ilhas do Pacífico." },
+          { "term": "Go-to-market (GTM)", "def": "Estratégia que define como uma empresa vai levar seu produto ou serviço ao mercado — quem são os clientes, como serão abordados e por quais canais." },
+          { "term": "SLA", "def": "Service Level Agreement — contrato que define os níveis mínimos de qualidade de serviço (disponibilidade, tempo de resposta etc.) que o fornecedor garante." }
+        ]
+      },
       "url": "https://www.anthropic.com/news/anthropic-amazon-compute",
       "published_at": "2026-04-27T10:00:00-03:00",
       "read_time": 2,
@@ -265,7 +376,8 @@
         "apac",
         "gtm"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256"
+      "image": "https://www.anthropic.com/api/opengraph-illustration?name=Object%20Stairs&backgroundColor=cactus",
+      "source_key": "anthropic"
     },
     {
       "category": "devops",
@@ -274,8 +386,16 @@
       "urgent": false,
       "headline": "GitHub Copilot cloud agent inicia 20% mais rápido com custom Actions images",
       "summary": "Pré-build do ambiente do agent em imagem Actions custom reduz overhead de startup em 20%+ — ganho real em CI agentes long-running. Em paralelo, GitHub anuncia novo formato para installation tokens (ghs_APPID_JWT, ~520 chars) com rollout em fases a partir de 27/04.",
-      "why_it_matters": "Coding agents on-demand exigem cold-start curto — custom images são a peça que faltava para SLAs de PR review automatizado.",
-      "source": "GitHub Changelog",
+      "explain": {
+        "junior": "GitHub Copilot é um assistente de IA que escreve código. GitHub Actions é o sistema de automação do GitHub que roda tarefas como testes automaticamente. Uma imagem customizada é como um snapshot do ambiente já preparado com tudo instalado, para não precisar instalar do zero toda vez.",
+        "pleno": "Com imagens Actions pré-buildadas, o agente Copilot não precisa instalar dependências na inicialização — o ambiente já está pronto. Isso reduz o cold-start em 20%+, o que é relevante para pipelines onde o agente é acionado por PR. Paralelamente, o novo formato de installation tokens muda o padrão de comprimento (~520 chars), quebrando código que valida tokens por regex de tamanho fixo.",
+        "senior": "Audite qualquer código que valide formato ou comprimento de GitHub App installation tokens — o novo padrão ghs_APPID_JWT quebra regex fixas; e custom images são o próximo passo para reduzir latência de PR review automatizado.",
+        "glossary": [
+          { "term": "Cold-start", "def": "Tempo de inicialização de um sistema que parte do zero — quanto mais coisas precisam ser instaladas ou carregadas, maior o cold-start." },
+          { "term": "GitHub Actions", "def": "Plataforma de automação do GitHub que executa workflows definidos em YAML quando eventos acontecem no repositório, como um push ou abertura de PR." },
+          { "term": "Installation token", "def": "Token temporário gerado para que um GitHub App autentique e interaja com a API do GitHub em nome de uma instalação específica." }
+        ]
+      },
       "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
       "published_at": "2026-04-27T14:00:00-03:00",
       "read_time": 2,
@@ -285,7 +405,8 @@
         "actions",
         "ci"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+      "image": "https://github.blog/wp-content/uploads/2026/04/ActionsCustomImages_UnfurlTextOnly_01-1.jpg",
+      "source_key": "githubchangelog"
     },
     {
       "category": "devops",
@@ -294,8 +415,16 @@
       "urgent": false,
       "headline": "GitHub muda formato de installation tokens (ghs_APPID_JWT) — rollout em fases desde 27/04",
       "summary": "Tokens de instalação de GitHub Apps passam para ghs_APPID_JWT (~520 chars). Mudança melhora performance e consistência de API. Aplicações que validam comprimento ou regex de token precisam ser ajustadas — código robusto deve aceitar até 700 chars.",
-      "why_it_matters": "Quem assinou rate-limits ou cofres de segredos por padrão fixo de token vai quebrar — auditem agora antes do rollout completo.",
-      "source": "GitHub Changelog",
+      "explain": {
+        "junior": "GitHub Apps são integrações que você pode instalar em repositórios para adicionar funcionalidades. Um token é uma chave de autenticação — é o que o app usa para provar sua identidade à API do GitHub. Agora o formato desse token está mudando e ficando maior.",
+        "pleno": "O novo formato `ghs_APPID_JWT` (~520 chars) embute o App ID e assina com JWT, melhorando rastreabilidade e performance na validação server-side. A mudança é breaking para qualquer código que valide tokens por regex de comprimento fixo ou por padrão `ghs_` simples — aplicações devem aceitar até 700 chars para futuras expansões.",
+        "senior": "Audite imediatamente cofres de segredos, proxies de autenticação e middlewares que validam formato ou comprimento de GitHub App tokens; o rollout em fases significa que falhas aparecerão progressivamente em produção.",
+        "glossary": [
+          { "term": "JWT", "def": "JSON Web Token — padrão de token que codifica informações assinadas digitalmente em Base64, permitindo verificar autenticidade sem consultar o servidor." },
+          { "term": "GitHub Apps", "def": "Integrações instaláveis no GitHub que têm identidade própria, permissões granulares e tokens de curta duração — diferente de tokens pessoais." },
+          { "term": "Regex", "def": "Regular Expression — padrão de busca de texto que permite verificar se uma string segue um determinado formato, como um tipo de token." }
+        ]
+      },
       "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
       "published_at": "2026-04-24T10:00:00-03:00",
       "read_time": 2,
@@ -305,7 +434,8 @@
         "github-apps",
         "breaking"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+      "image": "https://github.blog/wp-content/themes/github-2021-child/dist/img/social-v3-improvements.jpg",
+      "source_key": "githubchangelog"
     },
     {
       "category": "data",
@@ -314,8 +444,16 @@
       "urgent": true,
       "headline": "AWS engineer alerta: PostgreSQL roda metade do throughput em Linux 7.0 (Graviton4)",
       "summary": "Linux 7.0 entrega ~0,51× do throughput PostgreSQL em Graviton4 — engenheiro AWS rastreou regressão a mudança nos modos de preemption do kernel. User-space spinlocks ficam dominando CPU. Fix não é simples e thread já dominou HN front-page.",
-      "why_it_matters": "Plataformas com Postgres em ARM precisam pinar kernel ≤ 6.x até patch — capacity planning sensível em SLAs de transações.",
-      "source": "Phoronix",
+      "explain": {
+        "junior": "PostgreSQL é um banco de dados relacional open source muito popular. Throughput aqui significa quantas transações o banco consegue processar por segundo. O kernel Linux 7.0 é a versão mais nova do núcleo do sistema operacional Linux, e essa notícia diz que ele deixou o PostgreSQL muito mais lento em processadores Graviton4 da Amazon.",
+        "pleno": "Uma mudança nos modos de preemption do kernel Linux 7.0 faz com que spinlocks em user-space fiquem consumindo CPU excessivamente, prejudicando o PostgreSQL que os usa internamente para sincronização. A queda de ~50% em throughput (transações por segundo) foi confirmada em Graviton4 e provavelmente afeta outros chips ARM também. Não há fix simples porque a causa está na lógica de escalonamento do kernel.",
+        "senior": "Pinar kernel ≤ 6.x em toda frota ARM com PostgreSQL é ação imediata; uma queda de 50% em TPS invalida SLAs e planejamento de capacidade — monitore confirmação de patch antes de qualquer upgrade.",
+        "glossary": [
+          { "term": "TPS", "def": "Transactions Per Second — quantidade de transações que um banco de dados processa por segundo; métrica central de performance de bancos relacionais." },
+          { "term": "Spinlock", "def": "Mecanismo de sincronização onde uma thread fica em loop ativo esperando por um recurso, consumindo CPU até conseguir acesso." },
+          { "term": "Preemption", "def": "Capacidade do kernel de interromper uma tarefa e dar a CPU a outra de maior prioridade; mudanças nesse comportamento afetam latência e throughput." }
+        ]
+      },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
       "published_at": "2026-04-27T17:00:00-03:00",
       "read_time": 4,
@@ -325,7 +463,8 @@
         "graviton",
         "performance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+      "image": "https://www.phoronix.net/image.php?id=2026&image=pgbench_regression",
+      "source_key": "phoronix"
     },
     {
       "category": "data",
@@ -334,8 +473,16 @@
       "urgent": false,
       "headline": "Databricks Runtime 18.2 entra em Beta com Apache Spark 4.1 e ai_parse_document GA",
       "summary": "Runtime 18.2 (e 18.2 ML) Beta sobre Spark 4.1.0. Funções ai_parse_document agora GA + ai_prep_search Beta tornam pipelines RAG quase triviais em SQL. Unity REST API aceita writes em external/managed Delta tables; query-based connectors em Public Preview (Oracle, Teradata, SQL Server, MySQL, Postgres).",
-      "why_it_matters": "RAG em SQL muda a economia de pipelines de IA — equipes de dados ganham produtividade sem mover dado para fora do lakehouse.",
-      "source": "Databricks Release Notes",
+      "explain": {
+        "junior": "Databricks é uma plataforma para processar e analisar grandes volumes de dados. Apache Spark é o motor de processamento que ela usa. RAG significa Retrieval-Augmented Generation — uma técnica de IA onde o modelo busca informações relevantes em uma base de dados antes de responder.",
+        "pleno": "A função `ai_parse_document` agora em GA permite extrair texto estruturado de documentos diretamente em SQL no lakehouse Databricks. Combinada com `ai_prep_search` (beta), ela permite montar pipelines RAG completos sem precisar mover dados para fora do ambiente — o processo de embeddings, chunking e indexação acontece dentro do Spark via SQL.",
+        "senior": "Avalie ai_parse_document + ai_prep_search como substituto de pipelines RAG externos antes de escalar — RAG nativo no lakehouse elimina movimentação de dados e simplifica governança.",
+        "glossary": [
+          { "term": "RAG", "def": "Retrieval-Augmented Generation — técnica que combina busca em base de conhecimento com geração de texto por LLM, melhorando precisão e reduzindo alucinações." },
+          { "term": "Lakehouse", "def": "Arquitetura que combina as vantagens de data lakes (armazenamento barato e flexível) com data warehouses (consultas SQL rápidas e governança)." },
+          { "term": "Delta table", "def": "Formato de tabela da Databricks que adiciona transações ACID, versionamento e atualizações incrementais sobre arquivos Parquet em storage." }
+        ]
+      },
       "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
       "published_at": "2026-04-26T10:00:00-03:00",
       "read_time": 4,
@@ -345,7 +492,8 @@
         "rag",
         "lakehouse"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=docs.databricks.com&sz=256"
+      "image": "https://cdn.simpleicons.org/databricks/FF3621",
+      "source_key": "databricks"
     },
     {
       "category": "obs",
@@ -354,8 +502,16 @@
       "urgent": false,
       "headline": "Grafana 13 traz Loki repaginado (ingestão Kafka), AI Observability e dashboards dinâmicos GA",
       "summary": "Lançado em GrafanaCON 2026, Grafana 13 marca evolução de Loki: ingestão lastreada em Kafka para pipelines eficientes, query engine redesenhado para cargas analíticas grandes e planner com execução paralela em partições. AI Observability em Grafana Cloud + Grafana Assistant expandido + agent-aware CLI miram o 'AI blind spot'.",
-      "why_it_matters": "Observabilidade de agentes precisa de query engine analítico — Loki repaginado fecha o gap entre logs operacionais e investigação de cadeia de agentes.",
-      "source": "Grafana Press",
+      "explain": {
+        "junior": "Grafana é uma ferramenta para criar dashboards e visualizar métricas de sistemas. Loki é o componente do Grafana para armazenar e consultar logs. Kafka é uma plataforma para processar fluxos de dados em tempo real. Com essa atualização, o Grafana agora consegue processar logs muito mais rápido usando Kafka.",
+        "pleno": "O Grafana 13 reescreve a ingestão do Loki para usar Kafka como buffer, o que resolve gargalos em pipelines de alta volumetria. O query engine redesenhado com execução paralela em partições permite análises analíticas em logs que antes só faziam sentido em columnar stores. A camada de AI Observability adiciona rastreabilidade específica para chamadas LLM e chains de agentes.",
+        "senior": "Loki com ingestão Kafka fecha o gap de volumetria para logs de produção de agentes — avalie migração se você hoje usa Elasticsearch para logs analíticos; o redesign do query engine muda o custo de queries full-scan.",
+        "glossary": [
+          { "term": "Loki", "def": "Sistema de armazenamento e consulta de logs da Grafana Labs, projetado para ser eficiente e integrado ao ecossistema Prometheus/Grafana." },
+          { "term": "Kafka", "def": "Plataforma distribuída de streaming de eventos que permite processar e armazenar grandes volumes de mensagens em tempo real com alta durabilidade." },
+          { "term": "Query engine", "def": "Componente responsável por interpretar e executar consultas em um banco de dados ou sistema de logs, determinando velocidade e eficiência das buscas." }
+        ]
+      },
       "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
       "published_at": "2026-04-21T11:00:00-03:00",
       "read_time": 4,
@@ -365,7 +521,8 @@
         "ai-observability",
         "grafanacon"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256"
+      "image": "https://grafana.com/media/images/meta/grafana-labs-meta-default_1200x630.png",
+      "source_key": "grafana"
     },
     {
       "category": "distarch",
@@ -374,8 +531,17 @@
       "urgent": false,
       "headline": "Bluesky publica post-mortem de outage de 8h: cascata de goroutines, memcached e ports efêmeras",
       "summary": "GetPostRecords sem group.SetLimit(50) lançava 15-20K goroutines por request. Connection storm contra memcached na porta 11211 + reuso de TIME_WAIT levaram a port exhaustion. Logging síncrono via write(2) explodiu threads do runtime Go; GC stop-the-world parou requests. Fix temporário: dialer custom com loopback IP aleatório.",
-      "why_it_matters": "Bounded concurrency, structured logging e gestão de TIME_WAIT são fundamentos — uma única função sem limite derrubou metade da plataforma por 8 horas.",
-      "source": "pckt blog (Jim Calabro)",
+      "explain": {
+        "junior": "Bluesky é uma rede social descentralizada. Um post-mortem é um documento técnico que explica o que causou uma falha. Goroutines são unidades leves de execução paralela na linguagem Go. Memcached é um sistema de cache em memória. Port exhaustion significa que o servidor ficou sem portas de rede disponíveis para criar novas conexões.",
+        "pleno": "Uma função sem limitação de concorrência (sem `group.SetLimit(50)`) criava até 20K goroutines por request para buscar posts, sobrecarregando o memcached. As conexões TCP em estado TIME_WAIT esgotaram as portas efêmeras disponíveis. O logging síncrono bloqueava threads do Go, e o GC entrou em stop-the-world parando o processamento de requisições. Cada ponto sozinho seria gerenciável; a combinação derrubou a plataforma por 8 horas.",
+        "senior": "Aplique `SetLimit` em todo grupo de goroutines que acessa recursos compartilhados; adote logging assíncrono e estruturado; e configure `SO_REUSEPORT` ou IP rotation para evitar TIME_WAIT exhaustion em serviços de alta concorrência.",
+        "glossary": [
+          { "term": "Goroutines", "def": "Threads ultra-leves do Go que permitem milhares de execuções paralelas; sem limites, podem exaurir memória e recursos do sistema." },
+          { "term": "TIME_WAIT", "def": "Estado da conexão TCP após o fechamento, onde a porta fica reservada por um tempo para garantir que pacotes atrasados não causem confusão em novas conexões." },
+          { "term": "GC stop-the-world", "def": "Pausa forçada em que o garbage collector do Go interrompe todos os goroutines para limpar memória não utilizada — pode durar milissegundos a segundos." },
+          { "term": "Port exhaustion", "def": "Situação em que um servidor esgota todas as portas TCP disponíveis para novas conexões de saída, geralmente causada por muitas conexões simultâneas." }
+        ]
+      },
       "url": "https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2",
       "published_at": "2026-04-10T15:00:00-03:00",
       "read_time": 8,
@@ -386,7 +552,8 @@
         "memcached",
         "port-exhaustion"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=pckt.blog&sz=256"
+      "image": "https://pckt-blog-media.s3.us-east-2.amazonaws.com/cover_image/ab3965c1-bb9f-49cd-9ec0-01e590a55f35/image.png",
+      "source_key": "pcktblog"
     },
     {
       "category": "fintech",
@@ -395,8 +562,16 @@
       "urgent": false,
       "headline": "Visa expande parceria com Bridge (Stripe) para cartões com lastro em stablecoin em 100+ países",
       "summary": "Anúncio formaliza expansão do programa de cartões com lastro em stablecoin para 100+ países, começando por Argentina, Colômbia e México. Visa, Mastercard e Stripe convergem em uma narrativa: agentic commerce + stablecoins + AI passam a definir o próximo ciclo de pagamentos.",
-      "why_it_matters": "Fintech BR que opera fora do Brasil deve estudar a integração com Visa Intelligent Commerce e Mastercard Agent Pay — agentes vão fazer checkout no nome do cliente.",
-      "source": "Fortune",
+      "explain": {
+        "junior": "Stablecoin é um tipo de criptomoeda cujo valor é atrelado a uma moeda tradicional como o dólar, evitando as grandes variações do Bitcoin. Bridge é uma startup adquirida pela Stripe que permite criar programas de cartão usando stablecoins como lastro. Isso significa que você pode ter um cartão Visa financiado por dólares digitais (USDC, por exemplo).",
+        "pleno": "A parceria Visa + Bridge (Stripe) permite que emissores criem cartões onde o saldo é mantido em stablecoin (ex: USDC) em vez de moeda fiat em banco tradicional. Em países com alta volatilidade cambial como Argentina, isso é especialmente atraente. O movimento converge com a narrativa de agentic commerce: agentes de IA podem usar esses cartões para fazer pagamentos autônomos.",
+        "senior": "Fintechs que operam internacionalmente devem avaliar o modelo Visa Intelligent Commerce com Bridge como primitivo de pagamento agêntico — stablecoin como lastro de cartão resolve o problema de FX em mercados voláteis.",
+        "glossary": [
+          { "term": "Stablecoin", "def": "Criptomoeda cujo valor é atrelado a um ativo estável como o dólar americano (ex: USDC, USDT) para evitar a volatilidade típica de criptoativos." },
+          { "term": "Agentic commerce", "def": "Modelo de comércio onde agentes de IA realizam transações financeiras de forma autônoma em nome dos usuários, como comprar produtos ou serviços." },
+          { "term": "FX (Foreign Exchange)", "def": "Taxa de câmbio entre moedas; operações internacionais estão sujeitas à variação do câmbio, que pode aumentar custos e criar riscos financeiros." }
+        ]
+      },
       "url": "https://fortune.com/2026/03/03/visa-stripe-bridge-stablecoin-backed-cards-100-countries/",
       "published_at": "2026-04-22T10:00:00-03:00",
       "read_time": 4,
@@ -407,7 +582,8 @@
         "stablecoin",
         "agentic-commerce"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=fortune.com&sz=256"
+      "image": "https://fortune.com/img-assets/wp-content/uploads/2026/03/GettyImages-2259132658.jpg?resize=1200,600",
+      "source_key": "fortune"
     },
     {
       "category": "ai",
@@ -416,8 +592,16 @@
       "urgent": false,
       "headline": "GPT-5.5 e GPT-5.5 Pro chegam à API: rebuild da arquitetura, foco em coding agentic e computer use",
       "summary": "Disponível na API desde 24/04, GPT-5.5 não é incremento de pós-treino — OpenAI rebuildou arquitetura, corpus de pré-treino e objetivos do zero (primeira vez desde GPT-4.5). Foco: coding agentic mais rápido, computer use mais robusto e knowledge work melhor no ChatGPT e Codex.",
-      "why_it_matters": "GPT-5.5 + Claude Opus 4.7 + Gemini 3.1 Pro lançaram em semanas — escolha de modelo virou variável de arquitetura por workload, não vendor-lock.",
-      "source": "OpenAI",
+      "explain": {
+        "junior": "GPT-5.5 é a nova versão do modelo de IA da OpenAI, a empresa por trás do ChatGPT. A OpenAI não só melhorou o modelo anterior — ela reconstruiu a arquitetura completa do zero, o que é bem incomum. Computer use significa a capacidade do modelo de controlar um computador autonomamente, como abrir sites e clicar em botões.",
+        "pleno": "O GPT-5.5 representa um rebuild arquitetural completo, incluindo novos dados de pré-treino e objetivos de treinamento. As melhorias focadas em coding agentic (execução autônoma de tarefas de programação) e computer use (controle de interface gráfica) posicionam o modelo como base para agentes que operam sistemas de forma autônoma. Junto com Claude Opus 4.7 e Gemini 3.1 Pro lançados próximos, a escolha de modelo passa a ser decisão técnica por workload.",
+        "senior": "Benchmark GPT-5.5 vs Claude Opus 4.7 por workload específico antes de cravar provider — a competição multimodal entre frontier models virou variável de custo e qualidade por tipo de tarefa, não mais escolha de vendor.",
+        "glossary": [
+          { "term": "Pós-treino", "def": "Fase após o pré-treino de um LLM onde o modelo é refinado com instruções humanas (RLHF, SFT) para melhorar comportamento e seguir instruções." },
+          { "term": "Computer use", "def": "Capacidade de um modelo de IA controlar uma interface gráfica de computador — navegar em sites, clicar em botões e preencher formulários de forma autônoma." },
+          { "term": "Frontier model", "def": "Modelo de IA de ponta que representa o estado da arte em capacidade — GPT-5.5, Claude Opus 4.7 e Gemini 3.1 Pro são exemplos de frontier models." }
+        ]
+      },
       "url": "https://openai.com/index/introducing-gpt-5-5/",
       "published_at": "2026-04-23T13:00:00-03:00",
       "read_time": 4,
@@ -427,7 +611,8 @@
         "agents",
         "coding"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256"
+      "image": "https://cdn.simpleicons.org/openai/412991",
+      "source_key": "openai"
     },
     {
       "category": "frontend",
@@ -436,8 +621,16 @@
       "urgent": false,
       "headline": "Next.js 16.2 traz AI-ready create-next-app, browser log forwarding e Agent DevTools experimental",
       "summary": "Update mira agentic dev: AI-ready create-next-app, browser log forwarding, dev server lock file handling e experimental Agent DevTools. Turbopack ganha Fast Refresh, WASM Workers e Subresource Integrity. Fix backporteado de CVE-2026-27979 (streaming fetch hangs e enforcement de maxPostponedStateSize).",
-      "why_it_matters": "Stack frontend está sendo redesenhado para agentes de coding — adoção precoce reduz fricção em refactors e PR reviews automatizados.",
-      "source": "Next.js Releases",
+      "explain": {
+        "junior": "Next.js é um framework popular para criar sites e aplicações web com React. Turbopack é o novo bundler (empacotador de código) do Next.js, que substituirá o Webpack. WASM (WebAssembly) é uma tecnologia que permite rodar código de linguagens como C++ e Rust no navegador com alta performance.",
+        "pleno": "O Next.js 16.2 adiciona ferramentas específicas para que agentes de coding (como Copilot e Claude Code) trabalhem melhor com projetos Next.js — log forwarding do browser para o servidor de desenvolvimento permite que o agente veja erros sem precisar de screenshot. O Turbopack recebe Fast Refresh para server-side e suporte a WASM Workers, reduzindo significativamente o tempo de feedback no desenvolvimento.",
+        "senior": "Avalie migração para Turbopack em monorepos grandes — Next.js 16.2 é o ponto de estabilidade onde Turbopack passa a ser opção segura; Agent DevTools expande o ecossistema de coding agents para frontend.",
+        "glossary": [
+          { "term": "Turbopack", "def": "Bundler de alta performance desenvolvido pela Vercel em Rust para substituir o Webpack no Next.js, oferecendo compilações muito mais rápidas." },
+          { "term": "WASM / WebAssembly", "def": "Formato binário que permite executar código de alto desempenho no navegador, desenvolvido em linguagens como Rust, C ou C++." },
+          { "term": "Fast Refresh", "def": "Feature do Next.js que atualiza o componente modificado no browser instantaneamente durante o desenvolvimento, sem perder o estado da página." }
+        ]
+      },
       "url": "https://github.com/vercel/next.js/releases",
       "published_at": "2026-04-24T10:00:00-03:00",
       "read_time": 3,
@@ -447,7 +640,8 @@
         "agents",
         "frontend"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+      "image": "https://repository-images.githubusercontent.com/70107786/4602445c-10a2-4903-a360-c96d70531f67",
+      "source_key": "nextjs"
     },
     {
       "category": "backend",
@@ -456,8 +650,17 @@
       "urgent": false,
       "headline": "Wasmtime entra em fase WASI 0.3: async nativo para componentes WASM, debug com gdbstub e wasi:tls",
       "summary": "Release de 20/04/2026 adiciona suporte experimental ao tipo map<K, V> no component model, suporte inicial à proposta wasi:tls (draft 0.3.0) e flag -g no CLI para debug com gdbstub. WASI 0.3 está em desenvolvimento ativo com async I/O nativo como headline; WASI 1.0 planejado para 2026.",
-      "why_it_matters": "Wasm para microserviços CPU-bound começa a ficar realista — async nativo destrava casos de uso que dependiam de Rust/Go puros.",
-      "source": "Wasmtime Releases",
+      "explain": {
+        "junior": "Wasmtime é um programa que executa módulos WebAssembly (WASM) fora do navegador, diretamente no servidor. WASI (WebAssembly System Interface) é um padrão que define como o código WASM acessa recursos do sistema operacional como arquivos e rede. Async I/O significa processar operações de entrada/saída sem bloquear a execução enquanto espera.",
+        "pleno": "O WASI 0.3 adiciona async I/O nativo ao component model do WebAssembly, o que era o principal bloqueador para usar WASM em microserviços que precisam fazer chamadas de rede ou disco sem travar. A proposta `wasi:tls` adiciona suporte a TLS nativo. O suporte a debug com gdbstub via flag `-g` completa o toolchain necessário para desenvolvimento sério em WASM fora do browser.",
+        "senior": "WASI 0.3 + async I/O torna WASM viável para microserviços I/O-bound — avalie Wasmtime/Spin como runtime alternativo para funções stateless com cold-start crítico antes de WASI 1.0 estabilizar.",
+        "glossary": [
+          { "term": "WASM / WebAssembly", "def": "Formato binário portátil que permite executar código compilado de diversas linguagens em qualquer plataforma com alta performance e isolamento seguro." },
+          { "term": "WASI", "def": "WebAssembly System Interface — especificação que define como módulos WASM acessam recursos do sistema operacional como filesystem, rede e relógio." },
+          { "term": "Component model", "def": "Especificação que define como módulos WASM se compõem e se comunicam entre si com interfaces tipadas, como um sistema de plugins." },
+          { "term": "TLS", "def": "Transport Layer Security — protocolo criptográfico que garante comunicações seguras na internet, usado em HTTPS e outras conexões." }
+        ]
+      },
       "url": "https://github.com/bytecodealliance/wasmtime/releases",
       "published_at": "2026-04-20T10:00:00-03:00",
       "read_time": 3,
@@ -468,7 +671,8 @@
         "async",
         "backend"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+      "image": "https://opengraph.githubassets.com/966c9aa8c14e8b2caa7c24ed44ec1ec997f764f099cc30b304328ce0143f6030/bytecodealliance/wasmtime",
+      "source_key": "wasmtime"
     }
   ],
   "tools": [
@@ -480,8 +684,16 @@
       "version": "containerd 2.3.0-rc.0",
       "headline": "containerd 2.3.0-rc.0 lança em 28/04 — primeira release sob nova cadência de 4 meses",
       "description": "Release candidate publicada hoje sinaliza início da cadência fixa de minor releases a cada 4 meses. Inclui correções e melhorias antes do GA. Primeiro grande marco de previsibilidade do runtime mais usado em K8s e Docker.",
-      "why_it_matters": "Cadência fixa permite alinhar janelas de manutenção e CVE patching com clareza — equipes de plataforma ganham previsibilidade de upgrade.",
-      "source": "containerd Releases",
+      "explain": {
+        "junior": "containerd é o programa que gerencia contêineres Docker e Kubernetes — responsável por baixar imagens, criar e parar contêineres. RC.0 significa que é a primeira versão candidata ao lançamento, ou seja, quase pronta mas ainda em testes.",
+        "pleno": "Essa RC inaugura a nova cadência de releases do containerd: minor versions a cada 4 meses de forma fixa, substituindo o modelo ad-hoc anterior. Isso permite que equipes de plataforma sincronizem janelas de manutenção, testes de regressão e CVE patching com antecedência planejada.",
+        "senior": "Incorpore o ciclo de 4 meses do containerd no calendário de upgrade de runtime para clusters K8s e frotas Docker, alinhando com janelas de manutenção e ciclos de CVE patching.",
+        "glossary": [
+          { "term": "containerd", "def": "Container runtime de baixo nível que gerencia o ciclo de vida de contêineres; componente central do Docker e Kubernetes." },
+          { "term": "Release candidate (RC)", "def": "Versão de software que está pronta para ser lançada oficialmente, passando por um período final de testes antes do GA (General Availability)." },
+          { "term": "CVE patching", "def": "Processo de aplicar correções para vulnerabilidades catalogadas (CVEs) em um sistema antes que possam ser exploradas." }
+        ]
+      },
       "url": "https://github.com/containerd/containerd/releases",
       "published_at": "2026-04-28T08:00:00-03:00",
       "tags": [
@@ -489,7 +701,8 @@
         "release",
         "cncf"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+      "image": "https://opengraph.githubassets.com/8e216043f28000232ec0f2d438ad5ded4a3be3411aa244a267296cae8b2cfb10/containerd/containerd",
+      "source_key": "containerd"
     },
     {
       "tool_key": "kubernetes",
@@ -498,8 +711,16 @@
       "kind": "news",
       "headline": "Kubernetes 1.33 entra em maintenance mode em 28/04/2026; 1.36 chegou em 22/04",
       "description": "1.33 passa para maintenance mode hoje (EOL em 28/06/2026) — apenas correções críticas a partir de agora. Em paralelo, 1.36 (release de 22/04) vem repleta de enhancements e remoções/deprecations: revise upgrade path antes de novos clusters.",
-      "why_it_matters": "Pin no 1.33 deixa de ser opção segura — comece migração para 1.34+ esta semana ou aceite EOL em 60 dias.",
-      "source": "Kubernetes Patch Releases",
+      "explain": {
+        "junior": "Kubernetes é um sistema para gerenciar contêineres em produção. Maintenance mode significa que a versão 1.33 não vai mais receber novas funcionalidades ou melhorias — apenas correções de bugs críticos. EOL (End of Life) é a data em que o suporte termina completamente.",
+        "pleno": "A partir de hoje, o Kubernetes 1.33 só recebe patches de segurança críticos e vai para EOL em 28/06/2026. Clusters que permanecerem em 1.33 além dessa data não receberão mais nenhuma correção. O caminho de upgrade para 1.34/1.35/1.36 deve ser planejado agora, revisando as deprecations e remoções de APIs que a 1.36 trouxe.",
+        "senior": "Inicie migração de clusters em 1.33 para 1.34+ imediatamente; o EOL em 28/06 significa zero patches de segurança após essa data — revise remoção de APIs na 1.36 antes de promover clusters de produção.",
+        "glossary": [
+          { "term": "Kubernetes", "def": "Plataforma open source para orquestrar contêineres em escala — automatiza deploy, scaling e gestão de aplicações em contêineres." },
+          { "term": "EOL (End of Life)", "def": "Data em que uma versão de software deixa de receber atualizações de segurança e suporte oficial do mantenedor." },
+          { "term": "Deprecation", "def": "Marcação de uma API ou feature como obsoleta — ainda funciona, mas será removida em versões futuras, e o usuário deve migrar." }
+        ]
+      },
       "url": "https://kubernetes.io/releases/patch-releases/",
       "published_at": "2026-04-28T00:00:00-03:00",
       "tags": [
@@ -507,7 +728,8 @@
         "eol",
         "maintenance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
+      "image": "https://kubernetes.io/images/kubernetes-open-graph.png",
+      "source_key": "kubernetes"
     },
     {
       "tool_key": "terraform",
@@ -517,8 +739,16 @@
       "version": "OpenTofu 1.12 beta",
       "headline": "OpenTofu 1.12.0 entra em beta: dynamic prevent_destroy, import por resource identity e checksum melhorado",
       "description": "Primeiro beta da 1.12 traz aprimoramentos em apply/init/import/test, segurança contra TLS servers maliciosos e tar archives crafted. Fork divergiu em 2025-2026 com state encryption nativo e provider-defined functions ausentes no Terraform.",
-      "why_it_matters": "Quem ainda está em Terraform deve testar OpenTofu 1.12 — features de segurança native fecham gap de licenciamento BSL.",
-      "source": "OpenTofu Releases",
+      "explain": {
+        "junior": "OpenTofu é um fork open source do Terraform — uma ferramenta para criar e gerenciar infraestrutura em nuvem escrevendo código. O Terraform foi mudado para licença BSL (Business Source License), o que limitou seu uso comercial, então a comunidade criou o OpenTofu como alternativa livre.",
+        "pleno": "O OpenTofu 1.12 beta adiciona `dynamic prevent_destroy` (proteção de destruição configurável dinamicamente), importação de recursos por identidade (sem precisar do ID exato) e checksums melhorados para segurança do provider. Desde o fork, o OpenTofu ganhou state encryption nativo e provider-defined functions — features que o Terraform BSL ainda não tem.",
+        "senior": "Avalie migração de Terraform para OpenTofu 1.12 se state encryption nativo e provider functions são requisitos — o gap de features cresce; BSL cria risco de licenciamento para SaaS.",
+        "glossary": [
+          { "term": "Terraform", "def": "Ferramenta de Infrastructure as Code da HashiCorp que permite provisionar e gerenciar recursos em nuvem através de arquivos de configuração HCL." },
+          { "term": "BSL (Business Source License)", "def": "Licença de software que restringe uso comercial para competidores diretos do criador, com conversão automática para open source após 4 anos." },
+          { "term": "State encryption", "def": "Criptografia do arquivo de estado do Terraform/OpenTofu que armazena o mapeamento entre código e recursos reais na nuvem — contém dados sensíveis." }
+        ]
+      },
       "url": "https://github.com/opentofu/opentofu/releases",
       "published_at": "2026-04-25T10:00:00-03:00",
       "tags": [
@@ -527,7 +757,8 @@
         "iac",
         "beta"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=opentofu.org&sz=256"
+      "image": "https://opengraph.githubassets.com/fe86ae213f425e8faf1990ce75cda55e71040732d3dacc5e32a5408d359fabe1/opentofu/opentofu",
+      "source_key": "opentofu"
     },
     {
       "tool_key": "databricks",
@@ -537,8 +768,16 @@
       "version": "Runtime 18.2 Beta",
       "headline": "Databricks Runtime 18.2 Beta sobre Apache Spark 4.1.0 + ai_parse_document GA",
       "description": "Runtime 18.2 e 18.2 ML em Beta. ai_parse_document agora GA, ai_prep_search em Beta — RAG quase trivial em SQL. Unity REST API permite write em external Delta tables; query-based connectors em Preview cobrem Oracle/Teradata/SQL Server/MySQL/Postgres.",
-      "why_it_matters": "Pipelines RAG diretamente em SQL no lakehouse — equipes de dados deixam de precisar de pipeline ML separado.",
-      "source": "Databricks Release Notes",
+      "explain": {
+        "junior": "Databricks é uma plataforma de análise de dados em nuvem. O Runtime é a versão do ambiente de execução com Apache Spark que ela usa. A função `ai_parse_document` permite extrair texto e estrutura de documentos como PDFs diretamente em SQL — sem precisar escrever código Python separado.",
+        "pleno": "Com `ai_parse_document` em GA, pipelines de ingestão de documentos para RAG podem ser escritos inteiramente em SQL dentro do Databricks, sem precisar de um pipeline Python separado para OCR ou parsing. A Unity REST API aceitando writes em external Delta tables expande os casos de uso para ingestão de dados externos sem precisar de cluster Spark dedicado.",
+        "senior": "Priorize `ai_parse_document` + `ai_prep_search` para eliminar dependência de pipelines RAG externos — reduz complexidade operacional e mantém dados dentro do perímetro de governança do Unity Catalog.",
+        "glossary": [
+          { "term": "Apache Spark", "def": "Motor de processamento de dados distribuído de alto desempenho, usado para processar grandes volumes de dados em paralelo em clusters." },
+          { "term": "Unity Catalog", "def": "Sistema de governança de dados unificado do Databricks que centraliza controle de acesso, lineage e descoberta de dados em múltiplos workspaces." },
+          { "term": "GA (General Availability)", "def": "Status de uma feature quando sai de preview/beta e está oficialmente suportada para uso em produção, com SLA e documentação completa." }
+        ]
+      },
       "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
       "published_at": "2026-04-26T10:00:00-03:00",
       "tags": [
@@ -547,7 +786,8 @@
         "rag",
         "lakehouse"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256"
+      "image": "https://cdn.simpleicons.org/databricks/FF3621",
+      "source_key": "databricks"
     },
     {
       "tool_key": "github",
@@ -556,8 +796,16 @@
       "kind": "news",
       "headline": "GitHub Copilot cloud agent: 20% mais rápido + novo formato de installation tokens",
       "description": "Custom Actions images pré-buildadas reduzem cold-start do agente em 20%. Em paralelo, ghs_APPID_JWT (~520 chars) em rollout desde 27/04 — código que valida regex/comprimento de token precisa ser revisado.",
-      "why_it_matters": "Coding agents on-demand viáveis para PR review — e qualquer cofre de segredos com regex fixa de token deve ser auditado.",
-      "source": "GitHub Changelog",
+      "explain": {
+        "junior": "GitHub Copilot é um assistente de IA para programadores. Imagens customizadas do Actions são ambientes pré-configurados que fazem o agente iniciar mais rápido. O novo formato de token de instalação mudou o tamanho e a estrutura, o que pode quebrar código que verificava o token pelo formato antigo.",
+        "pleno": "Custom Actions images eliminam o tempo de instalação de dependências durante o startup do agente Copilot, reduzindo o cold-start em 20%+. O novo formato `ghs_APPID_JWT` (~520 chars) é uma mudança breaking para qualquer código que valide tokens por comprimento fixo ou regex específica — cofres de segredos e proxies de autenticação precisam ser revisados.",
+        "senior": "Audite middlewares de autenticação e cofres de segredos que validam tokens GitHub App — o rollout gradual do novo formato já está ativo; custom images são o próximo passo para SLAs de PR review automatizado.",
+        "glossary": [
+          { "term": "Cold-start", "def": "Tempo necessário para um sistema inicializar do zero, carregando dependências e configurações antes de estar pronto para processar requisições." },
+          { "term": "GitHub App token", "def": "Token de autenticação de curta duração gerado para que um GitHub App interaja com repositórios e APIs do GitHub." },
+          { "term": "JWT", "def": "JSON Web Token — formato de token que contém informações assinadas digitalmente, verificáveis sem consultar o servidor emissor." }
+        ]
+      },
       "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
       "published_at": "2026-04-27T14:00:00-03:00",
       "tags": [
@@ -565,7 +813,8 @@
         "copilot",
         "actions"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+      "image": "https://github.blog/wp-content/uploads/2026/04/ActionsCustomImages_UnfurlTextOnly_01-1.jpg",
+      "source_key": "githubchangelog"
     },
     {
       "tool_key": "springboot",
@@ -575,8 +824,16 @@
       "version": "4.1.0-RC1",
       "headline": "Spring Boot 4.1.0-RC1 publicado em 23/04 — caminho para GA aberto",
       "description": "Release candidate da próxima minor da linha 4.x. Integra Spring for Apache Kafka 4.1.0-RC1 + 4.0.5 e Spring Security/OAuth atualizados. JDK 17/21/25 LTS suportados.",
-      "why_it_matters": "Equipes Spring Boot 4.0 devem começar testes de regressão com RC1 antes do GA — janela boa para identificar quebras em starters customizados.",
-      "source": "Spring Blog",
+      "explain": {
+        "junior": "Spring Boot é um framework Java muito usado para criar APIs e aplicações backend. RC1 significa Release Candidate 1 — é a versão candidata ao lançamento final. JDK é o Java Development Kit, o ambiente necessário para compilar e rodar programas Java.",
+        "pleno": "O Spring Boot 4.1.0-RC1 traz atualizações do Spring for Apache Kafka (integração com mensageria Kafka) e Spring Security com suporte OAuth. Suporta as versões LTS do JDK: 17, 21 e 25. A janela de RC é a oportunidade para testar starters customizados e dependências internas antes do GA, identificando quebras com antecedência.",
+        "senior": "Execute testes de regressão de starters customizados e integrações Spring Security agora com o RC1 — issues encontrados nessa janela ainda chegam antes do freeze de features do GA.",
+        "glossary": [
+          { "term": "Spring Boot", "def": "Framework Java que simplifica a criação de aplicações standalone com configuração automática, servidores embedded e starters para integrações comuns." },
+          { "term": "JDK LTS", "def": "Versões Long-Term Support do Java — recebem atualizações de segurança por anos após o lançamento (JDK 17, 21 e 25 são as LTS atuais)." },
+          { "term": "Starter", "def": "Dependência do Spring Boot que configura automaticamente uma tecnologia (ex: spring-boot-starter-data-jpa configura JPA com Hibernate e datasource)." }
+        ]
+      },
       "url": "https://spring.io/blog/2026/04/22/spring-kafka-4",
       "published_at": "2026-04-23T10:00:00-03:00",
       "tags": [
@@ -585,7 +842,8 @@
         "java",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256"
+      "image": "https://spring.io/img/og-spring.png",
+      "source_key": "spring"
     },
     {
       "tool_key": "claudecode",
@@ -594,8 +852,16 @@
       "kind": "news",
       "headline": "Claude Code: 30+ releases em cinco semanas, Ultraplan em early preview e Opus 4.7 com xhigh effort",
       "description": "Mês mais ativo da história do Claude Code: /resume em sessões grandes ~67% mais rápido (40MB+), MCP startup acelerado com múltiplos stdio servers, scrolling melhor no terminal, inline thinking progress. Opus 4.7 ganha xhigh entre high e max via /effort. Ultraplan permite draft de plano na cloud e edição web.",
-      "why_it_matters": "Coding agents agora são parte real do workflow — performance de sessão grande virou requisito tão crítico quanto qualidade do modelo.",
-      "source": "Claude Code Docs",
+      "explain": {
+        "junior": "Claude Code é uma ferramenta de linha de comando da Anthropic que usa o modelo Claude para ajudar a programar — você pode pedir para ele escrever, revisar ou corrigir código. O comando /resume retoma sessões grandes de trabalho sem precisar recarregar tudo do zero.",
+        "pleno": "As 30+ releases em cinco semanas focaram em performance de sessões longas: /resume 67% mais rápido para projetos >40MB, startup de MCP com múltiplos servidores stdio acelerado e o novo nível de esforço `xhigh` para o Opus 4.7 que equilibra qualidade e custo entre os níveis `high` e `max`. Ultraplan adiciona a capacidade de criar e editar planos de execução na web antes de iniciar uma sessão.",
+        "senior": "Performance de sessão longa deixou de ser diferencial e virou requisito de tabela para coding agents — o ritmo de 30+ releases em 5 semanas sinaliza maturidade operacional acelerada.",
+        "glossary": [
+          { "term": "MCP (Model Context Protocol)", "def": "Protocolo que define como o Claude Code se conecta a ferramentas e fontes de dados externas através de servidores MCP." },
+          { "term": "stdio server", "def": "Servidor MCP que se comunica via entrada/saída padrão (stdin/stdout) do terminal, em vez de via HTTP — mais simples de rodar localmente." },
+          { "term": "Effort level", "def": "Parâmetro do Claude Code que controla o quanto de processamento o modelo usa para responder — maior esforço resulta em respostas mais elaboradas mas com maior custo e latência." }
+        ]
+      },
       "url": "https://code.claude.com/docs/en/whats-new",
       "published_at": "2026-04-24T10:00:00-03:00",
       "tags": [
@@ -603,7 +869,8 @@
         "agents",
         "ide"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=claude.com&sz=256"
+      "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DWhat%2527s%2BNew%26appearance%3Dsystem%26title%3DWhat%2527s%2Bnew%26description%3DA%2Bweekly%2Bdigest%2Bof%2Bnotable%2BClaude%2BCode%2Bfeatures%252C%2Bwith%2Bcode%2Bsnippets%252C%2Bdemos%252C%2Band%2Bcontext%2Bon%2Bwhy%2Bthey%2Bmatter.%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Flight.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D78fd01ff4f4340295a4f66e2ea54903c%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Fdark.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D1298a0c3b3a1da603b190d0de0e31712%26primaryColor%3D%25230E0E0E%26lightColor%3D%2523D4A27F%26darkColor%3D%25230E0E0E%26backgroundLight%3D%2523FDFDF7%26backgroundDark%3D%252309090B&w=1200&q=100",
+      "source_key": "claudechangelog"
     },
     {
       "tool_key": "argocd",
@@ -613,8 +880,16 @@
       "version": "9.5.5",
       "headline": "Argo CD Helm chart 9.5.5 traz repoServer.copyutil.extraArgs com --update=none default",
       "description": "Patch da chart oficial 9.5.5 inclui pequenas correções e a opção repoServer.copyutil.extraArgs com '--update=none' para sobrescrever comportamento default. Manutenção contínua na linha 9.5.x.",
-      "why_it_matters": "Times de plataforma podem isolar comportamento de copyutil sem fork da chart — ganho de governança em GitOps multi-cluster.",
-      "source": "argo-helm Releases",
+      "explain": {
+        "junior": "Argo CD é uma ferramenta de GitOps — ela mantém o estado de clusters Kubernetes sincronizado com repositórios Git. Helm chart é um pacote de templates que facilita a instalação de ferramentas no Kubernetes. O extraArgs permite passar argumentos adicionais para um componente interno sem precisar modificar o código-fonte.",
+        "pleno": "O Argo CD usa o `copyutil` interno para sincronizar artefatos do repositório. O novo parâmetro `repoServer.copyutil.extraArgs` com `--update=none` como default permite controlar esse comportamento via values da Helm chart sem precisar fazer fork dela. Isso é relevante para times com políticas rígidas de imutabilidade de artefatos em pipelines GitOps.",
+        "senior": "Use `repoServer.copyutil.extraArgs` para controlar comportamento de sincronização de artefatos sem fork de chart — mantém a governança de upgrades futuros do Argo CD intacta.",
+        "glossary": [
+          { "term": "GitOps", "def": "Prática de usar repositório Git como única fonte de verdade para definir o estado desejado da infraestrutura e das aplicações." },
+          { "term": "Helm chart", "def": "Pacote de templates Kubernetes que define todos os recursos necessários para instalar uma aplicação, configurável via arquivo de valores." },
+          { "term": "Argo CD", "def": "Ferramenta de continuous delivery para Kubernetes que monitora um repositório Git e mantém o cluster sincronizado com o estado declarado lá." }
+        ]
+      },
       "url": "https://github.com/argoproj/argo-helm/releases",
       "published_at": "2026-04-25T10:00:00-03:00",
       "tags": [
@@ -622,7 +897,8 @@
         "helm",
         "gitops"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256"
+      "image": "https://opengraph.githubassets.com/b76ab6da05396a2ae325ad3099102516d42c1d5878b1a86abd0cc65658238b5b/argoproj/argo-helm",
+      "source_key": "argohelm"
     },
     {
       "tool_key": "postgres",
@@ -631,8 +907,16 @@
       "kind": "news",
       "headline": "PostgreSQL com throughput pela metade no Linux 7.0 em Graviton4 — fix complexo",
       "description": "AWS engineer reporta regressão crítica: ~0,51× throughput em PostgreSQL no kernel Linux 7.0 vs versões anteriores em Graviton4. Causa raiz é a mudança nos modos de preemption restritivos do 7.0; user-space spinlocks dominam CPU. Discussão na front-page do HN.",
-      "why_it_matters": "Pin do kernel ≤6.x em fleets de Postgres ARM até confirmação de patch — variação de 50% afeta SLAs e capacity.",
-      "source": "Phoronix",
+      "explain": {
+        "junior": "PostgreSQL é um dos bancos de dados open source mais usados no mundo. Throughput é quantas operações ele processa por segundo. Essa notícia diz que o kernel Linux 7.0 fez o PostgreSQL rodar com metade da velocidade normal em chips ARM Graviton4 da Amazon.",
+        "pleno": "A regressão ocorre porque o Linux 7.0 mudou os modos de preemption de forma que spinlocks em user-space — usados pelo PostgreSQL para sincronização interna — passam a consumir CPU excessivamente em vez de ceder o processador para outras threads. O resultado é queda de ~49% em TPS medido com pgbench.",
+        "senior": "Pinar kernel em ≤6.x em toda frota ARM com PostgreSQL e monitorar tíquete oficial do kernel Linux para patch antes de qualquer upgrade — a diferença de 50% em TPS invalida dimensionamento e SLAs.",
+        "glossary": [
+          { "term": "pgbench", "def": "Ferramenta de benchmark oficial do PostgreSQL que mede transações por segundo sob carga simulada — padrão para medir performance do banco." },
+          { "term": "User-space spinlock", "def": "Mecanismo de trava implementado no espaço de memória da aplicação (não no kernel), que aguarda ativamente até conseguir acesso a um recurso." },
+          { "term": "Kernel regression", "def": "Bug introduzido em uma nova versão do kernel que faz algo que funcionava corretamente passar a ter comportamento pior ou incorreto." }
+        ]
+      },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
       "published_at": "2026-04-27T17:00:00-03:00",
       "tags": [
@@ -641,7 +925,8 @@
         "graviton",
         "performance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=phoronix.com&sz=256"
+      "image": "https://www.phoronix.net/image.php?id=2026&image=pgbench_regression",
+      "source_key": "phoronix"
     },
     {
       "tool_key": "python",
@@ -650,8 +935,16 @@
       "kind": "tutorial",
       "headline": "Pydantic v2.12 ganha suporte inicial a Python 3.14 com PEP 649/749 (lazy type evaluation)",
       "description": "Pydantic v2.12 incorpora suporte a Python 3.14 — PEP 649 e PEP 749 introduzem semântica nova de annotations (lazy evaluation), removendo necessidade de string annotations. pydantic_core 2.46.3 publicado em 20/04 com uv 0.11.7. Pydantic V1 não funciona em 3.14+.",
-      "why_it_matters": "Migração para 3.14 exige planejamento — código que usa Pydantic V1 em runtime crítico precisa ser refatorado antes do upgrade.",
-      "source": "Pydantic",
+      "explain": {
+        "junior": "Pydantic é uma biblioteca Python muito usada para validar dados — por exemplo, garantir que um campo de formulário é realmente um email. PEP é uma proposta de melhoria ao Python. O Python 3.14 mudou como as anotações de tipo funcionam, e o Pydantic precisou se adaptar.",
+        "pleno": "O Python 3.14 implementa os PEPs 649 e 749 que mudam annotations para lazy evaluation — as anotações de tipo não são mais avaliadas na importação do módulo, mas apenas quando acessadas. Isso remove a necessidade de usar strings como `'ClassName'` para referências circulares. O Pydantic V2.12 adapta o pydantic_core para essa nova semântica, mas o Pydantic V1 é incompatível e não receberá suporte ao 3.14.",
+        "senior": "Qualquer projeto com Pydantic V1 em runtime crítico precisa migrar para V2 antes de atualizar para Python 3.14 — V1 não funciona em 3.14 e a migração tem breaking changes que exigem testes extensivos.",
+        "glossary": [
+          { "term": "Pydantic", "def": "Biblioteca Python para validação de dados e definição de modelos usando type hints — amplamente usada em APIs FastAPI e pipelines de IA." },
+          { "term": "Type annotations", "def": "Anotações de tipo no Python que indicam o tipo esperado de variáveis e parâmetros de funções — usadas pelo Pydantic para validar dados." },
+          { "term": "Lazy evaluation", "def": "Estratégia de avaliação onde expressões são calculadas apenas quando seu valor é realmente necessário, reduzindo overhead de importação." }
+        ]
+      },
       "url": "https://pydantic.dev/articles/pydantic-v2-12-release",
       "published_at": "2026-04-20T10:00:00-03:00",
       "tags": [
@@ -659,7 +952,8 @@
         "python-3.14",
         "type-hints"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=pydantic.dev&sz=256"
+      "image": "https://pydantic.dev/articles/pydantic-v2-12-release/og.png",
+      "source_key": "pydantic"
     },
     {
       "tool_key": "structurizr",
@@ -668,8 +962,16 @@
       "kind": "tutorial",
       "headline": "Diagramas-as-código com Structurizr DSL: do C4 model ao MCP server",
       "description": "Conteúdo evergreen recomendado: integração nativa de Structurizr com C4 Model + DSL textual permite versionar arquitetura no Git e expor via MCP server para agentes consultarem. Modelo único para web, Mermaid, PlantUML e Lucidchart.",
-      "why_it_matters": "Arquitetura como código integrada a agentes via MCP é o próximo passo — Structurizr DSL torna ADRs e diagramas auditáveis em PRs.",
-      "source": "Structurizr",
+      "explain": {
+        "junior": "Structurizr é uma ferramenta para criar diagramas de arquitetura de software usando código de texto em vez de arrastar caixas em uma interface gráfica. C4 Model é um conjunto de quatro tipos de diagrama que descrevem sistemas de software em diferentes níveis de detalhe. DSL significa Domain Specific Language — uma linguagem de texto simples para descrever a arquitetura.",
+        "pleno": "O Structurizr DSL permite definir a arquitetura de software em texto versionável no Git e gerar múltiplos formatos de diagrama (Web, Mermaid, PlantUML) a partir do mesmo modelo. A integração via MCP server permite que agentes de IA consultem a arquitetura atual do sistema como contexto durante análises ou revisões de código.",
+        "senior": "Integre Structurizr DSL ao pipeline de CI para validar que diagramas C4 refletem a arquitetura real do código — e exponha via MCP server para que agentes de coding tenham contexto arquitetural preciso durante refactors.",
+        "glossary": [
+          { "term": "C4 Model", "def": "Framework de diagramas de arquitetura de software com 4 níveis: Context, Container, Component e Code — cada nível mostra mais detalhes do sistema." },
+          { "term": "DSL (Domain Specific Language)", "def": "Linguagem de programação ou marcação criada para um domínio específico — o Structurizr DSL é para descrever arquitetura de software." },
+          { "term": "ADR (Architecture Decision Record)", "def": "Documento que registra uma decisão arquitetural importante — o que foi decidido, por que e quais alternativas foram consideradas." }
+        ]
+      },
       "url": "https://structurizr.com/help/dsl",
       "published_at": "2026-04-15T10:00:00-03:00",
       "tags": [
@@ -678,7 +980,8 @@
         "dsl",
         "mcp"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=structurizr.com&sz=256"
+      "image": "https://www.google.com/s2/favicons?domain=structurizr.com&sz=256",
+      "source_key": "structurizr"
     }
   ],
   "quotes": [
@@ -714,62 +1017,20 @@
     }
   ],
   "sources": [
-    {
-      "name": "The Register",
-      "url": "https://www.theregister.com/"
-    },
-    {
-      "name": "Phoronix",
-      "url": "https://www.phoronix.com/"
-    },
-    {
-      "name": "GitHub Blog",
-      "url": "https://github.blog/"
-    },
-    {
-      "name": "AWS News Blog",
-      "url": "https://aws.amazon.com/blogs/aws/"
-    },
-    {
-      "name": "TechCrunch",
-      "url": "https://techcrunch.com/"
-    },
-    {
-      "name": "The Hacker News",
-      "url": "https://thehackernews.com/"
-    },
-    {
-      "name": "Keycloak Blog",
-      "url": "https://www.keycloak.org/blog"
-    },
-    {
-      "name": "Grafana Labs",
-      "url": "https://grafana.com/blog/"
-    },
-    {
-      "name": "Spring Blog",
-      "url": "https://spring.io/blog"
-    },
-    {
-      "name": "Anthropic News",
-      "url": "https://www.anthropic.com/news"
-    },
-    {
-      "name": "OpenAI",
-      "url": "https://openai.com/news/"
-    },
-    {
-      "name": "The New Stack",
-      "url": "https://thenewstack.io/"
-    },
-    {
-      "name": "Cloudflare",
-      "url": "https://blog.cloudflare.com/"
-    },
-    {
-      "name": "Databricks",
-      "url": "https://docs.databricks.com/"
-    }
+    "theregister",
+    "phoronix",
+    "githubblog",
+    "awsblog",
+    "techcrunch",
+    "thehackernews",
+    "keycloak",
+    "grafana",
+    "spring",
+    "anthropic",
+    "openai",
+    "thenewstack",
+    "cloudflare",
+    "databricks"
   ],
   "videos": [
     {

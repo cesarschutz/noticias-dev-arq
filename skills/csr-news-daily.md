@@ -32,8 +32,6 @@ Você está criando o arquivo do zero. Não há blocklist.
 - `news[]`: **mínimo 15 itens totais**, máximo ~30. **Sem mínimo obrigatório por categoria** — cats com dias calmos podem ficar em 0. Teto padrão 3/cat; até 5/cat quando `urgent:true` ou convergência ≥3 fontes (documente no `hero_description`).
 - `tools[]`: **rotação dinâmica — mínimo 10 itens/dia** (ver FASE 5 para regra completa).
 - `highlights[]`: 3 itens — os mais ranqueados pelo score explícito (ver FASE 6).
-- `quotes[]`: 5 itens.
-
 **Verificação obrigatória após coleta** — antes de escrever qualquer arquivo:
 
 - Se nenhuma categoria "quente" (ai, aiops, sec, cloud, devops) tem item, faça buscas adicionais.
@@ -44,7 +42,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 1. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
 2. `data/{YYYY-MM-DD}.json` — edição do dia.
 
-> `data/quotes.json` e `data/verses.json` **já existem no repositório — nunca criar, nunca modificar, nunca apagar**. Use-os como estão.
+> `data/verses.json` **já existe no repositório — nunca criar, nunca modificar, nunca apagar**. Use-o como está. `data/quotes.json` é gerenciado manualmente — nunca inclua `quotes[]` nas edições diárias.
 
 ---
 
@@ -88,11 +86,11 @@ Escrever o arquivo em disco antes de pesquisar garante que compressão de contex
   "generated_at": "<ISO timestamp agora>",
   "hero_title": "",
   "hero_description": "",
+  "edition_digest": "",
   "highlights": [],
   "news": [],
   "tools": [],
   "videos": [],
-  "quotes": [],
   "sources": []
 }
 ```
@@ -108,7 +106,7 @@ Escrever o arquivo em disco antes de pesquisar garante que compressão de contex
 
 Após concluir cada fase de pesquisa:
 1. **Read** `data/{YYYY-MM-DD}.json` (para ter o estado atual do disco).
-2. **Adicione** os novos itens coletados nos arrays correspondentes (`news`, `tools`, `quotes`, `highlights`).
+2. **Adicione** os novos itens coletados nos arrays correspondentes (`news`, `tools`, `highlights`).
 3. **Write** `data/{YYYY-MM-DD}.json` de volta ao disco.
 
 > Contexto comprimido não apaga o que já está em disco. Se a compressão ocorrer no meio de uma fase, só aquela fase é perdida — todo o trabalho anterior permanece.
@@ -269,23 +267,26 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 **Como buscar**:
 - `WebFetch("https://www.youtube.com/@{handle}/videos", "List the 10 most recent videos with title, URL and publish date.")` — faça isso para 3-4 canais, priorizando os mais relevantes para o tema do dia.
 - Escolha 1 vídeo por canal, variando entre PT-BR e EN. ByteByteGo deve aparecer com frequência quando o tema for arquitetura/sistemas.
+- **Prefira canais que já têm `channel_avatar` salvo em edições anteriores** (ByteByteGo, Mano Deyvin, Renato Augusto, Guto Galego, Lucas Montano etc.) — reutilize o mesmo avatar URL da edição mais recente que o usou. Só use canais novos (sem avatar em cache) quando a relevância temática for muito superior.
 - Se o WebFetch do canal não retornar vídeos, tente `WebSearch("site:youtube.com \"<nome do canal>\" \"<tópico>\"")` como fallback.
 
 **Como preencher os campos**:
 1. Extraia `id` da URL YouTube (a parte após `?v=` ou após `youtu.be/`).
-2. Tente `WebFetch("https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={id}&format=json", "Return title and author_name.")` para obter `title` e `channel`.
+2. **Validação obrigatória**: `WebFetch("https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={id}&format=json", "Return the JSON fields: title, author_name, author_url.")` — use `title` como `title`, `author_name` como `channel`, `author_url` como URL do canal. **Se o oEmbed retornar 404 ou erro, o vídeo está indisponível — descarte esse ID e escolha outro vídeo do mesmo canal ou de outro canal autorizado.** Se o oEmbed retornar 200 mas sem `title`, tente `WebFetch("https://www.youtube.com/watch?v={id}", "What is the video title?")` como fallback. Nunca salve `title: ""`.
 3. Preencha `published_at` (formato `YYYY-MM-DD`) e `duration` (texto legível como `"12 min"` ou `"1h 05 min"`) se conseguir extrair da página ou da busca.
-4. `channel_avatar`: opcional — URL do avatar do canal (`https://yt3.ggpht.com/...`). Tente extrair do HTML do vídeo via WebFetch; se não for possível, omita o campo.
-5. Se `title` e `channel` não forem obtidos, deixe como `""` — a SPA busca via oEmbed em runtime automaticamente.
+4. **Avatar do canal** — siga esta ordem de prioridade:
+   - **Passo 4a — Cache local**: leia `data/` e verifique se alguma edição anterior já tem `channel_avatar` para este canal. Se sim, reutilize o mesmo URL.
+   - **Passo 4b — YouTube Data API**: leia o arquivo `.secrets` na raiz do projeto (`Read(".secrets")`) e extraia `YOUTUBE_API_KEY`. Com o `channelId` extraído do `author_url` do oEmbed (ex: `@fabricioveronez` → buscar ID via `WebFetch("https://www.googleapis.com/youtube/v3/channels?part=snippet&forHandle={handle}&key={YOUTUBE_API_KEY}", "Return the id and snippet.thumbnails.high.url fields.")`), obtenha o avatar em `snippet.thumbnails.high.url`. **Normalize a URL antes de salvar**: substitua `yt3.ggpht.com` por `yt3.googleusercontent.com` e o parâmetro de tamanho por `=s900-c-k-c0x00ffffff-no-rj`. Se o `author_url` já contiver um `channel_id` (formato `UCxxxxxx`), use `&id={channelId}` em vez de `&forHandle={handle}`.
+   - **Passo 4c — Omitir**: se os dois passos acima falharem, omita `channel_avatar`.
 
 **Estrutura de cada item de `videos[]`**:
 ```json
 {
   "id": "dQw4w9WgXcQ",
   "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  "title": "Título do vídeo (vazio se não obtido)",
-  "channel": "Nome do canal (vazio se não obtido)",
-  "channel_avatar": "https://yt3.ggpht.com/...(omitir se não disponível)",
+  "title": "Título do vídeo",
+  "channel": "Nome do canal",
+  "channel_avatar": "https://yt3.googleusercontent.com/...",
   "published_at": "2026-04-15",
   "duration": "12 min"
 }
@@ -297,7 +298,7 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 ---
 
-### FASE 6 — Hero + quotes + highlights + imagens pendentes
+### FASE 6 — Hero + highlights + imagens pendentes
 
 **Score explícito** (aplique a cada item de `news[]` e `tools[]`):
 
@@ -311,9 +312,9 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 **Hero**: com todo `news[]` e `tools[]` coletados, selecione o tema de maior impacto e escreva `hero_title` (máx 80 chars) e `hero_description` (2-3 frases, contexto editorial).
 
-**Quotes**: selecione ou gere 5 frases para `quotes[]`. Distribua `related_to` pelas categorias e ferramentas cobertas nesta edição. Campos obrigatórios: `text`, `author`, `related_to`. Opcional: `context`. Pelo menos 2 das 5 devem ter `related_to` relacionado às cats/tools mais movimentadas do dia.
-
 **Highlights (top 3 do dia)**: selecione os **3 itens com maior score** — **score ≥5 preferido**; se nenhum chegar a 5, selecione os top 3 mesmo assim, documentando em `hero_description`. Preferir **pelo menos 2 categorias distintas**.
+
+**Antes de confirmar os 3 highlights**, verifique se cada candidato já tem `image` editorial (não favicon, não simpleicons). Se um candidato ainda não tem imagem, faça a tentativa 1 (Microlink) agora. Se retornar NONE, **prefira o próximo candidato no ranking que já tenha imagem confirmada** — a não ser que a diferença de score seja ≥3 pontos, nesse caso mantenha o candidato e aplique a regra especial de highlights (tentativas A, B, C) logo após.
 
 Cada item de `highlights[]` tem os mesmos campos de um item de `news[]`/`tools[]` + o campo extra `source_array: "news" | "tools"`. Campo `image` obrigatório nos 3.
 
@@ -321,7 +322,9 @@ Cada item de `highlights[]` tem os mesmos campos de um item de `news[]`/`tools[]
 
 Meta: `highlights[]` 3/3 com `image`; `news[]` ≥80% com `image`.
 
-**Ao fim da FASE 6**: CHECKPOINT → Read / atualize `hero_title`, `hero_description`, `quotes[]`, `highlights[]`, imagens pendentes / Write.
+**`edition_digest`** — escreva um resumo corrido de **toda a edição** (não só os highlights), em português, com tom descontraído e jornalístico. Deve ser um texto fluido que casa os assuntos de forma natural, sem títulos nem marcadores — parágrafos separados por `\n\n`. Tamanho ideal: 4–6 parágrafos curtos, entre 200 e 350 palavras. Comece pelo tema mais impactante do dia e agrupe assuntos relacionados no mesmo parágrafo. Termine sempre com as ferramentas e releases mais relevantes da semana. Exemplo de tom: "Sexta começa movimentada: Microsoft Agent 365 entrou em GA com aquela proposta de tudo-num-pacote... No mesmo dia, a Anthropic calou silenciosamente o contexto de 1M tokens... Segurança foi pesada: MOVEit voltou com CVSS 9.8 e sem patch..."
+
+**Ao fim da FASE 6**: CHECKPOINT → Read / atualize `hero_title`, `hero_description`, `edition_digest`, `highlights[]`, imagens pendentes / Write.
 
 ---
 
@@ -338,12 +341,12 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Sexta-feira**: `fundamentals` tem 2-3 itens, ≥1 evergreen canônico.
 - [ ] **`tools[]` rotação**: mínimo 10 itens, **sem repetir** `tool_key` com URL idêntica das últimas 7 edições.
 - [ ] **`kind === "release"` tem `version`**.
-- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source`, `url`, `read_time`, `why_it_matters`.
-- [ ] **Campo `why_it_matters`** obrigatório em cada item de `news[]` e `tools[]` (1 frase: por que importa para arquiteto sênior).
+- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`. **Usar `source_key`** (chave de `data/sources.json`) — nunca o campo `source` como string livre.
+- [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. Deve conter: `junior` (define termos do zero, 1-2 frases), `pleno` (contexto técnico, 1-2 frases), `senior` (impacto arquitetural e ação, 1 frase), `glossary` (array de `{term, def}` com os termos técnicos usados nas explicações).
+- [ ] **`edition_digest`** preenchido: 4–6 parágrafos, 200–350 palavras, tom descontraído, texto corrido sem marcadores.
 - [ ] **Imagens**: highlights[] 3/3; news[] ≥80%.
 - [ ] **`tools[]` chaves válidas** — ver conjunto autoritativo em `scripts/validate_editions.py` (`TOOL_KEYS`). Sempre sincronize ao adicionar/remover ferramentas.
-- [ ] **`quotes[]` com 5 itens** com `text`, `author`, `related_to`.
-- [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id` e `url`. Campos `title` e `channel` podem ficar vazios (buscados em runtime via oEmbed). Campo `start` **não deve existir**.
+- [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id`, `url` e **`title` preenchido** (nunca `""`). Campo `channel` deve estar preenchido. Campo `start` **não deve existir**.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Diversidade de fonte**: nenhum domínio aparece em >3 itens por edição.
 - [ ] **Anti-clickbait**: nenhum `headline`/`summary` com `"top N"`, `"N razões"`, `"N ways"`, `"N things"`, `"melhores N"`, `"você não vai acreditar"`.
@@ -432,7 +435,7 @@ Para cada categoria, faça buscas variadas dentro da **janela de tempo**. Inclua
 - `"Keycloak" OR "Auth0" OR "OIDC" OR "SAML" release OR vulnerability OR update`
 - `"zero-trust" OR "IAM" OR "identity provider" update OR incident`
 - `"SBOM" OR "Sigstore" OR "SLSA" OR "software supply chain" security {current_year}`
-- `"HashiCorp Vault" OR "secrets management" OR "secret rotation" update OR best practice`
+- `"HashiCorp Vault" OR "AWS Secrets Manager" OR "Delinea" OR "secrets management" OR "secret rotation" update OR best practice`
 - `"Falco" OR "Trivy" OR "container security" OR "image scanning" runtime security news`
 - `"AI security" OR "prompt injection" OR "model poisoning" OR "LLM attack" {current_year}`
 - `site:krebsonsecurity.com breach OR ransomware OR supply chain`
@@ -683,6 +686,7 @@ Exemplos por item (não exaustivos):
 | `dynatrace` | Release, nova integração | OpenTelemetry, distributed tracing, SLO/SLA, AIOps, observabilidade de K8s, Grafana/Prometheus stack |
 | `datadog` | Release, nova integração | APM, RUM, SLOs, monitoring patterns, OpenTelemetry |
 | `keycloak` | Release, CVE, tutorial de configuração | OAuth 2.0, OIDC, SAML, zero-trust, gestão de identidade, SSO, **Vault (secrets management)** |
+| `secrets-manager` | Release, nova integração, nova feature de rotação | Secret rotation, credential management, integração com Lambda/ECS/RDS, **Vault vs Secrets Manager**, supply chain secrets, CI/CD secrets seguro |
 | `gradle` | Release, novo plugin | Build systems JVM, Gradle vs Maven, build cache, configuration cache |
 | `maven` | Release, novo plugin central | Maven Central, gestão de dependências Java, BOM, multi-module projects |
 | `springboot` | Release, nova feature, starter novo | **Spring Cloud**, Spring Security, auto-config, GraalVM native, reactive, Wasmtime (WASM backend) |
@@ -725,6 +729,7 @@ Exemplos por item (não exaustivos):
 | `dynatrace` | Dynatrace | `obs` | https://www.dynatrace.com/support/help/whats-new/release-notes |
 | `datadog` | Datadog | `obs` | https://docs.datadoghq.com/release_notes · https://www.datadoghq.com/blog |
 | `keycloak` | Keycloak | `sec` | https://github.com/keycloak/keycloak/releases · https://www.keycloak.org/blog |
+| `secrets-manager` | AWS Secrets Manager | `sec` | https://aws.amazon.com/about-aws/whats-new/ (filtrar Secrets Manager) · https://aws.amazon.com/secretsmanager/ · https://docs.aws.amazon.com/secretsmanager/latest/userguide/what-is.html |
 | `gradle` | Gradle | `backend` | https://docs.gradle.org/current/release-notes.html · https://blog.gradle.org |
 | `maven` | Apache Maven | `backend` | https://maven.apache.org/download.cgi · https://search.maven.org |
 | `springboot` | Spring Boot (+ Spring Cloud) | `backend` | https://spring.io/blog · https://github.com/spring-projects/spring-boot/releases |
@@ -744,7 +749,7 @@ Exemplos por item (não exaustivos):
 | `checkmarx` | Checkmarx | `sec` | https://checkmarx.com/blog · https://checkmarx.com/resource/documents/en/34965-46283-checkmarx-release-notes.html |
 | `sonar` | SonarQube / SonarCloud | `sec` | https://www.sonarsource.com/blog · https://github.com/SonarSource/sonarqube/releases |
 
-**Total**: 3 linguagens + 34 ferramentas = **37 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
+**Total**: 3 linguagens + 35 ferramentas = **38 `tool_key`s**. Apenas ~10-15 entram em cada edição via rotação dinâmica.
 
 ### Sub-tópicos cobertos em subcategorias (não são `tool_key` dedicados)
 
@@ -755,7 +760,7 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 | Backstage, Helm, OpenTofu, Envoy | `devops` | via queries de DevOps & Plataformas |
 | MCP, Ollama, Langfuse, LangGraph | `aiops` | via queries de AIOps & Agents |
 | OpenTelemetry, Prometheus, Grafana | `obs` | via queries de Observabilidade & SRE |
-| Trivy, **Vault (secrets management)** | `sec` | via queries de Segurança |
+| Trivy, **Vault (secrets management)**, **Delinea (PAM — Privileged Access Management)** | `sec` | via queries de Segurança |
 | **Cloudflare (CDN/Edge/Workers/Zero Trust)** | `cloud` | via queries de Cloud |
 | pgvector, dbt | `data` | via queries de Dados & Streaming |
 | Temporal | `distarch` | via queries de Sistemas Distribuídos |
@@ -788,8 +793,15 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "category_icon": "🔐",
       "headline": "Manchete em português brasileiro (copie idêntica do item em news[] ou tools[])",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto: o que é + por que importa + o que fazer.",
-      "why_it_matters": "Impacto em 1 frase para arquiteto sênior.",
-      "source": "Nome da Fonte",
+      "explain": {
+        "junior": "Explique os termos e conceitos desta notícia do zero, como se o leitor nunca tivesse ouvido falar deles. 1-2 frases.",
+        "pleno": "Explique o mecanismo técnico e contexto no ecossistema. Assume conhecimento básico de dev. 1-2 frases.",
+        "senior": "Impacto arquitetural e ação concreta para o arquiteto sênior. 1 frase direta.",
+        "glossary": [
+          { "term": "Termo", "def": "Definição curtinha (1 frase) do que é esse termo, para quem não conhece." }
+        ]
+      },
+      "source_key": "helpnetsecurity",
       "url": "https://url-real-verificada.com/artigo",
       "published_at": "2026-04-17T04:20:00-03:00",
       "read_time": 4,
@@ -804,8 +816,15 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "category_icon": "⚙️",
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases na perspectiva do arquiteto.",
-      "why_it_matters": "Impacto em 1 frase para arquiteto sênior.",
-      "source": "Kubernetes Blog",
+      "explain": {
+        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
+        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
+        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "glossary": [
+          { "term": "Termo", "def": "Definição curtinha." }
+        ]
+      },
+      "source_key": "kubernetes",
       "url": "https://url-real-verificada.com/release",
       "published_at": "2026-04-17T04:20:00-03:00",
       "read_time": 3,
@@ -819,8 +838,15 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "category_icon": "🧠",
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo de 2-4 frases.",
-      "why_it_matters": "Impacto em 1 frase.",
-      "source": "Anthropic News",
+      "explain": {
+        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
+        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
+        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "glossary": [
+          { "term": "Termo", "def": "Definição curtinha." }
+        ]
+      },
+      "source_key": "anthropic",
       "url": "https://url-real-verificada.com/artigo",
       "published_at": "2026-04-17T04:20:00-03:00",
       "read_time": 5,
@@ -837,8 +863,15 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "breaking": false,
       "headline": "Manchete em português brasileiro",
       "summary": "Resumo na perspectiva do arquiteto.",
-      "why_it_matters": "Impacto em 1 frase.",
-      "source": "Nome da Fonte",
+      "explain": {
+        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
+        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
+        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "glossary": [
+          { "term": "Termo", "def": "Definição curtinha." }
+        ]
+      },
+      "source_key": "awsblog",
       "url": "https://url-real.com",
       "published_at": "2026-04-17T03:00:00-03:00",
       "read_time": 3,
@@ -854,20 +887,19 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "version": "3.0",
       "headline": "Cursor 3 lança Agents Window com paralelismo de agentes",
       "description": "Resumo de 1-2 frases: o que mudou + impacto.",
-      "why_it_matters": "Impacto em 1 frase para arquiteto sênior.",
-      "source": "Cursor Blog",
+      "explain": {
+        "junior": "Explique os termos e conceitos desta notícia do zero. 1-2 frases.",
+        "pleno": "Explique o mecanismo técnico e contexto. 1-2 frases.",
+        "senior": "Impacto arquitetural e ação. 1 frase.",
+        "glossary": [
+          { "term": "Termo", "def": "Definição curtinha." }
+        ]
+      },
+      "source_key": "cursor",
       "url": "https://cursor.com/changelog/3-0",
       "published_at": "2026-04-17T10:00:00-03:00",
       "image": "https://url-da-og-image.com/img.jpg",
       "tags": ["ai", "ide", "agents"]
-    }
-  ],
-  "quotes": [
-    {
-      "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-      "author": "Martin Fowler",
-      "context": "Legibilidade como princípio de arquitetura",
-      "related_to": "cat:design"
     }
   ],
   "videos": [
@@ -876,7 +908,7 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
       "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "title": "Título do vídeo",
       "channel": "Nome do Canal",
-      "channel_avatar": "https://yt3.ggpht.com/...(opcional)",
+      "channel_avatar": "https://yt3.googleusercontent.com/...",
       "published_at": "2026-04-15",
       "duration": "12 min"
     }
@@ -889,16 +921,18 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 
 ### Campos por objeto
 
-**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `highlights[]`, `news[]`, `tools[]`, `videos[]`, `quotes[]`. Opcionais: `sources[]`.
+**Edição** (raiz): `date`, `weekday`, `formatted_date`, `generated_at` (ISO 8601 completo), `hero_title`, `hero_description`, `highlights[]`, `news[]`, `tools[]`, `videos[]`. Opcionais: `sources[]`.
+
+> `data/quotes.json` é gerenciado **manualmente** — citações de autores de referência, curadas independentemente das edições. Nunca incluir `quotes[]` em edições individuais.
 
 **Item de `videos[]`** (exatamente 3 itens):
 - **Obrigatórios**: `id` (YouTube video ID), `url`.
 - **Preencher se obtido**: `title`, `channel`, `published_at` (YYYY-MM-DD), `duration` (texto legível, ex: `"9 min"`, `"1h 21 min"`).
-- **Opcional**: `channel_avatar` (URL `https://yt3.ggpht.com/...`).
+- **Preencher se obtido** (fortemente recomendado): `channel_avatar` (URL `https://yt3.googleusercontent.com/...` — extrair via `og:image` da página do canal).
 - **Nunca incluir**: campo `start` — todos os vídeos iniciam do segundo zero.
 
 **Item de `news[]` (mesma estrutura usada dentro de `highlights[]`)**:
-- **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `why_it_matters`, `source`, `url`, `read_time`.
+- **Obrigatórios**: `category`, `category_label`, `category_icon`, `headline`, `summary`, `explain`, `source_key`, `url`, `read_time`.
 - **Booleans opcionais** (default `false`): `urgent`, `star`, `breaking`.
 - **Opcionais estruturados**:
   - `severity`: `"critical" | "high" | "medium" | "low"` — granularidade para itens `sec`.
@@ -908,16 +942,9 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
   - `image`: URL `https://` da imagem principal do artigo (og:image).
 
 **Item de `tools[]`**:
-- **Obrigatórios**: `tool_key`, `name`, `kind`, `headline`, `why_it_matters`, `source`, `url`.
+- **Obrigatórios**: `tool_key`, `name`, `kind`, `headline`, `explain`, `source_key`, `url`.
 - **Obrigatório quando `kind === "release"`**: `version`.
 - **Opcionais**: `icon`, `description`, `published_at`, `image`, `tags`.
-
-**Array `quotes[]`** (5 itens obrigatórios):
-- **Obrigatórios**: `text`, `author`, `related_to`.
-- **Opcional**: `context`.
-- `related_to` deve ser `"cat:<chave>"`, `"tool:<chave>"` ou `"general"`.
-- Autores sugeridos: Martin Fowler, Simon Brown, Kent Beck, Rich Hickey, Eric Evans, Eric Brewer, Robert Martin, Werner Vogels, Ward Cunningham, DHH, Kelsey Hightower, Sam Newman, Kief Morris, Donald Knuth, Fred Brooks, Martin Kleppmann, Gregor Hohpe, Charity Majors, Julia Evans.
-- Pelo menos 2 das 5 devem ter `related_to` relacionado às categorias ou ferramentas mais movimentadas do dia.
 
 ### Emojis: unicode literal, não escapado
 
@@ -1039,65 +1066,96 @@ Exceção: `tools[].url` pode apontar para changelog oficial com âncora especí
 
 ## IMAGENS
 
-O campo `image` deve ser preenchido em **todo item de `highlights[]`, `news[]` e `tools[]`** onde for possível. A SPA renderiza thumbnails nos cards em 16:9. Se não houver imagem, o card renderiza sem thumb. Sites reais (TechCrunch, BleepingComputer, AWS Blog, TheNewStack, InfoQ, Anthropic, GitHub) **têm og:image**.
+O campo `image` representa a **hero image do artigo** (og:image, twitter:image) — a imagem editorial que aparece quando o link é compartilhado. Não é o logo da fonte; é a imagem ilustrativa do conteúdo (ex: a ilustração do blog post da Cloudflare, a foto do artigo da AWS). A SPA renderiza thumbnails 16:9 nos cards. Sites reais (AWS Blog, Cloudflare Blog, Help Net Security, TechCrunch, InfoQ, Anthropic, GitHub) **sempre têm og:image**.
 
-**Meta de cobertura**:
-- `highlights[]`: **3/3 com imagem** (obrigatório).
-- `news[]`: **≥ 80% com imagem**.
-- `tools[]` com `kind` in `{release, news}`: **≥ 60% com image**. Para `tip/tutorial/curiosity` opcional.
+**Meta de cobertura — não negociável**:
+- `highlights[]`: **3/3 com imagem editorial** (og:image/twitter:image). Google Favicon é **inaceitável** nos highlights — se as tentativas 1–3 falharem, execute novamente a tentativa 2 com prompt mais específico antes de aceitar fallback.
+- `news[]`: **≥ 80% com imagem** (editorial ou fallback de fonte).
+- `tools[]` com `kind` in `{release, news}`: **≥ 60% com imagem**. Para `tip/tutorial/curiosity` opcional.
 
-### Cascata obrigatória de imagens (executar em ordem)
+### Quando executar
 
-**Tentativa 1 — Microlink API**
+Execute a cascata abaixo para **todos os itens** de `news[]` e `tools[]` que ainda não têm `image`, em lote, **antes de selecionar os highlights na FASE 6**. Assim os highlights já têm imagem garantida no momento da seleção.
+
+Ao fazer WebFetch na **FASE 7** para verificar links de `highlights[]` e top-5 `news[]`, **aproveite a mesma chamada** para extrair og:image se o item ainda não tiver imagem.
+
+### Cascata obrigatória (executar em ordem, parar na primeira bem-sucedida)
+
+**Tentativa 1 — Microlink API** ← chamada JSON leve, funciona para ~90% dos sites, faça para TODOS os itens
 
 ```
 WebFetch("https://api.microlink.io/?url={URL-encoded-da-noticia}",
-  "Return ONLY the value of data.image.url from the JSON. If data.image is null or missing, return data.logo.url. If both are null, return NONE.")
+  "This returns JSON. Return ONLY the string value at data.image.url.
+   If data.image is null or absent, return NONE.
+   Do NOT fall back to data.logo.url here.")
 ```
 
-**Tentativa 2 — WebFetch direto no artigo**
+Se retornar URL válida (`https://`, não contém `favicon`, `icon`, `avatar`, `pixel`, `logo`): salve como `image`. **Fim da cascata para este item.**
+
+**Tentativa 2 — WebFetch direto no artigo** ← a tag og:image está sempre no `<head>`, nos primeiros 2 KB do HTML
 
 ```
 WebFetch(url_da_noticia,
-  "Extract the main image URL. Look for in order:
-   1. <meta property='og:image'> or <meta property='og:image:secure_url'>
-   2. <meta name='twitter:image'> or <meta name='twitter:image:src'>
-   3. <link rel='image_src' href='...'>
-   4. Inside JSON-LD <script type='application/ld+json'>, the image field
-   5. First <img> inside <article> or <figure> with src containing no 'avatar','icon','pixel','ad'
-   Return ONLY the absolute https:// URL, or NONE.")
+  "Look ONLY in the HTML <head> section (first 2000 characters). Extract the FIRST match in this exact priority order:
+   1. content attribute of <meta property='og:image'>
+   2. content attribute of <meta property='og:image:secure_url'>
+   3. content attribute of <meta name='twitter:image'>
+   4. content attribute of <meta name='twitter:image:src'>
+   5. href attribute of <link rel='image_src'>
+   Return ONLY the absolute https:// URL. If the URL starts with /, prepend the article's domain (e.g. https://blog.example.com). Return NONE if nothing found.")
 ```
 
-Se a URL for relativa (começa com `/`), prefixe com o domínio do artigo.
-
-**Tentativa 3 — oembed WordPress**
+**Tentativa 3 — oEmbed WordPress** ← apenas para sites WordPress/Ghost
 
 ```
 WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}",
-  "Return only the value of thumbnail_url from this JSON.")
+  "Return only the string value of thumbnail_url from this JSON. Return NONE if absent.")
 ```
 
-**Tentativa 4 — Microlink no domínio raiz**
+**Tentativa 4 — sources.json** ← fallback de logo da fonte (melhor que favicon genérico)
 
-```
-WebFetch("https://api.microlink.io/?url={protocolo+domínio-raiz}",
-  "Return data.image.url or data.logo.url from the JSON.")
-```
+Leia `data/sources.json`. Localize a entrada cujo campo `key` corresponde ao campo `source` do item (ex: item com `"source": "cloudflare"` → entrada `{"key": "cloudflare", "image": "https://cdn.simpleicons.org/cloudflare/F38020", ...}`). Use o campo `image` dessa entrada.
 
-**Tentativa 5 — Google Favicon (GARANTIDO, sempre funciona)**
+Se o item não tiver campo `source` ou a fonte não existir em sources.json, pule para tentativa 5.
+
+**Tentativa 5 — Google Favicon** ← último recurso absoluto; aceitável apenas em `news[]`/`tools[]`, nunca em `highlights[]`
 
 ```
 image: "https://www.google.com/s2/favicons?domain={domínio-sem-path}&sz=256"
 ```
 
-Ex.: para `https://www.infoq.com/articles/...`, use `https://www.google.com/s2/favicons?domain=infoq.com&sz=256`.
+### Regra especial para highlights[]
+
+Se após a cascata um highlight ainda estiver com Google Favicon ou sem imagem editorial:
+
+**Tentativa A — URL alternativa via WebSearch**
+```
+WebSearch("{headline do artigo} site:{domínio-da-fonte}")
+```
+Pegue a primeira URL de resultado que seja do mesmo domínio mas diferente da URL original (ex: blog post, release page, announcement). Faça a cascata novamente (tentativas 1 e 2) nessa URL alternativa.
+
+**Tentativa B — Cobertura de terceiros**
+```
+WebSearch("{headline resumida} {ano} blog announcement")
+```
+Busque cobertura do mesmo tema em fontes que costumam ter og:image acessível (TechCrunch, The Hacker News, InfoQ, Cloudflare Blog, AWS Blog, VentureBeat). Faça WebFetch na URL mais relevante encontrada e extraia a og:image — **se a imagem for editorial e relevante ao tema, use-a mesmo sendo de outra fonte**. Registre a imagem mas mantenha o `url` original do highlight.
+
+**Tentativa C — Imagem inline do artigo**
+Faça WebFetch na URL original pedindo:
+```
+"Return ALL image src/href URLs found in the article body (not header/nav/footer). 
+ Prefer images with dimensions > 400px or URLs containing 'blog', 'post', 'content', 'article', 'inline'. 
+ Return the first valid https:// URL found, or NONE."
+```
+
+**Apenas se A, B e C falharem**: aceite o favicon. Isso indica que a página é SPA sem SSR e não tem imagem acessível via HTTP. Nesse caso, considere substituir o highlight pelo próximo item no ranking que tenha imagem confirmada.
 
 ### Validação de imagens
 
 - URL deve começar com `https://`.
-- Ignore: avatares, tracking pixels, imagens < 300px (exceto Google favicon da Tentativa 5).
+- Rejeite URLs com `avatar`, `profile`, `icon`, `pixel`, `ad`, `logo`, `favicon` no caminho (exceto as vindas da tentativa 4 e 5, que são logos intencionais).
 - `http://` → converta para `https://` antes de salvar.
-- Omita `image` **somente** se todas as 5 tentativas falharam E o item é de `tools[]` com `kind` in `{tip, tutorial, curiosity}`.
+- Omita `image` **somente** se todas as tentativas falharam E o item é de `tools[]` com `kind` in `{tip, tutorial, curiosity}`.
 
 ---
 
@@ -1110,8 +1168,8 @@ Ex.: para `https://www.infoq.com/articles/...`, use `https://www.google.com/s2/f
 5. **Top 3 destaques** pelo score (≥5 preferido), com pelo menos 2 categorias distintas.
 6. **URLs específicas e verificáveis** (FASE 7.1 obrigatória).
 7. **Sem duplicatas** com as 7 edições anteriores.
-8. **Perspectiva do arquiteto**: resumos explicam o que é + por que importa + o que o arquiteto deve fazer.
-9. **Campo `why_it_matters`** obrigatório em cada item de `news[]` e `tools[]`: 1 frase, direto ao ponto, sobre por que importa para um arquiteto sênior.
+8. **Perspectiva em camadas**: o campo `explain` conta a mesma história em 3 níveis — júnior (define os termos), pleno (explica o mecanismo), sênior (impacto e ação para arquiteto).
+9. **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O `glossary` dentro de `explain` define os termos técnicos usados nas próprias explicações — não da notícia inteira. Mínimo 2 termos por item quando aplicável.
 10. **Português brasileiro**. Termos técnicos em inglês são aceitáveis.
 11. **Badges de status**:
     - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages.
@@ -1122,8 +1180,7 @@ Ex.: para `https://www.infoq.com/articles/...`, use `https://www.google.com/s2/f
 14. **`hero_description`**: 2-3 frases resumindo o dia.
 15. **Imagens**: cascata obrigatória — 3/3 highlights; ≥80% news.
 16. **`tools[]` rotação dinâmica**: mínimo 10/dia, sem repetir URL das últimas 7 edições. Ver FASE 5.
-17. **5 quotes em `quotes[]`**: citações de autores de arquitetura/engenharia, relacionadas ao tema do dia.
-18. **Novos campos estruturados** (opcionais):
+17. **Novos campos estruturados** (opcionais):
     - **CVEs**: sempre extrair em notícias de segurança.
     - **Severity**: para todo item com `category: "sec"` e `urgent: true`.
     - **Published_at**: quando a fonte exibe data+hora.

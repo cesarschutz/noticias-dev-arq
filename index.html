@@ -1479,16 +1479,16 @@ function applyTheme(theme){
 /* ════════ ÍCONES DE SEÇÃO E SUBGRUPO ════════ */
 const HEADER_ICONS = {
   'cats':        '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>',
-  'cloud-infra': '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
+  'containers':  '<path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/>',
   'dados':       '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
-  'devops':      '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+  'cicd':        '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
   'diagrams':    '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
   'frontend':    '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
   'ai-ide':      '<path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>',
   'jvm':         '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/>',
   'mensageria':  '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M20.49 3.51a14 14 0 0 1 0 19.8"/><path d="M3.51 20.49a14 14 0 0 1 0-19.8"/>',
-  'obs-iam':     '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
-  'sec-code':    '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  'obs':         '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  'seguranca':   '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
 };
 function iconSvg(paths, size=14){
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${paths}</svg>`;
@@ -1566,6 +1566,7 @@ const TOOLS = [
   {key:'dynatrace', name:'Dynatrace',     color:'#1496FF', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynatrace/dynatrace-original.svg',                 desc:'Observabilidade unificada — Davis AI, distributed tracing e AIOps (APM enterprise).'},
   {key:'datadog',   name:'Datadog',       color:'#632CA6', logo:'https://cdn.simpleicons.org/datadog/632CA6',                                                                 desc:'Observabilidade SaaS unificada — APM, logs, RUM, security; padrão de mercado.'},
   {key:'keycloak',  name:'Keycloak',      color:'#4D9CF8', logo:'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/keycloak.svg',                                              desc:'IAM open-source — SSO, OIDC, SAML e federation.'},
+  {key:'secrets-manager', name:'AWS Secrets Manager', color:'#DD344C', logo:'https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/SecurityIdentityCompliance/SecretsManager.png', desc:'Gerenciamento de secrets na AWS — rotação automática, auditoria e integração nativa com IAM.'},
   {key:'gradle',    name:'Gradle',        color:'#02303A', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gradle/gradle-original.svg',                       desc:'Build automation moderna — build cache e convention plugins.'},
   {key:'maven',     name:'Apache Maven',  color:'#C71A36', logo:'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg',                         desc:'Build system Java — POM, lifecycle e Maven Central.'},
   {key:'springboot',name:'Spring Boot',   color:'#6DB33F', logo:'https://cdn.simpleicons.org/springboot/6DB33F',                       desc:'Framework Java líder — auto-config, starters e Spring Cloud.'},
@@ -1607,16 +1608,16 @@ function renderCards() {
   `).join('');
 
   const TOOL_SUBGROUPS = [
-    { key:'cloud-infra', label: 'Cloud & Infra',                tools: ['istio','kubernetes','nginx','terraform'] },
+    { key:'containers',  label: 'Containers & Orquestração',    tools: ['docker','kubernetes','istio','nginx'] },
+    { key:'cicd',        label: 'CI/CD & GitOps',               tools: ['argocd','ghactions','github','terraform'] },
     { key:'dados',       label: 'Dados & Bancos',               tools: ['databricks','mongodb','postgres','redis'] },
-    { key:'devops',      label: 'DevOps & CI/CD',               tools: ['argocd','docker','ghactions','github'] },
     { key:'diagrams',    label: 'Diagramas',                    tools: ['mermaid','plantuml','structurizr'] },
     { key:'frontend',    label: 'Frontend',                     tools: ['angular','react'] },
     { key:'ai-ide',      label: 'IDEs & IA',                    tools: ['claudecode','cursor','intellij','vscode'] },
     { key:'jvm',         label: 'Java & JVM',                   tools: ['gradle','maven','spring','springboot'] },
     { key:'mensageria',  label: 'Mensageria',                   tools: ['kafka','rabbitmq','sns','sqs'] },
-    { key:'obs-iam',     label: 'Observabilidade & Identidade', tools: ['datadog','dynatrace','keycloak'] },
-    { key:'sec-code',    label: 'Segurança de Código',          tools: ['checkmarx','sonar'] },
+    { key:'obs',         label: 'Observabilidade',              tools: ['datadog','dynatrace'] },
+    { key:'seguranca',   label: 'Segurança',                    tools: ['keycloak','secrets-manager','checkmarx','sonar'] },
   ];
   const toolByKey = Object.fromEntries(TOOLS.map(t => [t.key, t]));
   const renderToolCard = t => `

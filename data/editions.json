@@ -1,6 +1,51 @@
 {
-  "last_generated": "2026-04-30T06:00:00-03:00",
+  "last_generated": "2026-05-01T06:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-05-01",
+      "counts_by_category": {
+        "sec": 4,
+        "aiops": 4,
+        "devops": 1,
+        "data": 1,
+        "fintech": 2,
+        "frontend": 1,
+        "fundamentals": 3,
+        "obs": 1,
+        "distarch": 1,
+        "design": 1
+      },
+      "counts_by_tool": {
+        "ghactions": 1,
+        "cursor": 1,
+        "kubernetes": 1,
+        "databricks": 1,
+        "claudecode": 1,
+        "rabbitmq": 1,
+        "mongodb": 1,
+        "sonar": 1,
+        "github": 1,
+        "spring": 1,
+        "structurizr": 1,
+        "java": 1
+      },
+      "highlights": [
+        {
+          "title": "Microsoft Agent 365 entra em GA hoje (1/mai) e Microsoft 365 E7 Frontier Suite consolida Copilot+E5+Agent 365 a US$ 99/usuário",
+          "url": "https://techcommunity.microsoft.com/discussions/agent-365-discussions/agent-365-will-be-generally-available-on-may-1-2026/4500380"
+        },
+        {
+          "title": "MOVEit Automation ganha CVE-2026-4670 (CVSS 9.8) — auth bypass não autenticado afeta versões 2025.0.x e 2024.x",
+          "url": "https://radar.offseq.com/threat/cve-2026-4670-cwe-305-authentication-bypass-by-pri-dff96cb4"
+        },
+        {
+          "title": "Databricks libera Iceberg v3 em Public Preview no Runtime 18.0 — Deletion Vectors e VARIANT chegam ao Unity Catalog",
+          "url": "https://www.databricks.com/blog/next-era-open-lakehouse-apache-icebergtm-v3-public-preview-databricks"
+        }
+      ],
+      "hero_title": "Microsoft Agent 365 entra em GA, MOVEit ganha 9.8 sem patch e Iceberg v3 chega em preview no Databricks",
+      "hero_description": "Sexta amanhece com três marcos arquiteturais: Microsoft Agent 365 sai oficialmente da preview hoje (US$ 15/usuário) e o novo M365 E7 Frontier Suite a US$ 99 consolida E5+Copilot+Agent 365 num control plane multitenant para agents nativos, build-on-SDK e externos (Bedrock, Google). MOVEit Automation publica CVE-2026-4670 (CVSS 9.8) — auth bypass não autenticado sem patch oficial — enquanto Apache Iceberg v3 entra em Public Preview no Databricks Runtime 18.0 com Deletion Vectors, Row Lineage e VARIANT, mudando o que é possível em DML sobre lakehouse aberto. Ainda hoje: Microsoft solta security update massivo com CodeQL 2.18.3 e Agent Actions Audit, Pinterest detalha seu MCP em produção (registry + servers por domínio), Anthropic encerra o beta de 1M context para Sonnet 4.5/4 e a sexta-fundamentos abre com a Lei de Hyrum no kernel + página clássica de Brendan Gregg."
+    },
     {
       "date": "2026-04-30",
       "counts_by_category": {
