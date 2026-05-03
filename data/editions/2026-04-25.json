@@ -23,7 +23,7 @@
         "memory",
         "beta"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=sdtimes.com&sz=256",
+      "image": "https://sdtimes.com/wp-content/uploads/2026/04/Screenshot-2026-04-24-at-11.09.55-AM.png",
       "source_key": "sdtimes"
     },
     {
@@ -42,7 +42,7 @@
         "investment",
         "compute"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2252871842.jpg?w=1024",
       "source_key": "techcrunch"
     },
     {
@@ -62,7 +62,7 @@
         "ga",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256",
+      "image": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png",
       "source_key": "kubernetes"
     }
   ],
@@ -84,7 +84,7 @@
         "investment",
         "compute"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2252871842.jpg?w=1024",
       "source_key": "techcrunch"
     },
     {
@@ -102,7 +102,7 @@
         "anthropic",
         "coding-agents"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=ai2.work&sz=256",
+      "image": "https://images.ai2.work/heroes/google-s-brin-forms-deepmind-strike-team-to-close-anthropic-coding-gap.webp",
       "source_key": "ai2work"
     },
     {
@@ -122,7 +122,7 @@
         "memory",
         "beta"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=sdtimes.com&sz=256",
+      "image": "https://sdtimes.com/wp-content/uploads/2026/04/Screenshot-2026-04-24-at-11.09.55-AM.png",
       "source_key": "sdtimes"
     },
     {
@@ -140,7 +140,7 @@
         "agents",
         "ga"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "image": "https://res.infoq.com/news/2026/04/cloudflare-sandboxes-ga/en/headerimage/generatedHeaderImage-1776749566952.jpg",
       "source_key": "infoq"
     },
     {
@@ -187,7 +187,7 @@
         "samsung",
         "d-link"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cisa.gov&sz=256",
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
       "source_key": "cisa"
     },
     {
@@ -211,7 +211,7 @@
         "jwt",
         "auth-bypass"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=securityonline.info&sz=256",
+      "image": "https://securityonline.info/wp-content/uploads/2024/04/kafka.png",
       "source_key": "securityonline"
     },
     {
@@ -229,7 +229,7 @@
         "prompt-injection",
         "threat-intelligence"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=security.googleblog.com&sz=256",
+      "image": "https://blog.google/static/blogv2/images/google-1000x1000.png?version=pr20260429-1629",
       "source_key": "googlesecurity"
     },
     {
@@ -247,7 +247,7 @@
         "bedrock",
         "windows"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source_key": "awsblog"
     },
     {
@@ -265,7 +265,7 @@
         "epyc",
         "performance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "image": "https://res.infoq.com/news/2026/04/cache-parallelism-cloudflare/en/headerimage/generatedHeaderImage-1775160711037.jpg",
       "source_key": "infoq"
     },
     {
@@ -321,7 +321,7 @@
         "github-apps",
         "breaking-change"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256",
+      "image": "https://github.blog/wp-content/themes/github-2021-child/dist/img/social-v3-improvements.jpg",
       "source_key": "githubchangelog"
     },
     {
@@ -339,7 +339,7 @@
         "capacity",
         "aws"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=stocktitan.net&sz=256",
+      "image": "https://www.stocktitan.net/news_covers/AI_Is_Hitting_Operational_Limits_as_Companies_Rush_to_Scale_Datadog_Report_Finds_1042934.webp",
       "source_key": "datadog"
     },
     {
@@ -357,7 +357,7 @@
         "caching",
         "ml"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "image": "https://res.infoq.com/news/2026/04/cloudflare-ai-caching-strategies/en/headerimage/aicrawler-1775341603564.jpeg",
       "source_key": "infoq"
     },
     {
@@ -394,7 +394,7 @@
         "code-freeze",
         "kip"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=getkafkanated.substack.com&sz=256",
+      "image": "https://substackcdn.com/image/fetch/$s_!l3dt!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7098229e-d6b3-406a-90dc-4cec216a743d_1448x1048.png",
       "source_key": "getkafkanated"
     },
     {
@@ -412,7 +412,7 @@
         "banco-central",
         "regulamentação"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=demarest.com.br&sz=256",
+      "image": "https://www.demarest.com.br/wp-content/uploads/2024/08/mobile-payments-mobile-scanning-payments-face-face-payments.jpg",
       "source_key": "demarest"
     },
     {
@@ -431,7 +431,7 @@
         "hardware",
         "evergreen"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256",
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/60d9Pvcs0neERppxs46TQH/0b81f866b6076c3d3bd7fbf818be10e3/Inside_Gen_13-_how_we_built_our_most_powerful_server_yet-OG.png",
       "source_key": "cloudflare"
     }
   ],

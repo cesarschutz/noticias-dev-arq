@@ -8,93 +8,117 @@
   "highlights": [
     {
       "source_array": "news",
-      "category": "aiops",
-      "category_label": "AIOps & Agents",
-      "category_icon": "🧠",
-      "headline": "OpenAI publica Symphony — spec aberta que orquestra Codex direto de boards Linear, com 500% mais PRs aterrissados",
-      "summary": "OpenAI lançou em 28/abr a Symphony, especificação aberta + reference implementation em Elixir que transforma um board do Linear em control plane de coding agents. O orchestrator monitora issues sem bloqueio, cria workspace isolado por ticket, dispara sessão do Codex e shepherds o PR pelo CI. Times internos reportam 500% mais PRs aterrissados em 3 semanas. OpenAI declara Symphony como reference impl, não produto — pede que cada empresa aponte seu coding agent favorito ao spec e crie a própria.",
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "InfoQ publica deep-dive de Cell-Based Architecture — bulkhead pattern em escala de availability zone",
+      "summary": "Em 28/abr, InfoQ publicou artigo extenso sobre Cell-Based Architecture: padrão emergente que aplica o bulkhead pattern em granularidade de cell (subset isolado de infra que serve uma fração do tráfego) para conter blast radius de falhas. Cobre design de cell sharding (por tenant, por região), cell routing layer, cell-level deploys e os contratos cross-cell. Casos da AWS, Slack e DoorDash são referenciados com detalhamento das trade-offs.",
       "explain": {
-        "junior": "Codex é o modelo de IA da OpenAI especializado em escrever código. Linear é uma ferramenta de gerenciamento de tarefas para times de engenharia. Symphony é uma especificação que define como um agente de IA pode pegar uma tarefa do Linear e automaticamente escrever o código, criar um Pull Request e guiá-lo pelo processo de revisão.",
-        "pleno": "A Symphony define uma arquitetura de orquestração onde o orchestrator é separado do agente de coding: ele monitora o board do Linear, cria um workspace isolado por ticket, dispara o Codex (ou outro agente) para implementar e faz o shepherd do PR pelo CI até merge. A implementação de referência em Elixir usa concorrência nativa para monitorar múltiplos issues em paralelo sem bloqueio.",
-        "senior": "Modelar um orquestrador separado do agente de coding é o padrão correto para escala — Symphony formaliza o contrato: issue tracker como control plane, workspace isolado por task, CI como gate de qualidade.",
+        "junior": "Cell-Based Architecture é um padrão onde você divide sua infraestrutura em 'células' independentes — cada célula atende uma parte dos usuários. Se uma célula falhar, apenas aquela parte dos usuários é afetada, não todos. É como ter vários barcos menores em vez de um transatlântico — se um afundar, os outros continuam navegando.",
+        "pleno": "O padrão aplica o bulkhead pattern em granularidade de célula: cada cell é um subset isolado de toda a stack (compute, banco, cache, filas) que serve uma fração do tráfego (por tenant, por região ou por hash de usuário). Falhas ficam contidas dentro da cell — um bug em deploy, uma sobrecarga de banco ou um memory leak não afeta células adjacentes. O cell routing layer distribui tráfego e gerencia failover.",
+        "senior": "Cell-based architecture é o próximo passo após microserviços para SaaS multi-tenant de escala — avalie sharding por tenant ao revisar topologia, especialmente em serviços onde um único tenant ruidoso degrada toda a plataforma.",
         "glossary": [
-          { "term": "Orchestrator", "def": "Componente que coordena múltiplos agentes ou serviços, decidindo o que executar, quando e com quais entradas — separado do agente que executa o trabalho." },
-          { "term": "Linear", "def": "Ferramenta de gestão de projetos para times de engenharia, similar ao Jira mas com foco em velocidade e simplicidade." },
-          { "term": "Elixir", "def": "Linguagem funcional construída sobre a VM Erlang, conhecida por alta concorrência e resiliência — ideal para orquestradores de agents." }
+          {
+            "term": "Bulkhead pattern",
+            "def": "Padrão de resiliência que isola componentes do sistema para que a falha de um não propague para os outros — inspirado nas divisórias de um navio."
+          },
+          {
+            "term": "Cell (cell-based)",
+            "def": "Unidade independente de infraestrutura que serve uma fração do tráfego com toda a stack necessária — computação, banco, cache e rede próprios."
+          },
+          {
+            "term": "Blast radius",
+            "def": "Extensão do impacto de uma falha — quanto menor o blast radius, mais contido é o dano quando algo falha."
+          }
         ]
       },
-      "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
-      "published_at": "2026-04-28T13:00:00-03:00",
-      "read_time": 6,
+      "url": "https://www.infoq.com/articles/cell-based-architecture-distributed-systems/",
+      "published_at": "2026-04-28T08:00:00-03:00",
+      "read_time": 12,
       "tags": [
-        "openai",
-        "codex",
+        "cell-based",
+        "bulkhead",
+        "resilience",
+        "saas"
+      ],
+      "image": "https://res.infoq.com/articles/cell-based-architecture-distributed-systems/en/headerimage/how-cell-based-arhitecture-header-1728382176391.jpg",
+      "source_key": "infoq"
+    },
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Snowflake Native Apps ganham Inter-App Communication em GA — apps trocam funções e procedures dentro do mesmo account",
+      "summary": "Em 28/abr Snowflake promoveu Inter-App Communication a GA: um Native App pode expor funções e procedures que outros Native Apps no mesmo account chamam. Caso clássico: app que resolve customer ID enriquece dados de apps de vendors diferentes que se juntam à mesma tabela governada por Unity. Mantém isolation boundary do app provider mas habilita composição via interface estável.",
+      "explain": {
+        "junior": "Snowflake é uma plataforma de banco de dados em nuvem. Native Apps são aplicações instaláveis dentro do Snowflake. Com Inter-App Communication, dois apps diferentes instalados na mesma conta Snowflake podem se chamar diretamente — como se fossem funções de um sistema só, mas mantendo segurança separada.",
+        "pleno": "Antes, Native Apps no Snowflake eram ilhas isoladas. Com Inter-App Communication em GA, um app pode expor stored procedures e funções que outros apps no mesmo account chamam como interface estável. Isso permite composição de capabilities: um app de resolução de identidade pode ser chamado por apps de analytics, CRM e fraud detection sem duplicar dados ou código.",
+        "senior": "Redesenhe arquitetura de Snowflake Marketplace para composição de apps em vez de datasets — Inter-App Communication permite criar ecossistemas onde vendors colaboram via interface estável, mantendo isolamento de propriedade intelectual.",
+        "glossary": [
+          {
+            "term": "Snowflake Native Apps",
+            "def": "Aplicações que rodam dentro do ambiente Snowflake do cliente, com acesso a dados e recursos da plataforma, mas com isolamento de código e metadados do provider."
+          },
+          {
+            "term": "Stored procedure",
+            "def": "Bloco de código SQL ou JavaScript armazenado no banco de dados que pode ser chamado por nome, encapsulando lógica de negócio reutilizável."
+          },
+          {
+            "term": "Isolation boundary",
+            "def": "Separação técnica que impede um componente de acessar dados ou código interno de outro — garante segurança e propriedade intelectual em sistemas multi-tenant."
+          }
+        ]
+      },
+      "url": "https://docs.snowflake.com/en/release-notes/new-features",
+      "published_at": "2026-04-28T09:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "snowflake",
+        "native-apps",
+        "data-cloud"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "source_key": "snowflake"
+    },
+    {
+      "source_array": "news",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Warp abre código de seu Agentic Development Environment e lança Oz — orquestrador para agents na cloud com OpenAI como sponsor",
+      "summary": "Em 28/abr, Warp publicou seu IDE/terminal como projeto open source e introduziu Oz, plataforma cloud para gerenciar coding agents em escala. Modelo proposto, 'Open Agentic Development', permite que não-devs descrevam features que agents (rodando em Oz) implementam, abrem PR e shepherdam até deploy. OpenAI é o flagship sponsor e GPT-5.5 alimenta os workflows. Oz vai além do repositório do Warp e é oferecido para outros projetos open source.",
+      "explain": {
+        "junior": "Warp é um terminal moderno com recursos de IA integrados. Open source significa que o código-fonte foi disponibilizado publicamente para qualquer pessoa ver e contribuir. Oz é uma plataforma na nuvem que gerencia agentes de programação — você descreve o que quer e o agente programa por você.",
+        "pleno": "O Warp open source e o Oz representam uma aposta na separação entre IDE e orquestrador de agentes: o Oz funciona como plataforma cloud onde agentes recebem tasks, implementam, abrem PRs e fazem shepherd até deploy, independente do IDE usado. O 'Open Agentic Development' propõe que qualquer pessoa (não só devs) possa iniciar ciclos de desenvolvimento via description de feature.",
+        "senior": "Avalie Warp/Oz, Symphony e Cursor 3.2 lado a lado como opções de agent orchestrator — a batalha de 2026 não é mais o IDE, é quem controla o control plane de agents em escala; defina arquitetura antes de acumular dívida de orquestração.",
+        "glossary": [
+          {
+            "term": "Agentic Development Environment",
+            "def": "Ambiente de desenvolvimento onde agentes de IA executam tarefas de programação de forma autônoma ou semi-autônoma dentro do fluxo de trabalho do desenvolvedor."
+          },
+          {
+            "term": "Open source",
+            "def": "Software com código-fonte disponível publicamente, permitindo que qualquer pessoa veja, modifique e distribua."
+          },
+          {
+            "term": "Shepherd (PR)",
+            "def": "Processo de acompanhar um Pull Request do momento da abertura até o merge — verificando CI, respondendo a comentários de revisão e resolvendo conflitos."
+          }
+        ]
+      },
+      "url": "https://www.warp.dev/blog/warp-is-now-open-source",
+      "published_at": "2026-04-28T11:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "warp",
+        "open-source",
         "agents",
-        "linear",
-        "elixir"
+        "ide",
+        "openai"
       ],
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1lLb8Tk8Ht0kZC0UzoJysb/bac9e34838a4f94afd44b1c9adfa8780/Symphony_SEO_card__1_.png?w=1600&h=900&fit=fill",
-      "source_key": "openai"
-    },
-    {
-      "source_array": "news",
-      "category": "sec",
-      "category_label": "Segurança & IAM",
-      "category_icon": "🔐",
-      "headline": "Hugging Face LeRobot continua sem patch para CVE-2026-25874 (CVSS 9.8) — pickle.loads em gRPC sem TLS vira RCE pré-autenticado",
-      "summary": "Resecurity publicou em 28/abr análise técnica do CVE-2026-25874: o PolicyServer do Hugging Face LeRobot (framework de robótica para inferência GPU) usa pickle.loads() para deserializar payloads sobre gRPC com add_insecure_port — sem TLS, sem auth. Atacante que alcance a porta envia payload pickle malicioso em SendPolicyInstructions e executa comandos arbitrários no host. Como o servidor frequentemente roda com privilégios elevados, acesso a hardware e rede interna, o blast radius é catastrófico.",
-      "explain": {
-        "junior": "Hugging Face é uma plataforma de IA de código aberto. LeRobot é um framework para robótica. Pickle é um formato Python para serializar dados — transformar objetos em bytes e vice-versa. O problema é que usar `pickle.loads()` com dados de fontes desconhecidas pode executar código malicioso automaticamente.",
-        "pleno": "O CVE-2026-25874 é um RCE pré-autenticado: o PolicyServer do LeRobot aceita payloads pickle via gRPC em uma porta sem TLS e sem autenticação. Um atacante envia um objeto pickle malicioso que executa comandos no momento da desserialização. Com o servidor rodando com privilégios elevados (acesso a GPU e rede interna), o impacto inclui comprometimento total do host.",
-        "senior": "Segmente o servidor LeRobot da rede pública imediatamente; a longo prazo, substitua pickle por safetensors/protobuf e implemente mTLS + interceptors gRPC — esses controles devem ser padrão em qualquer servidor que aceite dados de clientes remotos.",
-        "glossary": [
-          { "term": "RCE", "def": "Remote Code Execution — vulnerabilidade que permite executar código arbitrário em um sistema remoto, geralmente a mais grave classe de falha de segurança." },
-          { "term": "Desserialização insegura", "def": "Vulnerabilidade onde dados recebidos de fontes não confiáveis são convertidos de volta para objetos sem validação, permitindo execução de código malicioso." },
-          { "term": "mTLS", "def": "Mutual TLS — extensão do TLS onde tanto o cliente quanto o servidor apresentam certificados para autenticação mútua, garantindo que ambos são quem dizem ser." }
-        ]
-      },
-      "url": "https://www.resecurity.com/blog/article/cve-2026-25874-hugging-face-lerobot-unauthenticated-rce-via-pickle-deserialization",
-      "published_at": "2026-04-28T16:00:00-03:00",
-      "read_time": 5,
-      "tags": [
-        "cve",
-        "huggingface",
-        "lerobot",
-        "pickle",
-        "grpc"
-      ],
-      "image": "https://www.resecurity.com/uploads/post/664/664_preview.jpg?c26634",
-      "source_key": "resecurity"
-    },
-    {
-      "source_array": "news",
-      "category": "ai",
-      "category_label": "IA & LLMs",
-      "category_icon": "🤖",
-      "headline": "Microsoft e OpenAI reescrevem parceria: cláusula AGI morre, licença vira não-exclusiva e Codex passa a vender em AWS/GCP",
-      "summary": "Comunicado conjunto publicado em 27/abr e detalhado em 28/abr derruba quatro pilares do contrato de 2019: a cláusula AGI que dava à OpenAI direito de cortar acesso da Microsoft some, a exclusividade da Azure como única cloud para vender modelos OpenAI termina, o revenue share de 20% ganha um teto não divulgado até 2030 e a licença até 2032 vira não-exclusiva sobre IP. Para arquitetos, GPT-5.5 e Codex podem chegar a Bedrock, Vertex AI e Oracle em poucas semanas — contratos enterprise da Azure precisam ser relidos.",
-      "explain": {
-        "junior": "OpenAI é a empresa que faz o ChatGPT. AGI significa Artificial General Intelligence — uma IA capaz de fazer qualquer tarefa cognitiva humana. A parceria entre Microsoft e OpenAI de 2019 dava exclusividade para a Microsoft vender os modelos da OpenAI — isso está sendo renegociado agora.",
-        "pleno": "O contrato original dava à OpenAI o direito de encerrar o acesso da Microsoft se a AGI fosse atingida (cláusula AGI) e tornava a Azure a única cloud onde modelos OpenAI podiam ser vendidos. A nova parceria remove ambas restrições: GPT-5.5 e Codex podem agora ser distribuídos via AWS Bedrock, Google Vertex AI e outros. Isso muda fundamentalmente a estratégia de vendor lock-in para plataformas que usam modelos OpenAI.",
-        "senior": "Revise contratos enterprise Azure que assumiam exclusividade de modelos OpenAI — a abertura para Bedrock e Vertex AI muda negociação de pricing, data residency e portabilidade; abstrair acesso a LLMs via gateway (LiteLLM, Bedrock) vira requisito de arquitetura.",
-        "glossary": [
-          { "term": "AGI", "def": "Artificial General Intelligence — hipotética IA com capacidade cognitiva equivalente ou superior à humana em qualquer domínio." },
-          { "term": "Revenue share", "def": "Modelo de negócio onde duas partes dividem a receita gerada — nesse caso, a Microsoft compartilhava parte da receita dos modelos OpenAI." },
-          { "term": "Data residency", "def": "Requisito regulatório ou contratual que define em qual país ou região os dados do cliente devem ser armazenados e processados." }
-        ]
-      },
-      "url": "https://openai.com/index/next-phase-of-microsoft-partnership/",
-      "published_at": "2026-04-27T17:00:00-03:00",
-      "read_time": 5,
-      "tags": [
-        "openai",
-        "microsoft",
-        "azure",
-        "partnership",
-        "agi"
-      ],
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5sMBiZdiwBzV2SqR3iLo80/55329fd0accaa73127e712ac86621c6a/oai-ms-16x9.png?w=1600&h=900&fit=fill",
-      "source_key": "openai"
+      "image": "https://www.warp.dev/images/blog/warp-is-now-open-source/hero.png",
+      "source_key": "warp"
     }
   ],
   "news": [
@@ -111,9 +135,18 @@
         "pleno": "A renegociação remove duas restrições centrais do contrato de 2019: a cláusula AGI (que daria à OpenAI o direito de encerrar o acordo se AGI fosse atingida) e a exclusividade da Azure como único canal de distribuição. GPT-5.5 e Codex poderão ser acessados via Bedrock e Vertex AI, o que muda a estratégia de plataformas construídas assumindo Azure como single-origin para modelos OpenAI.",
         "senior": "Revisite arquiteturas que assumem Azure como único source de modelos OpenAI; a abertura multicloud muda TCO, SLA e data residency — abstrair acesso via LiteLLM ou Bedrock Gateway reduz o risco de relock-in.",
         "glossary": [
-          { "term": "Vendor lock-in", "def": "Dependência excessiva de um único fornecedor que dificulta a migração para alternativas — comum quando uma plataforma usa APIs proprietárias sem abstração." },
-          { "term": "IP (Intellectual Property)", "def": "Propriedade intelectual — direitos sobre criações como código, modelos de IA, marcas e patentes." },
-          { "term": "Bedrock / Vertex AI", "def": "Plataformas de IA gerenciada da AWS (Bedrock) e do Google (Vertex AI) que permitem acessar e implantar modelos de linguagem de terceiros." }
+          {
+            "term": "Vendor lock-in",
+            "def": "Dependência excessiva de um único fornecedor que dificulta a migração para alternativas — comum quando uma plataforma usa APIs proprietárias sem abstração."
+          },
+          {
+            "term": "IP (Intellectual Property)",
+            "def": "Propriedade intelectual — direitos sobre criações como código, modelos de IA, marcas e patentes."
+          },
+          {
+            "term": "Bedrock / Vertex AI",
+            "def": "Plataformas de IA gerenciada da AWS (Bedrock) e do Google (Vertex AI) que permitem acessar e implantar modelos de linguagem de terceiros."
+          }
         ]
       },
       "url": "https://openai.com/index/next-phase-of-microsoft-partnership/",
@@ -142,9 +175,18 @@
         "pleno": "A Symphony separa responsabilidades: o orchestrator monitora o board, aloca tickets para agentes e gerencia estado; o agente de coding (Codex, Claude Code ou outro compatível com a spec) foca apenas em implementar. Isolamento por workspace por ticket evita conflitos entre agentes simultâneos. O resultado de 500% mais PRs em 3 semanas é da implementação interna da OpenAI.",
         "senior": "Adote o padrão orchestrator-separado-do-agent ao estruturar pipelines agênticos de desenvolvimento — Symphony formaliza o que toda equipe com >10 agentes vai precisar reinventar sem uma spec.",
         "glossary": [
-          { "term": "Control plane", "def": "Componente de um sistema que controla e coordena outros componentes — no caso da Symphony, o board do Linear atua como control plane dos agentes." },
-          { "term": "Workspace isolation", "def": "Garantia de que cada tarefa ou agente opera em um ambiente separado, evitando conflitos de arquivos, branches e estados entre execuções paralelas." },
-          { "term": "Pull Request (PR)", "def": "Solicitação para integrar código de uma branch para outra — processo padrão de revisão de código no GitHub/GitLab antes de mergear mudanças." }
+          {
+            "term": "Control plane",
+            "def": "Componente de um sistema que controla e coordena outros componentes — no caso da Symphony, o board do Linear atua como control plane dos agentes."
+          },
+          {
+            "term": "Workspace isolation",
+            "def": "Garantia de que cada tarefa ou agente opera em um ambiente separado, evitando conflitos de arquivos, branches e estados entre execuções paralelas."
+          },
+          {
+            "term": "Pull Request (PR)",
+            "def": "Solicitação para integrar código de uma branch para outra — processo padrão de revisão de código no GitHub/GitLab antes de mergear mudanças."
+          }
         ]
       },
       "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
@@ -173,9 +215,18 @@
         "pleno": "O Agent Personas resolve um gap de governança: IAM tradicional autentica quem o agente é (identidade), mas não restringe o que ele pode fazer com as tools disponíveis via MCP. Com personas, cada agente recebe um endpoint MCP virtual com escopo exato de tools — por exemplo, leitura no CRM mas sem permissão de escrita. Agent Access Keys vinculam identidade do humano + agente + persona para auditoria.",
         "senior": "Implemente RBAC por persona antes de colocar agents com acesso a ferramentas sensíveis em produção — o modelo Cequence (endpoint MCP virtual por persona) é o blueprint de governança de agents que vai virar exigência regulatória.",
         "glossary": [
-          { "term": "RBAC", "def": "Role-Based Access Control — modelo de controle de acesso onde permissões são atribuídas a papéis e usuários/agentes recebem papéis, não permissões diretas." },
-          { "term": "AI Gateway", "def": "Proxy que fica entre clientes e modelos de IA, adicionando autenticação, rate limiting, logging, roteamento e controles de governança." },
-          { "term": "Data masking", "def": "Técnica de substituir dados sensíveis por valores fictícios ou mascarados antes de passá-los para sistemas não autorizados a vê-los." }
+          {
+            "term": "RBAC",
+            "def": "Role-Based Access Control — modelo de controle de acesso onde permissões são atribuídas a papéis e usuários/agentes recebem papéis, não permissões diretas."
+          },
+          {
+            "term": "AI Gateway",
+            "def": "Proxy que fica entre clientes e modelos de IA, adicionando autenticação, rate limiting, logging, roteamento e controles de governança."
+          },
+          {
+            "term": "Data masking",
+            "def": "Técnica de substituir dados sensíveis por valores fictícios ou mascarados antes de passá-los para sistemas não autorizados a vê-los."
+          }
         ]
       },
       "url": "https://www.helpnetsecurity.com/2026/04/28/cequence-agent-personas/",
@@ -188,7 +239,7 @@
         "ai-gateway",
         "governance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=helpnetsecurity.com&sz=256",
+      "image": "https://img.helpnetsecurity.com/wp-content/uploads/2024/11/28150559/hns-large_logo.webp",
       "source_key": "helpnetsecurity"
     },
     {
@@ -204,9 +255,18 @@
         "pleno": "Os connectors MCP da Anthropic para ferramentas criativas vão além de assistentes de documentação: o connector do Blender expõe a API Python completa, permitindo ao Claude executar código diretamente na cena 3D — criar objetos, modificar materiais, animar. Todos usam OAuth para autenticação, mantendo o controle com o usuário. O movimento sinaliza que MCP virou padrão de extensibilidade para qualquer software profissional.",
         "senior": "Considere MCP como contrato de extensibilidade padrão para produtos com integrações de IA — a adoção nos softwares criativos profissionais mostra que o protocolo saiu do mundo de devtools.",
         "glossary": [
-          { "term": "OAuth", "def": "Protocolo padrão de autorização que permite que um serviço acesse recursos de outro em nome do usuário, sem precisar de suas credenciais diretas." },
-          { "term": "MCP connector", "def": "Implementação de um servidor MCP para uma ferramenta específica — expõe as funcionalidades dessa ferramenta como tools que agentes de IA podem chamar." },
-          { "term": "API Python (Blender)", "def": "Interface de programação do Blender que permite automatizar operações de modelagem 3D via scripts Python — o connector MCP expõe essa API para o Claude." }
+          {
+            "term": "OAuth",
+            "def": "Protocolo padrão de autorização que permite que um serviço acesse recursos de outro em nome do usuário, sem precisar de suas credenciais diretas."
+          },
+          {
+            "term": "MCP connector",
+            "def": "Implementação de um servidor MCP para uma ferramenta específica — expõe as funcionalidades dessa ferramenta como tools que agentes de IA podem chamar."
+          },
+          {
+            "term": "API Python (Blender)",
+            "def": "Interface de programação do Blender que permite automatizar operações de modelagem 3D via scripts Python — o connector MCP expõe essa API para o Claude."
+          }
         ]
       },
       "url": "https://www.anthropic.com/news/claude-for-creative-work",
@@ -238,9 +298,18 @@
         "pleno": "A falha combina três antipadrões críticos: uso de pickle para desserialização de dados externos (execução de código arbitrária durante conversão), gRPC sem TLS (comunicação sem criptografia e sem autenticação de cliente), e servidor rodando com privilégios elevados. A combinação resulta em RCE pré-autenticado com blast radius máximo — acesso a GPU, rede interna e outros serviços.",
         "senior": "Sem patch disponível, as únicas mitigações são: isolar o servidor do LeRobot via firewall, substituir pickle por safetensors e habilitar mTLS com add_secure_port — qualquer servidor de inferência de robótica exposto à rede é comprometível hoje.",
         "glossary": [
-          { "term": "CVSS 9.8", "def": "Pontuação quase máxima no Common Vulnerability Scoring System — indica vulnerabilidade crítica, exploitável remotamente sem autenticação." },
-          { "term": "safetensors", "def": "Formato de serialização desenvolvido pela Hugging Face como alternativa segura ao pickle para armazenar tensores de modelos de IA — não executa código durante carregamento." },
-          { "term": "Blast radius", "def": "Extensão do impacto de um incidente de segurança — quanto maior o acesso do sistema comprometido, maior o blast radius do ataque." }
+          {
+            "term": "CVSS 9.8",
+            "def": "Pontuação quase máxima no Common Vulnerability Scoring System — indica vulnerabilidade crítica, exploitável remotamente sem autenticação."
+          },
+          {
+            "term": "safetensors",
+            "def": "Formato de serialização desenvolvido pela Hugging Face como alternativa segura ao pickle para armazenar tensores de modelos de IA — não executa código durante carregamento."
+          },
+          {
+            "term": "Blast radius",
+            "def": "Extensão do impacto de um incidente de segurança — quanto maior o acesso do sistema comprometido, maior o blast radius do ataque."
+          }
         ]
       },
       "url": "https://www.resecurity.com/blog/article/cve-2026-25874-hugging-face-lerobot-unauthenticated-rce-via-pickle-deserialization",
@@ -274,9 +343,18 @@
         "pleno": "O CVE-2026-32202 é um bypass do mecanismo de proteção no Windows Shell que vaza hashes NTLMv2 automaticamente quando um usuário navega em uma pasta especialmente criada. Hashes NTLMv2 podem ser usados em ataques pass-the-hash para mover lateralmente pela rede sem precisar da senha em texto plano. Esse CVE é um patch incompleto do CVE-2026-21510 que o APT28 russo já usou contra a Ucrânia.",
         "senior": "Aplique o patch do CVE-2026-32202 como P0 em toda frota Windows com SSO em domínio; hashes NTLMv2 capturados via navegação de pasta viabilizam movimento lateral sem interação adicional — zero-trust de rede não mitiga isso sem o patch.",
         "glossary": [
-          { "term": "NTLM / NTLMv2", "def": "Protocolo de autenticação do Windows que usa hashes de senha — se o hash for roubado, pode ser usado para autenticar sem conhecer a senha original (pass-the-hash)." },
-          { "term": "APT28", "def": "Advanced Persistent Threat 28 — grupo de hackers atribuído à inteligência militar russa (GRU), conhecido por ataques a governos e infraestrutura crítica." },
-          { "term": "Movimento lateral", "def": "Técnica onde um atacante que comprometeu um sistema usa esse acesso para se mover para outros sistemas na mesma rede, escalando o impacto do ataque." }
+          {
+            "term": "NTLM / NTLMv2",
+            "def": "Protocolo de autenticação do Windows que usa hashes de senha — se o hash for roubado, pode ser usado para autenticar sem conhecer a senha original (pass-the-hash)."
+          },
+          {
+            "term": "APT28",
+            "def": "Advanced Persistent Threat 28 — grupo de hackers atribuído à inteligência militar russa (GRU), conhecido por ataques a governos e infraestrutura crítica."
+          },
+          {
+            "term": "Movimento lateral",
+            "def": "Técnica onde um atacante que comprometeu um sistema usa esse acesso para se mover para outros sistemas na mesma rede, escalando o impacto do ataque."
+          }
         ]
       },
       "url": "https://cyberpress.org/cisa-alerts-on-microsoft-windows/",
@@ -305,9 +383,18 @@
         "pleno": "A campanha TeamPCP comprometeu o repositório GitHub privado da Checkmarx em março usando credenciais roubadas de ferramentas DevSecOps. Os 95 GB vazados incluem código-fonte, API keys e credenciais de banco — suficiente para ataques downstream nos clientes da Checkmarx que usam credenciais passadas pelos scanners. Quem usa Trivy, KICS ou LiteLLM em CI/CD desde fevereiro deve assumir que credenciais passadas por essas ferramentas estão comprometidas.",
         "senior": "Rotacione imediatamente todas as credenciais que passaram por Trivy, KICS ou LiteLLM em pipelines CI/CD desde fevereiro/2026; audite logs de chamadas outbound dessas ferramentas para identificar exfiltração.",
         "glossary": [
-          { "term": "Portal de extorsão", "def": "Site mantido por grupos de ransomware onde publicam dados roubados de vítimas que se recusaram a pagar o resgate, como forma de pressão." },
-          { "term": "API keys", "def": "Chaves de autenticação que identificam uma aplicação ao acessar uma API — se vazadas, permitem acesso irrestrito aos serviços correspondentes." },
-          { "term": "Downstream attack", "def": "Ataque que usa dados ou acesso obtidos de um fornecedor para comprometer os clientes desse fornecedor — o impacto cascateia pelo supply chain." }
+          {
+            "term": "Portal de extorsão",
+            "def": "Site mantido por grupos de ransomware onde publicam dados roubados de vítimas que se recusaram a pagar o resgate, como forma de pressão."
+          },
+          {
+            "term": "API keys",
+            "def": "Chaves de autenticação que identificam uma aplicação ao acessar uma API — se vazadas, permitem acesso irrestrito aos serviços correspondentes."
+          },
+          {
+            "term": "Downstream attack",
+            "def": "Ataque que usa dados ou acesso obtidos de um fornecedor para comprometer os clientes desse fornecedor — o impacto cascateia pelo supply chain."
+          }
         ]
       },
       "url": "https://www.bleepingcomputer.com/news/security/checkmarx-confirms-lapsus-hackers-leaked-its-stolen-github-data/",
@@ -336,12 +423,21 @@
         "pleno": "O XFF é uma lista de IPs separados por vírgula que representa o caminho da requisição. Com valores duplicados, um backend que pega o último IP da lista para rate-limiting pode obter um IP de proxy interno da Cloudflare em vez do IP real do cliente. Isso pode causar falsos positivos (bloquear usuários legítimos) ou falsos negativos (não bloquear atacantes) em regras de segurança baseadas em IP.",
         "senior": "Revise logs do período 18:31-07:00 UTC de 28-29/abr para anomalias em rate-limiting ou bloqueios baseados em IP; defina política defensiva para parsear XFF: sempre pegar o IP mais à esquerda da lista para o IP do cliente real.",
         "glossary": [
-          { "term": "X-Forwarded-For (XFF)", "def": "Cabeçalho HTTP que lista os IPs dos proxies e clientes que uma requisição atravessou — o primeiro IP na lista é geralmente o cliente original." },
-          { "term": "Rate limiting", "def": "Mecanismo que limita quantas requisições um cliente pode fazer em um período de tempo — usado para prevenir abusos e ataques DDoS." },
-          { "term": "Proxy", "def": "Servidor intermediário que recebe requisições dos clientes e as encaminha para o servidor de destino — modifica ou adiciona cabeçalhos HTTP no processo." }
+          {
+            "term": "X-Forwarded-For (XFF)",
+            "def": "Cabeçalho HTTP que lista os IPs dos proxies e clientes que uma requisição atravessou — o primeiro IP na lista é geralmente o cliente original."
+          },
+          {
+            "term": "Rate limiting",
+            "def": "Mecanismo que limita quantas requisições um cliente pode fazer em um período de tempo — usado para prevenir abusos e ataques DDoS."
+          },
+          {
+            "term": "Proxy",
+            "def": "Servidor intermediário que recebe requisições dos clientes e as encaminha para o servidor de destino — modifica ou adiciona cabeçalhos HTTP no processo."
+          }
         ]
       },
-      "url": "https://www.cloudflarestatus.com/",
+      "url": "https://www.cloudflarestatus.com/incidents/yg4t0swj39fg",
       "published_at": "2026-04-28T18:31:00-03:00",
       "read_time": 3,
       "tags": [
@@ -350,7 +446,7 @@
         "http-headers",
         "xff"
       ],
-      "image": "https://cdn.simpleicons.org/cloudflare/F38020",
+      "image": "https://cf-assets.www.cloudflare.com/v2/image/bpffgr36b53sj7g3psktcdiq3c/background-cloudflare-card-press-kit.png",
       "source_key": "cloudflarestatus"
     },
     {
@@ -366,9 +462,18 @@
         "pleno": "Antes, Native Apps no Snowflake eram ilhas isoladas. Com Inter-App Communication em GA, um app pode expor stored procedures e funções que outros apps no mesmo account chamam como interface estável. Isso permite composição de capabilities: um app de resolução de identidade pode ser chamado por apps de analytics, CRM e fraud detection sem duplicar dados ou código.",
         "senior": "Redesenhe arquitetura de Snowflake Marketplace para composição de apps em vez de datasets — Inter-App Communication permite criar ecossistemas onde vendors colaboram via interface estável, mantendo isolamento de propriedade intelectual.",
         "glossary": [
-          { "term": "Snowflake Native Apps", "def": "Aplicações que rodam dentro do ambiente Snowflake do cliente, com acesso a dados e recursos da plataforma, mas com isolamento de código e metadados do provider." },
-          { "term": "Stored procedure", "def": "Bloco de código SQL ou JavaScript armazenado no banco de dados que pode ser chamado por nome, encapsulando lógica de negócio reutilizável." },
-          { "term": "Isolation boundary", "def": "Separação técnica que impede um componente de acessar dados ou código interno de outro — garante segurança e propriedade intelectual em sistemas multi-tenant." }
+          {
+            "term": "Snowflake Native Apps",
+            "def": "Aplicações que rodam dentro do ambiente Snowflake do cliente, com acesso a dados e recursos da plataforma, mas com isolamento de código e metadados do provider."
+          },
+          {
+            "term": "Stored procedure",
+            "def": "Bloco de código SQL ou JavaScript armazenado no banco de dados que pode ser chamado por nome, encapsulando lógica de negócio reutilizável."
+          },
+          {
+            "term": "Isolation boundary",
+            "def": "Separação técnica que impede um componente de acessar dados ou código interno de outro — garante segurança e propriedade intelectual em sistemas multi-tenant."
+          }
         ]
       },
       "url": "https://docs.snowflake.com/en/release-notes/new-features",
@@ -379,7 +484,7 @@
         "native-apps",
         "data-cloud"
       ],
-      "image": "https://cdn.simpleicons.org/snowflake/29B5E8",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source_key": "snowflake"
     },
     {
@@ -395,9 +500,18 @@
         "pleno": "Os três hyperscalers estão investindo quantias sem precedente em infraestrutura de IA (GPUs, data centers, cabos submarinos). O mercado monitora se esses gastos (US$ 700 bi combinados em 2026) estão se convertendo em crescimento de receita de cloud — se a aceleração das receitas de AWS/Azure/GCP for menor que o capex, pressão em múltiplos de valor e preços de GPU.",
         "senior": "Para FinOps: antecipe negociação de Reserved Instances e Savings Plans de 3 anos para GPU workloads antes que os hyperscalers revisem guidance — quando capex supera FCF, pressão por lock-in via descontos cresce.",
         "glossary": [
-          { "term": "Capex", "def": "Capital Expenditure — gastos com aquisição ou melhoria de ativos físicos de longo prazo como servidores, data centers e redes." },
-          { "term": "FCF (Free Cash Flow)", "def": "Fluxo de caixa livre — dinheiro gerado pelas operações após subtrair gastos de capital; métrica chave de saúde financeira de empresas de tecnologia." },
-          { "term": "FinOps", "def": "Financial Operations — disciplina de gestão de custos de cloud que combina práticas financeiras e de engenharia para otimizar gastos com infraestrutura." }
+          {
+            "term": "Capex",
+            "def": "Capital Expenditure — gastos com aquisição ou melhoria de ativos físicos de longo prazo como servidores, data centers e redes."
+          },
+          {
+            "term": "FCF (Free Cash Flow)",
+            "def": "Fluxo de caixa livre — dinheiro gerado pelas operações após subtrair gastos de capital; métrica chave de saúde financeira de empresas de tecnologia."
+          },
+          {
+            "term": "FinOps",
+            "def": "Financial Operations — disciplina de gestão de custos de cloud que combina práticas financeiras e de engenharia para otimizar gastos com infraestrutura."
+          }
         ]
       },
       "source": "HeyGoTrade",
@@ -411,7 +525,8 @@
         "azure",
         "gcp"
       ],
-      "image": "https://files-tr8.s3.ap-southeast-1.amazonaws.com/blog-posts/23d9fffffd8027c70a5e0b70/feature-images/69f0c884b5b5b-feature-image.jpg"
+      "image": "https://files-tr8.s3.ap-southeast-1.amazonaws.com/blog-posts/23d9fffffd8027c70a5e0b70/feature-images/69f0c884b5b5b-feature-image.jpg",
+      "source_key": "heygotrade"
     },
     {
       "category": "devops",
@@ -426,9 +541,18 @@
         "pleno": "O Warp open source e o Oz representam uma aposta na separação entre IDE e orquestrador de agentes: o Oz funciona como plataforma cloud onde agentes recebem tasks, implementam, abrem PRs e fazem shepherd até deploy, independente do IDE usado. O 'Open Agentic Development' propõe que qualquer pessoa (não só devs) possa iniciar ciclos de desenvolvimento via description de feature.",
         "senior": "Avalie Warp/Oz, Symphony e Cursor 3.2 lado a lado como opções de agent orchestrator — a batalha de 2026 não é mais o IDE, é quem controla o control plane de agents em escala; defina arquitetura antes de acumular dívida de orquestração.",
         "glossary": [
-          { "term": "Agentic Development Environment", "def": "Ambiente de desenvolvimento onde agentes de IA executam tarefas de programação de forma autônoma ou semi-autônoma dentro do fluxo de trabalho do desenvolvedor." },
-          { "term": "Open source", "def": "Software com código-fonte disponível publicamente, permitindo que qualquer pessoa veja, modifique e distribua." },
-          { "term": "Shepherd (PR)", "def": "Processo de acompanhar um Pull Request do momento da abertura até o merge — verificando CI, respondendo a comentários de revisão e resolvendo conflitos." }
+          {
+            "term": "Agentic Development Environment",
+            "def": "Ambiente de desenvolvimento onde agentes de IA executam tarefas de programação de forma autônoma ou semi-autônoma dentro do fluxo de trabalho do desenvolvedor."
+          },
+          {
+            "term": "Open source",
+            "def": "Software com código-fonte disponível publicamente, permitindo que qualquer pessoa veja, modifique e distribua."
+          },
+          {
+            "term": "Shepherd (PR)",
+            "def": "Processo de acompanhar um Pull Request do momento da abertura até o merge — verificando CI, respondendo a comentários de revisão e resolvendo conflitos."
+          }
         ]
       },
       "url": "https://www.warp.dev/blog/warp-is-now-open-source",
@@ -457,9 +581,18 @@
         "pleno": "O incidente ocorreu porque um novo code path para calcular a merge base foi deployado sem o gating de feature flag completo. Quando a merge queue processava grupos com >1 PR com squash habilitado, calculava o commit errado como base, fazendo commits anteriores aparecerem como revertidos no histórico. O monitoring de uptime não detectou porque o sistema estava disponível — apenas os commits resultantes estavam incorretos (problema de correctness, não de availability).",
         "senior": "Correctness monitoring é capability distinta de uptime monitoring — implemente validações automáticas de integridade de output para features de alto impacto como merge queue; testes de feature flags devem cobrir o gating em si, não apenas o comportamento da feature.",
         "glossary": [
-          { "term": "Merge queue", "def": "Feature do GitHub que serializa e valida merges de múltiplos PRs automaticamente, garantindo que cada merge não quebre o que o anterior introduziu." },
-          { "term": "Squash commit", "def": "Operação que combina todos os commits de um branch em um único commit ao fazer o merge, resultando em histórico mais limpo." },
-          { "term": "Feature flag", "def": "Mecanismo que permite ativar ou desativar features em produção sem redeploy — útil para rollout gradual e rollback instantâneo." }
+          {
+            "term": "Merge queue",
+            "def": "Feature do GitHub que serializa e valida merges de múltiplos PRs automaticamente, garantindo que cada merge não quebre o que o anterior introduziu."
+          },
+          {
+            "term": "Squash commit",
+            "def": "Operação que combina todos os commits de um branch em um único commit ao fazer o merge, resultando em histórico mais limpo."
+          },
+          {
+            "term": "Feature flag",
+            "def": "Mecanismo que permite ativar ou desativar features em produção sem redeploy — útil para rollout gradual e rollback instantâneo."
+          }
         ]
       },
       "url": "https://www.theregister.com/2026/04/29/github_says_sorry_and_says/",
@@ -487,9 +620,18 @@
         "pleno": "O11yCon 2026 foca em como adaptar observabilidade para sistemas onde agentes geram código que humanos não revisam individualmente. A abordagem de SLO derivation a partir de events (em vez de metrics pré-agregadas) é central — permite responder perguntas novas sem precisar instrumentar de novo. High-cardinality events capturam o contexto de chamadas LLM que logs e métricas tradicionais não conseguem.",
         "senior": "Invista em observabilidade de alta cardinalidade (Honeycomb, Clickhouse) para rastrear chamadas LLM e chains de agents — o modelo tradicional metrics+logs+traces não captura o contexto necessário para debugar comportamento emergente em pipelines agênticos.",
         "glossary": [
-          { "term": "SLO (Service Level Objective)", "def": "Meta mensurável de qualidade de serviço — por exemplo, '99,9% das requisições respondem em menos de 200ms'; base para SLAs contratuais." },
-          { "term": "Cardinality", "def": "Número de valores únicos em um conjunto de dados — alta cardinality (como IDs de usuário ou trace IDs) é desafiadora para sistemas de métricas mas valiosa para observabilidade." },
-          { "term": "SRE", "def": "Site Reliability Engineering — prática de usar princípios de engenharia de software para operar sistemas em produção com confiabilidade, escalabilidade e eficiência." }
+          {
+            "term": "SLO (Service Level Objective)",
+            "def": "Meta mensurável de qualidade de serviço — por exemplo, '99,9% das requisições respondem em menos de 200ms'; base para SLAs contratuais."
+          },
+          {
+            "term": "Cardinality",
+            "def": "Número de valores únicos em um conjunto de dados — alta cardinality (como IDs de usuário ou trace IDs) é desafiadora para sistemas de métricas mas valiosa para observabilidade."
+          },
+          {
+            "term": "SRE",
+            "def": "Site Reliability Engineering — prática de usar princípios de engenharia de software para operar sistemas em produção com confiabilidade, escalabilidade e eficiência."
+          }
         ]
       },
       "url": "https://www.honeycomb.io/blog/honeycomb-announces-o11ycon-2026-bring-together-engineering-teams-building-agent-era",
@@ -517,9 +659,18 @@
         "pleno": "O talkie demonstra como o 'cutoff' de treino afeta dramaticamente as capacidades e lacunas de um modelo. Um modelo treinado só em inglês pré-1931 não tem conceito de SVG, web, fotografia ou bicicletas no sentido moderno — o prompt retorna texto que faz sentido para a época do corpus. Isso tem implicações diretas para fine-tuning de domínios regulados: o que vai no corpus determina o que o modelo sabe e o que ele vai alucinar.",
         "senior": "Use o experimento talkie como referência para modelar domain shift em fine-tuning regulado: o corpus editorial determina mais o comportamento do modelo que a arquitetura — curadoria de dados de treino é o controle mais importante para domínios sensíveis.",
         "glossary": [
-          { "term": "Fine-tuning", "def": "Processo de ajustar um modelo de linguagem pré-treinado com dados específicos de um domínio para especializar seu comportamento." },
-          { "term": "Training cutoff", "def": "Data até a qual os dados de treinamento de um modelo foram coletados — o modelo não conhece eventos ou conceitos que surgiram após essa data." },
-          { "term": "Domain shift", "def": "Diferença entre a distribuição dos dados de treino e a dos dados reais de uso — quando grande, o modelo tem desempenho ruim no domínio-alvo." }
+          {
+            "term": "Fine-tuning",
+            "def": "Processo de ajustar um modelo de linguagem pré-treinado com dados específicos de um domínio para especializar seu comportamento."
+          },
+          {
+            "term": "Training cutoff",
+            "def": "Data até a qual os dados de treinamento de um modelo foram coletados — o modelo não conhece eventos ou conceitos que surgiram após essa data."
+          },
+          {
+            "term": "Domain shift",
+            "def": "Diferença entre a distribuição dos dados de treino e a dos dados reais de uso — quando grande, o modelo tem desempenho ruim no domínio-alvo."
+          }
         ]
       },
       "url": "https://simonwillison.net/2026/Apr/28/",
@@ -530,7 +681,7 @@
         "training-data",
         "evals"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256",
+      "image": "https://static.simonwillison.net/static/2026/llm-032a0-card.jpg",
       "source_key": "simonwillison"
     },
     {
@@ -546,9 +697,18 @@
         "pleno": "O relatório National Trade Estimate do USTR classifica o Pix como barreira comercial técnica: como o BC obriga instituições com >500K contas a implementar o Pix e opera a infraestrutura, o governo americano argumenta que isso cria vantagem competitiva estatal sobre redes privadas (Visa/Mastercard). A Section 301 pode resultar em tarifas retaliatórias, o que afetaria compliance de bancos brasileiros com contratos de bandeiras americanas.",
         "senior": "Mapeie cenários de tarifas retaliatórias Section 301 no planejamento regulatório de fintechs com operação cross-border — contratos com bandeiras americanas, pricing de cartões internacionais e conformidade podem ser afetados.",
         "glossary": [
-          { "term": "USTR", "def": "United States Trade Representative — escritório do governo americano responsável por política comercial, negociações de tratados e investigação de práticas comerciais desleais." },
-          { "term": "Section 301", "def": "Lei americana que autoriza o governo a investigar e impor tarifas a países com práticas comerciais consideradas injustas ou discriminatórias contra empresas americanas." },
-          { "term": "Soberania de pagamentos", "def": "Conceito de que um país deve ter controle sobre sua infraestrutura de pagamentos, independente de redes privadas estrangeiras." }
+          {
+            "term": "USTR",
+            "def": "United States Trade Representative — escritório do governo americano responsável por política comercial, negociações de tratados e investigação de práticas comerciais desleais."
+          },
+          {
+            "term": "Section 301",
+            "def": "Lei americana que autoriza o governo a investigar e impor tarifas a países com práticas comerciais consideradas injustas ou discriminatórias contra empresas americanas."
+          },
+          {
+            "term": "Soberania de pagamentos",
+            "def": "Conceito de que um país deve ter controle sobre sua infraestrutura de pagamentos, independente de redes privadas estrangeiras."
+          }
         ]
       },
       "url": "https://www.riotimesonline.com/us-attacks-brazil-pix-blusinhas-tax-2026/",
@@ -576,9 +736,18 @@
         "pleno": "O padrão aplica o bulkhead pattern em granularidade de célula: cada cell é um subset isolado de toda a stack (compute, banco, cache, filas) que serve uma fração do tráfego (por tenant, por região ou por hash de usuário). Falhas ficam contidas dentro da cell — um bug em deploy, uma sobrecarga de banco ou um memory leak não afeta células adjacentes. O cell routing layer distribui tráfego e gerencia failover.",
         "senior": "Cell-based architecture é o próximo passo após microserviços para SaaS multi-tenant de escala — avalie sharding por tenant ao revisar topologia, especialmente em serviços onde um único tenant ruidoso degrada toda a plataforma.",
         "glossary": [
-          { "term": "Bulkhead pattern", "def": "Padrão de resiliência que isola componentes do sistema para que a falha de um não propague para os outros — inspirado nas divisórias de um navio." },
-          { "term": "Cell (cell-based)", "def": "Unidade independente de infraestrutura que serve uma fração do tráfego com toda a stack necessária — computação, banco, cache e rede próprios." },
-          { "term": "Blast radius", "def": "Extensão do impacto de uma falha — quanto menor o blast radius, mais contido é o dano quando algo falha." }
+          {
+            "term": "Bulkhead pattern",
+            "def": "Padrão de resiliência que isola componentes do sistema para que a falha de um não propague para os outros — inspirado nas divisórias de um navio."
+          },
+          {
+            "term": "Cell (cell-based)",
+            "def": "Unidade independente de infraestrutura que serve uma fração do tráfego com toda a stack necessária — computação, banco, cache e rede próprios."
+          },
+          {
+            "term": "Blast radius",
+            "def": "Extensão do impacto de uma falha — quanto menor o blast radius, mais contido é o dano quando algo falha."
+          }
         ]
       },
       "url": "https://www.infoq.com/articles/cell-based-architecture-distributed-systems/",
@@ -608,9 +777,18 @@
         "pleno": "O PostToolUse hook com `hookSpecificOutput.updatedToolOutput` permite interceptar e modificar o output de qualquer tool antes que o Claude o veja — isso abre possibilidades de governança: redigir PII antes de passar para o modelo, adicionar contexto de segurança, ou logar saídas para auditoria. O `claude ultrareview` torna a review de alta qualidade executável em pipelines CI sem prompt interativo.",
         "senior": "PostToolUse hooks habilitam policies client-side de governança de dados — implemente redação de PII e secret scanning como hooks antes de escalar uso de Claude Code em times com dados sensíveis.",
         "glossary": [
-          { "term": "PostToolUse hook", "def": "Função executada automaticamente após uma tool do Claude Code terminar — pode modificar o output antes que o agente o processe, adicionando redação ou contexto." },
-          { "term": "PII", "def": "Personally Identifiable Information — dados que identificam uma pessoa específica, como nome, e-mail, CPF ou endereço; sujeitos a regulações como LGPD e GDPR." },
-          { "term": "OAuth 401", "def": "Erro HTTP de autenticação que ocorre quando um token OAuth expirou ou é inválido — em um loop, o cliente fica tentando autenticar indefinidamente." }
+          {
+            "term": "PostToolUse hook",
+            "def": "Função executada automaticamente após uma tool do Claude Code terminar — pode modificar o output antes que o agente o processe, adicionando redação ou contexto."
+          },
+          {
+            "term": "PII",
+            "def": "Personally Identifiable Information — dados que identificam uma pessoa específica, como nome, e-mail, CPF ou endereço; sujeitos a regulações como LGPD e GDPR."
+          },
+          {
+            "term": "OAuth 401",
+            "def": "Erro HTTP de autenticação que ocorre quando um token OAuth expirou ou é inválido — em um loop, o cliente fica tentando autenticar indefinidamente."
+          }
         ]
       },
       "url": "https://code.claude.com/docs/en/changelog",
@@ -636,9 +814,18 @@
         "pleno": "O VS Code 1.118 integra agentes CLI (Copilot e Claude Code) no Agents app com UI unificada — você pode iniciar, monitorar e dirigir sessões de agentes que estão rodando em CI ou remotamente, sem precisar de terminal direto. A cadência semanal de releases sinaliza velocidade de iteração acelerada para o tooling de agentes.",
         "senior": "A convergência de agentes CLI heterogêneos em UI única no VS Code/GitHub define o padrão de devex para plataformas agênticas — considere essa integração na avaliação de stack de ferramentas de desenvolvimento.",
         "glossary": [
-          { "term": "CLI (Command Line Interface)", "def": "Interface de linha de comando — forma de interagir com programas digitando comandos de texto no terminal em vez de usar interface gráfica." },
-          { "term": "Agents app", "def": "Painel dentro do VS Code que centraliza o gerenciamento de sessões de agentes de IA, permitindo monitorar e controlar múltiplos agentes simultaneamente." },
-          { "term": "Keybinding", "def": "Atalho de teclado configurável que executa uma ação específica no editor — como Ctrl+1/Ctrl+2 para alternar entre sessões de agentes." }
+          {
+            "term": "CLI (Command Line Interface)",
+            "def": "Interface de linha de comando — forma de interagir com programas digitando comandos de texto no terminal em vez de usar interface gráfica."
+          },
+          {
+            "term": "Agents app",
+            "def": "Painel dentro do VS Code que centraliza o gerenciamento de sessões de agentes de IA, permitindo monitorar e controlar múltiplos agentes simultaneamente."
+          },
+          {
+            "term": "Keybinding",
+            "def": "Atalho de teclado configurável que executa uma ação específica no editor — como Ctrl+1/Ctrl+2 para alternar entre sessões de agentes."
+          }
         ]
       },
       "url": "https://code.visualstudio.com/updates/v1_118",
@@ -663,9 +850,18 @@
         "pleno": "O incidente expôs um blind spot crítico em monitoring: o GitHub.com estava disponível (availability ok), mas o resultado dos merges estava incorreto (correctness broken). Monitoring de uptime não detecta corrupção de output — só alerts específicos de correctness pegariam isso. Os três compromissos do GitHub (testes de gating de feature flags, monitoring de correctness, relatório mensal de uptime) atacam as causas raiz.",
         "senior": "Inclua validações de correctness no runbook de monitoring — disponibilidade não implica integridade de output; implemente testes de smoke de correctness automatizados para features críticas de pipeline como merge queue.",
         "glossary": [
-          { "term": "Correctness monitoring", "def": "Monitoramento que verifica se o sistema está produzindo resultados corretos, não apenas se está disponível — detecta bugs silenciosos que não causam erros HTTP." },
-          { "term": "Gating (feature flag)", "def": "Processo de garantir que um novo código só seja ativado quando a flag correspondente está habilitada — evita que code paths novos sejam executados prematuramente." },
-          { "term": "Post-mortem", "def": "Análise técnica detalhada de um incidente que descreve o que aconteceu, por que aconteceu e quais mudanças serão feitas para evitar recorrência." }
+          {
+            "term": "Correctness monitoring",
+            "def": "Monitoramento que verifica se o sistema está produzindo resultados corretos, não apenas se está disponível — detecta bugs silenciosos que não causam erros HTTP."
+          },
+          {
+            "term": "Gating (feature flag)",
+            "def": "Processo de garantir que um novo código só seja ativado quando a flag correspondente está habilitada — evita que code paths novos sejam executados prematuramente."
+          },
+          {
+            "term": "Post-mortem",
+            "def": "Análise técnica detalhada de um incidente que descreve o que aconteceu, por que aconteceu e quais mudanças serão feitas para evitar recorrência."
+          }
         ]
       },
       "url": "https://www.theregister.com/2026/04/29/github_says_sorry_and_says/",
@@ -685,9 +881,18 @@
         "pleno": "O Spring AI 2.0.0-M5 é a versão milestone mais avançada, com auto-configuração de MCP — o framework detecta servidores MCP no classpath e os configura automaticamente. O Spring Modulith 2.1 RC1 adiciona `@ModuleSlicing` para testes mais rápidos de aplicações modulares com múltiplos contextos Spring. Times devem escolher entre estabilidade (linha 1.x) e features avançadas de IA (linha 2.x milestone).",
         "senior": "Decida entre Spring AI 1.x estável e 2.0.0-M5 com MCP auto-config antes de escalar features de IA em produção — milestones têm APIs mutáveis que podem quebrar entre releases.",
         "glossary": [
-          { "term": "Spring AI", "def": "Projeto do ecossistema Spring que fornece abstrações e auto-configuração para integrar LLMs, modelos de embedding e protocolos como MCP em aplicações Java." },
-          { "term": "Milestone (M)", "def": "Versão pré-release de um software que inclui novas features mas ainda não é considerada estável para produção — APIs podem mudar antes do GA." },
-          { "term": "Auto-config", "def": "Mecanismo do Spring Boot que detecta dependências no classpath e configura automaticamente beans e serviços, eliminando XML e código boilerplate." }
+          {
+            "term": "Spring AI",
+            "def": "Projeto do ecossistema Spring que fornece abstrações e auto-configuração para integrar LLMs, modelos de embedding e protocolos como MCP em aplicações Java."
+          },
+          {
+            "term": "Milestone (M)",
+            "def": "Versão pré-release de um software que inclui novas features mas ainda não é considerada estável para produção — APIs podem mudar antes do GA."
+          },
+          {
+            "term": "Auto-config",
+            "def": "Mecanismo do Spring Boot que detecta dependências no classpath e configura automaticamente beans e serviços, eliminando XML e código boilerplate."
+          }
         ]
       },
       "url": "https://spring.io/blog/2026/04/28/this-week-in-spring-april-28-2026/",
@@ -712,9 +917,18 @@
         "pleno": "Com K8s 1.33 em maintenance mode, as versões suportadas passam a ser 1.34, 1.35 e 1.36. Clusters em 1.33 que não migrarem antes de 28/06 ficam sem suporte, o que na prática significa aceitar CVEs não corrigidos em nós e componentes do control plane. O upgrade para 1.36 requer validação das remoções de APIs que essa versão trouxe.",
         "senior": "Priorize migração de clusters K8s 1.33 para 1.34+ nas próximas 4 semanas; window de 8 semanas até EOL é curta demais para clusters complexos — valide API deprecations da 1.36 antes de iniciar rollout.",
         "glossary": [
-          { "term": "Kubernetes EOL", "def": "Data em que uma versão do Kubernetes para de receber atualizações de segurança — após essa data, clusters nessa versão ficam expostos a CVEs sem correção." },
-          { "term": "Control plane", "def": "Conjunto de componentes do Kubernetes que gerencia o estado do cluster (API server, scheduler, etcd) — separado dos nós que executam os workloads." },
-          { "term": "API deprecation", "def": "Processo de marcar APIs do Kubernetes como obsoletas antes de removê-las em versões futuras — código que usa APIs removidas precisa ser atualizado." }
+          {
+            "term": "Kubernetes EOL",
+            "def": "Data em que uma versão do Kubernetes para de receber atualizações de segurança — após essa data, clusters nessa versão ficam expostos a CVEs sem correção."
+          },
+          {
+            "term": "Control plane",
+            "def": "Conjunto de componentes do Kubernetes que gerencia o estado do cluster (API server, scheduler, etcd) — separado dos nós que executam os workloads."
+          },
+          {
+            "term": "API deprecation",
+            "def": "Processo de marcar APIs do Kubernetes como obsoletas antes de removê-las em versões futuras — código que usa APIs removidas precisa ser atualizado."
+          }
         ]
       },
       "url": "https://kubernetes.io/releases/patch-releases/",
@@ -739,9 +953,18 @@
         "pleno": "O relatório revela que a maioria das falhas em chamadas LLM (60%) não é causada por problemas no modelo ou no código — é simplesmente limite de capacidade da API (rate limit). Isso muda a abordagem de engenharia: em vez de debugar prompts, o problema é capacity planning e failover multi-provider. Prompt caching está sendo sub-utilizado (28% dos casos) mesmo sendo uma das otimizações mais impactantes em custo e latência.",
         "senior": "Implemente rate-limit-aware routing entre providers e ative prompt caching antes de escalar QPS de LLMs em produção — 60% das falhas são de capacity, não de modelo, e caching reduz custo em 5-10× em sessões com contexto reutilizável.",
         "glossary": [
-          { "term": "Rate limit", "def": "Restrição da API que limita quantas requisições podem ser feitas em um período de tempo — quando estourado, retorna erro 429 Too Many Requests." },
-          { "term": "Prompt caching", "def": "Técnica onde o prefixo do prompt é processado uma vez e reutilizado em chamadas subsequentes, reduzindo latência e custo em conversas longas." },
-          { "term": "QPS", "def": "Queries Per Second — número de requisições por segundo que um sistema precisa processar; métrica central de dimensionamento de APIs." }
+          {
+            "term": "Rate limit",
+            "def": "Restrição da API que limita quantas requisições podem ser feitas em um período de tempo — quando estourado, retorna erro 429 Too Many Requests."
+          },
+          {
+            "term": "Prompt caching",
+            "def": "Técnica onde o prefixo do prompt é processado uma vez e reutilizado em chamadas subsequentes, reduzindo latência e custo em conversas longas."
+          },
+          {
+            "term": "QPS",
+            "def": "Queries Per Second — número de requisições por segundo que um sistema precisa processar; métrica central de dimensionamento de APIs."
+          }
         ]
       },
       "url": "https://www.datadoghq.com/about/latest-news/press-releases/datadog-state-of-ai-engineering-report-2026/",
@@ -766,9 +989,18 @@
         "pleno": "O JAM de abril agrega tendências do ecossistema JVM que vão além de releases individuais: JEP 501 (Project Leyden) melhora tempo de startup via AOT Code Caching, Junie CLI está evoluindo para multi-agent com ACP (Agent Communication Protocol), e virtual threads em 2026 já chegaram à maturidade de produção. Útil como insumo para atualização semestral de tech radar.",
         "senior": "Use o JAM como insumo para revisão de tech radar JVM — o sinal de JEP 501 (Leyden) + Mandrel indica que a aposta de performance em startup deve migrar de GraalVM Native para Leyden AOT nos próximos 12 meses.",
         "glossary": [
-          { "term": "JEP (Java Enhancement Proposal)", "def": "Proposta formal de nova feature ou melhoria para a plataforma Java, similar a um RFC — aprovados tornam-se parte de releases futuras do JDK." },
-          { "term": "AOT Code Caching (Project Leyden)", "def": "Técnica que pré-compila e armazena em cache código Java antes da execução, reduzindo significativamente o tempo de startup da JVM." },
-          { "term": "Virtual threads", "def": "Threads leves introduzidas no Java 21 pelo Project Loom que permitem escalar para milhões de threads simultâneas sem o overhead das threads nativas do SO." }
+          {
+            "term": "JEP (Java Enhancement Proposal)",
+            "def": "Proposta formal de nova feature ou melhoria para a plataforma Java, similar a um RFC — aprovados tornam-se parte de releases futuras do JDK."
+          },
+          {
+            "term": "AOT Code Caching (Project Leyden)",
+            "def": "Técnica que pré-compila e armazena em cache código Java antes da execução, reduzindo significativamente o tempo de startup da JVM."
+          },
+          {
+            "term": "Virtual threads",
+            "def": "Threads leves introduzidas no Java 21 pelo Project Loom que permitem escalar para milhões de threads simultâneas sem o overhead das threads nativas do SO."
+          }
         ]
       },
       "url": "https://blog.jetbrains.com/idea/2026/04/java-annotated-monthly-april-2026/",
@@ -794,12 +1026,21 @@
         "pleno": "O `--python-downloads-json-url` permite apontar `uv python pin` para um mirror privado de distribuições Python — essencial para ambientes air-gapped onde o CI não acessa python.org. O timestamp sentinela em `exclude-newer` garante reproducibilidade de lockfiles ao usar datas relativas. O suporte a interpreters free-threaded (sem GIL) avança para Python 3.14+.",
         "senior": "Configure `--python-downloads-json-url` apontando para mirror interno para eliminar dependência de internet em pipelines de CI com uv — fecha o último gap para uso em ambientes air-gapped corporativos.",
         "glossary": [
-          { "term": "uv", "def": "Gerenciador de pacotes e projetos Python ultra-rápido desenvolvido pela Astral em Rust, que substitui pip, pip-tools, pyenv e venv em um único binário." },
-          { "term": "Air-gapped", "def": "Ambiente computacional sem conectividade com a internet pública — comum em setores regulados como financeiro, saúde e defesa por requisitos de segurança." },
-          { "term": "GIL (Global Interpreter Lock)", "def": "Mecanismo do CPython que impede múltiplas threads de executar código Python simultaneamente — Python 3.14 permite desativá-lo para verdadeiro paralelismo." }
+          {
+            "term": "uv",
+            "def": "Gerenciador de pacotes e projetos Python ultra-rápido desenvolvido pela Astral em Rust, que substitui pip, pip-tools, pyenv e venv em um único binário."
+          },
+          {
+            "term": "Air-gapped",
+            "def": "Ambiente computacional sem conectividade com a internet pública — comum em setores regulados como financeiro, saúde e defesa por requisitos de segurança."
+          },
+          {
+            "term": "GIL (Global Interpreter Lock)",
+            "def": "Mecanismo do CPython que impede múltiplas threads de executar código Python simultaneamente — Python 3.14 permite desativá-lo para verdadeiro paralelismo."
+          }
         ]
       },
-      "url": "https://github.com/astral-sh/uv/releases",
+      "url": "https://github.com/astral-sh/uv/releases/tag/0.11.10",
       "published_at": "2026-04-27T16:00:00-03:00",
       "image": "https://opengraph.githubassets.com/0f459a46a018097157d88b55d34cce816c3faf10661566a1a50b79cd09b055ac/astral-sh/uv",
       "tags": [
@@ -821,14 +1062,23 @@
         "pleno": "O Cursor 3.2 introduz `/multitask` que cria subagents async para executar tarefas em paralelo dentro de um único workspace — cada subagente tem seu próprio contexto e pode trabalhar em branches ou arquivos diferentes simultaneamente. Multi-root workspaces permitem que um único agente faça mudanças coordenadas em múltiplos repositórios. Snapshot recovery integrado ao Linear fecha o loop de orquestração.",
         "senior": "Avalie Cursor 3.2 como alternativa ao orquestrador Symphony para equipes que já usam o IDE — /multitask pode substituir orquestração externa para tasks menores, mas para fleets de 50+ agentes a arquitetura Symphony (orchestrator separado) ainda é mais escalável.",
         "glossary": [
-          { "term": "Agent execution runtime", "def": "Ambiente que executa e coordena agentes de IA como processos de primeira classe, gerenciando ciclo de vida, contexto e recursos de cada agente." },
-          { "term": "Subagent", "def": "Agente de IA criado por outro agente para executar uma subtarefa específica em paralelo, permitindo decomposição de problemas complexos." },
-          { "term": "Multi-root workspace", "def": "Configuração de IDE onde múltiplos repositórios são abertos simultaneamente no mesmo ambiente de edição, permitindo mudanças cross-repo coordenadas." }
+          {
+            "term": "Agent execution runtime",
+            "def": "Ambiente que executa e coordena agentes de IA como processos de primeira classe, gerenciando ciclo de vida, contexto e recursos de cada agente."
+          },
+          {
+            "term": "Subagent",
+            "def": "Agente de IA criado por outro agente para executar uma subtarefa específica em paralelo, permitindo decomposição de problemas complexos."
+          },
+          {
+            "term": "Multi-root workspace",
+            "def": "Configuração de IDE onde múltiplos repositórios são abertos simultaneamente no mesmo ambiente de edição, permitindo mudanças cross-repo coordenadas."
+          }
         ]
       },
-      "url": "https://futurumgroup.com/insights/cursor-3-2-reframes-the-ide-as-an-agent-execution-runtime/",
+      "url": "https://cursor.com/changelog/04-24-26",
       "published_at": "2026-04-28T12:00:00-03:00",
-      "image": "https://www.google.com/s2/favicons?domain=futurumgroup.com&sz=256",
+      "image": "https://cursor.com/public/opengraph-image.png",
       "tags": [
         "cursor",
         "agents",
@@ -848,14 +1098,23 @@
         "pleno": "O JEP 501 do Project Leyden implementa AOT Code Caching — pré-compilação e armazenamento em cache de bytecode Java antes da execução, reduzindo o startup em até 70% sem as limitações de compatibilidade do GraalVM Native Image. Para microsserviços JVM em FaaS onde cold start é crítico, Leyden pode ser a solução que desbloqueou Java nesse cenário.",
         "senior": "Pré-avalie JEP 501 (Leyden AOT) nos seus benchmarks de cold start antes do GA do Java 25 — se o ganho de 70% for validado em produção, Leyden substitui GraalVM Native como solução default para FaaS JVM sem trade-offs de compatibilidade.",
         "glossary": [
-          { "term": "AOT (Ahead-of-Time compilation)", "def": "Compilação que ocorre antes da execução do programa — oposto de JIT (Just-in-Time). AOT resulta em startup mais rápido mas pode perder otimizações de runtime." },
-          { "term": "FaaS (Function as a Service)", "def": "Modelo de computação cloud onde você executa funções individuais sob demanda, pagando apenas pelo tempo de execução — ex: AWS Lambda, Google Cloud Functions." },
-          { "term": "Cold start", "def": "Tempo necessário para inicializar uma função FaaS ou microserviço desde zero, incluindo carregamento do runtime — problema especialmente grave para JVM tradicional." }
+          {
+            "term": "AOT (Ahead-of-Time compilation)",
+            "def": "Compilação que ocorre antes da execução do programa — oposto de JIT (Just-in-Time). AOT resulta em startup mais rápido mas pode perder otimizações de runtime."
+          },
+          {
+            "term": "FaaS (Function as a Service)",
+            "def": "Modelo de computação cloud onde você executa funções individuais sob demanda, pagando apenas pelo tempo de execução — ex: AWS Lambda, Google Cloud Functions."
+          },
+          {
+            "term": "Cold start",
+            "def": "Tempo necessário para inicializar uma função FaaS ou microserviço desde zero, incluindo carregamento do runtime — problema especialmente grave para JVM tradicional."
+          }
         ]
       },
-      "url": "https://romania.voxxeddays.com/",
+      "url": "https://romania.voxxeddays.com/voxxed-days-bucharest-2026/",
       "published_at": "2026-04-28T08:00:00-03:00",
-      "image": "https://www.google.com/s2/favicons?domain=voxxeddays.com&sz=256",
+      "image": "https://romania.voxxeddays.com/wp-content/uploads/2025/10/Main-patrat-scaled.webp",
       "tags": [
         "voxxed",
         "leyden",
@@ -946,5 +1205,6 @@
       "published_at": "2026-04-28",
       "duration": ""
     }
-  ]
+  ],
+  "edition_digest": "Terça/quarta fecha com duas camadas bem diferentes. Na superfície, OpenAI abriu Symphony, a Microsoft voltou a empurrar a linha de \"AGI clause\" para o centro da conversa e o LeRobot apareceu com um RCE 9.8 que lembra o básico: quando você roda stacks de automação e robótica sem isolamento, o custo de um payload remoto vira assunto de produção, não de demo.\n\nA parte interessante da edição, porém, está no que sustenta esse tipo de produto. Cloudflare teve um incidente de X-Forwarded-For duplicado que afeta roteamento por IP, e a discussão em torno do header é um bom lembrete de que infraestrutura de borda, proxies e observabilidade ainda são a linha entre comportamento previsível e caos operacional. Não é glamour; é o que mantém sistemas grandes funcionando.\n\nDo lado de dados e workflow, Databricks segue empurrando Iceberg v3 para o centro da conversa, enquanto Orkes levanta capital para vender orquestração durável de agentes em produção. São peças diferentes da mesma história: menos protótipo, mais runtime, mais governança, mais capacidade de operar fluxo e estado sem reinventar a roda em cada sistema novo.\n\nFechando, Python 3.14.4 entrega a rodada de correções esperada, Cursor 3.2 amplia o modo de trabalhar em paralelo com agentes e worktrees, e o Voxxed Days Romania entra como leitura útil para quem acompanha Java e runtime. É uma edição que mistura risco, plataforma e execução prática, com mais valor no desenho do sistema do que no ruído do anúncio."
 }

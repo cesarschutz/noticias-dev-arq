@@ -5,7 +5,7 @@
   "generated_at": "2026-05-02T06:00:00-03:00",
   "hero_title": "TeamPCP toma SAP, Pentagon barra Anthropic e Apple bate US$ 111 bi sem capex AI",
   "hero_description": "Sábado começa com 'Mini Shai-Hulud' contra 4 pacotes oficiais SAP no npm — TeamPCP varre Vault e Kubernetes em CI/CD pipelines com 2,2M downloads/mês. No mesmo dia 1/mai, Pentagon anuncia 8 contratos de IA para redes IL6/IL7 (OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection, Oracle) e exclui formalmente Anthropic — segundo veto institucional na semana, depois de Apple confirmar que escolheu Gemini para Foundation Models on-device. Apple ainda assim bate Q2 recorde de US$ 111,2 bi com Services em US$ 31 bi sem queimar capex em GPU. CISA solta advisory sobre OT em infra crítica e adiciona cPanel ao KEV. Em ferramentas: Argo CD 3.4 chega 4/mai com Pause Reconciliation, Claude Code 1.0.40 e Copilot CLI 1.0.40 saem com OAuth headless para MCP, e Bedrock AgentCore aterra em sa-east-1 com runtime LGPD-friendly.",
-  "edition_digest": "Sábado pesado para quem opera supply chain e identidade na nuvem. O TeamPCP — mesmo coletivo dos casos Lapsus$ e LiteLLM — comprometeu quatro pacotes oficiais do SAP Cloud Application Programming Model no npm e empacotou um stealer de segredos em Bun que varre Kubernetes, HashiCorp Vault e tokens AWS/GitHub direto dos pipelines CI/CD. Wiz, Sophos e Aikido confirmaram entre 29 de abril e 1 de maio; o detalhe importa porque atinge 2,2M downloads mensais e ninguém roda CI hoje sem alguma forma de cofre exposto. Junto, CISA adicionou o auth-bypass do cPanel (CVE-2026-41940, CVSS 9.8) ao KEV em 1/mai, soltou advisory sobre exploração contínua de OT em infra crítica e a sequência D-Link/Cisco FMC/Linux Copy Fail dos últimos dias continua viva.\n\nEm paralelo, o Department of War fechou em 1/mai contratos com OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection AI e Oracle para rodar IA em IL6/IL7 — e excluiu formalmente a Anthropic, que segue sem aceitar a cláusula 'any lawful purpose' por preocupação com armas autônomas e vigilância. Foi o segundo recado institucional da semana: na call de earnings da véspera, Tim Cook confirmou que Gemini é a base dos Foundation Models on-device da Apple, com OpenAI ficando como fallback opcional e Anthropic fora da equação.\n\nMesmo assim, a Apple entregou Q2 FY26 recorde — US$ 111,2 bi de receita, iPhone +22%, Services em US$ 30,98 bi — sem capex AI material (US$ 4,3 bi no semestre, contra US$ 145 bi/ano da Meta). É o oposto do contexto da semana, com hyperscalers passando US$ 650 bi de capex combinado e AWS empurrando OpenAI e Anthropic para silício custom Trainium.\n\nEm commerce e fintech, Stripe Sessions fechou com 288 lançamentos: Link Wallet aceitando Pix, Machine Payments Protocol coautoria com Tempo, Universal Commerce Protocol via Google. Visa entregou Q2 com run rate de US$ 7 bi em stablecoin, Mastercard comprou BVNK por US$ 1,8 bi e PicPay reportou seu primeiro Q1 público desde o IPO Nasdaq de janeiro.\n\nNo lado de plataforma, Argo CD 3.4 entra em GA na segunda (4/mai) com Pause Reconciliation e Helm value globs; Claude Code 1.0.40 e GitHub Copilot CLI 1.0.40 saíram em 1/mai com OAuth headless para MCP via client_credentials; VS Code 1.118 trouxe remote control para Copilot CLI; Vercel Sandbox passou a falar direto com Postgres gerenciado (Neon, Supabase, RDS). E AWS aterrou Bedrock AgentCore em sa-east-1 — finalmente uma plataforma agentic managed com data residency Brasil, oxigênio para fintechs e setor público sob LGPD.",
+  "edition_digest": "Sábado de duas frentes bem claras: cadeia de suprimentos e governo de IA. No primeiro bloco, o TeamPCP comprometeu quatro pacotes oficiais do SAP CAP no npm e distribuiu um stealer de segredos em Bun que vasculha pipelines, Kubernetes e Vault. O caso importa menos pelo truque em si e mais pela escala: 2,2 milhões de downloads por mês e uma superfície de CI/CD que continua vazando credenciais em massa. A mesma edição ainda traz o cPanel entrando no KEV, advisory da CISA sobre OT exposta e a sequência de incidentes em D-Link, Cisco FMC e Linux.\n\nNo segundo bloco, o recado veio de cima: o Department of War fechou contratos de IA para redes classificadas com OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection AI e Oracle, mas deixou Anthropic de fora. Em paralelo, a Apple confirmou Gemini como base dos Foundation Models on-device, o que fecha a semana com um sinal forte de plataforma, preferência por modelo e linha de compliance: nem toda IA entra no mesmo cofre, nem no mesmo nível de confiança.\n\nA parte de negócio foi para o lado oposto do capex explosivo. A Apple bateu recorde de receita no Q2 FY26 sem queimar orçamento pesado em GPU, enquanto Visa, Mastercard e PicPay mostraram um sistema financeiro que já está monetizando stablecoins, wallets e novas integrações de pagamento. O padrão é útil para ler a edição: quem tem distribuição e plataforma consegue empurrar novos modelos sem seguir a mesma curva de gasto das hyperscalers.\n\nFechando o sábado, a camada de engenharia aparece com Argo CD 3.4, Claude Code e Copilot CLI com OAuth headless para MCP, Vercel Sandbox falando direto com Postgres gerenciado e Bedrock AgentCore aterrissando em sa-east-1. O fio condutor é menos sobre ferramentas isoladas e mais sobre o que elas permitem operar: automação com controle, agentes com identidade e infra pronta para workloads de IA sem perder residência de dados.",
   "highlights": [
     {
       "source_array": "news",
@@ -39,7 +39,7 @@
       },
       "url": "https://www.wiz.io/blog/mini-shai-hulud-supply-chain-sap-npm",
       "read_time": 6,
-      "image": "https://images.ctfassets.net/g7n8oxgnma9c/4ngzhrAVJIRWbXUEMeY6nL/ad4be0c0f4d1d14c7de9d03e62d5a040/Frame_2147230423.png",
+      "image": "https://www.datocms-assets.com/75231/1777475003-5-1.png?fm=webp",
       "published_at": "2026-04-30T23:00:00-03:00",
       "tags": [
         "supply-chain",
@@ -80,7 +80,7 @@
       },
       "url": "https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic",
       "read_time": 5,
-      "image": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2231290849.jpg?c=16x9&q=h_720,w_1280,c_fill",
+      "image": "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1292192586.jpg?resize=1200,900",
       "published_at": "2026-05-01T15:00:00-03:00",
       "tags": [
         "pentagon",
@@ -169,7 +169,7 @@
         "defense",
         "il7"
       ],
-      "image": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2231290849.jpg?c=16x9&q=h_720,w_1280,c_fill",
+      "image": "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1292192586.jpg?resize=1200,900",
       "source": "CNN Business"
     },
     {
@@ -209,7 +209,7 @@
         "services",
         "gemini"
       ],
-      "image": "https://image.cnbcfm.com/api/v1/image/108180776-1746048273957-gettyimages-2213681731-AFP_46FQ4WB.jpeg?v=1746048307&w=1920&h=1080",
+      "image": "https://image.cnbcfm.com/api/v1/image/108196778-1757507590799-gettyimages-2234563479-_73a3022_jnkqswz6.jpeg?v=1777583377&amp;w=1920&amp;h=1080",
       "source": "CNBC"
     },
     {
@@ -255,7 +255,7 @@
         "vault",
         "kubernetes"
       ],
-      "image": "https://images.ctfassets.net/g7n8oxgnma9c/4ngzhrAVJIRWbXUEMeY6nL/ad4be0c0f4d1d14c7de9d03e62d5a040/Frame_2147230423.png",
+      "image": "https://www.datocms-assets.com/75231/1777475003-5-1.png?fm=webp",
       "source": "Wiz Blog"
     },
     {
@@ -294,7 +294,7 @@
         "critical-infrastructure",
         "scada"
       ],
-      "image": "https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/6.12_cisa_signal_in_dark_blue.jpg",
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
       "source": "CISA"
     },
     {
@@ -336,7 +336,7 @@
         "dns",
         "iot"
       ],
-      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhqOZ-kQROrNxZJUDl3sHmP6IJVEH3cLVVzWrJ_9bsJNvRNWp0zjKcKiNvuJOAoRflYJUxEQXxSO_sxSxqrONYcyOgEhxgL5BpwEehNRZ0wljuk7w/s728-rw-e365/router.png",
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEheWL4H_fZgt293fAWAIgIuiEKOwhrhBh7P6E26EPey9tV-t5-5uSIW-84Jfg6Uq3UOP8R3RqBC_lj-kBq_X2JnthYUqbpX8pX6zVTLtORbMk_M4OEJp2OHqEpHtVXJrW12DpkgtSrl5vcu-goQ2s9iAAbBMBc6oTWzTzUUvQYABY8bVsNXJ08lQhY60xw2/s1700-e365/router.jpg",
       "source": "The Hacker News"
     },
     {
@@ -383,7 +383,7 @@
         "ransomware",
         "interlock"
       ],
-      "image": "https://horizon3.ai/wp-content/uploads/2024/03/Vulnerabilities-Hero-1.jpg",
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
       "source": "Horizon3.ai"
     },
     {
@@ -421,7 +421,7 @@
         "agents",
         "tokens"
       ],
-      "image": "https://res.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/en/headerimage/cloudflare-code-mode-mcp-server-thumbnail-1746030842421.jpg",
+      "image": "https://res.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/en/headerimage/generatedHeaderImage-1775438665018.jpg",
       "source": "InfoQ"
     },
     {
@@ -464,7 +464,7 @@
         "stablecoin",
         "mpp"
       ],
-      "image": "https://images.ctfassets.net/fzn2n1nzq965/3hWX7QrqQPuJSVHOKrzR9P/0cd0c4d6cb5ce69e5cf3b00f2a5be907/sessions-everything-2026.png",
+      "image": "https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80",
       "source": "Stripe Blog"
     },
     {
@@ -503,7 +503,7 @@
         "siri",
         "anthropic"
       ],
-      "image": "https://content.fortune.com/wp-content/uploads/2026/01/GettyImages-2191050000-e1736790000000.jpg",
+      "image": "https://fortune.com/img-assets/wp-content/uploads/2026/01/GettyImages-1500910680-e1768339061314.jpg?resize=1200,600",
       "source": "Fortune"
     },
     {
@@ -545,7 +545,7 @@
         "cisa",
         "auth-bypass"
       ],
-      "image": "https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/cisa_share-image.png",
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
       "source": "CISA"
     },
     {
@@ -586,7 +586,7 @@
         "sandbox",
         "agents"
       ],
-      "image": "https://assets.vercel.com/image/upload/contentful/image/e5382hct74si/3PqKpIOIp7PqxrlYJJoEqV/0e8b5e4d2e9d8e7c6a5f4e3d2c1b0a9b/sandbox-postgres-1200x630.png",
+      "image": "https://assets.vercel.com/image/upload/q_auto/front/changelog/og/Vercel_Changelog_OG.png",
       "source": "Vercel Blog"
     },
     {
@@ -628,7 +628,7 @@
         "brasil",
         "lgpd"
       ],
-      "image": "https://d1.awsstatic.com/products/Bedrock/Product-Page-Diagram_Amazon-Bedrock-AgentCore.jpg",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source": "AWS What's New"
     },
     {
@@ -665,7 +665,7 @@
         "conference",
         "agents"
       ],
-      "image": "https://devblogs.microsoft.com/wp-content/uploads/sites/4/2024/05/build-blog-banner.png",
+      "image": "https://eventtools.event.microsoft.com/build2026/Build_FY26_Ph1-Registration_OpenGraph_Title-Date-Design_1200x630_Updated_3.9.png",
       "source": "Microsoft DevBlogs"
     },
     {
@@ -707,7 +707,7 @@
         "wasmtime",
         "edge"
       ],
-      "image": "https://opengraph.githubassets.com/1/bytecodealliance/wasmtime",
+      "image": "https://bytecodealliance.org/articles/img/2023-07-24-roadmap/bytecode-alliance-roadmap-part1-wasi-preview-2.png",
       "source": "Bytecode Alliance"
     },
     {
@@ -745,7 +745,7 @@
         "openai",
         "asic"
       ],
-      "image": "https://cdn.thenewstack.io/media/2024/12/0eecdd07-trainium2.jpg",
+      "image": "https://blogs.nvidia.com/wp-content/uploads/2026/04/logo-lockup-codex-tech-blog-v-1920x1080-5175350.png",
       "source": "The New Stack"
     },
     {
@@ -783,7 +783,7 @@
         "pix",
         "bnpl"
       ],
-      "image": "https://www.pymnts.com/wp-content/uploads/2024/05/PicPay-1.jpg",
+      "image": "https://www.pymnts.com/wp-content/uploads/2026/01/PicPay.jpeg?w=457",
       "source": "PYMNTS"
     },
     {
@@ -825,7 +825,7 @@
         "dbos",
         "temporal"
       ],
-      "image": "https://framerusercontent.com/images/4WJ5x8mGkPgPfCjpIFwXsMl1xww.png",
+      "image": "https://docs.dbos.dev/img/social-card.jpg",
       "source": "DBOS Docs"
     },
     {
@@ -866,7 +866,7 @@
         "slo",
         "agents"
       ],
-      "image": "https://www.honeycomb.io/wp-content/uploads/2024/05/o11ycon-hnycon-2024-recap.jpg",
+      "image": "https://cdn.sanity.io/images/927dxq0h/production/164ebc462804394c321ec3d8d7517041c00a4def-2561x2006.png?rect=0,334,2561,1338&amp;w=1200&amp;h=627&amp;fit=crop",
       "source": "Honeycomb Blog"
     },
     {
@@ -911,7 +911,7 @@
         "claude-mythos",
         "glasswing"
       ],
-      "image": "https://cdn.sanity.io/images/4zrzovbb/website/d3a2f4a8e10e3c25c4f7a2fa29a8b48ae7e8d99f-2880x1620.png",
+      "image": "https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/68309ab48369f7ad9b4a40e1_open-graph.jpg",
       "source": "Anthropic"
     }
   ],

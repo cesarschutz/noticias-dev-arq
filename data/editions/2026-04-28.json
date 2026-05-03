@@ -8,51 +8,28 @@
   "highlights": [
     {
       "source_array": "news",
-      "category": "sec",
-      "category_label": "Segurança & IAM",
-      "category_icon": "🔐",
-      "headline": "Lapsus$ encadeia Checkmarx e Bitwarden CLI em campanha contra fornecedores de segurança",
-      "summary": "The Register descreve campanha em curso (TeamPCP + Lapsus$ + Vect) atingindo Checkmarx, LiteLLM, KICS, Trivy e agora Bitwarden CLI. Atacantes confessam que pretendem encadear comprometimentos em rounds de ransomware. Bitwarden tem 10M+ usuários e 50K+ empresas. Risco: ferramentas de segurança são deeply embedded e overprivileged — tornam-se choke points perfeitos para data theft e propagação lateral.",
-      "explain": {
-        "junior": "Lapsus$ é um grupo de hackers que ataca empresas de tecnologia. Checkmarx é uma ferramenta usada por desenvolvedores para encontrar falhas no código, e Bitwarden CLI é um gerenciador de senhas. Ransomware é um tipo de vírus que sequestra dados e pede resgate.",
-        "pleno": "O grupo Lapsus$ comprometeu múltiplas ferramentas DevSecOps (Checkmarx, Trivy, KICS, LiteLLM) explorando o fato de que scanners de segurança têm acesso privilegiado a repositórios, tokens e secrets de CI/CD. A estratégia é encadear os comprometimentos: uma ferramenta invadida vira trampolim para roubar credenciais das que dependem dela.",
-        "senior": "Trate scanners de segurança como superfície de ataque tier-1: isolamento de rede, princípio de menor privilégio e rotação automática de tokens de CI/CD são controles não-negociáveis após essa campanha.",
-        "glossary": [
-          { "term": "DevSecOps", "def": "Prática de integrar segurança (Sec) no ciclo de desenvolvimento (Dev) e operações (Ops), com ferramentas automatizadas de análise em cada etapa." },
-          { "term": "Supply chain attack", "def": "Ataque que compromete não o alvo final, mas um fornecedor ou ferramenta que o alvo confia e usa — atingindo muitas vítimas de uma vez." },
-          { "term": "CI/CD", "def": "Continuous Integration / Continuous Deployment: pipeline automatizado que constrói, testa e publica código sempre que há mudança no repositório." }
-        ]
-      },
-      "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
-      "published_at": "2026-04-27T15:00:00-03:00",
-      "read_time": 5,
-      "severity": "high",
-      "tags": [
-        "supply-chain",
-        "lapsus$",
-        "checkmarx",
-        "bitwarden",
-        "devsecops"
-      ],
-      "image": "https://regmedia.co.uk/2024/07/30/shutetrstock_wow.jpg",
-      "source_key": "theregister"
-    },
-    {
-      "source_array": "news",
       "category": "data",
       "category_label": "Dados & Streaming",
       "category_icon": "🗄️",
-      "headline": "Engenheiro da AWS reporta PostgreSQL com metade do throughput em kernel Linux 7.0 (Graviton4) — fix não é simples",
-      "summary": "Bug regression rastreado por engenheiro Amazon: Linux 7.0 entrega ~0,51× do throughput de PostgreSQL em Graviton4 vs kernels anteriores, com tempo gasto em user-space spinlock disparando. Causa raiz é a mudança em modos de preemption restritivos no 7.0. Discussão dominou a front-page do HN e demanda revisão de rollouts de kernel em frotas de banco.",
+      "headline": "AWS engineer alerta: PostgreSQL roda metade do throughput em Linux 7.0 (Graviton4)",
+      "summary": "Linux 7.0 entrega ~0,51× do throughput PostgreSQL em Graviton4 — engenheiro AWS rastreou regressão a mudança nos modos de preemption do kernel. User-space spinlocks ficam dominando CPU. Fix não é simples e thread já dominou HN front-page.",
       "explain": {
-        "junior": "PostgreSQL é um banco de dados muito usado por desenvolvedores. Kernel Linux é o núcleo do sistema operacional que controla hardware. Graviton4 é um processador ARM feito pela Amazon para servidores na nuvem.",
-        "pleno": "O kernel Linux 7.0 introduziu mudanças nos modos de preemption que fazem com que user-space spinlocks — mecanismos de trava de baixo nível usados pelo PostgreSQL para sincronização — consumam muito mais CPU, resultando em cerca de metade do throughput (transações por segundo) em chips ARM Graviton4. Não há fix simples porque a regressão está na lógica de escalonamento de tarefas do próprio kernel.",
-        "senior": "Congele o upgrade de kernel para Linux 7.0 em toda frota ARM com PostgreSQL até patch confirmado; impacto de 50% em TPS invalida SLAs e dimensionamento de capacidade.",
+        "junior": "PostgreSQL é um banco de dados relacional open source muito popular. Throughput aqui significa quantas transações o banco consegue processar por segundo. O kernel Linux 7.0 é a versão mais nova do núcleo do sistema operacional Linux, e essa notícia diz que ele deixou o PostgreSQL muito mais lento em processadores Graviton4 da Amazon.",
+        "pleno": "Uma mudança nos modos de preemption do kernel Linux 7.0 faz com que spinlocks em user-space fiquem consumindo CPU excessivamente, prejudicando o PostgreSQL que os usa internamente para sincronização. A queda de ~50% em throughput (transações por segundo) foi confirmada em Graviton4 e provavelmente afeta outros chips ARM também. Não há fix simples porque a causa está na lógica de escalonamento do kernel.",
+        "senior": "Pinar kernel ≤ 6.x em toda frota ARM com PostgreSQL é ação imediata; uma queda de 50% em TPS invalida SLAs e planejamento de capacidade — monitore confirmação de patch antes de qualquer upgrade.",
         "glossary": [
-          { "term": "Throughput", "def": "Quantidade de trabalho que um sistema consegue processar em um intervalo de tempo, como transações por segundo em um banco de dados." },
-          { "term": "Spinlock", "def": "Mecanismo de sincronização em que uma thread fica em loop esperando um recurso ficar livre, evitando a troca de contexto mas consumindo CPU." },
-          { "term": "Preemption", "def": "Capacidade do sistema operacional de interromper uma tarefa em execução para dar CPU a outra tarefa de maior prioridade." },
-          { "term": "ARM / Graviton4", "def": "ARM é uma arquitetura de processador de baixo consumo. Graviton4 é a versão da Amazon desse processador, usada em instâncias EC2 da AWS." }
+          {
+            "term": "TPS",
+            "def": "Transactions Per Second — quantidade de transações que um banco de dados processa por segundo; métrica central de performance de bancos relacionais."
+          },
+          {
+            "term": "Spinlock",
+            "def": "Mecanismo de sincronização onde uma thread fica em loop ativo esperando por um recurso, consumindo CPU até conseguir acesso."
+          },
+          {
+            "term": "Preemption",
+            "def": "Capacidade do kernel de interromper uma tarefa e dar a CPU a outra de maior prioridade; mudanças nesse comportamento afetam latência e throughput."
+          }
         ]
       },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
@@ -61,41 +38,92 @@
       "tags": [
         "postgresql",
         "linux-kernel",
-        "graviton4",
+        "graviton",
         "performance"
       ],
       "image": "https://www.phoronix.net/image.php?id=2026&image=pgbench_regression",
       "source_key": "phoronix"
     },
     {
-      "source_array": "tools",
-      "tool_key": "docker",
-      "category": "devops",
-      "category_label": "DevOps & Plataformas",
-      "category_icon": "⚙️",
-      "headline": "containerd 2.3.0-rc.0 sai e dá largada para a primeira release com cadência de 4 meses",
-      "summary": "Tag v2.3.0-rc.0 publicada em 28/04/2026 marca o início da nova cadência fixa de minor releases a cada 4 meses anunciada pela maintainers da CNCF. Inclui ajustes finais antes do GA e marca o fim das releases ad-hoc — runtime do Docker, K8s e da maioria dos PaaS passa a ter previsibilidade para upgrades de fleets.",
+      "source_array": "news",
+      "category": "distarch",
+      "category_label": "Sistemas Distribuídos",
+      "category_icon": "🕸",
+      "headline": "Bluesky publica post-mortem de outage de 8h: cascata de goroutines, memcached e ports efêmeras",
+      "summary": "GetPostRecords sem group.SetLimit(50) lançava 15-20K goroutines por request. Connection storm contra memcached na porta 11211 + reuso de TIME_WAIT levaram a port exhaustion. Logging síncrono via write(2) explodiu threads do runtime Go; GC stop-the-world parou requests. Fix temporário: dialer custom com loopback IP aleatório.",
       "explain": {
-        "junior": "containerd é o programa que roda contêineres (como Docker) dentro de servidores. CNCF é a fundação que cuida de projetos de infraestrutura de nuvem, como Kubernetes. RC significa Release Candidate — uma versão quase final para testes antes do lançamento oficial.",
-        "pleno": "containerd é o container runtime padrão usado pelo Docker e pelo Kubernetes. Essa RC inaugura uma cadência de releases previsível a cada 4 meses, substituindo o modelo ad-hoc anterior. Isso permite que equipes de plataforma planejem janelas de manutenção, CVE patching e testes de upgrade de runtime com antecedência.",
-        "senior": "Alinhe calendário de upgrade de runtime em clusters K8s e frotas Docker com a nova janela trimestral do containerd para sincronizar CVE patching e testes de regressão de forma estruturada.",
+        "junior": "Bluesky é uma rede social descentralizada. Um post-mortem é um documento técnico que explica o que causou uma falha. Goroutines são unidades leves de execução paralela na linguagem Go. Memcached é um sistema de cache em memória. Port exhaustion significa que o servidor ficou sem portas de rede disponíveis para criar novas conexões.",
+        "pleno": "Uma função sem limitação de concorrência (sem `group.SetLimit(50)`) criava até 20K goroutines por request para buscar posts, sobrecarregando o memcached. As conexões TCP em estado TIME_WAIT esgotaram as portas efêmeras disponíveis. O logging síncrono bloqueava threads do Go, e o GC entrou em stop-the-world parando o processamento de requisições. Cada ponto sozinho seria gerenciável; a combinação derrubou a plataforma por 8 horas.",
+        "senior": "Aplique `SetLimit` em todo grupo de goroutines que acessa recursos compartilhados; adote logging assíncrono e estruturado; e configure `SO_REUSEPORT` ou IP rotation para evitar TIME_WAIT exhaustion em serviços de alta concorrência.",
         "glossary": [
-          { "term": "containerd", "def": "Container runtime de baixo nível que gerencia o ciclo de vida de contêineres; é a base do Docker e do Kubernetes." },
-          { "term": "CNCF", "def": "Cloud Native Computing Foundation — fundação open source que hospeda e governa projetos de infraestrutura cloud-native como Kubernetes, Prometheus e containerd." },
-          { "term": "Runtime", "def": "Software que executa outros programas; no contexto de contêineres, é o componente responsável por iniciar, parar e isolar cada contêiner." }
+          {
+            "term": "Goroutines",
+            "def": "Threads ultra-leves do Go que permitem milhares de execuções paralelas; sem limites, podem exaurir memória e recursos do sistema."
+          },
+          {
+            "term": "TIME_WAIT",
+            "def": "Estado da conexão TCP após o fechamento, onde a porta fica reservada por um tempo para garantir que pacotes atrasados não causem confusão em novas conexões."
+          },
+          {
+            "term": "GC stop-the-world",
+            "def": "Pausa forçada em que o garbage collector do Go interrompe todos os goroutines para limpar memória não utilizada — pode durar milissegundos a segundos."
+          },
+          {
+            "term": "Port exhaustion",
+            "def": "Situação em que um servidor esgota todas as portas TCP disponíveis para novas conexões de saída, geralmente causada por muitas conexões simultâneas."
+          }
         ]
       },
-      "url": "https://github.com/containerd/containerd/releases",
-      "published_at": "2026-04-28T08:00:00-03:00",
-      "read_time": 3,
+      "url": "https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2",
+      "published_at": "2026-04-10T15:00:00-03:00",
+      "read_time": 8,
       "tags": [
-        "containerd",
-        "release",
-        "cncf",
-        "runtime"
+        "bluesky",
+        "post-mortem",
+        "go",
+        "memcached",
+        "port-exhaustion"
       ],
-      "image": "https://opengraph.githubassets.com/8e216043f28000232ec0f2d438ad5ded4a3be3411aa244a267296cae8b2cfb10/containerd/containerd",
-      "source_key": "containerd"
+      "image": "https://pckt-blog-media.s3.us-east-2.amazonaws.com/cover_image/ab3965c1-bb9f-49cd-9ec0-01e590a55f35/image.png",
+      "source_key": "pcktblog"
+    },
+    {
+      "source_array": "news",
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Grafana 13 traz Loki repaginado (ingestão Kafka), AI Observability e dashboards dinâmicos GA",
+      "summary": "Lançado em GrafanaCON 2026, Grafana 13 marca evolução de Loki: ingestão lastreada em Kafka para pipelines eficientes, query engine redesenhado para cargas analíticas grandes e planner com execução paralela em partições. AI Observability em Grafana Cloud + Grafana Assistant expandido + agent-aware CLI miram o 'AI blind spot'.",
+      "explain": {
+        "junior": "Grafana é uma ferramenta para criar dashboards e visualizar métricas de sistemas. Loki é o componente do Grafana para armazenar e consultar logs. Kafka é uma plataforma para processar fluxos de dados em tempo real. Com essa atualização, o Grafana agora consegue processar logs muito mais rápido usando Kafka.",
+        "pleno": "O Grafana 13 reescreve a ingestão do Loki para usar Kafka como buffer, o que resolve gargalos em pipelines de alta volumetria. O query engine redesenhado com execução paralela em partições permite análises analíticas em logs que antes só faziam sentido em columnar stores. A camada de AI Observability adiciona rastreabilidade específica para chamadas LLM e chains de agentes.",
+        "senior": "Loki com ingestão Kafka fecha o gap de volumetria para logs de produção de agentes — avalie migração se você hoje usa Elasticsearch para logs analíticos; o redesign do query engine muda o custo de queries full-scan.",
+        "glossary": [
+          {
+            "term": "Loki",
+            "def": "Sistema de armazenamento e consulta de logs da Grafana Labs, projetado para ser eficiente e integrado ao ecossistema Prometheus/Grafana."
+          },
+          {
+            "term": "Kafka",
+            "def": "Plataforma distribuída de streaming de eventos que permite processar e armazenar grandes volumes de mensagens em tempo real com alta durabilidade."
+          },
+          {
+            "term": "Query engine",
+            "def": "Componente responsável por interpretar e executar consultas em um banco de dados ou sistema de logs, determinando velocidade e eficiência das buscas."
+          }
+        ]
+      },
+      "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
+      "published_at": "2026-04-21T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "grafana",
+        "loki",
+        "ai-observability",
+        "grafanacon"
+      ],
+      "image": "https://grafana.com/media/images/meta/grafana-labs-meta-default_1200x630.png",
+      "source_key": "grafana"
     }
   ],
   "news": [
@@ -113,9 +141,18 @@
         "pleno": "A campanha TeamPCP/Lapsus$/Vect está comprometendo ferramentas DevSecOps — scanners e gerenciadores de segredos — aproveitando que elas têm acesso irrestrito a repositórios e tokens de CI. Comprometer o Bitwarden CLI, por exemplo, pode dar acesso a todas as credenciais que desenvolvedores armazenam, viabilizando ransomware em cascata nos clientes dessas ferramentas.",
         "senior": "Audite imediatamente permissões e tokens associados a Checkmarx, Trivy, KICS e Bitwarden CLI em pipelines CI/CD; implemente rotação automática de credenciais e MFA em todos os fornecedores DevSecOps.",
         "glossary": [
-          { "term": "MFA", "def": "Multi-Factor Authentication — autenticação de múltiplos fatores: exige além de senha, um segundo fator (código SMS, app autenticador) para confirmar identidade." },
-          { "term": "Ransomware", "def": "Malware que criptografa dados da vítima e exige pagamento (resgate) para devolver o acesso." },
-          { "term": "CI/CD", "def": "Continuous Integration / Continuous Deployment: pipeline automatizado que constrói, testa e publica código a cada mudança." }
+          {
+            "term": "MFA",
+            "def": "Multi-Factor Authentication — autenticação de múltiplos fatores: exige além de senha, um segundo fator (código SMS, app autenticador) para confirmar identidade."
+          },
+          {
+            "term": "Ransomware",
+            "def": "Malware que criptografa dados da vítima e exige pagamento (resgate) para devolver o acesso."
+          },
+          {
+            "term": "CI/CD",
+            "def": "Continuous Integration / Continuous Deployment: pipeline automatizado que constrói, testa e publica código a cada mudança."
+          }
         ]
       },
       "url": "https://www.theregister.com/2026/04/27/supply_chain_campaign_targets_security/",
@@ -143,10 +180,22 @@
         "pleno": "O CVE-2026-3872 permite que um atacante use a sequência `..;/` na URL de redirect do fluxo OIDC para burlar a validação de URI, podendo roubar tokens de autenticação. Combinado com o CVE-2026-4282 (forjar authorization codes para elevar privilégios) e o CVE-2026-3429 (account takeover via REST API), o conjunto dessas falhas em Keycloak representa risco crítico para qualquer SSO corporativo construído sobre ele.",
         "senior": "Aplique o patch para Keycloak 26.5.7 imediatamente; path traversal no redirect URI pode comprometer toda a cadeia de autenticação SSO — sem fix, qualquer sessão autenticada é interceptável.",
         "glossary": [
-          { "term": "SSO", "def": "Single Sign-On — sistema que permite o usuário fazer login uma vez e acessar múltiplos serviços sem precisar se autenticar novamente em cada um." },
-          { "term": "OIDC", "def": "OpenID Connect — protocolo de autenticação construído sobre OAuth 2.0 que permite que aplicações verifiquem a identidade de um usuário." },
-          { "term": "Path traversal", "def": "Técnica de ataque onde o invasor usa sequências como `../` na URL para navegar para diretórios não autorizados ou contornar validações." },
-          { "term": "CVE", "def": "Common Vulnerabilities and Exposures — sistema de identificação e catalogação pública de vulnerabilidades de segurança conhecidas." }
+          {
+            "term": "SSO",
+            "def": "Single Sign-On — sistema que permite o usuário fazer login uma vez e acessar múltiplos serviços sem precisar se autenticar novamente em cada um."
+          },
+          {
+            "term": "OIDC",
+            "def": "OpenID Connect — protocolo de autenticação construído sobre OAuth 2.0 que permite que aplicações verifiquem a identidade de um usuário."
+          },
+          {
+            "term": "Path traversal",
+            "def": "Técnica de ataque onde o invasor usa sequências como `../` na URL para navegar para diretórios não autorizados ou contornar validações."
+          },
+          {
+            "term": "CVE",
+            "def": "Common Vulnerabilities and Exposures — sistema de identificação e catalogação pública de vulnerabilidades de segurança conhecidas."
+          }
         ]
       },
       "url": "https://www.keycloak.org/2026/04/keycloak-2657-released",
@@ -166,7 +215,7 @@
         "iam",
         "sso"
       ],
-      "image": "https://cdn.simpleicons.org/keycloak/4D4D4D",
+      "image": "https://www.keycloak.org/preview/index.png",
       "source_key": "keycloak"
     },
     {
@@ -182,10 +231,22 @@
         "pleno": "A falha CVE-2026-35616 permite que um atacante sem credenciais acesse a API do FortiClient EMS e escale privilégios — ou seja, obter acesso administrativo sem precisar de login. Com mais de 2.000 instâncias expostas na internet e exploração ativa confirmada desde março, qualquer servidor sem o hotfix da versão 7.4.7 é um ponto de entrada viável para um ataque de ransomware.",
         "senior": "Aplique o hotfix para FortiClient EMS 7.4.7 imediatamente e isole o painel de gestão da internet; cada instância não corrigida é ponto de pivô confirmado em redes corporativas.",
         "glossary": [
-          { "term": "CVSS", "def": "Common Vulnerability Scoring System — sistema de pontuação de 0 a 10 que indica a gravidade de uma vulnerabilidade de segurança." },
-          { "term": "Pre-auth bypass", "def": "Vulnerabilidade que permite a um atacante contornar a autenticação e acessar recursos do sistema sem fornecer credenciais válidas." },
-          { "term": "Privilege escalation", "def": "Técnica onde um atacante amplia seus privilégios dentro de um sistema, de usuário comum para administrador, por exemplo." },
-          { "term": "CISA KEV", "def": "Known Exploited Vulnerabilities catalog da CISA — lista de vulnerabilidades confirmadamente exploradas em campo, com prazo obrigatório de correção para órgãos federais dos EUA." }
+          {
+            "term": "CVSS",
+            "def": "Common Vulnerability Scoring System — sistema de pontuação de 0 a 10 que indica a gravidade de uma vulnerabilidade de segurança."
+          },
+          {
+            "term": "Pre-auth bypass",
+            "def": "Vulnerabilidade que permite a um atacante contornar a autenticação e acessar recursos do sistema sem fornecer credenciais válidas."
+          },
+          {
+            "term": "Privilege escalation",
+            "def": "Técnica onde um atacante amplia seus privilégios dentro de um sistema, de usuário comum para administrador, por exemplo."
+          },
+          {
+            "term": "CISA KEV",
+            "def": "Known Exploited Vulnerabilities catalog da CISA — lista de vulnerabilidades confirmadamente exploradas em campo, com prazo obrigatório de correção para órgãos federais dos EUA."
+          }
         ]
       },
       "url": "https://thehackernews.com/2026/04/fortinet-patches-actively-exploited-cve.html",
@@ -215,9 +276,18 @@
         "pleno": "O acordo formaliza que a Anthropic vai usar AWS Trainium para treinar modelos e Graviton para inferência, co-desenvolvendo chips com Annapurna Labs. Isso sinaliza uma diversificação do ecossistema de AI compute além da NVIDIA — com implicações de custo e disponibilidade para qualquer equipe que rodar Claude via Bedrock.",
         "senior": "Avalie Trainium e Graviton como alternativa de custo para inferência de LLMs em escala; o lock-in de workloads AI na AWS se aprofunda com esse acordo — renegociação de contratos enterprise deve antecipar esse cenário.",
         "glossary": [
-          { "term": "Trainium", "def": "Chip de acelerador de IA personalizado da Amazon Web Services, otimizado para treinar modelos de machine learning de grande escala." },
-          { "term": "Graviton", "def": "Processador ARM de alto desempenho projetado pela Amazon para servidores AWS, com melhor relação preço-desempenho para muitas cargas de trabalho." },
-          { "term": "Run-rate", "def": "Projeção anualizada de receita baseada no desempenho recente — se uma empresa faturou US$ 2,5 bi em um mês, o run-rate anual é US$ 30 bi." }
+          {
+            "term": "Trainium",
+            "def": "Chip de acelerador de IA personalizado da Amazon Web Services, otimizado para treinar modelos de machine learning de grande escala."
+          },
+          {
+            "term": "Graviton",
+            "def": "Processador ARM de alto desempenho projetado pela Amazon para servidores AWS, com melhor relação preço-desempenho para muitas cargas de trabalho."
+          },
+          {
+            "term": "Run-rate",
+            "def": "Projeção anualizada de receita baseada no desempenho recente — se uma empresa faturou US$ 2,5 bi em um mês, o run-rate anual é US$ 30 bi."
+          }
         ]
       },
       "url": "https://techcrunch.com/2026/04/20/anthropic-takes-5b-from-amazon-and-pledges-100b-in-cloud-spending-in-return/",
@@ -245,9 +315,18 @@
         "pleno": "A Meta vai usar Graviton (CPU ARM) para tarefas de inferência de agentes — reasoning em tempo real, orquestração multi-step e geração de código — separando essas cargas das GPUs usadas para treino. O padrão emergente é: GPU para treinar, CPU otimizada (ARM) para inferir. Isso muda significativamente a equação de custo de plataformas agênticas.",
         "senior": "Modele custo por perfil de carga: cargas de inferência de agentes leves-a-médios tendem a ser mais econômicas em Graviton do que em GPU on-demand; benchmarks próprios são necessários antes de decisão de arquitetura.",
         "glossary": [
-          { "term": "AI agents", "def": "Sistemas de IA que percebem o ambiente, tomam decisões e executam ações de forma autônoma ou semi-autônoma para atingir objetivos." },
-          { "term": "Inferência", "def": "Fase de uso de um modelo de IA já treinado para gerar respostas ou previsões — diferente do treino, que é quando o modelo aprende." },
-          { "term": "ARM", "def": "Arquitetura de processador de baixo consumo amplamente usada em smartphones e, crescentemente, em servidores de datacenter como o Graviton da AWS." }
+          {
+            "term": "AI agents",
+            "def": "Sistemas de IA que percebem o ambiente, tomam decisões e executam ações de forma autônoma ou semi-autônoma para atingir objetivos."
+          },
+          {
+            "term": "Inferência",
+            "def": "Fase de uso de um modelo de IA já treinado para gerar respostas ou previsões — diferente do treino, que é quando o modelo aprende."
+          },
+          {
+            "term": "ARM",
+            "def": "Arquitetura de processador de baixo consumo amplamente usada em smartphones e, crescentemente, em servidores de datacenter como o Graviton da AWS."
+          }
         ]
       },
       "url": "https://techcrunch.com/2026/04/24/in-another-wild-turn-for-ai-chips-meta-signs-deal-for-millions-of-amazon-ai-cpus/",
@@ -275,10 +354,22 @@
         "pleno": "A Cloudflare adotou o RFC 9457 (Problem Details for HTTP APIs), que define um formato JSON padrão para descrever erros HTTP — incluindo tipo, título, status e detalhes. O campo `Retry-After` nos erros retryáveis permite que clientes façam backoff inteligente. Isso uniformiza como clientes, gateways e ferramentas de SRE tratam falhas originadas na borda (edge).",
         "senior": "Atualize gateways internos e clientes HTTP para parsear Problem Details (RFC 9457) — a adoção pela Cloudflare é sinal de que se tornará padrão de fato para APIs públicas; implemente tratamento diferenciado para erros transient vs permanent.",
         "glossary": [
-          { "term": "RFC 9457", "def": "Padrão da IETF que define um formato JSON estruturado para respostas de erro em APIs HTTP, incluindo campos como `type`, `title`, `status` e `detail`." },
-          { "term": "5xx", "def": "Classe de códigos de status HTTP que indicam erros do lado do servidor (ex: 500 Internal Server Error, 503 Service Unavailable)." },
-          { "term": "Retry-After", "def": "Cabeçalho HTTP que informa ao cliente quanto tempo deve esperar antes de tentar a requisição novamente após um erro temporário." },
-          { "term": "Edge", "def": "Infraestrutura de computação posicionada fisicamente próxima aos usuários finais, reduzindo latência — como os servidores globais da Cloudflare." }
+          {
+            "term": "RFC 9457",
+            "def": "Padrão da IETF que define um formato JSON estruturado para respostas de erro em APIs HTTP, incluindo campos como `type`, `title`, `status` e `detail`."
+          },
+          {
+            "term": "5xx",
+            "def": "Classe de códigos de status HTTP que indicam erros do lado do servidor (ex: 500 Internal Server Error, 503 Service Unavailable)."
+          },
+          {
+            "term": "Retry-After",
+            "def": "Cabeçalho HTTP que informa ao cliente quanto tempo deve esperar antes de tentar a requisição novamente após um erro temporário."
+          },
+          {
+            "term": "Edge",
+            "def": "Infraestrutura de computação posicionada fisicamente próxima aos usuários finais, reduzindo latência — como os servidores globais da Cloudflare."
+          }
         ]
       },
       "url": "https://developers.cloudflare.com/fundamentals/reference/release-notes/",
@@ -305,9 +396,18 @@
         "pleno": "O managed harness do AgentCore permite definir um agente especificando apenas modelo, system prompt e tools, sem precisar escrever código de orquestração. O CLI integra com IaC (AWS CDK e em breve Terraform), permitindo deploy auditável e versionado do agente em 14 regiões. O recurso de exportar para Strands mantém a porta aberta para quem precisar de controle fino.",
         "senior": "AgentCore reduz time-to-production para agentes com guardrails nativos e IaC integrado — avalie se o managed harness cobre os casos de uso antes de construir orquestração customizada.",
         "glossary": [
-          { "term": "IaC", "def": "Infrastructure as Code — prática de descrever e gerenciar infraestrutura (servidores, redes, serviços) em arquivos de código versionáveis, como Terraform ou AWS CDK." },
-          { "term": "System prompt", "def": "Instrução inicial enviada a um modelo de IA antes do diálogo com o usuário, que define o comportamento, persona e restrições do agente." },
-          { "term": "AWS CDK", "def": "AWS Cloud Development Kit — framework que permite definir infraestrutura AWS usando linguagens de programação como TypeScript ou Python em vez de YAML." }
+          {
+            "term": "IaC",
+            "def": "Infrastructure as Code — prática de descrever e gerenciar infraestrutura (servidores, redes, serviços) em arquivos de código versionáveis, como Terraform ou AWS CDK."
+          },
+          {
+            "term": "System prompt",
+            "def": "Instrução inicial enviada a um modelo de IA antes do diálogo com o usuário, que define o comportamento, persona e restrições do agente."
+          },
+          {
+            "term": "AWS CDK",
+            "def": "AWS Cloud Development Kit — framework que permite definir infraestrutura AWS usando linguagens de programação como TypeScript ou Python em vez de YAML."
+          }
         ]
       },
       "url": "https://aws.amazon.com/blogs/aws/amazon-bedrock-agentcore-adds-quality-evaluations-and-policy-controls-for-deploying-trusted-ai-agents/",
@@ -334,9 +434,18 @@
         "pleno": "MCP atingiu massa crítica: 10K+ servidores públicos e 97M downloads mensais indicam que virou o padrão dominante de integração de tools para agentes. O roadmap 2026 foca em escalabilidade de transport (incluindo variante HTTP stateless para APIs web) e comunicação agent-to-agent, o que vai permitir pipelines agênticos multi-hop mais sofisticados.",
         "senior": "Padronize integrações de agentes em MCP em vez de contratos ad-hoc; o ecossistema já tem massa suficiente para garantir manutenção de longo prazo — decida arquitetura de MCP server antes que a proliferação vire dívida técnica.",
         "glossary": [
-          { "term": "MCP", "def": "Model Context Protocol — protocolo aberto que padroniza como modelos de IA se comunicam com ferramentas, serviços e fontes de dados externas." },
-          { "term": "Stateless HTTP", "def": "Variante de transport onde cada requisição HTTP é independente e não mantém estado de sessão no servidor — mais simples de escalar horizontalmente." },
-          { "term": "Agent-to-agent communication", "def": "Capacidade de um agente de IA se comunicar diretamente com outro agente, permitindo pipelines onde múltiplos agentes colaboram em uma tarefa." }
+          {
+            "term": "MCP",
+            "def": "Model Context Protocol — protocolo aberto que padroniza como modelos de IA se comunicam com ferramentas, serviços e fontes de dados externas."
+          },
+          {
+            "term": "Stateless HTTP",
+            "def": "Variante de transport onde cada requisição HTTP é independente e não mantém estado de sessão no servidor — mais simples de escalar horizontalmente."
+          },
+          {
+            "term": "Agent-to-agent communication",
+            "def": "Capacidade de um agente de IA se comunicar diretamente com outro agente, permitindo pipelines onde múltiplos agentes colaboram em uma tarefa."
+          }
         ]
       },
       "url": "https://thenewstack.io/model-context-protocol-roadmap-2026/",
@@ -363,9 +472,18 @@
         "pleno": "A abertura de escritório físico em Sydney sinaliza que a Anthropic está passando de vendas remotas para presença local na região APAC. Isso tem implicações práticas para empresas australianas e neozelandesas: contratos enterprise, SLAs regionais e compliance com leis locais de dados ficam mais fáceis de negociar com um ponto de contato local.",
         "senior": "Presença local da Anthropic na APAC reduz barreiras contratuais e de conformidade regulatória — avalie migrar discussões enterprise de canais digitais para relacionamento direto.",
         "glossary": [
-          { "term": "APAC", "def": "Asia-Pacific — região geográfica e comercial que engloba Ásia, Austrália, Nova Zelândia e ilhas do Pacífico." },
-          { "term": "Go-to-market (GTM)", "def": "Estratégia que define como uma empresa vai levar seu produto ou serviço ao mercado — quem são os clientes, como serão abordados e por quais canais." },
-          { "term": "SLA", "def": "Service Level Agreement — contrato que define os níveis mínimos de qualidade de serviço (disponibilidade, tempo de resposta etc.) que o fornecedor garante." }
+          {
+            "term": "APAC",
+            "def": "Asia-Pacific — região geográfica e comercial que engloba Ásia, Austrália, Nova Zelândia e ilhas do Pacífico."
+          },
+          {
+            "term": "Go-to-market (GTM)",
+            "def": "Estratégia que define como uma empresa vai levar seu produto ou serviço ao mercado — quem são os clientes, como serão abordados e por quais canais."
+          },
+          {
+            "term": "SLA",
+            "def": "Service Level Agreement — contrato que define os níveis mínimos de qualidade de serviço (disponibilidade, tempo de resposta etc.) que o fornecedor garante."
+          }
         ]
       },
       "url": "https://www.anthropic.com/news/anthropic-amazon-compute",
@@ -391,9 +509,18 @@
         "pleno": "Com imagens Actions pré-buildadas, o agente Copilot não precisa instalar dependências na inicialização — o ambiente já está pronto. Isso reduz o cold-start em 20%+, o que é relevante para pipelines onde o agente é acionado por PR. Paralelamente, o novo formato de installation tokens muda o padrão de comprimento (~520 chars), quebrando código que valida tokens por regex de tamanho fixo.",
         "senior": "Audite qualquer código que valide formato ou comprimento de GitHub App installation tokens — o novo padrão ghs_APPID_JWT quebra regex fixas; e custom images são o próximo passo para reduzir latência de PR review automatizado.",
         "glossary": [
-          { "term": "Cold-start", "def": "Tempo de inicialização de um sistema que parte do zero — quanto mais coisas precisam ser instaladas ou carregadas, maior o cold-start." },
-          { "term": "GitHub Actions", "def": "Plataforma de automação do GitHub que executa workflows definidos em YAML quando eventos acontecem no repositório, como um push ou abertura de PR." },
-          { "term": "Installation token", "def": "Token temporário gerado para que um GitHub App autentique e interaja com a API do GitHub em nome de uma instalação específica." }
+          {
+            "term": "Cold-start",
+            "def": "Tempo de inicialização de um sistema que parte do zero — quanto mais coisas precisam ser instaladas ou carregadas, maior o cold-start."
+          },
+          {
+            "term": "GitHub Actions",
+            "def": "Plataforma de automação do GitHub que executa workflows definidos em YAML quando eventos acontecem no repositório, como um push ou abertura de PR."
+          },
+          {
+            "term": "Installation token",
+            "def": "Token temporário gerado para que um GitHub App autentique e interaja com a API do GitHub em nome de uma instalação específica."
+          }
         ]
       },
       "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
@@ -420,9 +547,18 @@
         "pleno": "O novo formato `ghs_APPID_JWT` (~520 chars) embute o App ID e assina com JWT, melhorando rastreabilidade e performance na validação server-side. A mudança é breaking para qualquer código que valide tokens por regex de comprimento fixo ou por padrão `ghs_` simples — aplicações devem aceitar até 700 chars para futuras expansões.",
         "senior": "Audite imediatamente cofres de segredos, proxies de autenticação e middlewares que validam formato ou comprimento de GitHub App tokens; o rollout em fases significa que falhas aparecerão progressivamente em produção.",
         "glossary": [
-          { "term": "JWT", "def": "JSON Web Token — padrão de token que codifica informações assinadas digitalmente em Base64, permitindo verificar autenticidade sem consultar o servidor." },
-          { "term": "GitHub Apps", "def": "Integrações instaláveis no GitHub que têm identidade própria, permissões granulares e tokens de curta duração — diferente de tokens pessoais." },
-          { "term": "Regex", "def": "Regular Expression — padrão de busca de texto que permite verificar se uma string segue um determinado formato, como um tipo de token." }
+          {
+            "term": "JWT",
+            "def": "JSON Web Token — padrão de token que codifica informações assinadas digitalmente em Base64, permitindo verificar autenticidade sem consultar o servidor."
+          },
+          {
+            "term": "GitHub Apps",
+            "def": "Integrações instaláveis no GitHub que têm identidade própria, permissões granulares e tokens de curta duração — diferente de tokens pessoais."
+          },
+          {
+            "term": "Regex",
+            "def": "Regular Expression — padrão de busca de texto que permite verificar se uma string segue um determinado formato, como um tipo de token."
+          }
         ]
       },
       "url": "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens/",
@@ -449,9 +585,18 @@
         "pleno": "Uma mudança nos modos de preemption do kernel Linux 7.0 faz com que spinlocks em user-space fiquem consumindo CPU excessivamente, prejudicando o PostgreSQL que os usa internamente para sincronização. A queda de ~50% em throughput (transações por segundo) foi confirmada em Graviton4 e provavelmente afeta outros chips ARM também. Não há fix simples porque a causa está na lógica de escalonamento do kernel.",
         "senior": "Pinar kernel ≤ 6.x em toda frota ARM com PostgreSQL é ação imediata; uma queda de 50% em TPS invalida SLAs e planejamento de capacidade — monitore confirmação de patch antes de qualquer upgrade.",
         "glossary": [
-          { "term": "TPS", "def": "Transactions Per Second — quantidade de transações que um banco de dados processa por segundo; métrica central de performance de bancos relacionais." },
-          { "term": "Spinlock", "def": "Mecanismo de sincronização onde uma thread fica em loop ativo esperando por um recurso, consumindo CPU até conseguir acesso." },
-          { "term": "Preemption", "def": "Capacidade do kernel de interromper uma tarefa e dar a CPU a outra de maior prioridade; mudanças nesse comportamento afetam latência e throughput." }
+          {
+            "term": "TPS",
+            "def": "Transactions Per Second — quantidade de transações que um banco de dados processa por segundo; métrica central de performance de bancos relacionais."
+          },
+          {
+            "term": "Spinlock",
+            "def": "Mecanismo de sincronização onde uma thread fica em loop ativo esperando por um recurso, consumindo CPU até conseguir acesso."
+          },
+          {
+            "term": "Preemption",
+            "def": "Capacidade do kernel de interromper uma tarefa e dar a CPU a outra de maior prioridade; mudanças nesse comportamento afetam latência e throughput."
+          }
         ]
       },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
@@ -478,9 +623,18 @@
         "pleno": "A função `ai_parse_document` agora em GA permite extrair texto estruturado de documentos diretamente em SQL no lakehouse Databricks. Combinada com `ai_prep_search` (beta), ela permite montar pipelines RAG completos sem precisar mover dados para fora do ambiente — o processo de embeddings, chunking e indexação acontece dentro do Spark via SQL.",
         "senior": "Avalie ai_parse_document + ai_prep_search como substituto de pipelines RAG externos antes de escalar — RAG nativo no lakehouse elimina movimentação de dados e simplifica governança.",
         "glossary": [
-          { "term": "RAG", "def": "Retrieval-Augmented Generation — técnica que combina busca em base de conhecimento com geração de texto por LLM, melhorando precisão e reduzindo alucinações." },
-          { "term": "Lakehouse", "def": "Arquitetura que combina as vantagens de data lakes (armazenamento barato e flexível) com data warehouses (consultas SQL rápidas e governança)." },
-          { "term": "Delta table", "def": "Formato de tabela da Databricks que adiciona transações ACID, versionamento e atualizações incrementais sobre arquivos Parquet em storage." }
+          {
+            "term": "RAG",
+            "def": "Retrieval-Augmented Generation — técnica que combina busca em base de conhecimento com geração de texto por LLM, melhorando precisão e reduzindo alucinações."
+          },
+          {
+            "term": "Lakehouse",
+            "def": "Arquitetura que combina as vantagens de data lakes (armazenamento barato e flexível) com data warehouses (consultas SQL rápidas e governança)."
+          },
+          {
+            "term": "Delta table",
+            "def": "Formato de tabela da Databricks que adiciona transações ACID, versionamento e atualizações incrementais sobre arquivos Parquet em storage."
+          }
         ]
       },
       "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
@@ -492,7 +646,7 @@
         "rag",
         "lakehouse"
       ],
-      "image": "https://cdn.simpleicons.org/databricks/FF3621",
+      "image": "https://www.databricks.com/sites/default/files/2023-11/databricks-og-universal.png",
       "source_key": "databricks"
     },
     {
@@ -507,9 +661,18 @@
         "pleno": "O Grafana 13 reescreve a ingestão do Loki para usar Kafka como buffer, o que resolve gargalos em pipelines de alta volumetria. O query engine redesenhado com execução paralela em partições permite análises analíticas em logs que antes só faziam sentido em columnar stores. A camada de AI Observability adiciona rastreabilidade específica para chamadas LLM e chains de agentes.",
         "senior": "Loki com ingestão Kafka fecha o gap de volumetria para logs de produção de agentes — avalie migração se você hoje usa Elasticsearch para logs analíticos; o redesign do query engine muda o custo de queries full-scan.",
         "glossary": [
-          { "term": "Loki", "def": "Sistema de armazenamento e consulta de logs da Grafana Labs, projetado para ser eficiente e integrado ao ecossistema Prometheus/Grafana." },
-          { "term": "Kafka", "def": "Plataforma distribuída de streaming de eventos que permite processar e armazenar grandes volumes de mensagens em tempo real com alta durabilidade." },
-          { "term": "Query engine", "def": "Componente responsável por interpretar e executar consultas em um banco de dados ou sistema de logs, determinando velocidade e eficiência das buscas." }
+          {
+            "term": "Loki",
+            "def": "Sistema de armazenamento e consulta de logs da Grafana Labs, projetado para ser eficiente e integrado ao ecossistema Prometheus/Grafana."
+          },
+          {
+            "term": "Kafka",
+            "def": "Plataforma distribuída de streaming de eventos que permite processar e armazenar grandes volumes de mensagens em tempo real com alta durabilidade."
+          },
+          {
+            "term": "Query engine",
+            "def": "Componente responsável por interpretar e executar consultas em um banco de dados ou sistema de logs, determinando velocidade e eficiência das buscas."
+          }
         ]
       },
       "url": "https://grafana.com/press/2026/04/21/grafana-labs-launches-grafana-13-at-grafanacon-2026-makes-open-observability-easier-to-run-at-scale/",
@@ -536,10 +699,22 @@
         "pleno": "Uma função sem limitação de concorrência (sem `group.SetLimit(50)`) criava até 20K goroutines por request para buscar posts, sobrecarregando o memcached. As conexões TCP em estado TIME_WAIT esgotaram as portas efêmeras disponíveis. O logging síncrono bloqueava threads do Go, e o GC entrou em stop-the-world parando o processamento de requisições. Cada ponto sozinho seria gerenciável; a combinação derrubou a plataforma por 8 horas.",
         "senior": "Aplique `SetLimit` em todo grupo de goroutines que acessa recursos compartilhados; adote logging assíncrono e estruturado; e configure `SO_REUSEPORT` ou IP rotation para evitar TIME_WAIT exhaustion em serviços de alta concorrência.",
         "glossary": [
-          { "term": "Goroutines", "def": "Threads ultra-leves do Go que permitem milhares de execuções paralelas; sem limites, podem exaurir memória e recursos do sistema." },
-          { "term": "TIME_WAIT", "def": "Estado da conexão TCP após o fechamento, onde a porta fica reservada por um tempo para garantir que pacotes atrasados não causem confusão em novas conexões." },
-          { "term": "GC stop-the-world", "def": "Pausa forçada em que o garbage collector do Go interrompe todos os goroutines para limpar memória não utilizada — pode durar milissegundos a segundos." },
-          { "term": "Port exhaustion", "def": "Situação em que um servidor esgota todas as portas TCP disponíveis para novas conexões de saída, geralmente causada por muitas conexões simultâneas." }
+          {
+            "term": "Goroutines",
+            "def": "Threads ultra-leves do Go que permitem milhares de execuções paralelas; sem limites, podem exaurir memória e recursos do sistema."
+          },
+          {
+            "term": "TIME_WAIT",
+            "def": "Estado da conexão TCP após o fechamento, onde a porta fica reservada por um tempo para garantir que pacotes atrasados não causem confusão em novas conexões."
+          },
+          {
+            "term": "GC stop-the-world",
+            "def": "Pausa forçada em que o garbage collector do Go interrompe todos os goroutines para limpar memória não utilizada — pode durar milissegundos a segundos."
+          },
+          {
+            "term": "Port exhaustion",
+            "def": "Situação em que um servidor esgota todas as portas TCP disponíveis para novas conexões de saída, geralmente causada por muitas conexões simultâneas."
+          }
         ]
       },
       "url": "https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2",
@@ -567,9 +742,18 @@
         "pleno": "A parceria Visa + Bridge (Stripe) permite que emissores criem cartões onde o saldo é mantido em stablecoin (ex: USDC) em vez de moeda fiat em banco tradicional. Em países com alta volatilidade cambial como Argentina, isso é especialmente atraente. O movimento converge com a narrativa de agentic commerce: agentes de IA podem usar esses cartões para fazer pagamentos autônomos.",
         "senior": "Fintechs que operam internacionalmente devem avaliar o modelo Visa Intelligent Commerce com Bridge como primitivo de pagamento agêntico — stablecoin como lastro de cartão resolve o problema de FX em mercados voláteis.",
         "glossary": [
-          { "term": "Stablecoin", "def": "Criptomoeda cujo valor é atrelado a um ativo estável como o dólar americano (ex: USDC, USDT) para evitar a volatilidade típica de criptoativos." },
-          { "term": "Agentic commerce", "def": "Modelo de comércio onde agentes de IA realizam transações financeiras de forma autônoma em nome dos usuários, como comprar produtos ou serviços." },
-          { "term": "FX (Foreign Exchange)", "def": "Taxa de câmbio entre moedas; operações internacionais estão sujeitas à variação do câmbio, que pode aumentar custos e criar riscos financeiros." }
+          {
+            "term": "Stablecoin",
+            "def": "Criptomoeda cujo valor é atrelado a um ativo estável como o dólar americano (ex: USDC, USDT) para evitar a volatilidade típica de criptoativos."
+          },
+          {
+            "term": "Agentic commerce",
+            "def": "Modelo de comércio onde agentes de IA realizam transações financeiras de forma autônoma em nome dos usuários, como comprar produtos ou serviços."
+          },
+          {
+            "term": "FX (Foreign Exchange)",
+            "def": "Taxa de câmbio entre moedas; operações internacionais estão sujeitas à variação do câmbio, que pode aumentar custos e criar riscos financeiros."
+          }
         ]
       },
       "url": "https://fortune.com/2026/03/03/visa-stripe-bridge-stablecoin-backed-cards-100-countries/",
@@ -597,9 +781,18 @@
         "pleno": "O GPT-5.5 representa um rebuild arquitetural completo, incluindo novos dados de pré-treino e objetivos de treinamento. As melhorias focadas em coding agentic (execução autônoma de tarefas de programação) e computer use (controle de interface gráfica) posicionam o modelo como base para agentes que operam sistemas de forma autônoma. Junto com Claude Opus 4.7 e Gemini 3.1 Pro lançados próximos, a escolha de modelo passa a ser decisão técnica por workload.",
         "senior": "Benchmark GPT-5.5 vs Claude Opus 4.7 por workload específico antes de cravar provider — a competição multimodal entre frontier models virou variável de custo e qualidade por tipo de tarefa, não mais escolha de vendor.",
         "glossary": [
-          { "term": "Pós-treino", "def": "Fase após o pré-treino de um LLM onde o modelo é refinado com instruções humanas (RLHF, SFT) para melhorar comportamento e seguir instruções." },
-          { "term": "Computer use", "def": "Capacidade de um modelo de IA controlar uma interface gráfica de computador — navegar em sites, clicar em botões e preencher formulários de forma autônoma." },
-          { "term": "Frontier model", "def": "Modelo de IA de ponta que representa o estado da arte em capacidade — GPT-5.5, Claude Opus 4.7 e Gemini 3.1 Pro são exemplos de frontier models." }
+          {
+            "term": "Pós-treino",
+            "def": "Fase após o pré-treino de um LLM onde o modelo é refinado com instruções humanas (RLHF, SFT) para melhorar comportamento e seguir instruções."
+          },
+          {
+            "term": "Computer use",
+            "def": "Capacidade de um modelo de IA controlar uma interface gráfica de computador — navegar em sites, clicar em botões e preencher formulários de forma autônoma."
+          },
+          {
+            "term": "Frontier model",
+            "def": "Modelo de IA de ponta que representa o estado da arte em capacidade — GPT-5.5, Claude Opus 4.7 e Gemini 3.1 Pro são exemplos de frontier models."
+          }
         ]
       },
       "url": "https://openai.com/index/introducing-gpt-5-5/",
@@ -611,7 +804,7 @@
         "agents",
         "coding"
       ],
-      "image": "https://cdn.simpleicons.org/openai/412991",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1lLb8Tk8Ht0kZC0UzoJysb/bac9e34838a4f94afd44b1c9adfa8780/Symphony_SEO_card__1_.png?w=1600&h=900&fit=fill",
       "source_key": "openai"
     },
     {
@@ -626,12 +819,21 @@
         "pleno": "O Next.js 16.2 adiciona ferramentas específicas para que agentes de coding (como Copilot e Claude Code) trabalhem melhor com projetos Next.js — log forwarding do browser para o servidor de desenvolvimento permite que o agente veja erros sem precisar de screenshot. O Turbopack recebe Fast Refresh para server-side e suporte a WASM Workers, reduzindo significativamente o tempo de feedback no desenvolvimento.",
         "senior": "Avalie migração para Turbopack em monorepos grandes — Next.js 16.2 é o ponto de estabilidade onde Turbopack passa a ser opção segura; Agent DevTools expande o ecossistema de coding agents para frontend.",
         "glossary": [
-          { "term": "Turbopack", "def": "Bundler de alta performance desenvolvido pela Vercel em Rust para substituir o Webpack no Next.js, oferecendo compilações muito mais rápidas." },
-          { "term": "WASM / WebAssembly", "def": "Formato binário que permite executar código de alto desempenho no navegador, desenvolvido em linguagens como Rust, C ou C++." },
-          { "term": "Fast Refresh", "def": "Feature do Next.js que atualiza o componente modificado no browser instantaneamente durante o desenvolvimento, sem perder o estado da página." }
+          {
+            "term": "Turbopack",
+            "def": "Bundler de alta performance desenvolvido pela Vercel em Rust para substituir o Webpack no Next.js, oferecendo compilações muito mais rápidas."
+          },
+          {
+            "term": "WASM / WebAssembly",
+            "def": "Formato binário que permite executar código de alto desempenho no navegador, desenvolvido em linguagens como Rust, C ou C++."
+          },
+          {
+            "term": "Fast Refresh",
+            "def": "Feature do Next.js que atualiza o componente modificado no browser instantaneamente durante o desenvolvimento, sem perder o estado da página."
+          }
         ]
       },
-      "url": "https://github.com/vercel/next.js/releases",
+      "url": "https://github.com/vercel/next.js/releases/tag/v16.2.0",
       "published_at": "2026-04-24T10:00:00-03:00",
       "read_time": 3,
       "tags": [
@@ -655,13 +857,25 @@
         "pleno": "O WASI 0.3 adiciona async I/O nativo ao component model do WebAssembly, o que era o principal bloqueador para usar WASM em microserviços que precisam fazer chamadas de rede ou disco sem travar. A proposta `wasi:tls` adiciona suporte a TLS nativo. O suporte a debug com gdbstub via flag `-g` completa o toolchain necessário para desenvolvimento sério em WASM fora do browser.",
         "senior": "WASI 0.3 + async I/O torna WASM viável para microserviços I/O-bound — avalie Wasmtime/Spin como runtime alternativo para funções stateless com cold-start crítico antes de WASI 1.0 estabilizar.",
         "glossary": [
-          { "term": "WASM / WebAssembly", "def": "Formato binário portátil que permite executar código compilado de diversas linguagens em qualquer plataforma com alta performance e isolamento seguro." },
-          { "term": "WASI", "def": "WebAssembly System Interface — especificação que define como módulos WASM acessam recursos do sistema operacional como filesystem, rede e relógio." },
-          { "term": "Component model", "def": "Especificação que define como módulos WASM se compõem e se comunicam entre si com interfaces tipadas, como um sistema de plugins." },
-          { "term": "TLS", "def": "Transport Layer Security — protocolo criptográfico que garante comunicações seguras na internet, usado em HTTPS e outras conexões." }
+          {
+            "term": "WASM / WebAssembly",
+            "def": "Formato binário portátil que permite executar código compilado de diversas linguagens em qualquer plataforma com alta performance e isolamento seguro."
+          },
+          {
+            "term": "WASI",
+            "def": "WebAssembly System Interface — especificação que define como módulos WASM acessam recursos do sistema operacional como filesystem, rede e relógio."
+          },
+          {
+            "term": "Component model",
+            "def": "Especificação que define como módulos WASM se compõem e se comunicam entre si com interfaces tipadas, como um sistema de plugins."
+          },
+          {
+            "term": "TLS",
+            "def": "Transport Layer Security — protocolo criptográfico que garante comunicações seguras na internet, usado em HTTPS e outras conexões."
+          }
         ]
       },
-      "url": "https://github.com/bytecodealliance/wasmtime/releases",
+      "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v43.0.0",
       "published_at": "2026-04-20T10:00:00-03:00",
       "read_time": 3,
       "tags": [
@@ -689,12 +903,21 @@
         "pleno": "Essa RC inaugura a nova cadência de releases do containerd: minor versions a cada 4 meses de forma fixa, substituindo o modelo ad-hoc anterior. Isso permite que equipes de plataforma sincronizem janelas de manutenção, testes de regressão e CVE patching com antecedência planejada.",
         "senior": "Incorpore o ciclo de 4 meses do containerd no calendário de upgrade de runtime para clusters K8s e frotas Docker, alinhando com janelas de manutenção e ciclos de CVE patching.",
         "glossary": [
-          { "term": "containerd", "def": "Container runtime de baixo nível que gerencia o ciclo de vida de contêineres; componente central do Docker e Kubernetes." },
-          { "term": "Release candidate (RC)", "def": "Versão de software que está pronta para ser lançada oficialmente, passando por um período final de testes antes do GA (General Availability)." },
-          { "term": "CVE patching", "def": "Processo de aplicar correções para vulnerabilidades catalogadas (CVEs) em um sistema antes que possam ser exploradas." }
+          {
+            "term": "containerd",
+            "def": "Container runtime de baixo nível que gerencia o ciclo de vida de contêineres; componente central do Docker e Kubernetes."
+          },
+          {
+            "term": "Release candidate (RC)",
+            "def": "Versão de software que está pronta para ser lançada oficialmente, passando por um período final de testes antes do GA (General Availability)."
+          },
+          {
+            "term": "CVE patching",
+            "def": "Processo de aplicar correções para vulnerabilidades catalogadas (CVEs) em um sistema antes que possam ser exploradas."
+          }
         ]
       },
-      "url": "https://github.com/containerd/containerd/releases",
+      "url": "https://github.com/containerd/containerd/releases/tag/v2.3.0-rc.0",
       "published_at": "2026-04-28T08:00:00-03:00",
       "tags": [
         "containerd",
@@ -716,9 +939,18 @@
         "pleno": "A partir de hoje, o Kubernetes 1.33 só recebe patches de segurança críticos e vai para EOL em 28/06/2026. Clusters que permanecerem em 1.33 além dessa data não receberão mais nenhuma correção. O caminho de upgrade para 1.34/1.35/1.36 deve ser planejado agora, revisando as deprecations e remoções de APIs que a 1.36 trouxe.",
         "senior": "Inicie migração de clusters em 1.33 para 1.34+ imediatamente; o EOL em 28/06 significa zero patches de segurança após essa data — revise remoção de APIs na 1.36 antes de promover clusters de produção.",
         "glossary": [
-          { "term": "Kubernetes", "def": "Plataforma open source para orquestrar contêineres em escala — automatiza deploy, scaling e gestão de aplicações em contêineres." },
-          { "term": "EOL (End of Life)", "def": "Data em que uma versão de software deixa de receber atualizações de segurança e suporte oficial do mantenedor." },
-          { "term": "Deprecation", "def": "Marcação de uma API ou feature como obsoleta — ainda funciona, mas será removida em versões futuras, e o usuário deve migrar." }
+          {
+            "term": "Kubernetes",
+            "def": "Plataforma open source para orquestrar contêineres em escala — automatiza deploy, scaling e gestão de aplicações em contêineres."
+          },
+          {
+            "term": "EOL (End of Life)",
+            "def": "Data em que uma versão de software deixa de receber atualizações de segurança e suporte oficial do mantenedor."
+          },
+          {
+            "term": "Deprecation",
+            "def": "Marcação de uma API ou feature como obsoleta — ainda funciona, mas será removida em versões futuras, e o usuário deve migrar."
+          }
         ]
       },
       "url": "https://kubernetes.io/releases/patch-releases/",
@@ -744,12 +976,21 @@
         "pleno": "O OpenTofu 1.12 beta adiciona `dynamic prevent_destroy` (proteção de destruição configurável dinamicamente), importação de recursos por identidade (sem precisar do ID exato) e checksums melhorados para segurança do provider. Desde o fork, o OpenTofu ganhou state encryption nativo e provider-defined functions — features que o Terraform BSL ainda não tem.",
         "senior": "Avalie migração de Terraform para OpenTofu 1.12 se state encryption nativo e provider functions são requisitos — o gap de features cresce; BSL cria risco de licenciamento para SaaS.",
         "glossary": [
-          { "term": "Terraform", "def": "Ferramenta de Infrastructure as Code da HashiCorp que permite provisionar e gerenciar recursos em nuvem através de arquivos de configuração HCL." },
-          { "term": "BSL (Business Source License)", "def": "Licença de software que restringe uso comercial para competidores diretos do criador, com conversão automática para open source após 4 anos." },
-          { "term": "State encryption", "def": "Criptografia do arquivo de estado do Terraform/OpenTofu que armazena o mapeamento entre código e recursos reais na nuvem — contém dados sensíveis." }
+          {
+            "term": "Terraform",
+            "def": "Ferramenta de Infrastructure as Code da HashiCorp que permite provisionar e gerenciar recursos em nuvem através de arquivos de configuração HCL."
+          },
+          {
+            "term": "BSL (Business Source License)",
+            "def": "Licença de software que restringe uso comercial para competidores diretos do criador, com conversão automática para open source após 4 anos."
+          },
+          {
+            "term": "State encryption",
+            "def": "Criptografia do arquivo de estado do Terraform/OpenTofu que armazena o mapeamento entre código e recursos reais na nuvem — contém dados sensíveis."
+          }
         ]
       },
-      "url": "https://github.com/opentofu/opentofu/releases",
+      "url": "https://github.com/opentofu/opentofu/releases/tag/v1.12.0-beta1",
       "published_at": "2026-04-25T10:00:00-03:00",
       "tags": [
         "opentofu",
@@ -773,9 +1014,18 @@
         "pleno": "Com `ai_parse_document` em GA, pipelines de ingestão de documentos para RAG podem ser escritos inteiramente em SQL dentro do Databricks, sem precisar de um pipeline Python separado para OCR ou parsing. A Unity REST API aceitando writes em external Delta tables expande os casos de uso para ingestão de dados externos sem precisar de cluster Spark dedicado.",
         "senior": "Priorize `ai_parse_document` + `ai_prep_search` para eliminar dependência de pipelines RAG externos — reduz complexidade operacional e mantém dados dentro do perímetro de governança do Unity Catalog.",
         "glossary": [
-          { "term": "Apache Spark", "def": "Motor de processamento de dados distribuído de alto desempenho, usado para processar grandes volumes de dados em paralelo em clusters." },
-          { "term": "Unity Catalog", "def": "Sistema de governança de dados unificado do Databricks que centraliza controle de acesso, lineage e descoberta de dados em múltiplos workspaces." },
-          { "term": "GA (General Availability)", "def": "Status de uma feature quando sai de preview/beta e está oficialmente suportada para uso em produção, com SLA e documentação completa." }
+          {
+            "term": "Apache Spark",
+            "def": "Motor de processamento de dados distribuído de alto desempenho, usado para processar grandes volumes de dados em paralelo em clusters."
+          },
+          {
+            "term": "Unity Catalog",
+            "def": "Sistema de governança de dados unificado do Databricks que centraliza controle de acesso, lineage e descoberta de dados em múltiplos workspaces."
+          },
+          {
+            "term": "GA (General Availability)",
+            "def": "Status de uma feature quando sai de preview/beta e está oficialmente suportada para uso em produção, com SLA e documentação completa."
+          }
         ]
       },
       "url": "https://docs.databricks.com/aws/en/release-notes/product/2026/april",
@@ -786,7 +1036,7 @@
         "rag",
         "lakehouse"
       ],
-      "image": "https://cdn.simpleicons.org/databricks/FF3621",
+      "image": "https://www.databricks.com/sites/default/files/2023-11/databricks-og-universal.png",
       "source_key": "databricks"
     },
     {
@@ -801,9 +1051,18 @@
         "pleno": "Custom Actions images eliminam o tempo de instalação de dependências durante o startup do agente Copilot, reduzindo o cold-start em 20%+. O novo formato `ghs_APPID_JWT` (~520 chars) é uma mudança breaking para qualquer código que valide tokens por comprimento fixo ou regex específica — cofres de segredos e proxies de autenticação precisam ser revisados.",
         "senior": "Audite middlewares de autenticação e cofres de segredos que validam tokens GitHub App — o rollout gradual do novo formato já está ativo; custom images são o próximo passo para SLAs de PR review automatizado.",
         "glossary": [
-          { "term": "Cold-start", "def": "Tempo necessário para um sistema inicializar do zero, carregando dependências e configurações antes de estar pronto para processar requisições." },
-          { "term": "GitHub App token", "def": "Token de autenticação de curta duração gerado para que um GitHub App interaja com repositórios e APIs do GitHub." },
-          { "term": "JWT", "def": "JSON Web Token — formato de token que contém informações assinadas digitalmente, verificáveis sem consultar o servidor emissor." }
+          {
+            "term": "Cold-start",
+            "def": "Tempo necessário para um sistema inicializar do zero, carregando dependências e configurações antes de estar pronto para processar requisições."
+          },
+          {
+            "term": "GitHub App token",
+            "def": "Token de autenticação de curta duração gerado para que um GitHub App interaja com repositórios e APIs do GitHub."
+          },
+          {
+            "term": "JWT",
+            "def": "JSON Web Token — formato de token que contém informações assinadas digitalmente, verificáveis sem consultar o servidor emissor."
+          }
         ]
       },
       "url": "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images/",
@@ -829,9 +1088,18 @@
         "pleno": "O Spring Boot 4.1.0-RC1 traz atualizações do Spring for Apache Kafka (integração com mensageria Kafka) e Spring Security com suporte OAuth. Suporta as versões LTS do JDK: 17, 21 e 25. A janela de RC é a oportunidade para testar starters customizados e dependências internas antes do GA, identificando quebras com antecedência.",
         "senior": "Execute testes de regressão de starters customizados e integrações Spring Security agora com o RC1 — issues encontrados nessa janela ainda chegam antes do freeze de features do GA.",
         "glossary": [
-          { "term": "Spring Boot", "def": "Framework Java que simplifica a criação de aplicações standalone com configuração automática, servidores embedded e starters para integrações comuns." },
-          { "term": "JDK LTS", "def": "Versões Long-Term Support do Java — recebem atualizações de segurança por anos após o lançamento (JDK 17, 21 e 25 são as LTS atuais)." },
-          { "term": "Starter", "def": "Dependência do Spring Boot que configura automaticamente uma tecnologia (ex: spring-boot-starter-data-jpa configura JPA com Hibernate e datasource)." }
+          {
+            "term": "Spring Boot",
+            "def": "Framework Java que simplifica a criação de aplicações standalone com configuração automática, servidores embedded e starters para integrações comuns."
+          },
+          {
+            "term": "JDK LTS",
+            "def": "Versões Long-Term Support do Java — recebem atualizações de segurança por anos após o lançamento (JDK 17, 21 e 25 são as LTS atuais)."
+          },
+          {
+            "term": "Starter",
+            "def": "Dependência do Spring Boot que configura automaticamente uma tecnologia (ex: spring-boot-starter-data-jpa configura JPA com Hibernate e datasource)."
+          }
         ]
       },
       "url": "https://spring.io/blog/2026/04/22/spring-kafka-4",
@@ -857,9 +1125,18 @@
         "pleno": "As 30+ releases em cinco semanas focaram em performance de sessões longas: /resume 67% mais rápido para projetos >40MB, startup de MCP com múltiplos servidores stdio acelerado e o novo nível de esforço `xhigh` para o Opus 4.7 que equilibra qualidade e custo entre os níveis `high` e `max`. Ultraplan adiciona a capacidade de criar e editar planos de execução na web antes de iniciar uma sessão.",
         "senior": "Performance de sessão longa deixou de ser diferencial e virou requisito de tabela para coding agents — o ritmo de 30+ releases em 5 semanas sinaliza maturidade operacional acelerada.",
         "glossary": [
-          { "term": "MCP (Model Context Protocol)", "def": "Protocolo que define como o Claude Code se conecta a ferramentas e fontes de dados externas através de servidores MCP." },
-          { "term": "stdio server", "def": "Servidor MCP que se comunica via entrada/saída padrão (stdin/stdout) do terminal, em vez de via HTTP — mais simples de rodar localmente." },
-          { "term": "Effort level", "def": "Parâmetro do Claude Code que controla o quanto de processamento o modelo usa para responder — maior esforço resulta em respostas mais elaboradas mas com maior custo e latência." }
+          {
+            "term": "MCP (Model Context Protocol)",
+            "def": "Protocolo que define como o Claude Code se conecta a ferramentas e fontes de dados externas através de servidores MCP."
+          },
+          {
+            "term": "stdio server",
+            "def": "Servidor MCP que se comunica via entrada/saída padrão (stdin/stdout) do terminal, em vez de via HTTP — mais simples de rodar localmente."
+          },
+          {
+            "term": "Effort level",
+            "def": "Parâmetro do Claude Code que controla o quanto de processamento o modelo usa para responder — maior esforço resulta em respostas mais elaboradas mas com maior custo e latência."
+          }
         ]
       },
       "url": "https://code.claude.com/docs/en/whats-new",
@@ -885,12 +1162,21 @@
         "pleno": "O Argo CD usa o `copyutil` interno para sincronizar artefatos do repositório. O novo parâmetro `repoServer.copyutil.extraArgs` com `--update=none` como default permite controlar esse comportamento via values da Helm chart sem precisar fazer fork dela. Isso é relevante para times com políticas rígidas de imutabilidade de artefatos em pipelines GitOps.",
         "senior": "Use `repoServer.copyutil.extraArgs` para controlar comportamento de sincronização de artefatos sem fork de chart — mantém a governança de upgrades futuros do Argo CD intacta.",
         "glossary": [
-          { "term": "GitOps", "def": "Prática de usar repositório Git como única fonte de verdade para definir o estado desejado da infraestrutura e das aplicações." },
-          { "term": "Helm chart", "def": "Pacote de templates Kubernetes que define todos os recursos necessários para instalar uma aplicação, configurável via arquivo de valores." },
-          { "term": "Argo CD", "def": "Ferramenta de continuous delivery para Kubernetes que monitora um repositório Git e mantém o cluster sincronizado com o estado declarado lá." }
+          {
+            "term": "GitOps",
+            "def": "Prática de usar repositório Git como única fonte de verdade para definir o estado desejado da infraestrutura e das aplicações."
+          },
+          {
+            "term": "Helm chart",
+            "def": "Pacote de templates Kubernetes que define todos os recursos necessários para instalar uma aplicação, configurável via arquivo de valores."
+          },
+          {
+            "term": "Argo CD",
+            "def": "Ferramenta de continuous delivery para Kubernetes que monitora um repositório Git e mantém o cluster sincronizado com o estado declarado lá."
+          }
         ]
       },
-      "url": "https://github.com/argoproj/argo-helm/releases",
+      "url": "https://github.com/argoproj/argo-helm/releases/tag/argo-cd-9.5.5",
       "published_at": "2026-04-25T10:00:00-03:00",
       "tags": [
         "argocd",
@@ -912,9 +1198,18 @@
         "pleno": "A regressão ocorre porque o Linux 7.0 mudou os modos de preemption de forma que spinlocks em user-space — usados pelo PostgreSQL para sincronização interna — passam a consumir CPU excessivamente em vez de ceder o processador para outras threads. O resultado é queda de ~49% em TPS medido com pgbench.",
         "senior": "Pinar kernel em ≤6.x em toda frota ARM com PostgreSQL e monitorar tíquete oficial do kernel Linux para patch antes de qualquer upgrade — a diferença de 50% em TPS invalida dimensionamento e SLAs.",
         "glossary": [
-          { "term": "pgbench", "def": "Ferramenta de benchmark oficial do PostgreSQL que mede transações por segundo sob carga simulada — padrão para medir performance do banco." },
-          { "term": "User-space spinlock", "def": "Mecanismo de trava implementado no espaço de memória da aplicação (não no kernel), que aguarda ativamente até conseguir acesso a um recurso." },
-          { "term": "Kernel regression", "def": "Bug introduzido em uma nova versão do kernel que faz algo que funcionava corretamente passar a ter comportamento pior ou incorreto." }
+          {
+            "term": "pgbench",
+            "def": "Ferramenta de benchmark oficial do PostgreSQL que mede transações por segundo sob carga simulada — padrão para medir performance do banco."
+          },
+          {
+            "term": "User-space spinlock",
+            "def": "Mecanismo de trava implementado no espaço de memória da aplicação (não no kernel), que aguarda ativamente até conseguir acesso a um recurso."
+          },
+          {
+            "term": "Kernel regression",
+            "def": "Bug introduzido em uma nova versão do kernel que faz algo que funcionava corretamente passar a ter comportamento pior ou incorreto."
+          }
         ]
       },
       "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
@@ -940,9 +1235,18 @@
         "pleno": "O Python 3.14 implementa os PEPs 649 e 749 que mudam annotations para lazy evaluation — as anotações de tipo não são mais avaliadas na importação do módulo, mas apenas quando acessadas. Isso remove a necessidade de usar strings como `'ClassName'` para referências circulares. O Pydantic V2.12 adapta o pydantic_core para essa nova semântica, mas o Pydantic V1 é incompatível e não receberá suporte ao 3.14.",
         "senior": "Qualquer projeto com Pydantic V1 em runtime crítico precisa migrar para V2 antes de atualizar para Python 3.14 — V1 não funciona em 3.14 e a migração tem breaking changes que exigem testes extensivos.",
         "glossary": [
-          { "term": "Pydantic", "def": "Biblioteca Python para validação de dados e definição de modelos usando type hints — amplamente usada em APIs FastAPI e pipelines de IA." },
-          { "term": "Type annotations", "def": "Anotações de tipo no Python que indicam o tipo esperado de variáveis e parâmetros de funções — usadas pelo Pydantic para validar dados." },
-          { "term": "Lazy evaluation", "def": "Estratégia de avaliação onde expressões são calculadas apenas quando seu valor é realmente necessário, reduzindo overhead de importação." }
+          {
+            "term": "Pydantic",
+            "def": "Biblioteca Python para validação de dados e definição de modelos usando type hints — amplamente usada em APIs FastAPI e pipelines de IA."
+          },
+          {
+            "term": "Type annotations",
+            "def": "Anotações de tipo no Python que indicam o tipo esperado de variáveis e parâmetros de funções — usadas pelo Pydantic para validar dados."
+          },
+          {
+            "term": "Lazy evaluation",
+            "def": "Estratégia de avaliação onde expressões são calculadas apenas quando seu valor é realmente necessário, reduzindo overhead de importação."
+          }
         ]
       },
       "url": "https://pydantic.dev/articles/pydantic-v2-12-release",
@@ -967,9 +1271,18 @@
         "pleno": "O Structurizr DSL permite definir a arquitetura de software em texto versionável no Git e gerar múltiplos formatos de diagrama (Web, Mermaid, PlantUML) a partir do mesmo modelo. A integração via MCP server permite que agentes de IA consultem a arquitetura atual do sistema como contexto durante análises ou revisões de código.",
         "senior": "Integre Structurizr DSL ao pipeline de CI para validar que diagramas C4 refletem a arquitetura real do código — e exponha via MCP server para que agentes de coding tenham contexto arquitetural preciso durante refactors.",
         "glossary": [
-          { "term": "C4 Model", "def": "Framework de diagramas de arquitetura de software com 4 níveis: Context, Container, Component e Code — cada nível mostra mais detalhes do sistema." },
-          { "term": "DSL (Domain Specific Language)", "def": "Linguagem de programação ou marcação criada para um domínio específico — o Structurizr DSL é para descrever arquitetura de software." },
-          { "term": "ADR (Architecture Decision Record)", "def": "Documento que registra uma decisão arquitetural importante — o que foi decidido, por que e quais alternativas foram consideradas." }
+          {
+            "term": "C4 Model",
+            "def": "Framework de diagramas de arquitetura de software com 4 níveis: Context, Container, Component e Code — cada nível mostra mais detalhes do sistema."
+          },
+          {
+            "term": "DSL (Domain Specific Language)",
+            "def": "Linguagem de programação ou marcação criada para um domínio específico — o Structurizr DSL é para descrever arquitetura de software."
+          },
+          {
+            "term": "ADR (Architecture Decision Record)",
+            "def": "Documento que registra uma decisão arquitetural importante — o que foi decidido, por que e quais alternativas foram consideradas."
+          }
         ]
       },
       "url": "https://structurizr.com/help/dsl",
@@ -980,7 +1293,7 @@
         "dsl",
         "mcp"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=structurizr.com&sz=256",
+      "image": "https://static.structurizr.com/img/structurizr-banner.png",
       "source_key": "structurizr"
     }
   ],
@@ -1060,5 +1373,6 @@
       "published_at": "2026-02-18",
       "duration": "9 min"
     }
-  ]
+  ],
+  "edition_digest": "A edição desta quarta fica mais interessante quando sai do eixo de IA e volta para plataforma e operação. Databricks empurra o lakehouse para um uso mais direto de RAG dentro do SQL, com ai_parse_document já em GA e ai_prep_search abrindo caminho para ingestão e enriquecimento sem sair do perímetro de governança. No mesmo bloco, a discussão sobre PostgreSQL rodando abaixo do esperado em Linux 7.0 mostra que o gargalo não é só modelo ou framework; kernel, hardware e tuning continuam mandando no throughput real.\n\nEm observabilidade e sistemas distribuídos, Grafana 13 reforça a leitura de que a camada operacional está ficando mais inteligente, com dashboards dinâmicos e IA aplicada ao fluxo de análise. Do outro lado, Bluesky publica um post-mortem de outage longo que lembra o básico: goroutines, cache e alocação de portas podem se combinar em um incidente difícil de prever quando não há isolamento e telemetria suficiente. É o tipo de edição que vale mais pelo que ensina sobre falha do que pelo brilho do anúncio.\n\nNo runtime e nas ferramentas, containerd passa a falar em cadência previsível, OpenTofu 1.12 beta amadurece o caminho de IaC fora do Terraform, Argo CD ajusta detalhes do sync, e Wasmtime avança para um WASI mais prático para cargas com I/O assíncrono. Isso fecha uma linha coerente da edição: menos hype, mais base para operar sistemas reais com upgrade planejado, isolamento e contratos mais claros.\n\nNo front e no app layer, Next.js 16.2 começa a tratar o dev server como ambiente para agentes e não só para humanos, enquanto o material de GPT-5.5 aparece mais como pano de fundo do que como assunto principal. A leitura final do dia é essa: a peça mais valiosa não é a novidade em si, mas o acoplamento entre arquitetura, operação e ferramentas que de fato sustentam produção."
 }

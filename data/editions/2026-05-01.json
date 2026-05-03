@@ -18,9 +18,18 @@
         "pleno": "O Microsoft Agent 365 é um control plane multitenant que consolida o gerenciamento de agentes de IA de múltiplas origens — nativos Microsoft, construídos via M365 SDK e externos como Bedrock e Google — em um único lugar com audit trail por prompt e quotas de execução. O M365 E7 Frontier Suite a US$ 99 empacota E5 + Copilot + Agent 365 + Entra Suite + Defender/Intune/Purview, tornando o pacote mais barato que à la carte para enterprise. É o movimento da Microsoft para posicionar-se como a camada de governança de agentes no enterprise.",
         "senior": "Avalie o TCO do M365 E7 Frontier Suite vs IDP próprio para controle de agentes — delegar o control plane à Microsoft simplifica governança mas cria dependência de vendor; a decisão é especialmente crítica para workloads que integram agents de múltiplos provedores.",
         "glossary": [
-          { "term": "Control plane", "def": "Camada de um sistema responsável por gerenciar e orquestrar outros componentes — controla configuração, ciclo de vida e políticas, em contraste com o data plane que processa dados." },
-          { "term": "Multitenant", "def": "Arquitetura onde múltiplos clientes ou usuários compartilham a mesma infraestrutura com isolamento lógico — um control plane multitenant gerencia agentes de diferentes times/organizações." },
-          { "term": "Audit trail", "def": "Registro imutável e sequencial de todas as ações realizadas em um sistema — essencial para conformidade regulatória e investigação de incidentes." }
+          {
+            "term": "Control plane",
+            "def": "Camada de um sistema responsável por gerenciar e orquestrar outros componentes — controla configuração, ciclo de vida e políticas, em contraste com o data plane que processa dados."
+          },
+          {
+            "term": "Multitenant",
+            "def": "Arquitetura onde múltiplos clientes ou usuários compartilham a mesma infraestrutura com isolamento lógico — um control plane multitenant gerencia agentes de diferentes times/organizações."
+          },
+          {
+            "term": "Audit trail",
+            "def": "Registro imutável e sequencial de todas as ações realizadas em um sistema — essencial para conformidade regulatória e investigação de incidentes."
+          }
         ]
       },
       "source": "Microsoft Blog",
@@ -48,9 +57,18 @@
         "pleno": "O CVE-2026-4670 é um Authentication Bypass by Primary Weakness (CWE-305) — o fluxo de autenticação primário do MOVEit Automation pode ser contornado sem credenciais por atacante remoto. Sem patch disponível, a única mitigação é restringir acesso de rede ao endpoint. O histórico do MOVEit (exploit massivo de 2023 pelo grupo Cl0p, com centenas de organizações comprometidas) eleva a urgência: todo time SOC deve tratar como zero-day ativo.",
         "senior": "Implemente segmentação de rede para isolar endpoints do MOVEit Automation imediatamente — sem patch disponível, a única mitigação efetiva é restringir acesso a redes confiáveis; ative monitoramento de autenticação anômala para detectar tentativas de exploração.",
         "glossary": [
-          { "term": "Authentication Bypass", "def": "Vulnerabilidade que permite contornar o mecanismo de autenticação, acessando recursos protegidos sem fornecer credenciais válidas." },
-          { "term": "CWE (Common Weakness Enumeration)", "def": "Catálogo de categorias de fraquezas de software mantido pelo MITRE — CWE-305 é 'Authentication Bypass by Primary Weakness', falha no caminho principal de autenticação." },
-          { "term": "Supply chain B2B", "def": "Cadeia de fornecedores e parceiros de negócio que compartilham dados e sistemas — um comprometimento em um ponto pode propagar-se para todos os parceiros conectados." }
+          {
+            "term": "Authentication Bypass",
+            "def": "Vulnerabilidade que permite contornar o mecanismo de autenticação, acessando recursos protegidos sem fornecer credenciais válidas."
+          },
+          {
+            "term": "CWE (Common Weakness Enumeration)",
+            "def": "Catálogo de categorias de fraquezas de software mantido pelo MITRE — CWE-305 é 'Authentication Bypass by Primary Weakness', falha no caminho principal de autenticação."
+          },
+          {
+            "term": "Supply chain B2B",
+            "def": "Cadeia de fornecedores e parceiros de negócio que compartilham dados e sistemas — um comprometimento em um ponto pode propagar-se para todos os parceiros conectados."
+          }
         ]
       },
       "source": "OffSeq Threat Radar",
@@ -81,9 +99,18 @@
         "pleno": "O Iceberg v3 no Databricks Runtime 18.0 traz três capacidades concretas para Unity Catalog Managed tables: Deletion Vectors (DML via marcação de deletes sem reescrever arquivos Parquet — até 10× mais rápido vs copy-on-write), Row Lineage com IDs permanentes por linha (auditoria e change tracking nativo), e VARIANT para dados semi-estruturados nativos. Isso encerra o debate de dois anos sobre Delta vs Iceberg: as tabelas passam a ter o mesmo tooling Delta com formato Iceberg aberto.",
         "senior": "Migre workloads de DML intensivo para Iceberg v3 Managed no Unity Catalog após benchmark — os Deletion Vectors são o diferencial real; o Row Lineage fecha o caso de uso de change data capture sem ETL adicional.",
         "glossary": [
-          { "term": "Deletion Vectors", "def": "Mecanismo que registra quais linhas foram deletadas em arquivo separado, evitando reescrever o arquivo Parquet completo — melhora drasticamente performance de UPDATE/DELETE em lakehouse." },
-          { "term": "Row Lineage", "def": "Capacidade de rastrear a origem e histórico de cada linha de dados com identificador único permanente — essencial para auditoria, compliance e pipelines de change data capture." },
-          { "term": "Unity Catalog", "def": "Camada unificada de governança de dados do Databricks que gerencia metadados, controle de acesso e linhagem de dados em tabelas Delta e Iceberg." }
+          {
+            "term": "Deletion Vectors",
+            "def": "Mecanismo que registra quais linhas foram deletadas em arquivo separado, evitando reescrever o arquivo Parquet completo — melhora drasticamente performance de UPDATE/DELETE em lakehouse."
+          },
+          {
+            "term": "Row Lineage",
+            "def": "Capacidade de rastrear a origem e histórico de cada linha de dados com identificador único permanente — essencial para auditoria, compliance e pipelines de change data capture."
+          },
+          {
+            "term": "Unity Catalog",
+            "def": "Camada unificada de governança de dados do Databricks que gerencia metadados, controle de acesso e linhagem de dados em tabelas Delta e Iceberg."
+          }
         ]
       },
       "source": "Databricks Blog",
@@ -115,9 +142,18 @@
         "pleno": "CVE-2026-4670 é Authentication Bypass by Primary Weakness (CWE-305): o fluxo primário de autenticação do MOVEit Automation pode ser contornado completamente por atacante remoto sem credenciais ou interação do usuário. Afeta todas as versões 2025.0.x e 2024.x. Sem patch: a única mitigação é restringir acesso de rede ao endpoint. O contexto de 2023 (Cl0p explorou vulnerabilidade MOVEit em operação de ransomware em massa) cria pressão imediata — SOCs devem tratar como zero-day ativo independente de exploração confirmada.",
         "senior": "Segmente imediatamente o acesso de rede ao MOVEit Automation — em arquiteturas de supply chain B2B, expor esse endpoint à internet sem patch disponível é inaceitável; o histórico de 2023 indica que esse vetor será explorado rapidamente assim que uma PoC circular.",
         "glossary": [
-          { "term": "Zero-day em formação", "def": "Vulnerabilidade sem patch onde não há exploração ativa confirmada publicamente, mas onde o risco é tratado como imediato por risco histórico ou criticidade do alvo." },
-          { "term": "Progress Software", "def": "Empresa de software enterprise criadora do MOVEit — plataforma de managed file transfer (MFT) amplamente usada em setores financeiro, saúde e governo." },
-          { "term": "CVSS 9.8", "def": "Pontuação quase máxima no Common Vulnerability Scoring System — indica vulnerabilidade crítica com vetor de ataque de rede, sem autenticação e sem interação do usuário." }
+          {
+            "term": "Zero-day em formação",
+            "def": "Vulnerabilidade sem patch onde não há exploração ativa confirmada publicamente, mas onde o risco é tratado como imediato por risco histórico ou criticidade do alvo."
+          },
+          {
+            "term": "Progress Software",
+            "def": "Empresa de software enterprise criadora do MOVEit — plataforma de managed file transfer (MFT) amplamente usada em setores financeiro, saúde e governo."
+          },
+          {
+            "term": "CVSS 9.8",
+            "def": "Pontuação quase máxima no Common Vulnerability Scoring System — indica vulnerabilidade crítica com vetor de ataque de rede, sem autenticação e sem interação do usuário."
+          }
         ]
       },
       "source": "OffSeq Threat Radar",
@@ -133,7 +169,7 @@
         "auth-bypass",
         "supply-chain"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=radar.offseq.com&sz=256"
+      "image": "https://radar.offseq.com/api/og?title=CVE-2026-4670%3A%20CWE-305%20Authentication%20bypass%20by%20primary%20weakness%20in%20Progress%20Software%20MOVEit%20Automation&amp;severity=critical&amp;id=69f376fbcbff5d86103580d8"
     },
     {
       "category": "sec",
@@ -148,9 +184,18 @@
         "pleno": "O payload Shai-Hulud executa no `import lightning` via código oculto em `_runtime/` — não requer instalação adicional. Exfiltra tokens, env vars, secrets de cloud e modifica `package.json` local com postinstall hook para propagação cross-ecosystem (npm). O vetor de propagação npm é especialmente insidioso em projetos fullstack Python+JS. A mitigação técnica é `pip install --require-hashes` com lockfile e mirrors privados validados por hash.",
         "senior": "Audite todos os ambientes que instalaram `lightning` entre 30/abr e remoção do PyPI — revogue imediatamente tokens de cloud, CI/CD e credenciais de AWS/GCP em qualquer máquina que executou `import lightning` nesse período; implemente `pip install --require-hashes` como padrão obrigatório em pipelines ML.",
         "glossary": [
-          { "term": "Supply chain attack", "def": "Ataque que compromete ferramentas, bibliotecas ou processos usados para construir software — em vez de atacar o alvo diretamente, contamina algo que o alvo confia." },
-          { "term": "pip install --require-hashes", "def": "Flag que força o pip a verificar o hash criptográfico de cada pacote antes de instalar — garante que o pacote baixado é exatamente o esperado, prevenindo instalação de versões adulteradas." },
-          { "term": "Postinstall hook", "def": "Script executado automaticamente após a instalação de um pacote — frequentemente abusado em ataques supply chain para executar código malicioso sem ação do usuário." }
+          {
+            "term": "Supply chain attack",
+            "def": "Ataque que compromete ferramentas, bibliotecas ou processos usados para construir software — em vez de atacar o alvo diretamente, contamina algo que o alvo confia."
+          },
+          {
+            "term": "pip install --require-hashes",
+            "def": "Flag que força o pip a verificar o hash criptográfico de cada pacote antes de instalar — garante que o pacote baixado é exatamente o esperado, prevenindo instalação de versões adulteradas."
+          },
+          {
+            "term": "Postinstall hook",
+            "def": "Script executado automaticamente após a instalação de um pacote — frequentemente abusado em ataques supply chain para executar código malicioso sem ação do usuário."
+          }
         ]
       },
       "source": "Socket",
@@ -165,7 +210,7 @@
         "ml",
         "pytorch"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=socket.dev&sz=256"
+      "image": "https://cdn.sanity.io/images/cgdhsj6q/production/de0d144865b2a7df6b3b26aec8bbfd620cd4ae1d-1160x754.png?w=1600&q=95&fit=max&auto=format"
     },
     {
       "category": "sec",
@@ -179,9 +224,18 @@
         "pleno": "O pacote de segurança da Microsoft consolida três frentes: (1) CodeQL 2.18.3 com regras específicas para vulnerabilidades comuns em código gerado por IA (deserialização insegura, imports inexistentes, lógica quebrada); (2) secret scanning detectando tokens dinâmicos emitidos por agentes — não apenas secrets estáticos; (3) Defender for Cloud com runtime protection para Agent 365 por persona. O padrão emergente: agentes como identidades de primeira classe no modelo de segurança, com RBAC e auditoria próprios.",
         "senior": "Adote CodeQL 2.18.3 com as novas regras para código AI-generated antes de aumentar adoção de coding agents — as queries de hallucinated imports e deserialização insegura cobrem classes de bugs que análise estática tradicional não detectava.",
         "glossary": [
-          { "term": "Hallucinated imports", "def": "Quando código gerado por IA importa bibliotecas que não existem ou têm nome errado — pode ser explorado se um atacante criar a biblioteca com esse nome no PyPI/npm." },
-          { "term": "Runtime protection", "def": "Monitoramento de segurança durante a execução de um programa em vez de na análise estática — detecta comportamentos anômalos em tempo real, como acesso indevido a dados." },
-          { "term": "Persona (agents)", "def": "Conjunto de permissões e comportamentos atribuídos a um agente específico — permite que diferentes agentes tenham diferentes níveis de acesso mesmo em um mesmo ambiente." }
+          {
+            "term": "Hallucinated imports",
+            "def": "Quando código gerado por IA importa bibliotecas que não existem ou têm nome errado — pode ser explorado se um atacante criar a biblioteca com esse nome no PyPI/npm."
+          },
+          {
+            "term": "Runtime protection",
+            "def": "Monitoramento de segurança durante a execução de um programa em vez de na análise estática — detecta comportamentos anômalos em tempo real, como acesso indevido a dados."
+          },
+          {
+            "term": "Persona (agents)",
+            "def": "Conjunto de permissões e comportamentos atribuídos a um agente específico — permite que diferentes agentes tenham diferentes níveis de acesso mesmo em um mesmo ambiente."
+          }
         ]
       },
       "source": "Microsoft Security Blog",
@@ -194,7 +248,7 @@
         "agent-security",
         "codeql"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=microsoft.com&sz=256"
+      "image": "https://www.microsoft.com/en-us/security/blog/wp-content/uploads/2026/05/Agent-365-new-capabilities.jpg"
     },
     {
       "category": "aiops",
@@ -208,13 +262,22 @@
         "pleno": "O GA do Agent 365 formaliza o licenciamento de agents no enterprise Microsoft: US$ 15/usuário/mês standalone ou incluído no M365 E7 a US$ 99 — que também inclui E5 + Copilot + Entra + Defender/Intune/Purview. O diferencial estratégico é suporte a agents externos (Bedrock, Google) no mesmo control plane com audit trail por prompt — a Microsoft posiciona-se como o IdP de agentes no enterprise, independente de qual LLM ou cloud os agents usam.",
         "senior": "Compare TCO do M365 E7 com o custo de manter IDP próprio para agentes antes de renovar licenças enterprise — a inclusão de Entra Suite e Purview avançado no pacote pode tornar o E7 economicamente atrativo mesmo para quem não precisa de Agent 365 inicialmente.",
         "glossary": [
-          { "term": "M365 E7 Frontier Suite", "def": "Pacote de licenciamento Microsoft que consolida Microsoft 365 E5, Copilot, Agent 365, Entra Suite e recursos avançados de Defender/Intune/Purview em um único SKU." },
-          { "term": "SKU (Stock Keeping Unit)", "def": "Código ou identificador único para um produto ou nível de serviço específico — em software, diferentes SKUs representam diferentes planos de licenciamento com diferentes funcionalidades." },
-          { "term": "IdP (Identity Provider)", "def": "Sistema que gerencia identidades digitais e autenticação — como Active Directory, Okta ou, neste contexto, a própria Microsoft como IdP para agentes no enterprise." }
+          {
+            "term": "M365 E7 Frontier Suite",
+            "def": "Pacote de licenciamento Microsoft que consolida Microsoft 365 E5, Copilot, Agent 365, Entra Suite e recursos avançados de Defender/Intune/Purview em um único SKU."
+          },
+          {
+            "term": "SKU (Stock Keeping Unit)",
+            "def": "Código ou identificador único para um produto ou nível de serviço específico — em software, diferentes SKUs representam diferentes planos de licenciamento com diferentes funcionalidades."
+          },
+          {
+            "term": "IdP (Identity Provider)",
+            "def": "Sistema que gerencia identidades digitais e autenticação — como Active Directory, Okta ou, neste contexto, a própria Microsoft como IdP para agentes no enterprise."
+          }
         ]
       },
       "source": "Microsoft Tech Community",
-      "url": "https://techcommunity.microsoft.com/discussions/agent-365-discussions/agent-365-will-be-generally-available-on-may-1-2026/4500380",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/blog/2026/03/09/powering-frontier-transformation-with-copilot-and-agents/",
       "published_at": "2026-05-01T06:00:00-03:00",
       "read_time": 5,
       "tags": [
@@ -224,7 +287,7 @@
         "control-plane",
         "agents"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcommunity.microsoft.com&sz=256"
+      "image": "https://www.microsoft.com/en-us/microsoft-365/blog/wp-content/uploads/sites/2/2026/03/Copilot_Excel_Agent_v2_1920.webp"
     },
     {
       "category": "aiops",
@@ -238,9 +301,18 @@
         "pleno": "A velocidade de adoção (20 mi de assentos em 24 meses, 5 mi só no último trimestre) é o dado mais relevante: supera a curva de adoção do Office 365 original. A redução do limiar de desconto enterprise de 1.500 para 1.000 licenças é movimento para mid-market — empresas menores agora acessam o mesmo pricing agressivo. O reajuste de preço em 1/jul/2026 sinaliza que a fase de penetração de mercado está encerrando.",
         "senior": "Antecipe renovação ou expansão de contratos Copilot antes de 1/jul/2026 para travar o pricing atual — e use os dados de adoção (20M assentos, Fortune 500 com 10k+ seats) como benchmark ao justificar ROI interno de IA para stakeholders.",
         "glossary": [
-          { "term": "Seat (licença)", "def": "Unidade de licença de software associada a um único usuário — contratos enterprise são frequentemente vendidos em número de seats, definindo quantos usuários podem usar o produto." },
-          { "term": "Fortune 500", "def": "Lista anual das 500 maiores empresas dos EUA por receita total publicada pela revista Fortune — usada como benchmark para medir penetração em grandes corporações." },
-          { "term": "Mid-market", "def": "Segmento de empresas de tamanho médio — geralmente entre 100 e 5.000 funcionários — posicionado entre PMEs e grandes corporações enterprise." }
+          {
+            "term": "Seat (licença)",
+            "def": "Unidade de licença de software associada a um único usuário — contratos enterprise são frequentemente vendidos em número de seats, definindo quantos usuários podem usar o produto."
+          },
+          {
+            "term": "Fortune 500",
+            "def": "Lista anual das 500 maiores empresas dos EUA por receita total publicada pela revista Fortune — usada como benchmark para medir penetração em grandes corporações."
+          },
+          {
+            "term": "Mid-market",
+            "def": "Segmento de empresas de tamanho médio — geralmente entre 100 e 5.000 funcionários — posicionado entre PMEs e grandes corporações enterprise."
+          }
         ]
       },
       "source": "Windows News",
@@ -252,7 +324,7 @@
         "enterprise-ai",
         "earnings"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=windowsnews.ai&sz=256"
+      "image": "https://windowsnews.ai/img-proxy.php?u=HzoVOUEKHRkPIh4oGDkSL11CR1tWKB8hWC8VPVNTWlsdJQQ_WDkIJ1ZfRUUeJAI5GmMMIFFCXUUXLQRhRHhUZFFfQl8UJARhHycVOh8CAltVOxElE2MSLFNEQRsdJQQpBT4TIEFVH1cRZhEoGD4VIF1eH1EXPRU-GS8PKlcdQFkRZQcpFT5PeAYBBAVKZA&size=large&format=webp"
     },
     {
       "category": "aiops",
@@ -266,9 +338,18 @@
         "pleno": "A descontinuação é uma silent regression: requisições com header `context-1m-2025-08-07` continuam sendo aceitas sem erro, mas a janela é truncada para 200k tokens — payloads acima retornam 400 `invalid_request_error`. Isso afeta pipelines RAG com contexto denso e Claude Code sessions longas rodando em Sonnet 4.5/4 via Bedrock, Vertex AI e Microsoft Foundry. A migração obrigatória é para Sonnet 4.6 ou Opus 4.6 onde 1M está em GA com pricing padrão.",
         "senior": "Audite logs de erro 400 em todos os pipelines que usam Sonnet 4.5 ou Sonnet 4 nas plataformas afetadas e migre para Sonnet 4.6/Opus 4.6 — a janela silenciosa de 200k pode truncar contexto crítico sem falhar visivelmente, produzindo respostas incorretas.",
         "glossary": [
-          { "term": "Context window", "def": "Quantidade máxima de tokens que um modelo de linguagem pode processar em uma única requisição — inclui tanto o prompt de entrada quanto a resposta gerada." },
-          { "term": "Token", "def": "Unidade de processamento de texto nos LLMs — aproximadamente 0,75 palavras em inglês; 1M tokens equivalem a cerca de 750 mil palavras ou um livro de ~1.500 páginas." },
-          { "term": "RAG (Retrieval-Augmented Generation)", "def": "Técnica que combina busca de documentos relevantes com geração de texto por LLM — documentos recuperados são inseridos no contexto da requisição, requerendo janelas grandes." }
+          {
+            "term": "Context window",
+            "def": "Quantidade máxima de tokens que um modelo de linguagem pode processar em uma única requisição — inclui tanto o prompt de entrada quanto a resposta gerada."
+          },
+          {
+            "term": "Token",
+            "def": "Unidade de processamento de texto nos LLMs — aproximadamente 0,75 palavras em inglês; 1M tokens equivalem a cerca de 750 mil palavras ou um livro de ~1.500 páginas."
+          },
+          {
+            "term": "RAG (Retrieval-Augmented Generation)",
+            "def": "Técnica que combina busca de documentos relevantes com geração de texto por LLM — documentos recuperados são inseridos no contexto da requisição, requerendo janelas grandes."
+          }
         ]
       },
       "source": "Pasquale Pillitteri",
@@ -281,7 +362,7 @@
         "context-window",
         "deprecation"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=pasqualepillitteri.it&sz=256"
+      "image": "https://pasqualepillitteri.it/uploads/img/news/anthropic-1m-context-beta-ritiro-aprile-2026.png"
     },
     {
       "category": "aiops",
@@ -295,9 +376,18 @@
         "pleno": "A arquitetura do Pinterest resolve dois problemas de MCP em escala: (1) context bloat — um servidor MCP com 500 tools inunda o contexto do agente com descrições de tools irrelevantes; servidores por domínio mantêm o contexto focado; (2) governança — registry central controla quais tools são aprovadas, com RBAC granular por domínio. Elicitation para operações sensíveis mantém human-in-the-loop sem bloquear o fluxo principal. O Tricorder Agent é o resultado: agente autônomo de diagnóstico que funciona em produção.",
         "senior": "Adote o padrão domain-bounded MCP servers + registry central antes de escalar MCP além de 5 domains — um god-server com todas as tools destrói a qualidade das respostas do agente por context flooding e impossibilita RBAC por area de negócio.",
         "glossary": [
-          { "term": "MCP (Model Context Protocol)", "def": "Protocolo open source para conectar ferramentas externas a modelos de linguagem — permite que agentes executem ações como queries SQL, chamadas de API e acesso a arquivos." },
-          { "term": "Context bloat", "def": "Problema onde o contexto enviado ao LLM fica grande demais com informações irrelevantes — degrada qualidade das respostas e aumenta custo por requisição." },
-          { "term": "Elicitation", "def": "Mecanismo no MCP que permite ao servidor solicitar aprovação ou input adicional do usuário antes de executar uma operação sensível — implementação técnica de human-in-the-loop." }
+          {
+            "term": "MCP (Model Context Protocol)",
+            "def": "Protocolo open source para conectar ferramentas externas a modelos de linguagem — permite que agentes executem ações como queries SQL, chamadas de API e acesso a arquivos."
+          },
+          {
+            "term": "Context bloat",
+            "def": "Problema onde o contexto enviado ao LLM fica grande demais com informações irrelevantes — degrada qualidade das respostas e aumenta custo por requisição."
+          },
+          {
+            "term": "Elicitation",
+            "def": "Mecanismo no MCP que permite ao servidor solicitar aprovação ou input adicional do usuário antes de executar uma operação sensível — implementação técnica de human-in-the-loop."
+          }
         ]
       },
       "source": "InfoQ",
@@ -311,7 +401,7 @@
         "registry",
         "human-in-the-loop"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+      "image": "https://res.infoq.com/news/2026/04/pinterest-mcp-ecosystem/en/headerimage/pininterestarch-1774143632607.jpeg"
     },
     {
       "category": "devops",
@@ -325,13 +415,22 @@
         "pleno": "O GA do In-Place Pod Vertical Scaling no Kubernetes 1.35 muda o modelo de autoscaling: CPU/memória requests e limits são agora mutáveis no pod em execução via API patch. O impacto principal é em workloads stateful (bancos de dados, caches) e JVM/ML inference que têm warmup custoso — antes, o único caminho para ajuste vertical era restart, que perdia estado e exigia reconexão de clientes. O VPA agora pode ajustar recursos sem interromper o serviço.",
         "senior": "Ative VPA com InPlace mode em workloads stateful críticos (Postgres, Redis, Kafka) para reduzir over-provisioning de baseline — o custo de over-provisionar para pico sem In-Place Resize era o principal argumento contra VPA em produção pesada.",
         "glossary": [
-          { "term": "VPA (Vertical Pod Autoscaler)", "def": "Componente do Kubernetes que ajusta automaticamente os recursos (CPU/memória) de pods baseado no uso real — em contraste com HPA que escala horizontalmente adicionando réplicas." },
-          { "term": "Requests e Limits", "def": "No Kubernetes, requests é a quantidade mínima de recurso que o pod precisa (usada para agendamento), e limits é o máximo que pode usar — requests <= uso real <= limits." },
-          { "term": "Warmup (aquecimento)", "def": "Período após o início de um processo onde ele atinge performance máxima — JVMs compilam código com JIT e caches de ML se populam durante warmup, tornando restarts custosos." }
+          {
+            "term": "VPA (Vertical Pod Autoscaler)",
+            "def": "Componente do Kubernetes que ajusta automaticamente os recursos (CPU/memória) de pods baseado no uso real — em contraste com HPA que escala horizontalmente adicionando réplicas."
+          },
+          {
+            "term": "Requests e Limits",
+            "def": "No Kubernetes, requests é a quantidade mínima de recurso que o pod precisa (usada para agendamento), e limits é o máximo que pode usar — requests <= uso real <= limits."
+          },
+          {
+            "term": "Warmup (aquecimento)",
+            "def": "Período após o início de um processo onde ele atinge performance máxima — JVMs compilam código com JIT e caches de ML se populam durante warmup, tornando restarts custosos."
+          }
         ]
       },
       "source": "Kubernetes Blog",
-      "url": "https://kubernetes.io/blog/2026/04/30/kubernetes-pod-level-resources-vertical-scaling-graduation/",
+      "url": "https://kubernetes.io/blog/2026/04/30/kubernetes-v1.36-inplace-pod-level-resources-beta/",
       "published_at": "2026-04-30T12:00:00-03:00",
       "read_time": 5,
       "tags": [
@@ -340,7 +439,7 @@
         "in-place",
         "stateful"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
+      "image": "https://kubernetes.io/images/kubernetes-open-graph.png"
     },
     {
       "category": "data",
@@ -354,9 +453,18 @@
         "pleno": "O Iceberg v3 no Databricks unifica o debate Delta vs Iceberg: as tabelas Unity Catalog Managed passam a ter o mesmo tooling de DML rápido do Delta (via Deletion Vectors) com formato Iceberg aberto — lido por qualquer engine (Spark, Trino, Snowflake). Write amplification era o principal argumento contra Iceberg para workloads de DML intensivo; a versão 3 resolve isso sem copy-on-write. Disponível em DBR 18.0+ em Public Preview.",
         "senior": "Habilite Iceberg v3 em Public Preview em workloads com DML intensivo para validar os ganhos de Deletion Vectors antes do GA — mas atenha-se ao DBR 18.0+ e avalie o impacto na leitura por engines externas que ainda não suportam DV.",
         "glossary": [
-          { "term": "Write amplification", "def": "Fenômeno onde uma operação de escrita pequena exige reescrever muito mais dados do que o modificado — no Iceberg copy-on-write, um UPDATE em 1 linha reescreve o arquivo inteiro." },
-          { "term": "Copy-on-write", "def": "Estratégia de DML que cria uma nova cópia do arquivo com as modificações aplicadas — simples de implementar mas com write amplification alta em arquivos grandes." },
-          { "term": "Public Preview", "def": "Fase de disponibilidade onde o recurso está aberto para uso geral mas pode ainda ter limitações — precede o GA (General Availability) com suporte completo." }
+          {
+            "term": "Write amplification",
+            "def": "Fenômeno onde uma operação de escrita pequena exige reescrever muito mais dados do que o modificado — no Iceberg copy-on-write, um UPDATE em 1 linha reescreve o arquivo inteiro."
+          },
+          {
+            "term": "Copy-on-write",
+            "def": "Estratégia de DML que cria uma nova cópia do arquivo com as modificações aplicadas — simples de implementar mas com write amplification alta em arquivos grandes."
+          },
+          {
+            "term": "Public Preview",
+            "def": "Fase de disponibilidade onde o recurso está aberto para uso geral mas pode ainda ter limitações — precede o GA (General Availability) com suporte completo."
+          }
         ]
       },
       "source": "Databricks Blog",
@@ -370,7 +478,7 @@
         "deletion-vectors",
         "variant"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256"
+      "image": "https://www.databricks.com/sites/default/files/2026-04/Iceberg-v3-Support-Diagrams.png"
     },
     {
       "category": "fintech",
@@ -384,13 +492,22 @@
         "pleno": "O Verifiable Intent cria uma primitiva de confiança para agentic commerce: um elo criptograficamente verificável entre autorização do titular e ação do agente. A parceria com OpenAI vai além — habilita agent-to-agent payments (um agente paga outro agente sem humano no loop). A aquisição da BVNK (US$ 1,8 bi) adiciona infraestrutura de stablecoin ao core da Mastercard, completando o stack para settlement em múltiplos formatos.",
         "senior": "Acompanhe a especificação do Verifiable Intent — a primitiva de intenção verificável para agentes tem alta probabilidade de tornar-se mandatória em regulação de pagamentos; implementar compatibilidade antecipada via Agent Pay evita retrofitting na rede de pagamentos.",
         "glossary": [
-          { "term": "Verifiable Intent", "def": "Mecanismo criptográfico da Mastercard que vincula autorização do titular à ação do agente no momento do pagamento — primitiva de confiança para transações iniciadas por IA." },
-          { "term": "Value-added services", "def": "Serviços além do processamento básico de pagamentos — como analytics, fraude, fidelidade e consultoria — com margens mais altas que os serviços de rede tradicionais." },
-          { "term": "BVNK", "def": "Empresa de infraestrutura para pagamentos empresariais com stablecoins — em processo de aquisição pela Mastercard por US$ 1,8 bi para expandir capacidade de settlement em cripto." }
+          {
+            "term": "Verifiable Intent",
+            "def": "Mecanismo criptográfico da Mastercard que vincula autorização do titular à ação do agente no momento do pagamento — primitiva de confiança para transações iniciadas por IA."
+          },
+          {
+            "term": "Value-added services",
+            "def": "Serviços além do processamento básico de pagamentos — como analytics, fraude, fidelidade e consultoria — com margens mais altas que os serviços de rede tradicionais."
+          },
+          {
+            "term": "BVNK",
+            "def": "Empresa de infraestrutura para pagamentos empresariais com stablecoins — em processo de aquisição pela Mastercard por US$ 1,8 bi para expandir capacidade de settlement em cripto."
+          }
         ]
       },
       "source": "Payment Expert",
-      "url": "https://paymentexpert.com/2026/04/30/mastercard-q1-2026-results-agentic/",
+      "url": "https://www.mastercard.com/global/en/news-and-trends/stories/2026/earnings-review-q1-2026.html",
       "published_at": "2026-04-30T16:00:00-03:00",
       "read_time": 5,
       "tags": [
@@ -400,7 +517,7 @@
         "openai",
         "verifiable-intent"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=paymentexpert.com&sz=256"
+      "image": "https://www.mastercard.com/adobe/dynamicmedia/deliver/dm-aid--849ec53e-2160-408b-a7a3-f3c67df728fd/earnings-review-q1-2025-hero.png?preferwebp=true&quality=82"
     },
     {
       "category": "fintech",
@@ -414,9 +531,18 @@
         "pleno": "A Visa está usando stablecoins como settlement layer B2B entre issuers, acquirers e bancos — não como produto para usuário final. O crescimento de +50% QoQ e expansão para 9 blockchains (incluindo Base, que é a L2 da Coinbase) indica que o modelo está provado e escalando. Os 130 programas em 50 países já emissam cartões linkados a contas de stablecoin, completando o circuito treasury-to-consumer.",
         "senior": "Mapeie suporte de stablecoin settlement junto a adquirentes e parceiros de treasury — a Visa validou a viabilidade do modelo e o crescimento de +50% QoQ indica que vai tornar-se expectativa de parceiros em 12-18 meses.",
         "glossary": [
-          { "term": "Settlement layer", "def": "Camada de infraestrutura responsável pela liquidação final de transações financeiras — onde o dinheiro efetivamente muda de mãos entre as instituições envolvidas." },
-          { "term": "Issuer / Acquirer", "def": "Issuer é o banco que emite o cartão ao consumidor; acquirer é o banco que processa pagamentos para o lojista — a transação passa pelos dois com taxas em cada etapa." },
-          { "term": "Run-rate anualizado", "def": "Projeção de resultado anual baseada no ritmo atual — run-rate de US$ 7 bi significa que o volume mensal/trimestral atual multiplicado por 12/4 equivale a US$ 7 bi por ano." }
+          {
+            "term": "Settlement layer",
+            "def": "Camada de infraestrutura responsável pela liquidação final de transações financeiras — onde o dinheiro efetivamente muda de mãos entre as instituições envolvidas."
+          },
+          {
+            "term": "Issuer / Acquirer",
+            "def": "Issuer é o banco que emite o cartão ao consumidor; acquirer é o banco que processa pagamentos para o lojista — a transação passa pelos dois com taxas em cada etapa."
+          },
+          {
+            "term": "Run-rate anualizado",
+            "def": "Projeção de resultado anual baseada no ritmo atual — run-rate de US$ 7 bi significa que o volume mensal/trimestral atual multiplicado por 12/4 equivale a US$ 7 bi por ano."
+          }
         ]
       },
       "source": "CoinCentral",
@@ -430,7 +556,7 @@
         "settlement",
         "treasury"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=coincentral.com&sz=256"
+      "image": "https://coincentral.com/wp-content/uploads/2025/04/Visa-1.jpg"
     },
     {
       "category": "frontend",
@@ -444,9 +570,18 @@
         "pleno": "As adições ao Baseline de abril têm impacto direto em design systems: `contrast-color()` elimina utilities JS/CSS customizadas de cálculo de contraste (das mais reescritas em componentes de tema), scroll-driven animation ranges removem a necessidade de Intersection Observer para animações por scroll, e `ariaNotify()` simplifica implementações de a11y que dependiam de aria-live regions hacky. Safari 26.5 com `:open` fecha o último gap de estilização de elementos nativos.",
         "senior": "Audite o design system para deprecar polyfills de contraste e utilitários de scroll animation — `contrast-color()` e scroll-driven ranges em Baseline significam que suporte cross-browser está garantido sem fallback; a remoção reduz bundle e elimina surface de bug.",
         "glossary": [
-          { "term": "Baseline (web platform)", "def": "Status que indica que uma funcionalidade web está disponível em todos os navegadores principais (Chrome, Firefox, Safari) e pode ser usada sem polyfill — definido pelo Interop project." },
-          { "term": "Polyfill", "def": "Código JavaScript que implementa funcionalidades web modernas em navegadores mais antigos que não as suportam nativamente — aumenta bundle size e pode ter bugs próprios." },
-          { "term": "a11y (accessibility)", "def": "Abreviação de 'accessibility' (a-ccessibilit-y, 11 letras no meio) — práticas para tornar conteúdo web usável por pessoas com deficiência visual, motora ou cognitiva." }
+          {
+            "term": "Baseline (web platform)",
+            "def": "Status que indica que uma funcionalidade web está disponível em todos os navegadores principais (Chrome, Firefox, Safari) e pode ser usada sem polyfill — definido pelo Interop project."
+          },
+          {
+            "term": "Polyfill",
+            "def": "Código JavaScript que implementa funcionalidades web modernas em navegadores mais antigos que não as suportam nativamente — aumenta bundle size e pode ter bugs próprios."
+          },
+          {
+            "term": "a11y (accessibility)",
+            "def": "Abreviação de 'accessibility' (a-ccessibilit-y, 11 letras no meio) — práticas para tornar conteúdo web usável por pessoas com deficiência visual, motora ou cognitiva."
+          }
         ]
       },
       "source": "web.dev",
@@ -461,7 +596,7 @@
         "firefox",
         "baseline"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=web.dev&sz=256"
+      "image": "https://web.dev/static/blog/web-platform-04-2026/hero.png"
     },
     {
       "category": "fundamentals",
@@ -475,9 +610,18 @@
         "pleno": "A Lei de Hyrum no kernel Linux manifesta-se quando comportamentos não documentados de syscalls ou subsistemas tornam-se dependências de aplicações em produção. O debate da LWN explora quando corrigir um comportamento 'errado' é na prática uma breaking change — Linus Torvalds historicamente recusa patches que quebram userspace mesmo para bugs, porque a dependência existe. Para quem mantém APIs públicas ou SDKs: deprecation policy precisa incluir descoberta ativa de acoplamentos não documentados.",
         "senior": "Implemente análise de uso real (telemetria, logs, fuzzing) de APIs públicas antes de qualquer deprecation — a Lei de Hyrum garante que comportamentos que você considera implementation details são contratos implícitos para alguém; descobrir quem depende do quê antes de mudar é mais barato que quebrar produção.",
         "glossary": [
-          { "term": "Hyrum's Law", "def": "Princípio de engenharia: com usuários suficientes, todo comportamento observável de uma API torna-se dependência de alguém — o contrato real é o comportamento, não a documentação." },
-          { "term": "Breaking change", "def": "Mudança em uma API ou sistema que quebra código existente que dependia do comportamento anterior — exige migração dos consumidores antes ou junto com o release." },
-          { "term": "Syscall (system call)", "def": "Interface entre um programa e o kernel do sistema operacional — a syscall é como um programa pede ao kernel para fazer algo (abrir arquivo, alocar memória, criar processo)." }
+          {
+            "term": "Hyrum's Law",
+            "def": "Princípio de engenharia: com usuários suficientes, todo comportamento observável de uma API torna-se dependência de alguém — o contrato real é o comportamento, não a documentação."
+          },
+          {
+            "term": "Breaking change",
+            "def": "Mudança em uma API ou sistema que quebra código existente que dependia do comportamento anterior — exige migração dos consumidores antes ou junto com o release."
+          },
+          {
+            "term": "Syscall (system call)",
+            "def": "Interface entre um programa e o kernel do sistema operacional — a syscall é como um programa pede ao kernel para fazer algo (abrir arquivo, alocar memória, criar processo)."
+          }
         ]
       },
       "source": "LWN.net",
@@ -491,7 +635,7 @@
         "linux-kernel",
         "contracts"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=lwn.net&sz=256"
+      "image": "https://static.lwn.net/images/logo/barepenguin-70.webp"
     },
     {
       "category": "fundamentals",
@@ -505,9 +649,18 @@
         "pleno": "A página de Linux Performance do Brendan Gregg é um recurso curado e atualizado que cobre o stack completo de observabilidade: USE method (Utilization, Saturation, Errors) para diagnóstico metódico, checklist de 60 segundos para triagem rápida, ferramentas `perf` para CPU/memória, eBPF/BPF para tracing zero-overhead, e flame graphs para visualização de CPU. Funciona como metodologia, não apenas como lista de ferramentas — a diferença entre encontrar o problema em 10 minutos e não encontrar em horas.",
         "senior": "Use a página do Brendan Gregg como template para criar runbooks de diagnóstico de performance para a sua plataforma — adapte o checklist de 60 segundos para o seu stack específico e o USE method para as métricas da sua infra; reduz MTTR significativamente em incidentes de performance.",
         "glossary": [
-          { "term": "USE Method", "def": "Metodologia de diagnóstico de performance: para cada recurso (CPU, memória, rede, disco), verifique Utilization (utilização), Saturation (fila de espera) e Errors (erros)." },
-          { "term": "eBPF (extended Berkeley Packet Filter)", "def": "Tecnologia do kernel Linux que permite executar programas sandboxed no espaço do kernel para observar e modificar comportamento do sistema sem patches de kernel." },
-          { "term": "Flame graph", "def": "Visualização de profiling onde cada barra representa uma função no call stack — largura proporcional ao tempo gasto; topo indica onde o programa está gastando mais tempo." }
+          {
+            "term": "USE Method",
+            "def": "Metodologia de diagnóstico de performance: para cada recurso (CPU, memória, rede, disco), verifique Utilization (utilização), Saturation (fila de espera) e Errors (erros)."
+          },
+          {
+            "term": "eBPF (extended Berkeley Packet Filter)",
+            "def": "Tecnologia do kernel Linux que permite executar programas sandboxed no espaço do kernel para observar e modificar comportamento do sistema sem patches de kernel."
+          },
+          {
+            "term": "Flame graph",
+            "def": "Visualização de profiling onde cada barra representa uma função no call stack — largura proporcional ao tempo gasto; topo indica onde o programa está gastando mais tempo."
+          }
         ]
       },
       "source": "brendangregg.com",
@@ -522,7 +675,7 @@
         "flame-graphs",
         "use-method"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=brendangregg.com&sz=256"
+      "image": "https://www.brendangregg.com/Images/sysperf2nd_bookcover_360.jpg"
     },
     {
       "category": "fundamentals",
@@ -536,9 +689,18 @@
         "pleno": "Vector clocks resolvem o problema de ordenação parcial em sistemas assíncronos: permitem detectar causalidade (A aconteceu antes de B) e concorrência (A e B são independentes), mas não fornecem ordenação total. Leaderless replication com quorum (W + R > N) garante que leituras sempre encontram a versão mais recente sem coordenação de líder — trade-off: conflitos de write concorrente precisam de resolução (last-write-wins, CRDT ou application-level merge).",
         "senior": "Para novos projetos com write-heavy distribuído, avalie leaderless replication com quorum: o trade-off entre consistência configurável por operação e ausência de SPOF de líder geralmente supera o custo de implementar resolução de conflito, especialmente em workloads append-only ou event sourcing.",
         "glossary": [
-          { "term": "Vector clock", "def": "Estrutura de dados que registra a causalidade entre eventos em sistemas distribuídos — permite saber se um evento aconteceu antes, depois ou concorrentemente a outro, sem relógio global." },
-          { "term": "Leaderless replication", "def": "Modelo de replicação onde qualquer nó aceita escritas — usado pelo Cassandra e DynamoDB; requer mecanismo de resolução de conflitos mas elimina o SPOF de um líder único." },
-          { "term": "Quorum (R+W > N)", "def": "Política de consenso em replicação: uma escrita precisa de W nós confirmando e uma leitura de R nós respondendo, onde W+R > N (número total de réplicas) garante overlap de pelo menos um nó atualizado." }
+          {
+            "term": "Vector clock",
+            "def": "Estrutura de dados que registra a causalidade entre eventos em sistemas distribuídos — permite saber se um evento aconteceu antes, depois ou concorrentemente a outro, sem relógio global."
+          },
+          {
+            "term": "Leaderless replication",
+            "def": "Modelo de replicação onde qualquer nó aceita escritas — usado pelo Cassandra e DynamoDB; requer mecanismo de resolução de conflitos mas elimina o SPOF de um líder único."
+          },
+          {
+            "term": "Quorum (R+W > N)",
+            "def": "Política de consenso em replicação: uma escrita precisa de W nós confirmando e uma leitura de R nós respondendo, onde W+R > N (número total de réplicas) garante overlap de pelo menos um nó atualizado."
+          }
         ]
       },
       "source": "System Design Newsletter",
@@ -552,7 +714,7 @@
         "leaderless-replication",
         "consistency"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=newsletter.systemdesign.one&sz=256"
+      "image": "https://substackcdn.com/image/fetch/$s_!wFFs!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6962381b-ea47-4240-9134-5d45d98a284c_1280x720.png"
     },
     {
       "category": "obs",
@@ -566,9 +728,18 @@
         "pleno": "O JSON schema 1.0.0 do OTel Declarative Configuration resolve o problema de drift de configuração entre linguagens: antes cada SDK tinha sua própria forma de configurar exporters, samplers e processadores. Com um arquivo declarativo único, a mesma config funciona em Java, Python, Go e Node — e pode ser versionada em Git como qualquer IaC. O Collector e os SDKs entendem o mesmo formato, eliminando a necessidade de configurações paralelas.",
         "senior": "Implemente OTel configuration as code com o schema 1.0 em plataformas de observabilidade — o arquivo declarativo versionado em Git com GitOps aumenta auditabilidade e portabilidade entre vendors (Datadog, Grafana, Honeycomb) sem reescrever código de instrumentação.",
         "glossary": [
-          { "term": "OpenTelemetry (OTel)", "def": "Framework open source para instrumentação, coleta e exportação de dados de observabilidade (traces, métricas, logs) — padrão da CNCF adotado pela maioria dos vendors de observabilidade." },
-          { "term": "Trace", "def": "Registro do caminho de uma requisição por todos os serviços que ela atravessa — cada passo é um 'span' com timestamps e metadados, permitindo visualizar latência e identificar gargalos." },
-          { "term": "Declarative configuration", "def": "Abordagem onde você descreve o estado desejado do sistema em arquivo de configuração, em vez de escrever código imperativo — facilita versionamento, diff e auditoria." }
+          {
+            "term": "OpenTelemetry (OTel)",
+            "def": "Framework open source para instrumentação, coleta e exportação de dados de observabilidade (traces, métricas, logs) — padrão da CNCF adotado pela maioria dos vendors de observabilidade."
+          },
+          {
+            "term": "Trace",
+            "def": "Registro do caminho de uma requisição por todos os serviços que ela atravessa — cada passo é um 'span' com timestamps e metadados, permitindo visualizar latência e identificar gargalos."
+          },
+          {
+            "term": "Declarative configuration",
+            "def": "Abordagem onde você descreve o estado desejado do sistema em arquivo de configuração, em vez de escrever código imperativo — facilita versionamento, diff e auditoria."
+          }
         ]
       },
       "source": "InfoQ",
@@ -581,7 +752,7 @@
         "stability",
         "observability"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+      "image": "https://res.infoq.com/news/2026/04/opentelemetry-declarative-config/en/headerimage/generatedHeaderImage-1776292543355.jpg"
     },
     {
       "category": "distarch",
@@ -595,9 +766,18 @@
         "pleno": "O argumento do Stonebraker é preciso: event-driven com garantia de exatamente-uma-vez exige compensações complexas (saga com rollback, idempotência em todo handler, rastreabilidade de estado distribuído). Durable execution encapsula essas garantias no framework — o desenvolvedor escreve código sequencial e o runtime garante persistência de estado, retry e replay. Para pipelines agênticos com 10+ chamadas LLM, a diferença entre corretude eventual e exatamente-uma-vez é a diferença entre cobrança duplicada e operação correta.",
         "senior": "Escolha entre DBOS, Restate e Temporal baseado em footprint operacional e escala: DBOS (Postgres-native, footprint mínimo) para equipes com expertise Postgres; Restate (mais simples operacionalmente) para novos projetos; Temporal (provado em hiper-escala) para plataformas de missão crítica existentes.",
         "glossary": [
-          { "term": "Event-driven architecture", "def": "Estilo arquitetural onde componentes se comunicam via eventos assíncronos — produtor publica evento, consumidor reage; desacopla serviços mas complexifica garantias de exatamente-uma-vez." },
-          { "term": "Saga pattern", "def": "Padrão para gerenciar transações distribuídas via sequência de transações locais compensáveis — se um passo falha, transações compensatórias revertem os passos anteriores." },
-          { "term": "DBOS", "def": "Framework de durable execution baseado em Postgres criado por Mike Stonebraker — persiste estado de workflow diretamente no banco relacional, sem infraestrutura adicional." }
+          {
+            "term": "Event-driven architecture",
+            "def": "Estilo arquitetural onde componentes se comunicam via eventos assíncronos — produtor publica evento, consumidor reage; desacopla serviços mas complexifica garantias de exatamente-uma-vez."
+          },
+          {
+            "term": "Saga pattern",
+            "def": "Padrão para gerenciar transações distribuídas via sequência de transações locais compensáveis — se um passo falha, transações compensatórias revertem os passos anteriores."
+          },
+          {
+            "term": "DBOS",
+            "def": "Framework de durable execution baseado em Postgres criado por Mike Stonebraker — persiste estado de workflow diretamente no banco relacional, sem infraestrutura adicional."
+          }
         ]
       },
       "source": "DBOS Blog",
@@ -612,7 +792,7 @@
         "workflows",
         "stonebraker"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=dbos.dev&sz=256"
+      "image": "https://cdn.prod.website-files.com/672411cbf038560468c9e68f/672e7616f3df51b21f4bccca_672a49b89b36ada70151da2d_lightweight-durable-execution-library-comparison.jpeg"
     },
     {
       "category": "design",
@@ -626,9 +806,18 @@
         "pleno": "O three-agent harness da Anthropic resolve o problema de drift em agent loops longos com separação explícita de responsabilidades: Planner mantém visão de alto nível e decompõe tarefas, Generator executa sem distrações de planejamento, Evaluator verifica cada output com critérios definidos antes da execução. Os checkpoints entre agentes criam pontos de auditabilidade naturais e permitem rollback granular. O padrão é agnóstico de LLM — aplicável com qualquer combinação de modelos.",
         "senior": "Adote o Planner/Generator/Evaluator como arquitetura padrão para novos agent workflows de >5 passos — a separação de responsabilidades elimina a classe principal de bugs de drift e cria pontos de observabilidade naturais que simplificam debugging de falhas agênticas.",
         "glossary": [
-          { "term": "Agent drift", "def": "Fenômeno onde um agente long-running progressivamente se distancia do objetivo original à medida que contexto acumula — resolvido por checkpoints e agentes especializados." },
-          { "term": "Harness (agents)", "def": "Framework ou estrutura que orquestra múltiplos agentes ou componentes de IA — define como os agentes se comunicam, o que cada um faz e como os resultados são verificados." },
-          { "term": "Single Responsibility Principle", "def": "Princípio de design de software: cada módulo/classe/agente deve ter apenas uma responsabilidade — facilita manutenção, teste e substituição de componentes." }
+          {
+            "term": "Agent drift",
+            "def": "Fenômeno onde um agente long-running progressivamente se distancia do objetivo original à medida que contexto acumula — resolvido por checkpoints e agentes especializados."
+          },
+          {
+            "term": "Harness (agents)",
+            "def": "Framework ou estrutura que orquestra múltiplos agentes ou componentes de IA — define como os agentes se comunicam, o que cada um faz e como os resultados são verificados."
+          },
+          {
+            "term": "Single Responsibility Principle",
+            "def": "Princípio de design de software: cada módulo/classe/agente deve ter apenas uma responsabilidade — facilita manutenção, teste e substituição de componentes."
+          }
         ]
       },
       "source": "InfoQ",
@@ -642,7 +831,7 @@
         "planner-evaluator",
         "harness"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256"
+      "image": "https://res.infoq.com/news/2026/04/anthropic-three-agent-harness-ai/en/headerimage/generatedHeaderImage-1774590768994.jpg"
     },
     {
       "category": "sec",
@@ -657,9 +846,18 @@
         "pleno": "O vetor confirma um padrão preocupante: ferramenta de segurança (Trivy) usada amplamente em CI/CD pipelines é comprometida, as credenciais armazenadas ou geradas no contexto de uso do scanner são exfiltradas, e essas credenciais dão acesso ao alvo real (Checkmarx). O ataque atravessa duas organizações via supply chain. A lição técnica: tokens gerados em contexto de ferramentas de segurança (CI secrets para scanners) precisam de escopo mínimo e rotação agressiva.",
         "senior": "Audite e revogue tokens criados especificamente para ferramentas de segurança (scanners, SAST, SCA) em toda a frota CI/CD — o padrão Lapsus$/TeamPCP/Checkmarx mostra que scanners de segurança são agora superfície de ataque tier-1, não ferramentas de redução de risco.",
         "glossary": [
-          { "term": "Lapsus$", "def": "Grupo de ameaça persistente (APT) conhecido por ataques de engenharia social e comprometimento de supply chain em grandes empresas de tecnologia." },
-          { "term": "Downstream users", "def": "Usuários que dependem indiretamente de um componente comprometido — no contexto de supply chain, são as vítimas secundárias que usavam o software infectado." },
-          { "term": "Exfiltração", "def": "Roubo de dados de um sistema comprometido — transferência não autorizada de dados para fora da organização por um atacante." }
+          {
+            "term": "Lapsus$",
+            "def": "Grupo de ameaça persistente (APT) conhecido por ataques de engenharia social e comprometimento de supply chain em grandes empresas de tecnologia."
+          },
+          {
+            "term": "Downstream users",
+            "def": "Usuários que dependem indiretamente de um componente comprometido — no contexto de supply chain, são as vítimas secundárias que usavam o software infectado."
+          },
+          {
+            "term": "Exfiltração",
+            "def": "Roubo de dados de um sistema comprometido — transferência não autorizada de dados para fora da organização por um atacante."
+          }
         ]
       },
       "source": "BleepingComputer",
@@ -674,7 +872,7 @@
         "trivy",
         "github"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256"
+      "image": "https://www.bleepstatic.com/content/hl-images/2026/04/28/Checkmarx.jpg"
     }
   ],
   "tools": [
@@ -689,13 +887,22 @@
         "pleno": "O CodeQL 2.18.3 adiciona regras específicas para vulnerabilidades introduzidas por código gerado por IA: deserialização insegura (LLMs frequentemente geram código sem validação de tipo), hallucinated imports (pacotes que não existem, potencial typosquatting) e lógica falha em condicionais complexos. Secret scanning detectando tokens dinâmicos de agents fecha a lacuna de credenciais efêmeras. Agent Actions Audit com contexto de prompt fecha o loop de auditoria: você sabe qual prompt gerou qual mudança.",
         "senior": "Habilite Agent Actions Audit em repos com módulos sensíveis para criar trilha de auditoria de mudanças AI-generated — é a primitiva de compliance necessária para responder 'quem (ou qual prompt) autorizou essa mudança' em auditorias regulatórias.",
         "glossary": [
-          { "term": "CodeQL", "def": "Motor de análise de código da GitHub/Microsoft que trata o código como banco de dados e executa queries para encontrar padrões de vulnerabilidades — usado em GitHub Advanced Security." },
-          { "term": "Typosquatting", "def": "Ataque onde um pacote malicioso é publicado com nome similar a um popular (ex: 'requets' em vez de 'requests') — quando código AI gera imports com nome errado, pode virar vetor de ataque." },
-          { "term": "Audit trail", "def": "Registro cronológico imutável de ações realizadas — em contexto de AI code generation, registra qual prompt gerou qual mudança para rastreabilidade e compliance." }
+          {
+            "term": "CodeQL",
+            "def": "Motor de análise de código da GitHub/Microsoft que trata o código como banco de dados e executa queries para encontrar padrões de vulnerabilidades — usado em GitHub Advanced Security."
+          },
+          {
+            "term": "Typosquatting",
+            "def": "Ataque onde um pacote malicioso é publicado com nome similar a um popular (ex: 'requets' em vez de 'requests') — quando código AI gera imports com nome errado, pode virar vetor de ataque."
+          },
+          {
+            "term": "Audit trail",
+            "def": "Registro cronológico imutável de ações realizadas — em contexto de AI code generation, registra qual prompt gerou qual mudança para rastreabilidade e compliance."
+          }
         ]
       },
       "source": "Microsoft / Windows News",
-      "url": "https://windowsnews.ai/article/microsoft-april-30-2026-security-update-agent-365-runtime-protection-github-purview.415949",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/05/01/microsoft-agent-365-now-generally-available-expands-capabilities-and-integrations/",
       "published_at": "2026-04-30T17:00:00-03:00",
       "tags": [
         "github-actions",
@@ -703,7 +910,7 @@
         "agent-audit",
         "ai-code-scanning"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=windowsnews.ai&sz=256"
+      "image": "https://www.microsoft.com/en-us/security/blog/wp-content/uploads/2026/05/Agent-365-new-capabilities.jpg"
     },
     {
       "tool_key": "cursor",
@@ -717,13 +924,22 @@
         "pleno": "O Security Review beta do Cursor posiciona AppSec no loop de desenvolvimento, não pós-merge: Security Reviewer em PRs reduz o ciclo de feedback de dias (pen test, SAST pós-deploy) para minutos (feedback no PR). O Vulnerability Scanner proativo cobre o gap de vulnerabilidades em código existente que nunca passou por scan. A integração no IDE elimina o context switch que canibalizava adoção de ferramentas externas como CodeRabbit e Greptile.",
         "senior": "Avalie o Cursor Security Review como complemento ou substituto de CodeRabbit/Greptile em times que já usam Cursor — a integração no IDE reduz fricção de adoção significativamente; compare qualidade de findings antes de comprometer com lock-in.",
         "glossary": [
-          { "term": "Always-on agent", "def": "Agente que executa continuamente em background, monitorando ou executando tarefas sem ser explicitamente invocado — em contraste com agentes on-demand acionados por comando." },
-          { "term": "AppSec (Application Security)", "def": "Área de segurança focada em proteger aplicações contra vulnerabilidades — inclui práticas de secure coding, code review, SAST, DAST e pen testing." },
-          { "term": "Shift-left security", "def": "Filosofia de mover verificações de segurança para mais cedo no ciclo de desenvolvimento (esquerda no pipeline) — encontrar bugs no IDE é mais barato que em produção." }
+          {
+            "term": "Always-on agent",
+            "def": "Agente que executa continuamente em background, monitorando ou executando tarefas sem ser explicitamente invocado — em contraste com agentes on-demand acionados por comando."
+          },
+          {
+            "term": "AppSec (Application Security)",
+            "def": "Área de segurança focada em proteger aplicações contra vulnerabilidades — inclui práticas de secure coding, code review, SAST, DAST e pen testing."
+          },
+          {
+            "term": "Shift-left security",
+            "def": "Filosofia de mover verificações de segurança para mais cedo no ciclo de desenvolvimento (esquerda no pipeline) — encontrar bugs no IDE é mais barato que em produção."
+          }
         ]
       },
       "source": "Cursor Changelog",
-      "url": "https://cursor.com/changelog/security-review-beta",
+      "url": "https://cursor.com/changelog/04-30-26",
       "published_at": "2026-04-30T15:00:00-03:00",
       "tags": [
         "cursor",
@@ -731,7 +947,7 @@
         "ai-coding",
         "agents"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cursor.com&sz=256"
+      "image": "https://ptht05hbb1ssoooe.public.blob.vercel-storage.com/assets/changelog/opengraph-changelog-may-1-2026-1-.png"
     },
     {
       "tool_key": "kubernetes",
@@ -744,13 +960,22 @@
         "pleno": "O GA do In-Place Pod Vertical Scaling no Kubernetes 1.35 resolve o bloqueio principal do VPA em workloads stateful: requests e limits de CPU/memória são mutáveis via API patch sem restart do container. O Kubernetes sinaliza o resize ao cgroup do container e o kernel reajusta os limites sem matar o processo. Para JVM apps e ML inference com warmup custoso, isso elimina a penalidade de performance pós-restart que tornava VPA economicamente inviável.",
         "senior": "Configure VPA com mode `InPlace` em workloads stateful críticos após upgrade para K8s 1.35 — valide o comportamento de resize em staging antes de ativar em produção, especialmente em JVM apps onde GC pode ser afetado por mudança de heap durante execução.",
         "glossary": [
-          { "term": "VPA (Vertical Pod Autoscaler)", "def": "Componente Kubernetes que ajusta automaticamente requests e limits de CPU/memória de pods baseado no uso histórico — complementa o HPA que escala horizontalmente." },
-          { "term": "cgroup", "def": "Mecanismo do kernel Linux que isola e limita uso de recursos (CPU, memória, I/O) por grupos de processos — base do isolamento de containers Docker e Kubernetes." },
-          { "term": "Pod-Level Resources", "def": "Recursos definidos no nível do Pod em vez de por container individual — permite que containers em um mesmo pod compartilhem um orçamento total de recursos." }
+          {
+            "term": "VPA (Vertical Pod Autoscaler)",
+            "def": "Componente Kubernetes que ajusta automaticamente requests e limits de CPU/memória de pods baseado no uso histórico — complementa o HPA que escala horizontalmente."
+          },
+          {
+            "term": "cgroup",
+            "def": "Mecanismo do kernel Linux que isola e limita uso de recursos (CPU, memória, I/O) por grupos de processos — base do isolamento de containers Docker e Kubernetes."
+          },
+          {
+            "term": "Pod-Level Resources",
+            "def": "Recursos definidos no nível do Pod em vez de por container individual — permite que containers em um mesmo pod compartilhem um orçamento total de recursos."
+          }
         ]
       },
       "source": "Kubernetes Blog",
-      "url": "https://kubernetes.io/blog/2026/04/30/kubernetes-pod-level-resources-vertical-scaling-graduation/",
+      "url": "https://kubernetes.io/blog/2026/04/30/kubernetes-v1.36-inplace-pod-level-resources-beta/",
       "published_at": "2026-04-30T12:00:00-03:00",
       "tags": [
         "kubernetes",
@@ -758,7 +983,7 @@
         "in-place-resize",
         "stateful"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256"
+      "image": "https://kubernetes.io/images/kubernetes-open-graph.png"
     },
     {
       "tool_key": "databricks",
@@ -772,9 +997,18 @@
         "pleno": "O Iceberg v3 no DBR 18.0 unifica o melhor do Delta com o formato Iceberg aberto: Deletion Vectors de performance equivalente ao Delta para DML intensivo, Row Lineage com IDs permanentes para CDC e auditoria, e VARIANT para dados JSON nativos sem ETL. A Public Preview permite validar o ganho de DML antes de migrar workloads de produção — teste com benchmark de DELETE/UPDATE intensivo antes de comprometer.",
         "senior": "Inicie piloto de Deletion Vectors em workloads com MERGE e UPDATE frequentes em DBR 18.0 — o resultado do benchmark determinará se a migração de tabelas Delta para Iceberg v3 Managed vale para o perfil de workload específico; Row Lineage nativo elimina a necessidade de CDC externo em alguns casos.",
         "glossary": [
-          { "term": "CDC (Change Data Capture)", "def": "Técnica de capturar mudanças (inserts, updates, deletes) em tabelas de banco de dados em tempo real — geralmente implementado via logs de transação ou triggers." },
-          { "term": "Parquet", "def": "Formato de arquivo colunar open source para armazenamento de dados analíticos — eficiente para leitura colunar mas requer reescrita de arquivo completo para atualizações." },
-          { "term": "MERGE", "def": "Operação SQL que combina INSERT, UPDATE e DELETE em uma única instrução baseada em condição de match — comum em pipelines de upsert e sincronização de dados." }
+          {
+            "term": "CDC (Change Data Capture)",
+            "def": "Técnica de capturar mudanças (inserts, updates, deletes) em tabelas de banco de dados em tempo real — geralmente implementado via logs de transação ou triggers."
+          },
+          {
+            "term": "Parquet",
+            "def": "Formato de arquivo colunar open source para armazenamento de dados analíticos — eficiente para leitura colunar mas requer reescrita de arquivo completo para atualizações."
+          },
+          {
+            "term": "MERGE",
+            "def": "Operação SQL que combina INSERT, UPDATE e DELETE em uma única instrução baseada em condição de match — comum em pipelines de upsert e sincronização de dados."
+          }
         ]
       },
       "source": "Databricks Blog",
@@ -786,7 +1020,7 @@
         "lakehouse",
         "public-preview"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256"
+      "image": "https://www.databricks.com/sites/default/files/2026-04/Iceberg-v3-Support-Diagrams.png"
     },
     {
       "tool_key": "claudecode",
@@ -799,9 +1033,18 @@
         "pleno": "O shutdown do beta 1M context afeta especificamente pipelines Claude Code que: (1) usam Sonnet 4.5 ou Sonnet 4 legados via Bedrock, Vertex AI ou Microsoft Foundry, e (2) enviam contexto >200k tokens (grandes codebases, sessões de /resume longas, RAG denso). O truncamento é silencioso — a requisição é aceita, mas o Claude trabalha com contexto incompleto sem avisar. Verificação: buscar erros 400 `invalid_request_error` nos logs das plataformas afetadas.",
         "senior": "Migre workers de Claude Code que usam Sonnet 4.5/4 para Sonnet 4.6 — verifique se o Sonnet 4.6 está disponível no seu tier de plataforma (Bedrock/Vertex/Foundry) e teste com os payloads maiores antes de migrar pipelines de produção.",
         "glossary": [
-          { "term": "Context window (Claude Code)", "def": "Quantidade de tokens que o Claude Code pode processar por requisição — inclui instruções de sistema, histórico da sessão, arquivos lidos e código gerado; limite determina o tamanho de codebase navegável." },
-          { "term": "Silent truncation", "def": "Comportamento onde o sistema descarta parte do input sem emitir erro — perigoso porque o modelo responde com contexto incompleto sem avisar que dados foram perdidos." },
-          { "term": "Tier (LLM platforms)", "def": "Nível de serviço com acesso a modelos e recursos específicos em plataformas como Bedrock, Vertex AI — modelos novos como Sonnet 4.6 podem requerer upgrade de tier." }
+          {
+            "term": "Context window (Claude Code)",
+            "def": "Quantidade de tokens que o Claude Code pode processar por requisição — inclui instruções de sistema, histórico da sessão, arquivos lidos e código gerado; limite determina o tamanho de codebase navegável."
+          },
+          {
+            "term": "Silent truncation",
+            "def": "Comportamento onde o sistema descarta parte do input sem emitir erro — perigoso porque o modelo responde com contexto incompleto sem avisar que dados foram perdidos."
+          },
+          {
+            "term": "Tier (LLM platforms)",
+            "def": "Nível de serviço com acesso a modelos e recursos específicos em plataformas como Bedrock, Vertex AI — modelos novos como Sonnet 4.6 podem requerer upgrade de tier."
+          }
         ]
       },
       "source": "Anthropic / Pasquale Pillitteri",
@@ -813,7 +1056,7 @@
         "sonnet",
         "deprecation"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=pasqualepillitteri.it&sz=256"
+      "image": "https://pasqualepillitteri.it/uploads/img/news/anthropic-1m-context-beta-ritiro-aprile-2026.png"
     },
     {
       "tool_key": "rabbitmq",
@@ -827,9 +1070,18 @@
         "pleno": "O Stream Connector do RabbitMQ 4.3 elimina o Kafka como ponte entre RabbitMQ e Spark: permite consumo paralelo de RabbitMQ Streams com offsets configuráveis (timestamp, begin, tail, specific) — o mesmo modelo de consumo do Kafka Streams. Os 32 níveis estritos de priority em quorum queues resolvem o problema de priority inversion em workloads mistos. Khepri como único metadata store simplifica a operação do cluster ao consolidar o Mnesia legacy.",
         "senior": "Avalie a migração de pipelines RabbitMQ→Kafka→Spark para RabbitMQ Streams→Spark via Stream Connector — elimina um hop de infraestrutura, mas exige que o workload Spark suporte o modelo de offset do RabbitMQ Streams; valide throughput e latência antes de comprometer.",
         "glossary": [
-          { "term": "RabbitMQ Streams", "def": "Tipo de fila no RabbitMQ que funciona como log imutável e replicado — permite múltiplos consumidores independentes com offsets próprios, similar ao Kafka." },
-          { "term": "Quorum queue", "def": "Tipo de fila RabbitMQ que replica mensagens em quorum de nós (maioria) antes de confirmar — garante durabilidade mesmo com falha de nós, substituindo as classic queues mirrored." },
-          { "term": "AMQP 1.0", "def": "Protocolo de mensageria padronizado ISO — versão 1.0 é compatível com Azure Service Bus, Apache ActiveMQ e outros; a 0-9-1 era o padrão proprietário anterior do RabbitMQ." }
+          {
+            "term": "RabbitMQ Streams",
+            "def": "Tipo de fila no RabbitMQ que funciona como log imutável e replicado — permite múltiplos consumidores independentes com offsets próprios, similar ao Kafka."
+          },
+          {
+            "term": "Quorum queue",
+            "def": "Tipo de fila RabbitMQ que replica mensagens em quorum de nós (maioria) antes de confirmar — garante durabilidade mesmo com falha de nós, substituindo as classic queues mirrored."
+          },
+          {
+            "term": "AMQP 1.0",
+            "def": "Protocolo de mensageria padronizado ISO — versão 1.0 é compatível com Azure Service Bus, Apache ActiveMQ e outros; a 0-9-1 era o padrão proprietário anterior do RabbitMQ."
+          }
         ]
       },
       "source": "RabbitMQ Blog",
@@ -841,7 +1093,7 @@
         "spark",
         "quorum-queues"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=rabbitmq.com&sz=256"
+      "image": "https://www.rabbitmq.com/img/rabbitmq-social-media-card.svg"
     },
     {
       "tool_key": "mongodb",
@@ -854,9 +1106,18 @@
         "pleno": "O MongoDB 8.2 disponibiliza Vector Search e Search (full-text) na Community Edition e Enterprise Server — antes era exclusivo do Atlas (SaaS). O diferencial para stacks RAG é a co-localização: vetores no mesmo MongoDB do operacional significa mesmo replica set, mesmo backup, mesma RBAC e queries combinando keyword+vector sem JOIN distribuído. A query familiar do MongoDB para vector search reduz curva de aprendizado vs Pinecone/Weaviate.",
         "senior": "Para novos projetos RAG/agents com MongoDB como storage operacional, avalie Vector Search nativo no 8.2 antes de adicionar Pinecone/Weaviate — a eliminação de um storage separado reduz custo operacional e latência de RAG, mas valide o throughput de indexação para o volume de embeddings esperado.",
         "glossary": [
-          { "term": "Vector search", "def": "Busca por similaridade em espaço vetorial — documentos são convertidos em vetores (embeddings) e a busca encontra os mais próximos geometricamente do vetor da query." },
-          { "term": "Embedding", "def": "Representação numérica de texto ou dados em um espaço vetorial de alta dimensão — captura semântica: textos com significado similar têm vetores próximos." },
-          { "term": "RAG (Retrieval-Augmented Generation)", "def": "Técnica onde um LLM é aumentado com recuperação de documentos relevantes — o sistema busca contexto no banco de vetores e o inclui no prompt para respostas mais precisas e atualizadas." }
+          {
+            "term": "Vector search",
+            "def": "Busca por similaridade em espaço vetorial — documentos são convertidos em vetores (embeddings) e a busca encontra os mais próximos geometricamente do vetor da query."
+          },
+          {
+            "term": "Embedding",
+            "def": "Representação numérica de texto ou dados em um espaço vetorial de alta dimensão — captura semântica: textos com significado similar têm vetores próximos."
+          },
+          {
+            "term": "RAG (Retrieval-Augmented Generation)",
+            "def": "Técnica onde um LLM é aumentado com recuperação de documentos relevantes — o sistema busca contexto no banco de vetores e o inclui no prompt para respostas mais precisas e atualizadas."
+          }
         ]
       },
       "source": "MongoDB / DBTA",
@@ -868,7 +1129,7 @@
         "rag",
         "community-edition"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=dbta.com&sz=256"
+      "image": "https://www.dbta.com/Images/Default.aspx?ImageID=25811&maxWidth=125&canvas=125x165"
     },
     {
       "tool_key": "sonar",
@@ -881,9 +1142,18 @@
         "pleno": "O SonarQube 2026.2 institucionaliza 'AI-authored code quality': regras para Java 25 LTS detectam código semanticamente quebrado (condicionais invertidas, lógica falha) que análise estática tradicional não captura porque é sintaticamente válido. AI CodeFix com LLMs self-managed é relevante para empresas com restrições de dados — o fix roda no ambiente do cliente, não em cloud pública. Cobertura das top-1K libs Python no Advanced SAST fecha o gap de análise de supply chain em ecossistemas Python.",
         "senior": "Habilite as novas regras de AI-authored code detection no SonarQube 2026.2 em repos com adoção de coding agents — o conjunto de regras para código semanticamente quebrado cobre a classe de bugs que escapa de code review humano por parecer intencionalmente escrito daquela forma.",
         "glossary": [
-          { "term": "SAST (Static Application Security Testing)", "def": "Análise de segurança do código fonte sem executá-lo — detecta vulnerabilidades em tempo de desenvolvimento, antes do deploy." },
-          { "term": "AI CodeFix", "def": "Funcionalidade do SonarQube que gera sugestões de correção para issues encontrados usando LLM — sugere o código corrigido diretamente na interface de review." },
-          { "term": "Dependency inflation", "def": "Fenômeno onde código AI-generated adiciona dependências desnecessárias ou redundantes — aumenta attack surface e bundle size sem benefício real para o projeto." }
+          {
+            "term": "SAST (Static Application Security Testing)",
+            "def": "Análise de segurança do código fonte sem executá-lo — detecta vulnerabilidades em tempo de desenvolvimento, antes do deploy."
+          },
+          {
+            "term": "AI CodeFix",
+            "def": "Funcionalidade do SonarQube que gera sugestões de correção para issues encontrados usando LLM — sugere o código corrigido diretamente na interface de review."
+          },
+          {
+            "term": "Dependency inflation",
+            "def": "Fenômeno onde código AI-generated adiciona dependências desnecessárias ou redundantes — aumenta attack surface e bundle size sem benefício real para o projeto."
+          }
         ]
       },
       "source": "SonarSource Blog",
@@ -895,7 +1165,7 @@
         "python",
         "java-25"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=sonarsource.com&sz=256"
+      "image": "https://assets-eu-01.kc-usercontent.com:443/ef593040-b591-0198-9506-ed88b30bc023/3c138d18-bff3-4fc1-9fa9-2471abb82ace/sonarqube_server_2026_2_blog_header.webp"
     },
     {
       "tool_key": "github",
@@ -908,9 +1178,18 @@
         "pleno": "A mudança de billing do GitHub Copilot code review para 'AI Credits + Actions minutes' cria um consumo duplo de quota que pode surpreender times sem planejamento. Em repos privados com muitos PRs, o custo de Actions minutos pode superar o custo de AI Credits. A cortesia para E5 e GitHub Enterprise até jun/2027 dá tempo para planejamento, mas times devem modelar o custo antes da data limite.",
         "senior": "Modele o custo combinado AI Credits + Actions minutes para o volume atual de PRs e repos privados — implemente orçamentos de Actions específicos para Copilot reviews antes de 1/jun para evitar bloqueio de pipelines por esgotamento de quota.",
         "glossary": [
-          { "term": "AI Credits", "def": "Unidade de consumo para recursos de IA do GitHub Copilot no modelo usage-based — substituirá gradualmente o modelo de seat fixo para features que variam por uso." },
-          { "term": "Actions minutes", "def": "Quota de tempo de execução de jobs no GitHub Actions — planos pagos incluem um número mensal de minutos; exceder o limite bloqueia pipelines ou gera cobrança extra." },
-          { "term": "FinOps", "def": "Prática de gestão financeira de recursos de cloud e SaaS — identificar, monitorar e otimizar custos de infraestrutura digital, tratando-os como variáveis gerenciáveis." }
+          {
+            "term": "AI Credits",
+            "def": "Unidade de consumo para recursos de IA do GitHub Copilot no modelo usage-based — substituirá gradualmente o modelo de seat fixo para features que variam por uso."
+          },
+          {
+            "term": "Actions minutes",
+            "def": "Quota de tempo de execução de jobs no GitHub Actions — planos pagos incluem um número mensal de minutos; exceder o limite bloqueia pipelines ou gera cobrança extra."
+          },
+          {
+            "term": "FinOps",
+            "def": "Prática de gestão financeira de recursos de cloud e SaaS — identificar, monitorar e otimizar custos de infraestrutura digital, tratando-os como variáveis gerenciáveis."
+          }
         ]
       },
       "source": "GitHub Changelog",
@@ -922,7 +1201,7 @@
         "billing",
         "code-review"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256"
+      "image": "https://github.blog/wp-content/uploads/2026/04/ConsumesActionsMinutes_NewRelease_Unfurl_TextOnly.jpg"
     },
     {
       "tool_key": "spring",
@@ -936,9 +1215,18 @@
         "pleno": "O Spring Framework 7.0 consolida o baseline para cloud-native Java: Jakarta EE 11 (Servlet 6.1 com virtual threads first-class, JPA 3.2), AOT processing completo para GraalVM native images com reflection registrada automaticamente, e compatibilidade até Java 24. A obrigatoriedade de Tomcat 11+ ou Jetty 12.1+ é breaking change para quem ainda usa Tomcat 9/10 — essas versões não suportam Jakarta EE 11. O 7.0.7 traz 52 fixes na linha estável.",
         "senior": "Valide a migração para Spring Framework 7.0 em staging com foco em: (1) compatibilidade do Tomcat/Jetty — requer versões 11+/12.1+; (2) reflexão não registrada em AOT processing; (3) bibliotecas third-party que ainda dependem de javax.* (namespace Java EE antigo) em vez de jakarta.*.",
         "glossary": [
-          { "term": "Jakarta EE", "def": "Especificação do stack Java enterprise (sucessor do Java EE) — define APIs para Servlet, JPA, CDI, JSON, Bean Validation; versão 11 requer Java 17+ e renomeia namespace para jakarta.*." },
-          { "term": "Virtual threads", "def": "Threads leves gerenciadas pela JVM introduzidas no Java 21 — permitem escalar para milhões de threads concorrentes sem overhead de threads de sistema operacional." },
-          { "term": "AOT processing (Spring)", "def": "Compilação ahead-of-time no Spring que analisa o contexto de aplicação e pré-processa configuração em build time — necessário para GraalVM native images onde reflection dinâmica é limitada." }
+          {
+            "term": "Jakarta EE",
+            "def": "Especificação do stack Java enterprise (sucessor do Java EE) — define APIs para Servlet, JPA, CDI, JSON, Bean Validation; versão 11 requer Java 17+ e renomeia namespace para jakarta.*."
+          },
+          {
+            "term": "Virtual threads",
+            "def": "Threads leves gerenciadas pela JVM introduzidas no Java 21 — permitem escalar para milhões de threads concorrentes sem overhead de threads de sistema operacional."
+          },
+          {
+            "term": "AOT processing (Spring)",
+            "def": "Compilação ahead-of-time no Spring que analisa o contexto de aplicação e pré-processa configuração em build time — necessário para GraalVM native images onde reflection dinâmica é limitada."
+          }
         ]
       },
       "source": "Spring Blog",
@@ -950,7 +1238,7 @@
         "graalvm",
         "virtual-threads"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256"
+      "image": "https://spring.io/img/og-spring.png"
     },
     {
       "tool_key": "structurizr",
@@ -963,9 +1251,18 @@
         "pleno": "Modelar agentes em C4 com Structurizr DSL resolve o problema de documentação de arquitetura agêntica: o DSL textual versionado em Git torna-se a fonte de verdade dos bounded contexts de cada agente (quais tools acessa, quais side-effects produz, quais dados lê/escreve). A integração com CI permite validar que o diagrama permanece sincronizado com a implementação real. Em arquiteturas com Planner/Generator/Evaluator, cada agente vira um container C4 com fronteiras explícitas.",
         "senior": "Inclua Structurizr DSL no definition of done para novos agentes — diagrama C4 dos bounded contexts de cada agente é a documentação mínima para governança de segurança e auditorias; sem ela, revisar permissões de agentes em incident review é manual e propenso a erro.",
         "glossary": [
-          { "term": "C4 Model", "def": "Framework de diagramas de arquitetura em 4 níveis (Context, Container, Component, Code) criado por Simon Brown — para criar documentação de arquitetura clara e hierárquica." },
-          { "term": "Structurizr DSL", "def": "Linguagem de texto para descrever arquiteturas C4 — permite versionar diagramas em Git como código e gerar visualizações em múltiplos formatos (PlantUML, Mermaid, web)." },
-          { "term": "ADR (Architecture Decision Record)", "def": "Documento conciso que registra uma decisão arquitetural significativa — inclui contexto, opções consideradas, decisão tomada e consequências para manter rastreabilidade de escolhas." }
+          {
+            "term": "C4 Model",
+            "def": "Framework de diagramas de arquitetura em 4 níveis (Context, Container, Component, Code) criado por Simon Brown — para criar documentação de arquitetura clara e hierárquica."
+          },
+          {
+            "term": "Structurizr DSL",
+            "def": "Linguagem de texto para descrever arquiteturas C4 — permite versionar diagramas em Git como código e gerar visualizações em múltiplos formatos (PlantUML, Mermaid, web)."
+          },
+          {
+            "term": "ADR (Architecture Decision Record)",
+            "def": "Documento conciso que registra uma decisão arquitetural significativa — inclui contexto, opções consideradas, decisão tomada e consequências para manter rastreabilidade de escolhas."
+          }
         ]
       },
       "source": "Structurizr",
@@ -977,7 +1274,7 @@
         "agents",
         "bounded-contexts"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=docs.structurizr.com&sz=256"
+      "image": "https://static.structurizr.com/img/structurizr-banner.png"
     },
     {
       "tool_key": "java",
@@ -990,9 +1287,18 @@
         "pleno": "O GraalVM 25 alinha sua cadência de release à do Oracle Critical Patch Update trimestral (janeiro, abril, julho, outubro). O GraalVM 25.0.3 inclui o JDK 25.0.3+9 e patches de segurança da CPU de abril. O drop de suporte a macOS x64 é breaking change para CI/CD pipelines que usam runners GitHub Actions macOS com Intel — a migração para Apple Silicon ou Linux é obrigatória para quem usa GraalVM native-image em macOS.",
         "senior": "Mapeie todos os runners CI/CD que usam GraalVM native-image em macOS — se são Intel Mac (x64), migre para Apple Silicon ou Linux antes da próxima CPU; GraalVM 25 não produz native images para macOS x64.",
         "glossary": [
-          { "term": "Oracle Critical Patch Update (CPU)", "def": "Ciclo trimestral de patches de segurança da Oracle — lançado na terça-feira mais próxima do 17 de jan/abr/jul/out; cobre todos os produtos Oracle incluindo JDK e GraalVM." },
-          { "term": "GraalVM native-image", "def": "Compilador do GraalVM que transforma aplicações JVM em executáveis nativos standalone — sem JVM em runtime, boot instantâneo e menor footprint de memória." },
-          { "term": "macOS x64 vs Apple Silicon", "def": "macOS x64 roda em processadores Intel (Macs pré-2020); Apple Silicon (M1/M2/M3) é a arquitetura ARM da Apple em Macs pós-2020 — binários não são compatíveis entre os dois." }
+          {
+            "term": "Oracle Critical Patch Update (CPU)",
+            "def": "Ciclo trimestral de patches de segurança da Oracle — lançado na terça-feira mais próxima do 17 de jan/abr/jul/out; cobre todos os produtos Oracle incluindo JDK e GraalVM."
+          },
+          {
+            "term": "GraalVM native-image",
+            "def": "Compilador do GraalVM que transforma aplicações JVM em executáveis nativos standalone — sem JVM em runtime, boot instantâneo e menor footprint de memória."
+          },
+          {
+            "term": "macOS x64 vs Apple Silicon",
+            "def": "macOS x64 roda em processadores Intel (Macs pré-2020); Apple Silicon (M1/M2/M3) é a arquitetura ARM da Apple em Macs pós-2020 — binários não são compatíveis entre os dois."
+          }
         ]
       },
       "source": "Oracle / GraalVM",
@@ -1004,7 +1310,7 @@
         "oracle",
         "critical-patch-update"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=graalvm.org&sz=256"
+      "image": "https://www.graalvm.org/resources/img/og-image.jpg"
     }
   ],
   "videos": [
@@ -1098,5 +1404,5 @@
       "url": "https://cursor.com/changelog"
     }
   ],
-  "edition_digest": "Sexta começa movimentada: Microsoft Agent 365 entrou em GA hoje com aquela proposta de tudo-num-pacote — E5, Copilot e Agent 365 por US$ 99/usuário, posicionando o control plane de agentes no bolso do enterprise antes que alguém monte o próprio. No mesmo dia, a Anthropic calou silenciosamente o contexto de 1M tokens no Sonnet 4.5 e 4 — quem tem pipeline rodando em produção com payloads maiores que 200k já pode ir checar os logs de erro 400.\n\nSegurança foi pesada essa semana. MOVEit voltou ao noticiário com CVSS 9.8 e sem patch disponível, o PyPI tirou de quarentena duas versões adulteradas do PyTorch Lightning que roubavam credenciais e se propagavam via npm, e o Lapsus$ confirmou 96 GB vazados da Checkmarx — tudo rastreado a credenciais comprometidas no incidente do Trivy lá de março. Três lembretes de que supply chain ainda é o vetor mais barato de atacar.\n\nNo mundo dos dados, Databricks colocou Iceberg v3 em preview com DML até 10× mais rápido, e o Kubernetes finalmente entregou resize vertical de pod sem restart em GA. Pinterest publicou como organiza MCP em produção com servidores por domínio em vez de um deus-servidor — blueprint que vale copiar.\n\nNas ferramentas da semana: Cursor ganhou agentes de security review em beta, RabbitMQ 4.3 conecta direto no Spark, MongoDB 8.2 embute vector search na Community Edition e o GitHub avisou que Copilot code review vai começar a consumir minutos do Actions em junho.\n\nA sexta de fundamentos fecha com Hyrum's Law no kernel Linux, a página de performance do Brendan Gregg e Stonebraker explicando por que workflow está ganhando de event-driven para agents — boa leitura de fim de semana."
+  "edition_digest": "Sexta abre com uma mistura boa de plataforma e controle: o Databricks colocou Iceberg v3 em Public Preview, o Kubernetes avançou no resize in-place de pod-level resources e a Microsoft empurrou Agent 365 para o centro da governança de agentes. O fio comum aqui é bem claro: menos reinício, menos improviso e mais capacidade de operar estado e automação sem desmontar a aplicação no meio do caminho.\n\nNo enterprise, a história vai além do produto. Agent 365 aparece como camada de observabilidade, governança e segurança para agentes, enquanto o pacote de segurança da Microsoft cruza CodeQL 2.18.3, Agent Actions Audit e proteção em runtime. Em paralelo, o Cursor levou Security Review para beta e mostra que code review assistido por agentes já virou parte do fluxo normal de times grandes.\n\nA outra metade da edição continua lembrando que supply chain segue barata para o atacante e cara para quem opera: MOVEit voltou com CVSS 9.8 sem patch, o PyPI viu o lightning contaminado com payload de credencial, e o caso Checkmarx/Lapsus$ reforça que token, segredo e pipeline ainda são o ponto de entrada mais lucrativo. É o tipo de bloco que pesa menos por novidade e mais por repetição do problema.\n\nFechando a sexta, a edição fica bem prática: Mastercard publica um retrato de receita e produtos com foco em small business, RabbitMQ 4.3 reforça filas, streams e scheduler, Spring e GraalVM entregam releases úteis, e os blocos de LWN, Brendan Gregg, OpenTelemetry e sistemas distribuídos dão o chão teórico para ler arquitetura com menos marketing e mais substância."
 }

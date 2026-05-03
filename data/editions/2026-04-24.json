@@ -23,7 +23,7 @@
         "open-source",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256",
+      "image": "https://static.simonwillison.net/static/2026/deepseek-v4-card.jpg",
       "source_key": "simonwillison"
     },
     {
@@ -43,7 +43,7 @@
         "codex",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=openai.com&sz=256",
+      "image": "https://the-decoder.com/wp-content/uploads/2022/09/Banner_The-Decoder_SoMe_1920x1080px.png",
       "source_key": "openai"
     },
     {
@@ -64,7 +64,7 @@
         "docker-hub",
         "worm"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=gitguardian.com&sz=256",
+      "image": "https://storage.ghost.io/c/42/5d/425d266f-cf99-406e-9436-597a19bed011/content/images/2026/04/image--12-.png",
       "source_key": "gitguardian"
     }
   ],
@@ -87,7 +87,7 @@
         "open-source",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256",
+      "image": "https://static.simonwillison.net/static/2026/deepseek-v4-card.jpg",
       "source_key": "simonwillison"
     },
     {
@@ -126,7 +126,7 @@
         "tpu",
         "ai-platform"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thenextweb.com&sz=256",
+      "image": "https://media.thenextweb.com/2026/04/google-cloud-next-ai-agents-agentic-era.avif",
       "source_key": "thenextweb"
     },
     {
@@ -144,7 +144,7 @@
         "agents",
         "interop"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cloud.google.com&sz=256",
+      "image": "https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png",
       "source_key": "googlecloud"
     },
     {
@@ -162,7 +162,7 @@
         "agents",
         "anthropic"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=siliconangle.com&sz=256",
+      "image": "https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2026/04/Screenshot-from-2026-04-15-07-43-35.png",
       "source_key": "siliconangle"
     },
     {
@@ -180,7 +180,7 @@
         "enterprise-ai",
         "integration"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=finance.yahoo.com&sz=256",
+      "image": "https://s.yimg.com/os/en/globenewswire.com/8dd4ecc3f4987d4e09af970ef8e233dd",
       "source_key": "yahoofinance"
     },
     {
@@ -205,7 +205,7 @@
         "sd-wan",
         "active-exploitation"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256",
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjzjZ6Llk3l-F3OFNRpNKvTziH1GObU6niwTMke4hEeI5bVXCcILs3kb25Dehkk1VCBf8NzEEPMLxElgbqLzAq0I1GuFAsDojdbVw-R6CGW6-qMXPaeiKXzQqn9JUL-VoPCVMx8h7FrOXIovnLwLv7T-O2wLdc4kIDA0bftbBDp9kwoDmqq6iYYlaZF6Qaz/s1700-e365/cisa-kev.jpg",
       "source_key": "thehackernews"
     },
     {
@@ -226,7 +226,7 @@
         "docker-hub",
         "worm"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=gitguardian.com&sz=256",
+      "image": "https://storage.ghost.io/c/42/5d/425d266f-cf99-406e-9436-597a19bed011/content/images/2026/04/image--12-.png",
       "source_key": "gitguardian"
     },
     {
@@ -245,7 +245,7 @@
         "redis",
         "postgres"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256",
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg9axxKrcvcFkL99SIB2AlrcEW2RIZ1Ff8PollH7XYSWrYSOgoPXKlF5rsdgyr9BSWVUa5oP07faI_DvxNyUk_rpuz5i2xuiEdlU-e929rCWpkLjDGRs4EBjzfBWQRJVtrWNtR-EKvWsR-PPO-Yfei5ONMyumlI12R7OHmIrsyzJtB5SJRTCSuKiyJQnTfK/s1700-e365/database.jpg",
       "source_key": "thehackernews"
     },
     {
@@ -263,7 +263,7 @@
         "tpu",
         "multi-cloud"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=blog.google&sz=256",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Cloud_Next_Header.width-1300.jpg",
       "source_key": "googleblog"
     },
     {
@@ -281,7 +281,7 @@
         "multi-cloud",
         "networking"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=networkworld.com&sz=256",
+      "image": "https://www.networkworld.com/wp-content/uploads/2025/12/4098773-0-92611100-1765318053-AWS_shutterstock_2252597109.jpg?quality=50&amp;strip=all&amp;w=1024",
       "source_key": "networkworld"
     },
     {
@@ -299,7 +299,7 @@
         "platform-engineering",
         "kubecon"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=backstage.io&sz=256",
+      "image": "https://backstage.io/img/sharing-opengraph.png",
       "source_key": "backstage"
     },
     {
@@ -317,7 +317,7 @@
         "mcp",
         "enterprise-ai"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.blog&sz=256",
+      "image": "https://github.blog/wp-content/uploads/2026/04/mcp-allowlist-copilot-cli.jpg",
       "source_key": "githubblog"
     },
     {
@@ -335,7 +335,7 @@
         "beyla",
         "opamp"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256",
+      "image": "https://a-us.storyblok.com/f/1022730/61d5927c72/otel-collector-meta-v2-1.png",
       "source_key": "grafana"
     },
     {
@@ -371,7 +371,7 @@
         "wasi",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "image": "https://opengraph.githubassets.com/75f0ed0f60932cabfbc0c2ab2a66eddd3c978690c9f387002ee5ba7c6cfea2f2/bytecodealliance/wasmtime",
       "source_key": "githubblog"
     },
     {
@@ -389,7 +389,7 @@
         "java",
         "mcp"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=spring.io&sz=256",
+      "image": "https://spring.io/img/og-spring.png",
       "source_key": "spring"
     },
     {
@@ -406,7 +406,7 @@
         "pg-19",
         "feature-freeze"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=versionlog.com&sz=256",
+      "image": "https://versionlog.com/assets/images/blog_posts/postgresql-19-coming.jpg",
       "source_key": "versionlog"
     },
     {
@@ -424,7 +424,7 @@
         "runtime",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256",
+      "image": "https://regmedia.co.uk/2021/01/14/shutterstock_dev.jpg",
       "source_key": "theregister"
     },
     {
@@ -442,7 +442,7 @@
         "feedback-loop",
         "go-runtime"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=pckt.blog&sz=256",
+      "image": "https://pckt-blog-media.s3.us-east-2.amazonaws.com/cover_image/ab3965c1-bb9f-49cd-9ec0-01e590a55f35/image.png",
       "source_key": "pcktblog"
     },
     {
@@ -460,7 +460,7 @@
         "atproto",
         "incident"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/bluesky-GettyImages-2185144073.jpg?w=1024",
       "source_key": "techcrunch"
     },
     {
@@ -514,7 +514,7 @@
         "littles-law",
         "evergreen"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=en.wikipedia.org&sz=256",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Japanese_battleship_Fuji.jpg/1280px-Japanese_battleship_Fuji.jpg",
       "source_key": "wikipedia"
     },
     {
@@ -532,7 +532,7 @@
         "ddia",
         "evergreen"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=java67.com&sz=256",
+      "image": "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t17ZS0q-M9j8XhTh9voG7bb7KheKT_9nMZRL47bQ8DjLBDEXWO2KCC8CKX7uu4hd_k6L7rIozyrU-24KK4plW00p0xaRrRc--5rgvnQWwRbjHnFCXvELcZhOa0Z0pzD2alcQRWkt67Gq4=w1200-h630-p-k-no-nu",
       "source_key": "java67"
     }
   ],

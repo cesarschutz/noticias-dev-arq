@@ -23,7 +23,7 @@
         "sast",
         "kics"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256",
+      "image": "https://www.bleepstatic.com/content/hl-images/2025/09/08/hacker.jpg",
       "source_key": "bleepingcomputer"
     },
     {
@@ -43,7 +43,7 @@
         "inference",
         "gpu"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source_key": "awswhatsnew"
     },
     {
@@ -63,7 +63,7 @@
         "workers-ai",
         "dogfooding"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cloudflare.com&sz=256",
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/78qRQVksnJ8pr4nxLwlrLy/babe894d6df02c55b50a503a1be7d18f/BLOG-3270_OG.png",
       "source_key": "cloudflare"
     }
   ],
@@ -87,7 +87,7 @@
         "sast",
         "kics"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=bleepingcomputer.com&sz=256",
+      "image": "https://www.bleepstatic.com/content/hl-images/2025/09/08/hacker.jpg",
       "source_key": "bleepingcomputer"
     },
     {
@@ -108,7 +108,7 @@
         "trivy",
         "supply-chain"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=hackread.com&sz=256",
+      "image": "https://hackread.com/wp-content/uploads/2026/03/teampcp-trivy-checkmarx-litellm-credential-theft.jpg",
       "source_key": "hackread"
     },
     {
@@ -128,7 +128,7 @@
         "api",
         "rate-limits"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=claude.com&sz=256",
+      "image": "https://platform.claude.com/docs/og?locale=en&amp;path=release-notes/overview",
       "source_key": "anthropicplatform"
     },
     {
@@ -148,7 +148,7 @@
         "sase",
         "logs"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cloudflare.com&sz=256",
+      "image": "https://mwpro.co.uk/wp-content/uploads/2025/06/pexels-canvastudio-3153198.webp",
       "source_key": "mwpro"
     },
     {
@@ -169,7 +169,7 @@
         "inference",
         "gpu"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source_key": "awswhatsnew"
     },
     {
@@ -208,7 +208,7 @@
         "configuration",
         "stability"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "image": "https://res.infoq.com/news/2026/04/opentelemetry-declarative-config/en/headerimage/generatedHeaderImage-1776292543355.jpg",
       "source_key": "infoq"
     },
     {
@@ -232,7 +232,7 @@
         "authz",
         "container-security"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thehackernews.com&sz=256",
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi1fiR51KBq7hNIR1D2V9e0jituEJTVutYd8b9v6KR0YdA30xWCSKJo3nfIykSdYSjZNe7gvNj3Wf3HidhZ24n-piDo8LhrE6ctyZrcLYNcJwCSP0KEe7G0Fl_xJm676Dv-4bFEh63Vv_xZ1zb9qOKhfeWFN5IexOHligHBCTHyVLAMDl0aeL2olDxnjfch/s1700-e365/ai-chat.jpg",
       "source_key": "thehackernews"
     },
     {
@@ -252,7 +252,7 @@
         "mcp",
         "governance"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=databricks.com&sz=256",
+      "image": "https://www.databricks.com/sites/default/files/2023-11/databricks-og-universal.png",
       "source_key": "databricks"
     },
     {
@@ -272,7 +272,7 @@
         "mlops",
         "finops"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=datadoghq.com&sz=256",
+      "image": "https://corp.dd-static.net/img/og/og-image-10-25.png?fit=crop&w=1200&h=630",
       "source_key": "datadog"
     },
     {
@@ -291,7 +291,7 @@
         "release",
         "freeze"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=postgresql.org&sz=256",
+      "image": "https://www.postgresql.org/media-archives/img/about/press/elephant.png",
       "source_key": "postgresql"
     },
     {
@@ -311,7 +311,7 @@
         "kip",
         "oauth"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=getkafkanated.substack.com&sz=256",
+      "image": "https://substackcdn.com/image/fetch/$s_!l3dt!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7098229e-d6b3-406a-90dc-4cec216a743d_1448x1048.png",
       "source_key": "getkafkanated"
     },
     {
@@ -330,7 +330,7 @@
         "sveltekit",
         "type-safety"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=svelte.dev&sz=256",
+      "image": "https://svelte.dev/blog/whats-new-in-svelte-april-2026/card.png",
       "source_key": "svelte"
     },
     {
@@ -353,7 +353,7 @@
         "ppr",
         "security-patch"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "image": "https://repository-images.githubusercontent.com/70107786/4602445c-10a2-4903-a360-c96d70531f67",
       "source_key": "nextjs"
     },
     {
@@ -373,7 +373,7 @@
         "jdk",
         "lts"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=256",
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
       "source_key": "awscorretto"
     },
     {
@@ -395,7 +395,7 @@
         "playwright",
         "load-testing"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=github.com&sz=256",
+      "image": "https://repository-images.githubusercontent.com/54400687/29992200-7069-11ea-85c9-3824e56625b2",
       "source_key": "k6"
     },
     {
@@ -415,7 +415,7 @@
         "pix",
         "fintech-br"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=convergenciadigital.com.br&sz=256",
+      "image": "https://convergenciadigital.com.br/wp-content/uploads/2023/06/open-finance.jpg",
       "source_key": "convergenciadigital"
     },
     {
@@ -435,7 +435,7 @@
         "ai-coding",
         "cognitive-debt"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=thoughtworks.com&sz=256",
+      "image": "https://www.thoughtworks.com/content/dam/thoughtworks/images/photography/meta/about-us/news/ab_meta_news.jpg",
       "source_key": "thoughtworks"
     },
     {
@@ -454,7 +454,7 @@
         "aggregate",
         "refactoring"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=deniskyashif.com&sz=256",
+      "image": "https://deniskyashif.com/images/site-feature-image.png",
       "source_key": "denniskyashif"
     },
     {
@@ -474,7 +474,7 @@
         "go",
         "concurrency"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=surfingcomplexity.blog&sz=256",
+      "image": "https://surfingcomplexity.blog/wp-content/uploads/2026/04/image.png",
       "source_key": "surfingcomplexity"
     },
     {
@@ -515,7 +515,7 @@
         "workers-ai",
         "dogfooding"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=blog.cloudflare.com&sz=256",
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/78qRQVksnJ8pr4nxLwlrLy/babe894d6df02c55b50a503a1be7d18f/BLOG-3270_OG.png",
       "source_key": "cloudflare"
     },
     {

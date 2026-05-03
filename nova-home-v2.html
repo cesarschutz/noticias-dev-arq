@@ -577,7 +577,7 @@ ul,ol{list-style:none}
 
 /* ===== CONTENT ===== */
 /* Sem scroll interno — o scroll é do body/navegador */
-.content-main{min-width:0;background:var(--bg)}
+.content-main{min-width:0;background:transparent}
 .c-pad{padding:32px 0 60px}
 .c-pad-home{padding:0}
 
@@ -666,10 +666,8 @@ ul,ol{list-style:none}
   z-index:0;
   pointer-events:none;
   overflow:hidden;
-  display:none;
+  display:block;
 }
-body[data-view="home"] .home-fall-bg{display:block}
-body[data-view="home"] .content-main{background:transparent}
 body[data-view="home"] .home-hero{background:transparent}
 body.sidebar-collapsed .home-fall-bg{
   left:calc(max(0px, (100vw - var(--page-max)) / 2) + var(--page-pad) + var(--app-frame-pad));
@@ -1235,8 +1233,6 @@ img[src*="cursor/ffffff"]{filter:invert(1)}
   border-radius:18px;
   border:1px solid var(--border);
   background:color-mix(in srgb,var(--surface) 72%,transparent);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
   padding:28px 28px 36px;
 }
 
@@ -1456,15 +1452,13 @@ img[src*="cursor/ffffff"]{filter:invert(1)}
 .news-card{
   background:var(--surface);border-radius:var(--r);
   padding:18px 18px 14px;margin-bottom:10px;
-  border-left:4px solid var(--lc,var(--border));
   box-shadow:0 0 0 1px rgba(0,0,0,0.05),0 1px 2px rgba(0,0,0,0.04),0 6px 18px rgba(15,23,42,0.05);
   transition:box-shadow var(--tr-base),transform var(--tr-fast);
 }
 [data-theme="dark"] .news-card{box-shadow:0 0 0 1px rgba(255,255,255,0.06),0 1px 2px rgba(0,0,0,0.30),0 8px 22px rgba(0,0,0,0.28)}
-.news-card:hover{box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.06),0 12px 30px rgba(15,23,42,0.09)}
-[data-theme="dark"] .news-card:hover{box-shadow:0 0 0 1px rgba(255,255,255,0.10),0 1px 2px rgba(0,0,0,0.40),0 14px 34px rgba(0,0,0,0.40)}
+.news-card:hover{box-shadow:0 1px 2px rgba(0,0,0,0.06),0 12px 30px rgba(15,23,42,0.09)}
+[data-theme="dark"] .news-card:hover{box-shadow:0 1px 2px rgba(0,0,0,0.40),0 14px 34px rgba(0,0,0,0.40)}
 .news-card:active{transform:scale(0.99);transition:transform 0.08s var(--ease-out)!important}
-.news-card.urgent{border-left-color:#FF453A}
 .nc-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
 .nc-title{font-size:16px;font-weight:600;letter-spacing:-0.3px;line-height:1.35;color:var(--text)}
 .nc-title a{color:var(--text)}
@@ -1529,28 +1523,37 @@ img[src*="cursor/ffffff"]{filter:invert(1)}
 @media(max-width:820px){.nav-sources-lbl{display:none}}
 .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
 .tool-card{
+  position:relative;
   background:var(--surface);border-radius:var(--rl);
-  padding:14px 16px;
+  padding:16px 18px 14px;
   box-shadow:0 0 0 1px rgba(0,0,0,0.05),0 1px 2px rgba(0,0,0,0.04),0 8px 24px rgba(15,23,42,0.06);
-  display:flex;gap:12px;align-items:flex-start;
+  display:flex;flex-direction:column;gap:10px;align-items:stretch;
   transition:box-shadow var(--tr-base),transform var(--tr-base),border-color var(--tr-base);cursor:pointer;
+  overflow:hidden;
+}
+.tc-save{position:absolute;top:10px;right:10px;z-index:3}
+.tool-card::before{
+  content:'';
+  position:absolute;
+  inset:0 auto 0 0;
+  width:4px;height:auto;
+  background:linear-gradient(180deg,var(--tc,var(--accent)),color-mix(in srgb,var(--tc,var(--accent)) 72%,transparent));
+  z-index:2;
 }
 [data-theme="dark"] .tool-card{box-shadow:0 0 0 1px rgba(255,255,255,0.07),0 1px 2px rgba(0,0,0,0.35),0 10px 26px rgba(0,0,0,0.30)}
 .tool-card:hover{box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.06),0 14px 36px rgba(15,23,42,0.10);transform:translateY(-2px)}
 [data-theme="dark"] .tool-card:hover{box-shadow:0 0 0 1px rgba(255,255,255,0.10),0 1px 2px rgba(0,0,0,0.45),0 16px 40px rgba(0,0,0,0.45)}
 .tool-card:active{transform:translateY(0) scale(0.985)!important;transition:transform 0.08s var(--ease-out)!important}
+.tc-head{display:flex;gap:12px;align-items:center;padding-right:30px}
 .tc-icon{
-  width:42px;height:42px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;overflow:hidden;
-  background:color-mix(in srgb,var(--tc,var(--accent)) 15%,transparent);
+  flex-shrink:0;
 }
-.tc-icon img{width:24px;height:24px;object-fit:contain;display:block;outline:1px solid rgba(0,0,0,0.08);outline-offset:-1px}
-[data-theme="dark"] .tc-icon img{outline-color:rgba(255,255,255,0.08)}
+.tc-icon img{width:24px;height:24px;object-fit:contain;display:block}
 .tc-body{flex:1;min-width:0}
-.tc-name{font-size:13px;font-weight:600;letter-spacing:-0.2px;color:var(--text)}
-.tc-ver{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:3px;font-variant-numeric:tabular-nums}
-.tc-hl{font-size:12px;color:var(--text-2);line-height:1.45;letter-spacing:-0.1px}
+.tc-name{font-size:14px;font-weight:600;letter-spacing:-0.2px;color:var(--text);line-height:1.25}
+.tc-ver{font-size:11px;color:var(--accent);font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.tc-hl{font-size:12.5px;color:var(--text-2);line-height:1.45;letter-spacing:-0.1px}
 
 /* ===== TIMELINE HERO ===== */
 .tl-hero{
@@ -1836,7 +1839,207 @@ img[src*="cursor/ffffff"]{filter:invert(1)}
 .cal-d.has:hover{background:var(--surface-el)}
 .cal-d.has:active{transform:scale(0.88)}
 .cal-d.sel{background:var(--accent)!important;color:#fff!important}
-.cal-d.today:not(.sel){outline:1.5px solid var(--accent);border-radius:5px}
+.cal-d.today:not(.sel){outline:none;border:none;color:var(--accent);font-weight:700;}
+.cal-d.today:not(.sel)::before{content:"";position:absolute;inset:auto 0 1px 0;margin:0 auto;width:4px;height:4px;border-radius:50%;background:var(--accent);}
+
+/* ===== V2 HOME CARDS POLISH ===== */
+/* Section spacing — more breathing room between cards */
+.home-section{margin:36px 0 0!important}
+.home-section:first-of-type{margin-top:24px!important}
+
+/* Card padding — less inner air on large screens */
+.fav-card{
+  padding:clamp(20px,2vw,26px)!important;
+  border-radius:14px!important;
+}
+@media(max-width:640px){
+  .fav-card{padding:18px 16px!important;border-radius:12px!important}
+}
+
+/* Kicker — remove the leading bar; cleaner look */
+.home-sect-kicker,.sect-kicker,.card-kicker{
+  padding-left:0!important;
+  font-size:11px!important;
+  letter-spacing:.16em!important;
+  font-weight:700!important;
+  color:var(--accent)!important;
+  margin-bottom:6px!important;
+}
+.home-sect-kicker::before,.sect-kicker::before,.card-kicker::before{display:none!important}
+[data-theme="dark"] .home-sect-kicker::before,
+[data-theme="dark"] .sect-kicker::before,
+[data-theme="dark"] .card-kicker::before{display:none!important}
+
+/* Section header — tighter rhythm */
+.eds-section-hd{margin-bottom:18px!important}
+.home-sect-title{margin-bottom:0!important;letter-spacing:-.022em!important}
+.home-section-sub{margin-top:6px!important;font-size:13.5px!important;color:var(--text-3)!important}
+
+/* Hide remaining redundant inner kickers (Edição atual / Edições anteriores / Edições recentes) */
+.home-hls-prev-hd .home-sect-kicker{
+  color:var(--text-3)!important;
+  font-size:10.5px!important;
+  letter-spacing:.12em!important;
+  margin-bottom:10px!important;
+}
+.home-hls-prev-hd{margin-bottom:10px!important;padding-top:4px;border-top:1px dashed var(--border)}
+.home-hls-prev-hd:first-child{border-top:none;padding-top:0}
+
+/* ===== V2 GLOBAL POLISH — final pass ===== */
+
+/* 1. Fall stage (logos no fundo) — mais discretos, viram ambiente */
+.fall-tile{opacity:.55!important}
+.fall-tile:hover{opacity:1!important}
+.fall-tile .inner{filter:saturate(.85)}
+.fall-tile:hover .inner{filter:saturate(1)}
+.fall-label{opacity:.7!important}
+.fall-tile:hover .fall-label{opacity:1!important}
+
+/* 2. Quote bar — setas mais visíveis */
+.qbar-btn{
+  background:color-mix(in srgb,var(--text) 6%,transparent)!important;
+  border:1px solid var(--border)!important;
+  color:var(--text-2)!important;
+}
+.qbar-btn:hover{
+  background:color-mix(in srgb,var(--accent) 14%,transparent)!important;
+  color:var(--accent)!important;
+  border-color:color-mix(in srgb,var(--accent) 40%,var(--border))!important;
+}
+
+/* 3. Hero highlight cards — aspect-ratio fixo nas imagens (anti-CLS) */
+.hero-hl-img-banner{aspect-ratio:16/9;background:color-mix(in srgb,var(--cat-color,var(--accent)) 10%,var(--surface-el))!important}
+.hero-hl-img-banner img{width:100%;height:100%!important;object-fit:cover}
+.home-hls-latest-grid .hero-hl-img-banner img{height:100%!important}
+.home-hls-track .hero-hl-img-banner img{height:100%!important}
+
+/* 4. Hover state padronizado em todos os cards de notícia/destaque */
+.hl-card,.hero-hl-card,.news-card{
+  transition:transform .22s var(--ease-out,cubic-bezier(.2,.8,.2,1)),box-shadow .22s ease,border-color .22s ease!important;
+}
+.hl-card:hover,.hero-hl-card:hover,.news-card:hover{
+  transform:translateY(-3px)!important;
+}
+
+/* 5. Carrossel — sem fade lateral (botões de navegação sempre visíveis) */
+
+/* 6. Segmented controls (fav-seg / fav-tabs) — tab ativa com mais contraste */
+.fav-seg-btn.active{
+  background:var(--accent)!important;
+  color:#fff!important;
+  box-shadow:0 1px 2px rgba(0,0,0,.12),0 2px 8px color-mix(in srgb,var(--accent) 30%,transparent)!important;
+}
+.fav-seg-btn.active svg{color:#fff!important}
+.fav-tab.active{
+  background:color-mix(in srgb,var(--accent) 16%,transparent)!important;
+  color:var(--accent)!important;
+  font-weight:600!important;
+}
+
+/* 7. Border-radius pills/badges padronizado */
+.home-cover-meta span{border-radius:8px!important}
+
+/* 8. Hierarquia tipográfica — section titles um pouco menores que hero */
+.home-section .home-sect-title{
+  font-size:clamp(20px,2vw,26px)!important;
+  font-weight:700!important;
+  letter-spacing:-.020em!important;
+}
+
+/* 9. Footer da página — espaçamento e cor consistentes */
+footer,.site-footer{
+  margin-top:48px;
+  padding:24px 0;
+  color:var(--text-3);
+  border-top:1px solid var(--border);
+  font-size:13px;
+}
+footer a,.site-footer a{color:var(--text-2);text-decoration:none;transition:color .18s ease}
+footer a:hover,.site-footer a:hover{color:var(--accent)}
+
+/* 10. Reduced motion — respeita preferência do usuário */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .fall-tile{animation:none!important;transform:none!important}
+}
+
+/* ===== V2 EDITORIAL HERO — animar e dar vida ===== */
+.home-cube-swiper.is-editorial .swiper-slide{
+  background: var(--surface) !important;
+  overflow: hidden !important;
+}
+[data-theme="dark"] .home-cube-swiper.is-editorial .swiper-slide{
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 40%),
+    var(--surface) !important;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home-cube-swiper.is-editorial .swiper-slide{
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 45%),
+      radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 40%),
+      var(--surface) !important;
+  }
+}
+
+/* Decoração sutil — marca d'água radial atrás */
+.home-cube-swiper.is-editorial .swiper-slide::after{
+  content: none !important;
+}
+[data-theme="dark"] .home-cube-swiper.is-editorial .swiper-slide::after{
+  content: "" !important;
+  position: absolute;
+  top: -20px; right: -30px;
+  width: 280px; height: 280px;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(20px);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home-cube-swiper.is-editorial .swiper-slide::after{
+    content: "" !important;
+    position: absolute;
+    top: -20px; right: -30px;
+    width: 280px; height: 280px;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(20px);
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+  }
+}
+[data-theme="dark"] .home-cube-swiper.is-editorial .swiper-slide::after{
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home-cube-swiper.is-editorial .swiper-slide::after{
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+  }
+}
+
+/* Number do dia sem sombra */
+.is-editorial .ed-date-num{
+  text-shadow: none;
+}
+
+/* Pill da edição com mais presença */
+.is-editorial .ed-issue{
+  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border)) !important;
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+}
+
+/* Stats no footer com leve pulso no número */
+.is-editorial .ed-foot-stat b{
+  color: var(--accent) !important;
+}
 .cal-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);position:absolute;bottom:2px}
 
 /* ===== CAL COMPACT BAR ===== */
@@ -2089,6 +2292,202 @@ body:not(.qbar-open) #main{
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
 }
 @media(max-width:640px){.day-nav-cards{grid-template-columns:1fr}}
+
+/* ===== DAY EDITORIAL CARD (edition page header) ===== */
+.day-editorial-card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-top:3px solid var(--accent);
+  border-radius:var(--r-md);
+  padding:32px 36px 28px;
+  margin:24px 0 32px;
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:18px;
+  overflow:hidden;
+}
+[data-theme="dark"] .day-editorial-card{
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 40%),
+    var(--surface);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .day-editorial-card{
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 45%),
+      radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 40%),
+      var(--surface);
+  }
+}
+[data-theme="dark"] .day-editorial-card::after{
+  content:"";
+  position:absolute;
+  top:-20px;right:-30px;
+  width:280px;height:280px;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+  pointer-events:none;
+  z-index:0;
+  filter:blur(20px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .day-editorial-card::after{
+    content:"";
+    position:absolute;
+    top:-20px;right:-30px;
+    width:280px;height:280px;
+    background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+    pointer-events:none;
+    z-index:0;
+    filter:blur(20px);
+  }
+}
+[data-theme="dark"] .day-editorial-card::after{
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .day-editorial-card::after{
+    background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+  }
+}
+.day-editorial-card>*{position:relative;z-index:1}
+.day-editorial-card.is-today{border-top-color:#34c759}
+@media(max-width:720px){
+  .day-editorial-card{padding:22px 20px 22px;gap:14px;margin:16px 0 24px}
+}
+
+/* Mapa de categorias (totais por categoria dentro do day card) */
+.day-map-row{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding-top:14px;margin-top:2px;
+  border-top:1px dashed var(--border);
+}
+.day-map-label{
+  font-family:var(--ff-text),system-ui,sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text-3);flex-shrink:0;min-width:92px;
+}
+.day-map-pills{
+  display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;
+}
+.day-map-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 5px 5px 10px;border-radius:999px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  font-family:var(--ff-text),system-ui,sans-serif;
+  font-size:12.5px;color:var(--text-2);
+  cursor:pointer;line-height:1;
+  transition:border-color var(--tr-fast),background var(--tr-fast),color var(--tr-fast),transform var(--tr-fast);
+}
+.day-map-pill:hover{
+  border-color:color-mix(in srgb,var(--cc,var(--accent)) 50%,var(--border));
+  color:var(--text);
+  background:color-mix(in srgb,var(--cc,var(--accent)) 6%,var(--surface));
+}
+.day-map-pill:active{transform:scale(0.96)}
+.day-map-pill-name{font-weight:600;letter-spacing:0.01em}
+.day-map-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 7px;border-radius:999px;
+  font-size:11.5px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+  background:color-mix(in srgb,var(--cc,var(--accent)) 14%,transparent);
+  color:var(--cc,var(--accent));
+  line-height:1;
+}
+@media(max-width:720px){
+  .day-map-row{gap:8px;padding-top:12px}
+  .day-map-label{min-width:0;width:100%}
+}
+
+/* ===== DAY NEWS PANEL (filter pills + flat masonry) ===== */
+.day-section--news{margin-top:8px}
+.day-news-panel{padding:24px 24px 26px}
+.day-news-panel .eds-section-hd{margin-bottom:14px}
+.day-news-filters{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin:0 -24px 22px;
+  padding:14px 24px 18px;
+  background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.day-news-filter{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 12px 7px 11px;border-radius:999px;
+  background:transparent;border:1px solid var(--border);
+  font-size:12.5px;font-weight:500;color:var(--text-2);
+  cursor:pointer;line-height:1;
+  transition:border-color var(--tr-fast),background var(--tr-fast),color var(--tr-fast);
+}
+.day-news-filter:hover{border-color:color-mix(in srgb,var(--cc,var(--accent)) 40%,var(--border));color:var(--text)}
+.day-news-filter.is-active{
+  background:color-mix(in srgb,var(--cc,var(--accent)) 12%,transparent);
+  border-color:color-mix(in srgb,var(--cc,var(--accent)) 50%,transparent);
+  color:var(--text);
+}
+.day-news-filter .day-news-filter-count{
+  font-size:11px;font-weight:600;color:var(--text-3);
+  padding:2px 7px;border-radius:999px;
+  background:color-mix(in srgb,var(--text) 6%,transparent);
+  font-variant-numeric:tabular-nums;
+}
+.day-news-filter.is-active .day-news-filter-count{
+  background:color-mix(in srgb,var(--cc,var(--accent)) 18%,transparent);
+  color:color-mix(in srgb,var(--cc,var(--accent)) 80%,var(--text));
+}
+.day-news-grid{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.day-news-col{
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.day-news-grid .day-news-item{width:100%}
+.day-news-grid .news-card{margin:0!important}
+
+/* ===== DAY PAGER (prev/next edition) ===== */
+.day-pager{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  margin-top:56px;padding-top:28px;border-top:1px solid var(--border);
+}
+.day-pager-card{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 22px;border-radius:var(--r-md);
+  background:var(--surface);border:1px solid var(--border);
+  text-align:left;color:var(--text);cursor:pointer;
+  transition:border-color var(--tr-base),background var(--tr-base),transform var(--tr-fast),box-shadow var(--tr-base);
+  box-shadow:var(--shadow-card);
+}
+.day-pager-card:hover{border-color:var(--accent);background:var(--surface-el);transform:translateY(-2px);box-shadow:var(--shadow-card-hover)}
+.day-pager-card.next{flex-direction:row;text-align:right}
+.day-pager-card.next .day-pager-body{text-align:right}
+.day-pager-arr{
+  font-size:24px;font-weight:300;color:var(--text-3);flex-shrink:0;
+  transition:color var(--tr-fast),transform var(--tr-fast);
+}
+.day-pager-card:hover .day-pager-arr{color:var(--accent)}
+.day-pager-card.prev:hover .day-pager-arr{transform:translateX(-3px)}
+.day-pager-card.next:hover .day-pager-arr{transform:translateX(3px)}
+.day-pager-body{flex:1;min-width:0}
+.day-pager-lbl{
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:4px;
+}
+.day-pager-meta{
+  font-size:11px;color:var(--text-3);margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+}
+.day-pager-title{
+  font-size:15px;font-weight:600;line-height:1.35;color:var(--text);
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+}
+@media(max-width:640px){.day-pager{grid-template-columns:1fr}}
 
 .day-nav-btns{display:flex;justify-content:space-between;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)}
 .day-nav-btn{
@@ -2580,14 +2979,13 @@ body.drawer-open .qbar-chip{pointer-events:none;}
 .yt-size-btn{background:none;border:none;padding:0;cursor:pointer;color:var(--accent);display:flex;align-items:center;line-height:1;transition:opacity .15s}
 .yt-size-btn:hover{opacity:.7}
 .yt-nav-wrap{position:relative}
-.yt-nav-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.92);border:none;box-shadow:0 1px 2px rgba(0,0,0,0.10),0 6px 16px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;color:#1d1d1f;padding:0;transition:background var(--tr-base),box-shadow var(--tr-base),opacity .25s,transform var(--tr-fast);position:absolute;top:35%;z-index:10;opacity:0;pointer-events:none}
+.yt-nav-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.92);border:none;box-shadow:0 1px 2px rgba(0,0,0,0.10),0 6px 16px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;color:#1d1d1f;padding:0;transition:background var(--tr-base),box-shadow var(--tr-base),transform var(--tr-fast);position:absolute;top:35%;z-index:10}
 #yt-prev{left:6px}
 #yt-next{right:6px}
-.yt-carousel:hover .yt-nav-btn:not(:disabled){opacity:1;pointer-events:auto}
 .yt-nav-btn:hover:not(:disabled){background:#fff;box-shadow:0 1px 2px rgba(0,0,0,0.12),0 10px 24px rgba(0,0,0,0.22);transform:scale(1.06)}
 .yt-nav-btn:active:not(:disabled){transform:scale(0.94);transition:transform 0.08s var(--ease-out)}
-.yt-nav-btn:disabled{opacity:0!important;pointer-events:none}
-.yt-track-wrap{overflow:hidden;line-height:0;padding:12px;-webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);mask-image:linear-gradient(to right,black 85%,transparent 100%)}
+.yt-nav-btn:disabled{opacity:0.35;pointer-events:none}
+.yt-track-wrap{overflow:hidden;line-height:0;padding:12px}
 .yt-track{display:flex;gap:8px;transition:transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94)}
 .yt-slide{flex:0 0 260px;display:flex;flex-direction:column;gap:0;border-radius:10px;overflow:hidden;background:var(--surface)}
 .yt-carousel.yt-large .yt-slide{flex:0 0 300px}
@@ -2651,12 +3049,19 @@ body.drawer-open .qbar-chip{pointer-events:none;}
 .hero-hl-card .cube-hl-text{display:block;color:var(--text);font-size:14px;font-weight:700;line-height:1.36;letter-spacing:-0.018em;transition:color .2s ease}
 .hero-hl-summary{font-size:13px;line-height:1.62;color:var(--text-3);margin-top:10px;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
 .hero-hl-card .cube-hl-meta{gap:12px;margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+.hero-hl-card .tl-explain{margin:auto 0 10px}
+.hero-hl-card:has(.tl-explain) .cube-hl-meta{margin-top:0}
+.hero-hl-card .hero-hl-summary{margin-bottom:8px}
+.hero-hl-card .hero-hl-summary{margin-bottom:14px}
 .hero-hl-card .cube-hl-meta-source{gap:8px;font-size:13px;font-weight:700;line-height:1;color:var(--text-2)}
 .hero-hl-card .cube-hl-meta-time{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;line-height:1;color:var(--text-3)}
 .hero-hl-card .src-favicon{display:block;width:18px;height:18px;border-radius:5px;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
 .cube-hl-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:400;color:var(--text-3);letter-spacing:-0.01em}
-.cube-hl-meta-source{display:flex;align-items:center;gap:5px;overflow:hidden;line-height:1}
-.cube-hl-meta-time{flex-shrink:0;white-space:nowrap}
+.cube-hl-meta-info{display:flex;align-items:center;gap:10px;flex:1;min-width:0;overflow:hidden}
+.cube-hl-meta-source{display:flex;align-items:center;gap:5px;overflow:hidden;line-height:1;min-width:0}
+.cube-hl-meta-source>*{min-width:0}
+.cube-hl-meta-time{flex-shrink:0;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.cube-hl-meta .mini-btn{flex-shrink:0}
 .hero-hl-summary{font-size:13px;line-height:1.56;color:var(--text-3);margin-top:10px}
 
 /* ── Seções Destaques + Vídeos (abaixo do hero) ── */
@@ -2684,8 +3089,8 @@ body.drawer-open .qbar-chip{pointer-events:none;}
 .home-hls-track .cube-hli-content .cube-hl-meta-time{display:inline-flex;align-items:center;line-height:1;gap:4px;padding:3px 7px;border-radius:999px;background:var(--surface-el);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text-2)}
 .home-hls-track .cube-hli-content .src-favicon{display:block}
 .home-yt-track{display:flex;gap:16px;transition:transform .38s var(--ease-spring);will-change:transform}
-.home-yt-track .yt-slide{flex:0 0 300px;gap:10px}
-.home-yt-track .yt-aspect{width:300px;border-radius:10px}
+.home-yt-track .yt-slide{flex:0 0 340px;gap:10px}
+.home-yt-track .yt-aspect{width:340px;border-radius:10px}
 .home-yt-track .yt-slide-title{font-size:15px;line-height:1.45;-webkit-line-clamp:2;font-weight:600}
 .home-yt-track .yt-slide-meta{gap:7px;margin-top:2px}
 .home-yt-track .yt-channel-avatar{width:20px;height:20px}
@@ -2731,8 +3136,7 @@ body.drawer-open .qbar-chip{pointer-events:none;}
 #eds-nav{display:none!important}
 #eds-dots{display:none!important}
 .drag-outer{position:relative}
-.drag-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:36px;height:36px;border-radius:50%;background:var(--surface-card);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity var(--tr-base),background var(--tr-base),box-shadow var(--tr-base),transform var(--tr-fast);padding:0;box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 18px rgba(15,23,42,.10);pointer-events:none}
-.drag-outer:hover .drag-arrow{opacity:1;pointer-events:auto}
+.drag-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:36px;height:36px;border-radius:50%;background:var(--surface-card);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:1;transition:background var(--tr-base),box-shadow var(--tr-base),transform var(--tr-fast);padding:0;box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 18px rgba(15,23,42,.10);pointer-events:auto}
 .drag-arrow:hover{background:var(--surface-el);box-shadow:0 1px 2px rgba(0,0,0,.08),0 12px 28px rgba(15,23,42,.16);transform:translateY(-50%) scale(1.04)}
 .drag-arrow:active{transform:translateY(-50%) scale(0.94);transition:transform 0.08s var(--ease-out)}
 .drag-arrow--l{left:-14px}
@@ -2919,14 +3323,8 @@ body {
   column-gap: var(--app-col-gap);
   grid-template-columns: var(--sw) minmax(0, 1fr);
 }
-.content-main { border-radius: var(--panel-radius); min-width: 0; }
-body[data-view="home"] .content-main { border-radius: 0; background: transparent; }
-
-.content-main {
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--surface) 78%, transparent), transparent 280px),
-    color-mix(in srgb, var(--bg) 96%, var(--surface) 4%);
-}
+.content-main { border-radius: var(--panel-radius); min-width: 0; background: transparent; }
+body[data-view="home"] .content-main { border-radius: 0; }
 
 /* ── Quote bar host — alinhado com a coluna de conteúdo ────── */
 .qbar-host {
@@ -3090,7 +3488,7 @@ body.sidebar-collapsed .qbar-host {
    Padding interno mínimo — o respiro lateral fica em --page-pad de .app-layout. */
 .home-hero {
   max-width: none; margin: 0;
-  padding: clamp(18px, 3vw, 34px) 0 18px;
+  padding: clamp(8px, 1.2vw, 14px) 0 18px;
 }
 .home-section {
   max-width: none; margin: 18px 0 0;
@@ -3250,7 +3648,6 @@ body.sidebar-collapsed .qbar-host {
 .rel-card:hover, .nf-suggest-card:hover {
   box-shadow: var(--shadow-card-hover);
 }
-[data-theme="dark"] .news-card:hover,
 [data-theme="dark"] .hl-card:hover,
 [data-theme="dark"] .tool-card:hover,
 [data-theme="dark"] .source-card:hover {
@@ -3263,20 +3660,31 @@ body.sidebar-collapsed .qbar-host {
   padding: 20px;
   border-radius: var(--card-radius);
   border: 1px solid color-mix(in srgb, var(--border) 92%, transparent);
-  border-left: 3px solid color-mix(in srgb, var(--lc, var(--accent)) 76%, transparent);
   background: linear-gradient(180deg,
     color-mix(in srgb, var(--surface-card) 96%, var(--surface-el) 4%),
     var(--surface-card));
   overflow: hidden;
 }
+.news-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--lc, var(--accent)), color-mix(in srgb, var(--lc, var(--accent)) 70%, #fff));
+  z-index: 3;
+  pointer-events: none;
+}
+.news-card.urgent::before {
+  background: linear-gradient(90deg, #FF453A, color-mix(in srgb, #FF453A 70%, #fff));
+}
 [data-theme="dark"] .news-card {
   border-color: rgba(255, 255, 255, .085);
-  border-left-color: color-mix(in srgb, var(--lc, var(--accent)) 72%, transparent);
-  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .018));
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--surface-card) 92%, var(--surface-el) 8%),
+    var(--surface-card));
 }
 .news-card:hover {
-  transform: none;
-  border-color: color-mix(in srgb, var(--lc, var(--accent)) 22%, var(--border));
+  border-color: var(--lc, var(--accent));
 }
 .news-card + .news-card { margin-top: 12px; }
 .hl-grid .news-card { margin: 0; }
@@ -3284,12 +3692,22 @@ body.sidebar-collapsed .qbar-host {
 
 /* News-card meta row */
 .nc-meta {
-  display: flex; align-items: center; flex-wrap: wrap;
+  display: flex; align-items: center; flex-wrap: nowrap;
   gap: 8px; margin: 0 0 12px;
   color: var(--text-3);
   font-size: 11.5px; font-weight: 700;
   min-height: 28px;
+  min-width: 0;
 }
+.nc-read-time {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--text-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nc-meta .nc-source-top { flex-shrink: 0; margin-left: auto; }
+.nc-meta .nc-read-time { margin-left: auto; }
+.nc-meta .nc-source-top + .nc-read-time { margin-left: 0; }
 .nc-meta-pill {
   display: inline-flex; align-items: center; gap: 5px;
   min-height: 24px; padding: 3px 9px;
@@ -3297,6 +3715,10 @@ body.sidebar-collapsed .qbar-host {
   background: color-mix(in srgb, var(--lc, var(--accent)) 9%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--lc, var(--accent)) 22%, var(--border));
   color: color-mix(in srgb, var(--lc, var(--accent)) 84%, var(--text));
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .nc-source-top {
   display: inline-flex; align-items: center;
@@ -3327,17 +3749,19 @@ body.sidebar-collapsed .qbar-host {
 [data-theme="dark"] .nc-summary { color: rgba(255, 255, 255, .68); }
 
 .nc-footer {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center; gap: 10px;
+  display: flex; flex-direction: column; gap: 10px;
   margin-top: 14px; padding-top: 12px;
   border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
-  min-height: 34px;
 }
-.nc-footer .tags { min-width: 0; margin-left: 0; justify-content: flex-start; }
-.nc-date, .nc-open { white-space: nowrap; font-size: 11.5px; font-weight: 700; }
-.nc-date { color: var(--text-3); }
-.nc-open { color: var(--accent); }
+.nc-footer .tags { min-width: 0; margin: 0; justify-content: center; flex-wrap: wrap; width: 100%; }
+.nc-footer-row {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  min-height: 28px;
+}
+.nc-footer-row .nc-open { margin-right: auto; }
+.nc-footer-row .mini-btn.bm { margin-left: auto; }
+.nc-open { white-space: nowrap; font-size: 11.5px; font-weight: 700; color: var(--accent); }
 .nc-open:hover { text-decoration: none; color: var(--accent-h); }
 
 /* Tags / chips */
@@ -3660,7 +4084,7 @@ body.sidebar-collapsed .qbar-host {
 .tl-explain {
   display: block;
   margin: 14px 0 2px;
-  padding: 10px;
+  padding: 6px 10px;
   border-radius: var(--radius-md);
   border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
   background: color-mix(in srgb, var(--surface-el) 48%, transparent);
@@ -3673,65 +4097,69 @@ body.sidebar-collapsed .qbar-host {
 }
 .tl-explain-head {
   width: 100%;
+  padding: 0;
+  min-height: 26px;
+}
+.tl-explain-head-btn {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 2px 2px 2px 4px;
+  padding: 4px 4px 4px 2px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .16s var(--ease-out);
+}
+.tl-explain-head-btn:hover {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.tl-explain-head-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  outline-offset: 2px;
 }
 .tl-explain-title {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--text);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: -.01em;
 }
-.tl-explain-title-mascots {
+.tl-explain-qicon {
   display: inline-flex;
   align-items: center;
-  margin-left: 2px;
-}
-.tl-explain-title-mascot {
-  width: 24px;
-  height: 24px;
-  margin-left: -7px;
-  object-fit: contain;
-}
-.tl-explain-title-mascot:first-child { margin-left: 0; }
-.tl-explain-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: linear-gradient(135deg,#30D158,#FFD60A,var(--accent));
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
+  justify-content: center;
   flex-shrink: 0;
+  color: var(--accent);
+}
+.tl-explain-qicon svg {
+  width: 15px;
+  height: 15px;
+  display: block;
 }
 .tl-explain-card-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 28px;
-  padding: 4px 9px;
-  border-radius: var(--radius-pill);
-  border: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
-  background: color-mix(in srgb, var(--surface-card) 82%, transparent);
+  justify-content: center;
+  flex-shrink: 0;
   color: var(--text-3);
-  font-size: 11px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: border-color .16s var(--ease-out), color .16s var(--ease-out), background .16s var(--ease-out);
+  transition: color .16s var(--ease-out);
 }
-.tl-explain-card-toggle:hover {
+.tl-explain-head-btn:hover .tl-explain-card-toggle {
   color: var(--text);
-  border-color: color-mix(in srgb, var(--accent) 34%, var(--border));
-  background: color-mix(in srgb, var(--accent) 7%, var(--surface-card));
 }
 .tl-explain-card-toggle svg {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   transition: transform .22s var(--ease-out);
 }
@@ -3739,8 +4167,8 @@ body.sidebar-collapsed .qbar-host {
   border-color: color-mix(in srgb, var(--border) 68%, transparent);
   background: color-mix(in srgb, var(--surface-el) 30%, transparent);
 }
-.tl-explain.is-collapsed .tl-explain-card-toggle svg {
-  transform: rotate(-90deg);
+.tl-explain:not(.is-collapsed) .tl-explain-card-toggle svg {
+  transform: rotate(180deg);
 }
 .tl-explain-body {
   display: grid;
@@ -3840,6 +4268,56 @@ body.sidebar-collapsed .qbar-host {
   font-size: 12px; line-height: 1.5;
 }
 .tl-explain-chip-term { color: var(--text); }
+
+/* ── .tl-explain — variante tabs (Júnior / Pleno / Sênior) ─────────── */
+.tl-explain--tabs .tl-explain-tabs {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  margin: 0 0 6px;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+.tl-explain-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  padding: 6px 8px 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--text-3);
+  cursor: pointer;
+  opacity: .55;
+  transition: opacity .15s var(--ease-out), border-color .15s var(--ease-out);
+}
+.tl-explain-tab:hover { opacity: .85; }
+.tl-explain-tab.is-active {
+  opacity: 1;
+  border-bottom-color: var(--lc, var(--accent));
+}
+.tl-explain-tab img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+}
+.tl-explain-panels { display: block; }
+.tl-explain-panel {
+  display: none;
+  font-size: 13px;
+  line-height: 1.58;
+  padding: 8px 4px 4px;
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+}
+[data-theme="dark"] .tl-explain-panel { color: rgba(255,255,255,.72); }
+.tl-explain-panel.is-active { display: block; }
 
 /* Entity hero (cat / lang / tool) */
 .ent-hero {
@@ -4250,10 +4728,11 @@ body.sidebar-collapsed .qbar-host {
   .nc-summary { max-width: none; font-size: 14px; }
   .nc-footer {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
     gap: 8px;
   }
+  .nc-footer-row { width: 100%; }
   .tags { margin-left: 0; justify-content: flex-start; }
 
   .ent-hero {
@@ -4326,14 +4805,8 @@ body.sidebar-collapsed .qbar-host {
   .home-yt-track .yt-aspect, .yt-aspect { width: 240px; }
   .home-hls-track .hero-hl-card { flex-basis: 300px; }
 
-  .tl-explain { padding: 8px; }
-  .tl-explain-head { gap: 6px; }
-  .tl-explain-title-mascot {
-    width: 21px;
-    height: 21px;
-    margin-left: -8px;
-  }
-  .tl-explain-card-toggle { padding: 4px 8px; }
+  .tl-explain { padding: 5px 8px; }
+  .tl-explain-head-btn { gap: 8px; padding: 4px 2px; }
   .tl-explain-level {
     grid-template-columns: 52px minmax(0, 1fr);
     gap: 9px;
@@ -4358,6 +4831,1348 @@ body.sidebar-collapsed .qbar-host {
     transform: none !important;
     animation: none !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ▓▓▓ V2 PROFESSIONAL POLISH LAYER ▓▓▓
+   Refinamento de produção: tipografia em escala modular,
+   cores, hierarquia, sidebar, alinhamentos e responsividade.
+   Aplicado por cima de todos os estilos anteriores (cascata).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Carregar Inter Tight para uma tipografia mais consistente ───── */
+
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  /* ── Escala tipográfica modular (12/13/14/16/18/20/24/30/36/48) ── */
+  --fs-2xs: 11px;
+  --fs-xs:  12px;
+  --fs-sm:  13px;
+  --fs-md:  14px;
+  --fs-base:15px;
+  --fs-lg:  16px;
+  --fs-xl:  18px;
+  --fs-2xl: 20px;
+  --fs-3xl: 24px;
+  --fs-4xl: 30px;
+  --fs-5xl: 36px;
+  --fs-6xl: clamp(36px, 4.6vw, 48px);
+
+  /* ── Escala de espaçamento (4pt grid) ── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  --sp-9: 48px;
+  --sp-10: 64px;
+
+  /* ── Raios consolidados ── */
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+  --r-pill: 980px;
+
+  /* ── Sombras niveladas (soft / mid / lift) ── */
+  --sh-1: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.04);
+  --sh-2: 0 1px 2px rgba(15,23,42,0.05), 0 4px 12px rgba(15,23,42,0.06);
+  --sh-3: 0 2px 4px rgba(15,23,42,0.06), 0 12px 28px rgba(15,23,42,0.08);
+  --sh-lift: 0 4px 8px rgba(15,23,42,0.06), 0 16px 36px rgba(15,23,42,0.10);
+}
+
+[data-theme="dark"] {
+  --sh-1: 0 1px 2px rgba(0,0,0,0.40);
+  --sh-2: 0 1px 2px rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.40);
+  --sh-3: 0 2px 4px rgba(0,0,0,0.50), 0 14px 32px rgba(0,0,0,0.45);
+  --sh-lift: 0 4px 10px rgba(0,0,0,0.55), 0 18px 40px rgba(0,0,0,0.50);
+}
+
+/* ── Body: tipografia base mais legível ────────────────────────── */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-size: var(--fs-lg);
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  font-feature-settings: "ss01", "cv11", "kern";
+}
+
+/* ── Escala de títulos (h1-h6) — coerente em toda a app ───────── */
+h1 { font-size: var(--fs-5xl); font-weight: 700; line-height: 1.12; letter-spacing: -0.022em; }
+h2 { font-size: var(--fs-4xl); font-weight: 700; line-height: 1.18; letter-spacing: -0.02em; }
+h3 { font-size: var(--fs-3xl); font-weight: 600; line-height: 1.24; letter-spacing: -0.018em; }
+h4 { font-size: var(--fs-2xl); font-weight: 600; line-height: 1.32; letter-spacing: -0.014em; }
+h5 { font-size: var(--fs-xl);  font-weight: 600; line-height: 1.38; letter-spacing: -0.011em; }
+h6 { font-size: var(--fs-lg);  font-weight: 600; line-height: 1.42; }
+
+/* ── NAV: alinhamento e contraste ────────────────────────────── */
+.nav {
+  height: 52px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+}
+.app-body { padding-top: 52px; }
+:root { --nh: 52px; }
+
+.nav-inner { gap: 16px; }
+.nav-logo .csr-mini { font-size: 18px; letter-spacing: -0.04em; font-weight: 700; }
+.nav-logo .news-mini {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 6px 4px;
+  border-radius: 5px;
+}
+.nav-link {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  padding: 6px 12px;
+  color: var(--text-2);
+  transition: background .15s, color .15s;
+}
+.nav-link:hover { background: color-mix(in srgb, var(--text) 6%, transparent); color: var(--text); }
+.nav-link.active { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); font-weight: 600; }
+
+.nav-search-btn {
+  height: 34px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  border-color: transparent;
+  color: var(--text-2);
+}
+.nav-search-btn:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+.nav-search-kbd {
+  font-size: 10.5px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.btn-theme, .nav-help-btn, .hamburger {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+}
+.btn-theme:hover, .nav-help-btn:hover, .hamburger:hover {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+/* ── SIDEBAR: hierarquia e densidade refinadas ─────────────── */
+:root { --sw: 256px; }
+@media (max-width: 1280px) { :root { --sw: 240px; } }
+@media (max-width: 1100px) { :root { --sw: 224px; } }
+@media (max-width: 960px)  { :root { --sw: 300px; } }
+
+.sidebar-left {
+  border-radius: 12px;
+  border-color: color-mix(in srgb, var(--border) 85%, transparent);
+  box-shadow: var(--sh-1);
+}
+[data-theme="dark"] .sidebar-left {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), var(--sh-2);
+}
+
+/* Cabeçalhos de seção da sidebar — mais claros, menos gritantes */
+.sb-section-hdr {
+  padding: 14px 14px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  background: transparent;
+}
+.sb-section-hdr-left { gap: 8px; }
+.sb-section-hdr-left svg { color: var(--text-3); opacity: .9; }
+
+/* Subgrupo */
+.sb-subgroup-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  padding: 8px 4px 6px;
+  margin-bottom: 6px;
+  justify-content: flex-start;
+  text-align: left;
+  opacity: .85;
+}
+
+/* Itens de lista (categorias) — hover/active mais consistente */
+.sb-item {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  padding: 7px 12px 7px 10px;
+  margin: 1px 6px;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  color: var(--text-2);
+  gap: 10px;
+}
+.sb-item:hover {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  color: var(--text);
+}
+.sb-item.active {
+  background: color-mix(in srgb, var(--ic, var(--accent)) 12%, transparent);
+  color: var(--text);
+  font-weight: 600;
+  border-left-color: var(--ic, var(--accent));
+}
+.sb-icon {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ic, var(--accent)) 14%, transparent);
+}
+.sb-icon img { width: 14px; height: 14px; }
+
+/* Tiles (linguagens & ferramentas) — tamanhos padronizados */
+.sb-icon-section { padding: 4px 10px 12px; }
+.sb-tile-grid { gap: 6px; justify-content: flex-start; }
+.sb-tile {
+  width: 40px; height: 40px;
+  border-radius: 9px;
+  opacity: 1;
+  border: 1px solid color-mix(in srgb, var(--tc, var(--border)) 28%, var(--border));
+  background: color-mix(in srgb, var(--tc, var(--text-3)) 6%, var(--surface));
+  transition: transform .25s var(--ease-spring),
+              border-color .2s ease,
+              background .2s ease,
+              box-shadow .2s ease;
+}
+.sb-tile-lang { width: 44px; height: 44px; border-radius: 10px; }
+.sb-tile:hover {
+  transform: translateY(-1px) scale(1.04);
+  border-color: color-mix(in srgb, var(--tc, var(--accent)) 55%, transparent);
+  background: color-mix(in srgb, var(--tc, var(--accent)) 12%, var(--surface));
+  box-shadow: var(--sh-2);
+  z-index: 5;
+}
+[data-theme="dark"] .sb-tile {
+  border-color: color-mix(in srgb, var(--tc, var(--border)) 30%, var(--border));
+  background: color-mix(in srgb, var(--tc, var(--text-3)) 8%, var(--surface));
+}
+.sb-tile.active {
+  border-color: color-mix(in srgb, var(--tc, var(--accent)) 70%, transparent);
+  background: color-mix(in srgb, var(--tc, var(--accent)) 14%, var(--surface));
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--tc, var(--accent)) 40%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--tc, var(--accent)) 16%, transparent);
+}
+
+.sb-more-btn {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 4px 6px 6px;
+}
+.sb-more-btn:hover { background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text-2); }
+
+/* Calendar (sidebar) — compacto no topo */
+.cal-mod {
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px 8px !important;
+  margin-bottom: 2px !important;
+}
+.cal-bar { padding: 2px 0 !important; gap: 4px !important; }
+.cal-display {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 5px 8px !important;
+  border-radius: 7px !important;
+}
+.cal-arr {
+  width: 24px !important; height: 24px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  color: var(--text-3) !important;
+}
+.cal-arr:hover { background: color-mix(in srgb, var(--text) 6%, transparent) !important; color: var(--text) !important; }
+.cal-display-chev { font-size: 8px !important; right: 5px !important; }
+
+/* Scrollbar mais discreta */
+.sb-scroll-inner::-webkit-scrollbar,
+.sb-items::-webkit-scrollbar { width: 6px; }
+.sb-scroll-inner::-webkit-scrollbar-thumb,
+.sb-items::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text) 14%, transparent);
+  border-radius: 3px;
+}
+.sb-scroll-inner::-webkit-scrollbar-thumb:hover,
+.sb-items::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--text) 28%, transparent);
+}
+
+/* ── BUTTONS ─────────────────────────────────────────────── */
+.btn-p {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  letter-spacing: -0.005em;
+  box-shadow: var(--sh-1);
+}
+.btn-p:hover { box-shadow: var(--sh-2); }
+.btn-o {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  letter-spacing: -0.005em;
+  border-color: var(--border);
+}
+.btn-o:hover { border-color: var(--accent); }
+
+/* ── SEARCH MODAL ──────────────────────────────────────── */
+.search-modal { border-radius: 14px; box-shadow: var(--sh-lift), 0 0 0 1px var(--border); }
+.search-input { font-size: var(--fs-lg); }
+.search-input::placeholder { color: var(--text-3); }
+.search-item { font-size: var(--fs-md); padding: 10px 12px; }
+.search-group { font-size: 10.5px; letter-spacing: 0.08em; }
+
+/* ── HOME — emblema e sub ─────────────────────────────── */
+.home-emblem .csr-word { font-size: clamp(48px, 6vw, 64px); }
+.home-emblem .news-pill {
+  font-size: clamp(28px, 3.6vw, 38px);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: 10px;
+  padding: 5px 12px 7px;
+}
+.home-sub {
+  font-family: var(--ff-display);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-2);
+  letter-spacing: -0.005em;
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+.home-sect-title { font-size: clamp(22px, 2.2vw, 26px); font-weight: 700; letter-spacing: -0.018em; }
+.home-sect-kicker { font-size: 11px; letter-spacing: 0.1em; font-weight: 700; }
+
+/* ── DAY / EDITION view ──────────────────────────────── */
+.day-eyebrow { font-size: 11px; letter-spacing: 0.1em; font-weight: 700; }
+.sect-title { font-size: clamp(22px, 2.2vw, 26px); font-weight: 700; letter-spacing: -0.018em; }
+.sect-count { font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+.sect-kicker { font-size: 11px; letter-spacing: 0.1em; font-weight: 700; }
+
+/* ── HERO CARDS V2 ───────────────────────────────────── */
+.hero-card-v2.front { box-shadow: var(--sh-3); }
+.hero-card-v2.front:hover { box-shadow: var(--sh-lift); }
+.hcv-eyebrow { font-size: 11px; letter-spacing: 0.08em; font-weight: 700; }
+.hcv-title { font-size: clamp(17px, 1.9vw, 22px); font-weight: 700; line-height: 1.22; letter-spacing: -0.012em; }
+.hcv-summary { font-size: var(--fs-sm); line-height: 1.5; }
+.hcv-pill { font-size: var(--fs-xs); font-weight: 600; padding: 5px 12px; }
+.hcv-tool-chip { font-size: 11px; padding: 3px 9px 3px 5px; }
+
+/* ── EDITION CARDS ───────────────────────────────────── */
+.edition-card { border-radius: 12px; box-shadow: var(--sh-1); border: 1px solid var(--border); }
+.edition-card:hover { box-shadow: var(--sh-3); }
+.edition-card-date { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
+.edition-card-title { font-size: var(--fs-lg); font-weight: 700; line-height: 1.32; letter-spacing: -0.012em; }
+.meta-chip { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 980px; }
+
+.ec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+.ec-date { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; }
+.ec-title { font-size: var(--fs-lg); font-weight: 700; line-height: 1.32; letter-spacing: -0.012em; }
+.ed-cat-chip { font-size: 10.5px; padding: 3px 8px; font-weight: 600; }
+.ec-stat-item { font-size: 11px; font-weight: 500; }
+
+/* ── CATEGORY BADGE / NEWS CARDS ─────────────────────── */
+.cb-name { font-size: var(--fs-md); font-weight: 600; }
+.cb-count { font-size: 11px; font-weight: 600; }
+
+/* ── FAV TABS ────────────────────────────────────────── */
+.fav-tab { font-size: var(--fs-sm); font-weight: 500; padding: 7px 14px; border-radius: 8px; }
+.fav-seg-btn { font-size: var(--fs-xs); font-weight: 500; padding: 5px 12px; border-radius: 7px; }
+
+/* ── KBD MODAL ───────────────────────────────────────── */
+.kbd-modal { border-radius: 14px; box-shadow: var(--sh-lift), 0 0 0 1px var(--border); }
+.kbd-title { font-size: var(--fs-lg); font-weight: 700; letter-spacing: -0.011em; }
+.kbd-row { font-size: var(--fs-sm); padding: 8px 0; }
+.kbd-key { font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+
+/* ── SOURCES / TIMELINE / ENTITY pages — coerência ──── */
+.day-stats { gap: 28px; }
+.day-stat-n { font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.02em; }
+.day-stat-l { font-size: 11px; letter-spacing: 0.08em; font-weight: 700; }
+
+/* ── NEWS CARD interno ───────────────────────────────── */
+.news-card, .nws-card { box-shadow: var(--sh-1); border-radius: 12px; }
+.news-card:hover, .nws-card:hover { box-shadow: var(--sh-2); }
+
+/* ── QUOTE BAR ───────────────────────────────────────── */
+.qbar {
+  border-radius: 12px;
+  box-shadow: var(--sh-2);
+  border-color: var(--border);
+}
+.qbar-main { font-size: var(--fs-md); line-height: 1.5; }
+
+/* ── FOOTER & GERAL ──────────────────────────────────── */
+.tip { font-size: var(--fs-xs); padding: 6px 10px; border-radius: 8px; box-shadow: var(--sh-2); }
+
+/* ── FOCUS RINGS consistentes em toda a app ─────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+button:focus-visible,
+a:focus-visible,
+.sb-item:focus-visible,
+.sb-tile:focus-visible,
+.edition-card:focus-visible,
+.cat-card:focus-visible,
+.lang-card:focus-visible,
+.tool-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── SELECTION ──────────────────────────────────────── */
+::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+
+/* ── RESPONSIVE: Mobile (<480px) — texto ainda legível ── */
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .nav-inner { padding: 0 14px; gap: 8px; }
+  .nav-logo .csr-mini { font-size: 17px; }
+  .nav-logo .news-mini { font-size: 10.5px; }
+  .home-sub { font-size: 15px; line-height: 1.5; }
+  .home-emblem .csr-word { font-size: 44px; }
+  .home-emblem .news-pill { font-size: 26px; }
+  .home-sect-title, .sect-title { font-size: 22px; }
+  .day-stats { gap: 16px; flex-wrap: wrap; }
+  .day-stat-n { font-size: 26px; }
+  .hcv-title { font-size: 17px; }
+  .ec-title, .edition-card-title { font-size: 15px; }
+  .btn-p, .btn-o { padding: 9px 16px; font-size: 13px; }
+}
+
+/* ── RESPONSIVE: Tablet (~768px) ─────────────────────── */
+@media (max-width: 768px) and (min-width: 481px) {
+  body { font-size: 15px; }
+  .home-sub { font-size: 16px; }
+}
+
+/* ── RESPONSIVE: Desktop largo (>1440px) ─────────────── */
+@media (min-width: 1440px) {
+  :root { --sw: 264px; }
+}
+
+/* ── DARK MODE: ajustes finos de contraste ──────────── */
+[data-theme="dark"] {
+  --text-2: rgba(255,255,255,0.84);
+  --text-3: rgba(255,255,255,0.56);
+  --border: rgba(255,255,255,0.12);
+}
+[data-theme="dark"] .nav { border-bottom-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .nav-search-btn {
+  background: rgba(255,255,255,0.06);
+}
+[data-theme="dark"] .nav-search-btn:hover { background: rgba(255,255,255,0.10); }
+[data-theme="dark"] .sb-tile.active {
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--tc, var(--accent)) 60%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--tc, var(--accent)) 18%, transparent);
+}
+
+/* ── LIGHT MODE: ajustes finos ──────────────────────── */
+[data-theme="light"] {
+  --text-2: rgba(0,0,0,0.78);
+  --text-3: rgba(0,0,0,0.52);
+  --border: rgba(0,0,0,0.10);
+}
+
+/* ── Remover sublinhado padrão de links para visual mais limpo ── */
+a:hover { text-decoration: none; }
+.cb-link, .nws-card a, .news-card a { text-decoration: none; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ▓▓▓ V3 SIDEBAR REFINEMENT ▓▓▓
+   - Headers em azul (Categorias / Linguagens / Ferramentas)
+   - Ferramentas centralizadas
+   - Drawer mobile + animação desktop mais profissional
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── HEADERS DE SEÇÃO em azul (accent), maiores, com mais respiro ── */
+.sb-section-hdr {
+  padding: 16px 16px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  background: transparent !important;
+  position: relative;
+}
+.sb-section-hdr::after {
+  content: "";
+  position: absolute;
+  left: 16px; right: 16px; bottom: 4px;
+  height: 1px;
+  background: linear-gradient(to right,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    transparent 70%);
+  pointer-events: none;
+}
+.sb-section-hdr-left {
+  gap: 8px !important;
+  color: var(--accent) !important;
+}
+.sb-section-hdr-left svg {
+  color: var(--accent) !important;
+  opacity: 1 !important;
+  width: 14px !important; height: 14px !important;
+  stroke-width: 2.2 !important;
+}
+.sb-section + .sb-section { border-top: 1px solid var(--border); }
+
+/* ── SUBGRUPOS (categorias dentro de Ferramentas) — em accent suave ── */
+.sb-subgroup-lbl {
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase;
+  color: var(--text-3) !important;
+  padding: 6px 6px 4px !important;
+  margin-bottom: 2px !important;
+  justify-content: center !important;
+  text-align: center !important;
+  opacity: 0.85 !important;
+  gap: 5px !important;
+}
+.sb-subgroup-lbl svg {
+  color: var(--text-3) !important;
+  width: 8px !important; height: 8px !important;
+}
+
+/* ── ITEMS DE CATEGORIA ────────────────────────────────────────── */
+.sb-item {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 8px 14px 8px 12px !important;
+  margin: 1px 8px !important;
+  border-radius: 8px !important;
+  border-left: 2px solid transparent;
+  color: var(--text-2) !important;
+  gap: 10px !important;
+  transition: background .15s, color .15s, transform .12s;
+}
+.sb-item:hover {
+  background: color-mix(in srgb, var(--text) 5%, transparent) !important;
+  color: var(--text) !important;
+  transform: translateX(1px);
+}
+.sb-item.active {
+  background: color-mix(in srgb, var(--ic, var(--accent)) 12%, transparent) !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  border-left-color: var(--ic, var(--accent));
+}
+
+/* ── TILES (linguagens & ferramentas) — TODAS centralizadas ──── */
+.sb-icon-section { padding: 8px 14px 16px !important; }
+
+.sb-tile-grid,
+.sb-tile-grid-langs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center;
+}
+
+.sb-subgroup {
+  margin-bottom: 14px !important;
+  padding-bottom: 4px;
+}
+.sb-subgroup:last-child { margin-bottom: 2px !important; }
+
+.sb-tile {
+  width: 42px !important; height: 42px !important;
+  border-radius: 10px !important;
+  opacity: 1 !important;
+  border: 1px solid color-mix(in srgb, var(--tc, var(--border)) 24%, var(--border)) !important;
+  background: color-mix(in srgb, var(--tc, var(--text-3)) 5%, var(--surface)) !important;
+  transition:
+    transform .25s var(--ease-spring),
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease !important;
+}
+.sb-tile-lang { width: 46px !important; height: 46px !important; border-radius: 11px !important; }
+
+.sb-tile:hover {
+  transform: translateY(-2px) scale(1.06);
+  border-color: color-mix(in srgb, var(--tc, var(--accent)) 60%, transparent) !important;
+  background: color-mix(in srgb, var(--tc, var(--accent)) 14%, var(--surface)) !important;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--tc, var(--accent)) 28%, transparent), var(--sh-2);
+  z-index: 5;
+}
+.sb-tile.active {
+  border-color: color-mix(in srgb, var(--tc, var(--accent)) 75%, transparent) !important;
+  background: color-mix(in srgb, var(--tc, var(--accent)) 15%, var(--surface)) !important;
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--tc, var(--accent)) 50%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--tc, var(--accent)) 14%, transparent);
+}
+
+/* ── PANEL DA SIDEBAR — desktop ────────────────────────────────── */
+.sidebar-left {
+  border-radius: 14px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface) !important;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,0.04),
+    0 8px 24px rgba(15,23,42,0.06) !important;
+}
+[data-theme="dark"] .sidebar-left {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 24px rgba(0,0,0,0.50) !important;
+}
+
+/* ── DESKTOP: animação suave de colapsar/expandir ──────────────── */
+@media (min-width: 961px) {
+  .app-layout {
+    transition: grid-template-columns .35s cubic-bezier(.4,0,.2,1);
+  }
+  .sidebar-left {
+    transition:
+      opacity .28s ease,
+      transform .35s cubic-bezier(.4,0,.2,1);
+    transform-origin: left center;
+  }
+  body.sidebar-collapsed .sidebar-left {
+    display: block !important;
+    opacity: 0;
+    transform: translateX(-12px) scaleX(0.96);
+    pointer-events: none;
+    width: 0 !important;
+    overflow: hidden;
+  }
+  body.sidebar-collapsed .app-layout {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+}
+
+/* ── MOBILE DRAWER — animação polida + header refinado ────────── */
+@media (max-width: 960px) {
+  .sidebar-left {
+    display: flex !important;
+    flex-direction: column;
+    width: min(312px, 86vw) !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    border-radius: 0 16px 16px 0 !important;
+    border-left: none !important;
+    transform: translateX(-100%);
+    opacity: 1;
+    transition:
+      transform .32s cubic-bezier(.32,.72,.27,1),
+      box-shadow .32s ease;
+    box-shadow: none !important;
+    z-index: 220 !important;
+  }
+  .sidebar-left.open {
+    transform: translateX(0);
+    box-shadow:
+      8px 0 24px rgba(0,0,0,0.12),
+      24px 0 80px rgba(0,0,0,0.16) !important;
+  }
+  [data-theme="dark"] .sidebar-left.open {
+    box-shadow:
+      8px 0 24px rgba(0,0,0,0.55),
+      24px 0 80px rgba(0,0,0,0.60) !important;
+  }
+
+  /* Drawer header */
+  .sb-drawer-header {
+    padding: 14px 14px 12px 18px !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+  }
+  .sb-drawer-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+    text-transform: uppercase;
+  }
+  .sb-close-btn {
+    width: 32px !important; height: 32px !important;
+    border-radius: 8px !important;
+    color: var(--text-2);
+    transition: background .15s, color .15s;
+  }
+  .sb-close-btn:hover {
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+    color: var(--text);
+  }
+
+  /* Overlay com animação suave */
+  .overlay {
+    background: rgba(0,0,0,0.42) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    opacity: 0;
+    transition: opacity .28s ease;
+    z-index: 215 !important;
+  }
+  .overlay.on {
+    display: block !important;
+    opacity: 1;
+  }
+}
+
+/* ── HAMBURGER — feedback visual quando aberto ───────────────── */
+.hamburger.sb-open {
+  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+  color: var(--accent) !important;
+  opacity: 1 !important;
+}
+
+/* ── SCROLLBAR mais discreta na sidebar ──────────────────────── */
+.sb-scroll-inner::-webkit-scrollbar,
+.sb-items::-webkit-scrollbar { width: 5px !important; }
+.sb-scroll-inner::-webkit-scrollbar-thumb,
+.sb-items::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text) 12%, transparent) !important;
+  border-radius: 3px;
+}
+.sb-scroll-inner::-webkit-scrollbar-thumb:hover,
+.sb-items::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent) 40%, transparent) !important;
+}
+
+/* ── BOTÃO "ver mais" ────────────────────────────────────────── */
+.sb-more-btn {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: var(--accent) !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  margin: 6px 8px 8px !important;
+  text-align: center;
+  justify-content: center;
+  transition: background .15s;
+}
+.sb-more-btn:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ▓▓▓ V4 QUOTE BAR — não-fixa, rola junto com a página ▓▓▓
+   ═══════════════════════════════════════════════════════════════════ */
+/* Falling tiles: estender até a borda esquerda (cobrir painel lateral também) */
+.home-fall-bg {
+  left: calc(max(0px, (100vw - var(--page-max)) / 2) + var(--page-pad) + var(--app-frame-pad)) !important;
+}.qbar-host {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  z-index: auto !important;
+  display: block !important;
+}
+.qbar-host.hidden { display: none !important; }
+.qbar-host.closed .qbar {
+  transform: none !important;
+  opacity: 0;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.qbar-host.closed { padding: 0 !important; }
+body.qbar-open #main { padding-top: 0 !important; }
+body:not(.qbar-open) #main { padding-top: 0 !important; }
+
+@media (max-width: 960px) {
+  .qbar-host { left: auto !important; right: auto !important; padding: 0 0 16px 0 !important; }
+}
+body.sidebar-collapsed .qbar-host {
+  left: auto !important;
+  right: auto !important;
+}
+
+/* Quote bar — visual mais profissional */
+.qbar {
+  position: relative;
+  margin-top: 0 !important;
+  grid-template-columns: auto 1fr auto !important;
+  gap: 22px !important;
+  padding: 22px 28px 22px 22px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface) !important;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,0.04),
+    0 4px 12px rgba(15,23,42,0.04) !important;
+  overflow: hidden;
+}
+[data-theme="dark"] .qbar {
+  background: var(--surface) !important;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.40),
+    0 4px 12px rgba(0,0,0,0.30) !important;
+}
+
+/* Aspas decorativa GRANDE no canto superior direito */
+.qbar::before {
+  content: "\201D" !important;
+  position: absolute !important;
+  inset: auto 22px auto auto !important;
+  right: 22px !important;
+  left: auto !important;
+  bottom: auto !important;
+  font-family: "Newsreader", Georgia, "Times New Roman", serif !important;
+  font-size: 140px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 22%, transparent);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+  z-index: 0;
+  -webkit-mask: none;
+          mask: none;
+  background: none;
+  width: auto;
+  height: auto;
+  opacity: 1;
+}
+[data-theme="dark"] .qbar::before {
+  color: color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+/* Aspa decorativa grande à direita */
+.qbar::after {
+  content: none !important;
+}
+
+/* Mascote — tamanho profissional */
+.qbar-mascot {
+  width: 64px !important;
+  height: 80px !important;
+  align-self: end !important;
+  margin-bottom: -8px !important;
+  z-index: 1;
+}
+.qbar-mascot img {
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22)) !important;
+}
+
+/* Body — texto maior */
+.qbar-body {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  padding-right: 60px; /* respiro p/ o " grande no canto superior direito */
+}
+.qbar-text {
+  font-family: "Newsreader", Charter, "Iowan Old Style", "Source Serif Pro", Georgia, serif !important;
+  font-style: normal !important;
+  font-size: 22px !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+  -webkit-line-clamp: 3 !important;
+  letter-spacing: 0 !important;
+  color: var(--text) !important;
+}
+.qbar-author {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
+  font-style: normal !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin-top: 8px;
+  display: block !important;
+  color: var(--text-soft, var(--text)) !important;
+  letter-spacing: 0.01em;
+}
+.qbar-ctx-row {
+  margin-top: 6px !important;
+  font-size: 12px;
+}
+.qbar-ctx { font-size: 12.5px !important; }
+
+/* Actions reposicionadas no canto INFERIOR direito */
+.qbar-actions {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 12px !important;
+  right: 14px !important;
+  z-index: 2;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 10px;
+  padding: 2px;
+  gap: 2px !important;
+}
+.qbar-btn {
+  width: 30px !important; height: 30px !important;
+  font-size: 17px !important;
+  border-radius: 8px !important;
+  opacity: 0.72;
+}
+.qbar-btn:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+  opacity: 1;
+}
+
+/* Quando colapsado (sidebar fechada no desktop), continua alinhada */
+body.sidebar-collapsed .qbar-host {
+  left: 0 !important;
+  right: 0 !important;
+}
+
+/* RESPONSIVO */
+@media (max-width: 960px) {
+  .qbar-host { left: 0 !important; right: 0 !important; padding: 0 !important; }
+}
+@media (max-width: 720px) {
+  .qbar {
+    grid-template-columns: 56px 1fr !important;
+    padding: 18px 18px 18px 16px !important;
+    gap: 14px !important;
+  }
+  .qbar-mascot { width: 56px !important; height: 70px !important; }
+  .qbar-text { font-size: 16px !important; -webkit-line-clamp: 4 !important; }
+  .qbar-author { font-size: 12.5px !important; }
+  .qbar-body { padding-right: 0; padding-bottom: 36px; }
+}
+@media (max-width: 480px) {
+  .qbar { grid-template-columns: 60px 1fr !important; padding: 14px 14px 14px 12px !important; }
+  .qbar-mascot { width: 60px !important; height: 72px !important; }
+  .qbar-text { font-size: 14.5px !important; }
+  .qbar-body { padding-right: 0; padding-bottom: 32px; }
+  .qbar-actions { bottom: 8px !important; right: 8px !important; }
+  .qbar-btn { width: 26px !important; height: 26px !important; }
+}
+
+/* ============================================================
+   EDITORIAL HERO — painel da última edição (revista)
+   ============================================================ */
+.home-cube-swiper.is-editorial {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  perspective: none !important;
+}
+.home-cube-swiper.is-editorial .swiper-slide {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 14px clamp(22px, 2.8vw, 42px) 16px !important;
+  border-radius: 16px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-top: 3px solid var(--accent) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -12px rgba(0,0,0,0.08) !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  font-family: var(--ff-display) !important;
+  transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease !important;
+}
+.home-cube-swiper.is-editorial .swiper-slide.is-today {
+  border-top-color: #34c759 !important;
+}
+.home-cube-swiper.is-editorial .swiper-slide:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 16px 40px -16px rgba(0,0,0,0.12) !important;
+  transform: translateY(-1px) !important;}
+
+/* Subtle textured background */
+.is-editorial .ed-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%),
+    radial-gradient(40% 60% at 0% 100%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 70%);
+  z-index: 0;
+}
+[data-theme="dark"] .is-editorial .ed-bg,
+:root:not([data-theme="light"]) .is-editorial .ed-bg {
+  opacity: 0.7;
+}
+.is-editorial > * { position: relative; z-index: 1; }
+.is-editorial .swiper-slide > * { position: relative; z-index: 1; }
+
+/* Masthead */
+.is-editorial .ed-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  margin-top: -2px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--ff-text), system-ui, sans-serif;
+}
+.is-editorial .ed-masthead-l {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.is-editorial .ed-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.is-editorial .ed-brand-csr { color: var(--text); }
+.is-editorial .ed-brand-news {
+  color: var(--accent);
+  font-weight: 700;
+}
+.is-editorial .ed-issue {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.is-editorial .ed-masthead-r {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.is-editorial .ed-masthead-r.is-today { color: #34c759; }
+.is-editorial .ed-live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: cube-pulse 1.6s ease-in-out infinite;
+}
+
+/* Headline — date and title share the same height, side-by-side */
+.is-editorial .ed-headline {
+  display: grid;
+  grid-template-columns: auto 1px 1fr;
+  gap: clamp(14px, 1.6vw, 22px);
+  align-items: center;
+  margin-top: 0;
+}
+.is-editorial .ed-headline::before {
+  content: "";
+  grid-column: 2;
+  background: var(--border);
+  width: 1px;
+}
+.is-editorial .ed-date {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 0;
+  font-family: var(--ff-display);
+}
+.is-editorial .ed-date-num {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: clamp(56px, 6.5vw, 86px);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  font-feature-settings: "ss01", "cv11";
+  align-self: center;
+}
+.is-editorial .ed-date-wkd {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-family: var(--ff-text), system-ui, sans-serif;
+  margin: 0;
+  padding-bottom: 2px;
+}
+.is-editorial .ed-date-mon {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+  font-family: var(--ff-text), system-ui, sans-serif;
+  margin: 0;
+  padding-top: 2px;
+}
+.is-editorial .ed-date-stats {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  width: 100%;
+}
+.is-editorial .ed-date-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--ff-text), system-ui, sans-serif;
+  font-size: 11.5px;
+  color: var(--text-3);
+  letter-spacing: 0.01em;
+}
+.is-editorial .ed-date-stat b {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* Title sits next to the date, vertically centered, same visual weight area */
+.is-editorial .ed-title-wrap {
+  grid-column: 3;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.is-editorial .ed-title {
+  font-family: var(--ff-display);
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  color: var(--text);
+  margin: 0;
+  text-wrap: pretty;
+  width: 100%;
+}
+
+/* Lede with drop-cap (Newsreader/serif style) — full width, below title+date */
+.is-editorial .ed-lede {
+  font-family: var(--ff-text), Georgia, "Times New Roman", serif;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+  text-wrap: pretty;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  column-count: 1;
+}
+.is-editorial .ed-lede p {
+  margin: 0 0 12px;
+}
+.is-editorial .ed-lede p:last-child { margin-bottom: 0; }
+.is-editorial .ed-lede.has-dropcap > p:first-of-type::first-letter {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 4.6em;
+  line-height: 0.82;
+  float: left;
+  margin: 4px 10px -4px 0;
+  padding: 0 4px 0 0;
+  color: var(--text);
+  letter-spacing: -0.04em;
+  -webkit-initial-letter: 3;
+  initial-letter: 3;
+}
+
+/* Tags row */
+.is-editorial .ed-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  margin-top: 4px;
+  border-top: 1px dashed var(--border);
+}
+.is-editorial .ed-tags-grp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.is-editorial .ed-tags-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  flex-shrink: 0;
+  min-width: 92px;
+  font-family: var(--ff-text), system-ui, sans-serif;
+}
+.is-editorial .ed-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.is-editorial .ed-tags-row .hero-tools-wrap { display: contents; }
+.is-editorial .ed-tags-row .sb-tile-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  grid-template-columns: none !important;
+}
+.is-editorial .ed-tags-row .sb-tile {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+/* Footer / CTA */
+.is-editorial .ed-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 12px;
+  margin-top: 2px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.is-editorial .ed-foot-stats {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--ff-text), system-ui, sans-serif;
+  font-size: 12.5px;
+  color: var(--text-3);
+  flex-wrap: wrap;
+}
+.is-editorial .ed-foot-stat b {
+  font-family: var(--ff-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-right: 2px;
+}
+.is-editorial .ed-foot-sep { color: var(--border); font-weight: 700; }
+.is-editorial .ed-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  font-family: var(--ff-text), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, gap .2s ease;
+}
+.is-editorial .ed-cta:hover {
+  background: var(--accent);
+  color: #fff;
+  gap: 12px;
+}
+.is-editorial .ed-cta-arrow {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  transition: transform .2s ease;
+}
+.is-editorial .ed-cta:hover .ed-cta-arrow { transform: translateX(2px); }
+.is-editorial .ed-foot-note {
+  font-family: var(--ff-text), system-ui, sans-serif;
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.01em;
+}
+
+/* Hide old elements (in case any leak through) */
+.is-editorial .cube-mascote-sentado,
+.is-editorial .cube-num,
+.is-editorial .cube-kicker,
+.is-editorial .home-cover-meta,
+.is-editorial .cube-headline,
+.is-editorial .hero-digest,
+.is-editorial .hero-tiles-row,
+.is-editorial .home-cover-actions { display: none !important; }
+
+/* Responsive */
+@media (max-width: 720px) {
+  .home-cube-swiper.is-editorial .swiper-slide {
+    padding: 18px 18px 18px !important;
+    gap: 14px !important;
+  }
+  .is-editorial .ed-headline {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .is-editorial .ed-headline::before { display: none; }
+  .is-editorial .ed-date {
+    grid-column: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    min-width: 0;
+  }
+  .is-editorial .ed-date-num { font-size: 56px; line-height: 1; }
+  .is-editorial .ed-date-stats { margin-top: 8px; padding-top: 8px; }
+  .is-editorial .ed-title-wrap { grid-column: 1; }
+  .is-editorial .ed-title { font-size: clamp(22px, 6.5vw, 30px); }
+  .is-editorial .ed-lede { font-size: 14.5px; line-height: 1.6; }
+  .is-editorial .ed-lede.has-dropcap > p:first-of-type::first-letter {
+    font-size: 3.6em;
+    margin: 2px 8px -2px 0;
+  }
+  .is-editorial .ed-tags-grp { gap: 8px; }
+  .is-editorial .ed-tags-lbl { min-width: 0; width: 100%; }
+  .is-editorial .ed-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .is-editorial .ed-cta { width: 100%; justify-content: center; }
 }
 </style>
 </head>
@@ -4427,6 +6242,8 @@ body.sidebar-collapsed .qbar-host {
 <div id="sb-tip"></div>
 
 <div class="app-body">
+  <!-- qbar fica em #qbar-stash (fora do DOM ativo); JS move para dentro de #main após cada render -->
+  <div id="qbar-stash" style="display:none">
   <div id="quote-bar-host" class="qbar-host hidden" aria-hidden="true">
     <div class="qbar" id="qbar" role="region" aria-label="Citação do autor">
       <div class="qbar-mascot" aria-hidden="true">
@@ -4438,7 +6255,7 @@ body.sidebar-collapsed .qbar-host {
           <span class="qbar-author" id="qbar-author"></span>
         </div>
         <a class="qbar-ctx-row" id="qbar-link" href="#" target="_blank" rel="noopener noreferrer" title="Abrir fonte" style="display:none" onclick="event.stopPropagation()">
-          <img class="qbar-ctx-ico" id="qbar-ctx-ico" src="" alt="" onerror="this.style.display='none'" style="display:none">
+          <img class="qbar-ctx-ico" id="qbar-ctx-ico" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" onerror="this.style.display='none'" style="display:none">
           <span class="qbar-ctx" id="qbar-ctx"></span>
           <svg class="qbar-link-ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
@@ -4454,6 +6271,7 @@ body.sidebar-collapsed .qbar-host {
       </button>
     </div>
   </div>
+  </div><!-- /#qbar-stash -->
   <div class="app-layout">
     <aside class="sidebar sidebar-left" id="sidebar-left">
       <div class="sb-scroll-inner">
@@ -4502,7 +6320,7 @@ const STATE = {
   notFound: new Set(),
   pending: { editions: null, days: {}, quotes: null, sources: null },
   ready: { editions: false, currentDay: false, allDays: false, quotes: false, sources: false },
-  readLater: JSON.parse(localStorage.getItem('csrn-read-later') || '[]'),
+  readLater: (JSON.parse(localStorage.getItem('csrn-read-later') || '[]')).map(it => ({ ...it, _kind: it._kind || 'news' })),
   readLaterSort: localStorage.getItem('csrn-rl-sort') || 'saved'
 };
 
@@ -5168,31 +6986,60 @@ function catIcon(cat, _emoji='📌', size=16, bare=false) {
 }
 
 /* ====================================================
-   LER DEPOIS — utilitários
+   SALVOS — utilitários (notícias + ferramentas)
    ==================================================== */
-function isInReadLater(url) {
-  return STATE.readLater.some(it => it.url === url);
+function _kindOf(item) {
+  if (item && item._kind) return item._kind;
+  if (item && item.tool_key && (item.kind === 'release' || item.kind === 'news' || item.version != null)) return 'tool';
+  return 'news';
 }
-function findItem(url) {
-  for (const day of Object.values(STATE.days)) {
-    if (!day || !day.items) continue;
-    const found = day.items.find(it => it.url === url);
-    if (found) return { ...found, _date: day.date };
+function savedKey(item) {
+  const kind = _kindOf(item);
+  if (kind === 'tool') {
+    return 'tool:' + (item.tool_key || '') + '|' + (item.headline || item.name || '') + '|' + (item._date || '');
   }
-  return STATE.readLater.find(it => it.url === url) || null;
+  return 'news:' + (item.url || '');
 }
-function toggleReadLater(item) {
-  const idx = STATE.readLater.findIndex(it => it.url === item.url);
+function isSaved(item) {
+  const k = savedKey(item);
+  return STATE.readLater.some(it => savedKey(it) === k);
+}
+function findHydratedItem(key) {
+  for (const [date, day] of Object.entries(STATE.days)) {
+    if (!day) continue;
+    for (const n of (day.news || [])) {
+      if (savedKey({ ...n, _kind: 'news' }) === key) return { ...n, _date: date, _kind: 'news' };
+    }
+    for (const t of (day.tools || [])) {
+      const candidate = { ...t, _kind: 'tool', _date: date };
+      if (savedKey(candidate) === key) return candidate;
+    }
+  }
+  return STATE.readLater.find(it => savedKey(it) === key) || null;
+}
+function toggleSaved(item) {
+  const kind = _kindOf(item);
+  const norm = { ...item, _kind: kind };
+  const key  = savedKey(norm);
+  const idx  = STATE.readLater.findIndex(it => savedKey(it) === key);
   if (idx >= 0) {
     STATE.readLater.splice(idx, 1);
-    toast('Removido de "Ler depois"');
+    toast(kind === 'tool' ? 'Ferramenta removida dos salvos' : 'Removido dos salvos');
   } else {
-    STATE.readLater.push({ ...item, _saved: Date.now() });
-    toast('Salvo em "Ler depois"');
+    STATE.readLater.push({ ...norm, _saved: Date.now() });
+    toast(kind === 'tool' ? 'Ferramenta salva' : 'Salvo');
   }
   localStorage.setItem('csrn-read-later', JSON.stringify(STATE.readLater));
   updateRlBadge();
+  if (typeof _state !== 'undefined' && (_state.view === 'saved' || _state.view === 'read-later')) {
+    renderAll({ preserveScroll: true });
+  }
 }
+// Compat: wrappers antigos
+function isInReadLater(url) { return isSaved({ url, _kind: 'news' }); }
+function findItem(url) { return findHydratedItem('news:' + url); }
+function toggleReadLater(item) { toggleSaved({ ...item, _kind: 'news' }); }
+
 function sortReadLater(items) {
   const arr = [...items];
   switch (STATE.readLaterSort) {
@@ -5208,12 +7055,13 @@ function exportReadLater() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const today = new Date().toISOString().slice(0, 10);
-  a.href = url; a.download = `csr-news-ler-depois-${today}.json`;
+  a.href = url; a.download = `csr-news-salvos-${today}.json`;
   a.click(); URL.revokeObjectURL(url);
 }
 function updateRlBadge() {
-  const badge = document.querySelector('.rl-badge');
-  if (badge) badge.textContent = STATE.readLater.length || '';
+  document.querySelectorAll('.rl-badge').forEach(badge => {
+    badge.textContent = STATE.readLater.length || '';
+  });
 }
 function toast(msg) {
   let t = document.getElementById('rl-toast');
@@ -5223,9 +7071,26 @@ function toast(msg) {
   clearTimeout(t._tm);
   t._tm = setTimeout(() => t.classList.remove('on'), 2200);
 }
-function _rlBtn(item) {
-  const active = isInReadLater(item.url) ? ' active' : '';
-  return `<button type="button" class="mini-btn bm${active}" data-act="rl" data-url="${e(item.url)}" aria-label="Salvar em Ler depois" onclick="event.stopPropagation();event.preventDefault();(function(btn){const it=findItem(btn.dataset.url);if(it){toggleReadLater(it);btn.classList.toggle('active',isInReadLater(btn.dataset.url))};})(this)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>`;
+function _rlBtn(item, kind) {
+  const k = kind || _kindOf(item);
+  const norm = { ...item, _kind: k };
+  const key = savedKey(norm);
+  const active = isSaved(norm) ? ' active' : '';
+  const lbl = k === 'tool' ? 'Salvar ferramenta' : 'Salvar notícia';
+  return `<button type="button" class="mini-btn bm${active}" data-act="rl" data-saved-key="${e(key)}" aria-label="${lbl}" title="${lbl}" onclick="event.stopPropagation();event.preventDefault();(function(btn){const it=findHydratedItem(btn.dataset.savedKey);if(it){toggleSaved(it);btn.classList.toggle('active',isSaved(it))};})(this)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>`;
+}
+// Meta padronizado para hero-hl-card / cube-hl-row: fonte + tempo de leitura juntos à esquerda; botão salvar à direita.
+function _hlMetaHtml(h, opts = {}) {
+  const withSave = opts.withSave !== false;
+  const _sb = srcBadge(h);
+  const time = h.read_time
+    ? `<span class="cube-hl-meta-time"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${h.read_time} min</span>`
+    : '';
+  const source = _sb ? `<span class="cube-hl-meta-source">${_sb}</span>` : '';
+  const info = (source || time) ? `<span class="cube-hl-meta-info">${source}${time}</span>` : '';
+  const btn = (withSave && h.url) ? _rlBtn(h) : '';
+  if (!info && !btn) return '';
+  return `<span class="cube-hl-meta">${info}${btn}</span>`;
 }
 
 /* ====================================================
@@ -5235,6 +7100,22 @@ function renderSidebar() {
   const {view, slug} = _state;
   let h = '';
   const _chev = `<svg class="sb-more-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+  // ── Biblioteca · Salvos ─────────────────────────────────────────────────────
+  const savedActive = view === 'saved' || view === 'read-later' ? ' active' : '';
+  const savedCount  = (STATE.readLater || []).length;
+  h += `<div class="sb-section sb-fixed" id="sbc-saved">
+    <div class="sb-section-hdr">
+      <span class="sb-section-hdr-left"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Biblioteca</span>
+    </div>
+    <div class="sb-items">
+      <div class="sb-item${savedActive}" style="--ic:var(--accent)" onclick="nav('/saved')">
+        <span class="sb-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></span>
+        <span class="sb-label">Salvos</span>
+        <span class="rl-badge">${savedCount || ''}</span>
+      </div>
+    </div>
+  </div>`;
 
   // ── Categorias ──────────────────────────────────────────────────────────────
   const mkCatItem   = c => {
@@ -5480,8 +7361,13 @@ function renderNavToday() {}
    QUOTE BAR
    ==================================================== */
 function renderQuote() {
-  const host = document.getElementById('quote-bar-host');
+  // V4: garantir que qbar-host está dentro de #main (não no stash)
+  const main = document.getElementById('main');
+  let host = document.getElementById('quote-bar-host');
   if (!host) return;
+  if (main && host.parentElement !== main) {
+    main.insertBefore(host, main.firstChild);
+  }
   const {view, slug} = _state;
   const showOnViews = new Set(['home','day','cat','lang','tool']);
   if (!showOnViews.has(view)) {
@@ -6056,7 +7942,7 @@ function renderHome() {
           : '';
         const badge = `<span class="cube-hl-cat-text" style="color:${color}">${badgeIcon}${e(h.category_label || h.category)}</span>`;
         const hlClick = h.url ? `event.stopPropagation();window.open('${h.url}','_blank','noopener')` : 'event.stopPropagation()';
-        const _hb = srcBadge(h); const cubeHlMeta = (_hb||h.read_time) ? `<span class="cube-hl-meta">${_hb?`<span class="cube-hl-meta-source">${_hb}</span>`:''}${h.read_time?`<span class="cube-hl-meta-time"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${h.read_time} min</span>`:''}</span>` : '';
+        const cubeHlMeta = _hlMetaHtml(h, {withSave:false});
         const isEditorialCube = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
         if (isEditorialCube) {
           return `<div class="cube-hl-row" style="--cat-color:${color}" onclick="${hlClick}">
@@ -6144,7 +8030,7 @@ function renderHome() {
       const isEditorial = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
       const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>` : '';
       const staticHlClick = h.url ? `event.stopPropagation();window.open('${h.url}','_blank','noopener')` : 'event.stopPropagation()';
-      const _sb = srcBadge(h); const hlMeta = (_sb||h.read_time) ? `<span class="cube-hl-meta">${_sb?`<span class="cube-hl-meta-source">${_sb}</span>`:''}${h.read_time?`<span class="cube-hl-meta-time"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${h.read_time} min</span>`:''}</span>` : '';
+      const hlMeta = _hlMetaHtml(h);
       return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${staticHlClick}">
         ${imgBanner}
         <div class="hero-hl-body">
@@ -6190,9 +8076,8 @@ function renderHome() {
     const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>` : '';
     const summary = h.summary ? `<span class="hero-hl-summary">${e(h.summary)}</span>` : '';
     const hlClick = h.url ? `window.open('${h.url}','_blank','noopener')` : '';
-    const _sb = srcBadge(h);
-    const hlMeta = (_sb||h.read_time) ? `<span class="cube-hl-meta">${_sb?`<span class="cube-hl-meta-source">${_sb}</span>`:''}${h.read_time?`<span class="cube-hl-meta-time"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${h.read_time} min</span>`:''}</span>` : '';
-    return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}">${imgBanner}<div class="hero-hl-body"><div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>${summary}${hlMeta}</div></div>`;
+    const hlMeta = _hlMetaHtml(h);
+    return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}">${imgBanner}<div class="hero-hl-body"><div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>${summary}${_explainHtml(h)}${hlMeta}</div></div>`;
   }).join('');
 
   // --- Destaques: edições anteriores — carrossel no formato hero-hl-card (sem summary) ---
@@ -6204,8 +8089,7 @@ function renderHome() {
       const badge = `<span class="cube-hl-cat-text" style="color:${color}">${bdgIco}${e(h.category_label||h.category)}</span>`;
       const isEditorial = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
       const hlClick = h.url ? `window.open('${h.url}','_blank','noopener')` : '';
-      const _sb = srcBadge(h);
-      const hlMeta = (_sb||h.read_time) ? `<span class="cube-hl-meta">${_sb?`<span class="cube-hl-meta-source">${_sb}</span>`:''}${h.read_time?`<span class="cube-hl-meta-time"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${h.read_time} min</span>`:''}</span>` : '';
+      const hlMeta = _hlMetaHtml(h, {withSave:false});
       if (isEditorial) return `<div class="cube-hl-row" style="--cat-color:${color}" onclick="${hlClick}"><div class="cube-hli-media"><img src="${h.image}" alt="" loading="lazy" onerror="this.closest('.cube-hl-row').style.display='none'"></div><div class="cube-hli-content">${badge}<span class="cube-hl-text">${e(h.headline)}</span>${hlMeta}</div></div>`;
       return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}"><div class="hero-hl-body"><div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>${hlMeta}</div></div>`;
     })
@@ -6216,12 +8100,11 @@ function renderHome() {
     <div class="fav-card">
       <div class="eds-section-hd" style="margin-bottom:18px">
         <div class="eds-section-hd-text">
-          <div class="home-sect-kicker">Curadoria editorial</div>
+          <div class="home-sect-kicker">Curadoria</div>
           <h2 class="home-sect-title">Destaques da edição</h2>
-          <p class="home-section-sub">Leitura rápida dos assuntos que merecem prioridade antes de entrar na lista completa.</p>
         </div>
       </div>
-      ${_latestHlGrid ? `<div class="eds-section-hd home-hls-prev-hd" style="margin-bottom:12px"><div class="eds-section-hd-text"><span class="home-sect-kicker">Edição atual</span></div></div><div class="home-hls-latest-grid">${_latestHlGrid}</div>` : ''}
+      ${_latestHlGrid ? `<div class="home-hls-latest-grid">${_latestHlGrid}</div>` : ''}
       ${_prevHlCards ? `<div class="eds-section-hd home-hls-prev-hd">
         <div class="eds-section-hd-text"><span class="home-sect-kicker">Edições anteriores</span></div>
         <div class="eds-nav" id="hls-nav">
@@ -6251,9 +8134,7 @@ function renderHome() {
     <div class="fav-card">
       <div class="eds-section-hd">
         <div class="eds-section-hd-text">
-          <div class="home-sect-kicker">Conteúdo complementar</div>
-          <h2 class="home-sect-title">Vídeos</h2>
-          <p class="home-section-sub">Materiais em vídeo das últimas edições, organizados para consumo rápido.</p>
+          <div class="home-sect-kicker" style="color:var(--accent)">Vídeos</div>
         </div>
         <div class="eds-nav" id="vids-nav">
           <button class="eds-nav-btn" id="vids-prev" disabled onclick="vidsGo(vidsPage-1)" aria-label="Anterior">${_SVG_PREV}</button>
@@ -6261,30 +8142,51 @@ function renderHome() {
           <button class="eds-nav-btn" id="vids-next" onclick="vidsGo(vidsPage+1)" aria-label="Próximo">${_SVG_NEXT}</button>
         </div>
       </div>
-      <div class="eds-section-hd home-hls-prev-hd" style="margin-bottom:8px"><div class="eds-section-hd-text"><span class="home-sect-kicker">Edições recentes</span></div></div>
       <div class="eds-track-wrap"><div class="home-yt-track" id="vids-track">${_allYtSlides}</div></div>
       <div class="eds-dots" id="vids-dots"></div>
     </div>
   </section>` : '';
 
   return `<div class="home-hero">
-    <div class="home-cube-swiper hero-cube-static" data-stagger onclick="nav('/day/${latestDate}')">
+    <div class="home-cube-swiper hero-cube-static is-editorial" data-stagger onclick="nav('/day/${latestDate}')">
       <div class="swiper-slide${isToday?' is-today':''}">
-        <img class="cube-mascote-sentado" src="data/img/mascote-sentado-virado.png" alt="" onerror="this.style.display='none'">
-        <span class="cube-num"><span class="cube-wm-csr">CSR</span><span class="cube-wm-news">NEWS</span></span>
-        <span class="cube-kicker${isToday?' is-today':''}">${latestKicker}</span>
-        <div class="home-cover-meta">
-          <span class="home-cover-ed">Edição Nº ${latestNum}</span>
-          <span>${latestTotalNews} notícias</span>
-          <span>${latestTotalTools} tools</span>
+        <div class="ed-bg" aria-hidden="true"></div>
+        <header class="ed-masthead">
+          <div class="ed-masthead-l">
+            <span class="ed-brand"><span class="ed-brand-csr">CSR</span><span class="ed-brand-news">NEWS</span></span>
+            <span class="ed-issue">Edição Nº ${latestNum}</span>
+          </div>
+          ${isToday?`<div class="ed-masthead-r is-today"><span class="ed-live-dot" aria-hidden="true"></span><span>Edição de hoje</span></div>`:''}
+        </header>
+
+        <div class="ed-headline">
+          <div class="ed-date">
+            <span class="ed-date-wkd">${e(FULL_WKD[latestDt.getDay()])}</span>
+            <span class="ed-date-num">${latestDt.getDate()}</span>
+            <span class="ed-date-mon">${e(FULL_MON[latestDt.getMonth()])} · ${latestDt.getFullYear()}</span>
+          </div>
+          <div class="ed-title-wrap">
+            <h2 class="ed-title">${e(latestEd?.hero_title||STATE.days[latestDate]?.hero_title||'')}</h2>
+          </div>
         </div>
-        <h3 class="cube-headline">${e(latestEd?.hero_title||STATE.days[latestDate]?.hero_title||'')}</h3>
-        <div class="hero-digest">${latestHeadline.split(/\n\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${e(p)}</p>`).join('')}</div>
-        ${(latestCatChipsHtml||latestToolsHtml)?`<div class="hero-tiles-row">${latestCatChipsHtml}${latestToolsHtml}</div>`:''}
-        <div class="home-cover-actions">
-          <button type="button" class="home-cover-primary">Ler edição completa →</button>
-          <span class="home-cover-note">${latestTotalNews} itens organizados por ${Object.keys(latestEd?.counts_by_category||{}).length} categorias.</span>
-        </div>
+
+        <div class="ed-lede has-dropcap">${latestHeadline.split(/\n\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${e(p)}</p>`).join('')}</div>
+
+        ${(latestCatChipsHtml||latestToolsHtml)?`<div class="ed-tags">
+          ${latestCatChipsHtml?`<div class="ed-tags-grp"><span class="ed-tags-lbl">Categorias</span><div class="ed-tags-row">${latestCatChipsHtml}</div></div>`:''}
+          ${latestToolsHtml?`<div class="ed-tags-grp"><span class="ed-tags-lbl">Ferramentas</span><div class="ed-tags-row">${latestToolsHtml}</div></div>`:''}
+        </div>`:''}
+
+        <footer class="ed-foot">
+          <button type="button" class="ed-cta">Ler edição <span class="ed-cta-arrow" aria-hidden="true">→</span></button>
+          <div class="ed-foot-stats">
+            <span class="ed-foot-stat"><b>${latestTotalNews}</b> notícias</span>
+            <span class="ed-foot-sep" aria-hidden="true">·</span>
+            <span class="ed-foot-stat"><b>${latestTotalTools}</b> ferramentas</span>
+            <span class="ed-foot-sep" aria-hidden="true">·</span>
+            <span class="ed-foot-stat"><b>${Object.keys(latestEd?.counts_by_category||{}).length}</b> categorias</span>
+          </div>
+        </footer>
       </div>
     </div>
   </div>
@@ -6336,7 +8238,6 @@ function _homeSections() {
           <div class="eds-section-hd-text">
             <div class="home-sect-kicker">Arquivo</div>
             <h2 class="home-sect-title">Todas as edições</h2>
-            <p class="home-section-sub">Histórico completo em ordem cronológica, mantendo a mesma linguagem visual da capa.</p>
           </div>
           <div class="eds-nav" id="eds-nav">
             <button class="eds-nav-btn" id="eds-prev" disabled onclick="edsGo(edsPage-1)" aria-label="Anterior"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -6377,8 +8278,7 @@ function _homeSections() {
       <div class="eds-section-hd">
         <div class="eds-section-hd-text">
           <div class="home-sect-kicker">Favoritos</div>
-          <h2 class="home-sect-title">Todos seus favoritos</h2>
-          <p class="home-section-sub">Área preparada para destacar categorias, ferramentas e linguagens escolhidas por você.</p>
+          <h2 class="home-sect-title">Seus favoritos</h2>
         </div>
       </div>
       <div class="fav-tabs-row">
@@ -6436,75 +8336,97 @@ function renderDay(date) {
     const ia = dayCatOrder.indexOf(a[0]), ib = dayCatOrder.indexOf(b[0]);
     return (ia<0?99:ia) - (ib<0?99:ib);
   });
-  let dayTopicPills = dayCatEntries.slice(0,6).map(([cat,count]) => {
+  let dayMapHtml = dayCatEntries.slice(0, 8).map(([cat, count]) => {
     const color = CAT_COLORS[cat] || '#888';
     const label = CAT_LABELS[cat] || cat;
-    return `<button type="button" class="day-topic-pill" style="--cc:${color}" onclick="document.getElementById('day-cat-${cat}')?.scrollIntoView({behavior:'smooth',block:'start'})">${catIcon(cat,'📌',14,true)} ${e(label)} <span>${count}</span></button>`;
+    return `<button type="button" class="day-map-pill" style="--cc:${color}" title="${e(label)}" onclick="dayMapJump('${cat}')">${catIcon(cat, '📌', 14, true)}<span class="day-map-pill-name">${e(label)}</span><span class="day-map-count">${count}</span></button>`;
   }).join('');
-  if (dayCatEntries.length > 6) {
-    dayTopicPills += `<span class="day-topic-pill day-topic-pill-more">+${dayCatEntries.length - 6} categorias</span>`;
-  }
 
-  let h = `<div class="day-header" data-stagger>
-    <div class="day-eyebrow">
-      <span class="day-eyebrow-num">Nº ${String(edNum).padStart(2,'0')}</span>
-      <span class="day-eyebrow-sep">·</span>
-      <span class="day-eyebrow-date">${e(day.formatted_date)}</span>
+  // Editorial-style header (mirrors home hero)
+  const wkdShort = ['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'][dt.getDay()];
+  const monShort = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][dt.getMonth()];
+  const dayNum = dt.getDate();
+  const yearNum = dt.getFullYear();
+  const isToday = (function(){ const t=new Date(); t.setHours(0,0,0,0); const dd=new Date(date+'T00:00:00'); dd.setHours(0,0,0,0); return t.getTime()===dd.getTime(); })();
+
+  let h = `<section class="day-editorial-card is-editorial${isToday?' is-today':''}" data-stagger>
+    <header class="ed-masthead">
+      <div class="ed-masthead-l">
+        <span class="ed-brand"><span class="ed-brand-csr">CSR</span><span class="ed-brand-news">NEWS</span></span>
+        <span class="ed-issue">Edição Nº ${String(edNum).padStart(2,'0')}</span>
+      </div>
+      ${isToday?`<div class="ed-masthead-r is-today"><span class="ed-live-dot" aria-hidden="true"></span><span>Edição de hoje</span></div>`:''}
+    </header>
+    <div class="ed-headline">
+      <div class="ed-date">
+        <span class="ed-date-num">${dayNum}</span>
+        <span class="ed-date-wkd">${wkdShort.slice(0,3)}</span>
+        <span class="ed-date-mon">${monShort} · ${yearNum}</span>
+      </div>
+      <div class="ed-divider"></div>
+      <div class="ed-title-wrap">
+        <h1 class="ed-title">${e(day.hero_title||'Edição do dia')}</h1>
+      </div>
     </div>
-    <h1 class="day-hero-title">${e(day.hero_title||'Edição do dia')}</h1>
-    ${day.hero_description ? `<p class="day-hero-desc">${e(day.hero_description)}</p>` : ''}
-    ${dayTopicPills ? `<div class="day-topic-strip"><span class="day-topic-label">Mapa do dia</span>${dayTopicPills}</div>` : ''}
-    <div class="day-stats">
-      <div class="day-stat"><span class="day-stat-n">${totalNews}</span><span class="day-stat-l">notícias</span></div>
-      <div class="day-stat"><span class="day-stat-n">${totalCats}</span><span class="day-stat-l">categorias</span></div>
-      <div class="day-stat"><span class="day-stat-n">${totalTools}</span><span class="day-stat-l">tools/releases</span></div>
-      ${day.highlights?.length?`<div class="day-stat"><span class="day-stat-n">${day.highlights.length}</span><span class="day-stat-l">destaques</span></div>`:''}
-    </div>
-  </div>
+    ${(() => {
+      const ledeRaw = day.edition_digest || day.hero_description || '';
+      if (!ledeRaw) return '';
+      const paras = ledeRaw.split(/\n\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${e(p)}</p>`).join('');
+      return `<div class="ed-lede has-dropcap">${paras}</div>`;
+    })()}
+    ${dayMapHtml ? `<div class="day-map-row"><span class="day-map-label">Mapa</span><div class="day-map-pills">${dayMapHtml}</div></div>` : ''}
+    <footer class="ed-foot">
+      <button type="button" class="ed-cta" onclick="nav('/')"><span class="ed-cta-arrow" aria-hidden="true">←</span> Voltar à home</button>
+      <div class="ed-foot-stats">
+        <span class="ed-foot-stat"><b>${totalNews}</b> notícias</span>
+        <span class="ed-foot-sep">·</span>
+        <span class="ed-foot-stat"><b>${totalTools}</b> ferramentas</span>
+        <span class="ed-foot-sep">·</span>
+        <span class="ed-foot-stat"><b>${totalCats}</b> categorias</span>
+      </div>
+    </footer>
+  </section>
   <div class="day-content" data-explain-root>`;
 
-  // Highlights
+  // Highlights — panel like home
   if (day.highlights?.length) {
-    h += `<div class="section-head day-section-head">
-      <div>
-        <div class="sect-kicker">Curadoria principal</div>
-        <h2 class="sect-title">Destaques <span class="sect-count">${day.highlights.length}</span></h2>
-      </div>
-      <span class="section-meta">${day.highlights.length} itens</span>
-    </div>
-    <div class="hl-grid">`;
-    for (const item of day.highlights) {
-      const cc = CAT_COLORS[item.category]||'#888';
-      const media = _newsImageHtml(item);
-      h += `<div class="hl-card${media?' has-cover':''}" data-stagger onclick="window.open('${item.url}','_blank')">
-        ${media}
-        <div class="hl-card-body">
-          <div class="hl-card-top">
-            <span class="cat-chip" style="--cc:${cc}">${item.category_icon||''} ${e(item.category_label||item.category)}</span>
-            ${item.urgent?'<span class="badge badge-u">Urgente</span>':''}
-          </div>
-          <div class="hl-title">${e(item.headline)}</div>
-          <div class="hl-summary">${e(item.summary||'')}</div>
-          <div class="hl-footer">
-            <span style="display:inline-flex;align-items:center;gap:4px">${srcBadge(item)}</span>
-            ${item.read_time?`<span>· ${item.read_time} min</span>`:''}
-            ${item.url ? _rlBtn(item) : ''}
+    h += `<section class="home-section day-section--hl" data-stagger>
+      <div class="fav-card day-hl-panel">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker">Curadoria</div>
+            <h2 class="home-sect-title">Destaques da edição</h2>
           </div>
         </div>
-      </div>`;
+        <div class="day-hl-grid home-hls-latest-grid">`;
+    for (const item of day.highlights) {
+      const cc = CAT_COLORS[item.category]||'#888';
+      const paths = CAT_SVGS[item.category]||'';
+      const bdgIco = paths ? `<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="${cc}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7">${paths}</svg>` : '';
+      const badge = `<span class="cube-hl-cat-text" style="color:${cc}">${bdgIco}${e(item.category_label||item.category)}</span>`;
+      const imgInfo = _contentImageInfo(item);
+      const imgBanner = imgInfo?.kind === 'photo'
+        ? `<div class="hero-hl-img-banner"><img src="${e(imgInfo.url)}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>`
+        : '';
+      const summary = item.summary ? `<span class="hero-hl-summary">${e(item.summary)}</span>` : '';
+      const hlClick = item.url ? `window.open('${item.url}','_blank','noopener')` : '';
+      const hlMeta = _hlMetaHtml(item);
+      h += `<article class="hero-hl-card" style="--cat-color:${cc}" onclick="${hlClick}">
+        ${imgBanner}
+        <div class="hero-hl-body">
+          <div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(item.headline)}</span></div>
+          ${summary}
+          ${_explainHtml(item)}
+          ${hlMeta}
+        </div>
+      </article>`;
     }
-    h += `</div>`;
+    h += `</div></div></section>`;
   }
 
-  // Digest
-  if (day.edition_digest) {
-    h += `<div class="day-digest" data-stagger>
-      <div class="day-digest-label">Resumo da edição</div>
-      <div class="day-digest-text">${e(day.edition_digest)}</div>
-    </div>`;
-  }
+  // (Digest removed — now lives inside the editorial header as lede)
 
-  // Videos carousel (abaixo dos destaques)
+  // Videos — panel like home
   const _dayVids = day.videos || [];
   if (_dayVids.length) {
     const _daySlides = _dayVids.map((v, i) => {
@@ -6514,77 +8436,98 @@ function renderDay(date) {
       const avatar = v.channel_avatar ? `<img class="yt-channel-avatar" src="${v.channel_avatar}" alt="">` : '';
       return `<div class="yt-slide"><div class="yt-aspect" onclick="ytPlay(this,'${v.id}')"><img class="yt-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" loading="lazy" alt=""><div class="yt-play-btn"></div>${dur}</div><div class="yt-slide-info"><div class="yt-slide-title" id="yt-title-${i}">${v.title||''}</div><div class="yt-slide-meta">${avatar}<span class="yt-slide-channel" id="yt-channel-${i}">${v.channel||''}</span>${sep}${vdate}</div></div></div>`;
     }).join('');
-    h += `<div class="yt-section-header" style="margin-top:32px"><span class="card-kicker">Vídeos</span><button class="yt-size-btn" id="yt-size-btn" onclick="ytToggleSize()" aria-label="Expandir vídeos"><svg id="yt-size-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
-    <div class="yt-carousel" onclick="event.stopPropagation()">
-      <div class="yt-nav-wrap">
-        <button class="yt-nav-btn" id="yt-prev" disabled onclick="ytGo(ytPage-1)" aria-label="Anterior"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <div class="yt-track-wrap"><div class="yt-track" id="yt-track">${_daySlides}</div></div>
-        <button class="yt-nav-btn" id="yt-next" onclick="ytGo(ytPage+1)" aria-label="Próximo"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
-    </div>`;
-  }
-
-  // News by category
-  const bycat = {};
-  for (const n of (day.news||[])) {
-    (bycat[n.category]||(bycat[n.category]=[])).push(n);
-  }
-  const catOrder = Object.keys(CAT_COLORS);
-  const sortedCats = Object.keys(bycat).sort((a,b)=>{
-    const ia=catOrder.indexOf(a), ib=catOrder.indexOf(b);
-    return (ia<0?99:ia)-(ib<0?99:ib);
-  });
-
-  const _dayHasExplain = [...(day.news||[]), ...(day.highlights||[])].some(it => it.explain);
-  const _explainToggle = _dayHasExplain ? `<button class="tl-explain-toggle" onclick="toggleExplains(this)" aria-expanded="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="tl-explain-toggle-lbl">Fechar explicações</span></button>` : `<span class="section-meta">${totalNews} itens</span>`;
-  h += `<div class="section-head day-section-head">
-    <div>
-      <div class="sect-kicker">Por categoria</div>
-      <h2 class="sect-title">Todas as notícias <span class="sect-count">${totalNews}</span></h2>
-    </div>
-    ${_explainToggle}
-  </div>`;
-
-  for (const cat of sortedCats) {
-    const items = bycat[cat].sort((a,b)=>(b.urgent?1:0)-(a.urgent?1:0)||new Date(b.published_at||b._date)-new Date(a.published_at||a._date));
-    const color = CAT_COLORS[cat]||'#888';
-    const fi = items[0];
-    h += `<div class="cat-group" data-stagger id="day-cat-${cat}" style="--cc:${color}">
-      <div class="cat-group-hdr">
-        ${catIcon(cat,fi.category_icon||'📌',16)}
-        <div>
-          <div class="cg-name" onclick="nav('/cat/${cat}')">${e(fi.category_label||cat)}</div>
-          <div class="cg-count">${items.length} ${items.length===1?'item':'itens'}</div>
+    const _SVG_PREV = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`;
+    const _SVG_NEXT = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`;
+    h += `<section class="home-section day-section--yt home-section--yt" data-stagger>
+      <div class="fav-card">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker" style="color:var(--accent)">Vídeos</div>
+          </div>
+          <div class="eds-nav" id="vids-nav">
+            <button class="eds-nav-btn" id="vids-prev" disabled onclick="vidsGo(vidsPage-1)" aria-label="Anterior">${_SVG_PREV}</button>
+            <span class="eds-counter" id="vids-counter"></span>
+            <button class="eds-nav-btn" id="vids-next" onclick="vidsGo(vidsPage+1)" aria-label="Próximo">${_SVG_NEXT}</button>
+          </div>
         </div>
-      </div>`;
-    for (const item of items) h += newsCard(item, color);
-    h += `</div>`;
+        <div class="eds-track-wrap"><div class="home-yt-track" id="vids-track">${_daySlides}</div></div>
+        <div class="eds-dots" id="vids-dots"></div>
+      </div>
+    </section>`;
   }
 
-  // Tools
+  // Tools — moved BEFORE news
   if (day.tools?.length) {
-    h += `<div id="day-tools-section" class="section-head day-section-head">
-      <div>
-        <div class="sect-kicker">Releases & lançamentos</div>
-        <h2 class="sect-title">Ferramentas & Linguagens <span class="sect-count">${day.tools.length}</span></h2>
-      </div>
-      <span class="section-meta">${day.tools.length} atualizações</span>
-    </div>
-    <div class="tools-grid">`;
+    h += `<section class="home-section day-section--tools" data-stagger>
+      <div class="fav-card day-tools-panel" id="day-tools-section">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker">Releases</div>
+            <h2 class="home-sect-title">Ferramentas & Linguagens</h2>
+          </div>
+          <span class="section-meta">${day.tools.length} ${day.tools.length===1?'atualização':'atualizações'}</span>
+        </div>
+        <div class="tools-grid day-tools-grid">`;
     for (const t of day.tools) {
       const color = TOOL_COLORS[t.tool_key]||'#888';
       const isL = LANGS.includes(t.tool_key);
       const tgt = isL ? `/lang/${t.tool_key}` : `/tool/${t.tool_key}`;
+      const tForSave = { ...t, _date: day.date, _kind: 'tool' };
       h += `<div class="tool-card" data-stagger style="--tc:${color}" onclick="nav('${tgt}')">
-        <div class="tc-icon" style="--tc:${color}">${toolIcon(t.tool_key,22)}</div>
-        <div class="tc-body">
-          <div class="tc-name">${e(t.name)}</div>
-          <div class="tc-ver">${t.version?e(t.version)+' · ':''}${t.kind==='release'?'🚀 Release':'📰 News'}</div>
-          <div class="tc-hl">${e(t.headline||'')}</div>
+        <div class="tc-head">
+          <div class="tc-icon" style="--tc:${color}">${toolIcon(t.tool_key,22)}</div>
+          <div class="tc-body">
+            <div class="tc-name">${e(t.name)}</div>
+            <div class="tc-ver">${t.version?e(t.version)+' · ':''}${t.kind==='release'?'🚀 Release':'📰 News'}</div>
+          </div>
         </div>
+        <div class="tc-hl">${e(t.headline||'')}</div>
+        <span class="tc-save">${_rlBtn(tForSave, 'tool')}</span>
       </div>`;
     }
-    h += `</div>`;
+    h += `</div></div></section>`;
+  }
+
+  // News — filter pills + flat masonry, no per-cat wrappers
+  // Ordem alfabética por label da categoria (mesma do sidebar lateral)
+  const _catLbl = c => CAT_LABELS[c] || c || '';
+  const allNews = (day.news||[]).slice().sort((a,b)=>{
+    const c = _catLbl(a.category).localeCompare(_catLbl(b.category), 'pt', { sensitivity: 'base' });
+    if (c !== 0) return c;
+    return (b.urgent?1:0)-(a.urgent?1:0) || new Date(b.published_at||b._date)-new Date(a.published_at||a._date);
+  });
+  const bycat = {};
+  for (const n of allNews) (bycat[n.category]||(bycat[n.category]=[])).push(n);
+  const sortedCats = Object.keys(bycat).sort((a,b) => _catLbl(a).localeCompare(_catLbl(b), 'pt', { sensitivity: 'base' }));
+
+  if (allNews.length) {
+    const filterPills = sortedCats.map(cat => {
+      const items = bycat[cat];
+      const color = CAT_COLORS[cat]||'#888';
+      const fi = items[0];
+      const label = e(fi.category_label||cat);
+      return `<button type="button" class="day-news-filter" data-cat="${cat}" style="--cc:${color}" onclick="dayFilterNews('${cat}',this)">${catIcon(cat,fi.category_icon||'📌',14,true)} ${label} <span class="day-news-filter-count">${items.length}</span></button>`;
+    }).join('');
+
+    h += `<section class="home-section day-section--news" data-stagger>
+      <div class="fav-card day-news-panel">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker">Notícias</div>
+            <h2 class="home-sect-title">Todas as notícias</h2>
+          </div>
+          <span class="section-meta">${totalNews} ${totalNews===1?'item':'itens'}</span>
+        </div>
+        <div class="day-news-filters">
+          <button type="button" class="day-news-filter is-active" data-cat="__all" onclick="dayFilterNews('__all',this)">Todas <span class="day-news-filter-count">${totalNews}</span></button>
+          ${filterPills}
+        </div>
+        <div class="day-news-grid" id="day-news-grid">`;
+    for (const item of allNews) {
+      const color = CAT_COLORS[item.category]||'#888';
+      h += `<div class="day-news-item" data-cat="${item.category}" style="--cc:${color}">${newsCard(item, color)}</div>`;
+    }
+    h += `</div></div></section>`;
   }
 
   // Day nav (cards)
@@ -6597,22 +8540,24 @@ function renderDay(date) {
     const dd = new Date(d+'T00:00:00');
     return ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'][dd.getDay()] + ' ' + String(dd.getDate()).padStart(2,'0') + '.' + String(dd.getMonth()+1).padStart(2,'0');
   };
-  h += `<div class="day-nav-cards" data-stagger>
-    ${prev?`<button class="day-nav-card prev" onclick="nav('/day/${prev}')">
-      <span class="dnc-arr">←</span>
-      <div class="dnc-body">
-        <div class="dnc-meta">Nº ${String(prevNum).padStart(2,'0')} · ${fmtShort(prev)}</div>
-        <div class="dnc-title">${e(prevDay?.hero_title||'Edição anterior')}</div>
+  h += `<nav class="day-pager" data-stagger>
+    ${prev?`<button class="day-pager-card prev" onclick="nav('/day/${prev}')">
+      <span class="day-pager-arr">←</span>
+      <div class="day-pager-body">
+        <div class="day-pager-lbl">Edição anterior</div>
+        <div class="day-pager-meta">Nº ${String(prevNum).padStart(2,'0')} · ${fmtShort(prev)}</div>
+        <div class="day-pager-title">${e(prevDay?.hero_title||'Edição anterior')}</div>
       </div>
     </button>`:'<span></span>'}
-    ${next?`<button class="day-nav-card next" onclick="nav('/day/${next}')">
-      <div class="dnc-body">
-        <div class="dnc-meta">Nº ${String(nextNum).padStart(2,'0')} · ${fmtShort(next)}</div>
-        <div class="dnc-title">${e(nextDay?.hero_title||'Próxima edição')}</div>
+    ${next?`<button class="day-pager-card next" onclick="nav('/day/${next}')">
+      <div class="day-pager-body">
+        <div class="day-pager-lbl">Próxima edição</div>
+        <div class="day-pager-meta">Nº ${String(nextNum).padStart(2,'0')} · ${fmtShort(next)}</div>
+        <div class="day-pager-title">${e(nextDay?.hero_title||'Próxima edição')}</div>
       </div>
-      <span class="dnc-arr">→</span>
+      <span class="day-pager-arr">→</span>
     </button>`:'<span></span>'}
-  </div>`;
+  </nav>`;
 
   h += `</div>`; // .day-content
   return h;
@@ -6864,18 +8809,15 @@ function renderEntity(slug, kind) {
     </div>`;
   }
 
-  return h + _groupedTimeline(items, color);
+  return h + _groupedTimeline(items, color, { showCategory: false });
 }
 
 /* ── Toggle global de explicações ── */
 function _setExplainCardState(card, closed) {
   if (!card) return;
   card.classList.toggle('is-collapsed', !!closed);
-  const btn = card.querySelector('.tl-explain-card-toggle');
-  if (!btn) return;
-  btn.setAttribute('aria-expanded', String(!closed));
-  const lbl = btn.querySelector('.tl-explain-card-toggle-lbl');
-  if (lbl) lbl.textContent = closed ? 'Abrir' : 'Fechar';
+  const btn = card.querySelector('.tl-explain-head-btn');
+  if (btn) btn.setAttribute('aria-expanded', String(!closed));
 }
 
 function _syncExplainRoot(root) {
@@ -6888,6 +8830,70 @@ function _syncExplainRoot(root) {
   const lbl = btn.querySelector('.tl-explain-toggle-lbl');
   if (lbl) lbl.textContent = allClosed ? 'Ver explicações' : 'Fechar explicações';
   btn.setAttribute('aria-expanded', String(!allClosed));
+}
+
+function dayFilterNews(cat, btn) {
+  const grid = document.getElementById('day-news-grid');
+  if (!grid) return;
+  const root = btn.closest('.day-news-panel');
+  if (!root) return;
+  root.querySelectorAll('.day-news-filter').forEach(b => b.classList.toggle('is-active', b === btn));
+  grid.querySelectorAll('.day-news-item').forEach(it => {
+    const show = cat === '__all' || it.dataset.cat === cat;
+    it.style.display = show ? '' : 'none';
+  });
+  layoutDayNewsMasonry();
+}
+
+/* Masonry: distribui .day-news-item em N colunas (round-robin) preservando ordem.
+   Cada coluna é um flex column independente — abrir/fechar o explain de um card só
+   empurra os irmãos abaixo dele na mesma coluna, sem rebalancear as demais. */
+function layoutDayNewsMasonry() {
+  document.querySelectorAll('.day-news-grid').forEach(grid => {
+    const visibleItems = [];
+    const allItems = [];
+    grid.querySelectorAll('.day-news-item').forEach(it => {
+      allItems.push(it);
+      if (it.style.display !== 'none') visibleItems.push(it);
+    });
+    if (!allItems.length) return;
+    const minColW = 320, gap = 16;
+    const w = grid.clientWidth || grid.parentElement?.clientWidth || 0;
+    const cols = Math.max(1, Math.min(allItems.length, Math.floor((w + gap) / (minColW + gap)) || 1));
+    const existing = [...grid.querySelectorAll(':scope > .day-news-col')];
+    const sameCols = existing.length === cols && existing.every(c => c.classList.contains('day-news-col'));
+    let colEls;
+    if (sameCols) {
+      colEls = existing;
+      colEls.forEach(c => { while (c.firstChild) c.removeChild(c.firstChild); });
+    } else {
+      grid.innerHTML = '';
+      colEls = [];
+      for (let i = 0; i < cols; i++) {
+        const c = document.createElement('div');
+        c.className = 'day-news-col';
+        grid.appendChild(c);
+        colEls.push(c);
+      }
+    }
+    allItems.forEach((it, idx) => colEls[idx % cols].appendChild(it));
+  });
+}
+
+let _masonryROtimer = null;
+window.addEventListener('resize', () => {
+  if (_masonryROtimer) clearTimeout(_masonryROtimer);
+  _masonryROtimer = setTimeout(layoutDayNewsMasonry, 120);
+});
+
+function dayMapJump(cat) {
+  const panel = document.querySelector('.day-news-panel');
+  if (!panel) return;
+  const btn = panel.querySelector('.day-news-filter[data-cat="' + cat + '"]');
+  if (btn) dayFilterNews(cat, btn);
+  const nh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nh')) || 48;
+  const top = panel.getBoundingClientRect().top + window.scrollY - nh - 16;
+  window.scrollTo({ top, behavior: 'smooth' });
 }
 
 function toggleExplains(btn) {
@@ -6911,35 +8917,52 @@ function toggleExplainCard(btn) {
   _syncExplainRoot(card.closest('[data-explain-root]'));
 }
 
+/* Troca de tab dentro do .tl-explain (Júnior/Pleno/Sênior) */
+function toggleExplainTab(btn) {
+  const wrap = btn.closest('.tl-explain');
+  if (!wrap) return;
+  const lvl = btn.getAttribute('data-lvl');
+  wrap.querySelectorAll('.tl-explain-tab').forEach(b => b.classList.toggle('is-active', b === btn));
+  wrap.querySelectorAll('.tl-explain-panel').forEach(p => p.classList.toggle('is-active', p.getAttribute('data-lvl') === lvl));
+}
+
 function _explainHtml(item) {
   const ex = item.explain;
   if (!ex) return '';
   const LEVELS = [
-    {key:'junior', lbl:'Júnior', c:'#30D158', img:'data/img/csr_robot_junior_transparente.png'},
-    {key:'pleno',  lbl:'Pleno',  c:'#FFD60A', img:'data/img/csr_robot_pleno_transparente.png'},
-    {key:'senior', lbl:'Sênior', c:'var(--accent)', img:'data/img/csr_robot_senior_transparente.png'},
+    {key:'junior', lbl:'Júnior', c:'#30D158', img:'data/img/opcao2_junior_stack.png'},
+    {key:'pleno',  lbl:'Pleno',  c:'#FFD60A', img:'data/img/opcao2_pleno_stack.png'},
+    {key:'senior', lbl:'Sênior', c:'var(--accent)', img:'data/img/opcao2_senior_stack.png'},
   ];
   const visibleLevels = LEVELS.filter(l => ex[l.key]);
-  const titleMascots = visibleLevels.map(l =>
-    `<img class="tl-explain-title-mascot" src="${e(l.img)}" alt="" loading="lazy" draggable="false" onerror="this.style.display='none'">`
-  ).join('');
-  const levelsHtml = visibleLevels.map(l =>
-    `<div class="tl-explain-level"><span class="tl-explain-lbl" style="--lc:${l.c}" role="img" aria-label="${e(l.lbl)}"><img class="tl-explain-mascot" src="${e(l.img)}" alt="" loading="lazy" draggable="false" onerror="this.style.display='none'"></span><span class="tl-explain-copy">${e(ex[l.key])}</span></div>`
-  ).join('');
+  if (!visibleLevels.length) return '';
   const glossHtml = (ex.glossary||[]).length
     ? `<div class="tl-explain-glossary">${(ex.glossary||[]).map(g =>
         `<button type="button" class="tl-explain-chip" onclick="this.classList.toggle('open')"><span class="tl-explain-chip-term">${e(g.term)}</span><span class="tl-explain-chip-def">${e(g.def)}</span></button>`
       ).join('')}</div>`
     : '';
-  return `<div class="tl-explain">
+  const tabsHtml = visibleLevels.map((l, i) =>
+    `<button type="button" class="tl-explain-tab${i===0?' is-active':''}" data-lvl="${l.key}" style="--lc:${l.c}" onclick="toggleExplainTab(this)" aria-label="${e(l.lbl)}" title="${e(l.lbl)}">
+      <img src="${e(l.img)}" alt="${e(l.lbl)}" loading="lazy" draggable="false" onerror="this.style.display='none'">
+    </button>`
+  ).join('');
+  const panelsHtml = visibleLevels.map((l, i) =>
+    `<div class="tl-explain-panel${i===0?' is-active':''}" data-lvl="${l.key}">${e(ex[l.key])}</div>`
+  ).join('');
+  return `<div class="tl-explain tl-explain--tabs is-collapsed" onclick="event.stopPropagation()">
     <div class="tl-explain-head">
-      <div class="tl-explain-title"><span class="tl-explain-dot"></span><span>Explicações</span><span class="tl-explain-title-mascots" aria-hidden="true">${titleMascots}</span></div>
-      <button type="button" class="tl-explain-card-toggle" onclick="toggleExplainCard(this)" aria-expanded="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        <span class="tl-explain-card-toggle-lbl">Fechar</span>
+      <button type="button" class="tl-explain-head-btn" onclick="toggleExplainCard(this)" aria-expanded="false">
+        <span class="tl-explain-title"><span class="tl-explain-qicon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></span><span>Explicações</span></span>
+        <span class="tl-explain-card-toggle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </span>
       </button>
     </div>
-    <div class="tl-explain-body"><div class="tl-explain-body-inner">${levelsHtml}${glossHtml}</div></div>
+    <div class="tl-explain-body"><div class="tl-explain-body-inner">
+      <div class="tl-explain-tabs">${tabsHtml}</div>
+      <div class="tl-explain-panels">${panelsHtml}</div>
+      ${glossHtml}
+    </div></div>
   </div>`;
 }
 
@@ -7011,7 +9034,7 @@ function _newsImageHtml(item) {
 }
 
 /* ── Helper: timeline agrupada por data ── */
-function _groupedTimeline(items, color) {
+function _groupedTimeline(items, color, opts = {}) {
   const hasExplain = items.some(it => it.explain);
   // Group by _date desc (já vem ordenado de getAllNews/getAllToolItems)
   const groups = {};
@@ -7020,9 +9043,9 @@ function _groupedTimeline(items, color) {
   }
   const dates = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
   const toggleBtn = hasExplain
-    ? `<button class="tl-explain-toggle" onclick="toggleExplains(this)" aria-expanded="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="tl-explain-toggle-lbl">Fechar explicações</span></button>`
+    ? `<button class="tl-explain-toggle" onclick="toggleExplains(this)" aria-expanded="false"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="tl-explain-toggle-lbl">Ver explicações</span></button>`
     : '';
-  let h = `<div class="tl-list-grouped" data-explain-root>
+  let h = `<div class="tl-list-grouped" data-explain-root data-explain-closed>
     ${toggleBtn}`;
   for (const date of dates) {
     const d = new Date(date+'T00:00:00');
@@ -7039,15 +9062,16 @@ function _groupedTimeline(items, color) {
       </button>
     </div>
     <div class="tl-day-items">`;
-    for (const item of groups[date]) h += tlItemSimple(item, color);
+    for (const item of groups[date]) h += tlItemSimple(item, color, opts);
     h += `</div>`;
   }
   return h + `</div>`;
 }
 
 /* ── Item de timeline simplificado (sem tl-date interno, pois data está no header) ── */
-function tlItemSimple(item, color) {
-  return newsCard(item, color, { stagger:true, className:'news-card-timeline', showCategory:false, dateValue:item.published_at || item._date });
+function tlItemSimple(item, color, opts = {}) {
+  const showCategory = opts.showCategory !== false;
+  return newsCard(item, color, { stagger:true, className:'news-card-timeline', showCategory, dateValue:item.published_at || item._date });
 }
 
 /* ── Helpers de sugestão para 404 ── */
@@ -7139,10 +9163,10 @@ function newsCard(item, color, opts = {}) {
   return `<div class="news-card${urg?' urgent':''}${media?' has-cover':''}${className}"${staggerAttr} style="--lc:${lc}">
     ${media}
     <div class="nc-meta">
-      ${source?`<span class="nc-source nc-source-top">${source}</span>`:''}
-      ${showCategory?`<span class="nc-meta-pill">${e(categoryLabel)}</span>`:''}
-      ${item.read_time?`<span>${item.read_time} min de leitura</span>`:''}
+      ${showCategory?`<span class="nc-meta-pill" style="--lc:${CAT_COLORS[item.category]||'var(--accent)'}">${catIcon(item.category, item.category_icon||'📌', 13, true)}${e(categoryLabel)}</span>`:''}
       ${item.version?`<span class="badge badge-r">${e(item.version)}</span>`:''}
+      ${source?`<span class="nc-source nc-source-top">${source}</span>`:''}
+      ${item.read_time?`<span class="nc-read-time"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${item.read_time} min</span>`:''}
     </div>
     <div class="nc-hdr">
       <div class="nc-title">
@@ -7153,10 +9177,11 @@ function newsCard(item, color, opts = {}) {
     <div class="nc-summary">${e(summary)}</div>
     ${_explainHtml(item)}
     <div class="nc-footer" style="clear:both">
-      ${pubDate?`<span class="nc-date">${pubDate}</span>`:''}
-      <div class="tags">${tags.map(t=>`<span class="tag">${e(t)}</span>`).join('')}</div>
-      ${item.url ? _rlBtn(item) : ''}
-      ${item.url?`<a class="nc-open" href="${e(item.url)}" target="_blank" rel="noopener">Abrir fonte →</a>`:''}
+      ${tags.length?`<div class="tags">${tags.map(t=>`<span class="tag">${e(t)}</span>`).join('')}</div>`:''}
+      <div class="nc-footer-row">
+        ${item.url?`<a class="nc-open" href="${e(item.url)}" target="_blank" rel="noopener">Abrir fonte →</a>`:'<span></span>'}
+        ${item.url ? _rlBtn(item) : ''}
+      </div>
     </div>
   </div>`;
 }
@@ -7273,56 +9298,133 @@ function e(s) {
 }
 
 /* ====================================================
-   LER DEPOIS — view dedicada
+   SALVOS — view dedicada (notícias + ferramentas)
    ==================================================== */
-function renderReadLater() {
-  const items = sortReadLater(STATE.readLater);
-  if (items.length === 0) {
-    return `
-      <div class="day-header" style="margin:18px 0 0">
-        <div class="day-eyebrow">Arquivo · Ler depois</div>
-        <h1 class="day-hero-title">Sua biblioteca está vazia</h1>
-        <p class="day-hero-desc">Salve artigos com o ícone de marcador para lê-los depois.</p>
+function renderSaved() {
+  const all       = STATE.readLater || [];
+  const newsItems = sortReadLater(all.filter(it => _kindOf(it) === 'news'));
+  const toolItems = sortReadLater(all.filter(it => _kindOf(it) === 'tool'));
+  const total     = newsItems.length + toolItems.length;
+
+  const _editorial = `<section class="day-editorial-card is-editorial" data-stagger>
+    <header class="ed-masthead">
+      <div class="ed-masthead-l">
+        <span class="ed-brand"><span class="ed-brand-csr">CSR</span><span class="ed-brand-news">NEWS</span></span>
+        <span class="ed-issue">Biblioteca</span>
       </div>
-      <div class="rl-empty">Nenhum artigo salvo ainda.</div>`;
-  }
-  const h = `
-    <div class="day-header" style="margin:18px 0 0">
-      <div class="day-eyebrow">Arquivo · Ler depois</div>
-      <h1 class="day-hero-title">${items.length} ${items.length === 1 ? 'artigo salvo' : 'artigos salvos'}</h1>
+    </header>
+    <div class="ed-headline">
+      <div class="ed-date">
+        <span class="ed-date-num">${total}</span>
+        <span class="ed-date-wkd">${total === 1 ? 'item' : 'itens'}</span>
+        <span class="ed-date-mon">salvos</span>
+      </div>
+      <div class="ed-divider"></div>
+      <div class="ed-title-wrap">
+        <h1 class="ed-title">${total ? 'Sua biblioteca' : 'Sua biblioteca está vazia'}</h1>
+      </div>
     </div>
-    <div class="day-content" style="margin:0;padding:0 0 60px">
-      <div class="rl-view-bar">
-        <select id="rl-sort" aria-label="Ordenar por">
-          <option value="saved" ${STATE.readLaterSort==='saved'?'selected':''}>Salvos recentemente</option>
-          <option value="date"  ${STATE.readLaterSort==='date'?'selected':''}>Data da edição</option>
-          <option value="category" ${STATE.readLaterSort==='category'?'selected':''}>Categoria</option>
-          <option value="urgent" ${STATE.readLaterSort==='urgent'?'selected':''}>Urgentes primeiro</option>
-        </select>
-        <button id="rl-export" type="button">Exportar JSON</button>
-        <button id="rl-clear" type="button">Limpar</button>
+    <div class="ed-lede">
+      <p>${total
+        ? 'Notícias e ferramentas que você marcou para revisitar. Os botões de bookmark abaixo removem itens daqui.'
+        : 'Use o ícone de marcador nos cards de notícia e ferramenta para guardá-los aqui.'}</p>
+    </div>
+    <footer class="ed-foot">
+      <button type="button" class="ed-cta" onclick="nav('/')"><span class="ed-cta-arrow" aria-hidden="true">←</span> Voltar à home</button>
+      <div class="ed-foot-stats">
+        <span class="ed-foot-stat"><b>${newsItems.length}</b> notícia${newsItems.length===1?'':'s'}</span>
+        <span class="ed-foot-sep">·</span>
+        <span class="ed-foot-stat"><b>${toolItems.length}</b> ferramenta${toolItems.length===1?'':'s'}</span>
       </div>
-      <div class="rl-list">
-        ${items.map(it => `
-          <a class="rl-item" href="${e(it.url)}" target="_blank" rel="noopener" style="--cc:${CAT_COLORS[it.category] || 'var(--accent)'}">
-            <div class="rl-thumb">${it.image ? `<img src="${e(it.image)}" alt="" loading="lazy">` : ''}</div>
-            <div class="rl-body">
-              <div class="rl-title">${e(it.title || '')}</div>
-              <div class="rl-meta">
-                <span class="rl-cat-dot"></span>
-                <span>${e(CAT_LABELS[it.category] || it.category || '')}</span>
-                ${it._date ? `<span>· ${e(fmtCalDate(it._date))}</span>` : ''}
-                ${it.source ? `<span>· ${e(it.source)}</span>` : ''}
-                ${it.urgent ? `<span class="rl-urgent">Urgente</span>` : ''}
-              </div>
-            </div>
-            <button class="rl-remove" data-rl-remove="${e(it.url)}" aria-label="Remover" onclick="event.stopPropagation();event.preventDefault();">×</button>
-          </a>
-        `).join('')}
-      </div>
+    </footer>
+  </section>
+  <div class="day-content">`;
+
+  if (total === 0) {
+    return _editorial + `
+      <section class="home-section" data-stagger>
+        <div class="fav-card">
+          <div class="rl-empty">
+            Nenhum item salvo ainda. Clique no ícone <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" style="vertical-align:-2px"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> em qualquer card para começar.
+          </div>
+        </div>
+      </section>
     </div>`;
-  return h;
+  }
+
+  let h = _editorial;
+
+  // Ferramentas salvas
+  if (toolItems.length) {
+    let toolsHtml = '';
+    for (const t of toolItems) {
+      const color = TOOL_COLORS[t.tool_key] || '#888';
+      const isL   = LANGS.includes(t.tool_key);
+      const tgt   = isL ? `/lang/${t.tool_key}` : `/tool/${t.tool_key}`;
+      toolsHtml += `<div class="tool-card" data-stagger style="--tc:${color}" onclick="nav('${tgt}')">
+        <div class="tc-head">
+          <div class="tc-icon" style="--tc:${color}">${toolIcon(t.tool_key,22)}</div>
+          <div class="tc-body">
+            <div class="tc-name">${e(t.name)}</div>
+            <div class="tc-ver">${t.version?e(t.version)+' · ':''}${t.kind==='release'?'🚀 Release':'📰 News'}${t._date?` · ${e(fmtCalDate(t._date))}`:''}</div>
+          </div>
+        </div>
+        <div class="tc-hl">${e(t.headline||'')}</div>
+        <span class="tc-save">${_rlBtn(t, 'tool')}</span>
+      </div>`;
+    }
+    h += `<section class="home-section" data-stagger>
+      <div class="fav-card day-tools-panel">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker">Releases</div>
+            <h2 class="home-sect-title">Ferramentas salvas</h2>
+          </div>
+          <span class="section-meta">${toolItems.length} ${toolItems.length===1?'item':'itens'}</span>
+        </div>
+        <div class="tools-grid day-tools-grid">${toolsHtml}</div>
+      </div>
+    </section>`;
+  }
+
+  // Notícias salvas
+  if (newsItems.length) {
+    let newsHtml = '';
+    for (const item of newsItems) {
+      const color = CAT_COLORS[item.category] || '#888';
+      newsHtml += `<div class="day-news-item" data-cat="${item.category||''}" style="--cc:${color}">${newsCard(item, color)}</div>`;
+    }
+    h += `<section class="home-section" data-stagger>
+      <div class="fav-card day-news-panel">
+        <div class="eds-section-hd">
+          <div class="eds-section-hd-text">
+            <div class="home-sect-kicker">Notícias</div>
+            <h2 class="home-sect-title">Notícias salvas</h2>
+          </div>
+          <span class="section-meta">${newsItems.length} ${newsItems.length===1?'item':'itens'}</span>
+        </div>
+        <div class="day-news-grid">${newsHtml}</div>
+      </div>
+    </section>`;
+  }
+
+  // Toolbar de ações
+  h += `<section class="home-section" data-stagger>
+    <div class="rl-view-bar" style="margin:0 4px">
+      <select id="rl-sort" aria-label="Ordenar por">
+        <option value="saved" ${STATE.readLaterSort==='saved'?'selected':''}>Salvos recentemente</option>
+        <option value="date"  ${STATE.readLaterSort==='date'?'selected':''}>Data da edição</option>
+        <option value="category" ${STATE.readLaterSort==='category'?'selected':''}>Categoria</option>
+      </select>
+      <button id="rl-export" type="button">Exportar JSON</button>
+      <button id="rl-clear" type="button">Limpar tudo</button>
+    </div>
+  </section>`;
+
+  return h + `</div>`;
 }
+// Compat — rota legada `/read-later` continua funcionando
+function renderReadLater() { return renderSaved(); }
 
 /* ====================================================
    MAIN RENDER
@@ -7365,7 +9467,8 @@ function renderAll({ preserveScroll = false } = {}) {
       case 'cat':  content = renderCat(slug); break;
       case 'lang': content = renderEntity(slug,'lang'); break;
       case 'tool': content = renderEntity(slug,'tool'); break;
-      case 'read-later': content = renderReadLater(); break;
+      case 'saved':      content = renderSaved(); break;
+      case 'read-later': content = renderSaved(); break;
       default:     content = STATE.ready.currentDay ? renderHome() : homeSkeleton();
     }
   }
@@ -7378,7 +9481,16 @@ function renderAll({ preserveScroll = false } = {}) {
   const applyContent = () => {
     if (!main) return;
     main.classList.remove('route-exit');
+    // V4: tirar qbar-host de main antes do innerHTML wipe (se já estiver lá)
+    const _qhostPrev = document.getElementById('quote-bar-host');
+    const _qstash = document.getElementById('qbar-stash');
+    if (_qhostPrev && _qstash && _qhostPrev.parentElement !== _qstash) {
+      _qstash.appendChild(_qhostPrev);
+    }
     main.innerHTML = content;
+    // Agora move de volta para o topo de main
+    const _qhost = document.getElementById('quote-bar-host');
+    if (_qhost) main.insertBefore(_qhost, main.firstChild);
     if (preserveScroll) window.scrollTo({top: savedScroll, behavior:'instant'});
     else window.scrollTo({top: 0, behavior:'instant'});
     if (!preserveScroll) {
@@ -7393,7 +9505,10 @@ function renderAll({ preserveScroll = false } = {}) {
     if (view === 'home' && STATE.ready.editions) initHeroRotation();
     if (view === 'home') { initHeroHighlights(); ytInit(); hlsInit(); vidsInit(); edsInit(); }
     if (view === 'day') { ytInitForDay(slug); }
-    if (view === 'home') requestAnimationFrame(() => requestAnimationFrame(initHomeFallBg));
+    if (view === 'day' || view === 'saved' || view === 'read-later') {
+      requestAnimationFrame(() => layoutDayNewsMasonry());
+    }
+    requestAnimationFrame(() => requestAnimationFrame(initHomeFallBg));
     if (_scrollToCat && view === 'day' && STATE.days[slug]) {
       const cat = _scrollToCat; _scrollToCat = null;
       setTimeout(() => {
@@ -7414,7 +9529,7 @@ function renderAll({ preserveScroll = false } = {}) {
         }
       }, 80);
     }
-    if (view === 'read-later') {
+    if (view === 'saved' || view === 'read-later') {
       const sortSel = document.getElementById('rl-sort');
       if (sortSel) sortSel.addEventListener('change', () => {
         STATE.readLaterSort = sortSel.value;
@@ -7423,23 +9538,11 @@ function renderAll({ preserveScroll = false } = {}) {
       });
       document.getElementById('rl-export')?.addEventListener('click', exportReadLater);
       document.getElementById('rl-clear')?.addEventListener('click', () => {
-        if (confirm('Limpar toda a lista de "Ler depois"?')) {
+        if (confirm('Limpar todos os itens salvos?')) {
           STATE.readLater = [];
           localStorage.setItem('csrn-read-later', '[]');
           renderAll();
         }
-      });
-      main.querySelectorAll('[data-rl-remove]').forEach(btn => {
-        btn.addEventListener('click', (ev) => {
-          ev.preventDefault(); ev.stopPropagation();
-          const url = btn.getAttribute('data-rl-remove');
-          const idx = STATE.readLater.findIndex(it => it.url === url);
-          if (idx >= 0) {
-            STATE.readLater.splice(idx, 1);
-            localStorage.setItem('csrn-read-later', JSON.stringify(STATE.readLater));
-            renderAll({ preserveScroll: true });
-          }
-        });
       });
     }
   };
@@ -7760,14 +9863,51 @@ document.addEventListener('keydown', e => {
 
   let _fallShineIv = null;
 
+  function syncFallBgToQbar() {
+    const fall = document.getElementById('homeFallBg');
+    if (!fall) return;
+    // Tenta usar .qbar como referência (card de frase dos autores).
+    // Se ele estiver oculto/colapsado, cai para .qbar-host (que é fixed e tem
+    // o mesmo retângulo). Em última instância usa #main.
+    let ref = document.querySelector('.qbar-host:not(.hidden):not(.closed) .qbar');
+    if (!ref || ref.getBoundingClientRect().width <= 0) {
+      ref = document.querySelector('.qbar-host:not(.hidden)');
+    }
+    if (!ref || ref.getBoundingClientRect().width <= 0) {
+      ref = document.getElementById('main');
+    }
+    if (!ref) return;
+    const r = ref.getBoundingClientRect();
+    if (r.width <= 0) return;
+    fall.style.left  = r.left + 'px';
+    fall.style.right = Math.max(0, window.innerWidth - r.right) + 'px';
+  }
+  window._syncFallBgToQbar = syncFallBgToQbar;
+
+  let _fallRO = null, _fallMO = null;
   window.initHomeFallBg = function initHomeFallBg() {
     const stage = document.getElementById('fallStage');
     if (!stage) return;
     // Limpa ciclo anterior e tiles
     if (_fallShineIv) { clearInterval(_fallShineIv); _fallShineIv = null; }
     stage.innerHTML = '';
+    syncFallBgToQbar();
+    if (!_fallRO && typeof ResizeObserver !== 'undefined') {
+      _fallRO = new ResizeObserver(() => syncFallBgToQbar());
+      const targets = [document.querySelector('.qbar-host'), document.getElementById('main')].filter(Boolean);
+      targets.forEach(t => _fallRO.observe(t));
+    }
+    if (!_fallMO && typeof MutationObserver !== 'undefined') {
+      const host = document.querySelector('.qbar-host');
+      if (host) {
+        _fallMO = new MutationObserver(() => syncFallBgToQbar());
+        _fallMO.observe(host, { attributes: true, attributeFilter: ['class'] });
+        _fallMO.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      }
+    }
     spawnHomeFallTiles();
   };
+  window.addEventListener('resize', syncFallBgToQbar);
 
   function spawnHomeFallTiles() {
     const stage   = document.getElementById('fallStage');
@@ -8028,11 +10168,11 @@ function _hlsRender(page){
   if(dots&&show)dots.innerHTML=Array.from({length:pages},(_,i)=>`<button class="eds-dot${i===page?' active':''}" onclick="hlsGo(${i})" aria-label="Página ${i+1}"></button>`).join('');
 }
 function hlsGo(page){_hlsRender(page);}
-function hlsInit(){const t=document.getElementById('hls-track');if(!t)return;hlsTotal=t.children.length;_hlsRender(0);initDragScroll('hls-track',270,12);}
+function hlsInit(){const t=document.getElementById('hls-track');if(!t)return;hlsTotal=t.children.length;_hlsRender(0);initDragScroll('hls-track',HLS_SLIDE_W,HLS_GAP);}
 window.addEventListener('resize',()=>{if(document.getElementById('hls-track'))_hlsRender(hlsPage);});
 
 /* ── Videos carousel (home) ── */
-const VIDS_SLIDE_W = 220, VIDS_GAP = 10;
+const VIDS_SLIDE_W = 340, VIDS_GAP = 16;
 let vidsTotal = 0, vidsPage = 0;
 function _vidsPerView(){const t=document.getElementById('vids-track');if(!t)return 1;return Math.max(1,Math.floor(t.parentElement.clientWidth/(VIDS_SLIDE_W+VIDS_GAP)));}
 function _vidsRender(page){
@@ -8048,7 +10188,7 @@ function _vidsRender(page){
   if(dots&&show)dots.innerHTML=Array.from({length:pages},(_,i)=>`<button class="eds-dot${i===page?' active':''}" onclick="vidsGo(${i})" aria-label="Página ${i+1}"></button>`).join('');
 }
 function vidsGo(page){_vidsRender(page);}
-function vidsInit(){const t=document.getElementById('vids-track');if(!t)return;vidsTotal=t.children.length;_vidsRender(0);initDragScroll('vids-track',300,16);}
+function vidsInit(){const t=document.getElementById('vids-track');if(!t)return;vidsTotal=t.children.length;_vidsRender(0);initDragScroll('vids-track',VIDS_SLIDE_W,VIDS_GAP);}
 window.addEventListener('resize',()=>{if(document.getElementById('vids-track'))_vidsRender(vidsPage);});
 
 /* ── Editions carousel ── */
@@ -8117,7 +10257,7 @@ function _ytFetchTitles(vids) {
 function ytInitForDay(date) {
   const vids = STATE.days[date]?.videos || [];
   if (!vids.length) return;
-  _ytRender(0);
+  vidsInit();
   _ytFetchTitles(vids);
 }
 window.addEventListener('resize', () => _ytRender(ytPage));
@@ -8165,7 +10305,8 @@ function initDragScroll(trackId, slideW, gap) {
 
   function goItem(n) {
     const total = track.children.length;
-    const maxOffset = Math.max(0, total * (slideW + gap) - wrap.clientWidth);
+    const trackW = total * slideW + Math.max(0, total - 1) * gap;
+    const maxOffset = Math.max(0, trackW - wrap.clientWidth);
     const offset = Math.max(0, Math.min(maxOffset, n * (slideW + gap)));
     itemIdx = Math.round(offset / (slideW + gap));
     track.style.transition = EASE;

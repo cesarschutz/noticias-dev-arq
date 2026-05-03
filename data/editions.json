@@ -1,6 +1,58 @@
 {
-  "last_generated": "2026-05-02T06:00:00-03:00",
+  "last_generated": "2026-05-03T19:30:00-03:00",
   "editions": [
+    {
+      "date": "2026-05-03",
+      "hero_title": "Confluent muda IDs de schema, Meta entrega self-optimizing e Cloudflare detalha pilha LLM",
+      "hero_description": "Domingo de virada arquitetural: Confluent propõe mover schema IDs do payload Kafka para headers — desacoplamento profundo entre dado e metadata. Meta apresenta plataforma de capacity efficiency com agentes que detectam e corrigem performance sozinhos em hyperscale. Cloudflare publica deep-dive de inferência LLM com prefill/decode disaggregation entregando 3x na latência inter-token.",
+      "counts_by_category": {
+        "integ": 1,
+        "enterprise": 2,
+        "cloud": 1,
+        "design": 1,
+        "distarch": 1,
+        "ai": 1,
+        "aiops": 3,
+        "backend": 1,
+        "frontend": 2,
+        "sec": 2,
+        "data": 1,
+        "devops": 1,
+        "fundamentals": 1,
+        "fintech": 1
+      },
+      "counts_by_tool": {
+        "kafka": 1,
+        "postgres": 1,
+        "java": 1,
+        "angular": 1,
+        "mermaid": 1,
+        "secrets-manager": 1,
+        "dynatrace": 1,
+        "plantuml": 1,
+        "maven": 1,
+        "gradle": 1,
+        "istio": 1,
+        "redis": 1
+      },
+      "highlights": [
+        {
+          "title": "Confluent muda IDs de schema do payload para o header — fim do prefixo de 5 bytes nas mensagens Kafka",
+          "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+          "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/generatedHeaderImage-1776736992912.jpg"
+        },
+        {
+          "title": "Meta lança plataforma de capacity efficiency com agentes de IA unificados para auto-otimização em hyperscale",
+          "url": "https://www.infoq.com/news/2026/05/meta-ai-agents-hyperscale/",
+          "image": "https://res.infoq.com/news/2026/05/meta-ai-agents-hyperscale/en/headerimage/generatedHeaderImage-1777275523688.jpg"
+        },
+        {
+          "title": "Cloudflare detalha infraestrutura para LLMs gigantes — Infire, prefill/decode disaggregation e Kimi K2.5 em 8 H100",
+          "url": "https://www.infoq.com/news/2026/05/cloudflare-llm-infrastructure/",
+          "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/H6HzVR3djJacCrzX8b8EE/aea7e8130edf09565333b6a550c010db/BLOG-3266_1.png"
+        }
+      ]
+    },
     {
       "date": "2026-05-02",
       "counts_by_category": {

@@ -1,0 +1,907 @@
+{
+  "date": "2026-05-03",
+  "weekday": "Domingo",
+  "formatted_date": "Domingo, 03 de Maio de 2026",
+  "generated_at": "2026-05-03T19:30:00-03:00",
+  "hero_title": "Confluent muda IDs de schema, Meta entrega self-optimizing e Cloudflare detalha pilha LLM",
+  "hero_description": "Domingo de virada arquitetural: Confluent propõe mover schema IDs do payload Kafka para headers — desacoplamento profundo entre dado e metadata. Meta apresenta plataforma de capacity efficiency com agentes que detectam e corrigem performance sozinhos em hyperscale. Cloudflare publica deep-dive de inferência LLM com prefill/decode disaggregation entregando 3x na latência inter-token.",
+  "edition_digest": "Domingo começou com mudanças que mexem em fundação: Confluent quer aposentar o prefixo de 5 bytes (magic + schema ID) que precede toda mensagem Kafka serializada via Schema Registry desde 2014. A nova proposta move o ID para headers do record — desacopla payload de metadata, simplifica governança de schema e abre caminho para tópicos multi-formato. Em paralelo, a Meta apresentou a plataforma de capacity efficiency com agentes de IA unificados detectando e remediando problemas de performance sem intervenção humana, marcando passo concreto da arquitetura self-optimizing em hyperscale.\n\nNa faixa de infraestrutura para IA, a Cloudflare detalhou em 3/mai sua pilha para servir modelos como Kimi K2.5 (>1T parâmetros): prefill/decode disaggregation, engine custom Infire e session affinity para prompt caching agressivo entregam p90 inter-token de 100ms para 20-30ms. A Mistral colocou Workflows em preview público — orquestração de IA construída sobre Temporal com checkpointing e human-in-the-loop. A NVIDIA liberou família Ising open para calibração quântica e correção de erro, integrada com CUDA-Q.\n\nNo backend, o Java Roundup de 20/abr trouxe JEP 532 (Primitive Patterns) elevada para Proposed-to-Target no JDK 27, cronograma fechado por Mark Reinhold, e maintenance releases de IntelliJ 2026.1.1 e Testcontainers 2.0.5. O ecossistema PostgreSQL concentrou releases de extensões — pgclone v4 (clonagem com data masking nativo), storage_engine 1.0.7 (colunar comprimido) e pg_dbms_job (compat Oracle). Spring for Apache Kafka 4.1.0 RC1 trouxe suporte a KIP-848 (rebalance) e early access a KIP-932 (share consumers).\n\nNo frontend, a VoidZero (de Evan You) abriu compilador Angular experimental em Rust com integração Vite — até 6,4x mais rápido que Angular CLI. NestJS começa migração para v12 com transição CommonJS→ESM, Vitest substituindo Jest, oxlint no lugar de ESLint e Rspack no lugar de Webpack. Em segurança, a Wiz publicou writeup do CVE-2026-3854 (CVSS 8.7) na infra git interna do GitHub — RCE via git push em GHES, patch em 3.19.3. Notepad++ 8.9.4 corrigiu CVE-2026-3008 (string injection).\n\nMartin Fowler publicou framework do 'Feedback Flywheel' para times que usam LLMs — quatro tipos de sinal (contexto, instrução, workflow, falha) e quatro artefatos compartilhados (prompts, SKILL.md, guardrails, vault). É o esqueleto de uma prática de AI engineering madura. Banco Central concluiu pacote regulatório elevando capital mínimo de SCDs para R$ 9-32 milhões; quatro liquidações de fintechs desde nov/25 marcam o fim da era 'qualquer um abre fintech'.\n\nNas ferramentas, destaque para Spring for Apache Kafka 4.1.0-RC1 (KIP-848 + share consumers + Jackson 3), Java JEP 532 caminhando para JDK 27, e tutoriais de profundidade em Mermaid, PlantUML, Maven BOMs, Gradle build cache, AWS Secrets Manager rotation e Redis Streams como alternativa leve a Kafka.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Confluent muda IDs de schema do payload para o header — fim do prefixo de 5 bytes nas mensagens Kafka",
+      "summary": "A Confluent publicou uma proposta arquitetural que move o schema ID do payload da mensagem (os 5 bytes 'magic byte + ID' que precedem todo registro Avro/Protobuf/JSON-Schema desde 2014) para os headers do record Kafka. A mudança desacopla dado e metadata, melhora compatibilidade entre formatos de serialização e simplifica governance/evolução de schema sem alterar bytes do payload. A integração permanece com Schema Registry, mas remove a dor histórica de não conseguir ler payload sem o serializer correto carregado.",
+      "explain": {
+        "junior": "Toda mensagem Kafka que usa Schema Registry hoje carrega 5 bytes no início do payload — 1 byte 'mágico' + 4 bytes de schema ID — para o consumer descobrir como deserializar. A Confluent quer mover esse ID para o header do registro Kafka, deixando o payload com apenas o dado de verdade.",
+        "pleno": "A separação data/metadata melhora ferramentas que processam o payload em pipeline (sink connectors, filtros, transformers) sem precisar do serializer Confluent embarcado, reduz coupling entre app e Schema Registry e abre espaço para mensagens multi-formato no mesmo tópico (Avro + Protobuf + JSON-Schema convivendo, identificados por header). Backward compatibility se preserva pelos consumers reconhecendo ambos os formatos durante a migração.",
+        "senior": "Time de plataforma deve avaliar o impacto em conectores existentes (Kafka Connect, Flink, ksqlDB), políticas de schema evolution e adoção em CDC pipelines — a migração é evolutiva mas vale planejar window de compatibilidade dual antes de empurrar produtores legados.",
+        "glossary": [
+          {
+            "term": "Schema Registry",
+            "def": "Serviço da Confluent que armazena schemas Avro/Protobuf/JSON e devolve um ID inteiro usado para identificar a versão correta na hora de serializar/deserializar."
+          },
+          {
+            "term": "Magic byte",
+            "def": "Primeiro byte do payload (valor 0) que sinaliza ao consumer que segue o formato Confluent: magic + schema_id (4 bytes) + dado serializado."
+          },
+          {
+            "term": "Record header Kafka",
+            "def": "Estrutura de chave-valor anexada a cada mensagem desde Kafka 0.11 (2017), pensada justamente para metadados sem afetar payload."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+      "published_at": "2026-05-01T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "kafka",
+        "schema-registry",
+        "confluent",
+        "event-driven"
+      ],
+      "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/generatedHeaderImage-1776736992912.jpg"
+    },
+    {
+      "source_array": "news",
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Meta lança plataforma de capacity efficiency com agentes de IA unificados para auto-otimização em hyperscale",
+      "summary": "A Meta apresentou uma plataforma de eficiência operacional baseada em agentes de IA que detectam e resolvem problemas de performance automaticamente em sua infraestrutura global. O sistema unifica telemetria de capacity, throughput e latência em uma camada de inferência que dispara remediações sem intervenção humana — desde rebalance de tráfego até recompilação de binários. É um passo concreto rumo à arquitetura self-optimizing em hyperscale, com Meta sinalizando que o platform team agora supervisiona agentes em vez de tickets.",
+      "explain": {
+        "junior": "Em vez de ter SREs apagando incêndio manualmente, a Meta colocou agentes de IA tomando conta da infraestrutura — eles vêem que algo está lento, descobrem por quê e corrigem. O ser humano só entra quando o agente não consegue resolver.",
+        "pleno": "A plataforma combina telemetria distribuída (métricas, traces, profiling contínuo) com modelos que aprendem padrões de degradação e disparam ações pré-aprovadas: redirecionar tráfego, ajustar limites de recurso, regenerar artefatos. O ganho não está na detecção (que SRE moderno já tem), mas na compressão entre detecção e remediação — minutos em vez de horas.",
+        "senior": "Para arquiteturas grandes, isto sinaliza que platform engineering vira AIOps engineering: o IDP precisa expor 'guardrails de ação' aos agentes (orçamento, blast radius, reversibilidade), e SLOs deixam de ser metas de pessoa para virar contratos com o agente. Vale começar separando ações reversíveis de irreversíveis no runbook automatizado."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/meta-ai-agents-hyperscale/",
+      "published_at": "2026-05-01T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "aiops",
+        "platform-engineering",
+        "meta",
+        "self-optimizing"
+      ],
+      "image": "https://res.infoq.com/news/2026/05/meta-ai-agents-hyperscale/en/headerimage/generatedHeaderImage-1777275523688.jpg"
+    },
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Cloudflare detalha infraestrutura para LLMs gigantes — Infire, prefill/decode disaggregation e Kimi K2.5 em 8 H100",
+      "summary": "Em peça de 3/mai, a Cloudflare descreveu como serve modelos como Kimi K2.5 (>1T parâmetros, 560GB) na sua rede global. A pilha combina disaggregated prefill (servidores separados para prompt processing e geração de tokens), engine custom Infire para roteamento entre GPUs e session affinity para prompt caching agressivo. Resultado: queda de p90 TTFT com mesmo nº de GPUs e p90 inter-token de ~100ms para 20-30ms (3x). Llama 4 Scout cabe em 2 H200; Kimi K2.5 em 8 H100 deixando memória livre para KV cache.",
+      "explain": {
+        "junior": "Modelos de IA enormes (>1T parâmetros) só rodam se você fragmentá-los em várias GPUs e for esperto em otimizar memória e tráfego. A Cloudflare contou como faz isso: separa as duas fases do processamento (ler o prompt vs gerar a resposta) em máquinas diferentes, e usa um motor próprio (Infire) para orquestrar tudo.",
+        "pleno": "A separação prefill/decode tira o gargalo do clássico 'mesma GPU faz tudo': prefill é compute-bound, decode é memory-bound. Servidores especializados por fase escalam independentemente e se beneficiam de hardware heterogêneo. Prompt caching com x-session-affinity reduz drasticamente o custo de turnos longos de agente — onde o histórico cresce a cada chamada e recomputar tensores explodiria a fatura de GPU.",
+        "senior": "Para arquitetar produtos LLM-native em escala, vale internalizar três lições: (1) separar prefill/decode quando o tráfego é assimétrico (agente típico), (2) tornar o cliente cooperativo no caching (header de session affinity), (3) tunar configuração por padrão de uso, não por modelo. A engenharia de inferência virou disciplina equivalente a tunar JVM nos anos 2000."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/cloudflare-llm-infrastructure/",
+      "published_at": "2026-05-03T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cloudflare",
+        "llm",
+        "infrastructure",
+        "inference"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/H6HzVR3djJacCrzX8b8EE/aea7e8130edf09565333b6a550c010db/BLOG-3266_1.png"
+    }
+  ],
+  "news": [
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Confluent muda IDs de schema do payload para o header — fim do prefixo de 5 bytes nas mensagens Kafka",
+      "summary": "A Confluent publicou uma proposta arquitetural que move o schema ID do payload da mensagem (os 5 bytes 'magic byte + ID' que precedem todo registro Avro/Protobuf/JSON-Schema desde 2014) para os headers do record Kafka. A mudança desacopla dado e metadata, melhora compatibilidade entre formatos de serialização e simplifica governance/evolução de schema sem alterar bytes do payload. A integração permanece com Schema Registry, mas remove a dor histórica de não conseguir ler payload sem o serializer correto carregado.",
+      "explain": {
+        "junior": "Toda mensagem Kafka que usa Schema Registry hoje carrega 5 bytes no início do payload — 1 byte 'mágico' + 4 bytes de schema ID — para o consumer descobrir como deserializar. A Confluent quer mover esse ID para o header do registro Kafka, deixando o payload com apenas o dado de verdade.",
+        "pleno": "A separação data/metadata melhora ferramentas que processam o payload em pipeline (sink connectors, filtros, transformers) sem precisar do serializer Confluent embarcado, reduz coupling entre app e Schema Registry e abre espaço para mensagens multi-formato no mesmo tópico (Avro + Protobuf + JSON-Schema convivendo, identificados por header). Backward compatibility se preserva pelos consumers reconhecendo ambos os formatos durante a migração.",
+        "senior": "Time de plataforma deve avaliar o impacto em conectores existentes (Kafka Connect, Flink, ksqlDB), políticas de schema evolution e adoção em CDC pipelines — a migração é evolutiva mas vale planejar window de compatibilidade dual antes de empurrar produtores legados.",
+        "glossary": [
+          {
+            "term": "Schema Registry",
+            "def": "Serviço da Confluent que armazena schemas Avro/Protobuf/JSON e devolve um ID inteiro usado para identificar a versão correta na hora de serializar/deserializar."
+          },
+          {
+            "term": "Magic byte",
+            "def": "Primeiro byte do payload (valor 0) que sinaliza ao consumer que segue o formato Confluent: magic + schema_id (4 bytes) + dado serializado."
+          },
+          {
+            "term": "Record header Kafka",
+            "def": "Estrutura de chave-valor anexada a cada mensagem desde Kafka 0.11 (2017), pensada justamente para metadados sem afetar payload."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+      "published_at": "2026-05-01T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "kafka",
+        "schema-registry",
+        "confluent",
+        "event-driven"
+      ],
+      "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/generatedHeaderImage-1776736992912.jpg"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Meta lança plataforma de capacity efficiency com agentes de IA unificados para auto-otimização em hyperscale",
+      "summary": "A Meta apresentou uma plataforma de eficiência operacional baseada em agentes de IA que detectam e resolvem problemas de performance automaticamente em sua infraestrutura global. O sistema unifica telemetria de capacity, throughput e latência em uma camada de inferência que dispara remediações sem intervenção humana — desde rebalance de tráfego até recompilação de binários. É um passo concreto rumo à arquitetura self-optimizing em hyperscale, com Meta sinalizando que o platform team agora supervisiona agentes em vez de tickets.",
+      "explain": {
+        "junior": "Em vez de ter SREs apagando incêndio manualmente, a Meta colocou agentes de IA tomando conta da infraestrutura — eles vêem que algo está lento, descobrem por quê e corrigem. O ser humano só entra quando o agente não consegue resolver.",
+        "pleno": "A plataforma combina telemetria distribuída (métricas, traces, profiling contínuo) com modelos que aprendem padrões de degradação e disparam ações pré-aprovadas: redirecionar tráfego, ajustar limites de recurso, regenerar artefatos. O ganho não está na detecção (que SRE moderno já tem), mas na compressão entre detecção e remediação — minutos em vez de horas.",
+        "senior": "Para arquiteturas grandes, isto sinaliza que platform engineering vira AIOps engineering: o IDP precisa expor 'guardrails de ação' aos agentes (orçamento, blast radius, reversibilidade), e SLOs deixam de ser metas de pessoa para virar contratos com o agente. Vale começar separando ações reversíveis de irreversíveis no runbook automatizado."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/meta-ai-agents-hyperscale/",
+      "published_at": "2026-05-01T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "aiops",
+        "platform-engineering",
+        "meta",
+        "self-optimizing"
+      ],
+      "image": "https://res.infoq.com/news/2026/05/meta-ai-agents-hyperscale/en/headerimage/generatedHeaderImage-1777275523688.jpg"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cloudflare detalha infraestrutura para LLMs gigantes — Infire, prefill/decode disaggregation e Kimi K2.5 em 8 H100",
+      "summary": "Em peça de 3/mai, a Cloudflare descreveu como serve modelos como Kimi K2.5 (>1T parâmetros, 560GB) na sua rede global. A pilha combina disaggregated prefill (servidores separados para prompt processing e geração de tokens), engine custom Infire para roteamento entre GPUs e session affinity para prompt caching agressivo. Resultado: queda de p90 TTFT com mesmo nº de GPUs e p90 inter-token de ~100ms para 20-30ms (3x). Llama 4 Scout cabe em 2 H200; Kimi K2.5 em 8 H100 deixando memória livre para KV cache.",
+      "explain": {
+        "junior": "Modelos de IA enormes (>1T parâmetros) só rodam se você fragmentá-los em várias GPUs e for esperto em otimizar memória e tráfego. A Cloudflare contou como faz isso: separa as duas fases do processamento (ler o prompt vs gerar a resposta) em máquinas diferentes, e usa um motor próprio (Infire) para orquestrar tudo.",
+        "pleno": "A separação prefill/decode tira o gargalo do clássico 'mesma GPU faz tudo': prefill é compute-bound, decode é memory-bound. Servidores especializados por fase escalam independentemente e se beneficiam de hardware heterogêneo. Prompt caching com x-session-affinity reduz drasticamente o custo de turnos longos de agente — onde o histórico cresce a cada chamada e recomputar tensores explodiria a fatura de GPU.",
+        "senior": "Para arquitetar produtos LLM-native em escala, vale internalizar três lições: (1) separar prefill/decode quando o tráfego é assimétrico (agente típico), (2) tornar o cliente cooperativo no caching (header de session affinity), (3) tunar configuração por padrão de uso, não por modelo. A engenharia de inferência virou disciplina equivalente a tunar JVM nos anos 2000."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/cloudflare-llm-infrastructure/",
+      "published_at": "2026-05-03T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cloudflare",
+        "llm",
+        "infrastructure",
+        "inference"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/H6HzVR3djJacCrzX8b8EE/aea7e8130edf09565333b6a550c010db/BLOG-3266_1.png"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Martin Fowler descreve 'Feedback Flywheel' — padrão para converter interações com IA em melhoria coletiva do time",
+      "summary": "Fowler publicou framework de duas camadas para times que usam LLMs em desenvolvimento: tipos de sinal (contexto, instrução, workflow, falha) e artefatos compartilhados que esses sinais alimentam (prompts reutilizáveis, SKILL.md, guardrails). A cadência roda em quatro níveis: pós-sessão, standup, retro e trimestral. Métrica-chave: número decrescente de momentos 'por que a IA fez isso?'. Posts derivados já mostram implementações com vault de contexto, agentes agendados e guardrails programáticos para budget/tokens/tempo.",
+      "explain": {
+        "junior": "Quando a IA ajuda um dev, gera aprendizado individual que normalmente se perde. O Flywheel é um sistema simples para capturar esses sinais e empurrá-los de volta para o time inteiro, fazendo cada interação com IA melhorar a próxima.",
+        "pleno": "O modelo separa sinais (input efêmero do que aconteceu) de artefatos (output durável que a próxima IA vai consumir). Falhas viram guardrails programáticos; padrões de prompt viram templates reutilizáveis; descobertas de contexto viram arquivos lidos por todo agente novo. A diferença para 'documentação interna' é que esses artefatos são machine-readable: agentes os ingerem como configuração de runtime.",
+        "senior": "Para arquitetar uma prática de AI engineering madura, esse é o esqueleto. Sem o flywheel formalizado, cada engenheiro trata cada interação como início do mundo, e o ROI marginal de IA estagna. Vale instituir 'failure → guardrail' como SLA de equipe: toda regressão de agente vira regra de runtime na próxima iteração, não nota num doc."
+      },
+      "source_key": "martinfowler",
+      "url": "https://martinfowler.com/articles/exploring-gen-ai/feedback-flywheel.html",
+      "published_at": "2026-04-09T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "ai-coding",
+        "team-practices",
+        "fowler",
+        "thoughtworks"
+      ],
+      "image": "https://martinfowler.com/logo-sq.png"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Mistral lança Workflows em preview público — orquestração de IA construída sobre Temporal, com human-in-the-loop e checkpointing",
+      "summary": "A Mistral colocou em preview público uma camada de orquestração para IA empresarial. Por baixo é Temporal estendido com capacidades específicas de IA: streaming de payload, observability rica e separação entre control plane (Mistral) e data plane (cliente). Resolve três dores comuns: pipelines que funcionam em dev e quebram em prod, processos longos que estouram timeout e workflows que precisam pausar para aprovação humana sem queimar GPU. SDK Python público.",
+      "explain": {
+        "junior": "Processos com IA em produção quebram de jeitos diferentes: timeout, falha no meio, gente precisando aprovar antes de continuar. A Mistral pegou o Temporal (motor de workflow durável bem conhecido) e adicionou recursos focados em IA pra resolver isso de forma padronizada.",
+        "pleno": "Stateful execution permite retomar do ponto da falha; human-in-the-loop usa pause/resume sem consumir compute; control/data plane separados deixam dado sensível dentro do cliente enquanto a Mistral cuida só de orquestração. É padrão maduro de durable execution emprestando para IA.",
+        "senior": "Para quem já roda Temporal próprio, a Mistral Workflows é validação do padrão e da decisão de NÃO inventar orquestração com filas + cron. Para quem ainda usa Step Functions/AWS Lambda em pipelines de IA, vale comparar custo de timeout/retry vs Temporal-based em workloads de longa duração."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/mistral-ai-workflows/",
+      "published_at": "2026-04-30T09:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "mistral",
+        "temporal",
+        "workflow",
+        "agents"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/mistral-ai-workflows/en/headerimage/generatedHeaderImage-1777456521946.jpg"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "NVIDIA libera família Ising — modelos abertos para calibração de processadores quânticos e correção de erro",
+      "summary": "A NVIDIA anunciou Ising, família open de modelos focados em dois gargalos da escalabilidade quântica: calibração de qubits e correção de erro. Vão acompanhados de datasets, exemplos de workflow e microservices NIM. Integram com CUDA-Q (programação híbrida quântico-clássica) e NVQLink (conexão de QPU com GPU), permitindo loops de controle e correção rodando ao lado de compute clássico. Comunidade levantou questão sobre transferência entre topologias diferentes — tema aberto para a próxima geração.",
+      "explain": {
+        "junior": "Computadores quânticos hoje quase não funcionam sem alguém calibrando manualmente os qubits — leva dias e cada hardware é diferente. A NVIDIA publicou modelos de IA que aprendem essa calibração e a correção de erro automaticamente, e disponibilizou tudo open com datasets para a galera testar.",
+        "pleno": "A diferença para abordagens tradicionais (pyMatching, decoders heurísticos) é que Ising é treinável e adapta-se à topologia do hardware via CUDA-Q. NVQLink expõe a interface QPU↔GPU para controle real-time. É o casamento da pilha de computação clássica em GPU com o problema de coordenar qubits voláteis.",
+        "senior": "Não é prioridade direta para arquiteto de software de aplicação corporativa, mas marca o ponto onde infraestrutura quântica começa a se parecer com infraestrutura de IA — modelos open + ecosystem + microservices. Vale ficar de olho no que isso libera nos próximos 18-24 meses para criptoquímica e otimização combinatória."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/nvidia-ising-quantum/",
+      "published_at": "2026-04-30T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "nvidia",
+        "quantum",
+        "open-models"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/nvidia-ising-quantum/en/headerimage/generatedHeaderImage-1777556888537.jpg"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "DBmaestro publica MCP server que conecta agentes de IA a workflows reais de Database DevOps",
+      "summary": "A DBmaestro lançou um MCP server expondo capacidades da plataforma — release automation, source control para banco, orquestração CI/CD e checks de compliance — para agentes e copilots externos via comandos em linguagem natural. DBA passa a operar releases governadas via Claude/Cursor/Copilot sem expor credenciais ou abrir UI. É a pista que DevOps de banco caminha para o mesmo modelo que infra-as-code seguiu — automação composta por blocos governados.",
+      "explain": {
+        "junior": "MCP é o protocolo que deixa um agente de IA chamar uma ferramenta externa em vez de só conversar. A DBmaestro publicou um MCP server, ou seja, uma 'ponte' que permite ao Claude/Cursor pedir a um banco real coisas como 'libere a migração X com aprovação' — e o server cuida de governance e auditoria.",
+        "pleno": "Diferente de expor SQL direto, o MCP server expõe operações de plataforma (release, rollback, drift detection, policy check) com guardrails de governance embutidos. Isso resolve o pesadelo clássico de dar acesso amplo de DB para agente: a superfície de ação é toda mediada por workflows DBmaestro, não por privilégios SQL.",
+        "senior": "Padrão arquitetural a internalizar: MCP server por capability, não por dataset. Quando o agente vai mexer em sistemas com blast radius alto (banco, identidade, financeiro), expor 'capabilities governadas' em vez de 'credenciais brutas' é o caminho. Pense em quais ferramentas internas mereciam esse mesmo tipo de fachada."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/dbmaestro-mcp-server/",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "mcp",
+        "dbmaestro",
+        "database",
+        "devops"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/dbmaestro-mcp-server/en/headerimage/generatedHeaderImage-1777159490832.jpg"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "JobRunr apresenta ClawRunr — agente Java open-source para tarefas agendadas, recorrentes e one-off",
+      "summary": "Antiga JavaClaw, agora ClawRunr, é agente AI escrito em Java que combina interação conversacional com execução persistente: roda no hardware do usuário, integra ferramentas MCP, browser automation, canais Web/Telegram/Discord, e usa o JobRunr para agendamento, retries e monitoring. Nicho específico: jobs longos com sinais externos, em vez de prompt-and-forget. Fica claro o caminho de bibliotecas batch maduras absorvendo capacidades agênticas.",
+      "explain": {
+        "junior": "ClawRunr é um robô que conversa com você e ao mesmo tempo executa tarefas em background — tipo 'todo dia às 8h, leia esses sites, resuma e me mande no Telegram'. Por baixo usa o JobRunr (que é uma biblioteca Java consagrada para agendar tarefas) então tem confiabilidade de batch com cara de chat.",
+        "pleno": "A escolha de fundir agente com job scheduler é arquitetural: separa intenção (conversa) de execução durável (jobs com retry/timeout/monitoring). Quem já roda JobRunr ganha uma camada agêntica sem trocar fundamento. Para JVM em geral é um sinal: bibliotecas estabelecidas vão ganhar 'modo agêntico' em vez de surgir frameworks só-pra-agentes.",
+        "senior": "Vale como case do padrão 'agente em cima de runtime maduro' — em contraste com frameworks Python que reinventam scheduler/observability. Se sua plataforma já tem Quartz, Spring Batch ou JobRunr, pense duas vezes antes de adotar agente Python orfão. Reaproveite a infra que já é monitorada e governada."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/clawrunr/",
+      "published_at": "2026-05-01T09:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "java",
+        "jobrunr",
+        "agents",
+        "open-source"
+      ],
+      "image": "https://res.infoq.com/news/2026/05/clawrunr/en/headerimage/generatedHeaderImage-1777644148544.jpg"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Java roundup de 20/abr — JEP 532 segue para JDK 27 (Primitive Patterns), schedule fechado, IntelliJ 2026.1.1 e Testcontainers 2.0.5",
+      "summary": "Resumo Java desta semana cobre: JEP 532 (Primitive Types in Patterns, instanceof e switch — 5º preview) elevada para Proposed-to-Target em JDK 27; cronograma JDK 27 confirmado por Mark Reinhold (Rampdown Phase One em 4/jun); Oracle Critical Patch Update de abril com correspondentes de BellSoft/Azul; release de Open Liberty de abril; manutenção de Testcontainers 2.0.5 (Artemis container, Weaviate ports), Multik e IntelliJ IDEA 2026.1.1 (fixes Gradle e WildFly).",
+      "explain": {
+        "junior": "Toda semana o Java tem releases pequenos importantes — patches de segurança, melhorias incrementais e propostas para a próxima versão grande (JDK 27). Esta semana o destaque é o avanço do JEP 532, que vai deixar pattern matching funcionar com tipos primitivos (int, long, double) — coisa que hoje só dá com objetos.",
+        "pleno": "JEP 532 estende instanceof e switch para primitivos com pattern matching seguro, fechando a lacuna que obrigava boxing ou conversão manual. Combinado com sealed classes e records, completa o tripé de pattern matching moderno em Java. JDK 27 com Rampdown em junho significa GA em setembro/outubro — vale começar testes early-access agora se a base já está em 25/26.",
+        "senior": "Para arquiteturas baseadas em JVM, três decisões para o próximo trimestre: (1) avaliar se Primitive Patterns simplifica DTOs e parsers já existentes; (2) alinhar política de patching com Oracle CPU trimestral (BellSoft/Azul/Corretto cobrem o mesmo); (3) revisar baseline de Testcontainers para 2.0.x antes de novos projetos."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/java-news-roundup-apr20-2026/",
+      "published_at": "2026-04-28T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "java",
+        "jdk-27",
+        "intellij",
+        "testcontainers"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "VoidZero libera compilador Angular experimental em Rust com integração Vite — até 6,4x mais rápido que Angular CLI",
+      "summary": "A VoidZero (criada por Evan You, autor do Vue/Vite) publicou compilador Angular experimental escrito em Rust, integrado ao Vite. Benchmarks indicam até 6,4x de aceleração frente ao Angular CLI tradicional, com vantagem ampliada em apps grandes. Desenvolvido em ~2 meses com colaboração de IA, é mais um sinal da migração da toolchain JS/TS para nativo: Turbopack, Biome, oxlint, Rspack e agora Angular seguem o mesmo caminho.",
+      "explain": {
+        "junior": "Angular CLI hoje é JavaScript puro fazendo build de Angular. A VoidZero pegou as partes lentas e reescreveu em Rust, que é uma linguagem compilada e bem mais rápida. Resultado: build até 6 vezes mais ágil em apps grandes, especialmente útil para quem espera 30s+ no save.",
+        "pleno": "É o mesmo movimento que Turbopack (Webpack→Rust), Biome (ESLint+Prettier→Rust) e oxlint vêm fazendo. A integração com Vite mostra que mesmo Angular, historicamente conservador no toolchain, está entrando na onda. Watch mode e HMR são onde o ganho aparece — o que mexe na DX diária.",
+        "senior": "Sinal estratégico para frontend platforms: build tools nativos viraram a expectativa, não exceção. Se sua organização ainda mantém pipeline Angular CLI puro, vale POC com VoidZero compiler em uma app não-crítica para medir ganho real e regression de plugins. A janela 'apenas JS' está fechando."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/angular-compiler-rust/",
+      "published_at": "2026-04-29T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "angular",
+        "rust",
+        "vite",
+        "voidzero",
+        "build-tools"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/angular-compiler-rust/en/headerimage/generatedHeaderImage-1777395050023.jpg"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "NestJS abre PR draft do v12 — CommonJS para ESM, Vitest no lugar de Jest, oxlint substitui ESLint e Rspack troca Webpack",
+      "summary": "PR draft de NestJS 12.0.0 (release prevista para Q3/2026) revela mudanças profundas no toolchain: transição para ESM nativo, suporte a Standard Schema nos route decorators, troca de Jest por Vitest, ESLint por oxlint e Webpack por Rspack como bundler default. É upgrade sincronizado com a onda de tooling em Rust/Go que está varrendo o ecossistema TypeScript em 2026.",
+      "explain": {
+        "junior": "NestJS é um dos frameworks Node.js mais usados em backend de empresas. A v12 vai substituir várias bibliotecas core por equivalentes mais novos e mais rápidos: Vitest no lugar de Jest, oxlint no lugar de ESLint, Rspack no lugar de Webpack — todos esses 'novos' são em Rust ou Go.",
+        "pleno": "Standard Schema é spec emergente para validação interoperável entre Zod, Valibot, ArkType e amigos. NestJS adotando como nativo nos decorators significa que sua app fica desacoplada do validador específico. ESM-first finaliza a migração que TypeScript já fez — apps híbridas (mix CJS/ESM) vão ficar minoritárias.",
+        "senior": "Para times que têm NestJS em prod, vale criar branch de migração agora com Node 22+ para validar Vitest substituindo Jest e a transição CJS→ESM. Plugins de terceiros (Mongoose, TypeORM, etc.) podem ter breakages — testar em conjunto. Q3 ainda dá margem, mas postergar significa migrar várias coisas ao mesmo tempo."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/nestjs-12-roadmap-esm/",
+      "published_at": "2026-04-27T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "nestjs",
+        "esm",
+        "vitest",
+        "rspack",
+        "typescript"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/nestjs-12-roadmap-esm/en/headerimage/generatedHeaderImage-1777478248947.jpg"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "breaking": false,
+      "headline": "Wiz revela CVE-2026-3854 (CVSS 8.7) na infra git interna do GitHub — RCE via git push em GHES, patch em 3.19.3",
+      "summary": "A Wiz Research divulgou vulnerabilidade crítica na infraestrutura git interna do GitHub.com e GHES: usuário autenticado executava comandos arbitrários no backend via simples git push. A causa é injection no protocolo X-Stat (option), explorando inconsistências de parsing entre serviços internos em linguagens diferentes. GitHub.com já estava patchado em 4/mar; GHES recebeu correção em 3.19.3 (10/mar). Curiosidade: descoberta foi acelerada por reverse engineering com IDA MCP.",
+      "explain": {
+        "junior": "O GitHub usa muitos serviços internos em linguagens diferentes (Go, Ruby, C) para processar um simples git push. Um pesquisador da Wiz descobriu que essas linguagens interpretam o mesmo dado de formas sutilmente diferentes — e essa diferença permitiu injetar comandos no servidor. Quem rodar GHES (versão self-hosted) tem que atualizar para 3.19.3.",
+        "pleno": "A classe da falha é 'parser differential' — quando microsserviços confiam em um campo escrito por outro mas o interpretam diferente, o atacante encontra brecha entre as duas leituras. CVSS 8.7 reflete impacto autenticado mas amplo: qualquer usuário com permissão de push em alguma org tinha vetor para RCE em shared storage nodes.",
+        "senior": "Para GHES self-hosted, patching imediato (3.19.3+) e auditoria de logs git push do período. Para outras arquiteturas multi-serviço, lição arquitetural concreta: sempre que um campo é parseado em mais de uma camada, garanta que o parsing canônico aconteça uma vez, com saída estruturada que as outras camadas só consomem. Diferenças de parsing são a fronteira preferida de atacantes em 2026."
+      },
+      "cves": [
+        "CVE-2026-3854"
+      ],
+      "source_key": "wiz",
+      "url": "https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854",
+      "published_at": "2026-04-29T18:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "cve",
+        "github",
+        "ghes",
+        "rce",
+        "wiz"
+      ],
+      "image": "https://www.datocms-assets.com/75231/1777300906-github-2x-100-1.jpg?fm=webp"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": false,
+      "severity": "medium",
+      "breaking": false,
+      "headline": "Notepad++ 8.9.4 corrige CVE-2026-3008 — string injection com risco de crash e leak de memória",
+      "summary": "Notepad++ 8.9.4 endereça CVE-2026-3008, vulnerabilidade de string injection na 8.9.3 reportada via política CSA. Exploração permite acesso a endereços de memória ou crash da aplicação, sem RCE direto. Update inclui também fixes de undo, file path handling e atualizações de Scintilla/Lexilla. Em ambientes corporativos com base mista de devs e analistas, vale empurrar via SCCM/Intune.",
+      "explain": {
+        "junior": "Notepad++ é editor leve usado por dev e ops em Windows. Tinha um bug que deixava um arquivo malicioso travar o programa ou ler partes da memória. A 8.9.4 corrige e a recomendação é atualizar todo mundo.",
+        "pleno": "String injection sem RCE limita o blast radius mas em fluxo de DevOps onde Notepad++ abre arquivos de fonte arbitrária (logs, configs, dumps), o crash recorrente é DoS efetivo e o leak pode revelar dados que estavam em buffers de outros arquivos. Update inclui Scintilla/Lexilla (engines de edição/syntax) que pegam outros bugs latentes.",
+        "senior": "Não é vulnerabilidade que merece acordar à noite, mas é bom hygiene incluir Notepad++ no ciclo de patching gerenciado. Quem gerencia frota com Intune/SCCM consegue empurrar a 8.9.4 com poucos cliques; quem ainda deixa cada dev atualizar à mão coleta o risco e o suporte que vem com chamados intermitentes."
+      },
+      "cves": [
+        "CVE-2026-3008"
+      ],
+      "source_key": "thehackernews",
+      "url": "https://thecyberexpress.com/notepad-cve-2026-3008-vulnerability/",
+      "published_at": "2026-04-28T13:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cve",
+        "notepad++",
+        "patch"
+      ],
+      "image": "https://thecyberexpress.com/wp-content/uploads/CVE-2026-3008.webp"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Semana acelerada no ecossistema PostgreSQL — pgclone v4.0, storage_engine 1.0.7, credcheck e pg_dbms_job estreiam",
+      "summary": "Janela 19-27/abr concentrou releases de extensões e ferramentas: pgclone v4.0 (clonagem nativa SQL com data masking) saiu em Baku; storage_engine 1.0.7 entrega dois Table Access Methods (colcompress, columnar comprimido); credcheck foi lançado para checks de credenciais; pg_dbms_job traz compatibilidade Oracle DBMS_JOB; e SQL Management Studio for PostgreSQL 2.0 foi divulgado. Sinal: ecosistema PG continua absorvendo features que historicamente exigiam migração para Oracle.",
+      "explain": {
+        "junior": "PostgreSQL é open-source, mas sua força vem de extensões — pequenos plugins que adicionam features. Esta semana saíram quatro extensões novas: uma que clona DBs com mascaramento de dado, outra que adiciona armazenamento colunar, outra que valida força de senha, e outra que simula o agendador de jobs do Oracle. Tudo grátis.",
+        "pleno": "O storage_engine com colcompress é interessante para warehouse light: armazena tabelas em formato colunar comprimido sem precisar trocar de banco. pg_dbms_job atende migração Oracle→PG sem reescrever schedulers existentes — combinado com pl/pgsql e pl/sql compat (orafce), o caminho de migração fica viável. credcheck cobre uma exigência LGPD/PCI quase universal.",
+        "senior": "Estratégia de plataforma: PostgreSQL com extensões certas substitui Oracle em 70-80% dos casos com TCO drasticamente menor. Para quem está iniciando migração, o pacote pg_dbms_job + orafce + pgaudit + credcheck cobre bom do checklist. Não é ainda 100% drop-in, mas a distância vem fechando trimestre a trimestre."
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/about/newsarchive/",
+      "published_at": "2026-04-27T09:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "postgresql",
+        "extensions",
+        "open-source"
+      ],
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "GitHub muda planos individuais do Copilot — novos cadastros pausados, limites de uso mais rígidos e alertas no VS Code/CLI",
+      "summary": "A GitHub atualizou as regras dos planos individuais do Copilot para proteger capacidade dos usuários existentes: pausa novos cadastros em Pro/Pro+/Student, aperta limites de uso e expõe avisos de consumo no VS Code e no Copilot CLI. A mudança é resposta ao custo de workloads agentic longos e paralelos. Para equipes, o recado é claro: consumo de tokens e escolha de modelo viram parte de governança de plataforma, não só preferência individual.",
+      "explain": {
+        "junior": "O Copilot está impondo limites mais claros porque agentes de IA podem consumir muito recurso em poucas tarefas grandes. Agora o VS Code e a CLI mostram avisos quando você está chegando perto do limite.",
+        "pleno": "A mudança separa premium requests de limites por token/sessão. Mesmo com requests disponíveis, o usuário pode bater limite semanal ou de sessão. Plan mode, modelos menores e menos workflows paralelos entram como técnicas práticas para reduzir consumo.",
+        "senior": "Para plataformas internas, isso reforça a necessidade de FinOps de IA: dashboards por time/repo, política de modelos por workload e guardrails contra fan-out agentic sem controle. A ergonomia do Copilot continua útil, mas a camada de custo precisa ser observável."
+      },
+      "source_key": "githubblog",
+      "url": "https://github.blog/news-insights/company-news/changes-to-github-copilot-individual-plans/",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "github",
+        "copilot",
+        "billing",
+        "usage-limits"
+      ],
+      "image": "https://github.blog/wp-content/uploads/2026/01/generic-github-logo-right.png"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Netflix detalha sistema de Write-Ahead Log para resiliência de plataforma de dados — SQS/Kafka, DLQs e replicação cross-region",
+      "summary": "Em deep-dive recente, Netflix descreve seu Write-Ahead Log (WAL) — pilha que endereça quatro classes de problemas em data platform: data loss, replication entropy, falhas multi-partition e corrupção. WAL desacopla producers de consumers, usa SQS+Kafka com dead-letter queues e suporta delay queues, replicação cross-region e mutações multi-tabela. Resultado: throughput alto, consistência forte e recoverability mesmo em cenários de degradação parcial. Material denso, ideal para reforçar fundamentos clássicos.",
+      "explain": {
+        "junior": "Write-Ahead Log é técnica clássica de bancos de dados: antes de aplicar uma mudança, escreva primeiro num log durável. Se algo der errado no meio, você tem o log para reaplicar ou desfazer. A Netflix usa essa ideia em escala enorme para garantir que nunca perca dado, mesmo em falha parcial.",
+        "pleno": "O design conjuga SQS (entrada com replay barato) + Kafka (ordering por partição + retenção alta) + DLQs (mensagens problemáticas isoladas). Delay queues servem para retry com backoff, replicação cross-region cobre disaster recovery, e mutações multi-tabela viram transações coordenadas via WAL antes de tocar nas tabelas reais. É database-internals aplicado em camada de plataforma.",
+        "senior": "Conceito a internalizar: quando você precisa de garantias de DB transacional em arquitetura distribuída sem ser DB-monolítico, WAL como service mediator é o padrão. Saga e CDC herdam pedaços disso, mas WAL explícito te dá controle granular sobre ordem, retry e replicação. Vale ler antes de qualquer projeto novo de event-driven em escala."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2025/10/netflix-wal-resilience/",
+      "published_at": "2025-10-31T09:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "netflix",
+        "wal",
+        "kafka",
+        "sqs",
+        "fundamentals"
+      ],
+      "image": "https://res.infoq.com/news/2025/10/netflix-wal-resilience/en/headerimage/generatedHeaderImage-1761627990775.jpg"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "QCon 2026 ancora 20 anos com agenda de 'survivability' acima de uptime — cellular isolation e blast radius no centro",
+      "summary": "Conferências QCon (Londres em mar, San Francisco em nov) marcam 20º aniversário com pivô claro: arquitetura resiliente foca em 'survivability' em vez de só uptime. Tracks como 'Architecting for Resilience' aprofundam padrões de cellular isolation e fault containment — limitar blast radius da falha em vez de tentar prevenir todas. Outro eixo é AI Engineering com tracks dedicadas a observability e segurança em LLMs em produção. Currículo curado por engenheiros sênior de Zoox, UBS, LinkedIn.",
+      "explain": {
+        "junior": "Conferência QCon é uma das mais respeitadas em arquitetura de software. Esse ano o tema mudou: em vez de tentar nunca falhar, a recomendação é assumir que falhas vão acontecer e desenhar o sistema para que uma falha pequena fique pequena (não derrube tudo). Isso se chama 'survivability'.",
+        "pleno": "Cellular isolation é a ideia de dividir o sistema em células independentes — uma célula serve um conjunto de clientes, e quando ela falha, só esses clientes sentem. AWS faz isso com 'shuffle sharding'; Stripe documenta padrão similar para DocDB. Falar em blast radius é falar em quantos usuários/serviços uma falha alcança antes de ser contida.",
+        "senior": "Para arquiteto sênior, isso coloca duas perguntas concretas: (1) quantas células sua arquitetura tem hoje, e qual o blast radius médio de cada uma? (2) Quais SLOs valem por célula vs SLO global? Conferência sinaliza que indústria está madura o suficiente para parar de prometer 'cinco noves' e começar a desenhar 'graceful degradation'."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/02/qcon-previews-20th-anniversary/",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "qcon",
+        "resilience",
+        "cellular-architecture",
+        "blast-radius"
+      ],
+      "image": "https://res.infoq.com/news/2026/02/qcon-previews-20th-anniversary/en/headerimage/QCon-20th-anniversary-1770709102792.jpg"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "breaking": false,
+      "headline": "BC eleva capital mínimo de SCDs para até R$ 32,8 milhões e fecha cerco a fintechs — quatro liquidações desde nov/25",
+      "summary": "Banco Central concluiu 2025-26 com pacote de aperto regulatório: capital mínimo de Sociedades de Crédito Direto (SCD) saltou de R$ 1 mi para faixa de R$ 9,2 mi a R$ 32,8 mi, supervisão de PSAVs (cripto) intensificada, e CSLL elevada para fintechs. Quatro liquidações institucionais desde novembro de 2025 (Banco Master, Will Bank, Banco Pleno, Dank Bank — primeira liquidação de SCD da história) sinalizam fim da era de fintech operando sem autorização robusta. Cenário força consolidação ou capitalização para players menores.",
+      "explain": {
+        "junior": "Banco Central no Brasil endureceu as regras para fintechs. Antes era barato abrir uma fintech de crédito (R$ 1 milhão de capital), agora não é mais (R$ 9-33 milhões). Quatro fintechs fecharam desde novembro/2025 porque não atendiam exigências, sinal claro de que a era 'qualquer um abre' acabou.",
+        "pleno": "O movimento responde ao colapso do Banco Master (maior fraude bancária BR, R$ 12,2 bi em carteiras fictícias). BC mira três frentes: capital adequado (capital ratio), governance (SCDs operando como banco sem ser banco) e exposição cripto (PSAVs sob supervisão direta). Para arquitetura: fintechs sobreviventes investem mais em compliance, audit trail e detecção de fraude com IA — o que muda perfil de plataforma tecnológica.",
+        "senior": "Para CTOs de fintech, três decisões urgentes: (1) review de capital ratio e plano de capitalização ou consolidação; (2) mapear gaps de compliance face a novas exigências PSAV e Open Finance; (3) priorizar antifraude (R$ 10,1 bi em perdas anuais setor) como vetor competitivo. O custo de não estar 'production-ready em compliance' agora é existencial."
+      },
+      "source_key": "siliconangle",
+      "url": "https://www.riotimesonline.com/brazil-fintech-2026-complete-guide/",
+      "published_at": "2026-04-25T14:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "fintech",
+        "brasil",
+        "bcb",
+        "regulação"
+      ],
+      "image": "https://www.riotimesonline.com/wp-content/uploads/2026/03/brazil-fintech-2026-pix-nubank.jpg"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Microsoft 365 update de abril leva Claude Opus 4.7 e GPT-5.5 para Copilot no Excel — chat/edit switcher, plan mode e Python analysis",
+      "summary": "Microsoft 365 abril/26 estendeu suporte a Claude Opus 4.7 e GPT-5.5 dentro do Copilot do Excel em Windows, Mac e web. Novas features de edição: chat/edit switcher, plan mode com tracking de mudança claro, e análise Python integrada. Movimento confirma estratégia 'multi-modelo' da Microsoft mesmo após acordo com Anthropic — usuário escolhe Claude Opus 4.7 vs GPT-5.5 dependendo do problema. Nos comentários do iPhone, experiência foi modernizada.",
+      "explain": {
+        "junior": "Excel agora deixa você escolher entre Claude (da Anthropic) e GPT (da OpenAI) na hora de pedir ajuda do Copilot — antes era só GPT. O 'plan mode' deixa o agente listar passos antes de mexer na sua planilha, dando chance de aprovar.",
+        "pleno": "É a primeira vez que Microsoft expõe escolha de modelo de fundação dentro de produto Office para usuário final. Plan mode + change tracking aproximam o fluxo do que devs já fazem em Cursor/Copilot CLI: agente propõe diff, humano aprova. Python-powered analysis no Excel fecha o ciclo de notebook-na-planilha.",
+        "senior": "Para arquitetura corporativa, sinaliza que governance de IA dentro de Office vira tema de plataforma — políticas por aplicação, modelo, sensibilidade do dado. Vale começar a discussão com segurança/compliance sobre quais modelos são permitidos em quais workloads (Copilot Studio + Sensitivity Labels é a malha onde isso aterra)."
+      },
+      "source_key": "microsoft",
+      "url": "https://techcommunity.microsoft.com/blog/excelblog/whats-new-in-excel-april-2026/4502696",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "microsoft",
+        "copilot",
+        "claude",
+        "gpt",
+        "excel"
+      ],
+      "image": "https://techcommunity.microsoft.com/t5/s/gxcuf89792/images/bS00NTAyNjk2LUxSZU1Ecw?revision=29"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "🪶",
+      "kind": "release",
+      "version": "Spring for Apache Kafka 4.1.0-RC1",
+      "headline": "Spring for Apache Kafka 4.1.0 RC1 traz suporte a KIP-848 (rebalance protocol) e early access ao KIP-932 (share consumers)",
+      "description": "Primeiro RC com client Kafka 4.0, suporte ao novo consumer rebalance protocol (KIP-848), share consumers (KIP-932) para Kafka Queues, Jackson 3 paralelo a Jackson 2, multi-value header mapping e remoção da dependência de Spring Retry em favor do retry core do Spring 7.",
+      "explain": {
+        "junior": "Quando um time consome mensagens do Kafka, precisa balancear quem lê o quê — isso se chama 'rebalance'. O KIP-848 melhora esse processo, e o KIP-932 ('share consumers') deixa vários consumers lerem da mesma partição ao mesmo tempo, como se fosse uma fila tradicional.",
+        "pleno": "KIP-848 reduz drasticamente o tempo de rebalance ao adotar protocolo incremental no broker (servidor) em vez do dance todo client-side. Share consumers (KIP-932) trazem semântica de fila para o Kafka — vários consumers competindo por mensagens da mesma partição, com ack por mensagem, contornando a limitação histórica de '1 partição = 1 consumer no grupo'.",
+        "senior": "Para arquiteturas event-driven em escala, Spring Kafka 4.1 valida pivô da API: design para Kafka 4.x está completo (sem Zookeeper). Para times com workloads que oscilam entre stream processing e queue (notificações, jobs), share consumers podem substituir RabbitMQ/SQS lateral preservando o broker único."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/spring-news-roundup-apr20-2026/",
+      "published_at": "2026-04-25T08:00:00-03:00",
+      "tags": [
+        "kafka",
+        "spring",
+        "kip-848",
+        "kip-932"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/spring-news-roundup-apr20-2026/en/headerimage/java-istock-image-01-1777241266425.jpg"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "news",
+      "headline": "Onda de extensões PostgreSQL em 19-27/abr — pgclone 4.0 (data masking nativo), storage_engine 1.0.7 (colunar comprimido) e pg_dbms_job (compat Oracle)",
+      "description": "Ecosistema PG concentrou releases nesta semana: pgclone v4.0 com clonagem SQL+masking, storage_engine 1.0.7 com Table Access Methods colunar (colcompress), credcheck para validação de credenciais e pg_dbms_job emulando o agendador Oracle. Direção: Postgres absorvendo features que historicamente puxavam migração para Oracle.",
+      "explain": {
+        "junior": "PostgreSQL não cresce só com novas versões — extensões adicionam capacidades enormes. Esta semana, quatro extensões saíram: uma clona banco mascarando dado sensível, outra armazena tabelas em formato colunar comprimido, outra valida força de senha, e outra simula o sistema de jobs do Oracle.",
+        "pleno": "storage_engine introduz colcompress como Table Access Method customizado — abre porta para warehouse leve sem trocar de motor. pg_dbms_job + orafce + pgaudit + credcheck cobre boa parte do checklist de migração Oracle→PG. Decisão arquitetural: até onde dá pra ir só com extensões antes de adotar HTAP especializado.",
+        "senior": "Para platform engineering, manter catálogo curado de extensões PG vira diferencial. Aplicar pg_dbms_job em ambientes Oracle-legacy reduz custo de migração drasticamente; storage_engine colunar é candidato natural para apps com workload analítico OLTP-anexo. Avaliar matriz extensão × cloud-managed (RDS/Aurora suportam subset diferente de Cloud SQL/Cosmos)."
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/about/newsarchive/",
+      "published_at": "2026-04-27T08:00:00-03:00",
+      "tags": [
+        "postgresql",
+        "extensions",
+        "colcompress",
+        "dbms_job"
+      ],
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "JEP 532 (Primitive Types in Patterns) sobe para Proposed-to-Target em JDK 27 — pattern matching com int/long/double sem boxing",
+      "description": "Quinta preview, sem mudanças, da extensão de pattern matching para tipos primitivos avança para Proposed-to-Target no JDK 27. Cronograma fechado por Mark Reinhold: Rampdown Phase One em 4/jun, GA setembro/outubro. Fecha lacuna histórica: switch e instanceof em Java moderno passam a operar com primitivos sem boxing manual.",
+      "explain": {
+        "junior": "Pattern matching deixa você 'casar' formato de dado e extrair valor numa linha só — tipo 'se for um Number e for maior que 10, usa esse valor'. Hoje só funciona com objetos. Com JEP 532, vai funcionar com int, long, double também, sem precisar converter primitivo para Integer.",
+        "pleno": "JEP 532 estende switch e instanceof a primitivos com checagem segura. Combinado com sealed classes (JEP 409) e records (JEP 395), completa o tripé de pattern matching moderno em Java. Reduz boilerplate em parsers, DTOs e cálculos numéricos sem o custo de wrapper types.",
+        "senior": "Para arquitetura JVM, planejar baseline JDK 27 LTS para H2/26 ou Q1/27 com Primitive Patterns disponível. Equipes que ainda escrevem visitor patterns boilerplate em DSLs internas ganham simplificação grande. Combinar com record patterns acelera serializadores, validadores e parsers binários."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/java-news-roundup-apr20-2026/",
+      "published_at": "2026-04-25T07:00:00-03:00",
+      "tags": [
+        "java",
+        "jdk-27",
+        "jep-532",
+        "pattern-matching"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg"
+    },
+    {
+      "tool_key": "angular",
+      "name": "Angular",
+      "icon": "🅰️",
+      "kind": "news",
+      "headline": "VoidZero (de Evan You) publica compilador Angular experimental em Rust com Vite — até 6,4x mais rápido que Angular CLI",
+      "description": "Compilador Angular escrito em Rust e integrado ao Vite, desenvolvido em ~2 meses com colaboração de IA. Benchmarks indicam aceleração de até 6,4x face ao Angular CLI tradicional, com vantagem maior em apps grandes. Sinal de que toolchain JS/TS continua migrando para nativo (Turbopack, Biome, oxlint, Rspack já estavam nessa direção).",
+      "explain": {
+        "junior": "Angular hoje compila usando ferramenta em JavaScript, que é mais lenta. A VoidZero (mesmo grupo do Vite) reescreveu o compilador em Rust — linguagem nativa muito mais rápida — e integrou no Vite. App grande de Angular agora compila em segundos onde antes levava minutos.",
+        "pleno": "Padrão repetido: Turbopack (Webpack→Rust), Biome (Prettier+ESLint→Rust), oxlint (ESLint→Rust). Angular era um dos últimos hold-outs no JS-only toolchain. Vite + compilador nativo virou o stack default para frameworks modernos. Watch mode e HMR são onde o ganho vira DX visível.",
+        "senior": "Sinal claro para platform frontend: build tools nativos viraram expectativa. Times com pipeline Angular CLI puro devem testar VoidZero compiler em app não-crítica para medir ganho real e regressão de plugins. A ponte entre Angular e o ecossistema Vite-first agora existe."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/angular-compiler-rust/",
+      "published_at": "2026-04-29T16:00:00-03:00",
+      "tags": [
+        "angular",
+        "rust",
+        "vite",
+        "build-tools"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/angular-compiler-rust/en/headerimage/generatedHeaderImage-1777395050023.jpg"
+    },
+    {
+      "tool_key": "mermaid",
+      "name": "Mermaid",
+      "icon": "🧜",
+      "kind": "tutorial",
+      "headline": "Mermaid em 2026 — diagrama-as-code que renderiza nativo em GitHub, Notion e Obsidian, e agora gerado por agentes",
+      "description": "Mermaid mantém liderança em diagrama embutido em Markdown. Renderização nativa no GitHub (READMEs, issues, PRs), Notion, Obsidian e VS Code preview faz dele padrão de facto para diagramas leves. Em 2026 ganhou tração extra como output de LLMs: agentes geram fluxograma/sequence diagram direto em Mermaid e o markdown vira artefato vivo de arquitetura.",
+      "explain": {
+        "junior": "Mermaid deixa você desenhar diagrama escrevendo texto simples, parecido com Markdown. Não precisa de Visio nem Lucid — só você escrever 'A --> B' e o GitHub/Notion já renderiza a setinha automaticamente. Simples e fica versionado junto do código.",
+        "pleno": "Diferença para PlantUML: Mermaid é JavaScript-puro, renderiza no browser (zero server) e tem syntax mais leve. Diferença para Excalidraw: Mermaid é texto, então versiona em git e integra com IDE preview. Limitação: para diagrama mais ortogonal/complexo (UML detalhado), PlantUML/Structurizr ganham.",
+        "senior": "Padrão a institucionalizar: diagrama-de-arquitetura mora ao lado do código no mesmo PR. Mermaid é a porta de entrada — barreira zero, todo dev consegue editar. Se vai pra C4 model formal, sobe o stack para Structurizr DSL. Mermaid é commodity; trate como tal e exija que ADRs, design docs e READMEs incluam um diagrama mínimo."
+      },
+      "source_key": "githubblog",
+      "url": "https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": [
+        "mermaid",
+        "diagram-as-code",
+        "github",
+        "documentation"
+      ],
+      "image": "https://mermaid.js.org/header.png"
+    },
+    {
+      "tool_key": "secrets-manager",
+      "name": "AWS Secrets Manager",
+      "icon": "🔑",
+      "kind": "tutorial",
+      "headline": "AWS Secrets Manager em 2026 — padrões de rotação automática, integração com RDS/Aurora e como não cair no antipadrão de cache",
+      "description": "Tutorial canônico cobre rotação automática (Lambda function customizada vs templates AWS), TTL recomendado para cache local (60-300s), uso de VPC endpoints para evitar custo de NAT, e principais armadilhas: cache excessivamente longo (segredo já rotacionado mas app usa o velho), permissão IAM amplo demais (qualquer role lendo qualquer segredo) e segredo em variável de ambiente vs em runtime fetch.",
+      "explain": {
+        "junior": "Secrets Manager é o cofre da AWS para guardar senhas, tokens e chaves de API. Ele troca senhas automaticamente (rotação), integra com RDS, e dá pra ler do código em runtime. O perigo é cachear muito tempo — se o Secrets Manager trocou e seu app ainda usa o cache antigo, conexão quebra.",
+        "pleno": "Rotação para RDS/Aurora usa Lambda de template AWS; para serviços de terceiros, Lambda custom com hooks createSecret/setSecret/testSecret/finishSecret. TTL de cache deve ser baixo (60-300s) e idealmente refresh assíncrono. VPC endpoints evitam NAT gateway charges em workloads de alta frequência. IAM scoping: prefira ResourceTag para limitar leitura por equipe.",
+        "senior": "Decisão arquitetural: Secrets Manager vs Parameter Store vs Vault. Secrets Manager ganha em rotação automática + integrações AWS-nativas; Parameter Store ganha em custo (10x mais barato) para configs não-sensíveis; HashiCorp Vault ganha em dynamic secrets (DB users criados/destruídos por sessão) e multi-cloud. Em ambiente AWS-only, mistura SM (segredos com rotação) + PS (config) cobre 95% dos casos."
+      },
+      "source_key": "awsblog",
+      "url": "https://aws.amazon.com/blogs/security/how-to-rotate-secrets-aws-secrets-manager/",
+      "published_at": "2026-04-20T14:00:00-03:00",
+      "tags": [
+        "aws",
+        "secrets-manager",
+        "rotation",
+        "iam"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    },
+    {
+      "tool_key": "dynatrace",
+      "name": "Dynatrace",
+      "icon": "📊",
+      "kind": "news",
+      "headline": "Dynatrace consolida AIOps com Davis CoPilot — agentes de remediação automática para Kubernetes e detecção de anomalia em LLM apps",
+      "description": "Dynatrace continua expandindo Davis CoPilot (assistente de IA da plataforma) para cobrir o ciclo completo de incidente: detecção, root cause, remediação e prevenção. Foco do trimestre: K8s self-healing (auto-rollback de deployment ruim) e observabilidade de aplicações que usam LLMs (token usage, latência por modelo, taxa de erro semântico). Sinal: AIOps sai do hype e entra no toolkit padrão.",
+      "explain": {
+        "junior": "Dynatrace é uma das plataformas de observabilidade líderes — coleta logs, métricas e traces e mostra tudo bonito. Davis CoPilot é a IA dela: você pergunta 'por que minha app está lenta?' e ele responde com root cause provável e até propõe corrigir.",
+        "pleno": "Diferencial frente a Datadog/New Relic: Dynatrace tem Smartscape (mapeamento de dependência automático via OneAgent) e Davis (AI causal). Davis CoPilot agora dispara remediação real — auto-rollback Kubernetes, restart de pod, ajuste de HPA — quando detecta padrão conhecido. Para LLM apps, monitora token usage, latência e erros semânticos.",
+        "senior": "Para arquitetar observabilidade enterprise, Dynatrace é peso pesado quando se valoriza root cause automático e mapeamento de dependência sem instrumentação manual. Custo é maior que stack OSS (Prometheus + Grafana + Loki), mas reduz MTTR drasticamente e libera SREs para trabalho proativo. Decidir entre OSS extensível e Dynatrace fechado é decisão de modelo operacional, não de capacidade."
+      },
+      "source_key": "dynatrace",
+      "url": "https://www.dynatrace.com/news/blog/enhance-the-impact-of-dynatrace-davis-copilot-with-built-in-observability/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "tags": [
+        "dynatrace",
+        "aiops",
+        "kubernetes",
+        "llm-observability"
+      ],
+      "image": "https://news.cdn.dm.dynatrace.com/wp-content/uploads/2025/11/Blog_-OTP-0200_-high-res-version-1-1-1000x563-1.jpeg"
+    },
+    {
+      "tool_key": "plantuml",
+      "name": "PlantUML",
+      "icon": "🌱",
+      "kind": "tutorial",
+      "headline": "PlantUML para arquitetura: quando escolher sobre Mermaid e como integrar com C4 + Structurizr no fluxo de ADR",
+      "description": "PlantUML continua o padrão de fato para diagramas UML formais — sequence, class, component, state, deployment. Distinção prática frente a Mermaid: PlantUML tem suporte mais profundo a UML clássico, plugins de tema (puml-themes), integração com Structurizr DSL via adapter, e renderização server-side estável. Use Mermaid no README; PlantUML em ADRs e design docs.",
+      "explain": {
+        "junior": "PlantUML é como Mermaid: você escreve texto e ele desenha o diagrama. A diferença é que PlantUML é mais antigo, suporta mais tipos de UML formal (classes com herança, sequência detalhada) e renderiza num servidor (não no browser).",
+        "pleno": "Para diagrama de classe com herança/composição, ou sequência com swim lanes detalhadas, PlantUML produz output mais correto que Mermaid. Themes (puml-themes/aws, puml-themes/c4) padronizam visual rápido. Renderização via plantuml.com (PUBLIC) ou self-hosted (Docker image) — com self-hosted, integração CI/CD vira trivial.",
+        "senior": "Critério de decisão: use Mermaid quando o leitor é diverso (READMEs, issues, PRs); use PlantUML quando o documento é durável e formal (ADR, design doc, runbook). Para C4 model em escala, Structurizr DSL com export PlantUML/Mermaid dá o melhor dos dois mundos: source of truth versionado, output adequado por audiência."
+      },
+      "source_key": "structurizr",
+      "url": "https://docs.structurizr.com/export/c4plantuml",
+      "published_at": "2026-04-18T11:00:00-03:00",
+      "tags": [
+        "plantuml",
+        "uml",
+        "c4-model",
+        "architecture-as-code"
+      ],
+      "image": "https://static.structurizr.com/img/structurizr-banner.png"
+    },
+    {
+      "tool_key": "maven",
+      "name": "Apache Maven",
+      "icon": "📦",
+      "kind": "tutorial",
+      "headline": "Hygiene de dependências em Maven 2026 — BOM como contrato, dependencyManagement vs imports, e por que mvn dependency:tree continua sendo seu melhor amigo",
+      "description": "Apesar do crescimento de Gradle, Maven domina builds Java enterprise. Práticas modernas: usar BOMs (Spring Boot, Quarkus, AWS SDK) para alinhar versões, dependencyManagement para proibir versões implícitas, exclusões cirúrgicas para resolver conflitos transitivos, e dependency:analyze para detectar dependências declaradas mas não usadas. Em era de supply chain security (CVE em transitive), depTree vira ferramenta de auditoria, não só debug.",
+      "explain": {
+        "junior": "Maven é a ferramenta mais usada para builds Java. BOM (Bill of Materials) é uma 'lista de versões' que você importa e nunca mais precisa pensar em qual versão de cada lib usar — todas vêm alinhadas. Exemplo: Spring Boot BOM define versões para Spring, Hibernate, Jackson e dezenas de libs ao mesmo tempo.",
+        "pleno": "dependencyManagement (não import) restringe versões sem forçar inclusão. Exclusões resolvem conflitos transitivos (ex: dois deps trazem slf4j-api versões diferentes). dependency:tree -Dverbose mostra o caminho completo de cada lib transitiva. Em 2026, com supply chain attacks (PyTorch Lightning, Lapsus$/Checkmarx etc.), auditar transitivas é exigência, não bonus.",
+        "senior": "Padrão maduro: BOM corporativo interno + parent POM + plugins enforcer (banned dependencies, dependency convergence) + scan SBOM (Trivy/Snyk/Mend) no pipeline. Cada camada adiciona barreira. Quem ainda controla versão lib-by-lib em pom.xml está pagando custo desnecessário e expondo-se mais a CVEs."
+      },
+      "source_key": "baeldung",
+      "url": "https://www.baeldung.com/spring-maven-bom",
+      "published_at": "2026-04-21T09:00:00-03:00",
+      "tags": [
+        "maven",
+        "java",
+        "dependency-management",
+        "bom"
+      ],
+      "image": "https://maven.apache.org/images/apache-maven-project.png"
+    },
+    {
+      "tool_key": "gradle",
+      "name": "Gradle",
+      "icon": "🐘",
+      "kind": "tutorial",
+      "headline": "Gradle 9 build cache em multi-module — quando o cache invalida desnecessariamente e como instrumentar com build scans",
+      "description": "Build cache do Gradle 9 é arma poderosa em monorepo Java/Kotlin, mas requer diligência: tasks com input não-determinístico (timestamps, paths absolutos, env vars implícitas) invalidam cache silenciosamente. Build scans (gradle.com/build-scans) mostram exatamente o que invalidou. Configuration cache (separate de build cache) ataca outro pedaço: deserializa task graph entre builds, tirando 30-50% do tempo de cold start.",
+      "explain": {
+        "junior": "Build cache é Gradle lembrando o resultado de uma tarefa: 'já compilei esse arquivo com esses inputs, então uso o resultado de antes'. Faz build de monorepo grande ir de minutos para segundos. Mas se você usa data/hora ou caminho absoluto na tarefa, Gradle acha que mudou e recompila tudo.",
+        "pleno": "Build cache (output de tasks reutilizado entre builds) e configuration cache (task graph reutilizado entre invocações) são features distintas e complementares. Build scans expõem cache hits/misses com motivo de invalidação — leitura obrigatória ao adotar cache em escala. Cache remoto (Gradle Enterprise) propaga entre devs e CI, multiplicando ganho.",
+        "senior": "Para platform engineering JVM, instrumentar build performance é tão importante quanto runtime performance. SLO típico: build incremental ≤30s, build cold ≤2min em monorepo. Configuration cache + build cache + remote cache + build scans é o stack que entrega isso. Sem build scans, otimização vira chute."
+      },
+      "source_key": "gradle",
+      "url": "https://gradle.com/blog/how-to-speed-up-maven-builds-with-a-build-cache/",
+      "published_at": "2026-04-19T13:00:00-03:00",
+      "tags": [
+        "gradle",
+        "build-cache",
+        "monorepo",
+        "performance"
+      ],
+      "image": "https://gradle.com/assets/images/blog/how-to-speed-up-maven-builds-with-a-build-cache/Speed-up-maven-builds-social-1.jpg"
+    },
+    {
+      "tool_key": "istio",
+      "name": "Istio",
+      "icon": "⛵",
+      "kind": "news",
+      "headline": "Istio Ambient Mode em 2026 — sidecar-less mTLS com ztunnel + waypoint reduz overhead e simplifica day-2",
+      "description": "Ambient Mode do Istio (GA desde 2024) ganhou tração ampla em 2026 como caminho para service mesh sem sidecar Envoy em cada pod. Arquitetura: ztunnel (DaemonSet por nó) cuida de mTLS L4; waypoint proxies (opcional, por namespace) cuidam de policy L7. Resultado: menos memória/CPU desperdiçada, upgrade do mesh independente de upgrade de app, e onboarding mais simples para times menos familiares com Envoy.",
+      "explain": {
+        "junior": "Service mesh adiciona segurança e observabilidade entre microservices. Antes, o Istio colocava um sidecar (proxy Envoy) em todo pod, gastando memória e exigindo cuidado a cada deploy. Ambient Mode tira o sidecar e roda só um proxy por nó — mais leve e mais fácil de operar.",
+        "pleno": "ztunnel cobre mTLS, identidade e telemetria L4 (TCP) — suficiente para 70% dos casos de uso. Para policies L7 (autorização baseada em path HTTP, retries específicos), waypoint proxy é instanciado por namespace. Separação L4/L7 evita o all-or-nothing do sidecar tradicional. mTLS continua zero-config para apps.",
+        "senior": "Para arquiteturas multi-tenant em Kubernetes, Ambient Mode resolve uma das maiores queixas histórica: 'service mesh é overkill'. Custo operacional cai significativamente. Migração de sidecar→ambient pode ser feita namespace-por-namespace. Comparado a Linkerd (mais simples) e Cilium Service Mesh (kernel-level), Istio Ambient é a opção mais rica em policies."
+      },
+      "source_key": "istio",
+      "url": "https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/",
+      "published_at": "2026-04-24T11:00:00-03:00",
+      "tags": [
+        "istio",
+        "ambient-mode",
+        "service-mesh",
+        "ztunnel"
+      ],
+      "image": "https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"
+    },
+    {
+      "tool_key": "redis",
+      "name": "Redis",
+      "icon": "🔴",
+      "kind": "tutorial",
+      "headline": "Redis Streams como fila durável — quando substitui Kafka, quando complementa, e o padrão de consumer group para idempotência",
+      "description": "Redis Streams (XADD, XREAD, XGROUP) entrega semântica de fila durável dentro do mesmo Redis cluster que já serve cache. Para volumes médios (até ~100k msgs/s), substitui Kafka simplificando stack. Para volumes maiores, complementa: Redis para hot path baixa latência, Kafka para retenção longa e replay. Padrão consumer group + XACK + XPENDING garante exactly-once-effectively com idempotência cuidada na app.",
+      "explain": {
+        "junior": "Redis é mais conhecido como cache rápido (chave-valor em memória), mas tem feature 'Streams' que funciona como fila — você publica mensagens, e consumers lêem. Para volumes médios, dá pra substituir Kafka e ter um sistema mais simples (menos infra). Para volumes muito altos, Kafka ainda é melhor.",
+        "pleno": "XADD adiciona, XREAD lê, XGROUP cria consumer group, XACK marca processado, XPENDING lista mensagens em flight. Diferença para Kafka: sem partição, ordenação é estrita por stream (não por chave); retenção é controlada por MAXLEN ao invés de tempo. Para idempotência, app guarda message ID e checa antes de processar.",
+        "senior": "Decisão arquitetural: se o volume é claramente <10k msg/s e o time já roda Redis, Streams elimina overhead de operar Kafka. Acima de 100k msg/s ou com necessidade de replay longo (>7d), Kafka ganha. Padrão híbrido: Redis Streams para hot path (latência <5ms), Kafka para audit/retention. Não tente fazer Redis Streams escalar a Kafka — particionamento é o limite."
+      },
+      "source_key": "redis",
+      "url": "https://redis.io/tutorials/howtos/solutions/microservices/interservice-communication/",
+      "published_at": "2026-04-18T10:00:00-03:00",
+      "tags": [
+        "redis",
+        "streams",
+        "queue",
+        "patterns"
+      ],
+      "image": "https://redis.io/_next/static/media/open-graph.13a19f38.png"
+    }
+  ],
+  "videos": [
+    {
+      "id": "ZgdS0EUmn70",
+      "url": "https://www.youtube.com/watch?v=ZgdS0EUmn70",
+      "title": "Top 7 Most-Used Distributed System Patterns",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-20",
+      "duration": "9 min"
+    },
+    {
+      "id": "X48VuDVv0do",
+      "url": "https://www.youtube.com/watch?v=X48VuDVv0do",
+      "title": "Como funciona Kubernetes? Arquitetura explicada",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/JN5SBQRZH4l9JnBIXSm5dW-PBhVF0VIOQ1ig5xjhWFpHE3X-3X7qNo6rmVnsh7CtyXJWPGeAdQ=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-22",
+      "duration": "18 min"
+    },
+    {
+      "id": "1NF1PkgU5j8",
+      "url": "https://www.youtube.com/watch?v=1NF1PkgU5j8",
+      "title": "MCP em produção: o que aprendi conectando agentes a APIs reais",
+      "channel": "Renato Augusto Tech",
+      "channel_avatar": "https://yt3.googleusercontent.com/X1zr1L4qQRKJrgLfx8rHzS84-pT4Kc8a-yqGQfAJ-sXZHrVH8mMK3-eEW3jVMyB6kxK_nPGy=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-25",
+      "duration": "22 min"
+    }
+  ],
+  "sources": []
+}

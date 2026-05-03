@@ -24,7 +24,8 @@
         "multicluster",
         "service-mesh"
       ],
-      "source_key": "istio"
+      "source_key": "istio",
+      "image": "https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"
     },
     {
       "category": "aiops",
@@ -44,7 +45,8 @@
         "1m-context",
         "ai-coding"
       ],
-      "source_key": "anthropic"
+      "source_key": "anthropic",
+      "image": "https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/68309ab48369f7ad9b4a40e1_open-graph.jpg"
     },
     {
       "category": "sec",
@@ -68,7 +70,8 @@
         "zero-day",
         "windows"
       ],
-      "source_key": "tenable"
+      "source_key": "tenable",
+      "image": "https://www.tenable.com/sites/default/files/styles/640x360/public/images/articles/microsoft-patch-tuesday-april-2026.png?itok=pUoEOcdR"
     }
   ],
   "news": [
@@ -94,7 +97,8 @@
         "zero-day",
         "windows"
       ],
-      "source_key": "tenable"
+      "source_key": "tenable",
+      "image": "https://www.tenable.com/sites/default/files/styles/640x360/public/images/articles/microsoft-patch-tuesday-april-2026.png?itok=pUoEOcdR"
     },
     {
       "category": "sec",
@@ -116,7 +120,8 @@
         "edr",
         "endpoint-security"
       ],
-      "source_key": "picussecurity"
+      "source_key": "picussecurity",
+      "image": "https://www.picussecurity.com/hubfs/RedSun-ET-preview-apr16%20(1).png"
     },
     {
       "category": "sec",
@@ -158,7 +163,8 @@
         "rce",
         "ems"
       ],
-      "source_key": "watchtowrlabs"
+      "source_key": "watchtowrlabs",
+      "image": "https://watchtowr.com/wp-content/uploads/watchTowr-Intel-1-1024x538.png"
     },
     {
       "category": "ai",
@@ -212,7 +218,8 @@
         "multimodal",
         "reasoning"
       ],
-      "source_key": "llmstats"
+      "source_key": "llmstats",
+      "image": "https://llm-stats.com/og/main.png"
     },
     {
       "category": "aiops",
@@ -230,7 +237,8 @@
         "swe-bench",
         "agents"
       ],
-      "source_key": "aitoolanalysis"
+      "source_key": "aitoolanalysis",
+      "image": "https://aitoolanalysis.com/wp-content/uploads/2026/03/claude-code-review-2026-hero1-1024x572.webp"
     },
     {
       "category": "aiops",
@@ -247,7 +255,8 @@
         "agents",
         "ai-coding"
       ],
-      "source_key": "creatiainews"
+      "source_key": "creatiainews",
+      "image": "https://cdn-image.creati.ai/ai-news/cover-image/original/cursor-3-agent-first-interface-claude-code-codex.webp"
     },
     {
       "category": "aiops",
@@ -264,7 +273,8 @@
         "agents",
         "langchain"
       ],
-      "source_key": "qodo"
+      "source_key": "qodo",
+      "image": "https://www.qodo.ai/wp-content/uploads/2025/03/Building-Agentic-Flows-with-LangGraph.png"
     },
     {
       "category": "aiops",
@@ -281,7 +291,8 @@
         "llm-observability",
         "acquisition"
       ],
-      "source_key": "zenml"
+      "source_key": "zenml",
+      "image": "https://assets.zenml.io/webflow/64a817a2e7e2208272d1ce30/29f6b4dc/6981d36ce92aa039b696b8ae_6981d2afec7c5dd6d1e97696_langfuse-vs-langsmith.avif"
     },
     {
       "category": "cloud",
@@ -299,7 +310,8 @@
         "multicloud",
         "networking"
       ],
-      "source_key": "ciodive"
+      "source_key": "ciodive",
+      "image": "https://imgproxy.divecdn.com/4JRZvbgFl-_QaWceJSG70JcVMd2IBESnIB3gfkCMX8c/g:ce/rs:fit:770:435/Z3M6Ly9kaXZlc2l0ZS1zdG9yYWdlL2RpdmVpbWFnZS9HZXR0eUltYWdlcy0yMjA3ODAzMzYxX1hJZEwyMVkuanBn.webp"
     },
     {
       "category": "cloud",
@@ -316,7 +328,8 @@
         "workers",
         "agents"
       ],
-      "source_key": "cloudflare"
+      "source_key": "cloudflare",
+      "image": "https://cf-assets.www.cloudflare.com/dzlvafdwdttg/5hEMO0prBW3wDvchZU0iBZ/8e05bb4c55f8906e58d09dbc861c0f22/CF_logo_horizontal_singlecolor_wht.svg"
     },
     {
       "category": "devops",
@@ -367,7 +380,8 @@
         "observability",
         "configuration"
       ],
-      "source_key": "infoq"
+      "source_key": "infoq",
+      "image": "https://res.infoq.com/news/2026/04/opentelemetry-declarative-config/en/headerimage/generatedHeaderImage-1776292543355.jpg"
     },
     {
       "category": "backend",
@@ -384,7 +398,8 @@
         "quarkus",
         "virtual-threads"
       ],
-      "source_key": "techlife"
+      "source_key": "techlife",
+      "image": "https://techlife.blog/images/java-ecosystem-april-2026.webp"
     },
     {
       "category": "backend",
@@ -418,7 +433,8 @@
         "go",
         "compiler"
       ],
-      "source_key": "devcommunity"
+      "source_key": "devcommunity",
+      "image": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftt0sljjczqac6hpalymi.png"
     },
     {
       "category": "data",
@@ -436,7 +452,8 @@
         "lakehouse",
         "unity-catalog"
       ],
-      "source_key": "databricks"
+      "source_key": "databricks",
+      "image": "https://www.databricks.com/sites/default/files/2026-04/Iceberg-v3-Support-Diagrams.png"
     },
     {
       "category": "data",
@@ -458,7 +475,8 @@
         "cve",
         "hnsw"
       ],
-      "source_key": "postgresql"
+      "source_key": "postgresql",
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
     },
     {
       "category": "integ",
@@ -475,7 +493,8 @@
         "openapi",
         "schema"
       ],
-      "source_key": "asyncapi"
+      "source_key": "asyncapi",
+      "image": "https://asyncapi.com/img/social/website-card.jpg"
     },
     {
       "category": "frontend",
@@ -492,7 +511,8 @@
         "turbopack",
         "sri"
       ],
-      "source_key": "vercel"
+      "source_key": "vercel",
+      "image": "https://h8dxkfmaphn8o0p3.public.blob.vercel-storage.com/static/blog/next-16-2/twitter-card.png"
     },
     {
       "category": "frontend",
@@ -509,7 +529,8 @@
         "streaming-ssr",
         "nextjs"
       ],
-      "source_key": "sitepoint"
+      "source_key": "sitepoint",
+      "image": "https://uploads.sitepoint.com/wp-content/uploads/2021/07/1626450679sp-og.jpg"
     },
     {
       "category": "testing",
@@ -544,7 +565,8 @@
         "ambient",
         "gateway-api"
       ],
-      "source_key": "infoq"
+      "source_key": "infoq",
+      "image": "https://res.infoq.com/news/2026/04/istio-ai-multicluster/en/headerimage/generatedHeaderImage-1775305820792.jpg"
     },
     {
       "category": "distarch",
@@ -579,7 +601,8 @@
         "ai",
         "engineering"
       ],
-      "source_key": "thoughtworks"
+      "source_key": "thoughtworks",
+      "image": "https://www.thoughtworks.com/content/dam/thoughtworks/images/photography/meta/about-us/news/ab_meta_news.jpg"
     },
     {
       "category": "enterprise",
@@ -596,7 +619,8 @@
         "devex",
         "team-topologies"
       ],
-      "source_key": "platformengineering"
+      "source_key": "platformengineering",
+      "image": "https://cdn.prod.website-files.com/6489e23dd070ba71d41a33b2/69667f006e56668d23ba2e63_Platform-engineering-maturity-in-2026_-What-the-data-tells-us---OPENGRAPH.avif"
     },
     {
       "category": "fundamentals",
@@ -631,7 +655,8 @@
         "bcb",
         "open-finance"
       ],
-      "source_key": "riotimes"
+      "source_key": "riotimes",
+      "image": "https://www.riotimesonline.com/wp-content/uploads/2026/03/brazil-fintech-2026-pix-nubank.jpg"
     },
     {
       "category": "design",

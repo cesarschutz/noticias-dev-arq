@@ -266,6 +266,12 @@
       "image": "https://cdn.simpleicons.org/datadog/632CA6"
     },
     {
+      "key": "dynatrace",
+      "name": "Dynatrace Blog",
+      "url": "https://www.dynatrace.com/news/blog/",
+      "image": "https://www.google.com/s2/favicons?domain=dynatrace.com&sz=256"
+    },
+    {
       "key": "dddeurope",
       "name": "DDD Europe",
       "url": "https://dddeurope.com/",
@@ -454,6 +460,12 @@
       "name": "htek.dev",
       "url": "https://htek.dev/",
       "image": "https://www.google.com/s2/favicons?domain=htek.dev&sz=256"
+    },
+    {
+      "key": "heygotrade",
+      "name": "HeyGoTrade",
+      "url": "https://www.heygotrade.com/",
+      "image": "https://www.google.com/s2/favicons?domain=heygotrade.com&sz=256"
     },
     {
       "key": "infoq",
@@ -721,6 +733,12 @@
       "name": "Qodo Blog",
       "url": "https://www.qodo.ai/blog/",
       "image": "https://www.google.com/s2/favicons?domain=qodo.ai&sz=256"
+    },
+    {
+      "key": "redis",
+      "name": "Redis Blog",
+      "url": "https://redis.io/blog/",
+      "image": "https://www.google.com/s2/favicons?domain=redis.io&sz=256"
     },
     {
       "key": "redmonk",

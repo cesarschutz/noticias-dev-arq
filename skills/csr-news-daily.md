@@ -30,6 +30,18 @@ O foco editorial da edição não é "o maior barulho do dia" por padrão. A edi
 
 Ferramentas não têm prioridade editorial própria nesta skill. Itens de `tools[]` herdam prioridade pela categoria (`category`) e pelo impacto técnico do item.
 
+**Distribuição editorial alvo para `news[]`** — depois da coleta ampla, faça curadoria para que a edição final tenda a:
+- **50-60%** de categorias principais.
+- **25-35%** de categorias secundárias.
+- **Até 15-20%** das demais categorias.
+
+Esses percentuais são bússola editorial, não licença para inventar conteúdo. Se a janela real não tiver bons candidatos suficientes nas categorias principais/secundárias, mantenha qualidade > quantidade e documente a lacuna no `hero_description`. O inverso também vale: se `ai`/`aiops`/`sec` estiverem acima de 20%, mantenha apenas os itens com ação técnica clara ou impacto excepcional.
+
+**Tese da edição** — antes de escrever `hero_title`, `hero_description`, `edition_digest` e `highlights[]`, formule mentalmente uma tese editorial em 1 frase:
+- Que mudança técnica importa hoje para arquitetura, plataforma, dados, integração, backend ou fundamentos?
+- Quais 2-3 itens sustentam essa tese?
+- O que é apenas radar e não deve liderar a edição?
+
 **Placeholder de ano**: sempre que uma query ou texto contiver `{current_year}`, substitua pelo ano atual em tempo de execução (ex.: em 2026, `{current_year}` = 2026).
 
 ---
@@ -55,7 +67,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 **Janela de busca**: últimos **3 dias** completos (do início do dia D-3 até agora).
 
 **Meta de conteúdo**:
-- `news[]`: **mínimo 15 itens totais**, máximo ~30. **Sem mínimo obrigatório por categoria** — cats com dias calmos podem ficar em 0. Teto padrão 3/cat; até 5/cat quando `urgent:true` ou convergência ≥3 fontes (documente no `hero_description`).
+- `news[]`: **mínimo 15 itens totais**, máximo ~30. **Sem mínimo obrigatório por categoria** — cats com dias calmos podem ficar em 0. Teto padrão 3/cat; até 5/cat quando `urgent:true` ou convergência ≥3 fontes (documente no `hero_description`). Após a coleta, aplique a distribuição editorial alvo do PERFIL EDITORIAL DO CESAR.
 - `tools[]`: **rotação dinâmica — mínimo 10 itens/dia** (ver FASE 5 para regra completa).
 - `highlights[]`: 3 itens — selecionados pelo score explícito **com preferência do PERFIL EDITORIAL DO CESAR** (ver FASE 6).
 **Verificação obrigatória após coleta** — antes de escrever qualquer arquivo:
@@ -66,7 +78,7 @@ Você está criando o arquivo do zero. Não há blocklist.
 
 **Arquivos a criar do zero** (em ordem):
 1. `data/editions.json` — estrutura inicial com `last_generated` e o array `editions` contendo a primeira edição.
-2. `data/{YYYY-MM-DD}.json` — edição do dia.
+2. `data/editions/{YYYY-MM-DD}.json` — edição do dia.
 
 > `data/verses.json` **já existe no repositório — nunca criar, nunca modificar, nunca apagar**. Use-o como está. `data/quotes.json` é gerenciado manualmente — nunca inclua `quotes[]` nas edições diárias.
 
@@ -84,14 +96,15 @@ Use `last_generated` como limite inferior em cada WebSearch:
 - Janela ≤ 24h → mínimo 15 itens totais em `news[]`.
 - Janela > 24h e ≤ 72h → mínimo 20 itens.
 - Janela > 72h → mínimo 25 itens. Se > 5 dias, gere uma edição por dia (do mais antigo para o mais recente).
+- Em qualquer janela, depois da coleta ampla, aplique a distribuição editorial alvo do PERFIL EDITORIAL DO CESAR para reduzir excesso de `ai`/`aiops`/`sec` sem ação técnica clara.
 
 **Sexta-feira = fundamentals deep dive**: se `weekday == friday`, `fundamentals` recebe obrigatoriamente **2-3 itens**, sendo pelo menos 1 evergreen clássico de autor canônico (Fowler, Hohpe, Newman, Kleppmann, Beck, Evans, Young, Uncle Bob, Julia Evans, Brendan Gregg, Dan Luu).
 
-**Meta de qualidade**: prefira as notícias mais impactantes, mais cobertas por múltiplas fontes, mais discutidas socialmente — não apenas as mais recentes.
+**Meta de qualidade**: prefira as notícias mais úteis para decisão técnica e arquitetura. Cobertura por múltiplas fontes e sinal social ajudam, mas não devem superar utilidade arquitetural, profundidade técnica e aderência ao PERFIL EDITORIAL DO CESAR.
 
 **Blocklist de duplicatas** — obrigatório:
 1. Leia `data/editions.json` e pegue as 7 datas mais recentes de `editions[]`.
-2. Para cada data, leia `data/{date}.json` e colete todas as URLs de `news[]`, `tools[]` e `highlights[]`.
+2. Para cada data, leia `data/editions/{date}.json` e colete todas as URLs de `news[]`, `tools[]` e `highlights[]`.
 3. Esse Set é a **blocklist**. Qualquer candidata com URL idêntica é descartada sem exceção.
 4. Descarte também candidatas com headline quase idêntica (normalize: lowercase, remove pontuação, similaridade ≥ 85% a alguma headline do Set).
 
@@ -103,7 +116,7 @@ Use `last_generated` como limite inferior em cada WebSearch:
 
 Escrever o arquivo em disco antes de pesquisar garante que compressão de contexto nunca apague trabalho concluído — o disco é sempre preservado.
 
-**MODO NORMAL** — crie `data/{YYYY-MM-DD}.json` com estrutura vazia:
+**MODO NORMAL** — crie `data/editions/{YYYY-MM-DD}.json` com estrutura vazia:
 ```json
 {
   "date": "YYYY-MM-DD",
@@ -131,9 +144,9 @@ Escrever o arquivo em disco antes de pesquisar garante que compressão de contex
 ### PROTOCOLO DE CHECKPOINT (obrigatório ao fim de cada FASE 3–6)
 
 Após concluir cada fase de pesquisa:
-1. **Read** `data/{YYYY-MM-DD}.json` (para ter o estado atual do disco).
+1. **Read** `data/editions/{YYYY-MM-DD}.json` (para ter o estado atual do disco).
 2. **Adicione** os novos itens coletados nos arrays correspondentes (`news`, `tools`, `highlights`).
-3. **Write** `data/{YYYY-MM-DD}.json` de volta ao disco.
+3. **Write** `data/editions/{YYYY-MM-DD}.json` de volta ao disco.
 
 > Contexto comprimido não apaga o que já está em disco. Se a compressão ocorrer no meio de uma fase, só aquela fase é perdida — todo o trabalho anterior permanece.
 
@@ -212,6 +225,22 @@ Execute esta fase apenas quando houver lançamento recente de uma das referênci
 Critério: se não há lançamento recente dessas referências na janela, **pule a FASE 4B** — ela é oportunística.
 
 **Ao fim da FASE 4B** (se executada): CHECKPOINT → Read / adicione itens / Write.
+
+---
+
+### FASE 4C — Curadoria editorial da pauta
+
+Antes de entrar em ferramentas, revise `news[]` como pauta jornalística, não como dump de busca.
+
+1. Classifique cada item em um dos grupos do PERFIL EDITORIAL DO CESAR: principal, secundário ou demais.
+2. Remova ou substitua itens das demais categorias quando forem apenas barulho de mercado, política de vendor, anúncio de modelo sem consequência arquitetural, ou CVE sem ação técnica clara.
+3. Garanta que a edição final tenda à distribuição alvo: 50-60% principais, 25-35% secundárias, até 15-20% demais.
+4. Se `sec`/`ai`/`aiops` ultrapassarem 20% de `news[]`, mantenha apenas os itens excepcionais ou diretamente ligados a categorias principais/secundárias.
+5. Se faltar volume mínimo após a curadoria, complete primeiro com evergreen estruturado das categorias principais, depois secundárias. Só depois use demais categorias.
+
+**Não enfraqueça uma edição boa para bater percentual exato.** A regra é uma pressão editorial: melhora a pauta quando há candidatos suficientes e explicita exceções quando não há.
+
+**Ao fim da FASE 4C**: CHECKPOINT → Read / remova, substitua ou reordene itens de `news[]` conforme o perfil editorial / Write.
 
 ---
 
@@ -328,11 +357,15 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 **Execute esta fase ANTES da FASE 6.** Objetivo: `news[]` e `tools[]` devem ter imagem grande e útil, preferencialmente editorial (`og:image`/`twitter:image`). Favicon, `simpleicons`, avatar, pixel e logo pequeno são apenas diagnóstico de trabalho incompleto.
 
-**Esta fase é bloqueante.** A edição não pode ser finalizada enquanto houver item de `news[]` sem `image` ou com fallback óbvio (`google.com/s2/favicons`, `simpleicons.org`, `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`). Para `tools[]`, aplique a mesma regra para `kind` in `{release, news, tutorial}`.
+**Esta fase é bloqueante.** A edição não pode ser finalizada enquanto houver item de `news[]` sem `image` editorial real ou com fallback óbvio (`google.com/s2/favicons`, `simpleicons.org`, `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`). Para `tools[]`, aplique a mesma regra para `kind` in `{release, news, tutorial}`. **Google Favicon e Simple Icons nunca são imagem válida para cards de notícia/ferramenta**; eles só podem existir em `data/sources.json` como ícone da fonte.
+
+**Contrato URL + imagem:** imagem boa não compensa URL ruim. Antes de resolver a imagem de um item, confirme que a `url` aponta para a página específica do fato reportado. Se a página retornar 404/soft-404, redirecionar para índice, tiver título irrelevante ou não falar do assunto do `headline`/`summary`, **corrija a URL primeiro** e só depois reinicie a cascata de imagem. Não mantenha `url` quebrada com imagem de outra fonte.
 
 **Para cada item de `news[]` e `tools[]` sem imagem editorial real**, execute a cascata abaixo em ordem, parando na primeira tentativa bem-sucedida. Faça em lote e salve checkpoints parciais. A cascata vale também para itens que já têm `image`, mas ela é favicon/simpleicon/logo.
 
-Ao criar itens nas FASES 3-5, já preencha `image` imediatamente se a busca/WebFetch trouxer `og:image`, `twitter:image`, `thumbnail`, `image_src` ou imagem editorial. A FASE 5C é a revisão final agressiva para limpar fallbacks.
+**Regra de substituição obrigatória**: se depois da cascata o item ainda não tiver imagem editorial, institucional grande ou asset oficial validado, **substitua o item por outro candidato equivalente com imagem válida**. Não finalize com favicon nem screenshot da página. A única exceção é `tools[]` com `kind` in `{tip, curiosity}`, onde `image` pode ser omitido.
+
+Ao criar itens nas FASES 3-5, já preencha `image` imediatamente se a busca/WebFetch trouxer `og:image`, `twitter:image`, `thumbnail`, `image_src` ou imagem editorial. **Nunca preencha `image` com favicon durante a coleta inicial.** A FASE 5C é a revisão final agressiva para limpar fallbacks.
 
 **Mapa de fontes testado em produção (11 edições, 235 itens)**
 
@@ -366,7 +399,7 @@ Use quando o artigo específico não expõe imagem, mas a fonte tem asset instit
 |---|---|
 | `cisa.gov` | `https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot` |
 | `aws.amazon.com` (What's New, docs) | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
-| `bytecodealliance.org` | `https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org%2F/opengraph/` |
+| `bytecodealliance.org` | usar `og:image`/hero da homepage oficial de WebAssembly/Bytecode Alliance ou substituir por cobertura editorial equivalente com imagem real |
 | `kubernetes.io` (blog posts) | `https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png` |
 | `docs.snowflake.com` | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
 | `stripe.com` (se URL mudar) | `https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80` |
@@ -392,13 +425,28 @@ Sites técnicos/pessoais que deliberadamente não publicam og:image:
 
 `brendangregg.com` · `martinfowler.com` · `lwn.net` · `blainsmith.com` · `theconsensus.dev` · `fatihkoc.net` · `anchor.host` · `dora.dev` (docs estáticas)
 
-Estratégia: para esses, considere substituir o item por versão com cobertura editorial equivalente. Se o item for evergreen obrigatório (ex: USE method do Brendan Gregg), use favicon como fallback aceitável — é o único caso onde favicon é justificado.
+Estratégia: para esses, busque imagem editorial em cobertura equivalente, asset oficial do autor/projeto, ou substitua o item por versão com imagem real. Mesmo em evergreen obrigatório (ex: USE method do Brendan Gregg), não use favicon nem screenshot no campo `image`.
 
 #### Grupo G — Páginas sem imagem por natureza (status, changelogs, release notes)
 
 `cloudflarestatus.com` · `releasebot.io` · `gateway.envoyproxy.io` · `docs.databricks.com` · `docs.snowflake.com` · `businesswire.com` (press releases) · `windowsnews.ai`
 
 Estratégia: buscar a homepage do projeto referenciado na notícia e usar o og:image dela.
+
+#### Tentativa 0 — Preflight da URL do item
+
+Antes de buscar imagem, valide a página textual do item:
+
+```
+WebFetch(url_da_noticia,
+  "Return 4 lines: HTTP/page status if visible; h1/title; whether the page is mainly about this headline: [HEADLINE]; whether it looks like 404/not found/moved/index/homepage.")
+```
+
+Se a resposta indicar 404, soft-404, página movida, homepage/listagem, ou assunto diferente:
+1. Busque uma URL alternativa específica com `WebSearch("{headline curta} site:{domínio}")`.
+2. Se existir slug correto no mesmo domínio, atualize `url` e `published_at` se necessário.
+3. Se só existir cobertura equivalente em outra fonte, atualize também `source_key` para uma chave válida de `data/sources.json`.
+4. Se não houver URL verificável, substitua o item por outro candidato. Não avance para imagem enquanto a URL textual estiver incerta.
 
 #### Tentativa 1 — Metadados do artigo (`og:image`/`twitter:image`)
 
@@ -481,7 +529,7 @@ Faça WebFetch na URL original:
 
 #### Tentativa 6 — Fonte oficial relacionada ao mesmo fato
 
-Se a fonte da notícia bloqueia imagem ou não publica `og:image`, busque a fonte oficial do mesmo fato (ex.: matéria sobre Stripe Sessions → post oficial da Stripe; notícia sobre ferramenta/vendor → blog/changelog oficial do vendor). Use a imagem editorial da fonte oficial **somente se o tema for o mesmo**. Mantenha a `url` original do item, mas salve a imagem oficial relacionada.
+Se a fonte da notícia bloqueia imagem ou não publica `og:image`, busque a fonte oficial do mesmo fato (ex.: matéria sobre Stripe Sessions → post oficial da Stripe; notícia sobre ferramenta/vendor → blog/changelog oficial do vendor). Use a imagem editorial da fonte oficial **somente se o tema for o mesmo**. Mantenha a `url` original do item apenas se ela já passou na Tentativa 0; se a URL original estiver quebrada ou genérica, troque para a fonte oficial/cobertura verificada e ajuste `source_key`.
 
 Busca sugerida:
 
@@ -513,26 +561,40 @@ curl -I "$candidate_image"
 
 Use apenas quando as tentativas 1-7 falharem. Prefira imagem institucional 16:9 ou logo grande hospedado pela própria fonte/vendor (ex.: `aws_logo_smile_1200x630.png`, página temática da CISA, `nginx.png`, card oficial de documentação). Nunca use `google.com/s2/favicons` nem `simpleicons.org` enquanto existir alternativa maior.
 
+#### Tentativa 8A — Busca semântica por imagem oficial/editorial
+
+Use quando a página é tecnicamente relevante, mas não tem `og:image` bom. Busque imagens relacionadas ao fato, não screenshots da página.
+
+Ordem:
+1. `WebSearch("{headline curta} official blog image OR announcement")`
+2. `WebSearch("{vendor/produto} {tópico central} site:{domínio oficial}")`
+3. `WebSearch("{headline curta} site:techcrunch.com OR site:infoq.com OR site:github.blog OR site:developer.nvidia.com OR site:blog.cloudflare.com")`
+4. Abra os resultados mais promissores e extraia `og:image`, imagem inline principal ou asset com alt/texto relacionado ao item.
+
+Aceite imagem de outra fonte **somente se** ela cobrir o mesmo fato ou o mesmo produto/projeto. Mantenha a `url` original do item se ela for a melhor fonte textual, mas salve a imagem oficial/editorial relacionada.
+
+**Não use screenshot/card da própria página** (`v1.screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`, browser screenshot etc.) como `image` final. Screenshot é apenas diagnóstico local, não imagem editorial.
+
 **Fallbacks institucionais validados (usar quando as tentativas 1-7 falharem):**
 
 | Contexto | URL de fallback |
 |---|---|
 | CISA advisories / KEV alerts / CVEs sem imagem | `https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot` |
 | AWS What's New sem og:image | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
-| WebAssembly / bytecodealliance | `https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org%2F/opengraph/` |
+| WebAssembly / bytecodealliance | `og:image`/hero oficial de WebAssembly/Bytecode Alliance, ou cobertura editorial equivalente com imagem real |
 | Stripe Blog (se URL mudar) | `https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80` |
 
 Esses fallbacks foram testados e validados em 2026-05-02 — retornam 200 + content-type image/*.
 
-#### Tentativa 9 — Favicon (último recurso absoluto; nunca em `highlights[]`)
+#### Tentativa 9 — Substituir o item (não usar favicon)
 
-Só use se todas as tentativas acima falharem e o item não for highlight:
+Se as tentativas anteriores falharem, **não use Google Favicon, Simple Icons, avatar, logo pequeno ou screenshot da página**. Substitua o item por outro candidato equivalente que tenha URL textual verificada e imagem editorial, institucional grande ou asset oficial validado.
 
-```json
-"image": "https://www.google.com/s2/favicons?domain={domínio-sem-path}&sz=256"
-```
-
-Se isso acontecer, registre mentalmente que a edição ainda tem fallback visual fraco; antes de finalizar, tente substituir o item por outro candidato equivalente com imagem editorial.
+Como substituir:
+1. Preserve a intenção editorial do slot: mesma categoria, mesmo tema ou mesmo `tool_key` quando possível.
+2. Busque cobertura alternativa do mesmo fato em fonte com imagem acessível.
+3. Se não houver cobertura alternativa, escolha outro item de qualidade semelhante da mesma categoria/grupo editorial.
+4. Se o item for indispensável por impacto excepcional, use uma imagem institucional grande validada do vendor/projeto. Se nem isso existir, mantenha o item somente se for `tools[]` com `kind` in `{tip, curiosity}` e omita `image`; caso contrário, substitua.
 
 #### Padrões práticos que funcionam bem
 
@@ -545,16 +607,16 @@ Se isso acontecer, registre mentalmente que a edição ainda tem fallback visual
 **Regras de validação de imagem:**
 - URL deve começar com `https://`.
 - `http://` → converta para `https://` antes de salvar.
-- Rejeite URL com `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`, `1x1`, `tracking`, `adserver`.
-- Rejeite `simpleicons.org` e `google.com/s2/favicons` para `highlights[]` sempre, e para `news[]`/`tools[]` salvo último recurso absoluto.
+- Rejeite URL com `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`, `1x1`, `tracking`, `adserver`, `screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`.
+- Rejeite `simpleicons.org` e `google.com/s2/favicons` para `highlights[]`, `news[]` e `tools[]` de `kind` in `{release, news, tutorial}` sempre. Eles não são fallback aceitável para cards.
 - URL com `logo` no path só é aceitável se for imagem institucional grande ou card social validado (ex.: `*_1200x630`, `*_1920x1080`, `nginx.png`), nunca logo pequeno de navegação.
-- Nunca escreva URL de imagem inventada por padrão de nome. Use somente URL retornada por página/artigo real, feed, Microlink, oEmbed, fonte oficial relacionada, homepage/docs oficial, página institucional real ou Google Favicon.
+- Nunca escreva URL de imagem inventada por padrão de nome. Use somente URL retornada por página/artigo real, feed, Microlink, oEmbed, fonte oficial relacionada, homepage/docs oficial ou página institucional real.
 - Se uma URL candidata retornar 401, 403, 404 ou `content-type` que não seja imagem, descarte e continue a cascata.
 - Para `highlights[]`, verifique cada `image`: precisa responder como imagem (`image/jpeg`, `image/png`, `image/webp`, `image/svg+xml`) e não pode retornar 403/404. Se falhar, rode as tentativas especiais A/B/C.
 
-**Meta obrigatória:** `highlights[]` 3/3 com imagem editorial; `news[]` 100% com `image`; `tools[]` 100% com `image` para `kind` in `{release, news, tutorial}`; `news[] + tools[]` com **0** ocorrências de `google.com/s2/favicons` e `simpleicons.org` sempre que houver alternativa pública.
+**Meta obrigatória:** `highlights[]` 3/3 com imagem editorial; `news[]` 100% com `image` editorial/institucional grande validada; `tools[]` 100% com `image` editorial/institucional grande validada para `kind` in `{release, news, tutorial}`; `news[] + tools[]` com **0** ocorrências de `google.com/s2/favicons`, `simpleicons.org` e serviços de screenshot.
 
-**Validação bloqueante ao fim da FASE 5C** — depois do Write, execute mentalmente/por ferramenta este check sobre `data/{YYYY-MM-DD}.json`:
+**Validação bloqueante ao fim da FASE 5C** — depois do Write, execute mentalmente/por ferramenta este check sobre `data/editions/{YYYY-MM-DD}.json`:
 
 ```bash
 jq -e '
@@ -562,7 +624,7 @@ jq -e '
   ([.news[] | .image | valid_img] | all)
   and ([.tools[] | select(.kind as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
   and ([.highlights[] | .image | valid_img] | all)
-' data/{YYYY-MM-DD}.json
+' data/editions/{YYYY-MM-DD}.json
 ```
 
 E execute também:
@@ -571,10 +633,10 @@ E execute também:
 jq -e '
   ([.news[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
    | map(.image // "")
-   | map(test("google.com/s2/favicons|simpleicons.org"))
+   | map(test("google.com/s2/favicons|simpleicons.org|screenshot.11ty.dev|screenshotapi|urlbox|thum.io"))
    | any
    | not)
-' data/{YYYY-MM-DD}.json
+' data/editions/{YYYY-MM-DD}.json
 ```
 
 Se qualquer check falhar, **não siga para FASE 6**. Volte à cascata de imagens e corrija os itens faltantes ou substitua o item por candidato equivalente com imagem editorial.
@@ -598,14 +660,20 @@ Se a URL retornar 4xx, 5xx, ou `content_type` não for `image/*`, **rejeite-a** 
 Após processar todos os itens, execute:
 
 ```bash
-# Itens de news[] ainda sem imagem válida
-jq '[.news[] | select(
-  .image == null or .image == "" or
-  (.image | test("google\\.com/s2/favicons|simpleicons\\.org|favicon|cropped-favicon|apple-touch-icon"))
-) | {headline: .headline, image: (.image // "VAZIO")}]' data/editions/YYYY-MM-DD.json
+# Itens obrigatórios ainda sem imagem editorial/institucional válida
+jq '[
+  (.news[] | select(
+    .image == null or .image == "" or
+    (.image | test("google\\.com/s2/favicons|simpleicons\\.org|favicon|cropped-favicon|apple-touch-icon|screenshot\\.11ty\\.dev|screenshotapi|urlbox|thum\\.io"))
+  ) | {array:"news", headline:.headline, image:(.image // "VAZIO")}),
+  (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)) | select(
+    .image == null or .image == "" or
+    (.image | test("google\\.com/s2/favicons|simpleicons\\.org|favicon|cropped-favicon|apple-touch-icon|screenshot\\.11ty\\.dev|screenshotapi|urlbox|thum\\.io"))
+  ) | {array:"tools", headline:.headline, image:(.image // "VAZIO")})
+]' data/editions/{YYYY-MM-DD}.json
 ```
 
-**Se o array retornado não estiver vazio, a FASE 5C não está concluída.** Volte para os itens listados e execute a cascata novamente a partir da Tentativa 1. A edição **não pode avançar para a FASE 6** enquanto houver itens pendentes neste check — exceto se todas as 8 tentativas foram esgotadas para aquele item (nesse caso, registre mentalmente e avance).
+**Se o array retornado não estiver vazio, a FASE 5C não está concluída.** Volte para os itens listados e execute a cascata novamente a partir da Tentativa 0. A edição **não pode avançar para a FASE 6** enquanto houver itens pendentes neste check. Se a cascata falhar para um item obrigatório, substitua o item; não avance com favicon.
 
 **Ao fim da FASE 5C**: CHECKPOINT → Read / atualize `image` em todos os itens / Write / valide o check acima.
 
@@ -620,10 +688,23 @@ jq '[.news[] | select(
 | `kind === "release"` oficial | +3 |
 | Convergência: ≥2 fontes independentes cobrindo o mesmo fato | +2 |
 | HN ≥150 pts OU Lobste.rs top 10 OU GitHub Trending daily | +2 |
+| Utilidade arquitetural direta | +2 |
 | Blog de engenharia Tier 1 (ver tabela FONTES PREFERIDAS) ou autor canônico | +1 |
 | Impacto arquitetural claro (breaking change, CVE CVSS ≥9, GA/deprecation major) | +1 |
 
+**Penalidades editoriais**:
+
+| Sinal | Pontos |
+|---|---|
+| Conteúdo principalmente mercado, política institucional ou positioning de vendor | -2 |
+| IA/AIOps/Segurança sem ação técnica clara para arquitetura, plataforma, dados, integração ou operação | -2 |
+| Artigo genérico, lista, comparação rasa ou repetição de cobertura já feita nos últimos dias | -1 |
+
+**Utilidade arquitetural direta** existe quando o item muda uma decisão de design, afeta plataforma/runtime/dados/integração, ensina um trade-off reutilizável, ou vira checklist técnico para times.
+
 **Aplique o PERFIL EDITORIAL DO CESAR antes de escolher hero/highlights.** O score mede relevância, mas a ordenação final deve privilegiar categorias principais e secundárias. Segurança, IA, AIOps e Fintech só lideram a edição quando forem excepcionais ou quando não houver candidatos qualificados nas categorias preferidas.
+
+**Tese da edição**: antes do hero, escreva mentalmente uma tese editorial de 1 frase. Ela deve responder: "qual mudança técnica do dia importa para arquitetura/plataforma?" Escolha 2-3 itens que sustentam essa tese e use-os como eixo de `hero_description`, `edition_digest` e, se possível, `highlights[]`.
 
 **Hero**: com todo `news[]` e `tools[]` coletados, selecione o tema de maior impacto **dentro das categorias principais**. Se não houver candidato forte, use categorias secundárias. Só use demais categorias no hero quando o fato for excepcional (CVE explorado em massa, incidente grave, breaking change/depreciação major, lançamento com impacto arquitetural direto, mudança regulatória relevante) ou quando não houver tema qualificado nas listas preferidas. Escreva `hero_title` (máx 80 chars) e `hero_description` (2-3 frases, contexto editorial).
 
@@ -662,10 +743,11 @@ Meta: `highlights[]` 3/3 com `image` editorial; `news[]` 100% com `image`.
 Verifique todos os itens antes de declarar a edição concluída:
 
 - [ ] **URLs específicas**: nenhuma termina em `/blog/`, `/releases`, `/changelog`, `/news/` sem slug. Nenhuma é homepage de vendor. Releases têm número de versão ou tag no path.
-- [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que `highlights[]`, todos os `kind:"release"` e 5 top `news[]` não são soft-404 nem páginas irrelevantes.
+- [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que todos os itens publicados em `highlights[]`, `news[]` e `tools[]` apontam para páginas específicas, não soft-404 nem páginas irrelevantes.
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou intra-edição.
 - [ ] **Highlights completo**: exatamente 3 itens — selecionados por score + PERFIL EDITORIAL DO CESAR, ideal ≥2 categorias distintas.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤24h) / 20 (1-3 dias) / 25 (>3 dias).
+- [ ] **Distribuição editorial**: `news[]` tende a 50-60% categorias principais, 25-35% secundárias e no máximo 15-20% demais categorias. Se não bater por falta de candidatos fortes, a exceção está clara no `hero_description`.
 - [ ] **Sem mínimo obrigatório por categoria**: cats sem sinal podem ficar com 0 itens (documente no `hero_description` se várias cats ficaram vazias).
 - [ ] **Sexta-feira**: `fundamentals` tem 2-3 itens, ≥1 evergreen canônico.
 - [ ] **`tools[]` rotação**: mínimo 10 itens, **sem repetir** `tool_key` com URL idêntica das últimas 7 edições.
@@ -673,7 +755,8 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`, `image`. **Usar `source_key`** (chave de `data/sources.json`) — nunca o campo `source` como string livre.
 - [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O texto deve funcionar como um resumo guiado da própria notícia/release/tutorial: qualquer dev deve conseguir ler essas 3 passagens, abrir a fonte original e entender do que se trata. `junior` introduz o assunto e o vocabulário essencial sem pressupor contexto; `pleno` expande o mecanismo, o trade-off e o contexto do ecossistema; `senior` fecha com a decisão prática, o impacto arquitetural e o próximo passo técnico. As 3 passagens precisam falar sobre o mesmo assunto com profundidade crescente, não sobre perfis de leitor. `glossary` é um array de `{term, def}` só para siglas, produtos, empresas, protocolos e termos não óbvios que aparecem nessas passagens; cada definição deve ser curta, precisa e autônoma. Não use glossary para palavras genéricas nem para repetir a explicação inteira.
 - [ ] **`edition_digest`** preenchido: 4–6 parágrafos, 200–350 palavras, tom descontraído, texto corrido sem marcadores.
-- [ ] **Imagens**: `highlights[]` 3/3 com imagem editorial (não favicon) e URL verificada; `news[]` 100% com `image`; `tools[]` 100% com `image` para `kind` in `{release, news, tutorial}`; `news[] + tools[]` sem `google.com/s2/favicons`/`simpleicons.org` quando houver qualquer alternativa pública. Se falhar, volte à FASE 5C antes de finalizar.
+- [ ] **Tese editorial clara**: `hero_description` e os 2 primeiros parágrafos de `edition_digest` sustentam uma tese da edição ligada a categorias principais/secundárias, não uma lista solta de alertas.
+- [ ] **Imagens**: `highlights[]` 3/3 com imagem editorial (não favicon/screenshot) e URL verificada; `news[]` 100% com `image` editorial/institucional grande; `tools[]` 100% com `image` editorial/institucional grande para `kind` in `{release, news, tutorial}`; `news[] + tools[]` sem `google.com/s2/favicons`/`simpleicons.org`/serviços de screenshot. Se falhar, volte à FASE 5C e corrija ou substitua o item antes de finalizar.
 - [ ] **`tools[]` chaves válidas** — ver conjunto autoritativo em `scripts/validate_editions.py` (`TOOL_KEYS`). Sempre sincronize ao adicionar/remover ferramentas.
 - [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id`, `url` e **`title` preenchido** (nunca `""`). Campo `channel` deve estar preenchido. Campo `start` **não deve existir**.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
@@ -693,7 +776,7 @@ jq -e '
   ([.news[] | .image | valid_img] | all)
   and ([.tools[] | select(.kind as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
   and ([.highlights[] | .image | valid_img] | all)
-' data/{YYYY-MM-DD}.json
+' data/editions/{YYYY-MM-DD}.json
 ```
 
 E o check anti-fallback também precisa passar:
@@ -702,21 +785,30 @@ E o check anti-fallback também precisa passar:
 jq -e '
   ([.news[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
    | map(.image // "")
-   | map(test("google.com/s2/favicons|simpleicons.org"))
+   | map(test("google.com/s2/favicons|simpleicons.org|screenshot.11ty.dev|screenshotapi|urlbox|thum.io"))
    | any
    | not)
-' data/{YYYY-MM-DD}.json
+' data/editions/{YYYY-MM-DD}.json
 ```
 
-Estes comandos precisam passar antes de escrever `data/editions.json` e `data/{YYYY-MM-DD}.json` finais. Se falharem, a edição está incompleta.
+Estes comandos precisam passar antes de escrever `data/editions.json` e `data/editions/{YYYY-MM-DD}.json` finais. Se falharem, a edição está incompleta.
+
+**Validador local obrigatório** — execute também:
+
+```bash
+python3 scripts/validate_editions.py data/editions/{YYYY-MM-DD}.json
+```
+
+O validador checa schema mínimo, `TOOL_KEYS`, distribuição editorial, destaques, vídeos, imagens e sinais de viés excessivo para `ai`/`aiops`/`sec`.
 
 ### FASE 7.1 — Verificação obrigatória de links
 
-Execute WebFetch nos seguintes items **nesta ordem de prioridade**:
+Execute WebFetch em **100% das URLs publicadas** antes de finalizar. Faça em lote, mas respeite esta ordem se precisar priorizar:
 
 1. Todos os 3 itens de `highlights[]` (100% obrigatório)
-2. Todos os itens de `tools[]` com `kind:"release"` (100% obrigatório — verifique na inclusão, se possível, para paralelizar)
-3. Os 5 primeiros itens de `news[]` ordenados por score + PERFIL EDITORIAL DO CESAR (categorias principais primeiro, depois secundárias; `sec`/`ai`/`aiops` só primeiro se forem excepcionais)
+2. Todos os itens de `news[]` (100% obrigatório)
+3. Todos os itens de `tools[]` com `kind` in `{release, news, tutorial}` (100% obrigatório)
+4. Itens de `tools[]` com `kind` in `{tip, curiosity}` quando tiverem `url` específica de conteúdo; se forem homepage/documentação canônica, valide que a página é realmente o recurso descrito.
 
 Para cada URL:
 ```
@@ -733,6 +825,8 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 | WebFetch retorna erro ou timeout | URL possivelmente inválida ou bloqueada | Tente uma vez mais; se falhar, substitua por fonte alternativa verificada |
 
 **Regra prática**: se o WebFetch não confirmar que a página é principalmente sobre o que você reportou, a URL está errada — não a notícia. Busque outra URL antes de descartar o item.
+
+**Ao corrigir URL:** reexecute a FASE 5C para esse item, porque o `image` deve ser coerente com a URL final. Se a correção trocar o domínio/fonte, atualize `source_key` para uma chave existente em `data/sources.json`; se não existir chave apropriada, adicione-a em `data/sources.json` antes de salvar a edição.
 
 **Salvar arquivos finais:**
 
@@ -751,11 +845,11 @@ jq -e '
 ' data/editions.json
 ```
 
-6. Escreva `data/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
+6. Escreva `data/editions/{YYYY-MM-DD}.json` **POR ÚLTIMO** (dispara o auto-push via LaunchAgent).
 
 *MODO PRIMEIRA EXECUÇÃO — ordem de escrita:*
 1. `data/editions.json` (com primeira edição)
-2. `data/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
+2. `data/editions/{YYYY-MM-DD}.json` **POR ÚLTIMO**.
 
 **NÃO faça git push** — o LaunchAgent em `push.sh` detecta a mudança e envia automaticamente.
 
@@ -1139,7 +1233,7 @@ As seguintes tecnologias têm cobertura via queries da categoria correspondente 
 
 ---
 
-## SCHEMA JSON — EDIÇÃO DIÁRIA (`data/{YYYY-MM-DD}.json`)
+## SCHEMA JSON — EDIÇÃO DIÁRIA (`data/editions/{YYYY-MM-DD}.json`)
 
 ```json
 {
@@ -1388,7 +1482,7 @@ Escolha 1 dona e liste as outras em `tags[]`:
 - Array `editions` ordenado do mais recente para o mais antigo.
 - Cada edição tem exatamente 3 highlights (os 3 itens top-ranqueados do dia por score, reduzidos aqui a `title`+`url`+`image`).
 - `editions[].highlights[].image` é obrigatório e deve vir do `image` editorial do highlight correspondente no JSON diário. Nunca omita este campo no índice, porque a home usa `data/editions.json` antes de carregar todos os arquivos diários.
-- `hero_title` e `hero_description` devem ser **idênticos** ao `hero_title` e `hero_description` do JSON diário (`data/{date}.json`). Não há campo `summary` — foi removido.
+- `hero_title` e `hero_description` devem ser **idênticos** ao `hero_title` e `hero_description` do JSON diário (`data/editions/{date}.json`). Não há campo `summary` — foi removido.
 - `counts_by_category`: mapa `chave_categoria → número de itens` em `news[]`. Omita categorias com 0. Chaves válidas (16): ver tabela acima.
 - `counts_by_tool`: mapa `tool_key → número de itens` em `tools[]`. Chaves válidas: conjunto em `scripts/validate_editions.py` (`TOOL_KEYS`). Omita chaves com 0.
 
@@ -1403,10 +1497,16 @@ Para decidir **quais** notícias entram nos `highlights[]`, **qual notícia lide
 | **Release oficial** | 30% | +3 | `kind:"release"` com versão específica (ex: Kafka 4.0, Spring Boot 3.4) |
 | **Convergência de fontes** | 25% | +2 | Mesmo fato central coberto em **≥ 2 veículos independentes** |
 | **Sinal social** | 20% | +2 | HN front page ≥150 pts OU ≥50 comentários; Lobste.rs top 10; GitHub Trending daily |
+| **Utilidade arquitetural direta** | 20% | +2 | Muda decisão de design, afeta plataforma/runtime/dados/integração, ensina trade-off reutilizável ou vira checklist técnico |
 | **Impacto arquitetural** | 15% | +1 | CVE CVSS ≥9; breaking change; GA/deprecation relevante |
 | **Autoridade Tier 1 ou autor canônico** | 10% | +1 | Fonte em "FONTES PREFERIDAS" Tier 1 ou autor da lista canônica |
 
-**Score total máximo**: +9. **Highlights**: preferir score ≥5, mas aplicar o ajuste editorial antes da escolha final. Se nenhum candidato chegar a 5, selecione os melhores disponíveis seguindo a ordem: categorias principais → secundárias → demais categorias excepcionais ou necessárias para fechar 3 itens.
+**Penalidades**:
+- **-2** Conteúdo principalmente mercado, política institucional ou positioning de vendor.
+- **-2** `ai`/`aiops`/`sec` sem ação técnica clara para arquitetura, plataforma, dados, integração ou operação.
+- **-1** Artigo genérico, lista, comparação rasa ou repetição de cobertura já feita nos últimos dias.
+
+**Score total máximo**: +11 antes de penalidades. **Highlights**: preferir score ≥5, mas aplicar o ajuste editorial antes da escolha final. Se nenhum candidato chegar a 5, selecione os melhores disponíveis seguindo a ordem: categorias principais → secundárias → demais categorias excepcionais ou necessárias para fechar 3 itens.
 
 **Ajuste editorial obrigatório**: depois do score base, aplique a preferência do PERFIL EDITORIAL DO CESAR:
 - Categorias principais têm precedência sobre secundárias quando o score for comparável.
@@ -1434,10 +1534,19 @@ Toda `url` (em `highlights[]`, `news[]` e `tools[]`) **deve apontar ao artigo, p
 ### Como garantir URL específica
 
 1. Extraia a URL retornada pela WebSearch. Confira se tem slug/ID único.
-2. Se a pesquisa retornou página índice, faça um **segundo `WebFetch`** na homepage do blog e localize o permalink exato.
-3. Se mesmo assim não encontrar permalink, **descarte a notícia** — não inclua com URL genérica.
+2. Faça `WebFetch` na candidata e confirme que `h1/title` e corpo principal sustentam o `headline` e o `summary`.
+3. Se a pesquisa retornou página índice, faça um **segundo `WebFetch`** na homepage do blog e localize o permalink exato.
+4. Se o slug existir mas retornar 404/soft-404, busque o slug correto por título curto + domínio; muitos sites mudam slug entre busca e publicação.
+5. Se mesmo assim não encontrar permalink verificável, **descarte a notícia** — não inclua com URL genérica.
 
 Exceção: `tools[].url` pode apontar para changelog oficial com âncora específica (`.../releases#v2.3.1`), mas não para a raiz.
+
+### Relação URL, fonte e imagem
+
+- A `url` textual é a fonte de verdade do item. Ela precisa ser válida mesmo se a imagem vier de fonte oficial relacionada.
+- Se a URL final muda de domínio, `source_key` também deve mudar para uma chave existente em `data/sources.json`.
+- `image` deve vir da URL final quando possível; se vier de fonte relacionada, essa fonte precisa cobrir o mesmo fato/produto, não apenas o mesmo assunto genérico.
+- Nunca salve uma imagem bonita para mascarar URL quebrada, genérica ou não verificável.
 
 ---
 
@@ -1445,7 +1554,7 @@ Exceção: `tools[].url` pode apontar para changelog oficial com âncora especí
 
 O campo `image` representa a **hero image do artigo** (og:image, twitter:image) — a imagem editorial que aparece quando o link é compartilhado. Não é o logo pequeno da fonte; é a imagem ilustrativa do conteúdo (ex: a ilustração do blog post da Cloudflare, a foto do artigo da TechCrunch, o card social da NVIDIA). A SPA renderiza thumbnails 16:9 nos cards. Muitas fontes reais expõem isso no HTML, feed RSS/Atom ou post oficial relacionado.
 
-> **A cascata principal (Tentativas 1–9) está definida na FASE 5C.** Esta seção documenta apenas as tentativas especiais para `highlights[]` e as regras de validação.
+> **A cascata principal (Tentativas 0–9) está definida na FASE 5C.** Esta seção documenta apenas as tentativas especiais para `highlights[]` e as regras de validação.
 
 ### Regra especial para highlights[]
 
@@ -1478,8 +1587,8 @@ Faça WebFetch na URL original pedindo:
 - URL deve começar com `https://`.
 - Rejeite URLs com `avatar`, `profile`, `icon`, `pixel`, `ad`, `favicon` no caminho. URL com `logo` só é aceitável quando for card social/institucional grande validado, não logo pequeno de navegação.
 - `http://` → converta para `https://` antes de salvar.
-- `news[]` nunca pode omitir `image`; se não houver imagem editorial, use imagem institucional grande, fonte oficial relacionada ou substitua o item. Google Favicon é último recurso absoluto, não padrão.
-- `simpleicons.org` não é fallback aceitável em `news[]`, `tools[]` de `kind` release/news/tutorial nem `highlights[]`.
+- `news[]` nunca pode omitir `image`; se não houver imagem editorial, use imagem institucional grande, fonte oficial relacionada ou substitua o item. Google Favicon não é aceitável.
+- `google.com/s2/favicons`, `simpleicons.org` e serviços de screenshot (`screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`) não são fallback aceitável em `news[]`, `tools[]` de `kind` release/news/tutorial nem `highlights[]`.
 - Omita `image` **somente** se todas as tentativas falharam E o item é de `tools[]` com `kind` in `{tip, curiosity}`.
 
 ---
@@ -1491,27 +1600,30 @@ Faça WebFetch na URL original pedindo:
 3. **Mínimo 15 notícias** em `news[]` (janela ≤24h) / 20 (1-3 dias) / 25 (>3 dias). **Sem mínimo obrigatório por categoria** — categorias sem sinal podem ficar em 0.
 4. **Sexta-feira = fundamentals deep dive**: 2-3 itens em `fundamentals`, ≥1 evergreen clássico de autor canônico.
 5. **Top 3 destaques** pelo score + PERFIL EDITORIAL DO CESAR: tente 3 categorias principais; se faltar candidato qualificado, complete com secundárias; só use demais categorias quando forem excepcionais ou necessárias para fechar 3 itens. Preferir pelo menos 2 categorias distintas.
-6. **URLs específicas e verificáveis** (FASE 7.1 obrigatória).
-7. **Sem duplicatas** com as 7 edições anteriores.
-8. **Perspectiva em camadas**: o campo `explain` aprofunda a mesma história em 3 passagens complementares e cumulativas — `junior` apresenta o assunto e o vocabulário essencial; `pleno` explica o mecanismo, o trade-off e o contexto; `senior` fecha com a decisão técnica e o impacto arquitetural. O resultado deve permitir que qualquer dev leia o resumo, depois abra a fonte, e já entre no texto original com entendimento do que está em jogo.
-9. **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O `glossary` dentro de `explain` serve só para termos realmente não óbvios citados nas explicações. Priorize siglas, nomes de produto/empresa, protocolos e conceitos específicos. Use de 2 a 4 itens quando houver termos suficientes; não force glossary se o texto já estiver autoexplicativo.
-10. **Português brasileiro**. Termos técnicos em inglês são aceitáveis.
-11. **Badges de status**:
+6. **Distribuição editorial**: após coleta ampla, `news[]` deve tender a 50-60% categorias principais, 25-35% secundárias e no máximo 15-20% demais categorias. Exceções precisam ser justificáveis por falta de candidatos ou fato excepcional.
+7. **Tese da edição**: hero, highlights e abertura do digest precisam contar uma história técnica coerente; evite abrir com lista de alertas desconectados.
+8. **URLs específicas e verificáveis** (FASE 7.1 obrigatória).
+9. **Sem duplicatas** com as 7 edições anteriores.
+10. **Perspectiva em camadas**: o campo `explain` aprofunda a mesma história em 3 passagens complementares e cumulativas — `junior` apresenta o assunto e o vocabulário essencial; `pleno` explica o mecanismo, o trade-off e o contexto; `senior` fecha com a decisão técnica e o impacto arquitetural. O resultado deve permitir que qualquer dev leia o resumo, depois abra a fonte, e já entre no texto original com entendimento do que está em jogo.
+11. **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. O `glossary` dentro de `explain` serve só para termos realmente não óbvios citados nas explicações. Priorize siglas, nomes de produto/empresa, protocolos e conceitos específicos. Use de 2 a 4 itens quando houver termos suficientes; não force glossary se o texto já estiver autoexplicativo.
+12. **Português brasileiro**. Termos técnicos em inglês são aceitáveis.
+13. **Badges de status**:
     - `"urgent": true` → CVEs críticos (CVSS ≥ 7), breaking changes, outages.
     - `"star": true` → destaque editorial; **não usado em `highlights[]`**.
     - `"breaking": true` → mudanças que quebram backward compatibility.
-12. **`read_time`**: inteiro em minutos (2-5 típico).
-13. **`hero_title`**: máximo ~60 caracteres.
-14. **`hero_description`**: 2-3 frases resumindo o dia.
-15. **Hero e digest seguem o perfil editorial**: abrir por categoria principal sempre que houver candidato forte; usar secundárias como fallback; `ai`/`aiops`/`sec`/`fintech` só lideram se forem excepcionais ou se não houver tema qualificado nas listas preferidas.
-16. **Imagens**: cascata obrigatória — 3/3 highlights com imagem editorial; 100% de `news[]` com `image`; 100% de `tools[]` com `image` para `kind` in `{release, news, tutorial}`.
-17. **`tools[]` rotação dinâmica**: mínimo 10/dia, sem repetir URL das últimas 7 edições. Ver FASE 5.
-18. **Novos campos estruturados** (opcionais):
+14. **`read_time`**: inteiro em minutos (2-5 típico).
+15. **`hero_title`**: máximo ~60 caracteres.
+16. **`hero_description`**: 2-3 frases resumindo o dia.
+17. **Hero e digest seguem o perfil editorial**: abrir por categoria principal sempre que houver candidato forte; usar secundárias como fallback; `ai`/`aiops`/`sec`/`fintech` só lideram se forem excepcionais ou se não houver tema qualificado nas listas preferidas.
+18. **Imagens**: cascata obrigatória — 3/3 highlights com imagem editorial; 100% de `news[]` com `image`; 100% de `tools[]` com `image` para `kind` in `{release, news, tutorial}`.
+19. **`tools[]` rotação dinâmica**: mínimo 10/dia, sem repetir URL das últimas 7 edições. Ver FASE 5.
+20. **Validação local**: `python3 scripts/validate_editions.py data/editions/{YYYY-MM-DD}.json` deve rodar antes dos writes finais.
+21. **Novos campos estruturados** (opcionais):
     - **CVEs**: sempre extrair em notícias de segurança.
     - **Severity**: para todo item com `category: "sec"` e `urgent: true`.
     - **Published_at**: quando a fonte exibe data+hora.
     - **Tags**: 2-6 tags curtas — entidades e tecnologias citadas.
-19. **Mesma cobertura em dias diferentes**: se um fato ganha novos detalhes ao longo de dias, pode reaparecer em 2-3 edições consecutivas — mas com **headline e URL distintos** (ângulo/fonte diferente).
+22. **Mesma cobertura em dias diferentes**: se um fato ganha novos detalhes ao longo de dias, pode reaparecer em 2-3 edições consecutivas — mas com **headline e URL distintos** (ângulo/fonte diferente).
 
 ---
 
@@ -1534,6 +1646,6 @@ Critérios de decisão:
 
 ## FORMATO DE SAÍDA
 
-Gere APENAS os arquivos JSON (`data/{YYYY-MM-DD}.json` + `data/editions.json` atualizado). Não gere HTML — o template `home.html` já carrega os JSONs sob demanda e renderiza a SPA automaticamente.
+Gere APENAS os arquivos JSON (`data/editions/{YYYY-MM-DD}.json` + `data/editions.json` atualizado). Não gere HTML — o template `home.html` já carrega os JSONs sob demanda e renderiza a SPA automaticamente.
 
 Após gerar os JSONs, um LaunchAgent local detecta a mudança em `data/` e executa `push.sh` para o GitHub Pages deployar automaticamente. **Não rode `git push` manualmente** — o sandbox não tem acesso de rede e o push acontece por fora.

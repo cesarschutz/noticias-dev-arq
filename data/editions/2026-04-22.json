@@ -24,7 +24,7 @@
         "ingress-nginx",
         "release"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=kubernetes.io&sz=256",
+      "image": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png",
       "source_key": "kubernetes"
     },
     {
@@ -46,7 +46,7 @@
         "breach",
         "shinyhunters"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256",
+      "image": "https://regmedia.co.uk/2026/04/20/shutterstock_tangled_network.jpg",
       "source_key": "theregister"
     },
     {
@@ -67,7 +67,7 @@
         "opentelemetry",
         "observability"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256",
+      "image": "https://grafana.com/media/images/meta/grafana-labs-meta-default_1200x630.png",
       "source_key": "grafana"
     }
   ],
@@ -90,7 +90,7 @@
         "shinyhunters",
         "breach"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theregister.com&sz=256",
+      "image": "https://regmedia.co.uk/2026/04/20/shutterstock_tangled_network.jpg",
       "source_key": "theregister"
     },
     {
@@ -109,7 +109,7 @@
         "env-vars",
         "gitguardian"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=gitguardian.com&sz=256",
+      "image": "https://storage.ghost.io/c/42/5d/425d266f-cf99-406e-9436-597a19bed011/content/images/2026/04/vercel_blogpost.png",
       "source_key": "gitguardian"
     },
     {
@@ -127,7 +127,7 @@
         "claude-code",
         "pricing"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=simonwillison.net&sz=256",
+      "image": "https://static.simonwillison.net/static/2026/anthropic-x-card.jpg",
       "source_key": "simonwillison"
     },
     {
@@ -184,7 +184,7 @@
         "sandbox",
         "beta"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=platform.claude.com&sz=256",
+      "image": "https://platform.claude.com/docs/og?locale=en&amp;path=release-notes/overview",
       "source_key": "anthropicplatform"
     },
     {
@@ -205,7 +205,7 @@
         "cel",
         "dra"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=perfectscale.io&sz=256",
+      "image": "https://cdn.prod.website-files.com/635e4ccf77408db6bd802ae6/69e0f2a3a51df82e6c22e8b6_Frame%20313947.png",
       "source_key": "perfectscale"
     },
     {
@@ -224,7 +224,7 @@
         "gateway-api",
         "migration"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=cncf.io&sz=256",
+      "image": "https://www.cncf.io/wp-content/uploads/2026/04/Avery_ScholarshipRecipient-1.jpg",
       "source_key": "cncf"
     },
     {
@@ -243,7 +243,7 @@
         "kafka",
         "otel"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256",
+      "image": "https://grafana.com/media/images/meta/grafana-labs-meta-default_1200x630.png",
       "source_key": "grafana"
     },
     {
@@ -262,7 +262,7 @@
         "release",
         "tokenizer"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=anthropic.com&sz=256",
+      "image": "https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/68309ab48369f7ad9b4a40e1_open-graph.jpg",
       "source_key": "anthropic"
     },
     {
@@ -280,7 +280,7 @@
         "foundation-models",
         "multimodal"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=256",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/08/GettyImages-2207890426.jpg?resize=1200,800",
       "source_key": "techcrunch"
     },
     {
@@ -298,7 +298,7 @@
         "release-notes",
         "multicloud"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=mwpro.co.uk&sz=256",
+      "image": "https://mwpro.co.uk/wp-content/uploads/2024/08/pexels-bob-west-746886459-19239866.webp",
       "source_key": "mwpro"
     },
     {
@@ -316,7 +316,7 @@
         "cdn",
         "status"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=statusfield.com&sz=256",
+      "image": "https://statusfield.com/icon.png",
       "source_key": "statusfield"
     },
     {
@@ -335,7 +335,7 @@
         "cranelift",
         "formal-verification"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=bytecodealliance.org&sz=256",
+      "image": "https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org%2F/opengraph/",
       "source_key": "bytecodeliance"
     },
     {
@@ -410,7 +410,7 @@
         "public-sector",
         "sre"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=globenewswire.com&sz=256",
+      "image": "https://ml.globenewswire.com/Resource/Download/ee2f2b02-4089-4a15-93fa-0956daf4ad82",
       "source_key": "globenewswire"
     },
     {
@@ -447,7 +447,7 @@
         "architecture-advice-process",
         "certification"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=infoq.com&sz=256",
+      "image": "https://res.infoq.com/news/2026/03/architect-certification-program/en/headerimage/online-architecture-cohort-1773313768892.jpg",
       "source_key": "infoq"
     },
     {
@@ -486,7 +486,7 @@
         "ai-assisted",
         "testing"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=theitsolutionist.com&sz=256"
+      "image": "https://theitsolutionist.com/wp-content/uploads/2026/04/SDD.sm_.png"
     },
     {
       "category": "obs",
@@ -504,7 +504,7 @@
         "irish-rail",
         "observability"
       ],
-      "image": "https://www.google.com/s2/favicons?domain=grafana.com&sz=256",
+      "image": "https://a-us.storyblok.com/f/1022730/1920x1080/1cdfc58b7e/gcon26-blog-know-before-you-go.png",
       "source_key": "grafana"
     }
   ],
