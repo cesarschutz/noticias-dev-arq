@@ -22,5 +22,3 @@ jobs:
           python-version: '3.12'
       - name: Validate editions
         run: python3 scripts/validate_editions.py
-      - name: Build RSS feed (dry run)
-        run: python3 scripts/generate_feed.py
