@@ -353,329 +353,114 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
 
 ---
 
-### FASE 5C — Imagens em lote (OBRIGATÓRIA — não pule)
+### FASE 5C — Image Sweep (OBRIGATÓRIA — não pule)
 
-**Execute esta fase ANTES da FASE 6.** Objetivo: `news[]` e `tools[]` devem ter imagem grande e útil, preferencialmente editorial (`og:image`/`twitter:image`). Favicon, `simpleicons`, avatar, pixel e logo pequeno são apenas diagnóstico de trabalho incompleto.
+**Execute esta fase ANTES da FASE 6.** Objetivo: 100% dos itens de `news[]` (e `tools[]` com `kind` in `{release, news, tutorial}`) com `image` editorial ou institucional grande validada. Favicon, simpleicon, avatar, pixel e logo pequeno são fallback inaceitável.
 
-**Esta fase é bloqueante.** A edição não pode ser finalizada enquanto houver item de `news[]` sem `image` editorial real ou com fallback óbvio (`google.com/s2/favicons`, `simpleicons.org`, `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`). Para `tools[]`, aplique a mesma regra para `kind` in `{release, news, tutorial}`. **Google Favicon e Simple Icons nunca são imagem válida para cards de notícia/ferramenta**; eles só podem existir em `data/sources.json` como ícone da fonte.
+**Contexto de execução**: esta skill roda no Claude Cowork. O sandbox tem `Bash` mas **sem rede de saída** — `curl`, `wget` e qualquer HTTP no shell falham silenciosamente. **Use exclusivamente `WebFetch` e `WebSearch`** para tudo que envolva rede. `jq` continua válido para checks locais sobre o JSON da edição.
 
-**Contrato URL + imagem:** imagem boa não compensa URL ruim. Antes de resolver a imagem de um item, confirme que a `url` aponta para a página específica do fato reportado. Se a página retornar 404/soft-404, redirecionar para índice, tiver título irrelevante ou não falar do assunto do `headline`/`summary`, **corrija a URL primeiro** e só depois reinicie a cascata de imagem. Não mantenha `url` quebrada com imagem de outra fonte.
+**Política (definida com Cesar):** nunca substitua o item editorial por outro candidato apenas para resolver imagem. Se as Tentativas 1-2 falharem, **sempre** preencha com fallback institucional do domínio (Tentativa 3) — mesmo que repita entre edições. A Tentativa 3 nunca termina em fracasso.
 
-**Para cada item de `news[]` e `tools[]` sem imagem editorial real**, execute a cascata abaixo em ordem, parando na primeira tentativa bem-sucedida. Faça em lote e salve checkpoints parciais. A cascata vale também para itens que já têm `image`, mas ela é favicon/simpleicon/logo.
+**Contrato URL + imagem:** imagem boa não compensa URL ruim. Se a `url` do item estiver quebrada (404/soft-404/redirect/homepage), corrija a URL primeiro (volte à FASE 7.1) e só depois rode o sweep desse item.
 
-**Regra de substituição obrigatória**: se depois da cascata o item ainda não tiver imagem editorial, institucional grande ou asset oficial validado, **substitua o item por outro candidato equivalente com imagem válida**. Não finalize com favicon nem screenshot da página. A única exceção é `tools[]` com `kind` in `{tip, curiosity}`, onde `image` pode ser omitido.
+#### Fluxo único — 3 tentativas, parar na primeira que funcionar
 
-Ao criar itens nas FASES 3-5, já preencha `image` imediatamente se a busca/WebFetch trouxer `og:image`, `twitter:image`, `thumbnail`, `image_src` ou imagem editorial. **Nunca preencha `image` com favicon durante a coleta inicial.** A FASE 5C é a revisão final agressiva para limpar fallbacks.
+Para CADA item de `news[]` e cada item de `tools[]` (kind release/news/tutorial) sem `image` válida no fim das FASES 3-5:
 
-**Mapa de fontes testado em produção (11 edições, 235 itens)**
+##### Tentativa 1 — og:image direto da URL do item
 
-Use esta tabela antes de iniciar a cascata completa. Ela economiza tentativas desnecessárias.
-
-#### Grupo A — og:image direto funciona (Tentativa 1 resolve)
-
-Busque a URL do artigo normalmente. Estes sites publicam og:image consistente:
-
-`infoq.com` · `thehackernews.com` · `bleepingcomputer.com` · `techcrunch.com` · `theregister.com` · `github.blog` · `github.com` · `grafana.com` · `databricks.com` · `blog.cloudflare.com` · `stripe.com` · `web.dev` · `opentelemetry.io` · `supabase.com` · `sdtimes.com` · `securityonline.info` · `hackread.com` · `latent.space` · `dev.to` · `spring.io` · `svelte.dev` · `nextjs.org` · `asyncapi.com` · `blog.google` · `security.googleblog.com` · `siliconangle.com` · `thenextweb.com` · `networkworld.com` · `finance.yahoo.com` · `backstage.io` · `thoughtworks.com` · `blog.gitguardian.com` · `platform.claude.com` · `globenewswire.com` · `theitsolutionist.com` · `getkafkanated.substack.com` · `versionlog.com` · `platformengineering.org` · `testdino.com` · `tech-insider.org` · `em.com.br` · `convergenciadigital.com.br` · `demarest.com.br` · `coincentral.com` · `newsletter.systemdesign.one` · `dbos.dev` · `resources.anthropic.com` · `paymentexpert.com` · `helpnetsecurity.com` · `radar.offseq.com` · `pasqualepillitteri.it` · `microsoft.com/en-us/security`
-
-#### Grupo B — funciona via homepage do domínio (Tentativa 1 na home, não no artigo)
-
-Se o artigo não retornar og:image, buscar `https://{domínio}/` e usar o og:image da homepage:
-
-`anthropic.com` · `databricks.com` (fallback) · `datadoghq.com` · `cloud.google.com` · `postgresql.org` · `cloudflare.com` · `sitepoint.com` · `keycloak.org` · `en.wikipedia.org`
-
-#### Grupo C — Googlebot UA desbloqueia (usar no lugar do UA padrão)
-
-```bash
-curl -L -s -A "Googlebot/2.1 (+http://www.google.com/bot.html)" "$url" | rg -i 'og:image|twitter:image' -m 6
+```
+WebFetch(url_do_item,
+  "Look in HTML head. Return ONLY the absolute https:// URL of the FIRST match in this order:
+   1. <meta property='og:image'>
+   2. <meta property='og:image:secure_url'>
+   3. <meta name='twitter:image'>
+   4. <meta name='twitter:image:src'>
+   5. <link rel='image_src'>
+   If the URL is relative (starts with /), prepend the page origin.
+   Return the literal string NONE if no match.")
 ```
 
-Funciona para: `thehackernews.com` · `simonwillison.net` (inconsistente — às vezes retorna genérico) · `medium.com` (nem sempre)
+**Aceite** se: começa com `https://` E não contém `favicon|apple-touch-icon|cropped-favicon|avatar|profile|pixel|1x1|tracking|adserver|simpleicons.org|s2/favicons|screenshot.11ty.dev|screenshotapi|urlbox|thum.io`.
 
-#### Grupo D — Fallbacks institucionais validados
+Se aceitar, salve em `image` e **pare**. Não tente Tentativa 2.
 
-Use quando o artigo específico não expõe imagem, mas a fonte tem asset institucional estável:
+##### Tentativa 2 — cobertura alternativa via WebSearch
 
-| Domínio | Fallback validado |
+Se Tentativa 1 retornar NONE ou URL rejeitada:
+
+```
+WebSearch("{headline curto} site:techcrunch.com OR site:infoq.com OR site:thehackernews.com OR site:bleepingcomputer.com OR site:theregister.com OR site:siliconangle.com OR site:venturebeat.com")
+```
+
+Pegue o primeiro resultado cujo título cubra o mesmo fato/produto. Rode Tentativa 1 nessa URL alternativa. **Mantenha a `url` original do item** — só copie o `image` extraído.
+
+Se aceitar, salve em `image` e **pare**. Não tente Tentativa 3.
+
+##### Tentativa 3 — fallback institucional do domínio (GARANTIDO)
+
+Se Tentativas 1-2 falharem, **preencha sempre** com imagem institucional. Esta tentativa **nunca termina em fracasso**.
+
+**Mapa de fallback institucional validado** (testado em produção, retorna 200 + content-type image/*):
+
+| Domínio / `source_key` | URL institucional |
 |---|---|
+| `aws.amazon.com`, `awsblog`, qualquer subdomínio AWS | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
 | `cisa.gov` | `https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot` |
-| `aws.amazon.com` (What's New, docs) | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
-| `bytecodealliance.org` | usar `og:image`/hero da homepage oficial de WebAssembly/Bytecode Alliance ou substituir por cobertura editorial equivalente com imagem real |
-| `kubernetes.io` (blog posts) | `https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png` |
-| `docs.snowflake.com` | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
-| `stripe.com` (se URL mudar) | `https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80` |
+| `databricks.com`, `databricks` | `https://www.databricks.com/sites/default/files/2025-09/blog-meta-image.png` |
+| `kubernetes.io` | `https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png` |
+| `stripe.com`, `stripe` | `https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80` |
+| `grafana.com`, `grafana`, `k6` | `https://grafana.com/static/img/grafana-meta.png` |
+| `spring.io`, `spring` | `https://spring.io/img/og-spring.png` |
+| `quarkus.io` | `https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_1280px_reverse.png` |
+| `martinfowler.com` | `https://martinfowler.com/img/mf-square.png` |
+| `platformengineering.org`, `infoq` (PE) | `https://platformengineering.org/og.jpg` |
+| `cloudnativenow.com` | `https://cloudnativenow.com/wp-content/uploads/2024/03/cloud-native-now-logo-bg.png` |
 
-#### Grupo E — Bloqueiam completamente; buscar cobertura alternativa do mesmo fato
+**Se o domínio NÃO estiver na tabela**, execute em ordem:
 
-Esses sites rendem 0% mesmo com Googlebot. Estratégia: localizar outro site que cobriu o mesmo fato e usar o og:image dele.
+1. `WebFetch("https://{dominio_da_fonte}/", "Return ONLY the absolute https:// URL of <meta property='og:image'> from the homepage. NONE if absent.")` — pega og:image da home oficial.
+2. Se NONE: `WebFetch("https://api.microlink.io/?url={URL-encoded-do-item}", "Return ONLY the string at data.image.url. NONE if absent or null.")`.
+3. Se ainda NONE: pegue o `og:image` do **blog/newsroom oficial** do vendor citado no item (ex: notícia sobre OpenAI sem imagem → `WebFetch("https://openai.com/news/", ...)`; notícia sobre Anthropic → `https://www.anthropic.com/news`).
 
-| Domínio bloqueado | Alternativa preferida |
-|---|---|
-| `openai.com` | TechCrunch, The Verge, SiliconAngle cobrindo o mesmo anúncio |
-| `ai.meta.com` | TechCrunch, VentureBeat sobre o mesmo modelo/produto |
-| `thenewstack.io` | NVIDIA Blog, AWS Blog, ou Google Cloud Blog (se for sobre infra) |
-| `salesforce.com` | TechCrunch, VentureBeat sobre o mesmo release |
-| `venturebeat.com` | TechCrunch, SiliconAngle sobre o mesmo tema |
-| `medium.com` | Substack equivalente, blog oficial da empresa mencionada no artigo |
-| `uber.com/blog` | EngineeringBlog alternativo ou InfoQ cobrindo o mesmo tema |
-| `techcommunity.microsoft.com` | Microsoft DevBlog, Azure Blog ou InfoQ |
+**Nunca finalize com**: `google.com/s2/favicons`, `simpleicons.org`, `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`, ou screenshot da página (`screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`).
 
-#### Grupo F — Blogs minimalistas sem og:image por design
+**Exceção única**: `tools[]` com `kind` in `{tip, curiosity}` pode ter `image` omitido se as 3 tentativas + 3 fallbacks falharem — para esses casos a UI tem ícone alternativo.
 
-Sites técnicos/pessoais que deliberadamente não publicam og:image:
+#### Padrões já validados em produção
 
-`brendangregg.com` · `martinfowler.com` · `lwn.net` · `blainsmith.com` · `theconsensus.dev` · `fatihkoc.net` · `anchor.host` · `dora.dev` (docs estáticas)
+Domínios onde **Tentativa 1 quase sempre resolve** (não precisa Tentativa 2/3): `infoq.com`, `thehackernews.com`, `bleepingcomputer.com`, `techcrunch.com`, `theregister.com`, `github.blog`, `grafana.com`, `databricks.com`, `blog.cloudflare.com`, `stripe.com`, `web.dev`, `opentelemetry.io`, `supabase.com`, `siliconangle.com`, `nextjs.org`, `spring.io`, `svelte.dev`, `dev.to`, `blog.google`, `security.googleblog.com`, `helpnetsecurity.com`, `cnbc.com` (image.cnbcfm.com), `fortune.com`.
 
-Estratégia: para esses, busque imagem editorial em cobertura equivalente, asset oficial do autor/projeto, ou substitua o item por versão com imagem real. Mesmo em evergreen obrigatório (ex: USE method do Brendan Gregg), não use favicon nem screenshot no campo `image`.
+Domínios que **bloqueiam og:image** (vão direto para Tentativa 2): `openai.com` (use TechCrunch/SiliconAngle como cobertura alternativa), `ai.meta.com` (use TechCrunch/VentureBeat), `thenewstack.io` (use NVIDIA Blog/AWS Blog), `salesforce.com` (use TechCrunch/VentureBeat), `medium.com` (use Substack equivalente), `uber.com/blog` (use InfoQ).
 
-#### Grupo G — Páginas sem imagem por natureza (status, changelogs, release notes)
+Domínios sem og:image **por design** (vão direto para Tentativa 3 com fallback institucional): `brendangregg.com`, `martinfowler.com`, `lwn.net`, `dora.dev`, `cloudflarestatus.com`, `releasebot.io`, `docs.databricks.com`, `docs.snowflake.com`.
 
-`cloudflarestatus.com` · `releasebot.io` · `gateway.envoyproxy.io` · `docs.databricks.com` · `docs.snowflake.com` · `businesswire.com` (press releases) · `windowsnews.ai`
-
-Estratégia: buscar a homepage do projeto referenciado na notícia e usar o og:image dela.
-
-#### Tentativa 0 — Preflight da URL do item
-
-Antes de buscar imagem, valide a página textual do item:
-
-```
-WebFetch(url_da_noticia,
-  "Return 4 lines: HTTP/page status if visible; h1/title; whether the page is mainly about this headline: [HEADLINE]; whether it looks like 404/not found/moved/index/homepage.")
-```
-
-Se a resposta indicar 404, soft-404, página movida, homepage/listagem, ou assunto diferente:
-1. Busque uma URL alternativa específica com `WebSearch("{headline curta} site:{domínio}")`.
-2. Se existir slug correto no mesmo domínio, atualize `url` e `published_at` se necessário.
-3. Se só existir cobertura equivalente em outra fonte, atualize também `source_key` para uma chave válida de `data/sources.json`.
-4. Se não houver URL verificável, substitua o item por outro candidato. Não avance para imagem enquanto a URL textual estiver incerta.
-
-#### Tentativa 1 — Metadados do artigo (`og:image`/`twitter:image`)
-
-Extraia a imagem diretamente do HTML da URL do item. Prefira HTML bruto quando possível, porque muitas páginas escondem metadados no primeiro bloco de HTML.
-
-```
-WebFetch(url_da_noticia,
-  "Look in the HTML head and early page markup. Extract the FIRST match, in this order:
-   1. content of <meta property='og:image'>
-   2. content of <meta property='og:image:secure_url'>
-   3. content of <meta name='twitter:image'>
-   4. content of <meta name='twitter:image:src'>
-   5. href of <link rel='image_src'>
-   Return ONLY the absolute https:// URL. If URL starts with /, prepend the page origin. Return NONE if nothing found.")
-```
-
-Se estiver em ambiente com shell/rede, o equivalente prático é:
-
-```bash
-curl -L -s "$url" | rg -i 'og:image|twitter:image|image_src|og:title' -m 12
-```
-
-Se o site retornar 403 ou HTML sem og:image, tente com User-Agent de Googlebot:
-
-```bash
-curl -L -s -A "Googlebot/2.1 (+http://www.google.com/bot.html)" "$url" | rg -i 'og:image|twitter:image' -m 6
-```
-
-Se retornar URL válida e não for ícone/logo pequeno, salve como `image`.
-
-#### Tentativa 2 — Microlink API (preview externo)
-
-```
-WebFetch("https://api.microlink.io/?url={URL-encoded-da-noticia}",
-  "This returns JSON. Return ONLY the string value at data.image.url.
-   If data.image is null or absent, return NONE.
-   Do NOT fall back to data.logo.url.")
-```
-
-Aceite apenas se for imagem grande/editorial. Rejeite `data.logo.url`, favicon, avatar e ícone.
-
-#### Tentativa 3 — Feed RSS/Atom do domínio
-
-Use quando a página bloqueia HTML por Cloudflare/JS challenge, mas o feed público inclui `content:encoded`, `media:content`, `media:thumbnail`, `enclosure` ou imagens inline.
-
-Tente, nesta ordem:
-- `{origin}/feed/` (WordPress)
-- `{origin}/rss`
-- `{origin}/rss.xml`
-- `{origin}/atom.xml`
-
-Procure o item cujo `link` ou `title` bate com a URL/headline do item. Extraia a primeira imagem grande em:
-- `media:content url`
-- `media:thumbnail url`
-- `enclosure url`
-- `<img src="...">` dentro de `content:encoded`
-
-Exemplo de busca no shell:
-
-```bash
-curl -L -s "$origin/feed/" | rg -A 30 -B 5 'slug-ou-titulo-do-artigo|media:content|media:thumbnail|<img'
-```
-
-#### Tentativa 4 — oEmbed WordPress/Ghost
-
-```
-WebFetch("{domain}/wp-json/oembed/1.0/embed?url={URL-encoded}",
-  "Return only the string value of thumbnail_url. Return NONE if absent.")
-```
-
-#### Tentativa 5 — Imagem inline do artigo
-
-Faça WebFetch na URL original:
-
-```
-"Return ALL image src/href URLs found in the article body (not header/nav/footer).
- Prefer images with dimensions > 400px or URLs containing 'blog', 'post', 'content', 'article', 'header', 'hero', 'inline', 'uploads'.
- Return the first valid https:// URL found, or NONE."
-```
-
-#### Tentativa 6 — Fonte oficial relacionada ao mesmo fato
-
-Se a fonte da notícia bloqueia imagem ou não publica `og:image`, busque a fonte oficial do mesmo fato (ex.: matéria sobre Stripe Sessions → post oficial da Stripe; notícia sobre ferramenta/vendor → blog/changelog oficial do vendor). Use a imagem editorial da fonte oficial **somente se o tema for o mesmo**. Mantenha a `url` original do item apenas se ela já passou na Tentativa 0; se a URL original estiver quebrada ou genérica, troque para a fonte oficial/cobertura verificada e ajuste `source_key`.
-
-Busca sugerida:
-
-```
-WebSearch("{produto/vendor} {tópico central} {ano} official blog announcement")
-```
-
-#### Tentativa 7 — Descoberta de asset oficial do projeto
-
-Use quando o artigo não tem imagem editorial boa, mas o projeto/vendor tem site oficial com assets maiores. Isso cobre posts de release/docs que expõem imagem ruim ou relativa (`/default-image.png`) e projetos com página de docs separada.
-
-Fluxo:
-1. Busque a home oficial e/ou docs oficiais do projeto (`origin`, domínio canônico do projeto, docs site antigo/novo).
-2. Extraia `og:image`, `twitter:image`, `image_src`, imagens de hero/header e assets com nomes como `header`, `hero`, `og`, `social`, `card`.
-3. Se encontrar URL relativa, resolva contra o domínio que a retornou.
-4. Valide a URL por `HEAD`/WebFetch: precisa retornar `200` e `content-type` `image/*`.
-5. Salve apenas se for imagem útil no card (idealmente horizontal/hero), não ícone pequeno.
-
-Exemplo prático: se `mermaid.ai` retornar `/default-image.png` e a imagem falhar ou for genérica, busque `mermaid.js.org`/site oficial e aceite um asset validado como `https://mermaid.js.org/header.png`.
-
-Com shell, o padrão é:
-
-```bash
-curl -L -s "$official_home" | rg -i 'og:image|twitter:image|image_src|hero|header|social|card' -m 20
-curl -I "$candidate_image"
-```
-
-#### Tentativa 8 — Imagem institucional grande (não favicon)
-
-Use apenas quando as tentativas 1-7 falharem. Prefira imagem institucional 16:9 ou logo grande hospedado pela própria fonte/vendor (ex.: `aws_logo_smile_1200x630.png`, página temática da CISA, `nginx.png`, card oficial de documentação). Nunca use `google.com/s2/favicons` nem `simpleicons.org` enquanto existir alternativa maior.
-
-#### Tentativa 8A — Busca semântica por imagem oficial/editorial
-
-Use quando a página é tecnicamente relevante, mas não tem `og:image` bom. Busque imagens relacionadas ao fato, não screenshots da página.
-
-Ordem:
-1. `WebSearch("{headline curta} official blog image OR announcement")`
-2. `WebSearch("{vendor/produto} {tópico central} site:{domínio oficial}")`
-3. `WebSearch("{headline curta} site:techcrunch.com OR site:infoq.com OR site:github.blog OR site:developer.nvidia.com OR site:blog.cloudflare.com")`
-4. Abra os resultados mais promissores e extraia `og:image`, imagem inline principal ou asset com alt/texto relacionado ao item.
-
-Aceite imagem de outra fonte **somente se** ela cobrir o mesmo fato ou o mesmo produto/projeto. Mantenha a `url` original do item se ela for a melhor fonte textual, mas salve a imagem oficial/editorial relacionada.
-
-**Não use screenshot/card da própria página** (`v1.screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`, browser screenshot etc.) como `image` final. Screenshot é apenas diagnóstico local, não imagem editorial.
-
-**Fallbacks institucionais validados (usar quando as tentativas 1-7 falharem):**
-
-| Contexto | URL de fallback |
-|---|---|
-| CISA advisories / KEV alerts / CVEs sem imagem | `https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot` |
-| AWS What's New sem og:image | `https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png` |
-| WebAssembly / bytecodealliance | `og:image`/hero oficial de WebAssembly/Bytecode Alliance, ou cobertura editorial equivalente com imagem real |
-| Stripe Blog (se URL mudar) | `https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80` |
-
-Esses fallbacks foram testados e validados em 2026-05-02 — retornam 200 + content-type image/*.
-
-#### Tentativa 9 — Substituir o item (não usar favicon)
-
-Se as tentativas anteriores falharem, **não use Google Favicon, Simple Icons, avatar, logo pequeno ou screenshot da página**. Substitua o item por outro candidato equivalente que tenha URL textual verificada e imagem editorial, institucional grande ou asset oficial validado.
-
-Como substituir:
-1. Preserve a intenção editorial do slot: mesma categoria, mesmo tema ou mesmo `tool_key` quando possível.
-2. Busque cobertura alternativa do mesmo fato em fonte com imagem acessível.
-3. Se não houver cobertura alternativa, escolha outro item de qualidade semelhante da mesma categoria/grupo editorial.
-4. Se o item for indispensável por impacto excepcional, use uma imagem institucional grande validada do vendor/projeto. Se nem isso existir, mantenha o item somente se for `tools[]` com `kind` in `{tip, curiosity}` e omita `image`; caso contrário, substitua.
-
-#### Padrões práticos que funcionam bem
-
-- **TechCrunch, The Hacker News, NVIDIA, Cloudflare, MongoDB, Grafana, InfoQ, GitHub Blog, Gradle, SonarSource, Simon Willison, ByteByteGo**: normalmente basta Tentativa 1 (`og:image`/`twitter:image`).
-- **Sites WordPress com Cloudflare/challenge**: tente feed RSS (`/feed/`) e procure `content:encoded`/`<img>` antes de desistir.
-- **Notícia sobre vendor sem imagem na fonte editorial**: busque post oficial do vendor sobre o mesmo fato e use o card social oficial (ex.: Stripe Sessions).
-- **Projeto/docs sem imagem no artigo**: busque asset oficial na home/docs e valide com `HEAD` (ex.: Mermaid → `mermaid.js.org/header.png`).
-- **Alertas oficiais secos (CISA, changelog puro, docs sem hero)**: prefira página temática/institucional grande do próprio site antes de favicon.
-
-**Regras de validação de imagem:**
-- URL deve começar com `https://`.
-- `http://` → converta para `https://` antes de salvar.
-- Rejeite URL com `favicon`, `apple-touch-icon`, `cropped-favicon`, `avatar`, `profile`, `pixel`, `1x1`, `tracking`, `adserver`, `screenshot.11ty.dev`, `screenshotapi`, `urlbox`, `thum.io`.
-- Rejeite `simpleicons.org` e `google.com/s2/favicons` para `highlights[]`, `news[]` e `tools[]` de `kind` in `{release, news, tutorial}` sempre. Eles não são fallback aceitável para cards.
-- URL com `logo` no path só é aceitável se for imagem institucional grande ou card social validado (ex.: `*_1200x630`, `*_1920x1080`, `nginx.png`), nunca logo pequeno de navegação.
-- Nunca escreva URL de imagem inventada por padrão de nome. Use somente URL retornada por página/artigo real, feed, Microlink, oEmbed, fonte oficial relacionada, homepage/docs oficial ou página institucional real.
-- Se uma URL candidata retornar 401, 403, 404 ou `content-type` que não seja imagem, descarte e continue a cascata.
-- Para `highlights[]`, verifique cada `image`: precisa responder como imagem (`image/jpeg`, `image/png`, `image/webp`, `image/svg+xml`) e não pode retornar 403/404. Se falhar, rode as tentativas especiais A/B/C.
-
-**Meta obrigatória:** `highlights[]` 3/3 com imagem editorial; `news[]` 100% com `image` editorial/institucional grande validada; `tools[]` 100% com `image` editorial/institucional grande validada para `kind` in `{release, news, tutorial}`; `news[] + tools[]` com **0** ocorrências de `google.com/s2/favicons`, `simpleicons.org` e serviços de screenshot.
-
-**Validação bloqueante ao fim da FASE 5C** — depois do Write, execute mentalmente/por ferramenta este check sobre `data/editions/{YYYY-MM-DD}.json`:
+#### Validação local após o sweep (BLOQUEANTE — só jq, sem rede)
 
 ```bash
 jq -e '
-  def valid_img: type == "string" and startswith("https://") and length > 12;
+  def valid_img: type == "string" and startswith("https://") and length > 12
+    and (test("favicon|apple-touch-icon|cropped-favicon|avatar|profile|pixel|1x1|tracking|adserver|simpleicons.org|s2/favicons|screenshot.11ty.dev|screenshotapi|urlbox|thum.io") | not);
   ([.news[] | .image | valid_img] | all)
-  and ([.tools[] | select(.kind as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
+  and ([.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)) | .image | valid_img] | all)
   and ([.highlights[] | .image | valid_img] | all)
 ' data/editions/{YYYY-MM-DD}.json
 ```
 
-E execute também:
+Se retornar `false`, liste os pendentes:
 
 ```bash
-jq -e '
-  ([.news[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
-   | map(.image // "")
-   | map(test("google.com/s2/favicons|simpleicons.org|screenshot.11ty.dev|screenshotapi|urlbox|thum.io"))
-   | any
-   | not)
-' data/editions/{YYYY-MM-DD}.json
-```
-
-Se qualquer check falhar, **não siga para FASE 6**. Volte à cascata de imagens e corrija os itens faltantes ou substitua o item por candidato equivalente com imagem editorial.
-
-#### Validação obrigatória de acessibilidade (HEAD request)
-
-**Antes de salvar qualquer URL no campo `image`**, valide com HEAD request:
-
-```bash
-curl -o /dev/null -s -w "%{http_code} %{content_type}" -I "$candidate_url"
-```
-
-Aceite a URL somente se:
-- HTTP status for `2xx`
-- `content_type` iniciar com `image/`
-
-Se a URL retornar 4xx, 5xx, ou `content_type` não for `image/*`, **rejeite-a** e tente a próxima tentativa na cascata — não salve a URL quebrada. Tratar URL rejeitada como "sem imagem" e continuar a cascata.
-
-#### Sanity check final da FASE 5C (BLOQUEANTE)
-
-Após processar todos os itens, execute:
-
-```bash
-# Itens obrigatórios ainda sem imagem editorial/institucional válida
 jq '[
-  (.news[] | select(
-    .image == null or .image == "" or
-    (.image | test("google\\.com/s2/favicons|simpleicons\\.org|favicon|cropped-favicon|apple-touch-icon|screenshot\\.11ty\\.dev|screenshotapi|urlbox|thum\\.io"))
-  ) | {array:"news", headline:.headline, image:(.image // "VAZIO")}),
-  (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)) | select(
-    .image == null or .image == "" or
-    (.image | test("google\\.com/s2/favicons|simpleicons\\.org|favicon|cropped-favicon|apple-touch-icon|screenshot\\.11ty\\.dev|screenshotapi|urlbox|thum\\.io"))
-  ) | {array:"tools", headline:.headline, image:(.image // "VAZIO")})
+  (.news[] | select(.image == null or .image == "" or (.image | test("favicon|simpleicons|s2/favicons|screenshot|urlbox|thum.io"))) | {array:"news", headline, image:(.image // "VAZIO"), source_key, url}),
+  (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)) | select(.image == null or .image == "" or (.image | test("favicon|simpleicons|s2/favicons|screenshot|urlbox|thum.io"))) | {array:"tools", headline, image:(.image // "VAZIO"), source_key, url})
 ]' data/editions/{YYYY-MM-DD}.json
 ```
 
-**Se o array retornado não estiver vazio, a FASE 5C não está concluída.** Volte para os itens listados e execute a cascata novamente a partir da Tentativa 0. A edição **não pode avançar para a FASE 6** enquanto houver itens pendentes neste check. Se a cascata falhar para um item obrigatório, substitua o item; não avance com favicon.
+Para cada item da lista, rode novamente Tentativa 1 → 2 → 3 — **não pule a 3**, ela é garantida. **Não avance para FASE 6 até a lista zerar.**
 
-**Ao fim da FASE 5C**: CHECKPOINT → Read / atualize `image` em todos os itens / Write / valide o check acima.
+**Regra para `highlights[]`**: o `image` do highlight é **copiado do item de origem em `news[]`/`tools[]`** (já validado pelo sweep) — nunca re-buscado da página do artigo. Isso evita URLs temporárias de CDN que expiram (`media.cnn.com/api/v1/...`, `images.ctfassets.net/...`, `content.fortune.com/...`).
+
+**Ao fim da FASE 5C**: CHECKPOINT → Read / atualize `image` em todos os itens / Write / valide o `jq` acima.
 
 ---
 
@@ -1554,7 +1339,7 @@ Exceção: `tools[].url` pode apontar para changelog oficial com âncora especí
 
 O campo `image` representa a **hero image do artigo** (og:image, twitter:image) — a imagem editorial que aparece quando o link é compartilhado. Não é o logo pequeno da fonte; é a imagem ilustrativa do conteúdo (ex: a ilustração do blog post da Cloudflare, a foto do artigo da TechCrunch, o card social da NVIDIA). A SPA renderiza thumbnails 16:9 nos cards. Muitas fontes reais expõem isso no HTML, feed RSS/Atom ou post oficial relacionado.
 
-> **A cascata principal (Tentativas 0–9) está definida na FASE 5C.** Esta seção documenta apenas as tentativas especiais para `highlights[]` e as regras de validação.
+> **O fluxo principal (3 tentativas + fallback institucional garantido) está na FASE 5C.** Esta seção documenta apenas tentativas especiais para `highlights[]` quando o item de origem já tem imagem institucional fraca e você quer melhorar.
 
 ### Regra especial para highlights[]
 
@@ -1649,3 +1434,29 @@ Critérios de decisão:
 Gere APENAS os arquivos JSON (`data/editions/{YYYY-MM-DD}.json` + `data/editions.json` atualizado). Não gere HTML — o template `home.html` já carrega os JSONs sob demanda e renderiza a SPA automaticamente.
 
 Após gerar os JSONs, um LaunchAgent local detecta a mudança em `data/` e executa `push.sh` para o GitHub Pages deployar automaticamente. **Não rode `git push` manualmente** — o sandbox não tem acesso de rede e o push acontece por fora.
+
+---
+
+## APÊNDICE — Cascata estendida de imagens (ambientes com shell + rede)
+
+> **Esta cascata só roda em Claude Code local com `curl` + rede.** No Claude Cowork (runtime padrão da skill) ela é letra morta — use o fluxo da FASE 5C. Esta seção fica como referência histórica e para uso manual eventual.
+
+A cascata original tinha 10 tentativas (Tentativa 0 → 9), com mapeamento detalhado por domínio (Grupos A-G), uso de `curl -L -s` com User-Agent de Googlebot, RSS/Atom feeds, oEmbed WordPress/Ghost, etc.
+
+Se você está rodando manualmente em ambiente com `curl` disponível e quer extrair imagem de um domínio difícil, os comandos úteis são:
+
+```bash
+# og:image direto
+curl -L -s "$url" | rg -i 'og:image|twitter:image|image_src' -m 6
+
+# com User-Agent de Googlebot (desbloqueia thehackernews, simonwillison, medium às vezes)
+curl -L -s -A "Googlebot/2.1 (+http://www.google.com/bot.html)" "$url" | rg -i 'og:image|twitter:image' -m 6
+
+# RSS/Atom feed (WordPress/Ghost)
+curl -L -s "$origin/feed/" | rg -A 30 -B 5 'media:content|media:thumbnail|<img'
+
+# validar HEAD da imagem candidata
+curl -o /dev/null -s -w "%{http_code} %{content_type}" -I "$candidate_url"
+```
+
+Domínios bloqueados mesmo com Googlebot UA (precisam de cobertura alternativa via WebSearch): `openai.com`, `ai.meta.com`, `thenewstack.io`, `salesforce.com`, `venturebeat.com`, `medium.com`, `uber.com/blog`, `techcommunity.microsoft.com`.
