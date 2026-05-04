@@ -1,0 +1,952 @@
+{
+  "date": "2026-04-20",
+  "weekday": "Segunda-feira",
+  "formatted_date": "Segunda, 20 de Abril de 2026",
+  "generated_at": "2026-04-20T23:23:00-03:00",
+  "hero_title": "Semana abre com service mesh sidecarless em multicluster, Claude Code Opus 4.7 e Patch Tuesday de 163 CVEs",
+  "hero_description": "Edição cobre janela de 3 dias e abre com convergência pesada em três frentes: Istio 1.29 promove ambient multicluster a beta (marco para arquiteturas multi-cloud sem sidecar), Anthropic lança Claude Code com Opus 4.7 e contexto de 1M tokens, e Microsoft publica 163 CVEs incluindo zero-day SharePoint já sob exploração ativa. No radar: RedSun Defender, Axios npm hijack, Cloudflare Agents Week, Ingress-NGINX aposentado, ThoughtWorks Radar Vol 34 com 'cognitive debt' em destaque.",
+  "highlights": [
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "source_array": "tools",
+      "tool_key": "istio",
+      "name": "Istio",
+      "kind": "release",
+      "version": "1.29",
+      "headline": "Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension",
+      "url": "https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/",
+      "published_at": "2026-04-08T10:00:00-03:00",
+      "tags": [
+        "istio",
+        "ambient",
+        "multicluster",
+        "service-mesh"
+      ],
+      "source_key": "istio",
+      "image": "https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "source_array": "tools",
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "kind": "release",
+      "version": "Opus 4.7",
+      "headline": "Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado",
+      "url": "https://www.anthropic.com/news/claude-opus-4-7",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": [
+        "claude-code",
+        "opus",
+        "1m-context",
+        "ai-coding"
+      ],
+      "source_key": "anthropic",
+      "image": "https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/68309ab48369f7ad9b4a40e1_open-graph.jpg"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "source_array": "news",
+      "urgent": true,
+      "severity": "critical",
+      "headline": "Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente",
+      "summary": "O Patch Tuesday de abril de 2026 traz 163 correções, com destaque para CVE-2026-32201, uma falha de spoofing no SharePoint Server já sob exploração ativa, e CVE-2026-33824 (CVSS 9.8), um RCE no serviço Windows IKE. Arquitetos devem priorizar patching em servidores SharePoint expostos e, onde não for possível aplicar, bloquear UDP 500/4500 para reduzir o blast-radius.",
+      "url": "https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201",
+      "published_at": "2026-04-14T18:00:00-03:00",
+      "read_time": 4,
+      "cves": [
+        "CVE-2026-32201",
+        "CVE-2026-33824"
+      ],
+      "tags": [
+        "patch-tuesday",
+        "sharepoint",
+        "zero-day",
+        "windows"
+      ],
+      "source_key": "tenable",
+      "image": "https://www.tenable.com/sites/default/files/styles/640x360/public/images/articles/microsoft-patch-tuesday-april-2026.png?itok=pUoEOcdR"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": false,
+      "severity": "critical",
+      "headline": "Microsoft corrige 163 CVEs no Patch Tuesday de abril — SharePoint zero-day explorado ativamente",
+      "summary": "O Patch Tuesday de abril de 2026 traz 163 correções, com destaque para CVE-2026-32201, uma falha de spoofing no SharePoint Server já sob exploração ativa, e CVE-2026-33824 (CVSS 9.8), um RCE no serviço Windows IKE. Arquitetos devem priorizar patching em servidores SharePoint expostos e, onde não for possível aplicar, bloquear UDP 500/4500 para reduzir o blast-radius.",
+      "url": "https://www.tenable.com/blog/microsofts-april-2026-patch-tuesday-addresses-163-cves-cve-2026-32201",
+      "published_at": "2026-04-14T18:00:00-03:00",
+      "read_time": 4,
+      "cves": [
+        "CVE-2026-32201",
+        "CVE-2026-33824"
+      ],
+      "tags": [
+        "patch-tuesday",
+        "sharepoint",
+        "zero-day",
+        "windows"
+      ],
+      "source_key": "tenable",
+      "image": "https://www.tenable.com/sites/default/files/styles/640x360/public/images/articles/microsoft-patch-tuesday-april-2026.png?itok=pUoEOcdR"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "RedSun: zero-day no Windows Defender permite restaurar arquivos maliciosos com privilégios elevados",
+      "summary": "Publicada em 15 de abril, a RedSun explora erro lógico no tratamento de arquivos marcados com cloud tag pela Windows Cloud Files API — em vez de quarentena, o Defender reescreve o arquivo detectado no local original com privilégios elevados. Atores maliciosos começaram a weaponizar a falha em 16 de abril e, até fim do mês, ainda não há patch oficial.",
+      "url": "https://www.picussecurity.com/resource/blog/bluehammer-redsun-windows-defender-cve-2026-33825-zero-day-vulnerability-explained",
+      "published_at": "2026-04-17T14:00:00-03:00",
+      "read_time": 5,
+      "cves": [
+        "CVE-2026-33825"
+      ],
+      "tags": [
+        "windows-defender",
+        "zero-day",
+        "edr",
+        "endpoint-security"
+      ],
+      "source_key": "picussecurity",
+      "image": "https://www.picussecurity.com/hubfs/RedSun-ET-preview-apr16%20(1).png"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "critical",
+      "headline": "Axios comprometido: supply chain hijack atinge 100M downloads/semana no npm",
+      "summary": "Google Threat Intelligence atribuiu ao UNC1069 (nexus Coreia do Norte) o hijack do Axios: um classic token legado bypassou todas as OIDC/SLSA em produção e publicou versões com postinstall hook carregando RAT multiplataforma. O incidente expõe limitação crítica de tokens legados convivendo com provenance moderna no npm.",
+      "url": "https://socradar.io/blog/axios-npm-supply-chain-attack-2026-ciso-guide/",
+      "published_at": "2026-04-18T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "supply-chain",
+        "npm",
+        "axios",
+        "slsa",
+        "sigstore"
+      ],
+      "source_key": "socradar"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "Fortinet FortiClient EMS: CVE-2026-35616 sob exploração ativa",
+      "summary": "A watchTowr reporta exploração ativa do CVE-2026-35616, vulnerabilidade crítica no Fortinet FortiClient EMS já utilizada para pivot em ambientes corporativos. O padrão de ataque segue o histórico Fortinet: PoC público → weaponization em dias. Recomendação: ativar FortiGuard IPS e restringir acesso à console administrativa.",
+      "url": "https://watchtowr.com/resources/fortinet-forticlient-ems-zero-day-cve-2026-35616-active-exploitation-underway/",
+      "published_at": "2026-04-18T09:00:00-03:00",
+      "read_time": 5,
+      "cves": [
+        "CVE-2026-35616"
+      ],
+      "tags": [
+        "fortinet",
+        "forticlient",
+        "rce",
+        "ems"
+      ],
+      "source_key": "watchtowrlabs",
+      "image": "https://watchtowr.com/wp-content/uploads/watchTowr-Intel-1-1024x538.png"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": true,
+      "headline": "OpenAI libera GPT-6 globalmente com janela de 2M tokens",
+      "summary": "Confirmado em 7 de abril e disponibilizado no dia 14, o GPT-6 duplica a janela de contexto do GPT-5 para 2M tokens e chega com preço de US$ 2,50/1M input e US$ 12/1M output — patamar competitivo vs. Gemini 2.5 Pro e Claude Opus 4.7. Foco em reasoning multimodal e melhor tool-calling em agentes.",
+      "url": "https://openai.com/index/introducing-gpt-6/",
+      "published_at": "2026-04-14T09:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "openai",
+        "gpt-6",
+        "llm",
+        "context-window"
+      ],
+      "source_key": "openai"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "headline": "Meta lança família Llama 4 com 10M tokens em MoE — contexto recorde",
+      "summary": "A família Llama 4 apresenta o Scout com janela de 10M tokens — a maior de qualquer modelo público — e o Maverick com 400B parâmetros e 1M tokens nativamente multimodal. Ambos usam arquitetura Mixture-of-Experts (MoE) para inferência mais barata que modelos densos equivalentes.",
+      "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+      "published_at": "2026-04-05T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "meta",
+        "llama-4",
+        "moe",
+        "open-weight"
+      ],
+      "source_key": "meta"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "Gemini 2.5 Pro e Flash chegam com reasoning multimodal nativo",
+      "summary": "A série Gemini 2.5 Pro foi lançada em 1º de abril com janela de 1M tokens (expansível para 2M em preview) e entrada multimodal unificada: vídeo, imagens, áudio e texto no mesmo prompt sem etapa separada de embeddings. O Flash chegou dois dias depois como variante cost-optimized.",
+      "url": "https://llm-stats.com/llm-updates",
+      "published_at": "2026-04-01T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "google",
+        "gemini",
+        "multimodal",
+        "reasoning"
+      ],
+      "source_key": "llmstats",
+      "image": "https://llm-stats.com/og/main.png"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "breaking": true,
+      "headline": "Claude Code Opus 4.7 bate 87,6% no SWE-bench Verified e default sobe para xhigh",
+      "summary": "Lançado em 16 de abril, o Opus 4.7 salta para 87,6% no SWE-bench Verified (vs 80,8%), 64,3% no SWE-bench Pro e 70% no CursorBench. A release introduz comando /ultrareview, extende auto mode para Max e eleva o nível padrão de esforço para xhigh em todos os planos.",
+      "url": "https://aitoolanalysis.com/claude-code/",
+      "published_at": "2026-04-16T15:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "claude-code",
+        "anthropic",
+        "swe-bench",
+        "agents"
+      ],
+      "source_key": "aitoolanalysis",
+      "image": "https://aitoolanalysis.com/wp-content/uploads/2026/03/claude-code-review-2026-hero1-1024x572.webp"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Cursor 3 lança Agents Window com orquestração paralela de agentes",
+      "summary": "Lançado em 2 de abril, o Cursor 3 marca a virada da indústria de autocomplete assistivo para orquestração agentic. A release traz Agents Window dedicada para rodar múltiplos agentes em paralelo entre repos, Design Mode para trabalho visual e melhorias de coordenação multi-agente.",
+      "url": "https://creati.ai/ai-news/2026-04-06/cursor-3-agent-first-interface-claude-code-codex/",
+      "published_at": "2026-04-06T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cursor",
+        "ide",
+        "agents",
+        "ai-coding"
+      ],
+      "source_key": "creatiainews",
+      "image": "https://cdn-image.creati.ai/ai-news/cover-image/original/cursor-3-agent-first-interface-claude-code-codex.webp"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "MCP + LangGraph consolidam padrão produção para multi-agentes",
+      "summary": "O LangGraph (runtime stateful com checkpointing e human-in-the-loop) e o Model Context Protocol (servers versionados na rede com toolbox ao vivo) finalmente compõem limpo via langchain-mcp-adapters. O pacote converte schemas MCP em BaseTool do LangChain, permitindo que qualquer nó LangGraph chame tools remotas.",
+      "url": "https://www.qodo.ai/blog/building-agentic-flows-with-langgraph-model-context-protocol/",
+      "published_at": "2026-04-15T11:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "mcp",
+        "langgraph",
+        "agents",
+        "langchain"
+      ],
+      "source_key": "qodo",
+      "image": "https://www.qodo.ai/wp-content/uploads/2025/03/Building-Agentic-Flows-with-LangGraph.png"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "ClickHouse adquire Langfuse por US$ 400M e consolida LLM observability",
+      "summary": "Em janeiro de 2026 a ClickHouse fechou a aquisição da Langfuse por US$ 400M como parte de sua Série D, movimento que sinaliza a importância estratégica do LLM observability na stack de data infrastructure. A Langfuse permanece open-source e framework-agnostic — LangChain, LlamaIndex, OpenAI SDK, LiteLLM, Vercel AI SDK, e custom stacks via Python/TypeScript.",
+      "url": "https://www.zenml.io/blog/langfuse-vs-langsmith",
+      "published_at": "2026-04-10T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "langfuse",
+        "clickhouse",
+        "llm-observability",
+        "acquisition"
+      ],
+      "source_key": "zenml",
+      "image": "https://assets.zenml.io/webflow/64a817a2e7e2208272d1ce30/29f6b4dc/6981d36ce92aa039b696b8ae_6981d2afec7c5dd6d1e97696_langfuse-vs-langsmith.avif"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "breaking": true,
+      "headline": "AWS e Google Cloud lançam multicloud oficial com peering direto via NCC",
+      "summary": "AWS e GCP anunciaram colaboração multicloud conjunta: Partner Cross-Cloud Interconnect com VPC Peering passa para GA, e Network Connectivity Center (NCC) entra em preview para orquestração. É o primeiro passo de um produto de networking que incluirá Azure ainda em 2026 — fim da era do 'transit gateway improvisado'.",
+      "url": "https://www.ciodive.com/news/aws-google-link-cloud-products/806705/",
+      "published_at": "2026-04-17T13:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "aws",
+        "gcp",
+        "multicloud",
+        "networking"
+      ],
+      "source_key": "ciodive",
+      "image": "https://imgproxy.divecdn.com/4JRZvbgFl-_QaWceJSG70JcVMd2IBESnIB3gfkCMX8c/g:ce/rs:fit:770:435/Z3M6Ly9kaXZlc2l0ZS1zdG9yYWdlL2RpdmVpbWFnZS9HZXR0eUltYWdlcy0yMjA3ODAzMzYxX1hJZEwyMVkuanBn.webp"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Cloudflare Agents Week entrega Dynamic Workers, Sandboxes GA e AI Gateway unificado",
+      "summary": "De 13 a 17 de abril, a Agents Week 2026 da Cloudflare liberou Dynamic Workers (runtime isolate-based para código gerado por LLM, startup em ms e milhões de execuções concorrentes), Cloudflare Sandboxes GA, Cloudflare Mesh (private networking para agents) e AI Gateway como camada unificada sobre 14+ provedores de inferência.",
+      "url": "https://www.cloudflare.com/agents-week/updates/",
+      "published_at": "2026-04-17T15:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "cloudflare",
+        "edge",
+        "workers",
+        "agents"
+      ],
+      "source_key": "cloudflare",
+      "image": "https://cf-assets.www.cloudflare.com/dzlvafdwdttg/5hEMO0prBW3wDvchZU0iBZ/8e05bb4c55f8906e58d09dbc861c0f22/CF_logo_horizontal_singlecolor_wht.svg"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": true,
+      "headline": "Ingress NGINX aposentado pelo SIG Network — migração obrigatória",
+      "summary": "Em 24 de março o SIG Network e o Security Response Committee do Kubernetes retiraram oficialmente o Ingress NGINX: não haverá mais releases, bugfixes ou correções de CVE. Clusters em produção ainda usando o controller precisam migrar para Gateway API, Ingress NGINX INC-managed ou alternativas (Traefik, Contour, Cilium).",
+      "url": "https://kubernetes.io/blog/2025/10/24/ingress-nginx-retirement/",
+      "published_at": "2026-03-24T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "kubernetes",
+        "ingress",
+        "nginx",
+        "gateway-api"
+      ],
+      "source_key": "kubernetes"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Kubernetes v1.36 sai dia 22/04 com depreciação de externalIPs e remoção do gitRepo",
+      "summary": "Release planejada para 22 de abril, o K8s v1.36 deprecia oficialmente o campo externalIPs do Service (historicamente explorável via CVE-2020-8554; remoção em v1.43) e remove o gitRepo volume driver — workloads precisam migrar para init containers ou git-sync sidecars. KEP-4815 (DRA Partitionable Devices) entra como principal feature nova.",
+      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
+      "published_at": "2026-03-30T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "kubernetes",
+        "v1.36",
+        "deprecation",
+        "kep"
+      ],
+      "source_key": "kubernetes"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "OpenTelemetry Declarative Configuration atinge estabilidade",
+      "summary": "A InfoQ reporta que o formato declarativo de configuração do OpenTelemetry — que permite definir pipelines de traces, métricas e logs em um único YAML lido pelo SDK na inicialização — atingiu estabilidade. Marylia Gutierrez (Grafana Labs) demonstrou o setup em community call: fim do código boilerplate de configuração espalhado por apps.",
+      "url": "https://www.infoq.com/news/2026/04/opentelemetry-declarative-config/",
+      "published_at": "2026-04-15T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "opentelemetry",
+        "observability",
+        "configuration"
+      ],
+      "source_key": "infoq",
+      "image": "https://res.infoq.com/news/2026/04/opentelemetry-declarative-config/en/headerimage/generatedHeaderImage-1776292543355.jpg"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spring Boot 4.0.5 modulariza stack em 70+ JARs e recomenda Java 21/25",
+      "summary": "A versão 4.0.5 (26/03) consolida a refatoração do Spring Boot 4.0 (nov/25): 70+ JARs focados, Jackson 3 como default JSON, baseline Java 17 mas recomendação forte para Java 21/25 se quiser aproveitar virtual threads e otimizações recentes da JVM. Quarkus 3.27 da Red Hat chegou com integração Hibernate ORM 7 e tooling AI.",
+      "url": "https://techlife.blog/posts/java-ecosystem-april-2026/",
+      "published_at": "2026-04-08T11:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "spring-boot",
+        "java",
+        "quarkus",
+        "virtual-threads"
+      ],
+      "source_key": "techlife",
+      "image": "https://techlife.blog/images/java-ecosystem-april-2026.webp"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spin v3.5 traz primeiro RC WASIp3 com async nativo em WebAssembly",
+      "summary": "A Fermyon publicou o Spin v3.5 com o primeiro RC de suporte a WASI Preview 3, habilitando async I/O nativo em workloads WebAssembly no backend. O runtime entrou no CNCF Sandbox como containerd shim — mesmo kubectl, mesmo Helm, mas Wasm embaixo. Wasmtime já tem suporte experimental ao WASI 0.3, com GA previsto para final de 2026.",
+      "url": "https://thenewstack.io/wasi-1-0-you-wont-know-when-webassembly-is-everywhere-in-2026/",
+      "published_at": "2026-04-12T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "webassembly",
+        "wasi",
+        "spin",
+        "wasmtime"
+      ],
+      "source_key": "thenewstack"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "TypeScript 7 (Project Corsa) reescrito em Go promete 10x de speedup",
+      "summary": "A Microsoft confirma o Project Corsa: TypeScript 7.0 totalmente reescrito em Go para compilação nativa com paralelismo shared-memory e promessa de 10x de speedup. A versão atual 6.0 saiu em 23 de março como último marco antes do salto.",
+      "url": "https://dev.to/jsgurujobs/bun-vs-deno-vs-nodejs-in-2026-benchmarks-code-and-real-numbers-2l9d",
+      "published_at": "2026-04-09T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "typescript",
+        "corsa",
+        "go",
+        "compiler"
+      ],
+      "source_key": "devcommunity",
+      "image": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftt0sljjczqac6hpalymi.png"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "breaking": true,
+      "headline": "Databricks anuncia Apache Iceberg v3 em Public Preview",
+      "summary": "A Databricks abriu o Public Preview do Iceberg v3 com row-level concurrency, tipos de dado mais ricos (incluindo VARIANT) e melhor suporte a workloads operacionais. Unity Catalog Managed Iceberg v3 adiciona Row Lineage e Deletion Vectors. Em paralelo, Snowflake liberou write em Iceberg externamente managed pelo Unity Catalog no Azure.",
+      "url": "https://www.databricks.com/blog/next-era-open-lakehouse-apache-icebergtm-v3-public-preview-databricks",
+      "published_at": "2026-04-15T12:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "iceberg",
+        "databricks",
+        "lakehouse",
+        "unity-catalog"
+      ],
+      "source_key": "databricks",
+      "image": "https://www.databricks.com/sites/default/files/2026-04/Iceberg-v3-Support-Diagrams.png"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": true,
+      "severity": "high",
+      "headline": "pgvector 0.8.2 corrige buffer overflow em build paralelo de índices HNSW",
+      "summary": "A release 0.8.2 do pgvector foi publicada corrigindo CVE-2026-3172, buffer overflow em builds paralelos de índice HNSW. Instalações que executaram REINDEX CONCURRENTLY ou CREATE INDEX em paralelo com versões anteriores devem atualizar imediatamente e avaliar se o índice precisa ser reconstruído.",
+      "url": "https://www.postgresql.org/about/news/pgvector-082-released-3245/",
+      "published_at": "2026-04-10T11:00:00-03:00",
+      "read_time": 3,
+      "cves": [
+        "CVE-2026-3172"
+      ],
+      "tags": [
+        "pgvector",
+        "postgresql",
+        "cve",
+        "hnsw"
+      ],
+      "source_key": "postgresql",
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "AsyncAPI v3.1 lança com binding ROS 2 e interop maior com OpenAPI",
+      "summary": "A spec AsyncAPI v3.1 chegou em janeiro com binding ROS 2 e foco em reutilizar schemas de OpenAPI, RAML, Avro, GraphQL, Protobuf e XSD. O objetivo anunciado na AsyncAPI Conference (Paris) é consolidar um único formato para descrever APIs síncronas e event-driven sem perder os contratos existentes.",
+      "url": "https://www.asyncapi.com/roadmap",
+      "published_at": "2026-04-05T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "asyncapi",
+        "event-driven",
+        "openapi",
+        "schema"
+      ],
+      "source_key": "asyncapi",
+      "image": "https://asyncapi.com/img/social/website-card.jpg"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "Next.js 16.2 chega com Server Fast Refresh, Subresource Integrity e tree-shaking de imports dinâmicos",
+      "summary": "A release 16.2 do Next.js traz Turbopack com Server Fast Refresh (hot reload fine-grained no server-side), Web Worker Origin para libs WASM em Workers, Subresource Integrity para bundles JS e tree-shaking de dynamic imports — mais de 200 melhorias de performance. Adiciona também AGENTS.md em create-next-app e next-browser experimental para forward de logs.",
+      "url": "https://nextjs.org/blog/next-16-2",
+      "published_at": "2026-04-14T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "nextjs",
+        "vercel",
+        "turbopack",
+        "sri"
+      ],
+      "source_key": "vercel",
+      "image": "https://h8dxkfmaphn8o0p3.public.blob.vercel-storage.com/static/blog/next-16-2/twitter-card.png"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "React Server Components deixam de ser experimento e entram na mainstream em 2026",
+      "summary": "Case studies da Vercel relatam redução de 70% em TTFB e 40% em custo de servidor com a adoção de RSC + streaming SSR em e-commerce de produção. SolidStart, TanStack Start e SvelteKit trouxeram out-of-order streaming e Server Functions para seus respectivos ecossistemas — consolidando o modelo híbrido onde cada componente decide se roda no servidor, cliente ou ambos.",
+      "url": "https://www.sitepoint.com/react-server-components-streaming-performance-2026/",
+      "published_at": "2026-04-11T10:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "react",
+        "rsc",
+        "streaming-ssr",
+        "nextjs"
+      ],
+      "source_key": "sitepoint",
+      "image": "https://uploads.sitepoint.com/wp-content/uploads/2021/07/1626450679sp-og.jpg"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "headline": "Grafana k6 Browser alinha API com Playwright e vira padrão para load testing frontend",
+      "summary": "A Grafana documentou o caminho de migração scripts Playwright → k6 browser: API roughly-compatible, mesma estratégia de selectors, suporte a fluxos hybrid (Playwright dirigindo browser + k6 gerando carga). k6 Studio ganhou features modernas para ampliar adoption sobre Locust e Gatling.",
+      "url": "https://grafana.com/blog/2025/10/02/a-closer-look-at-grafana-k6-browser-alignment-with-playwright-modern-features-for-frontend-testing-and-what-s-next/",
+      "published_at": "2026-04-09T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "k6",
+        "playwright",
+        "load-testing",
+        "performance"
+      ],
+      "source_key": "grafana"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "breaking": true,
+      "headline": "Istio 2026 chega com Ambient Multicluster beta e Gateway API Inference Extension",
+      "summary": "No KubeCon Europe 2026, a comunidade Istio anunciou Ambient Multicluster beta — roteamento entre clusters sem sidecars — Gateway API Inference Extension beta (inferência ML integrada no fluxo de mesh) e suporte experimental a agentgateway. É a virada do service mesh para a era de agentes autônomos e workloads AI com SLA.",
+      "url": "https://www.infoq.com/news/2026/04/istio-ai-multicluster/",
+      "published_at": "2026-04-10T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "istio",
+        "service-mesh",
+        "ambient",
+        "gateway-api"
+      ],
+      "source_key": "infoq",
+      "image": "https://res.infoq.com/news/2026/04/istio-ai-multicluster/en/headerimage/generatedHeaderImage-1775305820792.jpg"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "Temporal lança Worker Versioning: workflow roda em uma única versão de código",
+      "summary": "Recém-anunciado, o Worker Versioning resolve uma das dores clássicas de durable execution: compatibilidade entre versões de código durante rollout. Cada workflow passa a rodar em uma versão fixa, eliminando problemas de determinismo entre replays em workers novos. Kafka + Temporal consolida padrão para orchestração confiável em sistemas event-driven.",
+      "url": "https://temporal.io/blog/what-is-durable-execution",
+      "published_at": "2026-04-12T11:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "temporal",
+        "durable-execution",
+        "workflow",
+        "versioning"
+      ],
+      "source_key": "temporal"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "breaking": true,
+      "headline": "ThoughtWorks Technology Radar Vol. 34 alerta para 'cognitive debt' da era AI",
+      "summary": "O Volume 34 do Technology Radar (15/04) marca inflexão editorial: menos celebração de tools novas, mais maturidade e volta aos fundamentos. A tese central é que a geração maciça de código por IA introduz 'cognitive debt' — lacuna cognitiva entre desenvolvedores e sistemas — e que o remédio é reinvestir em engenharia básica, legibilidade e testes.",
+      "url": "https://www.thoughtworks.com/about-us/news/2026/combat-ai-cognitive-debt-radar-v34",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "tech-radar",
+        "thoughtworks",
+        "ai",
+        "engineering"
+      ],
+      "source_key": "thoughtworks",
+      "image": "https://www.thoughtworks.com/content/dam/thoughtworks/images/photography/meta/about-us/news/ab_meta_news.jpg"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "State of Platform Engineering Vol. 4 mostra 2,3x mais adoção com PM dedicado",
+      "summary": "O relatório Vol. 4 do State of Platform Engineering identifica sete especializações dentro do papel (Head, Product Manager, Infrastructure, DevEx, Security, Observability, AI) e mostra que equipes com PM dedicado têm 2,3x mais adoção interna. DORA continua relevante, mas elite trackea também business outcome, AI attribution e DevEx quantificado.",
+      "url": "https://platformengineering.org/blog/platform-engineering-maturity-in-2026",
+      "published_at": "2026-04-08T09:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "platform-engineering",
+        "dora",
+        "devex",
+        "team-topologies"
+      ],
+      "source_key": "platformengineering",
+      "image": "https://cdn.prod.website-files.com/6489e23dd070ba71d41a33b2/69667f006e56668d23ba2e63_Platform-engineering-maturity-in-2026_-What-the-data-tells-us---OPENGRAPH.avif"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "'Designing Data-Intensive Applications' 2ª edição atualiza o clássico de Kleppmann",
+      "summary": "Publicada no início de 2026 em co-autoria com Chris Riccomini, a segunda edição do DDIA expande o tratamento de streaming (Flink, Kafka Streams), adiciona capítulo sobre sistemas com consistência eventual moderna e atualiza benchmarks de storage engines. Permanece o reference de fundamentos para engenheiros que precisam pensar sobre trade-offs de replicação, partitioning e consenso.",
+      "url": "https://medium.com/javarevisited/i-read-designing-data-intensive-applications-2nd-edition-and-its-awesome-417103df5aab",
+      "published_at": "2026-04-02T10:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "ddia",
+        "kleppmann",
+        "distributed-systems",
+        "fundamentals"
+      ],
+      "source_key": "javarevisited"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": true,
+      "headline": "Pix por Aproximação (NFC) vira obrigatório para instituições em 22/04",
+      "summary": "O Banco Central determinou que todas as instituições participantes do Pix precisam oferecer NFC Pix até 22 de abril. Usuários poderão pagar do saldo em conta ou do limite de crédito, efetivamente substituindo cartão contactless em qualquer terminal. É o maior movimento do Pix desde a chegada do Pix Automático em 2024.",
+      "url": "https://www.riotimesonline.com/brazil-fintech-2026-complete-guide/",
+      "published_at": "2026-04-16T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "pix",
+        "nfc",
+        "bcb",
+        "open-finance"
+      ],
+      "source_key": "riotimes",
+      "image": "https://www.riotimesonline.com/wp-content/uploads/2026/03/brazil-fintech-2026-pix-nubank.jpg"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Martin Fowler será keynote do DDD Europe 2026 — entrevista sobre o estado da arquitetura",
+      "summary": "Martin Fowler, Chief Scientist da ThoughtWorks, foi confirmado como keynote do DDD Europe 2026 em Antwerp. O formato é inédito: em vez de palestra tradicional, ele será entrevistado sobre o estado atual da arquitetura de software, evolução do DDD e desafios para times construindo sistemas domain-driven em 2026.",
+      "url": "https://2026.dddeurope.com/blog/martin-fowler-to-keynote-at-ddd-europe-2026/",
+      "published_at": "2026-04-06T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "ddd",
+        "fowler",
+        "conference",
+        "architecture"
+      ],
+      "source_key": "dddeurope"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "kind": "release",
+      "version": "Opus 4.7",
+      "headline": "Claude Code ganha Opus 4.7 com contexto de 1M tokens e modo Plan melhorado",
+      "url": "https://www.anthropic.com/news/claude-opus-4-7",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": [
+        "claude-code",
+        "opus",
+        "1m-context",
+        "ai-coding"
+      ],
+      "source_key": "anthropic"
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "kind": "release",
+      "version": "3.0",
+      "headline": "Cursor 3.0 lança Multi-Agent Panel e integração nativa com MCP",
+      "url": "https://cursor.com/blog/cursor-3",
+      "published_at": "2026-04-10T12:00:00-03:00",
+      "tags": [
+        "cursor",
+        "multi-agent",
+        "mcp",
+        "ide"
+      ],
+      "source_key": "cursor"
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "kind": "release",
+      "version": "1.112",
+      "headline": "VS Code 1.112 traz Autopilot de navegação e debugging de browser via MCP",
+      "url": "https://code.visualstudio.com/updates/v1_112",
+      "published_at": "2026-04-10T09:00:00-03:00",
+      "tags": [
+        "vscode",
+        "mcp",
+        "autopilot",
+        "debugging"
+      ],
+      "source_key": "microsoft"
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "kind": "release",
+      "version": "2026.1",
+      "headline": "IntelliJ IDEA 2026.1 adiciona suporte a Codex, Cursor-style agents e protocolo ACP",
+      "url": "https://blog.jetbrains.com/idea/2026/04/intellij-idea-2026-1/",
+      "published_at": "2026-04-08T11:00:00-03:00",
+      "tags": [
+        "intellij",
+        "acp",
+        "codex",
+        "agents"
+      ],
+      "source_key": "jetbrains"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "kind": "release",
+      "version": "v3.3.7",
+      "headline": "Argo CD v3.3.7 corrige regressão em ApplicationSets e melhora performance do server-side diff",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.7",
+      "published_at": "2026-04-16T15:00:00-03:00",
+      "tags": [
+        "argocd",
+        "gitops",
+        "applicationsets"
+      ],
+      "source_key": "argo"
+    },
+    {
+      "tool_key": "ghactions",
+      "name": "GitHub Actions",
+      "kind": "news",
+      "headline": "GitHub Actions adiciona VNET failover automático para runners Azure-hosted",
+      "url": "https://github.blog/changelog/2026-04-02-github-actions-vnet-failover/",
+      "published_at": "2026-04-02T14:00:00-03:00",
+      "tags": [
+        "github-actions",
+        "vnet",
+        "failover",
+        "azure"
+      ],
+      "source_key": "githubchangelog"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "kind": "news",
+      "headline": "Kubernetes v1.36 Sneak Peek: HPA scale-to-zero estável, user namespaces GA, Ingress-NGINX aposentado",
+      "url": "https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/",
+      "published_at": "2026-03-30T10:00:00-03:00",
+      "tags": [
+        "kubernetes",
+        "v1.36",
+        "hpa",
+        "user-namespaces"
+      ],
+      "source_key": "kubernetes"
+    },
+    {
+      "tool_key": "istio",
+      "name": "Istio",
+      "kind": "release",
+      "version": "1.29",
+      "headline": "Istio 1.29 entrega Ambient Multi-Network Multicluster em Beta e Gateway API Inference Extension",
+      "url": "https://istio.io/latest/blog/2026/ambient-multinetwork-multicluster-beta/",
+      "published_at": "2026-04-08T10:00:00-03:00",
+      "tags": [
+        "istio",
+        "ambient",
+        "multicluster",
+        "service-mesh"
+      ],
+      "source_key": "istio"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "kind": "release",
+      "version": "4.0.5",
+      "headline": "Spring Boot 4.0.5 entrega correções de CVE e compatibilidade com Jakarta EE 11",
+      "url": "https://spring.io/blog/2026/04/16/spring-boot-4-0-5-available-now",
+      "published_at": "2026-04-16T14:00:00-03:00",
+      "tags": [
+        "spring-boot",
+        "jakarta-ee",
+        "java"
+      ],
+      "source_key": "spring"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "kind": "news",
+      "headline": "pgvector 0.8.2 corrige CVE-2026-3172 (buffer overflow em HNSW index builds)",
+      "url": "https://github.com/pgvector/pgvector/releases/tag/v0.8.2",
+      "published_at": "2026-04-14T11:00:00-03:00",
+      "cves": [
+        "CVE-2026-3172"
+      ],
+      "tags": [
+        "postgres",
+        "pgvector",
+        "vector-db",
+        "rag"
+      ],
+      "source_key": "pgvector"
+    },
+    {
+      "tool_key": "databricks",
+      "name": "Databricks",
+      "kind": "news",
+      "headline": "Databricks promove Iceberg v3 REST Catalog a Public Preview com branching e tagging",
+      "url": "https://www.databricks.com/blog/iceberg-v3-public-preview",
+      "published_at": "2026-04-14T10:00:00-03:00",
+      "tags": [
+        "databricks",
+        "iceberg",
+        "lakehouse",
+        "branching"
+      ],
+      "source_key": "databricks"
+    },
+    {
+      "tool_key": "keycloak",
+      "name": "Keycloak",
+      "kind": "release",
+      "version": "26.6.0",
+      "headline": "Keycloak 26.6.0 adiciona JWT grant type e DPoP estável para client authentication",
+      "url": "https://www.keycloak.org/2026/04/keycloak-2660-released",
+      "published_at": "2026-04-10T09:00:00-03:00",
+      "tags": [
+        "keycloak",
+        "dpop",
+        "oauth",
+        "jwt"
+      ],
+      "source_key": "keycloak"
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "kind": "release",
+      "version": "Desktop 4.46",
+      "headline": "Docker Desktop 4.46 expande Model Runner com suporte GGUF e integra Compose AI",
+      "url": "https://docs.docker.com/desktop/release-notes/",
+      "published_at": "2026-04-17T13:00:00-03:00",
+      "tags": [
+        "docker",
+        "model-runner",
+        "local-llm",
+        "compose"
+      ],
+      "source_key": "docker"
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "kind": "news",
+      "headline": "JEP 501 (Project Leyden AOT Code Caching) entra em rampa para Java 25 GA",
+      "url": "https://openjdk.org/jeps/501",
+      "published_at": "2026-04-12T10:00:00-03:00",
+      "tags": [
+        "java",
+        "leyden",
+        "aot",
+        "jep"
+      ],
+      "source_key": "openjdk"
+    }
+  ],
+  "quotes": [
+    {
+      "text": "Sidecars resolveram o problema de hoje ao preço do problema de amanhã. Ambient é um reconhecimento honesto disso.",
+      "author": "Louis Ryan",
+      "related_to": "tool:istio",
+      "context": "Co-criador do Istio, sobre a evolução para ambient mode e multicluster."
+    },
+    {
+      "text": "Cada nova versão de LLM empurra o gargalo um andar acima — o problema nunca é 'gerar código', é 'decidir o que gerar'.",
+      "author": "Kent Beck",
+      "related_to": "cat:aiops",
+      "context": "Reflexão recorrente de Beck sobre a coevolução de programadores e agents."
+    },
+    {
+      "text": "Se sua estratégia de segurança depende de 'aplicar o patch rápido', você não tem estratégia de segurança.",
+      "author": "Daniel Miessler",
+      "related_to": "cat:sec",
+      "context": "Análise sobre Patch Tuesday e a fragilidade de depender só de patching reativo."
+    },
+    {
+      "text": "A dívida cognitiva é mais perigosa que a dívida técnica — você paga juros sem saber.",
+      "author": "Rebecca Parsons",
+      "related_to": "cat:enterprise",
+      "context": "CTO Emerita da ThoughtWorks, sobre a introdução do conceito no Tech Radar Vol 34."
+    },
+    {
+      "text": "Data como 'git' não é metáfora — é o modelo mental correto. Branches, tags e revert são primitivas, não luxo.",
+      "author": "Ryan Blue",
+      "related_to": "tool:databricks",
+      "context": "Criador do Apache Iceberg, sobre a maturação do branching na v3."
+    }
+  ],
+  "sources": [
+    "tenable",
+    "anthropic",
+    "istio",
+    "kubernetes",
+    "githubchangelog",
+    "infoq",
+    "thenewstack",
+    "cncf",
+    "thoughtworks",
+    "spring",
+    "databricks",
+    "pgvector",
+    "keycloak",
+    "picussecurity",
+    "cloudflare",
+    "hn",
+    "lobsters"
+  ]
+}

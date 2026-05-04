@@ -1,0 +1,1491 @@
+{
+  "date": "2026-05-02",
+  "weekday": "Sábado",
+  "formatted_date": "Sábado, 02 de Maio de 2026",
+  "generated_at": "2026-05-02T06:00:00-03:00",
+  "hero_title": "TeamPCP toma SAP, Pentagon barra Anthropic e Apple bate US$ 111 bi sem capex AI",
+  "hero_description": "Sábado começa com 'Mini Shai-Hulud' contra 4 pacotes oficiais SAP no npm — TeamPCP varre Vault e Kubernetes em CI/CD pipelines com 2,2M downloads/mês. No mesmo dia 1/mai, Pentagon anuncia 8 contratos de IA para redes IL6/IL7 (OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection, Oracle) e exclui formalmente Anthropic — segundo veto institucional na semana, depois de Apple confirmar que escolheu Gemini para Foundation Models on-device. Apple ainda assim bate Q2 recorde de US$ 111,2 bi com Services em US$ 31 bi sem queimar capex em GPU. CISA solta advisory sobre OT em infra crítica e adiciona cPanel ao KEV. Em ferramentas: Argo CD 3.4 chega 4/mai com Pause Reconciliation, Claude Code 1.0.40 e Copilot CLI 1.0.40 saem com OAuth headless para MCP, e Bedrock AgentCore aterra em sa-east-1 com runtime LGPD-friendly.",
+  "edition_digest": "Sábado de duas frentes bem claras: cadeia de suprimentos e governo de IA. No primeiro bloco, o TeamPCP comprometeu quatro pacotes oficiais do SAP CAP no npm e distribuiu um stealer de segredos em Bun que vasculha pipelines, Kubernetes e Vault. O caso importa menos pelo truque em si e mais pela escala: 2,2 milhões de downloads por mês e uma superfície de CI/CD que continua vazando credenciais em massa. A mesma edição ainda traz o cPanel entrando no KEV, advisory da CISA sobre OT exposta e a sequência de incidentes em D-Link, Cisco FMC e Linux.\n\nNo segundo bloco, o recado veio de cima: o Department of War fechou contratos de IA para redes classificadas com OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection AI e Oracle, mas deixou Anthropic de fora. Em paralelo, a Apple confirmou Gemini como base dos Foundation Models on-device, o que fecha a semana com um sinal forte de plataforma, preferência por modelo e linha de compliance: nem toda IA entra no mesmo cofre, nem no mesmo nível de confiança.\n\nA parte de negócio foi para o lado oposto do capex explosivo. A Apple bateu recorde de receita no Q2 FY26 sem queimar orçamento pesado em GPU, enquanto Visa, Mastercard e PicPay mostraram um sistema financeiro que já está monetizando stablecoins, wallets e novas integrações de pagamento. O padrão é útil para ler a edição: quem tem distribuição e plataforma consegue empurrar novos modelos sem seguir a mesma curva de gasto das hyperscalers.\n\nFechando o sábado, a camada de engenharia aparece com Argo CD 3.4, Claude Code e Copilot CLI com OAuth headless para MCP, Vercel Sandbox falando direto com Postgres gerenciado e Bedrock AgentCore aterrissando em sa-east-1. O fio condutor é menos sobre ferramentas isoladas e mais sobre o que elas permitem operar: automação com controle, agentes com identidade e infra pronta para workloads de IA sem perder residência de dados.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "TeamPCP lança 'Mini Shai-Hulud' contra pacotes oficiais SAP no npm — 4 libs do CAP/MTA roubam segredos de 2,2M downloads/mês",
+      "summary": "Wiz, Sophos e Aikido confirmam em 29/abr-1/mai que o operador TeamPCP (mesmo de Lapsus$/LiteLLM) comprometeu @cap-js/sqlite v2.2.2, @cap-js/postgres v2.2.2, @cap-js/db-service v2.10.1 e mbt v1.2.48 — todos do SAP Cloud Application Programming Model com ~2,2M downloads mensais. Payload preinstall em Bun varre Kubernetes, HashiCorp Vault e CI/CD; exfiltra credenciais AWS/GCP/GitHub/npm via repositórios públicos GitHub criptografados RSA. Atribuição: mesma chave RSA pública e routines de encoding já vistas em Shai-Hulud original.",
+      "explain": {
+        "junior": "Atacantes invadiram a publicação de bibliotecas oficiais que empresas SAP usam para conectar a banco de dados e fazer build. Quem instalou as versões maliciosas executou um script automático que vasculhou segredos da máquina (chaves AWS, tokens GitHub) e mandou para o atacante via repositórios públicos do GitHub.",
+        "pleno": "O nome 'Mini' vem da escala menor que a campanha original Shai-Hulud (2024), mas o vetor é igual: preinstall script em Node.js, agora compilado para Bun para rodar mais rápido em pipelines CI. O script tem guardrails regionais (não roda em russas), busca por padrões de Vault/Kubernetes/secrets-manager e empacota tudo em payload encriptado RSA antes de criar repos públicos no GitHub do atacante. Pacotes afetados são integrais ao SAP CAP, então qualquer pipeline SAP CI/CD com lock file desatualizado virou vetor.",
+        "senior": "Padrão que arquiteto deve internalizar agora: supply chain attack via 'paid maintainer' já é a norma, não exceção. Plano imediato — pinning rigoroso por hash em pipelines CI; npm audit + Socket.dev/Snyk como gate obrigatório; rotação de tokens GitHub/AWS expostos a workers CI; revisão de quem tem write access a `@cap-js/*` no SAP. Defesa estrutural: minimal-permission tokens, cofre dedicado para CI/CD, e quarentena automática de qualquer preinstall script que toque rede.",
+        "glossary": [
+          {
+            "term": "TeamPCP",
+            "def": "Coletivo de extorsão atribuído a múltiplas campanhas Shai-Hulud; opera em parceria com Lapsus$ e Vect, focado em supply chain compromises."
+          },
+          {
+            "term": "SAP CAP",
+            "def": "Cloud Application Programming Model da SAP — framework opinionado para construir serviços de negócio em Node.js/Java integrados ao ecossistema BTP."
+          },
+          {
+            "term": "Bun",
+            "def": "Runtime JavaScript alternativo ao Node.js, escrito em Zig, com startup mais rápido — virou ferramenta de stealth porque pula hooks de Node tradicional."
+          },
+          {
+            "term": "Preinstall script",
+            "def": "Hook do npm que roda código arbitrário antes da instalação propriamente dita; é o vetor mais usado em supply chain attacks."
+          }
+        ]
+      },
+      "url": "https://www.wiz.io/blog/mini-shai-hulud-supply-chain-sap-npm",
+      "read_time": 6,
+      "image": "https://www.datocms-assets.com/75231/1777475003-5-1.png?fm=webp",
+      "published_at": "2026-04-30T23:00:00-03:00",
+      "tags": [
+        "supply-chain",
+        "npm",
+        "sap",
+        "teampcp",
+        "vault",
+        "kubernetes"
+      ],
+      "severity": "high",
+      "source": "Wiz Blog"
+    },
+    {
+      "source_array": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Pentagon assina IA com 8 big techs para redes classificadas e exclui formalmente Anthropic",
+      "summary": "Em 1/mai, o Department of War anunciou acordos com OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection AI e Oracle para rodar modelos em IL6/IL7. Anthropic ficou de fora — desde fevereiro está designada como 'supply chain risk' depois de recusar a cláusula 'any lawful purpose' do DoD por preocupações com armas autônomas e vigilância doméstica. A jogada congela a maior fornecedora de Claude para o setor enquanto Reflection AI (US$ 2 bi raised, ex-DeepMind) entra como aposta open-source ao lado de Nvidia.",
+      "explain": {
+        "junior": "Os EUA escolheram quais empresas de IA podem operar dentro das redes militares mais sensíveis — e a Anthropic, dona do Claude, ficou fora porque não aceitou liberar seu modelo para 'qualquer uso lícito'. Anthropic teme que isso autorize armas autônomas ou vigilância em massa, então o Pentagon a vetou.",
+        "pleno": "Os contratos liberam IA até Impact Level 7 (informação ultrassecreta), com foco em síntese de dados, decisão tática e situational awareness. A inclusão de Reflection AI (open weights) e Nvidia sinaliza estratégia 'multi-modelo' para evitar lock-in, e a porta também ficou aberta para Oracle horas depois — totalizando 8 fornecedores. Anthropic continua negociando, mas perde o canal de receita federal classificado.",
+        "senior": "Para arquiteto de plataforma de IA em órgão público ou contratada de defesa, isso muda o playbook: catálogos governamentais de modelos vão evitar Claude no curto prazo, e referência de stack agentic em ambiente classificado vai privilegiar OpenAI/Google/Microsoft/AWS — começa a desenhar templates Bedrock/Foundry/Vertex sem dependência hard de Anthropic.",
+        "glossary": [
+          {
+            "term": "IL6/IL7",
+            "def": "Impact Levels do DoD para classificação de dados — IL6 cobre informação 'Secret' e IL7 'Top Secret', exigindo isolamento de rede e supply chain auditável."
+          },
+          {
+            "term": "Reflection AI",
+            "def": "Startup fundada por ex-pesquisadores do Google DeepMind em 2024; captou US$ 2 bi e oferece modelos open weights, posicionando-se contra fechamento de OpenAI/Anthropic."
+          },
+          {
+            "term": "Supply chain risk",
+            "def": "Designação do DoD que proíbe contratos com um fornecedor por risco à segurança nacional na cadeia de software/hardware."
+          }
+        ]
+      },
+      "url": "https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic",
+      "read_time": 5,
+      "image": "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1292192586.jpg?resize=1200,900",
+      "published_at": "2026-05-01T15:00:00-03:00",
+      "tags": [
+        "pentagon",
+        "anthropic",
+        "openai",
+        "defense",
+        "il7"
+      ],
+      "source": "CNN Business"
+    },
+    {
+      "source_array": "news",
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Apple reporta Q2 FY26 com receita recorde de US$ 111,2 bi (+17%), Services bate US$ 31 bi e iPhone sobe 22%",
+      "summary": "Em 30/abr (com fala-mãe em 1/mai), Tim Cook entregou margem de Apple FY26 Q2: US$ 111,2 bi de receita (vs guidance topo da própria casa), iPhone +22% para US$ 57 bi, Services em recorde de US$ 30,98 bi (+16%) batendo expectativa. Capex permanece anômalo entre big tech: ~US$ 4,3 bi nos dois primeiros trimestres do FY26 — Apple aposta em parceria com Google Gemini para Siri ao invés de capex próprio em GPU. Guidance Q3 entre +14% e +17%, com supply constrained na memória.",
+      "explain": {
+        "junior": "A Apple vendeu muito mais iPhone, Mac e serviços de assinatura do que se esperava no trimestre. Diferente de Microsoft, Meta e Google — que estão queimando dezenas de bilhões em GPUs — a Apple decidiu não construir sua própria infra de IA e contratou o Gemini do Google para alimentar a Siri.",
+        "pleno": "O contraste entre US$ 4,3 bi de capex semestral da Apple e os US$ 145 bi/ano da Meta é intencional: a Apple optou pelo modelo 'aluga foundation model do parceiro' enquanto reserva caixa para chips Apple Silicon, integração on-device e M&A. iPhone 17 segura 22% de crescimento, e Services (App Store, iCloud, Apple Music) finalmente passa US$ 31 bi/trimestre — virando a peça mais previsível do P&L.",
+        "senior": "Para arquiteto que avalia IA em mobile/edge, o sinal é claro: Apple sustentou margem brutal sem capex AI — Foundation Models on-device + parceria Gemini para queries pesadas. Templates 'híbrido edge-cloud' para apps Apple ganham respaldo institucional; planejar para Apple Intelligence APIs locais com fallback Gemini é o caminho oficial.",
+        "glossary": [
+          {
+            "term": "FY26 Q2",
+            "def": "Trimestre fiscal da Apple terminado em 28/mar/2026 (a Apple começa o ano fiscal em outubro)."
+          },
+          {
+            "term": "Apple Intelligence",
+            "def": "Conjunto de Foundation Models proprietários da Apple que rodam on-device em iPhone/Mac/iPad com fallback para nuvem privada."
+          },
+          {
+            "term": "Capex",
+            "def": "Capital expenditure — gasto com infraestrutura de longo prazo (data centers, chips, equipamentos)."
+          }
+        ]
+      },
+      "url": "https://www.cnbc.com/2026/04/30/apple-aapl-q2-2026-earnings-report.html",
+      "read_time": 4,
+      "image": "https://image.cnbcfm.com/api/v1/image/108180776-1746048273957-gettyimages-2213681731-AFP_46FQ4WB.jpeg?v=1746048307&w=1920&h=1080",
+      "published_at": "2026-04-30T17:30:00-03:00",
+      "tags": [
+        "apple",
+        "earnings",
+        "iphone",
+        "services",
+        "gemini"
+      ],
+      "source": "CNBC"
+    }
+  ],
+  "news": [
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "breaking": true,
+      "headline": "Pentagon assina IA com 8 big techs para redes classificadas e exclui formalmente Anthropic",
+      "summary": "Em 1/mai, o Department of War anunciou acordos com OpenAI, Google, Microsoft, AWS, Nvidia, SpaceX, Reflection AI e Oracle para rodar modelos em IL6/IL7. Anthropic ficou de fora — desde fevereiro está designada como 'supply chain risk' depois de recusar a cláusula 'any lawful purpose' do DoD por preocupações com armas autônomas e vigilância doméstica. A jogada congela a maior fornecedora de Claude para o setor enquanto Reflection AI (US$ 2 bi raised, ex-DeepMind) entra como aposta open-source ao lado de Nvidia.",
+      "explain": {
+        "junior": "Os EUA escolheram quais empresas de IA podem operar dentro das redes militares mais sensíveis — e a Anthropic, dona do Claude, ficou fora porque não aceitou liberar seu modelo para 'qualquer uso lícito'. Anthropic teme que isso autorize armas autônomas ou vigilância em massa, então o Pentagon a vetou.",
+        "pleno": "Os contratos liberam IA até Impact Level 7 (informação ultrassecreta), com foco em síntese de dados, decisão tática e situational awareness. A inclusão de Reflection AI (open weights) e Nvidia sinaliza estratégia 'multi-modelo' para evitar lock-in, e a porta também ficou aberta para Oracle horas depois — totalizando 8 fornecedores. Anthropic continua negociando, mas perde o canal de receita federal classificado.",
+        "senior": "Para arquiteto de plataforma de IA em órgão público ou contratada de defesa, isso muda o playbook: catálogos governamentais de modelos vão evitar Claude no curto prazo, e referência de stack agentic em ambiente classificado vai privilegiar OpenAI/Google/Microsoft/AWS — começa a desenhar templates Bedrock/Foundry/Vertex sem dependência hard de Anthropic.",
+        "glossary": [
+          {
+            "term": "IL6/IL7",
+            "def": "Impact Levels do DoD para classificação de dados — IL6 cobre informação 'Secret' e IL7 'Top Secret', exigindo isolamento de rede e supply chain auditável."
+          },
+          {
+            "term": "Reflection AI",
+            "def": "Startup fundada por ex-pesquisadores do Google DeepMind em 2024; captou US$ 2 bi e oferece modelos open weights, posicionando-se contra fechamento de OpenAI/Anthropic."
+          },
+          {
+            "term": "Supply chain risk",
+            "def": "Designação do DoD que proíbe contratos com um fornecedor por risco à segurança nacional na cadeia de software/hardware."
+          }
+        ]
+      },
+      "url": "https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic",
+      "published_at": "2026-05-01T15:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "pentagon",
+        "anthropic",
+        "openai",
+        "defense",
+        "il7"
+      ],
+      "image": "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1292192586.jpg?resize=1200,900",
+      "source": "CNN Business"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Apple reporta Q2 FY26 com receita recorde de US$ 111,2 bi (+17%), Services bate US$ 31 bi e iPhone sobe 22%",
+      "summary": "Em 30/abr (com fala-mãe em 1/mai), Tim Cook entregou margem de Apple FY26 Q2: US$ 111,2 bi de receita (vs guidance topo da própria casa), iPhone +22% para US$ 57 bi, Services em recorde de US$ 30,98 bi (+16%) batendo expectativa. Capex permanece anômalo entre big tech: ~US$ 4,3 bi nos dois primeiros trimestres do FY26 — Apple aposta em parceria com Google Gemini para Siri ao invés de capex próprio em GPU. Guidance Q3 entre +14% e +17%, com supply constrained na memória.",
+      "explain": {
+        "junior": "A Apple vendeu muito mais iPhone, Mac e serviços de assinatura do que se esperava no trimestre. Diferente de Microsoft, Meta e Google — que estão queimando dezenas de bilhões em GPUs — a Apple decidiu não construir sua própria infra de IA e contratou o Gemini do Google para alimentar a Siri.",
+        "pleno": "O contraste entre US$ 4,3 bi de capex semestral da Apple e os US$ 145 bi/ano da Meta é intencional: a Apple optou pelo modelo 'aluga foundation model do parceiro' enquanto reserva caixa para chips Apple Silicon, integração on-device e M&A. iPhone 17 segura 22% de crescimento, e Services (App Store, iCloud, Apple Music) finalmente passa US$ 31 bi/trimestre — virando a peça mais previsível do P&L.",
+        "senior": "Para arquiteto que avalia IA em mobile/edge, o sinal é claro: Apple sustentou margem brutal sem capex AI — Foundation Models on-device + parceria Gemini para queries pesadas. Templates 'híbrido edge-cloud' para apps Apple ganham respaldo institucional; planejar para Apple Intelligence APIs locais com fallback Gemini é o caminho oficial.",
+        "glossary": [
+          {
+            "term": "FY26 Q2",
+            "def": "Trimestre fiscal da Apple terminado em 28/mar/2026 (a Apple começa o ano fiscal em outubro)."
+          },
+          {
+            "term": "Apple Intelligence",
+            "def": "Conjunto de Foundation Models proprietários da Apple que rodam on-device em iPhone/Mac/iPad com fallback para nuvem privada."
+          },
+          {
+            "term": "Capex",
+            "def": "Capital expenditure — gasto com infraestrutura de longo prazo (data centers, chips, equipamentos)."
+          }
+        ]
+      },
+      "url": "https://www.cnbc.com/2026/04/30/apple-aapl-q2-2026-earnings-report.html",
+      "published_at": "2026-04-30T17:30:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "apple",
+        "earnings",
+        "iphone",
+        "services",
+        "gemini"
+      ],
+      "image": "https://image.cnbcfm.com/api/v1/image/108196778-1757507590799-gettyimages-2234563479-_73a3022_jnkqswz6.jpeg?v=1777583377&amp;w=1920&amp;h=1080",
+      "source": "CNBC"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "breaking": true,
+      "headline": "TeamPCP lança 'Mini Shai-Hulud' contra pacotes oficiais SAP no npm — 4 libs do CAP/MTA roubam segredos de 2,2M downloads/mês",
+      "summary": "Wiz, Sophos e Aikido confirmam em 29/abr-1/mai que o operador TeamPCP (mesmo de Lapsus$/LiteLLM) comprometeu @cap-js/sqlite v2.2.2, @cap-js/postgres v2.2.2, @cap-js/db-service v2.10.1 e mbt v1.2.48 — todos do SAP Cloud Application Programming Model com ~2,2M downloads mensais. Payload preinstall em Bun varre Kubernetes, HashiCorp Vault e CI/CD; exfiltra credenciais AWS/GCP/GitHub/npm via repositórios públicos GitHub criptografados RSA. Atribuição: mesma chave RSA pública e routines de encoding já vistas em Shai-Hulud original.",
+      "explain": {
+        "junior": "Atacantes invadiram a publicação de bibliotecas oficiais que empresas SAP usam para conectar a banco de dados e fazer build. Quem instalou as versões maliciosas executou um script automático que vasculhou segredos da máquina (chaves AWS, tokens GitHub) e mandou para o atacante via repositórios públicos do GitHub.",
+        "pleno": "O nome 'Mini' vem da escala menor que a campanha original Shai-Hulud (2024), mas o vetor é igual: preinstall script em Node.js, agora compilado para Bun para rodar mais rápido em pipelines CI. O script tem guardrails regionais (não roda em russas), busca por padrões de Vault/Kubernetes/secrets-manager e empacota tudo em payload encriptado RSA antes de criar repos públicos no GitHub do atacante. Pacotes afetados são integrais ao SAP CAP, então qualquer pipeline SAP CI/CD com lock file desatualizado virou vetor.",
+        "senior": "Padrão que arquiteto deve internalizar agora: supply chain attack via 'paid maintainer' já é a norma, não exceção. Plano imediato — pinning rigoroso por hash em pipelines CI; npm audit + Socket.dev/Snyk como gate obrigatório; rotação de tokens GitHub/AWS expostos a workers CI; revisão de quem tem write access a `@cap-js/*` no SAP. Defesa estrutural: minimal-permission tokens, cofre dedicado para CI/CD, e quarentena automática de qualquer preinstall script que toque rede.",
+        "glossary": [
+          {
+            "term": "TeamPCP",
+            "def": "Coletivo de extorsão atribuído a múltiplas campanhas Shai-Hulud; opera em parceria com Lapsus$ e Vect, focado em supply chain compromises."
+          },
+          {
+            "term": "SAP CAP",
+            "def": "Cloud Application Programming Model da SAP — framework opinionado para construir serviços de negócio em Node.js/Java integrados ao ecossistema BTP."
+          },
+          {
+            "term": "Bun",
+            "def": "Runtime JavaScript alternativo ao Node.js, escrito em Zig, com startup mais rápido — virou ferramenta de stealth porque pula hooks de Node tradicional."
+          },
+          {
+            "term": "Preinstall script",
+            "def": "Hook do npm que roda código arbitrário antes da instalação propriamente dita; é o vetor mais usado em supply chain attacks."
+          }
+        ]
+      },
+      "url": "https://www.wiz.io/blog/mini-shai-hulud-supply-chain-sap-npm",
+      "published_at": "2026-04-30T23:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "supply-chain",
+        "npm",
+        "sap",
+        "teampcp",
+        "vault",
+        "kubernetes"
+      ],
+      "image": "https://www.datocms-assets.com/75231/1777475003-5-1.png?fm=webp",
+      "source": "Wiz Blog"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "CISA solta advisory em 1/mai sobre exploração contínua de OT em infra crítica — multi-setor, multi-país",
+      "summary": "Em 1/mai, CISA publicou alerta avisando organizações dos EUA de campanha em curso explorando dispositivos de Operational Technology (OT) conectados à internet em múltiplos setores de infraestrutura crítica. Alerta enfatiza inventário, segmentação e remoção de exposição direta na borda — o nível de detalhe técnico aponta para atores estatais com persistência de meses.",
+      "explain": {
+        "junior": "Equipamentos industriais (PLCs, sistemas SCADA, controladores) que ficaram acessíveis pela internet estão sendo invadidos em larga escala. CISA, a agência de segurança cibernética dos EUA, publicou um alerta urgente em 1/mai pedindo que empresas façam inventário e tirem esses sistemas da exposição direta.",
+        "pleno": "OT (Operational Technology) é a categoria de infra que controla processos físicos — energia, água, manufatura, transporte — e historicamente ficou separada da TI corporativa. Com a convergência IT/OT dos últimos anos, milhares de dispositivos foram para a borda sem controle adequado. O advisory reforça segmentação Purdue Model (Level 0-3.5 vs IT) e exige remoção de exposição direta a internet pública.",
+        "senior": "Para arquiteto que tem responsabilidade sobre stack OT/IT, o alerta é o terceiro do gênero em 12 meses — tendência consolidada. Ações imediatas: censo de endpoints OT publicly-routable; jump host obrigatório com MFA forte para qualquer acesso; segmentação por zona Purdue; logging completo de comandos de processo; tabletop exercises com cenário 'controle perdido'.",
+        "glossary": [
+          {
+            "term": "OT",
+            "def": "Operational Technology — hardware e software que monitora ou controla processos físicos industriais (PLCs, SCADA, DCS, RTU)."
+          },
+          {
+            "term": "CISA",
+            "def": "Cybersecurity and Infrastructure Security Agency, órgão americano que coordena defesa cibernética de infra crítica."
+          },
+          {
+            "term": "Purdue Model",
+            "def": "Modelo de referência que separa redes industriais em níveis 0-5, do chão de fábrica (sensores) até a TI corporativa, com firewalls entre cada nível."
+          }
+        ]
+      },
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "published_at": "2026-05-01T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "ot",
+        "ics",
+        "critical-infrastructure",
+        "scada"
+      ],
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
+      "source": "CISA"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "critical",
+      "headline": "CVE-2026-0625 (CVSS 9.3) explora roteadores D-Link DSL EoL via dnscfg.cgi — exploração ativa desde novembro/25",
+      "cves": [
+        "CVE-2026-0625"
+      ],
+      "summary": "Comando-injection sem autenticação no endpoint dnscfg.cgi de roteadores D-Link DSL-2740R, DSL-2640B, DSL-2780B e DSL-526B (EoL desde 2020) permite RCE pré-autenticado com poder de DNSChanger persistente — toda a rede atrás do roteador vai para servidores DNS controlados pelo atacante. Shadowserver detectou exploração ativa desde 27/nov/25. D-Link foi notificada pela VulnCheck em 16/dez/25 mas não vai patchar: 'aposente o equipamento'.",
+      "explain": {
+        "junior": "Roteadores antigos da D-Link (descontinuados há cinco anos) têm uma falha grave: qualquer pessoa na internet consegue mudar para qual servidor DNS o roteador aponta, sem precisar de senha. Isso permite redirecionar todo tráfego de quem está atrás do roteador para servidores maliciosos.",
+        "pleno": "O bug é command-injection clássico via dnscfg.cgi: a página de configuração de DNS não sanitiza input antes de executar. Como o dispositivo está EoL, não vai haver patch — Shadowserver observa exploração contínua desde Q4/25. O efeito DNSChanger é o pior caso: vítima continua usando o roteador normalmente enquanto cada DNS lookup vai para servidor do atacante (bancos falsos, exfiltração, cookie hijack).",
+        "senior": "Lição estrutural para arquitetura de rede corporativa: hardware EoL exposto a internet vira liability permanente. Inventário urgente de qualquer D-Link DSL-2640/2740/2780/526 em escritórios remotos, lojas, edge sites; substituição imediata. Defesa em camadas: DNS upstream forçado para resolver corporativo (DoH/DoT), monitoring de mudança DNS em DHCP leases, segmentação de rede SOHO de tráfego corporativo via VPN obrigatório.",
+        "glossary": [
+          {
+            "term": "EoL",
+            "def": "End-of-Life — produto descontinuado pelo fabricante, sem updates de firmware ou patches de segurança."
+          },
+          {
+            "term": "DNSChanger",
+            "def": "Categoria de ataque que altera os servidores DNS configurados na vítima para redirecionar tráfego silenciosamente."
+          },
+          {
+            "term": "Shadowserver Foundation",
+            "def": "ONG que mantém uma das maiores redes globais de honeypots e sensores; publica diariamente CVEs sob exploração ativa."
+          }
+        ]
+      },
+      "url": "https://thehackernews.com/2026/01/active-exploitation-hits-legacy-d-link.html",
+      "published_at": "2026-04-30T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "d-link",
+        "rce",
+        "dns",
+        "iot"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEheWL4H_fZgt293fAWAIgIuiEKOwhrhBh7P6E26EPey9tV-t5-5uSIW-84Jfg6Uq3UOP8R3RqBC_lj-kBq_X2JnthYUqbpX8pX6zVTLtORbMk_M4OEJp2OHqEpHtVXJrW12DpkgtSrl5vcu-goQ2s9iAAbBMBc6oTWzTzUUvQYABY8bVsNXJ08lQhY60xw2/s1700-e365/router.jpg",
+      "source": "The Hacker News"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "critical",
+      "headline": "Interlock ransomware mantém exploração ativa do CVE-2026-20131 (CVSS 10) — Cisco Secure FMC continua na KEV",
+      "cves": [
+        "CVE-2026-20131"
+      ],
+      "summary": "Java deserialization sem auth no web UI do Cisco Secure FMC vira root RCE com um POST que começa em 0xAC ED 00 05. Amazon Threat Intel atribui exploração desde 26/jan ao grupo Interlock; CISA inseriu o bug no KEV em 19/mar. A continuação dos achados em 1/mai mostra atacantes ainda passando por instâncias FMC expostas com firmwares antigos — o controle do FMC equivale a controle total do plano de firewall Cisco da rede.",
+      "explain": {
+        "junior": "Um sistema da Cisco usado para gerenciar firewalls (FMC) tem uma falha de segurança crítica: enviar um pacote especial transforma o atacante em administrador root. O grupo Interlock, que opera ransomware, está usando isso desde janeiro para tomar controle de firewalls de empresas inteiras.",
+        "pleno": "Java deserialization vulnerabilities ressurgiram fortes em 2026 — o vetor 0xAC ED 00 05 (magic bytes do ObjectInputStream) entra em código sem hash de validação e instancia gadgets que executam comandos. No FMC, o gadget chain disponível leva a root direto. Como o FMC orquestra políticas de firewall em toda frota Firepower/ASA, comprometê-lo significa visibilidade total de regras, capacidade de injetar bypass e dados sensíveis de tráfego.",
+        "senior": "Para arquiteto de rede empresarial: FMC nunca deveria estar publicamente acessível, e essa CVE é o terceiro lembrete do ano. Roteiro: censo de FMC públicos via Shodan/Censys; segmentação dedicada para console de gerência (jumphost + ZTNA + MFA); upgrade imediato; instrumentação de auditoria para detectar criação de admins via UI. Estrutural — toda console de gerência de fabric/firewall vai para zona separada com acesso só via Bastion identificado.",
+        "glossary": [
+          {
+            "term": "Cisco FMC",
+            "def": "Firewall Management Center — console centralizado da Cisco para gerenciar firewalls Firepower/ASA: políticas, eventos, IPS, updates."
+          },
+          {
+            "term": "Java deserialization",
+            "def": "Conversão de bytes em objetos Java; quando o atacante controla os bytes e a JVM aceita classes arbitrárias, vira RCE via gadget chains."
+          },
+          {
+            "term": "Interlock",
+            "def": "Grupo de ransomware ativo desde 2024, conhecido por explorar appliances de borda e edge devices em vez de phishing."
+          },
+          {
+            "term": "KEV",
+            "def": "Known Exploited Vulnerabilities catalog da CISA — lista oficial de CVEs sob exploração ativa, com deadline de patch para FCEB."
+          }
+        ]
+      },
+      "url": "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-20131/",
+      "published_at": "2026-05-01T16:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cisco",
+        "fmc",
+        "deserialization",
+        "ransomware",
+        "interlock"
+      ],
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
+      "source": "Horizon3.ai"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "urgent": false,
+      "headline": "Cloudflare lança Code Mode no MCP Server — agents passam a chamar APIs grandes com fração do consumo de tokens",
+      "summary": "InfoQ documenta o novo MCP server da Cloudflare que usa 'Code Mode' — em vez de injetar todas as descrições de tool no contexto do modelo (caro), expõe APIs como funções tipadas e deixa o agent gerar código TypeScript chamando-as. Resultado: integração com APIs de centenas de endpoints com consumo de tokens uma ordem de grandeza menor que o convencional. Padrão começa a virar referência para servers MCP que expõem APIs corporativas com 100+ tools.",
+      "explain": {
+        "junior": "Quando um agente de IA precisa chamar muitas APIs diferentes, normalmente toda a documentação é enfiada no prompt — isso gasta muitos tokens e fica caro. A Cloudflare bolou um jeito alternativo: deixar a IA escrever código TypeScript que chama as APIs, em vez de descrever cada uma na mão.",
+        "pleno": "MCP convencional declara cada tool com nome, descrição e schema JSON; com 100 tools isso vira 8-15K tokens só de overhead a cada call. Code Mode publica um SDK tipado e deixa o LLM escrever um arquivo .ts curto que importa o SDK e usa as funções — o resultado roda no Cloudflare Workers. O contexto fica enxuto, e como TypeScript é treinamento massivo nos modelos, a precisão do tool calling sobe.",
+        "senior": "Para arquiteto montando MCP server interno com muitas tools: o padrão Code Mode é estrutural — vira referência para empresas que querem expor 'service catalog' a agents sem explodir contexto. Considerações: precisa runtime sandboxed para executar código (Workers, Deno, gVisor); SDK bem tipado vira investimento prioritário; pricing fica linear em tool count em vez de quadrático.",
+        "glossary": [
+          {
+            "term": "MCP",
+            "def": "Model Context Protocol — padrão aberto da Anthropic para conectar agentes de IA a fontes externas de tools, dados e contexto."
+          },
+          {
+            "term": "Code Mode",
+            "def": "Padrão emergente onde o agent escreve código (TS/Python) que chama APIs, em vez de o protocolo descrever cada tool individualmente."
+          },
+          {
+            "term": "Cloudflare Workers",
+            "def": "Runtime serverless da Cloudflare baseado em V8 isolates — startup em ms e billing por request, ideal para sandbox de código gerado por LLM."
+          }
+        ]
+      },
+      "url": "https://www.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/",
+      "published_at": "2026-05-01T08:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "mcp",
+        "cloudflare",
+        "agents",
+        "tokens"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/en/headerimage/generatedHeaderImage-1775438665018.jpg",
+      "source": "InfoQ"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "headline": "Stripe Sessions 2026 fecha com 288 lançamentos — Link Wallet aceita Pix BR, MPP coautora com Tempo, UCP via Google",
+      "summary": "Recap consolidado em 1/mai: Stripe encerrou Sessions 2026 com 288 features lançadas. Destaques arquiteturais — Link Agent Wallet ganha suporte a Pix no Brasil e stablecoins nos EUA (UPI na Índia em breve); Machine Payments Protocol (MPP), coautoria Stripe + Tempo, padroniza microtransações e recorrências entre agents e merchants; Universal Commerce Protocol (UCP) via parceria com Google leva Stripe a Gemini e AI Mode; Checkout Studio é a nova ferramenta visual end-to-end.",
+      "explain": {
+        "junior": "Stripe juntou todas as novidades anuais num evento e anunciou 288 ao mesmo tempo. As importantes para Brasil: o Link, carteira digital deles, agora aceita Pix; e a Stripe inventou um protocolo (MPP) para que agentes de IA paguem fornecedores automaticamente.",
+        "pleno": "Três protocolos em paralelo merecem atenção arquitetural: (1) Link as wallet for agents — auth oauth + cartão one-time + spending limits, (2) MPP — paga em stablecoin, cartão, BNPL via Shared Payment Tokens, e (3) UCP via Google AI Mode/Gemini, que padroniza catálogo + checkout dentro do chat. Pix entrar como rail no Link sinaliza que payments brasileiros vão começar a aparecer em produtos globais agentic.",
+        "senior": "Para arquiteto de fintech BR ou e-commerce: avaliar agora se vale incorporar Link/MPP no caminho de pagamento — para Brasil, a inclusão de Pix significa fluxo agentic competitivo sem precisar reinventar wheel. Refletir sobre exposição: SPT abre superfície de risco nova (token compartilhado entre múltiplos rails); políticas de spending limit por agent precisam de UI/UX dedicada e auditoria.",
+        "glossary": [
+          {
+            "term": "Link",
+            "def": "Carteira digital da Stripe com armazenamento de cartão/conta — agora também usada por agents de IA via tokens de uso único."
+          },
+          {
+            "term": "MPP",
+            "def": "Machine Payments Protocol — spec aberta Stripe + Tempo para agents transacionarem com merchants via microtransações, recorrências e SPT."
+          },
+          {
+            "term": "UCP",
+            "def": "Universal Commerce Protocol — protocolo proposto por Google + Stripe para integrar catálogo de produtos e checkout dentro de superfícies de IA (Gemini, AI Mode)."
+          },
+          {
+            "term": "SPT",
+            "def": "Shared Payment Token — token de pagamento que pode ser reutilizado em diferentes rails (cartão, stablecoin, BNPL) com limites pré-aprovados."
+          }
+        ]
+      },
+      "url": "https://stripe.com/blog/everything-we-announced-at-sessions-2026",
+      "published_at": "2026-05-01T11:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "stripe",
+        "agentic-commerce",
+        "pix",
+        "stablecoin",
+        "mpp"
+      ],
+      "image": "https://images.stripeassets.com/fzn2n1nzq965/BlGr87AZMX0wQFfn0taAs/a457efc0b7df8d11bd080d578c285bfc/social-cardS26_Marketecture_02_Blog_2000x1000.png?q=80",
+      "source": "Stripe Blog"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "headline": "Apple confirma na call de Q2 que Gemini é base de Foundation Models para Siri — OpenAI fica com fallback opcional",
+      "summary": "Na call de earnings de 30/abr, Tim Cook confirmou explicitamente que a próxima geração de Foundation Models on-device da Apple usa Gemini como base, mantendo OpenAI como provedor de fallback opcional. Significa que Apple ganhou pilha multimodelo com Apple Silicon na borda, Gemini na nuvem privada e ChatGPT/Claude apenas como opt-in do usuário — Anthropic fica de fora também aqui.",
+      "explain": {
+        "junior": "A Apple decidiu trocar a tecnologia que alimenta a Siri: agora a base é o Gemini do Google, não mais o ChatGPT da OpenAI. O ChatGPT fica disponível só se o usuário escolher. A Anthropic (Claude) também não foi escolhida.",
+        "pleno": "A movimentação fecha um ciclo de 18 meses de avaliação. A Apple usa modelos próprios (Apple Intelligence on-device) para tarefas leves e Gemini para queries pesadas via Private Cloud Compute. ChatGPT/Claude entram só por opt-in explícito do usuário, com handoff de privacidade. Para Anthropic, é a segunda derrota institucional na semana — Pentagon e Apple no mesmo intervalo.",
+        "senior": "Para arquiteto de app iOS/macOS: o stack 'on-device first + Gemini fallback' vira referência. Tooling esperado — App Intents que delega para Apple Intelligence local, com escape hatch para PCC (Gemini) se complexity exceder; permissões granulares para roteamento opcional a ChatGPT/Claude; expectativa de SDKs nativos otimizados para o pipeline Apple+Gemini.",
+        "glossary": [
+          {
+            "term": "Gemini",
+            "def": "Família de foundation models multimodais do Google, atualmente nas versões 3.1 Ultra (2M tokens) e 3.1 Flash-Lite."
+          },
+          {
+            "term": "Apple Intelligence",
+            "def": "Branding da Apple para modelos próprios on-device em iPhone/Mac/iPad, com fallback para nuvem privada (Private Cloud Compute)."
+          },
+          {
+            "term": "Private Cloud Compute (PCC)",
+            "def": "Infraestrutura da Apple para inferência em servidores dedicados sem persistência de dados — usuário não consegue ser identificado mesmo pela Apple."
+          }
+        ]
+      },
+      "url": "https://fortune.com/2026/01/13/apple-ai-deal-with-google-gemini-means-for-google-apple-openai/",
+      "published_at": "2026-04-30T18:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "apple",
+        "google",
+        "gemini",
+        "siri",
+        "anthropic"
+      ],
+      "image": "https://fortune.com/img-assets/wp-content/uploads/2026/01/GettyImages-1500910680-e1768339061314.jpg?resize=1200,600",
+      "source": "Fortune"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "critical",
+      "headline": "CISA adiciona CVE-2026-41940 (cPanel CVSS 9.8) ao KEV em 1/mai — deadline FCEB em 22/mai",
+      "cves": [
+        "CVE-2026-41940"
+      ],
+      "summary": "Em 1/mai, CISA inclui formalmente o auth-bypass do cPanel (CVE-2026-41940, CVSS 9.8) no KEV catalog. Atacantes exploram desde fev/26 via 'missing authentication for critical function' no whostmgrsession; deadline de patch para FCEB é 22/mai. Para arquiteto que tem cPanel em fleet de hosting compartilhado, prazo é simbólico — ataque já é endêmico há mais de 2 meses.",
+      "explain": {
+        "junior": "O cPanel é um painel popular para administrar servidores de hospedagem. Uma falha grave permite tomar controle total dele sem precisar de senha. A CISA, agência do governo americano, adicionou essa falha hoje à lista oficial de bugs sob ataque — agências federais têm 21 dias para corrigir.",
+        "pleno": "O bug em si tem 2 meses de exploração ativa, mas a entrada formal no KEV em 1/mai cria efeito cascata: vendors de SaaS que dependem de compliance FedRAMP precisam patchar antes de 22/mai; framework de risco SOC2/ISO27001 começa a citar KEV como controle obrigatório; cybersecurity insurance vai considerar KEV unpatched como negligência. A vulnerabilidade é missing authentication na função whostmgrsession, ou seja, endpoint crítico exposto sem qualquer guard.",
+        "senior": "Para arquiteto que opera serviço de hosting: priorizar imediatamente upgrade cPanel; auditoria de quais clientes ainda estão em versão vulnerável (alguns operadores oferecem multi-tenant cPanel sem upgrade automático); WAF rule específica para padrão whostmgrsession; comunicação proativa para clientes finais. Política de longo prazo: KEV addition deve disparar SLA interno de 7 dias, não 21.",
+        "glossary": [
+          {
+            "term": "cPanel",
+            "def": "Painel de controle web para gerenciamento de hospedagem compartilhada; dominante em provedores de hosting Linux há 2 décadas."
+          },
+          {
+            "term": "KEV",
+            "def": "Known Exploited Vulnerabilities catalog mantido pela CISA — lista oficial de CVEs com exploração ativa confirmada e deadline de mitigação."
+          },
+          {
+            "term": "FCEB",
+            "def": "Federal Civilian Executive Branch — agências civis do governo federal americano sujeitas às diretivas de patching da CISA."
+          }
+        ]
+      },
+      "url": "https://www.cisa.gov/news-events/alerts/2026/05/01/cisa-adds-one-known-exploited-vulnerability-catalog",
+      "published_at": "2026-05-01T13:30:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cpanel",
+        "kev",
+        "cisa",
+        "auth-bypass"
+      ],
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
+      "source": "CISA"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Vercel Sandbox passa a falar com Postgres gerenciado em 1/mai — Neon, Supabase, RDS, Nile, Prisma Postgres",
+      "summary": "Sandbox da Vercel agora detecta o sequence de TLS startup do Postgres e roteia conexão direto para Neon, Supabase, AWS RDS, Nile e Prisma Postgres antes de aplicar a domain policy do firewall. Em paralelo, política de retention para Hobby caiu para 30 dias a partir de 29/abr. Para arquiteto rodando agentic workflows que precisam de DB managed, fim do gambiarra com tunnel intermediário.",
+      "explain": {
+        "junior": "O ambiente isolado da Vercel onde código gerado por IA pode rodar (Sandbox) agora consegue se conectar diretamente em bancos Postgres na nuvem. Antes era necessário um intermediário; agora é direto e seguro.",
+        "pleno": "O Vercel Sandbox firewall opera em L4/L7. O update detecta a fase de TLS upgrade do protocolo Postgres (que vem antes do connect 'real') e libera a conexão antes do upgrade, aplicando policy via SNI/host depois. Isso destrava connection pooling com Neon e Supabase sem proxy, melhora latência de cold start em agents que rodam queries e remove necessidade de wrapping com HTTP.",
+        "senior": "Para arquiteto desenhando agent runtime sem gerenciar VPC: combinar Vercel Sandbox + Neon (ou Supabase) é agora padrão viável para protótipos rápidos de agentic workflows que precisam de Postgres managed. Vigiar: pricing — Sandbox é fast e barato em scale, mas firewall por domínio impõe whitelist explícita; retenção 30 dias afeta Hobby pipelines; queries longas precisam timeout strategy.",
+        "glossary": [
+          {
+            "term": "Vercel Sandbox",
+            "def": "Ambiente isolado e efêmero da Vercel onde código não-confiável (ex: gerado por LLM) pode executar com firewall e timeout configuráveis."
+          },
+          {
+            "term": "Neon",
+            "def": "Postgres serverless com branching no estilo git, focado em developer experience e cold start sub-segundo."
+          },
+          {
+            "term": "Supabase",
+            "def": "Backend as a service open-source baseado em Postgres, com auth, storage e edge functions integrados."
+          },
+          {
+            "term": "TLS upgrade",
+            "def": "Postgres usa protocolo plain antes de upgrade para TLS via STARTTLS-like handshake — firewalls L7 precisam entender essa transição."
+          }
+        ]
+      },
+      "url": "https://vercel.com/changelog/vercel-sandbox-can-now-connect-to-hosted-postgres-databases",
+      "published_at": "2026-05-01T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "vercel",
+        "postgres",
+        "sandbox",
+        "agents"
+      ],
+      "image": "https://assets.vercel.com/image/upload/q_auto/front/changelog/og/Vercel_Changelog_OG.png",
+      "source": "Vercel Blog"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS leva Bedrock AgentCore para região de São Paulo em 1/mai — runtime, identity, gateway, browser e code interpreter no GA local",
+      "summary": "Em 1/mai, AWS publica Bedrock AgentCore disponível em sa-east-1 (São Paulo). Suíte completa entra no GA regional: Runtime (Python/Node/Java), Identity, Gateway, Policy, Observability, Code Interpreter e Browser tool. Permite construir agents com data residency Brasil e latência baixa para clientes regionais — útil para LGPD, setor público e fintechs locais.",
+      "explain": {
+        "junior": "A AWS abriu sua plataforma para construir agents de IA (AgentCore) na região São Paulo. Antes empresas brasileiras precisavam mandar dados para os EUA; agora rodam no Brasil mesmo.",
+        "pleno": "AgentCore em sa-east-1 cobre os 7 building blocks: Runtime (executor seguro com session isolation), Identity (OAuth 2.0 + SigV4 + OBO), Gateway (rate limiting + routing), Policy (guardrails), Observability (CloudWatch nativo), Code Interpreter (Python sandbox), Browser (headless Chromium). Para banco/seguradora brasileira sob LGPD ou requisito BCB de localização, isso destrava fluxos antes inviáveis.",
+        "senior": "Para arquiteto de agentic workflows no Brasil: avaliar imediatamente se vale migrar de stack autogerido (LangGraph/Pydantic AI + ECS) para AgentCore managed em sa-east-1. Trade-offs — vendor lock-in vs. compliance LGPD imediato; pricing por hour de runtime + tokens; observabilidade integrada a CloudWatch reduz silo. Cuidado com data flow cross-region se modelo continuar em us-east-1.",
+        "glossary": [
+          {
+            "term": "AgentCore",
+            "def": "Plataforma managed da AWS para agents de IA — fornece runtime sandboxed, identity, gateway, policy e observability como serviços compostos."
+          },
+          {
+            "term": "sa-east-1",
+            "def": "Região AWS em São Paulo, principal opção brasileira para data residency e baixa latência local."
+          },
+          {
+            "term": "OBO (On-Behalf-Of)",
+            "def": "Token exchange OAuth onde um agent age em nome de um usuário autenticado, sem precisar refazer fluxo de consent a cada chamada downstream."
+          },
+          {
+            "term": "LGPD",
+            "def": "Lei Geral de Proteção de Dados brasileira (Lei 13.709/2018), análoga ao GDPR europeu."
+          }
+        ]
+      },
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/05/agentcore-sao-paulo-region/",
+      "published_at": "2026-05-01T15:30:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "aws",
+        "bedrock",
+        "agentcore",
+        "brasil",
+        "lgpd"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "source": "AWS What's New"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Microsoft Build 2026 confirma 2-3 de junho em São Francisco — formato 'no-fluff' focado em workflows de IA e agents reais",
+      "summary": "Em material publicado no fim de abril, Microsoft confirma Build 2026 em 2-3/jun em São Francisco com formato encurtado de 2 dias 'no-fluff'. Foco declarado: AI development workflows, models, agents e multi-model systems em produção real, com deep-dives lado a lado de engenheiros de plataforma. Ingresso presencial US$ 1.099, streaming gratuito. Marca o primeiro Build pós-mudança de Seattle para São Francisco e mira mais densidade técnica que keynotes corporativos.",
+      "explain": {
+        "junior": "Microsoft Build é a maior conferência de desenvolvedores da Microsoft. Em 2026 muda de cidade (sai de Seattle para São Francisco), encurta para 2 dias e o foco é mais hands-on em desenvolvimento de IA do que apresentações longas.",
+        "pleno": "A mudança de formato — keynote enxuto + sessões hands-on densas, descrita como 'no-fluff' — sinaliza que Microsoft está cansado de demos polidas e quer maximizar contato técnico. Tópicos confirmados: Copilot platform avançado, Foundry/Azure AI orchestration, Agent SDK, multi-model routing, integração com OpenAI Codex. Build virou referência principal para developers que constroem agents em ecossistema MS.",
+        "senior": "Para arquiteto que opera Azure ou que avalia adoção de Copilot enterprise: planejar streaming dos keynotes 2-3/jun, sessions sobre Foundry e Agent Framework são críticas. Esperar anúncios de Foundry 2.0, novas integrations Azure AI Foundry com OpenTelemetry, possível reveal de SDK de agents para Office. Marcar agenda paralela: GitHub Universe (geralmente outubro) reforça a outra metade da plataforma.",
+        "glossary": [
+          {
+            "term": "Build",
+            "def": "Conferência anual da Microsoft para desenvolvedores; historicamente em maio em Seattle, agora em junho em São Francisco."
+          },
+          {
+            "term": "Foundry",
+            "def": "Plataforma de IA da Microsoft para construção, deploy e orquestração de modelos e agents — sucessora do Azure AI Studio."
+          },
+          {
+            "term": "Copilot Studio",
+            "def": "Ferramenta low-code para construção de copilots customizados integrados ao Microsoft 365 e Azure."
+          }
+        ]
+      },
+      "url": "https://build.microsoft.com/en-US/home",
+      "published_at": "2026-04-29T12:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "microsoft",
+        "build",
+        "conference",
+        "agents"
+      ],
+      "image": "https://eventtools.event.microsoft.com/build2026/Build_FY26_Ph1-Registration_OpenGraph_Title-Date-Design_1200x630_Updated_3.9.png",
+      "source": "Microsoft DevBlogs"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Wasm em 2026: WASI 0.2 cobre Wasmtime/Spin/wasmCloud, edge tem Spin processando 75M req/s, WASI 1.0 em pipeline para o ano",
+      "summary": "Síntese do estado prático do WebAssembly server-side em 2026: WASI 0.2 totalmente implementado em Wasmtime, Spin e wasmCloud. Spin (acquirida pela Akamai em 2025) processa ~75M req/s na plataforma edge da Akamai. Spin v3.5 trouxe WASIp3 RC com async I/O nativo. WASI 1.0 stable está planejado para 2026. Realidade: edge/CDN, FaaS e tooling interno são os casos vivos; microserviços general-purpose ainda não rodam Wasm em scale.",
+      "explain": {
+        "junior": "WebAssembly não é mais coisa só de browser — virou jeito de rodar código pequeno e rápido em servidores e edge. Em 2026 a especificação básica para escrever programas de servidor (WASI 0.2) virou realidade em três runtimes principais.",
+        "pleno": "WASI 0.2 finalmente padronizou async, sockets, filesystem e clocks de forma portátil — algo que faltava desde o início do Wasm fora do browser. Spin, focado em microsserviços poliglotas, virou plataforma de FaaS de fato no edge da Akamai. wasmCloud explora o lado distribuído com actor model. WASI 1.0 vem em 2026 com spec congelada e LTS de 2 anos pelo Bytecode Alliance — infraestrutura ganha confiança para apostas de longo prazo.",
+        "senior": "Para arquiteto de plataforma: hora de avaliar Wasm onde dor existe — cold start sub-50ms, multi-tenancy seguro, compute portable entre cloud e edge. Casos que funcionam: handlers de API simples, edge functions, plugins seguros para apps SaaS. O que ainda não funciona: microserviços com deps pesadas (sql drivers maturos, NIO completo), apps stateful longos. Componentes a vigiar: WASIp3 (async nativo) e Component Model para composição entre linguagens.",
+        "glossary": [
+          {
+            "term": "WASI",
+            "def": "WebAssembly System Interface — spec que define como módulos Wasm acessam recursos do sistema (filesystem, sockets, clocks) de forma portável."
+          },
+          {
+            "term": "Spin",
+            "def": "Framework da (ex-Fermyon, agora Akamai) para construir e rodar aplicações Wasm/WASI em servidor, com foco em FaaS poliglota."
+          },
+          {
+            "term": "Component Model",
+            "def": "Modelo do Wasm que permite componentes em diferentes linguagens trocar tipos ricos (records, lists, options) sem serialização manual."
+          },
+          {
+            "term": "Bytecode Alliance",
+            "def": "Fundação que cuida da governança do Wasmtime e do ecossistema WASI; criada em 2019 por Mozilla, Fastly, Intel e Red Hat."
+          }
+        ]
+      },
+      "url": "https://bytecodealliance.org/articles/webassembly-the-updated-roadmap-for-developers",
+      "published_at": "2026-04-28T16:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "wasm",
+        "wasi",
+        "spin",
+        "wasmtime",
+        "edge"
+      ],
+      "image": "https://bytecodealliance.org/articles/img/2023-07-24-roadmap/bytecode-alliance-roadmap-part1-wasi-preview-2.png",
+      "source": "Bytecode Alliance"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Trainium decoupling: AWS confirma OpenAI/Anthropic em silício custom, Anthropic mira 5GW de capacidade Trainium2/3 até fim de 2026",
+      "summary": "Encerrando a semana de capex AI, fica claro o decoupling NVIDIA: AWS lançou OpenAI models + Codex + Managed Agents em Bedrock rodando Trainium silicon (anúncio de meados de mar/26 ainda reverberando). Anthropic firmou compromisso por até 5 GW de capacidade — Trainium2 começa em 1H/26 e ~1 GW combinado de Trainium2+3 até dez/26. Para AWS, é validação de ASIC; para clientes, é alternativa real ao H100/H200/B100 da NVIDIA com pricing diferenciado.",
+      "explain": {
+        "junior": "Treinar e rodar modelos grandes de IA tradicionalmente exige GPUs da NVIDIA. A Amazon construiu sua própria família de chips (Trainium) e finalmente fechou contratos massivos com OpenAI e Anthropic para usar Trainium em vez de NVIDIA — sinal de que a 'monopólio' da NVIDIA está rachando.",
+        "pleno": "Trainium2 já está em produção; Trainium3 anunciado em dez/25. Anthropic compromete 5 GW de capacidade até 2027, OpenAI roda subset dos models GPT-5 family em Bedrock sobre Trainium. Em paralelo, Google (TPU v7 Ironwood), Microsoft (Maia 200), Meta (MTIA) e Anthropic (rumores) constroem ASIC próprio. NVIDIA responde com Vera Rubin (50 PFLOPS FP4, 288GB HBM4) mas analistas projetam fatia de inferência caindo de 90%+ para 20-30% até 2028.",
+        "senior": "Para arquiteto que decide pricing de inferência em workloads pesadas: hora de testar Trainium2 em Bedrock para casos com perfil throughput alto sem extrema sensibilidade a tail latency. Ações — benchmark direto Trainium vs H200 em modelos próprios; revisão de RIs/Savings Plans (Trainium tem SP dedicado mais barato); arquitetura para portabilidade (modelos formatos exportáveis: GGUF, ONNX, TRT-LLM, Triton).",
+        "glossary": [
+          {
+            "term": "Trainium2/Trainium3",
+            "def": "Famílias de ASICs da AWS desenhadas para treino e inferência de LLMs — alternativa ao stack NVIDIA H100/H200/B100."
+          },
+          {
+            "term": "Vera Rubin",
+            "def": "Próxima geração de GPU da NVIDIA prevista pós-Blackwell, com 50 PFLOPS FP4 e 288GB HBM4."
+          },
+          {
+            "term": "ASIC",
+            "def": "Application-Specific Integrated Circuit — chip projetado para uma carga específica (ex: inferência LLM), tipicamente mais eficiente que GPU genérica."
+          }
+        ]
+      },
+      "url": "https://thenewstack.io/openai-bedrock-trainium-silicon/",
+      "published_at": "2026-05-01T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "aws",
+        "trainium",
+        "anthropic",
+        "openai",
+        "asic"
+      ],
+      "image": "https://blogs.nvidia.com/wp-content/uploads/2026/04/logo-lockup-codex-tech-blog-v-1920x1080-5175350.png",
+      "source": "The New Stack"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "headline": "PicPay reporta primeiro Q1 público pós-IPO Nasdaq — fintech BR consolida modelo de wallet+crédito após listagem de US$ 434 mi",
+      "summary": "Após IPO de US$ 434 mi na Nasdaq em 29/jan (ticker PICS — primeira fintech BR listada nos EUA desde Nubank em 2021), PicPay entrega primeiro Q1 trimestral público em 30/abr. Resultado mostra wallet, crédito BNPL, marketplace e Pix Crédito com momentum, e PicPay Tech blog detalha o que mudou em arquitetura de pagamento BR para suportar a carga de Q1 — referência rara de engineering blog brasileiro com nível Stripe/Shopify.",
+      "explain": {
+        "junior": "PicPay é o segundo grande IPO de fintech brasileira nos EUA (depois do Nubank). Acabou de divulgar resultados oficiais como empresa pública pela primeira vez, e a equipe técnica vem publicando posts sobre como a engenharia interna escala Pix e BNPL em volume.",
+        "pleno": "A leitura arquitetural interessa para fintech BR: o IPO força publicação de SOC reports, métricas de availability e detalhes de stack — uma demanda nova para empresa BR. PicPay Tech blog vem detalhando feature flags em escala, observabilidade de pagamento Pix, arquitetura de cartão tokenizado para wallet, e desafios de BNPL com risco de credito real-time. Sinaliza maturidade do setor e abre playbooks raros para arquitetos brasileiros.",
+        "senior": "Para arquiteto BR em fintech competidora ou bank: vale acompanhar PicPay Tech como referência editorial — junto com Nubank Tech, é uma das fontes BR com profundidade comparável a Stripe Engineering. Áreas de aprendizado: Pix com idempotência forte, fraude em real-time, arquitetura multi-tenant para PIX Crédito, design de cartão pre-pago tokenizado para wallet.",
+        "glossary": [
+          {
+            "term": "PICS",
+            "def": "Ticker NASDAQ do PicPay desde 29/jan/2026; primeira fintech BR listada nos EUA pós-Nubank (NYSE: NU em 2021)."
+          },
+          {
+            "term": "Pix Crédito",
+            "def": "Modalidade de pagamento Pix em que valor é financiado/parcelado pelo banco emissor, usando rails Pix tradicional."
+          },
+          {
+            "term": "BNPL",
+            "def": "Buy Now Pay Later — crédito de varejo no checkout, parcelado em 3-6 vezes sem juros para o consumidor (juros vêm do merchant)."
+          }
+        ]
+      },
+      "url": "https://www.pymnts.com/news/ipo/2026/brazil-fintech-picpay-files-for-us-ipo-as-profits-surge",
+      "published_at": "2026-04-30T20:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "picpay",
+        "fintech-br",
+        "ipo",
+        "pix",
+        "bnpl"
+      ],
+      "image": "https://www.pymnts.com/wp-content/uploads/2026/01/PicPay.jpeg?w=457",
+      "source": "PYMNTS"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "Mike Stonebraker (DBOS): por que workflows ganham de event-driven — toda framework agêntica está convergindo nesse modelo",
+      "summary": "Em 29/abr, Mike Stonebraker publicou ensaio defendendo workflows sobre arquitetura puramente event-driven em sistemas agentic. Argumento: agents long-running precisam de durabilidade explícita (estado em DB), retry idempotente e observability rastreável — exatamente o que workflow engines (Temporal, Restate, DBOS) entregam, mas que EDA puro precisa reconstruir. Convergência das frameworks (LangGraph, Pydantic AI) para o modelo workflow é evidência empírica.",
+      "explain": {
+        "junior": "Existe um debate entre dois jeitos de construir software complexo: 'event-driven' (componentes mandam mensagens entre si) ou 'workflow' (uma sequência de passos com estado guardado). O Mike Stonebraker, criador do PostgreSQL, argumenta que para construir agentes de IA confiáveis o modelo workflow é melhor.",
+        "pleno": "EDA puro é elegante para fanout, mas em agentic workflows esconde dois problemas: (a) estado distribuído precisa de saga/CQRS pra ser durável, (b) debug de runs longos vira arqueologia em logs. Workflow engines (Temporal, Restate, DBOS) tornam estado e progresso first-class — você consulta 'em que passo o agent X parou?' como query. Stonebraker observa que LangGraph, Pydantic AI e até Anthropic harness adotaram modelo workflow internamente.",
+        "senior": "Para arquiteto desenhando agentic system de produção: a decisão entre EDA e workflow não é dogmática, mas o vento está claro — workflow vence em long-running, EDA continua relevante para fanout massivo (notification, ingestão de eventos). Combinação prática: Kafka/NATS para fanout + Temporal/DBOS para workflows agentic. Stack de telemetria deve cobrir os dois (OTel traces para EDA, replay/historic da workflow engine).",
+        "glossary": [
+          {
+            "term": "DBOS",
+            "def": "Database OS — projeto de Mike Stonebraker que implementa durable execution leve em cima do Postgres, sem servidor externo."
+          },
+          {
+            "term": "Temporal",
+            "def": "Workflow engine líder em durable execution — separa o código do workflow do estado, com replay determinístico e retry automático."
+          },
+          {
+            "term": "Durable execution",
+            "def": "Padrão onde o estado de uma função/workflow é persistido em cada step, permitindo resume após crash sem perder progresso."
+          },
+          {
+            "term": "EDA",
+            "def": "Event-Driven Architecture — sistemas comunicando-se por eventos assíncronos via brokers (Kafka, NATS, RabbitMQ)."
+          }
+        ]
+      },
+      "url": "https://docs.dbos.dev/why-dbos",
+      "published_at": "2026-04-29T15:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "workflow",
+        "durable-execution",
+        "stonebraker",
+        "dbos",
+        "temporal"
+      ],
+      "image": "https://docs.dbos.dev/img/social-card.jpg",
+      "source": "DBOS Docs"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Charity Majors prepara O11yCon 2026 (20-21 mai SF) com tema 'engineering teams building agent era' — Observability Engineering 2ª ed em 2026",
+      "summary": "Honeycomb anunciou em 15/abr o O11yCon 2026 (20-21/mai em São Francisco), pautado em times de engenharia construindo na era dos agents. Em paralelo, Charity Majors confirmou segunda edição do livro 'Observability Engineering' para 2026 com 32 capítulos novos sobre custo, governança, AI observability e SLOs como API. Sinal de mercado: 'observability 2.0' baseada em wide structured events vira default, e dashboards saem do centro do trabalho.",
+      "explain": {
+        "junior": "Honeycomb é uma das empresas de referência em observabilidade (saber o que tá acontecendo dentro do seu sistema em produção). A CTO, Charity Majors, está organizando uma conferência pequena e focada em engenheiros que estão construindo IA, e relançando o livro de referência da área com capítulos novos sobre custo e IA.",
+        "pleno": "A tese 'observability 2.0' que Charity Majors defende: largar a separação metrics/logs/traces e ir para wide structured events (alta cardinalidade, ad-hoc queryable, derivar SLOs depois). Dashboards passam a ser ponto de partida apenas para incidentes — exploração interativa vira o trabalho diário. O11yCon mira público pequeno (~500 pessoas) e profundidade técnica em vez de KPIs de marketing.",
+        "senior": "Para arquiteto que recebe budget para revisitar stack de observabilidade: a janela 2026 é decisiva — OpenTelemetry consolida, Datadog/Honeycomb empurram primitivas para AI observability nativa (LLM evals, agent traces, cost-per-request). Avaliar agora: schema de wide events, prática de SLOs como API entre teams, governança de cardinalidade, retention de traces longos.",
+        "glossary": [
+          {
+            "term": "Observability 2.0",
+            "def": "Termo cunhado por Charity Majors para uma evolução de observabilidade baseada em wide structured events em vez de metrics + logs + traces separados."
+          },
+          {
+            "term": "Wide events",
+            "def": "Eventos com muitos campos arbitrários (high cardinality), permitindo agregação ad-hoc por qualquer dimensão depois da ingestão."
+          },
+          {
+            "term": "SLO como API",
+            "def": "Padrão proposto por Charity Majors em que SLOs viram contrato formal entre times — equivalente operacional do contrato de API."
+          },
+          {
+            "term": "Honeycomb",
+            "def": "Plataforma de observabilidade focada em alta cardinalidade e exploração ad-hoc; cofundada por Charity Majors em 2016."
+          }
+        ]
+      },
+      "url": "https://www.honeycomb.io/blog/time-to-version-observability-signs-point-to-yes",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "observability",
+        "honeycomb",
+        "slo",
+        "agents"
+      ],
+      "image": "https://cdn.sanity.io/images/927dxq0h/production/164ebc462804394c321ec3d8d7517041c00a4def-2561x2006.png?rect=0,334,2561,1338&amp;w=1200&amp;h=627&amp;fit=crop",
+      "source": "Honeycomb Blog"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Project Glasswing entra em segunda semana com FreeBSD CVE-2026-4747 (RPCSEC_GSS RCE pré-auth, 17 anos)",
+      "cves": [
+        "CVE-2026-4747"
+      ],
+      "summary": "Continuação dos achados de Mythos: CVE-2026-4747 (RPCSEC_GSS stack overflow no NFS do FreeBSD) é RCE remoto pré-autenticado em kernel context (ring 0). Cope buffer copia até 304 bytes além do svc_rpc_gss_validate, que copia credentials sem checar comprimento. Bug viveu 17 anos sem detecção; Claude Mythos derivou exploit funcional em ~8h de tempo total (4h de 'thinking'). Atinge Netflix, WhatsApp infra, PlayStation OS e appliances de rede de alta performance baseados em FreeBSD.",
+      "explain": {
+        "junior": "A Anthropic tem um modelo de IA chamado Mythos, especializado em achar falhas de segurança. Ele descobriu uma falha grave em FreeBSD (sistema operacional usado pela Netflix, WhatsApp, PlayStation) que estava lá há 17 anos sem ninguém perceber.",
+        "pleno": "O bug é stack buffer overflow clássico em svc_rpc_gss_validate(): o copy de credenciais copia até 400 bytes em buffer de 96 bytes utilizáveis na pilha, dando 304 bytes de overflow para sobrescrever return address e ganhar code execution em ring 0 (kernel). NFS é tipicamente exposto em redes internas; em borda compromete imediatamente. Mythos foi o primeiro modelo a derivar exploit funcional sem assistência humana, em horas — não dias.",
+        "senior": "Para arquiteto que opera fleet com FreeBSD ou apliances baseados (storage, CDN, firewalls Junos): patch imediato; auditoria de exposição NFS (deveria ser zero em borda); IDS/IPS rule específica para padrão RPCSEC_GSS overflow. Tendência estrutural: vulnerabilidades dormentes por décadas vão entrar em fila acelerada conforme modelos como Mythos liberam para parceiros — o tempo entre descoberta e patch precisa cair drasticamente; SBOM + auto-patch viram requisitos.",
+        "glossary": [
+          {
+            "term": "RPCSEC_GSS",
+            "def": "Mecanismo de segurança do Sun RPC (usado em NFSv3/v4) que adiciona auth Kerberos/GSS-API por cima do RPC tradicional."
+          },
+          {
+            "term": "FreeBSD",
+            "def": "Sistema operacional Unix-like derivado do BSD, usado em produção pela Netflix, parte do WhatsApp, PlayStation OS e appliances de rede de alta performance."
+          },
+          {
+            "term": "Stack buffer overflow",
+            "def": "Vulnerabilidade onde dados copiados para um buffer na pilha excedem seu tamanho, sobrescrevendo o return address e permitindo controle de execução."
+          },
+          {
+            "term": "Project Glasswing",
+            "def": "Iniciativa da Anthropic com AWS, Google, Microsoft, Apple e outros para usar Mythos em descoberta de zero-days em software crítico."
+          }
+        ]
+      },
+      "url": "https://www.anthropic.com/glasswing",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "freebsd",
+        "rce",
+        "kernel",
+        "claude-mythos",
+        "glasswing"
+      ],
+      "image": "https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/68309ab48369f7ad9b4a40e1_open-graph.jpg",
+      "source": "Anthropic"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "release",
+      "version": "1.0.40",
+      "headline": "Claude Code 1.0.40 sai em 1/mai com PR branch decoration corrigida e /clear/new resetando custom agent",
+      "description": "Release do dia ajusta exibição da branch no footer independente do tamanho do nome do modelo, faz /clear e /new resetarem o custom agent ativo, e melhora streaming de respostas para sessões grandes.",
+      "explain": {
+        "junior": "Claude Code é o CLI da Anthropic para programar com IA direto no terminal. A versão 1.0.40, lançada em 1/mai, conserta um bug visual e melhora como os comandos /clear e /new se comportam ao trocar de agente customizado.",
+        "pleno": "Highlights operacionais: footer fixo da branch independente do nome do modelo (importante quando se usa modelos com nomes longos como claude-sonnet-4-5-20250929); /clear e /new agora resetam o custom agent selecionado em vez de manter o anterior, reduzindo erros silenciosos. MCP startup mais rápido continua linha de release recente.",
+        "senior": "Para times que usam Claude Code com custom agents pesados (subagent definitions extensas), o reset de /new evita situação onde subagent vazado de sessão anterior aplica policy errada na nova. Combinado com hooks reforçados, vira opção viável para automação CI agent-driven.",
+        "glossary": [
+          {
+            "term": "Custom agent",
+            "def": "Subagent definido pelo usuário em Claude Code com prompt, ferramentas e modelo próprios — invocado via Task tool ou /agents."
+          },
+          {
+            "term": "MCP startup",
+            "def": "Tempo até o cliente estar pronto após handshake com servidores MCP configurados; escala mal com muitos servers em parallel sem otimização."
+          }
+        ]
+      },
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v1.0.40",
+      "published_at": "2026-05-01T14:00:00-03:00",
+      "image": "https://opengraph.githubassets.com/1/anthropics/claude-code",
+      "tags": [
+        "claude",
+        "cli",
+        "agent",
+        "release"
+      ],
+      "source": "Claude Code Changelog"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "release",
+      "version": "copilot-cli 1.0.40",
+      "headline": "GitHub Copilot CLI 1.0.40 (1/mai): MCP via client_credentials OAuth e prompt mode com gating de hooks/MCP",
+      "description": "CLI ganha autenticação OAuth headless para servidores MCP via client_credentials grant, prompt mode (-p) gating repo hooks e workspace MCP atrás de env vars opt-in, e MCP OAuth tokens cacheados corretamente quando vários servers compartilham URL com client IDs diferentes.",
+      "explain": {
+        "junior": "O CLI do GitHub Copilot, que permite usar IA pelo terminal, recebeu melhorias em segurança e suporte a OAuth. Agora servers MCP podem se autenticar sem precisar de browser, e o modo prompt (-p) bloqueia coisas perigosas por default.",
+        "pleno": "client_credentials grant é OAuth 2.0 server-to-server — destrava cenários CI/CD onde o CLI roda sem usuário interativo (e por isso não pode abrir browser). Prompt mode com gating de hooks e workspace MCP atrás de variáveis de ambiente reduz superfície de ataque em pipelines automatizados. OAuth tokens com client ID diferentes mas mesma URL agora separam corretamente — patch importante para multi-tenant.",
+        "senior": "Para arquiteto rodando Copilot CLI em CI agent: client_credentials destrava integração robusta com MCP servers internos (sem hacks de impersonation). Combinar com prompt mode gating em pipelines não-interativos para reduzir blast radius — workspace MCP de runner de CI pode ter cred sensível, gating evita exposição inadvertida.",
+        "glossary": [
+          {
+            "term": "client_credentials",
+            "def": "Grant type OAuth 2.0 onde a aplicação se autentica diretamente com client_id + client_secret, sem fluxo de redirecionamento de usuário."
+          },
+          {
+            "term": "Prompt mode (-p)",
+            "def": "Modo do Copilot CLI onde o usuário envia uma única instrução em vez de sessão interativa — usado em scripts e CI."
+          },
+          {
+            "term": "MCP OAuth",
+            "def": "Camada de autenticação OAuth para servidores MCP, permitindo policy de acesso fino entre cliente e tools expostas."
+          }
+        ]
+      },
+      "url": "https://github.com/github/copilot-cli/releases",
+      "published_at": "2026-05-01T13:00:00-03:00",
+      "image": "https://opengraph.githubassets.com/1/github/copilot-cli",
+      "tags": [
+        "github",
+        "copilot",
+        "cli",
+        "mcp",
+        "oauth"
+      ],
+      "source": "GitHub Changelog"
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "💻",
+      "kind": "release",
+      "version": "1.118",
+      "headline": "VS Code 1.118 entrega remote control para Copilot CLI sessions, semantic search e TypeScript 7 — com hotfix 1.118.1 corrigindo terminal break",
+      "description": "Release de fim de abril/início de maio agrega: remote control de Copilot CLI sessions de github.com ou app mobile; semantic codebase search; controle enterprise via membership de org GitHub; ~10x menos token billing para contexto repetido em modelos Anthropic. Hotfix 1.118.1 restaurou Copilot CLI quebrado no 1.118.",
+      "explain": {
+        "junior": "Nova versão do VS Code traz controle remoto de sessões do Copilot CLI (você pode acompanhar e dirigir tarefas de IA pelo celular) e busca semântica que entende intenção do código.",
+        "pleno": "Três peças importantes: (a) remote control aproxima VS Code do modelo 'agent rodando ao fundo' que outros tools (Cursor) já têm; (b) semantic search usa embeddings do codebase para queries em linguagem natural; (c) o billing de contexto repetido cai ~10x em modelos Anthropic graças a prompt caching, importante em sessões longas multi-turn de agent. O 1.118 quebrou o Copilot CLI por path resolution defeituoso, corrigido no 1.118.1.",
+        "senior": "Para time enterprise: gating de chat baseado em membership de org GitHub permite policy compliance sem provisioning de SSO custom. Semantic search começa a desbancar 'find all references' como ponto de partida em codebases enterprise — vale rebuild dos índices em monorepos grandes. Billing menor em context repetido reduz custo real de Copilot Workspace e agent flows.",
+        "glossary": [
+          {
+            "term": "Remote control",
+            "def": "Capacidade de monitorar e enviar comandos para uma sessão de CLI/agent remotamente via web ou app mobile."
+          },
+          {
+            "term": "Prompt caching",
+            "def": "Técnica em que o servidor cacheia partes do prompt entre calls do mesmo cliente, reduzindo o billing de tokens repetidos em ~10x."
+          },
+          {
+            "term": "Semantic search",
+            "def": "Busca em código usando embeddings vetoriais em vez de matching textual — entende intenção, não só sintaxe."
+          }
+        ]
+      },
+      "url": "https://www.neowin.net/news/microsoft-updates-vs-code-to-1118-and-adds-remote-control-for-copilot-cli/",
+      "published_at": "2026-05-01T11:00:00-03:00",
+      "image": "https://code.visualstudio.com/opengraphimg/opengraph-home.png",
+      "tags": [
+        "vscode",
+        "copilot",
+        "release"
+      ],
+      "source": "Neowin"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🔄",
+      "kind": "release",
+      "version": "3.4 GA",
+      "headline": "Argo CD 3.4 entra em GA na 2ª-feira (4/mai) com Pause Reconciliation, Helm value globs e migração mandatória de Teams webhook",
+      "description": "Feature freeze foi locked em rc2; GA marcada para 4/mai. Headline features: pausar reconciliação de cluster inteiro (Day-2 ops), Helm value globs (clean-up de valueFiles bloated em Application config) e migração obrigatória de Microsoft Teams webhook (Office 365 Connectors estão sendo desligados pela MS).",
+      "explain": {
+        "junior": "Argo CD é a ferramenta dominante para fazer deploy contínuo em Kubernetes a partir de Git. A versão 3.4 chega na próxima segunda com a capacidade de 'congelar' um cluster específico (parar de aplicar mudanças) e formas mais limpas de configurar Helm.",
+        "pleno": "Pause Reconciliation por cluster destrava cenários de incident response em que o cluster X precisa ficar congelado enquanto se aplica patch manual sem GitOps reverter. Helm value globs substituem listas longas de `valueFiles` por padrões glob, reduzindo merge conflicts em monorepos. Migração de Teams webhook é mandatória — quem deixar para depois perde notificação após o desligamento da MS.",
+        "senior": "Para arquiteto de plataforma: 3.4 vira opção viável para SREs que ainda dependem de pause manual via patch direto no K8s; planejar upgrade controlado (rc2 testado em staging antes do 4/mai). Migração Teams webhook exige inventário de notification controllers customizados — não basta upgrade da binary. Documentar runbook de pause+unpause como parte do D2 playbook.",
+        "glossary": [
+          {
+            "term": "Argo CD",
+            "def": "Ferramenta CNCF graduated de continuous delivery declarativo para Kubernetes baseada em GitOps."
+          },
+          {
+            "term": "Pause Reconciliation",
+            "def": "Capacidade de instruir o controller a parar de aplicar mudanças em um cluster sem desabilitar o GitOps inteiro."
+          },
+          {
+            "term": "Helm value globs",
+            "def": "Padrão (3.4+) que aceita glob patterns em vez de lista enumerada de arquivos de values, reduzindo PR friction."
+          },
+          {
+            "term": "Day-2 operations",
+            "def": "Operações pós-deploy: monitoramento, scaling, incident response, upgrade — em contraste com Day-0 (planning) e Day-1 (deploy)."
+          }
+        ]
+      },
+      "url": "https://github.com/argoproj/argo-cd/releases",
+      "published_at": "2026-04-30T18:00:00-03:00",
+      "image": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+      "tags": [
+        "argocd",
+        "gitops",
+        "kubernetes",
+        "release"
+      ],
+      "source": "Argo Project"
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "news",
+      "headline": "Cursor 3.2 atualiza changelog em 1/mai com refinamentos do Agents Window e novo modo de Background Agents",
+      "description": "Última leva de updates de Cursor refina o paralelismo de Agents Window introduzido na 3.0/3.2: melhor isolamento de processo, observabilidade por agent e modo background mais persistente — runtime de agent IDE consolidando.",
+      "explain": {
+        "junior": "O Cursor é uma IDE com IA que evoluiu de 'autocomplete inteligente' para 'computador pequeno onde rodam vários agentes ao mesmo tempo'. Esta análise explica como a arquitetura interna do Cursor 3.2 mudou para suportar isso.",
+        "pleno": "Cursor 3.2 introduziu Agents Window (paralelismo de agents), e a análise mostra como isso é viável: cada agent roda em processo isolado com sandbox próprio, share view de arquivos via filesystem watching, e MCP servers são montados como primitive (não plugin). .cursorrules vira a unidade de policy declarativa — define quais tools agent X pode chamar, quais arquivos pode editar, qual memory persiste.",
+        "senior": "Para arquiteto que decide IDE/agent stack para o time: o paper é referência editorial para apresentar o trade-off Cursor (runtime de agents, mais opinionated) vs. Claude Code (CLI flexível, terminal-first). Avaliação prática deve cobrir: custo de tokens em paralelismo (escala mal sem caching), governance de MCP servers compartilhados, observabilidade de runs de agent multiplos, e disaster recovery quando agent diverge.",
+        "glossary": [
+          {
+            "term": "Agents Window",
+            "def": "Painel introduzido em Cursor 3.x que mostra múltiplos agents rodando em paralelo, com status, file view e diff individual."
+          },
+          {
+            "term": ".cursorrules",
+            "def": "Arquivo de policy declarativa em Cursor que define instruções, permissões e tools por projeto ou agent."
+          },
+          {
+            "term": "Pat Moorhead",
+            "def": "Analista da Futurum Group, ex-AMD, autoridade reconhecida em análise de plataformas de tecnologia enterprise."
+          }
+        ]
+      },
+      "url": "https://cursor.com/changelog/3-2-agents-window",
+      "published_at": "2026-04-29T15:00:00-03:00",
+      "image": "https://cursor.com/assets/og.png",
+      "tags": [
+        "cursor",
+        "agents",
+        "ide",
+        "architecture"
+      ],
+      "source": "Cursor Changelog"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "tutorial",
+      "headline": "CNCF detalha In-Place Pod-Level Resources Vertical Scaling — VPA atualiza CPU/memory sem restart de container",
+      "description": "Em 30/abr, blog do Kubernetes documentou a graduação de in-place pod-level resources resize: VPA agora altera limits/requests de containers ativos sem precisar restart, evitando interrupção de stateful workloads. Recomendação inicial é flag em RBAC, não default.",
+      "explain": {
+        "junior": "Vertical Pod Autoscaler (VPA) é o componente do Kubernetes que ajusta automaticamente quanto de CPU e memória cada pod usa. Antes, mudar esses limites obrigava reiniciar o container. Com a feature nova, isso passa a acontecer sem reiniciar — crítico para apps com estado.",
+        "pleno": "In-place resize precisa de KEP-1287 (graduação de feature) e suporte do kubelet em todos os nodes da pool. O kernel Linux já suporta cgroup v2 resize on-the-fly; o kubelet agora propaga a mudança sem orchestrar restart. Vai impactar workloads stateful (DBs, brokers, caches): pode realocar memory burst de Q4 sem perder warm cache.",
+        "senior": "Para arquiteto de plataforma K8s: feature finalmente entrega o que VPA prometia desde 1.x. Plano de adoção — habilitar em namespaces selecionados primeiro (Dev/staging), monitorar OOM em workloads sensíveis (Java/Node com heap fixo não se beneficia de memory increase em runtime), validar drift entre cgroup limits e JVM flags (-Xmx não escuta cgroup). Combinar com HPA para pipelines mistos.",
+        "glossary": [
+          {
+            "term": "VPA",
+            "def": "Vertical Pod Autoscaler — componente que ajusta CPU/memory de pods baseado em uso histórico, complementar ao HPA (horizontal)."
+          },
+          {
+            "term": "In-place resize",
+            "def": "Capacidade de alterar resource limits de um container em execução sem disparar restart, preservando estado em memória."
+          },
+          {
+            "term": "KEP",
+            "def": "Kubernetes Enhancement Proposal — documento que descreve novas features e seu ciclo de maturidade (alpha → beta → stable)."
+          },
+          {
+            "term": "cgroup v2",
+            "def": "Versão moderna de control groups no Linux, que suporta hierarquia unificada e resize dinâmico de limits."
+          }
+        ]
+      },
+      "url": "https://kubernetes.io/blog/2026/04/30/kubernetes-pod-level-resources-vertical-scaling/",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "image": "https://kubernetes.io/images/kubernetes-horizontal-color.png",
+      "tags": [
+        "kubernetes",
+        "vpa",
+        "scaling"
+      ],
+      "source": "Kubernetes Blog"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🌱",
+      "kind": "release",
+      "version": "4.1.0-RC1",
+      "headline": "Spring Boot 4.1.0-RC1 sai com bug fixes em Jakarta EE 11 baseline e novidades em Spring AI integration",
+      "description": "Spring Boot 4.1.0-RC1 lançado em 23/abr; GA mira maio. Prepara o terreno para Jakarta EE 11 estável, melhora integration com Spring AI 1.0 e refina configuração de actuators para observabilidade nativa OpenTelemetry. Latest stable continua 4.0.5.",
+      "explain": {
+        "junior": "Spring Boot é o framework Java mais usado para construir aplicações empresariais. A versão 4.1, em release candidate, vai estabilizar no mês de maio e inclui melhorias de integração com IA (Spring AI) e observabilidade.",
+        "pleno": "4.1 baseia em Jakarta EE 11 estável, integra Spring AI 1.0 como starter primário (em vez de adicionar manualmente), e os actuators expõem por default endpoints OTel-compatíveis para metrics e traces — reduz boilerplate em obs stack moderno. Migration de 4.0.x para 4.1 é incremental; Spring Cloud 2025.0.x rastreia.",
+        "senior": "Para arquiteto Java enterprise: Spring Boot 4.1 sela a transição completa para Jakarta namespaces e formaliza Spring AI como cidadão de primeira classe — vale planejar piloto Spring AI antes do GA. Observabilidade: actuators + OTel reduz dependência de Micrometer custom. Manter atenção à compatibilidade de Spring Cloud Stream/Function durante upgrade.",
+        "glossary": [
+          {
+            "term": "Jakarta EE 11",
+            "def": "Versão atual do Jakarta EE (sucessor do Java EE), com namespaces 'jakarta.*' substituindo 'javax.*' e suporte a virtual threads."
+          },
+          {
+            "term": "Spring AI",
+            "def": "Projeto Spring para integrar LLMs (OpenAI, Anthropic, etc) em apps Spring com abstrações comuns (ChatClient, EmbeddingModel, VectorStore)."
+          },
+          {
+            "term": "Spring Boot Actuator",
+            "def": "Módulo que expõe endpoints HTTP/JMX para introspeção e observabilidade (health, metrics, traces, env)."
+          },
+          {
+            "term": "Release Candidate",
+            "def": "Build pré-GA estabilizada, usada para validação final em ambiente próximo de produção."
+          }
+        ]
+      },
+      "url": "https://github.com/spring-projects/spring-boot/releases",
+      "published_at": "2026-04-23T14:00:00-03:00",
+      "image": "https://spring.io/img/og-spring.png",
+      "tags": [
+        "spring-boot",
+        "jakarta",
+        "release"
+      ],
+      "source": "Spring Blog"
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐋",
+      "kind": "release",
+      "version": "Desktop bi-weekly",
+      "headline": "Docker Desktop continua cadência bi-weekly — vLLM Metal no Model Runner e CVE-2026-33990 (SSRF no OCI Registry Client) corrigido",
+      "description": "Última leva de releases do Docker Desktop trouxe suporte a vLLM Metal em Model Runner (Mac M-series), startup mais rápido em Windows com WSL2, e correções de três CVEs (CVE-2026-33990 SSRF, CVE-2026-2664 OOB read em grpcfuse, CVE-2026-28400 runtime flag injection). Cadência confirmada: release a cada 2 semanas.",
+      "explain": {
+        "junior": "O Docker Desktop, ferramenta usada por desenvolvedores para rodar containers no notebook, virou um produto que ganha atualizações a cada 2 semanas. As versões recentes adicionaram suporte a rodar modelos de IA acelerados em Mac (vLLM com Metal) e corrigiram bugs de segurança.",
+        "pleno": "vLLM no Metal destrava inferência mais rápida em Apple Silicon (M-series) usando Metal Performance Shaders; relevante porque a comunidade quer rodar modelos open-weight (Llama 3, Qwen, Phi) localmente. Os 3 CVEs cobrem cadeia de suprimentos (Model Runner OCI Registry SSRF), kernel driver (grpcfuse OOB) e runtime flag injection — patches necessários para developer machines que rodam imagens não confiáveis.",
+        "senior": "Para arquiteto que opera Docker em fleet de devs: política de auto-update obrigatória dada cadência bi-weekly. Avaliar Docker Model Runner como alternativa managed para LLM local em Mac (não bate Ollama em features mas integra ao workflow Docker existente). Auditoria de runtime flags em pipelines CI que usam Model Runner.",
+        "glossary": [
+          {
+            "term": "vLLM",
+            "def": "Engine de inferência de LLMs open-source com PagedAttention, paralelismo eficiente e streaming nativo — referência para serving local."
+          },
+          {
+            "term": "Metal",
+            "def": "Framework gráfico de baixo nível da Apple para GPU acceleration em chips Apple Silicon (substitui OpenGL/Vulkan no ecossistema Apple)."
+          },
+          {
+            "term": "SSRF",
+            "def": "Server-Side Request Forgery — vulnerabilidade onde o atacante força o servidor a fazer requests a destinos internos não intencionados."
+          },
+          {
+            "term": "Model Runner",
+            "def": "Componente do Docker Desktop que carrega e executa modelos LLM dentro de containers, com integração ao Docker CLI e Compose."
+          }
+        ]
+      },
+      "url": "https://www.docker.com/blog/docker-desktop-updates-every-two-weeks/",
+      "published_at": "2026-04-30T16:00:00-03:00",
+      "image": "https://www.docker.com/wp-content/uploads/2023/05/docker-desktop-OG.png",
+      "tags": [
+        "docker",
+        "desktop",
+        "release",
+        "vllm"
+      ],
+      "source": "Docker Blog"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "headline": "GitHub anuncia EU data residency expandida para EFTA (Noruega, Suíça) a partir de 1/mai — Azure infra alinha com EU Data Boundary",
+      "description": "A partir de 1/mai, ghe.com (EU data residency region) inclui Azure infra em países EFTA (Noruega e Suíça) além dos estados-membros UE existentes. Move alinha o limite de residência GitHub com o EU Data Boundary da Microsoft, que cobre EU+EFTA via EEA Agreement (frameworks GDPR-equivalentes).",
+      "explain": {
+        "junior": "Empresas europeias que precisam por lei manter dados dentro da Europa agora podem usar GitHub Enterprise Cloud com data centers na Noruega e Suíça também — antes era só países da UE.",
+        "pleno": "GDPR cobre EU; EFTA (Iceland, Liechtenstein, Norway, Switzerland) tem frameworks equivalentes via EEA Agreement (Suíça via acordo bilateral). Ao alinhar com EU Data Boundary da MS Azure, GitHub destrava enterprise customers nórdicos e suíços que estavam impedidos de mover para Cloud por compliance — reduz necessidade de GHES on-prem.",
+        "senior": "Para arquiteto enterprise nórdico/suíço: revisitar avaliação de migração de GHES para ghe.com pós-1/mai. Verificar se workflows em Actions também respeitam o boundary (runner location matters). Compliance officer aprova rapidamente já que MS Azure mantém certificação independente para EFTA.",
+        "glossary": [
+          {
+            "term": "EFTA",
+            "def": "European Free Trade Association — Iceland, Liechtenstein, Noruega e Suíça; têm acordos de mercado interno com a UE."
+          },
+          {
+            "term": "EU Data Boundary",
+            "def": "Compromisso da Microsoft de processar e armazenar dados de clientes UE/EFTA exclusivamente em data centers na região."
+          },
+          {
+            "term": "ghe.com",
+            "def": "Domínio do GitHub Enterprise Cloud com data residency UE — separado de github.com (US data residency)."
+          }
+        ]
+      },
+      "url": "https://github.blog/changelog/2026-05-01-eu-data-residency-region-now-available-in-efta-countries/",
+      "published_at": "2026-05-01T08:30:00-03:00",
+      "image": "https://github.githubassets.com/assets/github-logo-55c5b9a1fe52.png",
+      "tags": [
+        "github",
+        "compliance",
+        "gdpr",
+        "data-residency"
+      ],
+      "source": "GitHub Changelog"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "tutorial",
+      "headline": "Vlad Mihalcea deep-dive: 'How to use PostgreSQL skip locked for safe job queue patterns at scale'",
+      "description": "Tutorial canônico revisitado de Vlad Mihalcea sobre uso correto de FOR UPDATE SKIP LOCKED em Postgres para implementar job queue sem condição de corrida — referência para quem usa Postgres como broker (DBOS, BullMQ-style) em vez de adicionar Kafka/RabbitMQ.",
+      "explain": {
+        "junior": "Postgres pode ser usado como fila de jobs (em vez de adicionar RabbitMQ ou Kafka). O Vlad Mihalcea, autoridade em Postgres+JPA, explica como fazer isso de forma segura usando o comando 'SKIP LOCKED' que evita que dois workers peguem o mesmo job.",
+        "pleno": "FOR UPDATE SKIP LOCKED foi adicionado em PG 9.5 e é a primitiva para queues em Postgres: o worker faz SELECT FOR UPDATE SKIP LOCKED LIMIT N — quem chega depois pula linhas já lockadas e pega outras. Com ORDER BY priority/created_at + LIMIT, vira fila prioritária. DBOS, Pgmq e outros constroem em cima disso.",
+        "senior": "Para arquiteto avaliando Postgres como queue (em vez de adicionar broker dedicado): SKIP LOCKED é viável até ~10K msg/s em hardware moderno; acima disso, Postgres replication lag e VACUUM podem ser gargalo. Combinar com pg_partman para particionar por dia (evita bloat), retention policy explícita, e LISTEN/NOTIFY para wake-up de worker — escala bem para a maioria dos casos sem broker externo.",
+        "glossary": [
+          {
+            "term": "FOR UPDATE SKIP LOCKED",
+            "def": "Cláusula do PostgreSQL (e Oracle) que faz a query pular linhas já locked por outras transações, em vez de esperar o lock release."
+          },
+          {
+            "term": "Job queue",
+            "def": "Padrão arquitetural onde produtores enfileiram tarefas e workers consomem em paralelo, com guarantees de exactly-once ou at-least-once."
+          },
+          {
+            "term": "Vlad Mihalcea",
+            "def": "Autor de 'High Performance Java Persistence', referência mundial em Hibernate/JPA + Postgres."
+          },
+          {
+            "term": "Pgmq",
+            "def": "Extensão Postgres open-source que implementa primitivas SQS-like (visibility timeout, batch dequeue) em cima de SKIP LOCKED."
+          }
+        ]
+      },
+      "url": "https://vladmihalcea.com/database-job-queue-skip-locked/",
+      "published_at": "2026-04-28T14:00:00-03:00",
+      "image": "https://vladmihalcea.com/wp-content/uploads/2018/04/PostgreSQLSkipLockedConcurrentBatchJobs.png",
+      "tags": [
+        "postgres",
+        "queue",
+        "tutorial",
+        "skip-locked"
+      ],
+      "source": "Baeldung"
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "🧠",
+      "kind": "news",
+      "headline": "JetBrains publica Java Annotated Monthly (April) com cobertura de Spring AI, Project Loom updates e Gradle 9.5",
+      "description": "Edição abril/26 do Java Annotated Monthly — newsletter curada da JetBrains — destaca Spring AI 1.0 GA imminent, atualizações de Project Loom (virtual threads ganhando casos de produção mais maduros), Gradle 9.5 com configuration cache estável, e Foojay roundup de releases JDK.",
+      "explain": {
+        "junior": "Java Annotated Monthly é uma curadoria mensal da JetBrains com os artigos mais importantes do mundo Java. A edição de abril aponta para Spring AI chegando em GA, virtual threads consolidando casos reais de produção, e Gradle 9.5 com cache estável.",
+        "pleno": "Pieces relevantes da edição: virtual threads finalmente saem de 'preview' como solução real para back-ends I/O bound em Spring Boot, Quarkus e Helidon; Gradle 9.5 fechou edge cases do configuration cache (que cortou tempo de build em 30-50% em monorepos); Spring AI 1.0 com starters prontos para Anthropic/OpenAI/Bedrock — ecossistema Java agentic alcançando paridade com Python.",
+        "senior": "Para arquiteto Java enterprise: vale ler a edição do JAM como sinal de mercado. Decisões — adoção de virtual threads vai além do flag de compilação, exige revisão de pool sizing, ThreadLocal usage, profiling tools (JFR + virtual threads). Configuration cache em Gradle 9.5 destrava CI mais rápido mas exige scripts puros (sem side effects).",
+        "glossary": [
+          {
+            "term": "Java Annotated Monthly",
+            "def": "Newsletter curada pela JetBrains desde 2014 com seleção mensal de artigos, releases e tutoriais Java."
+          },
+          {
+            "term": "Project Loom",
+            "def": "Iniciativa OpenJDK que entregou virtual threads (JEP 444) — green threads gerenciadas pela JVM em vez de OS threads."
+          },
+          {
+            "term": "Configuration cache",
+            "def": "Feature do Gradle que cacheia o resultado da fase de configuration entre builds, eliminando re-evaluação dos scripts em sucessivas execuções."
+          }
+        ]
+      },
+      "url": "https://blog.jetbrains.com/idea/2026/04/",
+      "published_at": "2026-04-29T12:00:00-03:00",
+      "image": "https://blog.jetbrains.com/wp-content/uploads/2024/04/JAM-2024-Banner.png",
+      "tags": [
+        "intellij",
+        "java",
+        "newsletter",
+        "loom"
+      ],
+      "source": "JetBrains Blog"
+    },
+    {
+      "tool_key": "datadog",
+      "name": "Datadog",
+      "icon": "📊",
+      "kind": "news",
+      "headline": "Datadog aponta AI hitting operational limits — 5% de requests AI falham em produção, 60% por capacity",
+      "description": "Datadog State of AI Engineering Report 2026 (publicado 21/abr) revela que ~1 em 20 requests AI falham em produção, 60% causados por capacity limits. 69% das empresas usam 3+ modelos em workflows agentic. Próxima onda de falhas será silent failures — 'sistema verde, comportamento errado'.",
+      "explain": {
+        "junior": "A Datadog estuda como empresas estão usando IA na prática e descobriu que 5% de todas as chamadas para modelos de IA falham (geralmente por falta de capacidade), e o número de empresas que misturam 3 ou mais modelos diferentes chegou a 69%.",
+        "pleno": "5% de failure rate em AI requests é assustador para SRE — equivale a 99.95% NÃO sendo o SLO real. Capacity-related (60% das falhas) significa rate limits, queue depth, GPU saturation. O conceito-chave da Datadog: 'silent failures' — agent retorna resposta plausível baseada em retrieval stale ou tool degraded, sem erro nas métricas tradicionais. Observabilidade tradicional (latência, throughput, error rate) não captura.",
+        "senior": "Para arquiteto desenhando obs stack para sistemas AI: investir em LLM observability dedicada (Langfuse, LangSmith, Datadog AI Monitoring), eval pipelines como CI gate, traces com semantic content (não só latency), monitoring de drift em embeddings/RAG. SLOs precisam evoluir para incluir 'correctness rate' baseado em judges (LLM-as-judge ou regression test sets).",
+        "glossary": [
+          {
+            "term": "Silent failure",
+            "def": "Falha em que o sistema retorna resposta sintáticamente válida mas semanticamente errada — não detectada por monitoring tradicional."
+          },
+          {
+            "term": "LLM observability",
+            "def": "Categoria de tooling focada em rastrear comportamento de LLMs em produção: prompts, completions, evals, custo, drift."
+          },
+          {
+            "term": "LLM-as-judge",
+            "def": "Padrão de eval onde um LLM (geralmente mais capaz) julga a qualidade da resposta de outro LLM em produção."
+          }
+        ]
+      },
+      "url": "https://www.datadoghq.com/state-of-ai-engineering/",
+      "published_at": "2026-04-30T14:00:00-03:00",
+      "image": "https://www.datadoghq.com/static/images/social-cards/state-of-ai-2026.jpg",
+      "tags": [
+        "datadog",
+        "observability",
+        "ai",
+        "llm-ops"
+      ],
+      "source": "Datadog"
+    }
+  ],
+  "videos": [
+    {
+      "id": "4vLxWqE94l4",
+      "url": "https://www.youtube.com/watch?v=4vLxWqE94l4",
+      "title": "Top 6 Most Popular API Architecture Styles",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-15",
+      "duration": "8 min"
+    },
+    {
+      "id": "9KbGFVYFNi0",
+      "url": "https://www.youtube.com/watch?v=9KbGFVYFNi0",
+      "title": "Quem não usar IA, ficará para trás | com Lucas Montano",
+      "channel": "Lucas Montano",
+      "channel_avatar": "https://yt3.googleusercontent.com/vvXy8MERUMgDfpGyEtyld-gmLE9kBF2vh4ZlTR9vmN4SjT7RBaDK6I_lzhyksOj-2qwQRSmd=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-18",
+      "duration": "22 min"
+    },
+    {
+      "id": "brC_xieipW8",
+      "url": "https://www.youtube.com/watch?v=brC_xieipW8",
+      "title": "Kubernetes para Devs com Fabricio Veronez",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/lQ6HlGXQn7bNcGFiFBQ_TGqRBUd4jZLe7VGsEZ6k9ivMOc3Db5HaraAsIpMaBfqhPivYKA6hSA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-22",
+      "duration": "32 min"
+    }
+  ],
+  "sources": [
+    {
+      "name": "CNN Business",
+      "url": "https://www.cnn.com/business"
+    },
+    {
+      "name": "CNBC",
+      "url": "https://www.cnbc.com/"
+    },
+    {
+      "name": "Wiz Blog",
+      "url": "https://www.wiz.io/blog"
+    },
+    {
+      "name": "Aikido Security",
+      "url": "https://www.aikido.dev/"
+    },
+    {
+      "name": "Sophos News",
+      "url": "https://news.sophos.com/"
+    },
+    {
+      "name": "CISA",
+      "url": "https://www.cisa.gov/"
+    },
+    {
+      "name": "The Hacker News",
+      "url": "https://thehackernews.com/"
+    },
+    {
+      "name": "Horizon3.ai",
+      "url": "https://horizon3.ai/"
+    },
+    {
+      "name": "Anthropic",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "Stripe Blog",
+      "url": "https://stripe.com/blog"
+    },
+    {
+      "name": "Vercel",
+      "url": "https://vercel.com/changelog"
+    },
+    {
+      "name": "AWS What's New",
+      "url": "https://aws.amazon.com/about-aws/whats-new/"
+    },
+    {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
+      "name": "Honeycomb",
+      "url": "https://www.honeycomb.io/blog"
+    },
+    {
+      "name": "DBOS",
+      "url": "https://www.dbos.dev/blog"
+    },
+    {
+      "name": "JetBrains Blog",
+      "url": "https://blog.jetbrains.com/"
+    },
+    {
+      "name": "Datadog Press",
+      "url": "https://www.datadoghq.com/about/latest-news/"
+    },
+    {
+      "name": "Kubernetes Blog",
+      "url": "https://kubernetes.io/blog/"
+    },
+    {
+      "name": "Spring Blog",
+      "url": "https://spring.io/blog"
+    }
+  ]
+}

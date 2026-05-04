@@ -539,13 +539,13 @@ ul,ol{list-style:none}
              0 0 16px 6px color-mix(in srgb,var(--tc,var(--accent)) 65%,transparent);
 }
 .sb-tile img{
-  width:60%;height:60%;
+  width:76%;height:76%;
   object-fit:contain;display:block;pointer-events:none;
 }
 .sb-tile-lang{width:50px;height:50px;border-radius:9px;}
-.sb-tile-lang img{width:62%;height:62%;}
-.sb-tile-emoji{font-size:16px;line-height:1;pointer-events:none;}
-.sb-tile svg{width:58%;height:58%;pointer-events:none;}
+.sb-tile-lang img{width:76%;height:76%;}
+.sb-tile-emoji{font-size:18px;line-height:1;pointer-events:none;}
+.sb-tile svg{width:76%;height:76%;pointer-events:none;}
 .sb-tile::after{
   content:"";position:absolute;inset:0;
   background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);
@@ -3846,86 +3846,6 @@ body.sidebar-collapsed .qbar-host {
 [data-theme="dark"] .news-card .nc-media-source::after,
 [data-theme="dark"] .tl-item-s .nc-media-source::after {
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .18));
-}
-/* ===== Source-fallback nos cards de DESTAQUES (hero-hl, cube-hl) ===== */
-.hero-hl-img-banner.is-source,
-.cube-hli-media.is-source {
-  position: relative;
-  display: flex !important; align-items: center; justify-content: center;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 22% 20%,
-      color-mix(in srgb, var(--cat-color, var(--accent)) 24%, transparent), transparent 42%),
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--surface-el) 82%, var(--surface-card)),
-      var(--surface-card)) !important;
-}
-[data-theme="dark"] .hero-hl-img-banner.is-source,
-[data-theme="dark"] .cube-hli-media.is-source {
-  background:
-    radial-gradient(circle at 22% 20%,
-      color-mix(in srgb, var(--cat-color, var(--accent)) 32%, transparent), transparent 46%),
-    linear-gradient(135deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025)) !important;
-}
-.hero-hl-img-banner.is-source::before,
-.cube-hli-media.is-source::before {
-  content: "";
-  position: absolute; inset: 14px;
-  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
-  border-radius: 12px;
-  pointer-events: none;
-  z-index: 1;
-}
-.cube-hli-media.is-source::before { inset: 8px; border-radius: 8px; }
-.hero-hl-img-banner.is-source::after,
-.cube-hli-media.is-source::after {
-  content: "";
-  position: absolute; inset: auto 0 0;
-  height: 38%;
-  background: linear-gradient(180deg, transparent,
-    color-mix(in srgb, var(--surface-card) 75%, transparent));
-  pointer-events: none;
-  z-index: 1;
-}
-[data-theme="dark"] .hero-hl-img-banner.is-source::after,
-[data-theme="dark"] .cube-hli-media.is-source::after {
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .22));
-}
-/* Override do <img>: anula o height:100%!important e cover originais */
-.hero-hl-img-banner.is-source img,
-.cube-hli-media.is-source img {
-  width: auto !important;
-  height: auto !important;
-  max-width: 56% !important;
-  max-height: 62% !important;
-  object-fit: contain !important;
-  padding: 10px !important;
-  background: color-mix(in srgb, var(--surface-card) 82%, transparent) !important;
-  border-radius: 12px !important;
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, .14),
-    0 0 0 1px color-mix(in srgb, var(--border) 80%, transparent) !important;
-  transform: none !important;
-  filter: none !important;
-  position: relative;
-  z-index: 2;
-}
-.cube-hli-media.is-source img {
-  max-width: 50% !important;
-  max-height: 56% !important;
-  padding: 6px !important;
-  border-radius: 8px !important;
-}
-[data-theme="dark"] .hero-hl-img-banner.is-source img,
-[data-theme="dark"] .cube-hli-media.is-source img {
-  background: rgba(255, 255, 255, .08) !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .38), 0 0 0 1px rgba(255, 255, 255, .09) !important;
-}
-/* Hover não anima o ícone-fonte */
-.hero-hl-card:hover .hero-hl-img-banner.is-source img,
-.cube-hl-row:hover .cube-hli-media.is-source img {
-  transform: none !important;
-  filter: none !important;
 }
 .news-card .nc-media-photo img,
 .tl-item-s .nc-media-photo img {
@@ -8025,10 +7945,8 @@ function renderHome() {
         const cubeHlMeta = _hlMetaHtml(h, {withSave:false});
         const isEditorialCube = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
         if (isEditorialCube) {
-          const cubeFb = _sourceImageUrl(h);
-          const cubeFbAttrs = cubeFb && cubeFb !== h.image ? ` data-fallback-src="${e(cubeFb)}" data-add-class="is-source"` : '';
           return `<div class="cube-hl-row" style="--cat-color:${color}" onclick="${hlClick}">
-            <div class="cube-hli-media"><img src="${h.image}" alt="" loading="lazy"${cubeFbAttrs} data-hide-on-fail=".cube-hli-media" onerror="_imgFallback(this)"></div>
+            <div class="cube-hli-media"><img src="${h.image}" alt="" loading="lazy" onerror="this.closest('.cube-hl-row').style.display='none'"></div>
             <div class="cube-hli-content">${badge}<span class="cube-hl-text">${e(h.headline)}</span>${cubeHlMeta}</div>
           </div>`;
         }
@@ -8110,9 +8028,7 @@ function renderHome() {
       const badge = `<span class="cube-hl-cat-text" style="color:${color}">${bdgIco}${e(h.category_label||h.category)}</span>`;
       const summary = h.summary ? `<span class="hero-hl-summary">${e(h.summary)}</span>` : '';
       const isEditorial = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
-      const heroFb1 = _sourceImageUrl(h);
-      const heroFb1Attrs = heroFb1 && heroFb1 !== h.image ? ` data-fallback-src="${e(heroFb1)}" data-add-class="is-source"` : '';
-      const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy"${heroFb1Attrs} data-hide-on-fail=".hero-hl-img-banner" onerror="_imgFallback(this)"></div>` : '';
+      const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>` : '';
       const staticHlClick = h.url ? `event.stopPropagation();window.open('${h.url}','_blank','noopener')` : 'event.stopPropagation()';
       const hlMeta = _hlMetaHtml(h);
       return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${staticHlClick}">
@@ -8157,9 +8073,7 @@ function renderHome() {
     const bdgIco = paths ? `<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7">${paths}</svg>` : '';
     const badge = `<span class="cube-hl-cat-text" style="color:${color}">${bdgIco}${e(h.category_label||h.category)}</span>`;
     const isEditorial = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
-    const heroFb2 = _sourceImageUrl(h);
-    const heroFb2Attrs = heroFb2 && heroFb2 !== h.image ? ` data-fallback-src="${e(heroFb2)}" data-add-class="is-source"` : '';
-    const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy"${heroFb2Attrs} data-hide-on-fail=".hero-hl-img-banner" onerror="_imgFallback(this)"></div>` : '';
+    const imgBanner = isEditorial ? `<div class="hero-hl-img-banner"><img src="${h.image}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>` : '';
     const summary = h.summary ? `<span class="hero-hl-summary">${e(h.summary)}</span>` : '';
     const hlClick = h.url ? `window.open('${h.url}','_blank','noopener')` : '';
     const hlMeta = _hlMetaHtml(h);
@@ -8176,11 +8090,7 @@ function renderHome() {
       const isEditorial = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
       const hlClick = h.url ? `window.open('${h.url}','_blank','noopener')` : '';
       const hlMeta = _hlMetaHtml(h, {withSave:false});
-      if (isEditorial) {
-        const prevFb = _sourceImageUrl(h);
-        const prevFbAttrs = prevFb && prevFb !== h.image ? ` data-fallback-src="${e(prevFb)}" data-add-class="is-source"` : '';
-        return `<div class="cube-hl-row" style="--cat-color:${color}" onclick="${hlClick}"><div class="cube-hli-media"><img src="${h.image}" alt="" loading="lazy"${prevFbAttrs} data-hide-on-fail=".cube-hli-media" onerror="_imgFallback(this)"></div><div class="cube-hli-content">${badge}<span class="cube-hl-text">${e(h.headline)}</span>${hlMeta}</div></div>`;
-      }
+      if (isEditorial) return `<div class="cube-hl-row" style="--cat-color:${color}" onclick="${hlClick}"><div class="cube-hli-media"><img src="${h.image}" alt="" loading="lazy" onerror="this.closest('.cube-hl-row').style.display='none'"></div><div class="cube-hli-content">${badge}<span class="cube-hl-text">${e(h.headline)}</span>${hlMeta}</div></div>`;
       return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}"><div class="hero-hl-body"><div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>${hlMeta}</div></div>`;
     })
   ).join('');
@@ -8309,10 +8219,8 @@ function _homeSections() {
       const hlsHtml = hls.length ? `<div class="arch-hls">${hls.map(h => {
         const color = CAT_COLORS[h.category]||'#888';
         const isEd = h.image && !h.image.includes('google.com/s2/favicons') && !h.image.includes('simpleicons.org');
-        const archFb = isEd ? _sourceImageUrl(h) : '';
-        const archFbAttrs = archFb && archFb !== h.image ? ` data-fallback-src="${e(archFb)}"` : '';
         const thumb = isEd
-          ? `<img class="arch-hl-img" src="${h.image}" alt="" loading="lazy"${archFbAttrs} onerror="_imgFallback(this)">`
+          ? `<img class="arch-hl-img" src="${h.image}" alt="" loading="lazy" onerror="this.style.display='none'">`
           : `<div class="arch-hl-dot" style="background:${color}"></div>`;
         return `<div class="arch-hl-item">${thumb}<span class="arch-hl-text">${e(h.headline)}</span></div>`;
       }).join('')}</div>` : '';
@@ -8497,10 +8405,8 @@ function renderDay(date) {
       const bdgIco = paths ? `<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="${cc}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7">${paths}</svg>` : '';
       const badge = `<span class="cube-hl-cat-text" style="color:${cc}">${bdgIco}${e(item.category_label||item.category)}</span>`;
       const imgInfo = _contentImageInfo(item);
-      const dayFb = imgInfo?.kind === 'photo' ? _sourceImageUrl(item) : '';
-      const dayFbAttrs = dayFb && dayFb !== imgInfo?.url ? ` data-fallback-src="${e(dayFb)}" data-add-class="is-source"` : '';
       const imgBanner = imgInfo?.kind === 'photo'
-        ? `<div class="hero-hl-img-banner"><img src="${e(imgInfo.url)}" alt="" loading="lazy"${dayFbAttrs} data-hide-on-fail=".hero-hl-img-banner" onerror="_imgFallback(this)"></div>`
+        ? `<div class="hero-hl-img-banner"><img src="${e(imgInfo.url)}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"></div>`
         : '';
       const summary = item.summary ? `<span class="hero-hl-summary">${e(item.summary)}</span>` : '';
       const hlClick = item.url ? `window.open('${item.url}','_blank','noopener')` : '';
@@ -9122,53 +9028,9 @@ function _contentImageUrl(item) {
 
 function _newsImageHtml(item) {
   const media = _contentImageInfo(item);
-  if (!media) return '';
-  const fb = (media.kind === 'photo') ? _sourceImageUrl(item) : '';
-  const fbAttrs = fb && fb !== media.url
-    ? ` data-fallback-src="${e(fb)}" data-swap-from="nc-media-photo" data-swap-to="nc-media-source"`
+  return media
+    ? `<div class="nc-media nc-media-${media.kind}"><img src="${e(media.url)}" alt="" loading="lazy" onerror="this.closest('.nc-media').remove()"></div>`
     : '';
-  return `<div class="nc-media nc-media-${media.kind}"><img src="${e(media.url)}" alt="" loading="lazy"${fbAttrs} data-hide-on-fail=".nc-media" onerror="_imgFallback(this)"></div>`;
-}
-
-/**
- * Fallback inteligente para <img> em cards.
- * 1ª falha: troca src para data-fallback-src (ícone da fonte) e troca classe do wrapper
- *           (data-swap-from → data-swap-to) para o visual de placeholder centrado.
- * 2ª falha (ou sem fallback): esconde o ancestral indicado por data-hide-on-fail (ou o próprio <img>).
- */
-function _imgFallback(img) {
-  if (img.dataset.imgFallbackTried) {
-    _imgFallbackHide(img);
-    return;
-  }
-  const fb = img.dataset.fallbackSrc;
-  if (!fb || img.src === fb) {
-    _imgFallbackHide(img);
-    return;
-  }
-  img.dataset.imgFallbackTried = '1';
-  const target = img.parentElement;
-  const from = img.dataset.swapFrom;
-  const to = img.dataset.swapTo;
-  const addCls = img.dataset.addClass;
-  if (target) {
-    if (from && to) {
-      target.classList.remove(from);
-      target.classList.add(to);
-    }
-    if (addCls) target.classList.add(addCls);
-  }
-  img.src = fb;
-}
-
-function _imgFallbackHide(img) {
-  const sel = img.dataset.hideOnFail;
-  const wrap = sel ? img.closest(sel) : img;
-  if (!wrap) return;
-  wrap.style.display = 'none';
-  if (sel === '.nc-media' && wrap.parentElement) {
-    wrap.parentElement.classList.remove('has-cover');
-  }
 }
 
 /* ── Helper: timeline agrupada por data ── */

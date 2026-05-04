@@ -77,7 +77,7 @@
       "published_at": "2026-04-30T15:00:00-03:00",
       "read_time": 6,
       "tags": ["cloudflare", "r2", "iceberg", "lakehouse", "sql"],
-      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6teuWdsCBDNp2YR4QONTMk/c0c3eef7086007afd2ee4fb71fd43fd2/R2_SQL-_a_deep_dive_into_our_new_distributed_query_engine-OG.png"
+      "image": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/3OLHzInzz0qvpSXoyPIVTM/d80c8d5773e26107ff66891a317c03ab/r2-sql-deep-dive.png"
     }
   ],
   "news": [
@@ -251,7 +251,7 @@
       "published_at": "2026-04-30T15:00:00-03:00",
       "read_time": 6,
       "tags": ["cloudflare", "r2", "iceberg", "lakehouse", "sql"],
-      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6teuWdsCBDNp2YR4QONTMk/c0c3eef7086007afd2ee4fb71fd43fd2/R2_SQL-_a_deep_dive_into_our_new_distributed_query_engine-OG.png"
+      "image": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/3OLHzInzz0qvpSXoyPIVTM/d80c8d5773e26107ff66891a317c03ab/r2-sql-deep-dive.png"
     },
     {
       "category": "obs",
