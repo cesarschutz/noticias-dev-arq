@@ -1,0 +1,976 @@
+{
+  "date": "2026-05-04",
+  "weekday": "Segunda-feira",
+  "formatted_date": "Segunda, 04 de Maio de 2026",
+  "generated_at": "2026-05-04T08:30:00-03:00",
+  "hero_title": "AWS Interconnect chega ao GA, Quarkus 3.35 corta 39% do JAR e Linux entra em alerta KEV",
+  "hero_description": "Segunda começa com mudanças que mexem em fundação de plataforma: AWS Interconnect multicloud entra em GA com link privado para Google Cloud (Azure e OCI ainda em 2026), tirando o tráfego cross-cloud da internet pública. Quarkus 3.35 estreia tree-shaking de bytecode no build — corta 39% do JAR da CLI e empacota PGO para imagens nativas. E o kernel Linux ganhou um furo de 9 anos: CVE-2026-31431 (Copy Fail) virou root via 4 bytes na page cache, entrou na CISA KEV no dia 1.",
+  "edition_digest": "Segunda começou movimentada na infraestrutura de plataforma. AWS finalmente colocou o Interconnect multicloud em GA com link privado direto para o Google Cloud — Layer 3 gerenciado, MACsec entre roteadores, cinco region pairs abertos. Azure e Oracle Cloud entram ainda em 2026, com 500 Mbps grátis por região por conta, o que reduz a justificativa de manter VPN-IPsec orquestrado manualmente. OpenAI também fechou semana renegociando exclusividade Microsoft: agora vende em AWS (GPT-5.5/Codex em preview no Bedrock) e Google Cloud, eliminando fricção arquitetural antiga.\n\nNo backend, Quarkus 3.35 lançou em 1/mai uma das adições mais ousadas dos últimos anos: tree-shaking de bytecode em build-time. Aplicado na própria CLI, retirou 6.000+ classes inalcançáveis e cortou 39,5% do JAR. PGO para imagens nativas e Semeru AOT (startup pela metade) completam o pacote — três alavancas para reduzir cold start. Em paralelo, JEP 527 confirmou hybrid key exchange pós-quântico no TLS 1.3 do JDK 27 (X25519MLKEM768 default).\n\nEm dados, Cloudflare publicou deep-dive do R2 SQL — query engine distribuído próprio sobre Iceberg em R2, sem egress fee. Sem JOIN/aggregation por enquanto (entram em H1/2026), mas para logs e telemetria já substitui Athena+S3 com economia clara. Databricks colocou Iceberg v3 em public preview com VARIANT, Deletion Vectors e Row Lineage, consolidando o formato como lingua-franca aberta.\n\nObservabilidade ganhou peso: Splunk apresentou no KubeCon EU 2026 o beta do OpenTelemetry eBPF Instrumentation (OBI), zero-code direto do kernel Linux. Grafana 13 estreou Loki com ingestão Kafka-backed e novo query engine paralelo.\n\nNa segurança, alerta sério: CISA adicionou em 1/mai o CVE-2026-31431 (Copy Fail) ao KEV — privilege escalation no kernel Linux desde 2017, com PoC consistente. CVSS 7.8, prazo federal de patch até 15/mai. Em K8s qualquer pod com código não confiável vira escape no node.\n\nFechando: State of Platform Engineering Vol 4 mostra 94% das orgs com IA como crítica mas 47% sem budget acima de US$1M. Pentágono fechou contrato de IA com 7 empresas para redes IL6/IL7. Nas ferramentas: Docker Hardened com 1.000 imagens grátis, Token Exchange RFC 8693 em Keycloak, drift detection em Terraform e rotação RDS via Secrets Manager.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS Interconnect entra em GA com link privado para Google Cloud — Azure e OCI ainda em 2026",
+      "summary": "A AWS lançou em GA o Interconnect multicloud, primeiro produto Layer 3 gerenciado nativamente para conectar VPCs a outros provedores. Tráfego flui inteiro pela espinha global da AWS e pela rede privada do parceiro, sem trafegar a internet pública, com criptografia MACsec (IEEE 802.1AE) entre os roteadores. Google Cloud é o parceiro inicial em cinco region pairs (US East/N. Virginia, US West/N. California, US West/Oregon, Europe/London, Europe/Frankfurt). Azure e Oracle Cloud entram ainda em 2026. Cada conta ganha 1 interconnect local de 500 Mbps grátis por região; bandwidth ajustável de 1 a 100 Gbps no console sem reprovisionamento.",
+      "explain": {
+        "junior": "Quando você tem aplicação na AWS conversando com banco no Google Cloud, o tráfego normalmente passa pela internet pública — lento, instável e exposto. O AWS Interconnect cria um cabo gerenciado direto entre as duas nuvens, com conexão privada e velocidade fixa, eliminando esse pulo pela internet.",
+        "pleno": "Tecnicamente é uma conexão Layer 3 dedicada operada pela AWS via parceiros de interconexão; o tráfego entra na rede privada da AWS, sai na rede privada do Google Cloud (Cross-Cloud Interconnect) e nunca encosta em ASNs públicos. MACsec criptografa link a link entre os roteadores, com latência previsível e isolamento de congestionamento. Bandwidth elástico (1-100 Gbps) muda do console — sem mexer em fibra física.",
+        "senior": "Para arquiteturas multicloud reais (data residency, GKE+EKS lado a lado, replicação cross-cloud), Interconnect substitui o velho VPN-IPsec ou Direct Connect + Cloud Interconnect orquestrados manualmente. Vale planejar saída de hub-spoke baseado em VPNs e revisitar custo de egress quando Azure entrar — provedores devem responder com produtos espelhados.",
+        "glossary": [
+          { "term": "MACsec (IEEE 802.1AE)", "def": "Padrão de criptografia ponto-a-ponto na camada 2 (Ethernet) usado em links físicos entre equipamentos de rede; protege contra interceptação no cabo." },
+          { "term": "Region pair", "def": "Par de regiões equivalentes em provedores diferentes (ex.: AWS us-east-1 ↔ Google us-east4) para roteamento de menor latência." },
+          { "term": "Layer 3", "def": "Camada de rede do modelo OSI — onde mora IP, roteamento e VPCs. Conexão gerenciada Layer 3 entrega rota IP estável sem expor a topologia física." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["aws", "multicloud", "google-cloud", "networking", "macsec"],
+      "image": "https://res.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/en/headerimage/aws-interconnect-multicloud-ga-thumb.jpg"
+    },
+    {
+      "source_array": "news",
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Quarkus 3.35 estreia tree-shaking de bytecode no build — CLI fica 39% menor",
+      "summary": "Saiu em 1/mai com a opção experimental quarkus.package.jar.tree-shake, que faz análise de alcançabilidade no bytecode em build-time e remove classes não usadas — incluindo refs por supertipos, anotações, ServiceLoader e reflexão controlada. Aplicado na própria Quarkus CLI, retira 6.000+ classes inalcançáveis e poupa 18 MB (39,5%). Suporta fast-jar, uber-jar, legacy-jar e aot-jar. A release também traz PGO (Profile-Guided Optimization) para imagens nativas (GraalVM Enterprise), suporte ao IBM Semeru AOT (startup de ~380ms para ~190ms na rest-json quickstart), @Transactional para Hibernate Reactive via quarkus-reactive-transactions e CORS no management interface.",
+      "explain": {
+        "junior": "Toda aplicação Java carrega centenas de classes que nunca são usadas — vêm junto das dependências e ocupam espaço sem valor. Tree-shaking percorre o código de fato chamado e remove o resto antes de empacotar o JAR, deixando a aplicação menor e mais rápida de subir.",
+        "pleno": "É bytecode reachability analysis em build, não em runtime — Quarkus rastreia chamadas a partir das entrypoints declaradas, segue supertypes/interfaces, descobre uso reflexivo via @RegisterForReflection e ServiceLoader, e marca tudo que não foi alcançado. PGO para nativo é um second-pass: roda integration tests para coletar profile, depois alimenta o native-image do GraalVM, melhorando hot path. Semeru AOT (IBM J9) cai pela metade do startup ao caching do AOT cache.",
+        "senior": "Para serviços JVM executados em larga escala (Lambda, Knative, Kubernetes com cold start), tree-shaking + PGO + Semeru AOT são três alavancas independentes que combinam — vale rodar build comparativo (size + cold start + RSS), validar que reflexão dinâmica do seu app está coberta por @RegisterForReflection, e considerar usar Semeru no lugar do GraalVM Community quando licença CE for restrição.",
+        "glossary": [
+          { "term": "Tree-shaking", "def": "Técnica que remove código morto (não chamado) antes do empacotamento, comum em frontend JS; agora chega ao bytecode JVM via análise estática de alcançabilidade." },
+          { "term": "PGO (Profile-Guided Optimization)", "def": "Compilação em duas etapas: roda a aplicação com profile coletor, depois recompila usando dados reais de execução para inlinings/branches mais eficientes." },
+          { "term": "AOT (Ahead-of-Time)", "def": "Compilação antes da execução — produz binário nativo (GraalVM) ou cache compilado (Semeru) que evita o JIT warmup." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://quarkus.io/blog/quarkus-3-35-released/",
+      "published_at": "2026-05-01T10:00:00-03:00",
+      "read_time": 5,
+      "tags": ["quarkus", "graalvm", "tree-shaking", "pgo", "semeru"],
+      "image": "https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_1280px_reverse.png"
+    },
+    {
+      "source_array": "news",
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Cloudflare publica deep-dive do R2 SQL — query engine distribuído sobre Iceberg sem egress",
+      "summary": "A Cloudflare publicou em 30/abr o deep-dive técnico do R2 SQL, motor de query distribuído próprio para escala petabyte sobre dados Iceberg em R2. O design separa metadata (R2 Data Catalog), storage (R2) e execução (R2 SQL) — query planner divide trabalho entre partições e executa em paralelo. Combina com Cloudflare Pipelines (ingestion via Workers ou HTTP, transformação SQL, escrita Iceberg) para formar a Cloudflare Data Platform: ingest+store+query nativo, sem egress fee. R2 SQL ainda não suporta JOIN/aggregation — entram no roadmap H1/2026.",
+      "explain": {
+        "junior": "Quando você tem petabytes de dados em S3 e precisa rodar SQL neles, normalmente paga taxa de egress pra exportar pra Athena/Snowflake/BigQuery. R2 SQL roda o SQL dentro da própria Cloudflare, em cima dos seus arquivos Iceberg no R2 — sem egress, sem ETL, sem cluster externo.",
+        "pleno": "É arquitetura lakehouse separada em três planos: catálogo (R2 Data Catalog, Iceberg REST), storage (R2 com zero egress), execução (R2 SQL distribuído). O planner faz partition pruning via Iceberg metadata, distribui shards de leitura por workers e agrega resultados em coordenador. Diferente de Athena (S3 só leitura) ou Snowflake (compute separado, custo de movimento), aqui ingestão, storage e query convivem no mesmo edge — mas ainda sem JOIN/aggregations.",
+        "senior": "Para arquiteturas que sofrem com egress fee S3→Snowflake ou para times que estão começando lakehouse hoje, vale POC: ingest event stream via Pipelines (substitui Kinesis Firehose), grava em Iceberg no R2, query com R2 SQL e/ou conecta DuckDB/Spark/Databricks via REST catalog. Limites atuais (sem JOIN) restringem para tabelas wide e operações single-table — bom para logs e telemetria, ruim para star schema clássico.",
+        "glossary": [
+          { "term": "Apache Iceberg", "def": "Formato aberto de tabelas para data lakes com transações ACID, evolução de schema e time travel; é o padrão emergente para lakehouse aberto." },
+          { "term": "Egress fee", "def": "Cobrança que clouds tradicionais aplicam quando dados saem da rede deles (ex.: AWS cobra ~US$0,09/GB para internet); Cloudflare R2 elimina." },
+          { "term": "Partition pruning", "def": "Otimização que evita ler arquivos cujo intervalo de chave já está fora do filtro do WHERE — Iceberg armazena metadata para isso ser rápido." }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/r2-sql-deep-dive/",
+      "published_at": "2026-04-30T15:00:00-03:00",
+      "read_time": 6,
+      "tags": ["cloudflare", "r2", "iceberg", "lakehouse", "sql"],
+      "image": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/3OLHzInzz0qvpSXoyPIVTM/d80c8d5773e26107ff66891a317c03ab/r2-sql-deep-dive.png"
+    }
+  ],
+  "news": [
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "AWS Interconnect entra em GA com link privado para Google Cloud — Azure e OCI ainda em 2026",
+      "summary": "A AWS lançou em GA o Interconnect multicloud, primeiro produto Layer 3 gerenciado nativamente para conectar VPCs a outros provedores. Tráfego flui inteiro pela espinha global da AWS e pela rede privada do parceiro, sem trafegar a internet pública, com criptografia MACsec (IEEE 802.1AE) entre os roteadores. Google Cloud é o parceiro inicial em cinco region pairs (US East/N. Virginia, US West/N. California, US West/Oregon, Europe/London, Europe/Frankfurt). Azure e Oracle Cloud entram ainda em 2026. Cada conta ganha 1 interconnect local de 500 Mbps grátis por região; bandwidth ajustável de 1 a 100 Gbps no console sem reprovisionamento.",
+      "explain": {
+        "junior": "Quando você tem aplicação na AWS conversando com banco no Google Cloud, o tráfego normalmente passa pela internet pública — lento, instável e exposto. O AWS Interconnect cria um cabo gerenciado direto entre as duas nuvens, com conexão privada e velocidade fixa, eliminando esse pulo pela internet.",
+        "pleno": "Tecnicamente é uma conexão Layer 3 dedicada operada pela AWS via parceiros de interconexão; o tráfego entra na rede privada da AWS, sai na rede privada do Google Cloud (Cross-Cloud Interconnect) e nunca encosta em ASNs públicos. MACsec criptografa link a link entre os roteadores, com latência previsível e isolamento de congestionamento. Bandwidth elástico (1-100 Gbps) muda do console — sem mexer em fibra física.",
+        "senior": "Para arquiteturas multicloud reais (data residency, GKE+EKS lado a lado, replicação cross-cloud), Interconnect substitui o velho VPN-IPsec ou Direct Connect + Cloud Interconnect orquestrados manualmente. Vale planejar saída de hub-spoke baseado em VPNs e revisitar custo de egress quando Azure entrar — provedores devem responder com produtos espelhados.",
+        "glossary": [
+          {
+            "term": "MACsec (IEEE 802.1AE)",
+            "def": "Padrão de criptografia ponto-a-ponto na camada 2 (Ethernet) usado em links físicos entre equipamentos de rede; protege contra interceptação no cabo."
+          },
+          {
+            "term": "Region pair",
+            "def": "Par de regiões equivalentes em provedores diferentes (ex.: AWS us-east-1 ↔ Google us-east4) para roteamento de menor latência."
+          },
+          {
+            "term": "Layer 3",
+            "def": "Camada de rede do modelo OSI — onde mora IP, roteamento e VPCs. Conexão gerenciada Layer 3 entrega rota IP estável sem expor a topologia física."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["aws", "multicloud", "google-cloud", "networking", "macsec"],
+      "image": "https://res.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/en/headerimage/aws-interconnect-multicloud-ga-thumb.jpg"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Quarkus 3.35 estreia tree-shaking de bytecode no build — CLI fica 39% menor",
+      "summary": "Saiu em 1/mai com a opção experimental quarkus.package.jar.tree-shake, que faz análise de alcançabilidade no bytecode em build-time e remove classes não usadas — incluindo refs por supertipos, anotações, ServiceLoader e reflexão controlada. Aplicado na própria Quarkus CLI, retira 6.000+ classes inalcançáveis e poupa 18 MB (39,5%). Suporta fast-jar, uber-jar, legacy-jar e aot-jar. A release também traz PGO (Profile-Guided Optimization) para imagens nativas (GraalVM Enterprise), suporte ao IBM Semeru AOT (startup de ~380ms para ~190ms na rest-json quickstart), @Transactional para Hibernate Reactive via quarkus-reactive-transactions e CORS no management interface.",
+      "explain": {
+        "junior": "Toda aplicação Java carrega centenas de classes que nunca são usadas — vêm junto das dependências e ocupam espaço sem valor. Tree-shaking percorre o código de fato chamado e remove o resto antes de empacotar o JAR, deixando a aplicação menor e mais rápida de subir.",
+        "pleno": "É bytecode reachability analysis em build, não em runtime — Quarkus rastreia chamadas a partir das entrypoints declaradas, segue supertypes/interfaces, descobre uso reflexivo via @RegisterForReflection e ServiceLoader, e marca tudo que não foi alcançado. PGO para nativo é um second-pass: roda integration tests para coletar profile, depois alimenta o native-image do GraalVM, melhorando hot path. Semeru AOT (IBM J9) cai pela metade do startup ao caching do AOT cache.",
+        "senior": "Para serviços JVM executados em larga escala (Lambda, Knative, Kubernetes com cold start), tree-shaking + PGO + Semeru AOT são três alavancas independentes que combinam — vale rodar build comparativo (size + cold start + RSS), validar que reflexão dinâmica do seu app está coberta por @RegisterForReflection, e considerar usar Semeru no lugar do GraalVM Community quando licença CE for restrição.",
+        "glossary": [
+          {
+            "term": "Tree-shaking",
+            "def": "Técnica que remove código morto (não chamado) antes do empacotamento, comum em frontend JS; agora chega ao bytecode JVM via análise estática de alcançabilidade."
+          },
+          {
+            "term": "PGO (Profile-Guided Optimization)",
+            "def": "Compilação em duas etapas: roda a aplicação com profile coletor, depois recompila usando dados reais de execução para inlinings/branches mais eficientes."
+          },
+          {
+            "term": "AOT (Ahead-of-Time)",
+            "def": "Compilação antes da execução — produz binário nativo (GraalVM) ou cache compilado (Semeru) que evita o JIT warmup."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://quarkus.io/blog/quarkus-3-35-released/",
+      "published_at": "2026-05-01T10:00:00-03:00",
+      "read_time": 5,
+      "tags": ["quarkus", "graalvm", "tree-shaking", "pgo", "semeru"],
+      "image": "https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_1280px_reverse.png"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "headline": "Linux Kernel CVE-2026-31431 (Copy Fail): exploit de root por 4 bytes vira KEV — patch obrigatório até 15/maio",
+      "summary": "CISA adicionou na quinta (1/mai) o CVE-2026-31431 ao catálogo de vulnerabilidades exploradas (KEV), com prazo de patch federal até 15/mai. A falha — apelidada Copy Fail por Theori e Xint — é local privilege escalation no kernel Linux desde 2017, presente em todas distros majors. Score CVSS 7.8. O exploit faz overwrite controlado de 4 bytes na page cache do kernel, corrompe estruturas e eleva o processo a UID 0. Funciona consistentemente entre distros sem depender de race condition nem write-position constraint, característica que torna o exploit muito reutilizável. Patches disponíveis nas distros principais; quem não puder atualizar deve desabilitar a feature afetada e isolar redes.",
+      "explain": {
+        "junior": "Toda vez que um programa Linux pede pra ler um arquivo, o kernel guarda o conteúdo num cache em memória (page cache). Pesquisadores descobriram que dá pra escrever 4 bytes errados nesse cache de fora do kernel, corrompendo o controle de quem é root — e qualquer usuário comum vira admin da máquina.",
+        "pleno": "É LPE (Local Privilege Escalation) que afeta todo kernel Linux desde 2017. O bug está na lógica de copy_to_user/copy_from_user e o exploit Copy Fail consegue 4 bytes de write controlado em offset deterministico da page cache, sem race condition. O alvo são structs de credenciais — sobrescreve UID/GID e o processo passa a rodar como root. Container escape é trivial quando o host tem kernel vulnerável (cgroup não isola memória do kernel).",
+        "senior": "Em fleet de Kubernetes, o impacto é horizontal: qualquer pod que execute código não confiável (CI runners, sandboxes de tenant, plugins de usuário) consegue privilege escalation no node. A urgência é real, prazo CISA é 15/mai — atualize nodes em rolling com node drain, valide se a host LSM (AppArmor/SELinux) reduz superfície enquanto patches saem para LTS internas.",
+        "glossary": [
+          {
+            "term": "KEV (Known Exploited Vulnerabilities)",
+            "def": "Catálogo da CISA com CVEs comprovadamente explorados em ataque real; agências federais dos EUA têm prazo legal para corrigir."
+          },
+          {
+            "term": "LPE (Local Privilege Escalation)",
+            "def": "Vulnerabilidade que permite a um usuário sem privilégios virar root sem precisar de acesso remoto — explorada após o atacante conseguir code exec inicial."
+          },
+          {
+            "term": "Page cache",
+            "def": "Área de memória do kernel que armazena páginas de arquivos lidos do disco para acelerar acesso; corrompê-la afeta qualquer processo que dependa desses dados."
+          },
+          {
+            "term": "Theori / Xint",
+            "def": "Empresas de segurança ofensiva sul-coreanas conhecidas por exploit research em kernel — autoras da pesquisa Copy Fail."
+          }
+        ]
+      },
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/cisa-adds-actively-exploited-linux-root.html",
+      "published_at": "2026-05-02T08:00:00-03:00",
+      "read_time": 5,
+      "severity": "high",
+      "cves": ["CVE-2026-31431"],
+      "tags": ["linux", "kernel", "kev", "lpe", "container-escape"],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "OpenAI ganha permissão para vender modelos em AWS e Google Cloud — fim da exclusividade Microsoft",
+      "summary": "Microsoft e OpenAI anunciaram em 27/abr o desmonte da exclusividade comercial. OpenAI agora pode oferecer todos os produtos (incluindo a API direta) a clientes em qualquer cloud — AWS (com investimento de US$ 50bi anunciado em fevereiro), Google Cloud e demais. Revenue share da OpenAI à Microsoft permanece até 2030 mas com cap total. Licença de IP da Microsoft permanece até 2032, agora explicitamente não-exclusiva. O efeito imediato para arquitetura: posso rodar GPT-5.5/Codex em Bedrock (anunciado 28/abr em preview) ou Vertex AI sem precisar passar por Azure OpenAI Service.",
+      "explain": {
+        "junior": "Até agora, se você queria rodar OpenAI na sua nuvem preferida, só Azure tinha versão oficial via Azure OpenAI Service. A partir de 27/abr, OpenAI pode vender o serviço deles nativamente em AWS, Google Cloud e outras — então sua arquitetura cloud-única não precisa mais subir um Azure só pra usar GPT.",
+        "pleno": "O acordo original dava à Microsoft exclusividade de cloud para hosting + revenue share de 20%. Com a renegociação, OpenAI mantém pagamento à Microsoft até 2030 sob cap fixo, mas a relação volta a parecer um licenciamento comercial comum. Isso elimina a fricção arquitetural de manter VPN cross-cloud + IAM federado só para acessar Azure OpenAI; em paralelo, Bedrock anunciou GPT-5.5, GPT-5.4 e Codex em preview.",
+        "senior": "Para arquiteturas que padronizaram em uma cloud, a decisão de evitar OpenAI por questão de homologação some — mas atenção: a oferta em Bedrock/Vertex pode chegar com SLA, observabilidade e pricing diferentes do Azure OpenAI. Reavalie POC de fallback multi-modelo (Claude/Bedrock + GPT/Bedrock no mesmo IAM) e prepare política de roteamento por modelo nas suas gateways.",
+        "glossary": [
+          {
+            "term": "Azure OpenAI Service",
+            "def": "Versão hospedada da OpenAI com SLA Microsoft, isolamento de tenant Azure e integração com AAD; foi a única forma enterprise de consumir GPT até hoje."
+          },
+          {
+            "term": "Revenue share cap",
+            "def": "Teto absoluto no valor que a OpenAI paga à Microsoft como royalty — uma vez atingido, OpenAI mantém 100% da receita."
+          }
+        ]
+      },
+      "source_key": "cnbc",
+      "url": "https://www.cnbc.com/2026/04/27/openai-microsoft-partnership-revenue-cap.html",
+      "published_at": "2026-04-27T13:00:00-03:00",
+      "read_time": 4,
+      "tags": ["openai", "microsoft", "aws", "google-cloud", "bedrock"],
+      "image": "https://image.cnbcfm.com/api/v1/image/108211007-1751905129594-gettyimages-2222588760-AFP_637E3RR.jpeg"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Cloudflare publica deep-dive do R2 SQL — query engine distribuído sobre Iceberg sem egress",
+      "summary": "A Cloudflare publicou em 30/abr o deep-dive técnico do R2 SQL, motor de query distribuído próprio para escala petabyte sobre dados Iceberg em R2. O design separa metadata (R2 Data Catalog), storage (R2) e execução (R2 SQL) — query planner divide trabalho entre partições e executa em paralelo. Combina com Cloudflare Pipelines (ingestion via Workers ou HTTP, transformação SQL, escrita Iceberg) para formar a Cloudflare Data Platform: ingest+store+query nativo, sem egress fee. R2 SQL ainda não suporta JOIN/aggregation — entram no roadmap H1/2026.",
+      "explain": {
+        "junior": "Quando você tem petabytes de dados em S3 e precisa rodar SQL neles, normalmente paga taxa de egress pra exportar pra Athena/Snowflake/BigQuery. R2 SQL roda o SQL dentro da própria Cloudflare, em cima dos seus arquivos Iceberg no R2 — sem egress, sem ETL, sem cluster externo.",
+        "pleno": "É arquitetura lakehouse separada em três planos: catálogo (R2 Data Catalog, Iceberg REST), storage (R2 com zero egress), execução (R2 SQL distribuído). O planner faz partition pruning via Iceberg metadata, distribui shards de leitura por workers e agrega resultados em coordenador. Diferente de Athena (S3 só leitura) ou Snowflake (compute separado, custo de movimento), aqui ingestão, storage e query convivem no mesmo edge — mas ainda sem JOIN/aggregations.",
+        "senior": "Para arquiteturas que sofrem com egress fee S3→Snowflake ou para times que estão começando lakehouse hoje, vale POC: ingest event stream via Pipelines (substitui Kinesis Firehose), grava em Iceberg no R2, query com R2 SQL e/ou conecta DuckDB/Spark/Databricks via REST catalog. Limites atuais (sem JOIN) restringem para tabelas wide e operações single-table — bom para logs e telemetria, ruim para star schema clássico.",
+        "glossary": [
+          {
+            "term": "Apache Iceberg",
+            "def": "Formato aberto de tabelas para data lakes com transações ACID, evolução de schema e time travel; é o padrão emergente para lakehouse aberto."
+          },
+          {
+            "term": "Egress fee",
+            "def": "Cobrança que clouds tradicionais aplicam quando dados saem da rede deles (ex.: AWS cobra ~US$0,09/GB para internet); Cloudflare R2 elimina."
+          },
+          {
+            "term": "Partition pruning",
+            "def": "Otimização que evita ler arquivos cujo intervalo de chave já está fora do filtro do WHERE — Iceberg armazena metadata para isso ser rápido."
+          }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/r2-sql-deep-dive/",
+      "published_at": "2026-04-30T15:00:00-03:00",
+      "read_time": 6,
+      "tags": ["cloudflare", "r2", "iceberg", "lakehouse", "sql"],
+      "image": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/3OLHzInzz0qvpSXoyPIVTM/d80c8d5773e26107ff66891a317c03ab/r2-sql-deep-dive.png"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "OpenTelemetry eBPF Instrumentation entra em Beta no KubeCon EU — telemetria zero-code direto do kernel",
+      "summary": "Splunk anunciou no KubeCon + CloudNativeCon Europe 2026 (Amsterdam) o beta do OpenTelemetry eBPF Instrumentation (OBI), captura de telemetria no kernel Linux que produz traces distribuídos e métricas RED sem modificação de código nem restart de serviço. SIG OBI tem roadmap focado em GA 1.0, expansão de protocolos (HTTP/2, gRPC, Kafka, Postgres) e suporte a mais linguagens. Pyroscope continua dono do profiling; OBI cuida de application traces, RED metrics, SQL e GenAI. Pyroscope recebe profiles via OTLP do eBPF profiler integrado ao Collector.",
+      "explain": {
+        "junior": "Pra ter traces dos seus serviços, normalmente você instala biblioteca de cada linguagem e instrumenta cada chamada. OBI faz isso com eBPF — código no kernel Linux que vê chamadas de sistema sem mexer no app. Você liga em modo sidecar e ganha trace+métricas zero-code.",
+        "pleno": "OBI é zero-code instrumentation baseada em eBPF: programa anexa em uprobes de bibliotecas (libssl, libc) e em kprobes (sys_enter_*) e produz spans em formato OTLP. A vantagem é universalidade — funciona em Java, Go, Python, Node sem agente por linguagem. Trade-off: cobertura por protocolo é binária (HTTP/1, HTTP/2 emerging; gRPC parcial); spans cross-process precisam injeção de header (challenge para padronizar).",
+        "senior": "Para fleet polyglot grande (mais de 5 linguagens diferentes), OBI deve substituir 80% da instrumentação manual e simplificar SLO de coverage — mas planeje conviver com ambos durante os primeiros 12 meses, especialmente para métricas customizadas e business spans. Em produção, valide overhead (tipicamente 1-3% CPU em workload IO-bound) e regras de filtro (não mande tudo para o backend — sample na borda).",
+        "glossary": [
+          {
+            "term": "eBPF",
+            "def": "Tecnologia do kernel Linux que executa programas sandboxed dentro do kernel (sem kernel module), usada para tracing, networking e segurança."
+          },
+          {
+            "term": "Métricas RED",
+            "def": "Rate, Errors, Duration — três métricas básicas de saúde de serviço, padrão de Tom Wilkie."
+          },
+          {
+            "term": "OTLP",
+            "def": "OpenTelemetry Protocol — formato wire para export de traces/métricas/logs entre aplicação e Collector; tornou-se default da indústria."
+          }
+        ]
+      },
+      "source_key": "cloudnativenow",
+      "url": "https://cloudnativenow.com/kubecon-cloudnativecon-europe-2026/splunk-introduces-opentelemetry-ebpf-instrumentation-and-kubernetes-operator-at-kubecon-eu-2026/",
+      "published_at": "2026-04-29T11:00:00-03:00",
+      "read_time": 4,
+      "tags": ["opentelemetry", "ebpf", "kubernetes", "splunk", "observability"],
+      "image": "https://cloudnativenow.com/wp-content/uploads/2024/03/cloud-native-now-logo-bg.png"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Iceberg v3 entra em Public Preview no Databricks — VARIANT, Deletion Vectors e nested types",
+      "summary": "Databricks colocou Iceberg v3 em public preview, abrindo as features novas do spec: VARIANT type para semi-estruturado, Deletion Vectors (DV) para delete eficiente sem rewrite, default values em column add e nested type evolution. A jogada consolida Iceberg como formato lingua-franca: tudo que existia de avanço em Delta Lake migra para Iceberg, e Databricks lê/escreve nos dois com Unity Catalog. Roadmap completo será apresentado no Data and AI Summit (15-18 jun, San Francisco).",
+      "explain": {
+        "junior": "Iceberg é um formato de tabela aberto que organiza dados em data lake com transações de banco. A v3 traz colunas que aceitam JSON-like (VARIANT), forma rápida de marcar linhas como apagadas (Deletion Vectors) e tipos mais flexíveis. Databricks era a casa do Delta Lake — agora suporta Iceberg v3 nativo.",
+        "pleno": "VARIANT é tipo binário para dados semi-estruturados (JSON) com query SQL nativa, similar ao tipo Snowflake VARIANT mas no formato aberto. Deletion Vectors substituem rewrite de arquivos no DELETE — armazenam bitmap de linhas excluídas em arquivos auxiliares (-1% a +5% no read, mas ordens de magnitude no DELETE). Default values em column add evita rewrite ao adicionar coluna nova.",
+        "senior": "Para arquiteturas multi-engine (Spark + Trino + Flink + Snowflake) usando Iceberg como formato comum, v3 acelera convergência — mas atenção: leitores antigos não entendem DV nem VARIANT. Plano de migração precisa coordenar engines: subir todos os clientes para reader v3, depois ativar features novas em tabelas críticas. Unity Catalog entrega esse versionamento via metadata; sem ele, você gerencia compatibility manualmente.",
+        "glossary": [
+          {
+            "term": "VARIANT",
+            "def": "Tipo de dado para JSON-like sem schema fixo, com armazenamento binário comprimido e queries SQL com $.path.notation."
+          },
+          {
+            "term": "Deletion Vectors",
+            "def": "Bitmap por arquivo Iceberg que marca quais linhas foram deletadas — evita reescrever o arquivo inteiro a cada DELETE."
+          },
+          {
+            "term": "Unity Catalog",
+            "def": "Catálogo gerenciado da Databricks que unifica metadata, lineage, governança e ACL entre Delta e Iceberg."
+          }
+        ]
+      },
+      "source_key": "databricks",
+      "url": "https://docs.databricks.com/aws/en/iceberg/iceberg-v3",
+      "published_at": "2026-04-28T11:00:00-03:00",
+      "read_time": 5,
+      "tags": ["iceberg", "lakehouse", "databricks", "deletion-vectors", "variant"],
+      "image": "https://www.databricks.com/sites/default/files/2025-09/blog-meta-image.png"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Pentágono fecha contratos de IA com 7 empresas — OpenAI, Google, Microsoft, Amazon, Nvidia, SpaceX, Reflection",
+      "summary": "DoD anunciou em 1/mai contratos com 8 fornecedores (depois 7, sem Anthropic) para deploy de IA em redes classificadas Impact Level 6 e 7. Inclui SpaceX, OpenAI, Google, Nvidia, Reflection, Microsoft, Oracle e AWS. Foco declarado: síntese de dados, suporte à decisão, situational awareness. Anthropic ficou fora — empresa havia restringido uso para vigilância e operações letais nas suas usage policies. Sinaliza adoção massiva de LLMs em ambientes air-gapped/classified e pressão sobre fornecedores que não relaxam guardrails de uso.",
+      "explain": {
+        "junior": "Defesa dos EUA fechou contrato com 7 empresas pra usar IA dentro de redes ultra-restritas (Impact Level 6/7), que normalmente nem internet têm. Cada fornecedor terá que entregar versão isolada do modelo com auditoria pesada. Anthropic ficou de fora porque suas regras de uso não permitiam aplicações militares ofensivas.",
+        "pleno": "IL6 e IL7 são ambientes classificados do DoD — air-gapped, com ACL hardcore e zero egress para internet pública. Rodar LLM ali exige modelo em hardware on-prem ou cloud GovCloud + isolation Layer 7. Pressão sobre vendor: aceita customer 'lawful operational use' ampla (= warfare) ou perde contrato gigante. Anthropic recusou e ficou de fora.",
+        "senior": "Para arquitetos em setor regulado (governo, defesa, financeiro com classificação), o sinal é claro — fornecedores estão se segmentando por política de uso. Avalie se seu vendor preferido aceita seu use case e tenha rota alternativa pronta. Em outros setores, a notícia ressalta que LLMs deployment em ambientes classified é viável (já existe SOC 2 + FedRAMP High playbook), só caro.",
+        "glossary": [
+          {
+            "term": "Impact Level (IL)",
+            "def": "Classificação do DoD para sensibilidade de dados em cloud: IL2 (público), IL4 (CUI), IL5 (CUI sensível), IL6 (Secret), IL7 (Top Secret SCI)."
+          },
+          {
+            "term": "Air-gapped",
+            "def": "Sistema sem qualquer conexão de rede com a internet pública; comum em defesa, infraestrutura crítica e serviços com classificação."
+          },
+          {
+            "term": "Usage policy",
+            "def": "Regra contratual e técnica do fornecedor de IA listando aplicações proibidas (ex.: vigilância em massa, operações letais autônomas)."
+          }
+        ]
+      },
+      "source_key": "breakingdefense",
+      "url": "https://breakingdefense.com/2026/05/pentagon-clears-7-tech-firms-to-deploy-their-ai-on-its-classified-networks/",
+      "published_at": "2026-05-01T17:00:00-03:00",
+      "read_time": 4,
+      "tags": ["pentagon", "openai", "google", "microsoft", "anthropic", "defense"],
+      "image": "https://breakingdefense.sites.breakingmedia.com/wp-content/uploads/sites/3/2024/02/2024_02_DOD_Pentagon-banner-696x435.jpg"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Apache Pulsar 4.2.0 traz transactions em Functions, OpenTelemetry tracing nativo e remoção do Etcd backend",
+      "summary": "Apache Pulsar 4.2.0 saiu em 1/abr com 12 PIPs aprovadas. Destaques: PIP-439 adiciona transactions a Pulsar Functions via Managed Transaction Wrapping (suporta exactly-once em pipelines stateful), PIP-446 traz tracing OpenTelemetry nativo no client Java, PIP-437 entrega delivery policies granulares e fixed-delay, PIP-453 melhora threading do metadata store. Breaking changes pesados: removido suporte a topic names V1 e Admin API V1, removido Etcd metadata store backend, novo Metadata Store Migration Framework para mover de ZK/Etcd para Oxia. Spring for Apache Pulsar 1.2.17 e 2.0.5 também saíram em 22/abr com correções de transactional listener.",
+      "explain": {
+        "junior": "Pulsar é um broker de mensagens parecido com Kafka mas com modelo de tópicos diferente. A versão 4.2 ganha exactly-once em Functions (jobs serverless dentro do broker), traces automáticos com OpenTelemetry e remove backends antigos (Etcd, V1).",
+        "pleno": "Transactions em Pulsar Functions cobrem o gap em pipelines stateful — antes precisava idempotency manual no consumer downstream; agora wrapping automático via Managed Transaction Coordinator garante exactly-once entre source-process-sink. Tracing OTel nativo no client substitui agente externo. Breaking change: cluster ainda em V1 admin/topic name precisa upgrade obrigatório antes de 4.2; backend Etcd vai para Oxia (KV próprio do Pulsar) ou ZooKeeper clássico.",
+        "senior": "Em arquiteturas event-driven multitenant pesadas (centenas de namespaces, mensagens em ordem de bilhões/dia), a remoção de V1 + Etcd força planejamento de migração janelado. Granular delivery policies do PIP-437 simplificam padrões de scheduled message (substitui implementações com tópico delay+consumer dedicado). Spring for Pulsar 2.0.5 já liberou transactional listener — para times Spring, abre suporte total à mensagem com TM coordenado.",
+        "glossary": [
+          {
+            "term": "PIP",
+            "def": "Pulsar Improvement Proposal — documento de design semelhante a KIP (Kafka) ou JEP (Java) para evoluções em Pulsar."
+          },
+          {
+            "term": "Oxia",
+            "def": "Substituto do ZooKeeper desenvolvido pela StreamNative para Pulsar — KV consistente, scalable, sem consenso pesado em runtime."
+          },
+          {
+            "term": "Pulsar Functions",
+            "def": "Compute embedded no Pulsar — jobs serverless que consomem de tópicos, processam e produzem em outros, parecido com Kafka Streams."
+          }
+        ]
+      },
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/22/spring-for-apache-pulsar-1-2-17-and-2-0-5-are-now-available/",
+      "published_at": "2026-04-22T08:00:00-03:00",
+      "read_time": 4,
+      "tags": ["pulsar", "spring", "transactions", "opentelemetry", "messaging"],
+      "image": "https://spring.io/img/og-spring.png"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "State of Platform Engineering Vol 4: 94% veem IA como crítica, mas 47% têm budget abaixo de US$1M",
+      "summary": "Quarta edição do report de plataforma, com 518 engenheiros globais, mostra a transição da era 'cloud-native' para 'AI-native'. 94% das organizações veem IA como crítica para o futuro de platform engineering — surge dual mandate: plataformas que turbinam IDPs com agentes de IA e plataformas que entregam infraestrutura para que engineering teams construam aplicações de IA. Sinal preocupante: 29,6% dos times de plataforma não medem sucesso, e 47,4% das iniciativas operam com budget anual entre US$0 e US$1M. Backstage mantém ~89% market share entre adopters, mas times levam 6-12 meses pra subir self-hosted e adoção interna média fica em 10%.",
+      "explain": {
+        "junior": "Platform engineering é a prática de montar uma plataforma interna (Internal Developer Platform — IDP) que abstrai infra para os times de produto. O report mostra que IA virou centro da agenda, mas muitos times ainda nem medem se a plataforma resolve.",
+        "pleno": "Dual mandate é a tensão real: por um lado o IDP precisa absorver agents de IA (geração de código, scaffolding, otimização); por outro precisa entregar a infra de IA (vector DBs, GPU scheduling, model registry) para o time de produto. Backstage 89% pesa porque virou commodity de UI mas a complexidade de catalog/templates/scaffolders ainda exige engenharia interna; 6-12 meses de setup é a média real.",
+        "senior": "Para arquitetos planejando IDP em 2026, a leitura é: começar com plataforma que mede valor antes de escalar; usar Backstage só se já tem capacidade de mantê-lo (3-5 engenheiros internos full-time); priorizar 2-3 paths críticos (deploy, observability, secret) antes de gold-plate; e incluir AI agents como user persona da plataforma, não apenas chat assistant.",
+        "glossary": [
+          {
+            "term": "IDP (Internal Developer Platform)",
+            "def": "Conjunto integrado de ferramentas, automações e self-service que entrega ao engineer um caminho dourado para entregar software."
+          },
+          {
+            "term": "Backstage",
+            "def": "Framework open-source da Spotify para construir IDPs — software catalog, scaffolder de templates, plugins; doado à CNCF em 2020."
+          },
+          {
+            "term": "Golden path",
+            "def": "Caminho recomendado e suportado pela plataforma para realizar uma tarefa (ex.: deploy de microservice em K8s); reduz cognitive load."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://platformengineering.org/blog/announcing-the-state-of-platform-engineering-vol-4",
+      "published_at": "2026-04-30T09:00:00-03:00",
+      "read_time": 5,
+      "tags": ["platform-engineering", "backstage", "idp", "report", "ai"],
+      "image": "https://platformengineering.org/og.jpg"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "InfoQ: configuração saiu da pasta de YAML para virar control plane com staged rollout e blast radius",
+      "summary": "InfoQ publicou em fim de abril artigo sobre evolução da gestão de configuração de arquivo estático para control plane vivo. Fato motivador: misconfigurações continuam sendo causa raiz de outage massivos (Cloudflare 2025, AWS 2024). Hyperscalers entregam mudanças hoje via staged rollout (canário automatizado), validação contra schema, blast radius limit (% máximo de fleet por janela) e auto-rollback baseado em métricas. O artigo argumenta que config nunca deveria ter sido tratada como código estático — é tão crítica quanto release de binário e merece pipeline próprio.",
+      "explain": {
+        "junior": "Configuração — flag, parâmetro, threshold — costuma ser tratada como arquivo YAML que aplicamos manualmente ou via CI. Quando essa config é errada num cluster grande, derruba serviço inteiro. Hyperscalers tratam config como release: aplica em 1% primeiro, mede, só então sobe pra 100%.",
+        "pleno": "Padrão emergente: config tem CI/CD próprio (control plane) com 4 capacidades: schema validation, staged rollout (1% → 10% → 100%), blast radius cap (impede mudança em mais de N% do fleet por hora) e auto-rollback dirigido por SLO. Implementações concretas: HashiCorp Consul + Sentinel, Netflix Archaius+Spinnaker, ConfigCat enterprise, ou solução custom sobre LaunchDarkly + Datadog Workflow.",
+        "senior": "Para arquiteturas com mais de 50 microservices ou multi-tenant, vale separar três tipos de config: estrutural (schema/networking/IAM — segue infra-as-code), de produto (feature flags — gerenciada por business em LaunchDarkly/Statsig) e operacional (timeouts, retries, sample rate — control plane com staged rollout). A misconfig de produção mais cara não é a release de código — é a config aplicada em todos os nodes de uma vez.",
+        "glossary": [
+          {
+            "term": "Control plane",
+            "def": "Camada de gestão e orquestração que decide e propaga mudanças no sistema — separada do data plane, que executa o tráfego."
+          },
+          {
+            "term": "Blast radius",
+            "def": "Tamanho do impacto se uma mudança falhar; limites de blast radius restringem % do fleet afetado num intervalo."
+          },
+          {
+            "term": "Staged rollout",
+            "def": "Aplicação gradual de mudança a fatias do fleet (1%, 10%, 50%, 100%) com pausas para validar métricas entre etapas."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/articles/configuration-evolution-control-plane/",
+      "published_at": "2026-04-25T14:00:00-03:00",
+      "read_time": 6,
+      "tags": ["configuration", "control-plane", "rollout", "sre"],
+      "image": "https://res.infoq.com/articles/configuration-evolution-control-plane/en/headerimage/configuration-control-plane-thumb.jpg"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Docker libera mil imagens hardened gratuitas — non-root, mínimas, scan contínuo",
+      "summary": "Docker anunciou em maio a expansão de Docker Hardened Images (DHI) para um catálogo aberto e gratuito com 1.000+ imagens. Características: scan contínuo de CVEs com rebuild automático, non-root por default, footprint mínimo (1-3% do tamanho de imagens distroless equivalentes em alguns casos) e atestações SLSA Build L3. Mudança pressiona equilíbrio Docker Hub vs Chainguard — 'oficial' fica gratuito enquanto 'enterprise hardened' (com SLA + air-gap mirror) segue pago.",
+      "explain": {
+        "junior": "Imagens base de container (Alpine, Ubuntu, Debian) costumam vir com pacotes a mais que sua aplicação não precisa — superfície de ataque maior. Docker Hardened Images são versões reduzidas, sem root e sem ferramentas de debug, com CVEs corrigidos rapidinho. Agora 1.000 delas ficaram grátis.",
+        "pleno": "DHI atende três princípios: minimal footprint (sem shell, sem package manager), runtime non-root (ID 65532 padrão) e supply chain assurance (atestação SLSA L3 + SBOM em CycloneDX/SPDX). Comparado a distroless do Google, DHI tem cobertura mais ampla de runtimes (JDK, Python, Node, Go, .NET) e ciclo de patch claro. Catálogo gratuito ataca Chainguard direto, que era a referência hardened.",
+        "senior": "Para CI/CD que ainda usa imagens base 'gordas' (debian:bookworm, eclipse-temurin com utils), substituir por DHI corta superfície de ataque e tamanho — mas atenção: imagens sem shell quebram operadores baseados em kubectl exec sh, debug containers e tools de incident response. Tenha imagem 'debug' separada para troubleshooting (kubectl debug --image=...) e padronize golden path do platform team.",
+        "glossary": [
+          {
+            "term": "Distroless",
+            "def": "Imagens de container sem distro de Linux completa — apenas o runtime e dependências mínimas, popularizado pelo Google."
+          },
+          {
+            "term": "SLSA L3",
+            "def": "Supply-chain Levels for Software Artifacts; L3 exige build em ambiente isolado, não-falsificável e com atestação verificável."
+          },
+          {
+            "term": "Non-root",
+            "def": "Container que não roda como UID 0 — reduz risco de escape e está bloqueado em pods com PSS Restricted."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2025/12/docker-hardened-images/",
+      "published_at": "2026-04-29T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["docker", "containers", "security", "slsa", "supply-chain"],
+      "image": "https://res.infoq.com/news/2025/12/docker-hardened-images/en/headerimage/docker-hardened-thumb.jpg"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Next.js 16.2: dev startup 4x mais rápido, render 50% melhor e Agent DevTools experimental",
+      "summary": "Vercel liberou em fim de abril Next.js 16.2 com next dev iniciando ~4x mais rápido (Time-to-URL), rendering ~50% mais rápido, redesign da página 500, Turbopack acelerado, suporte a SRI (Subresource Integrity), Server Fast Refresh e 200+ bug fixes. Front da release editorial é AI-ready: AGENTS.md em create-next-app, browser log forwarding nativo, next-browser experimental e Agent DevTools no devtool — pacote pensado para dev com agente de IA emparelhado.",
+      "explain": {
+        "junior": "Next.js é o framework full-stack para React mais popular. A versão 16.2 deixa o ambiente de dev iniciar quatro vezes mais rápido, o servidor de desenvolvimento renderiza páginas em metade do tempo e tem ferramentas pensadas para quem usa IA emparelhada (Cursor, Copilot, Claude Code).",
+        "pleno": "Time-to-URL é a métrica de quanto tempo entre 'next dev' e abrir o browser. 4x veio de Turbopack incremental (cache mais agressivo) e lazy compilation por route segment. AGENTS.md formaliza convenção de instrução para agente — análoga a CLAUDE.md. Browser log forwarding entrega console.log do navegador no terminal automaticamente; Agent DevTools expõe traces da árvore RSC para IA inspecionar mudanças.",
+        "senior": "Para times grandes com Next.js (especialmente em monorepo Turborepo), o ganho de cold start dev impacta directamente a velocidade de iteração — vale upgrade. Mas valide caching de RSC e Adapter API (estável agora) se você customiza render no edge. Em paralelo, AGENTS.md vira convenção para registrar invariantes do projeto que agente deve respeitar — ponte entre seu ESLint/codestyle e a IA.",
+        "glossary": [
+          {
+            "term": "Turbopack",
+            "def": "Bundler em Rust criado pelo time do Webpack para Vercel — substitui Webpack no Next.js, com cache incremental e paralelismo agressivo."
+          },
+          {
+            "term": "RSC (React Server Components)",
+            "def": "Componentes React que rodam só no servidor — não vão no bundle, podem fazer await no banco direto, sem hooks de cliente."
+          },
+          {
+            "term": "AGENTS.md",
+            "def": "Arquivo na raiz do projeto com instruções para agentes de IA — convenções de código, comandos comuns, contexto do domínio."
+          }
+        ]
+      },
+      "source_key": "nextjs",
+      "url": "https://nextjs.org/blog/next-16-2",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "read_time": 4,
+      "tags": ["nextjs", "vercel", "turbopack", "react", "ai"],
+      "image": "https://nextjs.org/api/og?title=Next.js%2016.2"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Little's Law na prática: por que sua API com 80% de utilização tem latência 5x maior que esperada",
+      "summary": "Artigo evergreen volta à pauta — Kevin Sookocheff publicou versão expandida sobre aplicação prática de Little's Law em sistemas de produção. L = λ × W: número médio de requisições no sistema = throughput × latência média. Implicação direta cobiçada por arquitetos: a 80% de utilização, response time médio é 5× o service time, porque a maioria do tempo é espera em fila. O texto detalha como dimensionar pool de conexão DB partindo de RPS desejado e latência alvo, e como detectar bottleneck de fila vs CPU vs IO.",
+      "explain": {
+        "junior": "Little's Law é fórmula simples (L = λ × W) que liga três grandezas: quantos pedidos estão no sistema (L), com que taxa chegam (λ) e quanto tempo cada um demora (W). Ela explica porque, mesmo que cada request seja rápido, o sistema fica devagar quando está perto do limite.",
+        "pleno": "É lei universal de fila estacionária — vale para qualquer sistema com chegada e saída em regime de equilíbrio. Aplicação prática 1: dimensionar pool de DB. Se RPS=100 e cada request usa DB por 50ms, você precisa de pool ≥ 5 conexões (100 × 0.05). Aplicação 2: na vizinhança de saturação, response time cresce hiperbolicamente — a 80% util, ART = service_time / (1 - 0.8) = 5x. Por isso queueing > CPU em diagnóstico.",
+        "senior": "Em arquitetura distribuída, aplique Little's Law por boundary: front-end pool, app-tier pool, DB pool. Bottleneck é onde o L cresce mais rápido com λ. Dashboards que medem só CPU% perdem o jogo — o gargalo geralmente está em pool size + queue depth, e a salvação é back-pressure (rejeitar mais cedo, não enfileirar até latência explodir). Em SLOs, traduza Little's Law em headroom: 70% utilização sustentável é regra prática.",
+        "glossary": [
+          {
+            "term": "Little's Law",
+            "def": "L = λ × W — relação entre número médio em fila, taxa de chegada e tempo médio. Independe de distribuição, vale para qualquer sistema estacionário."
+          },
+          {
+            "term": "Service time vs Response time",
+            "def": "Service time = quanto a unidade de processamento demora. Response time = service time + tempo na fila. A relação não-linear vem do M/M/1."
+          },
+          {
+            "term": "Back-pressure",
+            "def": "Estratégia em que o sistema rejeita carga antes de saturar (load shedding, circuit breaker), evitando cascata de degradação."
+          }
+        ]
+      },
+      "source_key": "techinsider",
+      "url": "https://sookocheff.com/post/modeling/littles-law/",
+      "published_at": "2026-04-28T10:00:00-03:00",
+      "read_time": 7,
+      "tags": ["queueing-theory", "performance", "fundamentals", "capacity-planning"],
+      "image": "https://sookocheff.com/post/modeling/littles-law/img/queue.jpg"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Architecture for Flow: combinando DDD, Wardley Mapping e Team Topologies para arquitetura adaptativa",
+      "summary": "Susanne Kaiser apresentou no QCon London 2026 (mar/2026) e InfoQ republicou síntese sobre framework integrado para socio-technical architecture. A tese: design técnico não pode ser separado de design organizacional. DDD entrega bounded contexts, Wardley Mapping mapeia evolução da componentização (Genesis → Custom Built → Product → Commodity), Team Topologies define fronteiras de equipe (stream-aligned, platform, complicated subsystem, enabling) e modos de interação (collaboration, X-as-a-Service, facilitating). Os três se reforçam: DDD informa Topologies; Wardley orienta build vs buy; Topologies aplica Conway's Law a favor.",
+      "explain": {
+        "junior": "Quando você desenha arquitetura de software, você também está desenhando como times trabalham (Lei de Conway). Esse framework combina três técnicas — DDD (organizar por domínio), Wardley Mapping (entender o que vale construir) e Team Topologies (4 tipos de time + 3 modos de interação) — para alinhar arquitetura técnica e organizacional.",
+        "pleno": "DDD entrega bounded contexts (limite de modelagem); Topologies entrega 4 tipos de time (stream-aligned, platform, complicated subsystem, enabling) com 3 modos (collaboration, X-as-a-Service, facilitating). Wardley adiciona time-axis: o que hoje é Custom Built deve virar Product depois Commodity, mudando o time owner. Sem Wardley, DDD+Topologies engessa estado atual; com ele, vira mapa evolutivo.",
+        "senior": "Para arquitetos planejando reorg/replatform, esses três artefatos juntos viram playbook: 1) DDD identifica boundary; 2) Wardley diz qual boundary deve ser commodity (= consumir SaaS); 3) Topologies define que time deve ownar cada boundary e como interage. Sai do exercício com 'O time de pagamentos é stream-aligned, ownar bounded context Payments, consome IDP da plataforma como X-as-a-Service' — não como 'temos 12 squads arrumando bricolagem'.",
+        "glossary": [
+          {
+            "term": "Bounded Context",
+            "def": "Limite de modelagem de DDD onde um termo ubíquo tem único significado; corresponde a fronteira natural de microservice/bounded module."
+          },
+          {
+            "term": "Wardley Mapping",
+            "def": "Técnica de Simon Wardley que mapeia componentes em duas dimensões (visibilidade ao usuário × evolução de Genesis a Commodity)."
+          },
+          {
+            "term": "Lei de Conway",
+            "def": "'Organizações desenham sistemas que copiam sua estrutura de comunicação' — Mel Conway, 1968. Topologies aplica a versão inversa intencional."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/presentations/ddd-wardley-mapping-team-topology/",
+      "published_at": "2026-04-23T10:00:00-03:00",
+      "read_time": 6,
+      "tags": ["ddd", "team-topologies", "wardley", "architecture", "conway"],
+      "image": "https://res.infoq.com/presentations/ddd-wardley-mapping-team-topology/en/slides/sl_thumb.jpg"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "breaking": false,
+      "headline": "Grafana Loki ganha ingestão Kafka-backed no v13 — pipelines mais duráveis em escala",
+      "summary": "Grafana 13 (anunciado em 21/abr no GrafanaCON 2026) estreia evolução major do Loki: ingestão Kafka-backed, query engine redesenhado e novo planner que distribui execução por partições em paralelo. A motivação: escalar query analítica sobre logs sem destruir o ingestion path. Empresa também integrou OpenTelemetry mais profundo com Alloy (distribuição própria do Collector), instalação via single command em Linux e Kubernetes, e adicionou agent IA na plataforma cloud.",
+      "explain": {
+        "junior": "Grafana Loki é stack de logs open source — armazena logs barato com indexação só por labels, não por conteúdo. Versão 13 troca o caminho de ingestão para passar por Kafka antes de escrever em storage, ficando mais durável e deixando query rodar em paralelo melhor.",
+        "pleno": "Antes, Loki ingestava direto em ingester → memstore → flush para object store. Agora a opção é writer → Kafka → ingester de outro plano, com tópico Kafka como buffer durável e replay. Query engine redesenhado quebra plano em sub-queries por partição (paralelismo real em logs com cardinalidade média). Alloy substitui Loki Promtail/Grafana Agent na coleta, com OTLP nativo.",
+        "senior": "Para fleets que sofrem com Loki em volume pesado (crashes do ingester, perda em failover), Kafka-backed muda perfil de latência (+) por durabilidade (++). Arquitetura sugerida: Alloy → Kafka (cluster próprio ou MSK) → Loki ingester. Custo aumenta (cluster Kafka extra), mas RTO pós-incidente diminui. Em paralelo, AI agent da Grafana entra no ciclo de runbook automation — vale teste em staging antes de promover para produção.",
+        "glossary": [
+          {
+            "term": "Loki",
+            "def": "Stack de logs do Grafana inspirado em Prometheus — indexa só labels (não fulltext), barateando armazenamento mas exigindo cardinalidade controlada."
+          },
+          {
+            "term": "Alloy",
+            "def": "Distribuição da Grafana do OpenTelemetry Collector com componentes para Loki, Mimir e Tempo + integrações específicas."
+          },
+          {
+            "term": "Ingestion path",
+            "def": "Caminho que dado percorre da origem até o storage durável; gargalo em sistemas de logs costuma ser aqui, não na query."
+          }
+        ]
+      },
+      "source_key": "grafana",
+      "url": "https://grafana.com/blog/2026/04/21/grafana-13/",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["grafana", "loki", "kafka", "observability", "opentelemetry"],
+      "image": "https://grafana.com/static/img/grafana-meta.png"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "urgent": false,
+      "breaking": false,
+      "headline": "k6 Studio entra em GA — performance test record-and-replay com regras de transformação",
+      "summary": "Grafana liberou em GA o k6 Studio, app desktop open source para gerar testes k6 a partir de gravação. Captura interações com API ou navegador, converte em estrutura de teste k6 e expõe sistema de regras para parameterizar (extrair token, substituir IDs, randomizar payload). Foco editorial: reduz a barreira de entrada de performance test, área que historicamente exigia escrever JS k6 do zero. Em paralelo, blogpost da Nearform argumenta que k6 + Lighthouse hibridizam bem para perf 'sideways' — checa frontend + backend num único pipeline.",
+      "explain": {
+        "junior": "k6 é ferramenta de teste de carga em JavaScript. k6 Studio grava o que você faz em uma API ou no navegador e gera o script k6 automaticamente, com botões para extrair token de login, substituir ID por outro, etc.",
+        "pleno": "Studio resolve o gap mais frequente em adoção de k6: 'como começo' sem escrever JS do zero. Record captures HTTP, mostra árvore de requests, e regras permitem chained extraction (extract auth token → use in next request) sem mexer em código. Saída é k6 script padrão que roda em CI, nuvem k6 ou cluster próprio.",
+        "senior": "Para times que querem democratizar perf testing (fora do core SRE), k6 Studio + k6 cloud + Grafana Tempo dashboards formam stack rápido de adotar. Mas atenção: scripts gerados por gravação tendem a ser frágeis (IDs hardcoded, ordem rígida) — vale revisão manual antes de ir pra CI bloqueante. Para casos críticos, manter scripts mantidos por SREs continua melhor.",
+        "glossary": [
+          {
+            "term": "k6",
+            "def": "Ferramenta de load testing escrita em Go com scripting em JavaScript, criada pela Load Impact e adquirida pela Grafana em 2021."
+          },
+          {
+            "term": "Record-and-replay",
+            "def": "Padrão de gerar teste a partir da gravação de tráfego real — comum em ferramentas como Selenium IDE e Postman."
+          }
+        ]
+      },
+      "source_key": "k6",
+      "url": "https://grafana.com/blog/2026/04/15/k6-studio-ga/",
+      "published_at": "2026-04-15T11:00:00-03:00",
+      "read_time": 3,
+      "tags": ["k6", "performance-testing", "grafana", "load-testing"],
+      "image": "https://grafana.com/static/img/grafana-meta.png"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "JEP 527: TLS 1.3 ganha hybrid key exchange pós-quântico — confirmado para o JDK 27",
+      "description": "JEP 527 foi targetada para o JDK 27 (set/2026) e implementação merged. Adiciona X25519MLKEM768, SecP256r1MLKEM768 e SecP384r1MLKEM1024 ao TLS 1.3 da JDK, com X25519MLKEM768 no topo da preferência por default. Aplicações que usam javax.net.ssl ganham proteção contra harvest-now-decrypt-later sem mudar código.",
+      "explain": {
+        "junior": "Computadores quânticos potentes vão poder quebrar a criptografia atual num futuro próximo. JEP 527 é o JDK adicionando algoritmos resistentes a esse ataque dentro do TLS 1.3 — protege seu Java HTTPS sem precisar mudar código nenhum.",
+        "pleno": "Hybrid key exchange combina algoritmo clássico (ECDHE com X25519 ou secp256r1/384r1) com ML-KEM (Kyber, padronizado pelo NIST como ML-KEM-768/1024). Mesmo se um for quebrado, a segurança composta sobrevive. A JDK monta TLS 1.3 com curve híbrida no topo, então cliente e servidor negociam essa preferida automaticamente quando ambos suportam.",
+        "senior": "Para arquitetos com SLA longo (governo, financeiro, healthcare), começar a homologação pós-quântica em 2026 é mandatório — JDK 27 entrega no plano de upgrade do segundo semestre. Configure jdk.tls.namedGroups para forçar híbrida no canal interno crítico, e prepare lista de fornecedores não-Java para validar que aceitam X25519MLKEM768 (vai virar default em browsers até 2027).",
+        "glossary": [
+          { "term": "ML-KEM", "def": "Module-Lattice-Based Key-Encapsulation Mechanism — algoritmo pós-quântico baseado em learning with errors, padronizado pelo NIST (FIPS 203, agosto/2024)." },
+          { "term": "Hybrid key exchange", "def": "Negociação que combina dois algoritmos (clássico + pós-quântico) — só quebra se ambos caírem, dando defesa em profundidade durante a transição." },
+          { "term": "Harvest-now-decrypt-later", "def": "Ataque em que adversário coleta tráfego cifrado hoje para decriptografar quando computador quântico for viável; defesa só funciona se TLS migrar antes." }
+        ]
+      },
+      "source_key": "openjdk",
+      "url": "https://openjdk.org/jeps/527",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "tags": ["jdk-27", "tls", "post-quantum", "ml-kem", "security"],
+      "image": "https://openjdk.org/images/duke-thinker.png"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "news",
+      "headline": "Splunk anuncia OpenTelemetry eBPF + Kubernetes Operator no KubeCon EU 2026",
+      "description": "Splunk apresentou no KubeCon CloudNativeCon Europe 2026 (Amsterdam) o beta do OBI (OpenTelemetry eBPF Instrumentation) e GA do Splunk Operator for Kubernetes. OBI captura trace e RED metrics direto do kernel sem instrumentar código nem reiniciar pods — passo grande para fleet polyglot.",
+      "explain": {
+        "junior": "Em vez de adicionar biblioteca de tracing em cada serviço, Splunk OBI roda no kernel Linux do node Kubernetes e enxerga as chamadas de cada pod. Você instala o operator no cluster e ganha telemetria de tudo, em qualquer linguagem.",
+        "pleno": "Operator instala DaemonSet com OBI eBPF + OTel Collector + auto-instrumentation rules. Discovery automática reconhece serviços via cgroup labels e injeta tracing zero-code. RED metrics vêm prontas; spans cross-process precisam de header injection (limitação atual). GA do Operator simplifica deploy — antes era YAML manual com 6 componentes.",
+        "senior": "Para cluster K8s com 10+ stacks de runtime, OBI elimina o trabalho repetido de manter SDK por linguagem. Mas cuidado: overhead 1-3% CPU, possíveis incompatibilidades com kernel custom (eBPF programs verificados pelo verifier do kernel) e limitações em cenários air-gap (auto-update do operator depende de registry). Avalie em staging antes de migrar instrumentação manual.",
+        "glossary": [
+          { "term": "OBI", "def": "OpenTelemetry eBPF Instrumentation — captura zero-code de telemetria via eBPF no kernel Linux; padroniza emissão em OTLP." },
+          { "term": "DaemonSet", "def": "Workload K8s que garante uma cópia do pod em cada node (ou subset); usado para agentes de telemetria, log shipper, etc." }
+        ]
+      },
+      "source_key": "cncf",
+      "url": "https://www.cncf.io/blog/2026/04/29/kubecon-cloudnativecon-eu-2026-recap/",
+      "published_at": "2026-04-29T11:00:00-03:00",
+      "tags": ["kubernetes", "opentelemetry", "ebpf", "kubecon"],
+      "image": "https://www.cncf.io/wp-content/uploads/2024/01/cncf-logo-cards.png"
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "news",
+      "headline": "Docker disponibiliza catálogo de 1.000 imagens hardened gratuitas",
+      "description": "Docker Hardened Images (DHI) ganham catálogo aberto e gratuito com 1.000+ imagens — non-root, mínimas, scan contínuo de CVE com rebuild automático e atestações SLSA Build L3. Pressão direta sobre Chainguard, que era a referência hardened paga.",
+      "explain": {
+        "junior": "Imagens base oficiais (alpine, debian, ubuntu) costumam carregar pacotes que sua aplicação não usa, aumentando superfície de ataque. As Hardened do Docker são versões reduzidas, sem ferramentas de debug, com root desligado — agora 1.000 delas são grátis.",
+        "pleno": "DHI aplica três princípios: non-root por default (UID 65532), minimal footprint (sem shell, sem package manager) e supply chain assurance (SBOM + atestação SLSA L3). Ciclo de patch agressivo elimina CVEs em horas, não dias. Diferente de distroless do Google, cobre runtime variado (JDK múltiplas versões, Python, Node, Go, .NET).",
+        "senior": "Para CI/CD com imagens base 'gordas' (eclipse-temurin com utils, debian:bookworm), trocar por DHI corta superfície e tamanho — mas operadores que usam kubectl exec sh quebram. Tenha imagem 'debug' separada para troubleshooting (kubectl debug --image=...) e padronize golden path da plataforma.",
+        "glossary": [
+          { "term": "Distroless", "def": "Imagens de container sem distro Linux completa — apenas runtime e libs essenciais; pioneira do conceito é o time do Google." },
+          { "term": "SLSA L3", "def": "Supply-chain Levels for Software Artifacts; L3 exige build em ambiente isolado e atestação verificável da origem." }
+        ]
+      },
+      "source_key": "docker",
+      "url": "https://www.docker.com/blog/introducing-docker-hardened-images/",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "tags": ["docker", "hardened-images", "security", "containers"],
+      "image": "https://www.docker.com/wp-content/uploads/2025/01/docker-og-image.png"
+    },
+    {
+      "tool_key": "redis",
+      "name": "Redis",
+      "icon": "🔴",
+      "kind": "tutorial",
+      "headline": "Redis Streams como alternativa leve a Kafka para event sourcing",
+      "description": "Tutorial detalha quando Redis Streams (XADD/XREAD/consumer groups) substitui broker dedicado: latência sub-ms, sem partition rebalance, mas com trade-offs em durabilidade (memória primária + AOF) e retenção. Ótimo para audit trail interno, eventos curtos, real-time leaderboards. Para volumes que excedem RAM ou exigem replay de meses, Kafka/Pulsar continuam preferíveis.",
+      "explain": {
+        "junior": "Redis Streams é tipo Kafka miniatura embutido no Redis — você publica eventos numa stream e consumers lêem em ordem, com confirmação. Bom para volume baixo/médio, latência baixíssima e quando você já tem Redis no stack.",
+        "pleno": "Streams têm consumer groups com offset gerenciado, ack explícito por mensagem (XACK) e Pending Entry List para retentativas. Diferente de Kafka, retenção se paga em RAM (XADD com MAXLEN ~ 1000000 evita estouro), e replicação é primário-replica (não quorum). Para event sourcing interno (notificações, audit log) sub-100k events/sec é zona de conforto.",
+        "senior": "Em sistema com Redis já central, Streams entrega event-driven barato sem operar broker. Mas valide: durabilidade depende de fsync do AOF (configure appendfsync=always se evento é crítico), failover em cluster pode perder mensagens entre dump e replay, e backup/restore precisa estratégia. Para escala alta ou multi-tenant em retenção longa, mude para Kafka.",
+        "glossary": [
+          { "term": "AOF (Append-Only File)", "def": "Modo de persistência do Redis que loga todo write em arquivo; com appendfsync=always vira durabilidade dura mas latência de write maior." },
+          { "term": "Consumer Group", "def": "Conjunto de consumers de uma stream Redis que dividem mensagens entre si — cada msg vai a um consumer só, com ack explícito." },
+          { "term": "Pending Entry List (PEL)", "def": "Lista mantida pelo Redis Streams de mensagens entregues mas ainda não acked — usada para retry e fail-over." }
+        ]
+      },
+      "source_key": "redis",
+      "url": "https://redis.io/learn/howtos/solutions/streams/streams-event-sourcing",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "tags": ["redis", "streams", "event-sourcing", "messaging"],
+      "image": "https://redis.io/wp-content/uploads/2024/04/Redis-OG-Banner.png"
+    },
+    {
+      "tool_key": "react",
+      "name": "React",
+      "icon": "⚛️",
+      "kind": "tutorial",
+      "headline": "<Activity /> e useEffectEvent: como o React 19.2 separa lógica reativa de eventos",
+      "description": "Walkthrough técnico das duas APIs introduzidas no React 19.2: <Activity /> (modes hidden/visible para suspender efeitos sem desmontar a árvore) e useEffectEvent (separa lógica não-reativa de useEffect, evitando stale closure). Aplicações concretas: pre-render de tab inativo, modal que persiste estado quando fecha, callbacks que sempre veem o último state sem re-disparar effect.",
+      "explain": {
+        "junior": "useEffect às vezes é frustrante: ele depende de valores externos e roda toda hora que algum muda, mesmo quando não precisa. useEffectEvent é jeito de marcar parte do código como 'não reativa' — sempre vê o estado mais novo mas não dispara effect.",
+        "pleno": "<Activity /> com mode='hidden' é alternativa ao display:none que de fato unmount os effects (useEffect cleanup) e congela estado, mas mantém DOM e estado React. Visible reverte. Combina com Suspense para carregar dados em background sem mostrar loading. useEffectEvent retorna função estável que sempre captura latest props/state em closure — resolve o padrão 'callback que precisa do state mais recente sem refazer subscription'.",
+        "senior": "Em apps com tabs/modais pesados (analytics, dashboards), <Activity /> melhora perceived performance ao manter componente quente sem custo de re-mount. Em integração com bibliotecas event-driven (analytics SDKs, WebSocket subscribers), useEffectEvent simplifica lógica que antes exigia useRef + manual effect dependencies. Mas atenção: useEffectEvent ainda é experimental no contrato — pode mudar antes de virar canônico.",
+        "glossary": [
+          { "term": "Stale closure", "def": "Bug clássico de React em que callback dentro de useEffect captura valores antigos por closure; useEffectEvent resolve sem dependency array." },
+          { "term": "Suspense", "def": "Mecanismo do React que permite componente pausar render até promise resolver; <Activity /> integra natural." }
+        ]
+      },
+      "source_key": "techinsider",
+      "url": "https://blog.logrocket.com/react-19-2-is-here/",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": ["react", "hooks", "activity", "useEffectEvent"],
+      "image": "https://blog.logrocket.com/wp-content/uploads/2025/10/react-19-2-features-1024x512.png"
+    },
+    {
+      "tool_key": "sns",
+      "name": "AWS SNS",
+      "icon": "📣",
+      "kind": "tutorial",
+      "headline": "Fanout SNS + SQS com FIFO: ordenação e exactly-once em pipelines de eventos AWS",
+      "description": "Padrão fanout SNS→SQS continua sendo o melhor jeito de desacoplar producer-consumer dentro da AWS sem manter Kafka. Tutorial explica como combinar SNS FIFO topics com SQS FIFO queues para preservar ordem por message group, configurar DLQ, filter policies por consumer e garantir exactly-once via deduplication ID.",
+      "explain": {
+        "junior": "Imagine um produtor que precisa avisar 5 sistemas. Em vez de cada produtor saber dos 5, ele publica num tópico SNS, que distribui pra 5 filas SQS — cada consumidor lê da sua. SNS FIFO + SQS FIFO mantém a ordem dos eventos quando isso importa.",
+        "pleno": "Standard SNS topics não preservam ordem; FIFO sim, com chave de message group ID (ordenação intra-grupo). Subscription tem filter policy (JSON) para cada consumer ler só eventos relevantes — reduz processamento desnecessário. Deduplication ID em SNS FIFO garante exactly-once em janela de 5 minutos. DLQ por subscription captura mensagens que falham N retries.",
+        "senior": "Para event-driven em AWS, fanout SNS+SQS substitui Kafka quando volume é moderado (até centenas k events/sec) e retenção curta (14 dias máx em SQS) basta. Vantagens: zero ops, billing por uso, integração nativa com Lambda/EventBridge. Limites: sem replay histórico, sem stream processing complexo (use Kinesis/MSK pra isso), e custo escala linear com mensagens (atenção em alta cardinalidade).",
+        "glossary": [
+          { "term": "Fanout", "def": "Padrão em que um evento é entregue a múltiplos consumers — SNS faz isso multiplicando a mensagem por subscription." },
+          { "term": "Message Group ID", "def": "Atributo de SNS/SQS FIFO que divide ordem por grupo — eventos do mesmo grupo são serializados, grupos diferentes paralelizam." },
+          { "term": "DLQ", "def": "Dead Letter Queue — fila destino de mensagens que falharam o número máximo de tentativas; permite inspeção e replay manual." }
+        ]
+      },
+      "source_key": "awsblog",
+      "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html",
+      "published_at": "2026-04-18T10:00:00-03:00",
+      "tags": ["sns", "sqs", "fanout", "fifo", "aws"],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    },
+    {
+      "tool_key": "mermaid",
+      "name": "Mermaid",
+      "icon": "🐬",
+      "kind": "tutorial",
+      "headline": "Mermaid em arquitetura como código: convivendo com PlantUML e gerando diagramas a partir de C4-DSL",
+      "description": "Comparação prática Mermaid vs PlantUML para arquitetos que mantêm diagramas como código. Mermaid ganha em acessibilidade (renderiza no GitHub/GitLab/Notion sem extensão) e curva de aprendizado; PlantUML ganha em variedade de diagrama (sequence multi-actor, deployment, timing). Tutorial detalha como gerar Mermaid a partir de C4 DSL via Structurizr export, mantendo source-of-truth única.",
+      "explain": {
+        "junior": "Mermaid é jeito de escrever diagrama como texto que vira imagem. Diferente do PlantUML, ele renderiza nativo no GitHub e Notion. Você consegue manter diagrama de arquitetura no mesmo repo do código e versionar junto.",
+        "pleno": "Diagram-as-code reduz drift entre desenho e realidade. Mermaid cobre flowchart, sequence, class, state, ER, gantt, gitGraph, journey e mais. PlantUML cobre os mesmos com mais nuance (deployment, archimate). Para arquitetura formal (C4), Structurizr DSL é melhor abstração — depois exporta tanto Mermaid quanto PlantUML.",
+        "senior": "Em ADRs, runbook e doc de plataforma, padronize: C4 DSL no source-of-truth, export Mermaid embedded em README (renderiza no GitHub), PlantUML para diagrama denso ou onde precisa estilo. Pipeline gera SVG/PNG no CI para anexar em wiki externa quando necessário.",
+        "glossary": [
+          { "term": "Diagram-as-code", "def": "Prática de escrever diagrama como texto plano (versionável, diffável) que renderiza para imagem — alternativa a draw.io/Lucidchart." },
+          { "term": "C4 Model", "def": "Modelo de Simon Brown para diagramar software em 4 níveis (Context, Container, Component, Code); Structurizr é a ferramenta canônica." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://mermaid.js.org/intro/",
+      "published_at": "2026-04-20T10:00:00-03:00",
+      "tags": ["mermaid", "plantuml", "c4", "diagram-as-code"],
+      "image": "https://mermaid.js.org/header.png"
+    },
+    {
+      "tool_key": "rabbitmq",
+      "name": "RabbitMQ",
+      "icon": "🐰",
+      "kind": "tutorial",
+      "headline": "Dead-letter exchange e quorum queues: garantia de processamento em RabbitMQ moderno",
+      "description": "Guia para configurar DLX (Dead-Letter Exchange) e quorum queues no RabbitMQ — combinação que substitui mirrored queues legacy com replicação Raft, durabilidade dura e roteamento automático de mensagem rejeitada para DLX após N tentativas. Foca configuração para workloads críticos (financeiro, healthcare).",
+      "explain": {
+        "junior": "RabbitMQ tem fila de mensagens. Quando uma mensagem falha N vezes em ser processada, em vez de perder, a fila redireciona pra outra fila (DLX) onde alguém pode investigar. Quorum queues são versão moderna que replica entre nós usando Raft.",
+        "pleno": "Mirrored queues são deprecated desde 3.10 — quorum queues substituem com replicação Raft (forte consistência), elasticidade (replicas síncronas configuráveis) e melhor performance em failover. DLX é attribute da queue (x-dead-letter-exchange) que roteia mensagem rejeitada (NACK) ou TTL-expired para outro exchange. Combinado com retry policy (delayed message exchange), monta DLQ pattern completo.",
+        "senior": "Para sistemas que migram de RabbitMQ legacy, plano: 1) audit queues mirrored → conversão quorum (downtime de minutos por queue); 2) configure DLX em todas filas críticas com TTL adequado; 3) consumer NACK explícito em erro irreparable, não só retry. Em alta escala (>500k msg/sec), ainda vale considerar Kafka — RabbitMQ continua excelente em routing complexo (exchange types) e TTL-based scheduling.",
+        "glossary": [
+          { "term": "DLX (Dead-Letter Exchange)", "def": "Exchange para onde mensagens rejeitadas são roteadas, configurado via header x-dead-letter-exchange na queue source." },
+          { "term": "Quorum Queue", "def": "Tipo de queue do RabbitMQ baseado em Raft (consenso); substitui mirrored queues com replicação consistente e melhor failover." },
+          { "term": "Raft", "def": "Algoritmo de consenso distribuído (Diego Ongaro, 2014) — base de etcd, Consul, RabbitMQ quorum queues; mais legível que Paxos." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.rabbitmq.com/docs/quorum-queues",
+      "published_at": "2026-04-12T10:00:00-03:00",
+      "tags": ["rabbitmq", "quorum-queue", "dlx", "raft", "messaging"],
+      "image": "https://www.rabbitmq.com/img/rabbitmq-logo-with-name.svg"
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform",
+      "icon": "🏗️",
+      "kind": "tutorial",
+      "headline": "Drift detection em Terraform: como reconciliar state com a realidade sem quebrar pipelines",
+      "description": "Drift acontece quando recursos são modificados fora do Terraform (console, CLI, automation). Tutorial detalha estratégias para detectar (terraform plan -refresh-only, contínuo via Terraform Cloud, third-party como driftctl, env0 e firefly), reconciliar (terraform import vs replace) e prevenir (PSS strict, IAM least-privilege, broker via service catalog).",
+      "explain": {
+        "junior": "Terraform mantém um state que descreve o que ele criou. Se alguém vai no console AWS e muda manualmente um recurso, o state fica fora de sincronia — isso é 'drift'. Você precisa detectar e decidir: trazer mudança pro código ou desfazer.",
+        "pleno": "Drift detection passos: 1) terraform plan -refresh-only mostra divergência state ↔ cloud; 2) decisão: importar config alterada (terraform import + ajusta HCL) ou reverter (terraform apply re-aplica HCL desejado). Em escala, drift acontece por boundary errado de IAM (devs com write access via console) ou outras pipelines tocando no mesmo recurso. Tools como driftctl/firefly correm continuamente.",
+        "senior": "Para times com 50+ developers, drift é sintoma de governança fraca, não falha de Terraform. Solução estrutural: 1) IAM read-only no console para prod; 2) write apenas via pipeline; 3) recursos compartilhados via service catalog (Cloud Foundation Toolkit, AWS Service Catalog) que abstrai HCL. Drift remanescente vira alerta SLO da plataforma, não problema do dev.",
+        "glossary": [
+          { "term": "State", "def": "Arquivo JSON do Terraform que mapeia recursos HCL para IDs reais na cloud — é a fonte de verdade da ferramenta." },
+          { "term": "terraform import", "def": "Comando que adiciona recurso pré-existente ao state sem recriá-lo; útil para adotar infra criada manualmente." },
+          { "term": "Service Catalog", "def": "Abstração de plataforma que oferece templates curados (em Terraform/Pulumi) para que times consumam infra sem editar HCL." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://developer.hashicorp.com/terraform/tutorials/state/resource-drift",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "tags": ["terraform", "iac", "drift", "governance"],
+      "image": "https://www.datocms-assets.com/2885/1620155116-brandhashicorpterraformprimarylogofullcolorrgb.svg"
+    },
+    {
+      "tool_key": "ghactions",
+      "name": "GitHub Actions",
+      "icon": "🐙",
+      "kind": "tip",
+      "headline": "Reusable workflows + OIDC com cloud providers: padrão moderno para CI/CD federada",
+      "description": "Em vez de armazenar AWS access key como GitHub secret, use OIDC: GitHub Actions emite JWT para a action, AWS STS troca por credencial temporária via assume-role. Reusable workflows agrupam padrões repetidos (build → test → deploy) num único arquivo chamado por matrix de repos. A combinação reduz secret sprawl e padroniza pipeline.",
+      "explain": {
+        "junior": "Em vez de guardar senha da AWS no GitHub (risco de vazar), use OIDC: GitHub e AWS conversam direto em segundo plano e GitHub recebe credencial temporária só pra rodar aquele job. Reusable workflows deixam você escrever o pipeline uma vez e usar em vários repos.",
+        "pleno": "OIDC: GitHub assina JWT com claims (repo, branch, run_id), AWS valida via OIDC provider config + role trust policy condicionada por repo+branch+env. Resultado: credencial AWS temporária por execução, sem secret long-lived. Reusable workflows são chamados via 'uses: org/repo/.github/workflows/X.yml@ref' — passam inputs, retornam outputs, herdam secrets controlado.",
+        "senior": "Para org com 50+ repos, padronizar OIDC + reusable workflows reduz drift de pipeline e elimina classe inteira de incidentes (key vazada, token GH com escopo amplo). Implemente como golden path: workflow base no repo .github/, role AWS por env (dev/stg/prod) com condição de branch, e plataforma de catalog que onboarda repo novo automatizado.",
+        "glossary": [
+          { "term": "OIDC (OpenID Connect)", "def": "Camada de identidade sobre OAuth2.0 — GitHub atua como provider, AWS/GCP/Azure como consumer, troca-se JWT por credencial temporária." },
+          { "term": "Reusable workflow", "def": "Workflow YAML que pode ser chamado por outro workflow via 'uses:'; recebe inputs e secrets, retorna outputs." },
+          { "term": "Trust policy", "def": "Documento JSON da role AWS que define quais identidades podem assumir; em OIDC, condiciona por sub do JWT (ex.: repo:org/repo:ref:refs/heads/main)." }
+        ]
+      },
+      "source_key": "githubblog",
+      "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": ["github-actions", "oidc", "ci-cd", "aws", "security"]
+    },
+    {
+      "tool_key": "keycloak",
+      "name": "Keycloak",
+      "icon": "🔑",
+      "kind": "tutorial",
+      "headline": "Token Exchange (RFC 8693) em Keycloak: delegação segura entre serviços sem propagar credencial do usuário",
+      "description": "Token Exchange permite serviço A pedir ao Keycloak token de identidade B (impersonação), token com escopo reduzido (downscoping) ou troca de tipo de token. Use case clássico: API Gateway recebe token do usuário, troca por token interno com scope limitado, propaga para microservice. Keycloak suporta o RFC 8693 desde 21.x e tem modos requestor-direct e requestor-impersonation.",
+      "explain": {
+        "junior": "Quando um microservice precisa chamar outro em nome do usuário, ele precisa de algum token. Token Exchange é jeito padrão (RFC 8693) de pedir um token novo a partir de um token existente — sem propagar a senha do usuário ou compartilhar segredo entre serviços.",
+        "pleno": "RFC 8693 define grant_type=urn:ietf:params:oauth:grant-type:token-exchange. Em Keycloak, configure cliente A com permissão de token-exchange para cliente B. A apresenta token original como subject_token, recebe token de B (mesmo subject ou impersonação). Downscoping: pede scope subset do original, reduzindo blast radius se token vazar downstream.",
+        "senior": "Em arquitetura zero-trust com Keycloak, token-exchange é peça-chave: API Gateway nunca propaga JWT cru do usuário para microserviços, sempre troca por token específico do destino com TTL curto e scope mínimo. Auditoria fica linear (Keycloak loga cada exchange) e revoga propaga em segundos. Mas configure RBAC com cuidado — permissão de exchange é privilégio elevado, monitore com SIEM.",
+        "glossary": [
+          { "term": "RFC 8693", "def": "OAuth 2.0 Token Exchange — IETF, 2020. Define endpoint para trocar tokens (delegação, impersonação, downscoping)." },
+          { "term": "Downscoping", "def": "Reduzir escopo de um token ao trocá-lo — útil para limitar autorização ao mínimo necessário em downstream." },
+          { "term": "Subject token", "def": "Token de origem apresentado no exchange — geralmente JWT do usuário; novo token herda ou modifica claims dele." }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.keycloak.org/docs/latest/securing_apps/index.html#_token-exchange",
+      "published_at": "2026-04-10T10:00:00-03:00",
+      "tags": ["keycloak", "oauth", "token-exchange", "rfc-8693", "zero-trust"],
+      "image": "https://www.keycloak.org/resources/images/keycloak_icon_512px.svg"
+    },
+    {
+      "tool_key": "secrets-manager",
+      "name": "AWS Secrets Manager",
+      "icon": "🔐",
+      "kind": "tutorial",
+      "headline": "Rotação automática de credencial RDS com Lambda + Secrets Manager: pattern para zero-downtime",
+      "description": "AWS Secrets Manager rota credencial automaticamente via Lambda hook, com 4 fases (createSecret, setSecret, testSecret, finishSecret) e estratégia de duas users (alternando-se). Pattern correto evita downtime: lambda cria new password, atualiza no RDS via temp_user, testa, promove para current — apps usam GetSecretValue com cache, sem hardcoding.",
+      "explain": {
+        "junior": "Senha de banco precisa ser trocada periodicamente. Secrets Manager faz isso automático: Lambda cria nova senha, troca no RDS, testa, e marca como atual. Sua aplicação só pede a senha atual via API e usa — nunca tem senha hardcoded.",
+        "pleno": "Rotação tem 4 fases: createSecret (gera new password como AWSPENDING), setSecret (atualiza no RDS), testSecret (conexão de teste), finishSecret (promove para AWSCURRENT). Estratégia 'alternating users' usa dois logins (user1/user2) e roda só metade do RDS por vez — sem janela onde nenhum login funciona. Apps fazem GetSecretValue com retry; SDK cacheia 5min e refaz on-demand.",
+        "senior": "Em arquitetura com banco compartilhado, rotação automática é must para compliance (PCI, SOC 2). Implemente rotação semanal para credenciais privilegiadas (admin, app-superuser) e mensal para serviço. Lambda function tem que ter retry idempotente (AWSPENDING serve como state). Em fleet polyglot, padronize biblioteca cliente que faz cache + rotation-aware refresh.",
+        "glossary": [
+          { "term": "AWSCURRENT / AWSPENDING", "def": "Stages do Secrets Manager — current é a senha em uso, pending é a senha sendo rotacionada; promovida para current ao final." },
+          { "term": "Alternating users", "def": "Estratégia de rotação com dois logins simétricos no RDS — um sempre ativo, alterna a cada rotação para evitar downtime." }
+        ]
+      },
+      "source_key": "awsblog",
+      "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html",
+      "published_at": "2026-04-08T10:00:00-03:00",
+      "tags": ["secrets-manager", "rds", "rotation", "aws", "security"],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    }
+  ],
+  "videos": [
+    {
+      "id": "UNUz1-msbOM",
+      "url": "https://www.youtube.com/watch?v=UNUz1-msbOM",
+      "title": "System Design: Why is Kafka fast?",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-24",
+      "duration": "8 min"
+    },
+    {
+      "id": "JBivKeZVex0",
+      "url": "https://www.youtube.com/watch?v=JBivKeZVex0",
+      "title": "Arquitetando o YouTube na prática | System Design",
+      "channel": "Renato Augusto Tech",
+      "channel_avatar": "https://yt3.googleusercontent.com/X1zr1L4qQRKJrgLfx8rHzS84-pT4Kc8a-yqGQfAJ-sXZHrVH8mMK3-eEW3jVMyB6kxK_nPGy=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-16",
+      "duration": "22 min"
+    },
+    {
+      "id": "RGSL3dubXe0",
+      "url": "https://www.youtube.com/watch?v=RGSL3dubXe0",
+      "title": "Eu lancei um SaaS… diferente",
+      "channel": "Mano Deyvin",
+      "channel_avatar": "https://yt3.googleusercontent.com/XutJfAzxB7ftCTA8HY__ln8In40CvfxPfnZlTQ_roM2LbQ_lV9ZzgHFZRM6Ules0PHtwQbNh_g=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-03-27",
+      "duration": "14 min"
+    }
+  ],
+  "sources": [
+    { "name": "InfoQ", "url": "https://www.infoq.com/" },
+    { "name": "The Hacker News", "url": "https://thehackernews.com/" },
+    { "name": "Cloudflare Blog", "url": "https://blog.cloudflare.com/" },
+    { "name": "AWS Blog", "url": "https://aws.amazon.com/blogs/aws/" },
+    { "name": "Quarkus", "url": "https://quarkus.io/blog/" },
+    { "name": "Databricks", "url": "https://www.databricks.com/blog" },
+    { "name": "Spring", "url": "https://spring.io/blog" },
+    { "name": "OpenJDK", "url": "https://openjdk.org/" },
+    { "name": "Grafana Labs", "url": "https://grafana.com/blog/" },
+    { "name": "CISA", "url": "https://www.cisa.gov/news-events/alerts" },
+    { "name": "Breaking Defense", "url": "https://breakingdefense.com/" },
+    { "name": "Cloud Native Now", "url": "https://cloudnativenow.com/" }
+  ]
+}

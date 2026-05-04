@@ -1,6 +1,58 @@
 {
-  "last_generated": "2026-05-03T19:30:00-03:00",
+  "last_generated": "2026-05-04T08:30:00-03:00",
   "editions": [
+    {
+      "date": "2026-05-04",
+      "hero_title": "AWS Interconnect chega ao GA, Quarkus 3.35 corta 39% do JAR e Linux entra em alerta KEV",
+      "hero_description": "Segunda começa com mudanças que mexem em fundação de plataforma: AWS Interconnect multicloud entra em GA com link privado para Google Cloud (Azure e OCI ainda em 2026), tirando o tráfego cross-cloud da internet pública. Quarkus 3.35 estreia tree-shaking de bytecode no build — corta 39% do JAR da CLI e empacota PGO para imagens nativas. E o kernel Linux ganhou um furo de 9 anos: CVE-2026-31431 (Copy Fail) virou root via 4 bytes na page cache, entrou na CISA KEV no dia 1.",
+      "counts_by_category": {
+        "cloud": 2,
+        "backend": 1,
+        "sec": 1,
+        "data": 2,
+        "obs": 2,
+        "ai": 1,
+        "integ": 1,
+        "enterprise": 1,
+        "design": 1,
+        "devops": 1,
+        "frontend": 1,
+        "fundamentals": 1,
+        "distarch": 1,
+        "testing": 1
+      },
+      "counts_by_tool": {
+        "java": 1,
+        "kubernetes": 1,
+        "docker": 1,
+        "redis": 1,
+        "react": 1,
+        "sns": 1,
+        "mermaid": 1,
+        "rabbitmq": 1,
+        "terraform": 1,
+        "ghactions": 1,
+        "keycloak": 1,
+        "secrets-manager": 1
+      },
+      "highlights": [
+        {
+          "title": "AWS Interconnect entra em GA com link privado para Google Cloud — Azure e OCI ainda em 2026",
+          "url": "https://www.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/",
+          "image": "https://res.infoq.com/news/2026/04/aws-interconnect-multicloud-ga/en/headerimage/aws-interconnect-multicloud-ga-thumb.jpg"
+        },
+        {
+          "title": "Quarkus 3.35 estreia tree-shaking de bytecode no build — CLI fica 39% menor",
+          "url": "https://quarkus.io/blog/quarkus-3-35-released/",
+          "image": "https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_1280px_reverse.png"
+        },
+        {
+          "title": "Cloudflare publica deep-dive do R2 SQL — query engine distribuído sobre Iceberg sem egress",
+          "url": "https://blog.cloudflare.com/r2-sql-deep-dive/",
+          "image": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/3OLHzInzz0qvpSXoyPIVTM/d80c8d5773e26107ff66891a317c03ab/r2-sql-deep-dive.png"
+        }
+      ]
+    },
     {
       "date": "2026-05-03",
       "hero_title": "Confluent muda IDs de schema, Meta entrega self-optimizing e Cloudflare detalha pilha LLM",
