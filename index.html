@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CsR News</title>
+  <title>DevDaily — Aprenda com o que importa hoje.</title>
   <link rel="icon" href="assets/csr-news-logo.svg">
   <style>
     /* ══════════════════════════════════════════════════════════════════
-       CsR News · Apple Design System
+       DevDaily · Apple Design System
        Redesign inspired by DESIGN-apple.md — minimalist, binary palette,
        cinematic whitespace, single Apple Blue accent.
        ══════════════════════════════════════════════════════════════════ */
@@ -183,17 +183,12 @@
       letter-spacing: -0.04em;
       line-height: 1;
     }
-    .apple-logo .csr-mini {
+    .apple-logo .dev-mini {
       font-size: 19px;
       color: #000000;
     }
-    [data-theme="dark"] .apple-logo .csr-mini { color: #ffffff; }
-    .apple-logo .csr-mini .s-lean {
-      display: inline-block;
-      transform: skewX(-10deg);
-      transform-origin: 50% 55%;
-    }
-    .apple-logo .news-mini {
+    [data-theme="dark"] .apple-logo .dev-mini { color: #ffffff; }
+    .apple-logo .daily-mini {
       background: var(--blue);
       color: #fff;
       font-size: 13px;
@@ -205,7 +200,7 @@
       overflow: hidden;
       isolation: isolate;
     }
-    .apple-logo .news-mini::after {
+    .apple-logo .daily-mini::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -647,9 +642,9 @@
       70%  { box-shadow: 0 0 0 12px rgba(0,113,227,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,113,227,0); }
     }
-    .hero-emblem .csr-word,
-    .hero-emblem .news-pill { position: relative; z-index: 1; }
-    .hero-emblem .csr-word {
+    .hero-emblem .dev-word,
+    .hero-emblem .daily-pill { position: relative; z-index: 1; }
+    .hero-emblem .dev-word {
       font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
       font-size: 38px; font-weight: 800;
       letter-spacing: -0.05em;
@@ -657,12 +652,7 @@
       color: var(--text);
       transform: translateY(-5px);
     }
-    .hero-emblem .csr-word .s-lean {
-      display: inline-block;
-      transform: skewX(-10deg);
-      transform-origin: 50% 55%;
-    }
-    .hero-emblem .news-pill {
+    .hero-emblem .daily-pill {
       margin-top: -6px;
       background: var(--blue);
       color: #fff;
@@ -679,7 +669,7 @@
       overflow: hidden;
       isolation: isolate;
     }
-    .hero-emblem .news-pill::after {
+    .hero-emblem .daily-pill::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -717,8 +707,8 @@
         left: calc(50% + 54px - 4px);
         top: calc(50% + 23px - 4px);
       }
-      .hero-emblem .csr-word { font-size: 30px; transform: translateY(-4px); }
-      .hero-emblem .news-pill { font-size: 20px; padding: 3px 8px 4px; border-radius: 7px; }
+      .hero-emblem .dev-word { font-size: 30px; transform: translateY(-4px); }
+      .hero-emblem .daily-pill { font-size: 20px; padding: 3px 8px 4px; border-radius: 7px; }
     }
 
     /* ── Desktop: ajustes do emblema ── */
@@ -742,8 +732,8 @@
         left: calc(50% + 76px - 4px);
         top: calc(50% + 33px - 4px);
       }
-      .hero-emblem .csr-word { font-size: 38px; transform: translateY(-5px); }
-      .hero-emblem .news-pill { font-size: 25px; padding: 4px 10px 6px; border-radius: 8px; }
+      .hero-emblem .dev-word { font-size: 38px; transform: translateY(-5px); }
+      .hero-emblem .daily-pill { font-size: 25px; padding: 4px 10px 6px; border-radius: 8px; }
     }
 
     @media (max-height: 760px) {
@@ -839,6 +829,42 @@
     }
     .section-alt {
       background: var(--bg-alt);
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .how-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px 28px;
+    }
+    .how-number {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .how-title {
+      font-size: 17px; font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+    .how-desc {
+      font-size: 14px; line-height: 1.6;
+      color: var(--text-2);
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .how-grid { grid-template-columns: 1fr; max-width: 480px; }
     }
     .section-inner {
       width: 100%;
@@ -1222,7 +1248,7 @@
         width: 100%;
         justify-content: center;
       }
-      .apple-logo .news-mini { display: none; }
+      .apple-logo .daily-mini { display: none; }
     }
     /* ── Light theme: invert white logos for visibility ── */
     :root[data-theme="light"] img[src*="github/ffffff"],
@@ -1254,9 +1280,9 @@
 <!-- ═════════ NAV ═════════ -->
 <nav class="apple-nav" aria-label="Principal">
   <div class="apple-nav-inner">
-    <a class="apple-logo" href="#" aria-label="CSR News">
-      <span class="csr-mini">CSR</span>
-      <span class="news-mini">NEWS</span>
+    <a class="apple-logo" href="#" aria-label="DevDaily">
+      <span class="dev-mini">DEV</span>
+      <span class="daily-mini">DAILY</span>
     </a>
     <div class="apple-nav-links">
       <a class="apple-nav-link" href="#categories">Categorias</a>
@@ -1284,7 +1310,7 @@
     <!-- Faixa acima do card: mascote (esquerda) + botão (direita) -->
     <div class="hero-header">
       <div class="hero-mascot">
-        <img src="data/img/mascote-crop.png" alt="CsR News Mascot">
+        <img src="data/img/mascote-crop.png" alt="DevDaily Mascot">
       </div>
       <div class="hero-actions">
         <a class="btn-primary" href="home.html">
@@ -1301,20 +1327,20 @@
         <!-- h1 + sub (coluna esquerda) e emblema (coluna direita) -->
         <div class="hero-top-row">
           <div class="hero-left-col">
-            <h1 class="hero-h1">O filtro diário do mundo técnico.</h1>
+            <h1 class="hero-h1">Aprenda com o que importa hoje.</h1>
             <p class="hero-sub">
-              Todo dia, uma IA pesquisa notícias, releases, changelogs, CVEs,
-              incidentes e tutoriais em <strong>16 categorias</strong>,
-              <strong>3 linguagens</strong> e <strong>34 ferramentas</strong>
-              monitoradas — e entrega o que importa para engenheiros e arquitetos.
+              Todo dia, uma IA pesquisa notícias técnicas frescas e entrega cada uma
+              em <strong>3 camadas de profundidade</strong> — da introdução à decisão arquitetural —
+              com um <strong>recurso externo</strong> para você aprofundar na hora.
+              <strong>16 categorias</strong>, <strong>3 linguagens</strong> e <strong>38 ferramentas</strong> monitoradas.
             </p>
           </div>
           <div class="hero-emblem-col">
-            <div class="hero-emblem" aria-label="CsR News">
+            <div class="hero-emblem" aria-label="DevDaily">
               <span class="ring" aria-hidden="true"></span>
               <span class="ring two" aria-hidden="true"></span>
-              <div class="csr-word">C<span class="s-lean">s</span>R</div>
-              <div class="news-pill">NEWS</div>
+              <div class="dev-word">Dev</div>
+              <div class="daily-pill">DAILY</div>
               <span class="emblem-dot" aria-hidden="true"></span>
             </div>
           </div>
@@ -1330,13 +1356,41 @@
   </div>
 </section>
 
+<!-- ═════════ COMO FUNCIONA ═════════ -->
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Como funciona</div>
+      <h2 class="section-title">De notícia a aprendizado em 3 passos.</h2>
+      <p class="section-sub">Cada edição é gerada automaticamente todos os dias, com curadoria editorial rigorosa.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-number">1</div>
+        <h3 class="how-title">Notícias frescas filtradas</h3>
+        <p class="how-desc">Uma IA pesquisa releases, changelogs, CVEs e artigos publicados desde a última edição. Só entra o que é fresco e relevante para arquitetos — sem barulho de mercado.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-number">2</div>
+        <h3 class="how-title">3 camadas de profundidade</h3>
+        <p class="how-desc"><strong>Comece</strong> — introdução e vocabulário. <strong>Aprofunde</strong> — mecanismo e trade-offs. <strong>Decida</strong> — quando adotar, quando evitar, próximo passo técnico. Cada notícia vira um mini-guia de estudo.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-number">3</div>
+        <h3 class="how-title">Recurso externo para aprofundar</h3>
+        <p class="how-desc">Sempre que possível, cada notícia traz um tutorial, artigo, documentação ou vídeo cuidadosamente selecionado para você aprender mais na hora — com contexto do porquê ele conecta ao tema.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═════════ CATEGORIES ═════════ -->
 <section class="section section-alt" id="categories">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Categorias</div>
       <h2 class="section-title">16 temas. Do código à arquitetura.</h2>
-      <p class="section-sub">IA, segurança, cloud, backend, dados, observabilidade, sistemas distribuídos e mais — curadoria diária para engenheiros e arquitetos.</p>
+      <p class="section-sub">IA, segurança, cloud, backend, dados, observabilidade, sistemas distribuídos e mais — cada categoria gera notícias com explicações em profundidade e recursos de aprendizado.</p>
     </div>
     <div class="cat-grid" id="catsGrid"></div>
   </div>
@@ -1348,7 +1402,7 @@
     <div class="section-head">
       <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>Linguagens</div>
       <h2 class="section-title">Java, JavaScript e Python.</h2>
-      <p class="section-sub">Versões, releases e evolução da linguagem — os cinco ecossistemas monitorados diariamente.</p>
+      <p class="section-sub">Releases, JEPs, PEPs, TC39 proposals e evolução da linguagem — com explicações em camadas para entender o impacto real de cada mudança.</p>
     </div>
     <div class="lang-grid" id="langsGrid"></div>
   </div>
@@ -1359,8 +1413,8 @@
   <div class="section-inner">
     <div class="section-head">
       <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Ferramentas</div>
-      <h2 class="section-title">34 ferramentas monitoradas.</h2>
-      <p class="section-sub">Kubernetes, Kafka, Postgres, Docker, Grafana e mais — releases, changelogs, CVEs e tutoriais para as ferramentas que importam.</p>
+      <h2 class="section-title">38 ferramentas monitoradas.</h2>
+      <p class="section-sub">Kubernetes, Kafka, Postgres, Docker, Grafana e mais — cada update vem com contexto de aprendizado: o que mudou, como funciona por dentro e quando adotar.</p>
     </div>
     <div id="toolsGrid"></div>
   </div>
@@ -1368,7 +1422,7 @@
 
 <!-- ═════════ FOOTER ═════════ -->
 <footer class="apple-footer">
-  <p>CsR News — arquivo diário para engenheiros e arquitetos de software.</p>
+  <p>DevDaily — arquivo diário de aprendizado técnico para engenheiros e arquitetos de software.</p>
 </footer>
 
 <!-- Theme inicial (antes do render pra evitar flash) -->

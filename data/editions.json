@@ -3,54 +3,51 @@
   "editions": [
     {
       "date": "2026-05-06",
-      "hero_title": "Apache HTTP/2 ganha RCE 8.8, JDK 27 mira concorrência estruturada e PG19 entra em beta",
-      "hero_description": "Quarta com peso real para arquitetos: Apache abre 2.4.67 corrigindo um double-free no mod_http2 que vira DoS trivial e RCE em deploys com mmap. No backend, JDK 27 marca como Targeted Structured Concurrency 7th preview, JFR redaction e Lazy Constants — Java arruma a casa para concorrência menos arriscada. E o PostgreSQL fecha o feature freeze e prepara o Beta 1 do 19 com partições mergíveis e replicação lógica mais econômica. Spring AI 2.0-M5 consolida no SDK oficial da OpenAI, Cursor 3.2 ganha multitask de subagents e o Datadog joga GPU Monitoring em GA. Iceberg, DBOS+Databricks e Hyperdrive em VPC fecham o radar de dados e plataformas.",
+      "hero_title": "Spring Boot 4.1 RC1, golden paths em 3 minutos e Grafana versionado em Git",
+      "hero_description": "A edição de hoje volta o foco para o que realmente sustenta plataforma: Spring Boot 4.1 chega ao RC1 com integração reativa, Platform Engineering vira métrica concreta com golden paths automatizados, e Grafana 13 abre Git Sync para tratar dashboards como código. No radar, Argo CD 3.2.11 traz patch de segurança crítico e a CVE-2026-0300 da Palo Alto exige resposta imediata.",
       "counts_by_category": {
-        "ai": 1,
-        "aiops": 1,
-        "backend": 3,
-        "data": 2,
-        "design": 1,
-        "devops": 1,
-        "distarch": 1,
-        "enterprise": 1,
-        "fintech": 1,
-        "frontend": 1,
-        "fundamentals": 1,
-        "integ": 1,
-        "obs": 2,
         "sec": 1,
-        "testing": 1
+        "backend": 3,
+        "devops": 2,
+        "distarch": 1,
+        "design": 1,
+        "integ": 1,
+        "enterprise": 1,
+        "fundamentals": 1,
+        "obs": 2,
+        "frontend": 1,
+        "cloud": 2,
+        "aiops": 1
       },
       "counts_by_tool": {
-        "argocd": 1,
-        "cursor": 1,
-        "databricks": 1,
+        "gradle": 1,
+        "vscode": 1,
+        "intellij": 1,
+        "plantuml": 1,
+        "structurizr": 1,
+        "angular": 1,
         "datadog": 1,
-        "docker": 1,
-        "java": 1,
-        "kafka": 1,
-        "mermaid": 1,
-        "mongodb": 1,
-        "postgres": 1,
-        "springboot": 1,
-        "structurizr": 1
+        "istio": 1,
+        "nginx": 1,
+        "python": 1,
+        "maven": 1,
+        "dynatrace": 1
       },
       "highlights": [
         {
-          "title": "JDK 27 promove Structured Concurrency 7th Preview, Lazy Constants e JFR Redaction a Targeted",
-          "url": "https://www.infoq.com/news/2026/05/java-news-roundup-apr27-2026/",
-          "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg"
+          "title": "Spring Boot 4.1 chega à RC1 com mira em GA de maio e integração reativa profunda",
+          "url": "https://spring.io/blog/2026/05/05/this-week-in-spring-may-05-2026/",
+          "image": "https://spring.io/img/og-spring.png"
         },
         {
-          "title": "PostgreSQL 19 fecha feature freeze e Beta 1 entra na linha de partida de maio",
-          "url": "https://www.postgresql.org/developer/roadmap/",
-          "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+          "title": "Platform Engineering em 2026: golden path automatizado em três minutos vira norma",
+          "url": "https://www.javacodegeeks.com/2026/05/platform-engineering-in-2026-what-it-actually-is-why-its-not-just-devops-renamed-and-how-to-build-an-internal-developer-platform.html",
+          "image": "https://platformengineering.org/og.jpg"
         },
         {
-          "title": "Apache HTTP/2 CVE-2026-23918 — double-free no mod_http2 vira DoS trivial e abre RCE com mmap",
-          "url": "https://thehackernews.com/2026/05/critical-apache-http2-flaw-cve-2026.html",
-          "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png"
+          "title": "Grafana 13 e Loki redesenhado cortam dados varridos em até 20× e abrem GitOps nativo",
+          "url": "https://grafana.com/blog/grafanacon-2026-announcements/",
+          "image": "https://grafana.com/static/img/grafana-meta.png"
         }
       ]
     },

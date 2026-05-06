@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CSR News — Arquitetura, plataformas e IA para quem constrói software sério">
-<title>CSR News</title>
+<meta name="description" content="DevDaily — Aprenda com o que importa hoje. Notícias técnicas com explicações em 3 camadas e recursos de aprendizado.">
+<title>DevDaily — Aprenda com o que importa hoje.</title>
 <link rel="icon" type="image/svg+xml" href="assets/csr-news-logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,14 +153,14 @@ ul,ol{list-style:none}
   font-family:var(--ff-display);
   font-weight:700;letter-spacing:-0.04em;line-height:1;
 }
-.nav-logo .csr-mini{font-size:19px;color:var(--text)}
-.nav-logo .news-mini{
+.nav-logo .dev-mini{font-size:19px;color:var(--text)}
+.nav-logo .daily-mini{
   background:var(--accent);color:#fff;
   font-size:13px;letter-spacing:-0.01em;
   padding:3px 5px 4px;border-radius:6px;line-height:1;
   position:relative;overflow:hidden;isolation:isolate;
 }
-.nav-logo .news-mini::after{
+.nav-logo .daily-mini::after{
   content:"";position:absolute;inset:0;
   background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
   background-repeat:no-repeat;background-size:250% 100%;background-position:150% 0;
@@ -1466,6 +1466,15 @@ img[src*="cursor/ffffff"]{filter:invert(1)}
 .badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--rp);white-space:nowrap;flex-shrink:0}
 .badge-u{background:#FF453A;color:#fff}
 .badge-r{background:var(--accent);color:#fff}
+.badge-fresh{background:#34c759;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--rp);white-space:nowrap;flex-shrink:0}
+.badge-evergreen{background:var(--surface-el);color:var(--text-3);font-size:10px;font-weight:600;padding:2px 7px;border-radius:var(--rp);white-space:nowrap;flex-shrink:0;border:1px solid var(--border)}
+.nc-learning{margin:8px 0 4px;padding:10px 12px;border-radius:10px;background:var(--surface-el);border:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+.nc-learning-kicker{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3);display:flex;align-items:center;gap:5px}
+.nc-learning-title{font-size:13px;font-weight:600;color:var(--link)}
+.nc-learning-title a{color:var(--link);text-decoration:none}
+.nc-learning-title a:hover{text-decoration:underline}
+.nc-learning-source{font-size:11px;color:var(--text-3)}
+.nc-learning-why{font-size:12px;color:var(--text-2);line-height:1.5}
 .nc-summary{font-size:14px;color:var(--text-2);line-height:1.55;margin-bottom:8px}
 .nc-footer{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:12px;color:var(--text-3)}
 .nc-source{font-weight:500;color:var(--text-2);display:flex;align-items:center;gap:5px;line-height:1}
@@ -4859,8 +4868,8 @@ body.sidebar-collapsed .qbar-host {
 
 /* Phone muito pequeno */
 @media (max-width: 520px) {
-  .nav-logo .csr-mini { font-size: 17px; }
-  .nav-logo .news-mini { font-size: 11px; }
+  .nav-logo .dev-mini { font-size: 17px; }
+  .nav-logo .daily-mini { font-size: 11px; }
   .nav-search-btn svg { width: 14px; height: 14px; }
   .nav-search-btn { padding: 0 8px; }
   .nav-sources-btn, .btn-theme, .nav-help-btn, .hamburger {
@@ -4999,8 +5008,8 @@ h6 { font-size: var(--fs-lg);  font-weight: 600; line-height: 1.42; }
 :root { --nh: 52px; }
 
 .nav-inner { gap: 16px; }
-.nav-logo .csr-mini { font-size: 18px; letter-spacing: -0.04em; font-weight: 700; }
-.nav-logo .news-mini {
+.nav-logo .dev-mini { font-size: 18px; letter-spacing: -0.04em; font-weight: 700; }
+.nav-logo .daily-mini {
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -5328,8 +5337,8 @@ a:focus-visible,
 @media (max-width: 480px) {
   body { font-size: 15px; }
   .nav-inner { padding: 0 14px; gap: 8px; }
-  .nav-logo .csr-mini { font-size: 17px; }
-  .nav-logo .news-mini { font-size: 10.5px; }
+  .nav-logo .dev-mini { font-size: 17px; }
+  .nav-logo .daily-mini { font-size: 10.5px; }
   .home-sub { font-size: 15px; line-height: 1.5; }
   .home-emblem .csr-word { font-size: 44px; }
   .home-emblem .news-pill { font-size: 26px; }
@@ -6292,9 +6301,9 @@ body.sidebar-collapsed .qbar-host {
     <button class="hamburger" id="hamburger" aria-label="Menu lateral (Ctrl+B)" title="Menu lateral (Ctrl+B)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
     </button>
-    <div class="nav-logo" onclick="nav('/home')" aria-label="CSR News">
-      <span class="csr-mini">CSR</span>
-      <span class="news-mini">NEWS</span>
+    <div class="nav-logo" onclick="nav('/home')" aria-label="DevDaily">
+      <span class="dev-mini">DEV</span>
+      <span class="daily-mini">DAILY</span>
     </div>
     <div class="nav-actions">
       <button class="nav-search-btn" onclick="openSearch()" aria-label="Buscar (atalho /)" title="Buscar (/)">
@@ -8118,8 +8127,9 @@ function renderHome() {
       return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${staticHlClick}">
         ${imgBanner}
         <div class="hero-hl-body">
-          <div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>
+          <div class="cube-hl-body">${badge}${_freshnessBadge(h)}<span class="cube-hl-text">${e(h.headline)}</span></div>
           ${summary}
+          ${_learningHtml(h)}
           ${hlMeta}
         </div>
       </div>`;
@@ -8163,7 +8173,7 @@ function renderHome() {
     const summary = h.summary ? `<span class="hero-hl-summary">${e(h.summary)}</span>` : '';
     const hlClick = h.url ? `window.open('${h.url}','_blank','noopener')` : '';
     const hlMeta = _hlMetaHtml(h);
-    return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}">${imgBanner}<div class="hero-hl-body"><div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(h.headline)}</span></div>${summary}${_explainHtml(h)}${hlMeta}</div></div>`;
+    return `<div class="hero-hl-card" style="--cat-color:${color}" onclick="${hlClick}">${imgBanner}<div class="hero-hl-body"><div class="cube-hl-body">${badge}${_freshnessBadge(h)}<span class="cube-hl-text">${e(h.headline)}</span></div>${summary}${_explainHtml(h)}${_learningHtml(h)}${hlMeta}</div></div>`;
   }).join('');
 
   // --- Destaques: edições anteriores — carrossel no formato hero-hl-card (sem summary) ---
@@ -8508,9 +8518,10 @@ function renderDay(date) {
       h += `<article class="hero-hl-card" style="--cat-color:${cc}" onclick="${hlClick}">
         ${imgBanner}
         <div class="hero-hl-body">
-          <div class="cube-hl-body">${badge}<span class="cube-hl-text">${e(item.headline)}</span></div>
+          <div class="cube-hl-body">${badge}${_freshnessBadge(item)}<span class="cube-hl-text">${e(item.headline)}</span></div>
           ${summary}
           ${_explainHtml(item)}
+          ${_learningHtml(item)}
           ${hlMeta}
         </div>
       </article>`;
@@ -9023,12 +9034,16 @@ function toggleExplainTab(btn) {
 function _explainHtml(item) {
   const ex = item.explain;
   if (!ex) return '';
+  // suporte a chaves v3 (comece/aprofunde/decida) e fallback legado (junior/pleno/senior)
   const LEVELS = [
-    {key:'junior', lbl:'Júnior', c:'#30D158', img:'data/img/opcao2_junior_stack.png'},
-    {key:'pleno',  lbl:'Pleno',  c:'#FFD60A', img:'data/img/opcao2_pleno_stack.png'},
-    {key:'senior', lbl:'Sênior', c:'var(--accent)', img:'data/img/opcao2_senior_stack.png'},
+    {key:'comece',    legacy:'junior', lbl:'Comece',    c:'#30D158',
+     svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>'},
+    {key:'aprofunde', legacy:'pleno',  lbl:'Aprofunde', c:'#FFD60A',
+     svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'},
+    {key:'decida',    legacy:'senior', lbl:'Decida',    c:'var(--accent)',
+     svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>'},
   ];
-  const visibleLevels = LEVELS.filter(l => ex[l.key]);
+  const visibleLevels = LEVELS.filter(l => ex[l.key] || ex[l.legacy]);
   if (!visibleLevels.length) return '';
   const glossHtml = (ex.glossary||[]).length
     ? `<div class="tl-explain-glossary">${(ex.glossary||[]).map(g =>
@@ -9036,12 +9051,10 @@ function _explainHtml(item) {
       ).join('')}</div>`
     : '';
   const tabsHtml = visibleLevels.map((l, i) =>
-    `<button type="button" class="tl-explain-tab${i===0?' is-active':''}" data-lvl="${l.key}" style="--lc:${l.c}" onclick="toggleExplainTab(this)" aria-label="${e(l.lbl)}" title="${e(l.lbl)}">
-      <img src="${e(l.img)}" alt="${e(l.lbl)}" loading="lazy" draggable="false" onerror="this.style.display='none'">
-    </button>`
+    `<button type="button" class="tl-explain-tab${i===0?' is-active':''}" data-lvl="${l.key}" style="--lc:${l.c}" onclick="toggleExplainTab(this)" aria-label="${e(l.lbl)}" title="${e(l.lbl)}">${l.svg}</button>`
   ).join('');
   const panelsHtml = visibleLevels.map((l, i) =>
-    `<div class="tl-explain-panel${i===0?' is-active':''}" data-lvl="${l.key}">${e(ex[l.key])}</div>`
+    `<div class="tl-explain-panel${i===0?' is-active':''}" data-lvl="${l.key}">${e(ex[l.key]||ex[l.legacy]||'')}</div>`
   ).join('');
   return `<div class="tl-explain tl-explain--tabs is-collapsed" onclick="event.stopPropagation()">
     <div class="tl-explain-head">
@@ -9057,6 +9070,34 @@ function _explainHtml(item) {
       <div class="tl-explain-panels">${panelsHtml}</div>
       ${glossHtml}
     </div></div>
+  </div>`;
+}
+
+function _freshnessBadge(item) {
+  const f = item.freshness;
+  if (f === 'fresh') return '<span class="badge-fresh">Nova</span>';
+  if (f === 'evergreen') return '<span class="badge-evergreen">Atemporal</span>';
+  return '';
+}
+
+const LEARNING_TYPE_ICONS = {
+  tutorial: '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+  article:  '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>',
+  video:    '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>',
+  docs:     '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  paper:    '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+};
+
+function _learningHtml(item) {
+  const lr = item.learning;
+  if (!lr || !lr.url || !lr.title) return '';
+  const icon = LEARNING_TYPE_ICONS[lr.type] || LEARNING_TYPE_ICONS.article;
+  const typeLabel = {tutorial:'Tutorial',article:'Artigo',video:'Vídeo',docs:'Docs',paper:'Paper'}[lr.type] || 'Recurso';
+  return `<div class="nc-learning" onclick="event.stopPropagation()">
+    <div class="nc-learning-kicker">${icon}Aprenda mais · ${typeLabel}</div>
+    <div class="nc-learning-title"><a href="${e(lr.url)}" target="_blank" rel="noopener">${e(lr.title)}</a></div>
+    ${lr.source_name ? `<div class="nc-learning-source">${e(lr.source_name)}</div>` : ''}
+    ${lr.why ? `<div class="nc-learning-why">${e(lr.why)}</div>` : ''}
   </div>`;
 }
 
@@ -9096,7 +9137,6 @@ function _sourceImageUrl(item) {
     const src = (isDark() && s.image_dark) ? s.image_dark : s.image;
     if (src) return src;
   }
-  if (item?.image) return item.image;
   if (item?.url) {
     try { return `https://www.google.com/s2/favicons?sz=256&domain=${new URL(item.url).hostname.replace(/^www\./,'')}`; } catch(_) {}
   }
@@ -9303,7 +9343,9 @@ function newsCard(item, color, opts = {}) {
     <div class="nc-meta">
       ${showCategory?`<span class="nc-meta-pill" style="--lc:${CAT_COLORS[item.category]||'var(--accent)'}">${catIcon(item.category, item.category_icon||'📌', 13, true)}${e(categoryLabel)}</span>`:''}
       ${item.version?`<span class="badge badge-r">${e(item.version)}</span>`:''}
+      ${_freshnessBadge(item)}
       ${source?`<span class="nc-source nc-source-top">${source}</span>`:''}
+      ${pubDate?`<span class="nc-read-time">${pubDate}</span>`:''}
       ${item.read_time?`<span class="nc-read-time"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${item.read_time} min</span>`:''}
     </div>
     <div class="nc-hdr">
@@ -9314,6 +9356,7 @@ function newsCard(item, color, opts = {}) {
     </div>
     <div class="nc-summary">${e(summary)}</div>
     ${_explainHtml(item)}
+    ${_learningHtml(item)}
     <div class="nc-footer" style="clear:both">
       ${tags.length?`<div class="tags">${tags.map(t=>`<span class="tag">${e(t)}</span>`).join('')}</div>`:''}
       <div class="nc-footer-row">
@@ -9340,7 +9383,11 @@ function tlItem(item, color, stagger=false) {
       <div class="tl-mon">${mon}</div>
     </div>
     <div class="tl-content">
-      ${urg?'<span class="badge badge-u" style="margin-bottom:6px;display:inline-block">Urgente</span>':''}
+      <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px">
+        ${urg?'<span class="badge badge-u">Urgente</span>':''}
+        ${_freshnessBadge(item)}
+        ${formatItemDate(item.published_at||item._date)?`<span style="font-size:11px;color:var(--text-3)">${formatItemDate(item.published_at||item._date)}</span>`:''}
+      </div>
       <div class="tl-title">
         ${item.url?`<a href="${item.url}" target="_blank" rel="noopener">${e(item.headline)}</a>`:e(item.headline)}
       </div>

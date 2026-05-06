@@ -1137,6 +1137,21 @@
       "name": "ZenML Blog",
       "url": "https://www.zenml.io/blog",
       "image": "https://www.google.com/s2/favicons?domain=zenml.io&sz=256"
+    },
+    {
+      "key": "javacodegeeks",
+      "name": "Java Code Geeks",
+      "url": "https://www.javacodegeeks.com/"
+    },
+    {
+      "key": "realpython",
+      "name": "Real Python",
+      "url": "https://realpython.com/"
+    },
+    {
+      "key": "quarkus",
+      "name": "Quarkus Blog",
+      "url": "https://quarkus.io/blog/"
     }
   ]
 }
