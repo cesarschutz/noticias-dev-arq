@@ -223,6 +223,12 @@
       "image": "https://www.google.com/s2/favicons?domain=convergenciadigital.com.br&sz=256"
     },
     {
+      "key": "coonecta",
+      "name": "Coonecta",
+      "url": "https://coonecta.me/",
+      "image": "https://www.google.com/s2/favicons?domain=coonecta.me&sz=256"
+    },
+    {
       "key": "creatiainews",
       "name": "Creati AI News",
       "url": "https://creati.ai/",
@@ -266,12 +272,6 @@
       "image": "https://cdn.simpleicons.org/datadog/632CA6"
     },
     {
-      "key": "dynatrace",
-      "name": "Dynatrace Blog",
-      "url": "https://www.dynatrace.com/news/blog/",
-      "image": "https://www.google.com/s2/favicons?domain=dynatrace.com&sz=256"
-    },
-    {
       "key": "dddeurope",
       "name": "DDD Europe",
       "url": "https://dddeurope.com/",
@@ -294,6 +294,12 @@
       "name": "Denis Kyashif's Blog",
       "url": "https://deniskyashif.com/",
       "image": "https://www.google.com/s2/favicons?domain=deniskyashif.com&sz=256"
+    },
+    {
+      "key": "dbos",
+      "name": "DBOS",
+      "url": "https://www.dbos.dev/",
+      "image": "https://www.google.com/s2/favicons?domain=dbos.dev&sz=256"
     },
     {
       "key": "devcommunity",
@@ -321,6 +327,12 @@
       "image": "https://www.google.com/s2/favicons?domain=blog.duendesoftware.com&sz=256"
     },
     {
+      "key": "dynatrace",
+      "name": "Dynatrace Blog",
+      "url": "https://www.dynatrace.com/news/blog/",
+      "image": "https://www.google.com/s2/favicons?domain=dynatrace.com&sz=256"
+    },
+    {
       "key": "envoygateway",
       "name": "Envoy Gateway",
       "url": "https://gateway.envoyproxy.io/",
@@ -343,6 +355,12 @@
       "name": "Fortune",
       "url": "https://fortune.com/",
       "image": "https://www.google.com/s2/favicons?domain=fortune.com&sz=256"
+    },
+    {
+      "key": "freecodecamp",
+      "name": "freeCodeCamp",
+      "url": "https://www.freecodecamp.org/news/",
+      "image": "https://www.google.com/s2/favicons?domain=freecodecamp.org&sz=256"
     },
     {
       "key": "futurum",
@@ -432,6 +450,12 @@
       "image": "https://www.google.com/s2/favicons?domain=devcenter.heroku.com&sz=256"
     },
     {
+      "key": "heygotrade",
+      "name": "HeyGoTrade",
+      "url": "https://www.heygotrade.com/",
+      "image": "https://www.google.com/s2/favicons?domain=heygotrade.com&sz=256"
+    },
+    {
       "key": "hn",
       "name": "Hacker News",
       "url": "https://news.ycombinator.com/",
@@ -462,12 +486,6 @@
       "image": "https://www.google.com/s2/favicons?domain=htek.dev&sz=256"
     },
     {
-      "key": "heygotrade",
-      "name": "HeyGoTrade",
-      "url": "https://www.heygotrade.com/",
-      "image": "https://www.google.com/s2/favicons?domain=heygotrade.com&sz=256"
-    },
-    {
       "key": "infoq",
       "name": "InfoQ",
       "url": "https://www.infoq.com/",
@@ -484,6 +502,12 @@
       "name": "Istio Blog",
       "url": "https://istio.io/latest/blog/",
       "image": "https://cdn.simpleicons.org/istio/466BB0"
+    },
+    {
+      "key": "jamescarr",
+      "name": "James Carr Blog",
+      "url": "https://james-carr.org/",
+      "image": "https://www.google.com/s2/favicons?domain=james-carr.org&sz=256"
     },
     {
       "key": "java67",
@@ -587,10 +611,22 @@
       "image": "https://cdn.simpleicons.org/meta/0467DF"
     },
     {
+      "key": "microservicesio",
+      "name": "Microservices.io",
+      "url": "https://microservices.io/",
+      "image": "https://www.google.com/s2/favicons?domain=microservices.io&sz=256"
+    },
+    {
       "key": "microsoft",
       "name": "Microsoft DevBlogs",
       "url": "https://devblogs.microsoft.com/",
       "image": "https://www.google.com/s2/favicons?domain=devblogs.microsoft.com&sz=256"
+    },
+    {
+      "key": "mongodb",
+      "name": "MongoDB",
+      "url": "https://www.mongodb.com/",
+      "image": "https://www.google.com/s2/favicons?domain=mongodb.com&sz=256"
     },
     {
       "key": "mwpro",
@@ -697,6 +733,12 @@
       "name": "PostgreSQL News",
       "url": "https://www.postgresql.org/about/newsarchive/",
       "image": "https://cdn.simpleicons.org/postgresql/4169E1"
+    },
+    {
+      "key": "progosling",
+      "name": "Progosling Dev Digest",
+      "url": "https://progosling.com/",
+      "image": "https://www.google.com/s2/favicons?domain=progosling.com&sz=256"
     },
     {
       "key": "pydantic",
@@ -812,6 +854,18 @@
       "name": "SOCRadar",
       "url": "https://socradar.io/",
       "image": "https://www.google.com/s2/favicons?domain=socradar.io&sz=256"
+    },
+    {
+      "key": "speakeasy",
+      "name": "Speakeasy",
+      "url": "https://www.speakeasy.com/",
+      "image": "https://www.google.com/s2/favicons?domain=speakeasy.com&sz=256"
+    },
+    {
+      "key": "sonar",
+      "name": "Sonar",
+      "url": "https://www.sonarsource.com/",
+      "image": "https://www.google.com/s2/favicons?domain=sonarsource.com&sz=256"
     },
     {
       "key": "sophos",
@@ -960,6 +1014,12 @@
       "image": "https://www.google.com/s2/favicons?domain=thoughtworks.com&sz=256"
     },
     {
+      "key": "typescript",
+      "name": "TypeScript Blog",
+      "url": "https://devblogs.microsoft.com/typescript/",
+      "image": "https://www.google.com/s2/favicons?domain=devblogs.microsoft.com&sz=256"
+    },
+    {
       "key": "uber",
       "name": "Uber Engineering Blog",
       "url": "https://www.uber.com/blog/engineering/",
@@ -1003,6 +1063,12 @@
       "name": "Vite Releases",
       "url": "https://vitejs.dev/blog/",
       "image": "https://cdn.simpleicons.org/vite/646CFF"
+    },
+    {
+      "key": "vitest",
+      "name": "Vitest",
+      "url": "https://vitest.dev/",
+      "image": "https://cdn.simpleicons.org/vitest/6E9F18"
     },
     {
       "key": "voxxeddays",

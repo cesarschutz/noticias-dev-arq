@@ -1,0 +1,1563 @@
+{
+  "date": "2026-05-05",
+  "weekday": "Terça-feira",
+  "formatted_date": "Terça, 5 de Maio de 2026",
+  "generated_at": "2026-05-05T08:30:00-03:00",
+  "hero_title": "DO Facets na borda, Spring 7 com resilience nativa e Iceberg v3 destravando CDC",
+  "hero_description": "Cloudflare lança Durable Object Facets em beta — cada app gerado por IA ganha SQLite isolado em runtime, peça que faltava para multi-tenant elástico na borda. No backend, Spring Framework 7 e Boot 4 trazem @Retryable e @ConcurrencyLimit ao core, casando com Virtual Threads sem dependência externa. AWS detalha Deletion Vectors do Iceberg v3 no EMR, com até 10x mais throughput em UPDATE/MERGE — viabiliza CDC streaming sério em data lake. cPanel CVE-2026-41940 explorada em massa e aliança Anthropic + Goldman/Blackstone de US$ 1,5 bi completam o radar.",
+  "edition_digest": "Terça-feira começa com plataforma e dados em primeiro plano. Cloudflare entregou na Agents Week os Durable Object Facets em beta: cada app gerado por IA ganha SQLite isolado em runtime, sem provisionar VM ou container. É o tipo de primitivo que reescreve multi-tenant elástico na borda e abre caminho para sandboxes de agente bem isolados, ainda mais combinado com Outbound Workers, o novo proxy zero-trust de egress.\n\nNo mundo Java, o time da Broadcom abriu detalhes do Spring Framework 7 e Boot 4 em entrevista densa do InfoQ. @Retryable, @ConcurrencyLimit e RetryTemplate saíram do Spring Retry e entraram no spring-core, com adaptação automática para reactive e Virtual Threads. É menos dependência no classpath e uma régua nova de design — @ConcurrencyLimit é o que faltava para Loom não afogar connection pool downstream em endpoint síncrono.\n\nA peça fechada da terça vem de dados. AWS publicou deep-dive no Big Data Blog mostrando como Deletion Vectors do Iceberg v3 cortam até 10x o custo de DML no EMR, com bitmap binário em vez de copy-on-write. Destrava Iceberg como alvo de CDC streaming sério — RisingWave, Flink, Debezium passam a ser viáveis em dimensões com alta taxa de update sem custo proibitivo.\n\nNo radar de segurança, cPanel CVE-2026-41940 escalou em 24 horas: bypass de auth no WHM já entregou Mirai e ransomware Sorry em governo do Sudeste Asiático e MSPs, com 44 mil IPs varrendo honeypots. Microsoft confirmou impacto da Copy Fail (CVE-2026-31431) em RHEL, SUSE, Ubuntu e AWS Linux, e quatro novos CVEs entraram no KEV. Do lado enterprise, Anthropic + Goldman + Blackstone formaram joint venture de US$ 1,5 bi para embarcar engenheiros em portfólios de PE; Salesforce colocou Agent Scanners do MuleSoft em GA, atacando agentic sprawl em Bedrock e Vertex AI.\n\nNas ferramentas, TypeScript 6 saiu como última versão em JS antes do Project Corsa em Go, MongoDB liberou Voyage 4 com embedding multimodal cobrindo vídeo, e GitHub Copilot abriu preview de fatura antes do switch para usage-based em junho — hora de instrumentar consumo por time.",
+  "highlights": [
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "Cloudflare apresenta Durable Object Facets — cada app gerado por IA ganha SQLite isolado em runtime",
+      "summary": "Anunciado na Agents Week 2026, o Durable Object Facets permite que Dynamic Workers instanciem Durable Objects de forma dinâmica, cada um com seu próprio SQLite isolado. É a peça que faltava para plataformas que geram workloads on-the-fly (apps de IA, sandboxes de tenants, multi-tenant elástico) sem provisionar infra por cliente. Em beta no plano Workers Paid.",
+      "explain": {
+        "junior": "Um Durable Object é uma 'mini-instância' com banco próprio que vive na borda; o novo Facets deixa criar essas instâncias na hora, com SQLite separado cada. Útil quando cada usuário ou cada conversa de IA precisa de isolamento, sem subir VM ou container para cada um.",
+        "pleno": "Tecnicamente, Facets resolve dois problemas crônicos de SaaS multi-tenant: latência de cold start (DO já estavam quentes) e isolamento de dados sem complicar storage. Cada Facet recebe uma instância de SQLite local persistente; tipos de classe são instanciados por nome, dando resemblance a 'serverless actors' do Orleans/Akka, mas em runtime de borda.",
+        "senior": "Para arquiteto: substitui pattern de 'um schema por tenant' em Postgres compartilhado por 'um Facet por workload', com isolamento físico real e custo elástico. Combine com Outbound Workers (proxy zero-trust de egress para sandbox de agente) para construir agentes de IA com isolamento de dados e credenciais sem expor tokens.",
+        "glossary": [
+          {
+            "term": "Durable Object",
+            "def": "Primitiva da Cloudflare que dá um 'objeto' coordenado e stateful em uma única região da borda — ideal para sessão, fila ou contador consistente."
+          },
+          {
+            "term": "Dynamic Worker",
+            "def": "Worker da Cloudflare que executa código gerado em tempo real (ex.: por agente de IA), sem deploy estático."
+          },
+          {
+            "term": "SQLite isolado",
+            "def": "Cada Facet tem seu banco SQLite próprio dentro do storage do Durable Object — sem leak entre tenants."
+          },
+          {
+            "term": "Cold start",
+            "def": "Latência ao acordar uma função/instância adormecida; DOs já mantêm o objeto quente após primeira chamada."
+          }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/durable-object-facets-dynamic-workers/",
+      "published_at": "2026-04-13T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cloudflare",
+        "durable-objects",
+        "edge",
+        "multi-tenant"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/durable-object-facets-OG.png",
+      "source_array": "news"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spring Framework 7 e Boot 4: time da Broadcom abre detalhes de @Retryable, @ConcurrencyLimit e API Versioning",
+      "summary": "InfoQ entrevista o Spring Team sobre as mudanças estruturais do Spring 7/Boot 4 lançado em novembro: resilience features (RetryTemplate, @Retryable, @ConcurrencyLimit) entram no spring-core, sem dependência externa, e ganham adaptação automática para reactive/Virtual Threads. API Versioning passa a ser primeira classe e null-safe annotations alinham com Jakarta EE 11.",
+      "explain": {
+        "junior": "O Spring é o framework Java mais usado para construir backends. Esta nova versão traz dentro do próprio framework recursos que antes você precisava puxar de bibliotecas separadas (como Spring Retry e Resilience4j). Menos dependência, código mais limpo.",
+        "pleno": "Tecnicamente, o time moveu o RetryTemplate para spring-core, redesenhado para suportar back-off exponencial com jitter e detectar métodos reativos automaticamente. @ConcurrencyLimit casa especialmente bem com Virtual Threads (Project Loom): em vez de configurar pool de threads, você limita concorrência por método. API Versioning agora é declarativo (header, path, query) sem hack de RouterFunction.",
+        "senior": "Para arquiteto: revise stack — vale tirar Resilience4j de muitos serviços novos? @Retryable nativo cobre retries de chamadas downstream com menos código, mas Resilience4j ainda lidera em circuit breaker e bulkhead. Já o @ConcurrencyLimit é a peça-chave para extrair valor real de Virtual Threads em endpoints síncronos sem afogar o sistema.",
+        "glossary": [
+          {
+            "term": "Virtual Thread",
+            "def": "Threads leves do Java 21+ (Project Loom) que escalam para milhares sem custo do thread OS; mas pedem controle de concorrência fora do thread pool."
+          },
+          {
+            "term": "RetryTemplate",
+            "def": "API programática do Spring para retentativa configurável com back-off, jitter e exception filtering."
+          },
+          {
+            "term": "Jakarta EE",
+            "def": "Sucessor do Java EE sob a Eclipse Foundation; padrões para servlets, persistence, validation."
+          },
+          {
+            "term": "Resilience4j",
+            "def": "Biblioteca Java de circuit breaker, retry, rate limiter inspirada em Hystrix; ainda referência para padrões avançados."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/articles/spring-team-spring-7-boot-4/",
+      "published_at": "2026-04-23T07:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "spring",
+        "java",
+        "resilience",
+        "virtual-threads"
+      ],
+      "image": "https://res.infoq.com/articles/spring-team-spring-7-boot-4/en/headerimage/spring-team-spring-7-boot-4-thumb.jpg",
+      "source_array": "news"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "AWS publica deep-dive de Iceberg v3 Deletion Vectors no EMR — operações de UPDATE até 10x mais rápidas",
+      "summary": "AWS Big Data Blog detalha como Deletion Vectors do Apache Iceberg v3 reduzem custo de DML em até 10x em pipelines no EMR. Em vez de reescrever data files no copy-on-write, Iceberg passa a manter um bitmap binário por arquivo apontando linhas logicamente deletadas. Acelera CDC e merge para warehouses sobre S3.",
+      "explain": {
+        "junior": "Em data lakes, deletar uma linha sempre exigia reescrever o arquivo inteiro de Parquet — caro e lento. O novo formato grava apenas um 'mapa de bits' dizendo 'essas linhas foram apagadas', sem mexer nos dados. Resultado: operações de update e delete passam a ser ordens de grandeza mais rápidas.",
+        "pleno": "Tecnicamente, deletion vectors armazenam um bitmap (Roaring Bitmap) por data file dentro de um arquivo Puffin. Engines de query (EMR Spark, Trino, Snowflake, Databricks) aplicam o filtro em scan, ignorando linhas marcadas. Quando o bitmap fica grande demais, compaction reescreve. É inspirado no Delta Lake — Iceberg fechou o gap funcional.",
+        "senior": "Para arquiteto de plataforma de dados: deletion vectors viabilizam Iceberg como alvo de CDC streaming sério (RisingWave, Flink, Debezium), antes proibitivo em dimensões com alta taxa de update. Reavalie o trade-off Delta vs. Iceberg — agora a vantagem técnica do Delta encolheu e Iceberg ganha em interoperabilidade (Snowflake, BigQuery, Athena, Polaris). Hora de planejar migração se ficou preso em Delta-só.",
+        "glossary": [
+          {
+            "term": "Deletion Vector",
+            "def": "Bitmap binário que marca linhas logicamente deletadas em um arquivo Parquet; evita reescrita em DML."
+          },
+          {
+            "term": "DML",
+            "def": "Data Manipulation Language — UPDATE, DELETE, MERGE; em data lakes era custoso por exigir copy-on-write."
+          },
+          {
+            "term": "Iceberg v3",
+            "def": "Versão do spec Apache Iceberg que adiciona deletion vectors, VARIANT type, geometry, default values e nested types."
+          },
+          {
+            "term": "EMR",
+            "def": "Elastic MapReduce — serviço da AWS para rodar Spark, Hive, Trino e outros engines de big data sobre S3."
+          }
+        ]
+      },
+      "source_key": "awsblog",
+      "url": "https://aws.amazon.com/blogs/big-data/unlock-the-power-of-apache-iceberg-v3-deletion-vectors-on-amazon-emr/",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "iceberg",
+        "data-lake",
+        "emr",
+        "cdc"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "source_array": "news"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "severity": "critical",
+      "headline": "cPanel CVE-2026-41940 vai ao KEV em 24h — 44 mil IPs varrem honeypots e ransomware Sorry já circula",
+      "summary": "Vulnerabilidade de bypass de autenticação no fluxo de login do cPanel/WHM permite tomada total do painel sem credenciais. Em 24 horas após a divulgação, atores não atribuídos miraram governo no Sudeste Asiático e MSPs em Filipinas, Laos, Canadá, África do Sul e EUA — derrubando variantes do Mirai e o ransomware Sorry. CISA listou no KEV com prazo FCEB para 3 de maio.",
+      "explain": {
+        "junior": "O cPanel é um painel popular para administrar servidores web, e essa falha deixa o atacante entrar sem usuário e senha. Como muitos provedores de hospedagem usam o painel, um único bug serve para invadir milhares de sites de uma vez.",
+        "pleno": "O CVE-2026-41940 é um bypass na rotina de autenticação: o WHM aceita uma requisição forjada como se fosse de admin, abrindo SSH, acesso a contas e arquivos. Com PoC pública, botnets Mirai entraram em scanning massivo e atores entregando o ransomware Sorry, mostrando que o tempo entre disclosure e exploração industrial caiu para horas.",
+        "senior": "Para arquiteto: trate todo cPanel/WHM como exposto e patche em horas, não dias. Adicione regra de WAF para o endpoint, isole gerência por bastion, audite contas criadas após 30/abril e procure indicadores de comprometimento mesmo após o patch — atacantes deixam web shells e tarefas cron persistentes.",
+        "glossary": [
+          {
+            "term": "KEV",
+            "def": "Catálogo da CISA com vulnerabilidades comprovadamente exploradas; gera prazo obrigatório de patch para agências federais dos EUA (BOD 22-01)."
+          },
+          {
+            "term": "MSP",
+            "def": "Managed Service Provider — empresa que opera infraestrutura de TI e hospedagem para vários clientes, multiplicando o blast radius de um bug no painel."
+          },
+          {
+            "term": "WHM",
+            "def": "WebHost Manager — interface administrativa que controla todas as contas cPanel de um servidor; comprometê-la equivale a root."
+          },
+          {
+            "term": "Mirai",
+            "def": "Família de botnets que infecta dispositivos IoT e servidores expostos para ataques DDoS e proxy abuse."
+          }
+        ]
+      },
+      "cves": [
+        "CVE-2026-41940"
+      ],
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/critical-cpanel-vulnerability.html",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cve",
+        "cpanel",
+        "ransomware",
+        "kev"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "urgent": false,
+      "headline": "Anthropic, Goldman, Blackstone e GIC anunciam joint venture de US$ 1,5 bi para integrar Claude em PE-owned",
+      "summary": "Em 4 de maio, Anthropic, Goldman Sachs, Blackstone, Hellman & Friedman e GIC formalizaram uma firma de serviços de IA com US$ 1,5 bi de capital comprometido. Em vez de consultoria tradicional, a JV embarca engenheiros dentro das empresas-alvo (carteiras de private equity) para redesenhar workflows e plugar Claude no core. Apollo, General Atlantic, Sequoia e Leonard Green também entraram.",
+      "explain": {
+        "junior": "Em vez de vender só a API, a Anthropic se uniu a grandes bancos para mandar engenheiros redesenhar o trabalho dentro das empresas e ligar o Claude ao dia a dia. O investimento gigante mostra que a IA nas empresas vai virar projeto de transformação, não de chatbot.",
+        "pleno": "O modelo da JV é interessante: embed-engineering com profundidade que Big4 não tem, mas com motor de capital de PE para acelerar adoção em portfólios inteiros. Para arquiteto, isso normaliza o padrão 'agente integrado ao processo' como a forma de extrair valor real, contra o ruído de wrappers de chat. Concorre direto com a tese do Salesforce MuleSoft Agent Fabric e do Google Gemini Enterprise.",
+        "senior": "Para arquiteto: planeje seu landscape para integrações de agente nível plataforma — MCP servers, agent registry, governança e métricas de outcome — em vez de POCs isolados. A janela de 12 meses para definir esse padrão dentro da empresa está se fechando, e quem terceirizar para vendor único cria lock-in inverso.",
+        "glossary": [
+          {
+            "term": "Private equity",
+            "def": "Fundos que compram empresas inteiras para gerar retorno; têm dezenas de portfolio companies para padronizar tecnologia."
+          },
+          {
+            "term": "Embed engineering",
+            "def": "Modelo onde engenheiros da contratada operam dentro do time do cliente, ao invés de entregar artefatos por fora."
+          },
+          {
+            "term": "MCP",
+            "def": "Model Context Protocol — padrão da Anthropic para conectar agentes a ferramentas, dados e APIs do mundo real."
+          },
+          {
+            "term": "Anthropic",
+            "def": "Empresa criadora do Claude; foca em IA assistiva e segura para uso corporativo."
+          }
+        ]
+      },
+      "source_key": "cnbc",
+      "url": "https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html",
+      "published_at": "2026-05-04T15:30:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "anthropic",
+        "claude",
+        "enterprise",
+        "joint-venture"
+      ],
+      "image": "https://image.cnbcfm.com/api/v1/image/108211007-1751905129594-gettyimages-2222588760-AFP_637E3RR.jpeg"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "headline": "Cloudflare apresenta Durable Object Facets — cada app gerado por IA ganha SQLite isolado em runtime",
+      "summary": "Anunciado na Agents Week 2026, o Durable Object Facets permite que Dynamic Workers instanciem Durable Objects de forma dinâmica, cada um com seu próprio SQLite isolado. É a peça que faltava para plataformas que geram workloads on-the-fly (apps de IA, sandboxes de tenants, multi-tenant elástico) sem provisionar infra por cliente. Em beta no plano Workers Paid.",
+      "explain": {
+        "junior": "Um Durable Object é uma 'mini-instância' com banco próprio que vive na borda; o novo Facets deixa criar essas instâncias na hora, com SQLite separado cada. Útil quando cada usuário ou cada conversa de IA precisa de isolamento, sem subir VM ou container para cada um.",
+        "pleno": "Tecnicamente, Facets resolve dois problemas crônicos de SaaS multi-tenant: latência de cold start (DO já estavam quentes) e isolamento de dados sem complicar storage. Cada Facet recebe uma instância de SQLite local persistente; tipos de classe são instanciados por nome, dando resemblance a 'serverless actors' do Orleans/Akka, mas em runtime de borda.",
+        "senior": "Para arquiteto: substitui pattern de 'um schema por tenant' em Postgres compartilhado por 'um Facet por workload', com isolamento físico real e custo elástico. Combine com Outbound Workers (proxy zero-trust de egress para sandbox de agente) para construir agentes de IA com isolamento de dados e credenciais sem expor tokens.",
+        "glossary": [
+          {
+            "term": "Durable Object",
+            "def": "Primitiva da Cloudflare que dá um 'objeto' coordenado e stateful em uma única região da borda — ideal para sessão, fila ou contador consistente."
+          },
+          {
+            "term": "Dynamic Worker",
+            "def": "Worker da Cloudflare que executa código gerado em tempo real (ex.: por agente de IA), sem deploy estático."
+          },
+          {
+            "term": "SQLite isolado",
+            "def": "Cada Facet tem seu banco SQLite próprio dentro do storage do Durable Object — sem leak entre tenants."
+          },
+          {
+            "term": "Cold start",
+            "def": "Latência ao acordar uma função/instância adormecida; DOs já mantêm o objeto quente após primeira chamada."
+          }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/durable-object-facets-dynamic-workers/",
+      "published_at": "2026-04-13T12:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cloudflare",
+        "durable-objects",
+        "edge",
+        "multi-tenant"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/durable-object-facets-OG.png"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": false,
+      "headline": "GitHub Copilot migra para cobrança por uso em 1º de junho — Pro+ vira US$ 39 com pool de AI Credits",
+      "summary": "GitHub anuncia que todos os planos Copilot (Pro, Business, Enterprise) passam a cobrar AI Credits a partir de 1º de junho. 1 crédito = US$ 0,01 e descontos rolam por token consumido nas features que usam modelo (Chat, CLI, cloud agent, Spaces). Code completion e next edit suggestions seguem ilimitados. Preview de fatura disponível no início de maio.",
+      "explain": {
+        "junior": "Antes você pagava um valor fixo e usava tudo; agora a parte de IA passa a 'descontar de uma carteira mensal'. Quem usa muito chat e agente vai estourar e pagar a mais; quem usa só autocomplete continua igual.",
+        "pleno": "O modelo amarra o custo do GitHub ao custo dos modelos: tokens de input/output viram unidade. Um pool de 100 usuários Business soma 190 mil créditos compartilhados, dando flexibilidade — mas tira a previsibilidade que o flat rate dava. O ponto crítico é que features novas (Spark, third-party agents) já entram metered.",
+        "senior": "Para arquiteto: precisa instrumentar consumo de Copilot por time/repo, definir orçamentos de crédito como SLA interno e abrir conversa com FinOps. A lógica espelha o que aconteceu com cloud em 2014: passa de licença para utility, e quem não monitorar gasto leva surpresa. O preview de maio é o momento para calibrar antes do corte.",
+        "glossary": [
+          {
+            "term": "AI Credit",
+            "def": "Unidade de cobrança do Copilot a partir de junho — 1 crédito vale US$ 0,01 e é debitado por token consumido em features que chamam modelo."
+          },
+          {
+            "term": "Cloud agent",
+            "def": "Modo de agente do Copilot que roda no cloud, fora do IDE; usa contexto longo e múltiplas chamadas, consumindo mais créditos."
+          },
+          {
+            "term": "FinOps",
+            "def": "Disciplina de gestão financeira de cloud/SaaS — agora estendida a IA, com responsabilização compartilhada entre engenharia e finanças."
+          },
+          {
+            "term": "Flat rate",
+            "def": "Modelo antigo de US$ 10 ou US$ 19 fixos com uso ilimitado; substituído por orçamento + overage."
+          }
+        ]
+      },
+      "source_key": "githubblog",
+      "url": "https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/",
+      "published_at": "2026-04-25T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "github",
+        "copilot",
+        "ai-pricing",
+        "finops"
+      ],
+      "image": "https://github.blog/wp-content/uploads/2025/01/copilot-pricing-OG.png"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "AWS lança EC2 M8in e R8in em GA — 600 Gbps de rede e 43% mais perf que geração M6",
+      "summary": "Amazon disponibilizou em GA as instâncias M8in/M8ib (general purpose) e R8in/R8ib (memory-optimized), com Intel Xeon Scalable de 6ª geração e Nitro 6. Saltam para até 600 Gbps de rede e 300 Gbps de EBS, com 43% mais throughput que a geração M6in. Disponíveis em N. Virginia, Oregon, Tóquio e Espanha.",
+      "explain": {
+        "junior": "EC2 são as 'máquinas virtuais' da AWS. Essa nova geração entrega CPU mais rápida e principalmente rede muito mais larga — 600 Gbps é 6x o que era padrão até pouco tempo atrás —, ajudando bancos de dados, cache distribuído e ingestão de dados pesada.",
+        "pleno": "M8in foca workloads gerais com bandwidth de rede pesada (bom para Kafka brokers, ingest de telemetria, cache distribuído); R8in é memory-optimized, mira bancos como SAP HANA, Redis em produção e in-memory analytics. O ganho real vem do Nitro 6, que reduz overhead de hipervisor, e do passo geracional de Xeon que melhora cache hit ratio em workloads OLTP.",
+        "senior": "Para arquiteto: vale benchmarkar M8in vs M7gn (Graviton) antes de migrar — Intel mantém vantagem em workloads x86-only, mas Graviton ainda lidera custo/perf em maioria dos casos. R8in só compensa onde latência de memória é crítica e budget permite. Atenção também a quotas e disponibilidade regional limitada nessa fase inicial.",
+        "glossary": [
+          {
+            "term": "Nitro",
+            "def": "Sistema de hipervisor e cards dedicados da AWS que descarregam rede, storage e segurança para hardware separado, reduzindo overhead da VM."
+          },
+          {
+            "term": "Xeon Scalable",
+            "def": "Linha de processadores Intel para servidores; 6ª gen entrega ganhos em cache e instruções vetoriais."
+          },
+          {
+            "term": "EBS",
+            "def": "Elastic Block Store — disco em rede da AWS; banda alta importa para databases e logs sequenciais."
+          },
+          {
+            "term": "Memory-optimized",
+            "def": "Família de instâncias com mais RAM por vCPU; usada por bancos in-memory, caches grandes e analytics."
+          }
+        ]
+      },
+      "source_key": "awswhatsnew",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-m8in-m8ib/",
+      "published_at": "2026-04-30T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "aws",
+        "ec2",
+        "intel",
+        "nitro"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "headline": "Spring Framework 7 e Boot 4: time da Broadcom abre detalhes de @Retryable, @ConcurrencyLimit e API Versioning",
+      "summary": "InfoQ entrevista o Spring Team sobre as mudanças estruturais do Spring 7/Boot 4 lançado em novembro: resilience features (RetryTemplate, @Retryable, @ConcurrencyLimit) entram no spring-core, sem dependência externa, e ganham adaptação automática para reactive/Virtual Threads. API Versioning passa a ser primeira classe e null-safe annotations alinham com Jakarta EE 11.",
+      "explain": {
+        "junior": "O Spring é o framework Java mais usado para construir backends. Esta nova versão traz dentro do próprio framework recursos que antes você precisava puxar de bibliotecas separadas (como Spring Retry e Resilience4j). Menos dependência, código mais limpo.",
+        "pleno": "Tecnicamente, o time moveu o RetryTemplate para spring-core, redesenhado para suportar back-off exponencial com jitter e detectar métodos reativos automaticamente. @ConcurrencyLimit casa especialmente bem com Virtual Threads (Project Loom): em vez de configurar pool de threads, você limita concorrência por método. API Versioning agora é declarativo (header, path, query) sem hack de RouterFunction.",
+        "senior": "Para arquiteto: revise stack — vale tirar Resilience4j de muitos serviços novos? @Retryable nativo cobre retries de chamadas downstream com menos código, mas Resilience4j ainda lidera em circuit breaker e bulkhead. Já o @ConcurrencyLimit é a peça-chave para extrair valor real de Virtual Threads em endpoints síncronos sem afogar o sistema.",
+        "glossary": [
+          {
+            "term": "Virtual Thread",
+            "def": "Threads leves do Java 21+ (Project Loom) que escalam para milhares sem custo do thread OS; mas pedem controle de concorrência fora do thread pool."
+          },
+          {
+            "term": "RetryTemplate",
+            "def": "API programática do Spring para retentativa configurável com back-off, jitter e exception filtering."
+          },
+          {
+            "term": "Jakarta EE",
+            "def": "Sucessor do Java EE sob a Eclipse Foundation; padrões para servlets, persistence, validation."
+          },
+          {
+            "term": "Resilience4j",
+            "def": "Biblioteca Java de circuit breaker, retry, rate limiter inspirada em Hystrix; ainda referência para padrões avançados."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/articles/spring-team-spring-7-boot-4/",
+      "published_at": "2026-04-23T07:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "spring",
+        "java",
+        "resilience",
+        "virtual-threads"
+      ],
+      "image": "https://res.infoq.com/articles/spring-team-spring-7-boot-4/en/headerimage/spring-team-spring-7-boot-4-thumb.jpg"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "headline": "MongoDB lança Voyage 4 com 4 modelos e voyage-multimodal-3.5 GA — vetorização agora cobre vídeo",
+      "summary": "MongoDB anunciou a família Voyage 4 de embeddings (voyage-4 geral, 4-large, 4-lite e 4-nano open-weights) e a GA do voyage-multimodal-3.5, primeiro embedding production-grade que combina texto, imagem e vídeo. Junto vieram Automated Embedding no Vector Search e um assistente AI para Compass/Atlas Data Explorer.",
+      "explain": {
+        "junior": "Embeddings transformam texto, imagem ou vídeo em vetores de números que medem 'semelhança de significado'. A nova família da Voyage (que pertence ao MongoDB) entrega quatro tamanhos pra escolher entre acurácia e custo, e ganha vídeo no mesmo modelo. Isso é a base de busca semântica e RAG.",
+        "pleno": "voyage-4-large mira retrieval accuracy máxima para RAG enterprise; 4-lite optimiza p99 latency e custo de inferência; 4-nano roda local/edge. Multimodal-3.5 vetoriza interleaved text+image+video num único espaço, simplificando pipelines de mídia (treinamento, monitoramento, customer support de vídeo). Automated Embedding gera vetor automaticamente em insert/update — tira boilerplate do app.",
+        "senior": "Para arquiteto: avalie troca de OpenAI text-embedding-3 ou Cohere por voyage-4-large dentro do Atlas, especialmente em RAG com vetores no mesmo cluster — elimina hop de rede e custo extra. Para vídeo, o multimodal-3.5 abre casos como search em videoteca corporativa e classificação de webinar, antes inviáveis. Cuidado com lock-in de pipeline.",
+        "glossary": [
+          {
+            "term": "Embedding",
+            "def": "Representação de texto/imagem como vetor de centenas/milhares de números; itens com significado parecido ficam próximos no espaço vetorial."
+          },
+          {
+            "term": "RAG",
+            "def": "Retrieval-Augmented Generation — recupera documentos relevantes via embeddings antes de enviar ao LLM, reduzindo alucinação."
+          },
+          {
+            "term": "Open-weights",
+            "def": "Modelo cujos pesos são publicados; pode rodar localmente, sem depender de API."
+          },
+          {
+            "term": "Atlas Vector Search",
+            "def": "Serviço gerenciado da MongoDB Atlas para indexar e consultar embeddings com índice HNSW dentro do mesmo cluster que os documentos."
+          }
+        ]
+      },
+      "source_key": "mongodb",
+      "url": "https://www.mongodb.com/press/mongodb-sets-a-new-standard-for-retrieval-accuracy-with-voyage-4-models",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "mongodb",
+        "voyage",
+        "embedding",
+        "multimodal"
+      ],
+      "image": "https://webimages.mongodb.com/_com_assets/cms/Press_OpenGraph-rzmnllyvs5.png"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "headline": "Salesforce coloca Agent Scanners do MuleSoft em GA — descobre agentes em Bedrock, Vertex AI e Copilot Studio",
+      "summary": "MuleSoft Agent Fabric ampliou em janeiro a descoberta automática de agentes: scanners em GA detectam e catalogam agentes em Salesforce Agentforce, AWS Bedrock, Google Vertex AI e Microsoft Copilot Studio, com metadata de ações, modelos e permissões. Soma-se a um agent registry que já aceita MCP servers via URL.",
+      "explain": {
+        "junior": "Em 2026 cada empresa tem dezenas de agentes IA criados por times diferentes em plataformas diferentes. O Agent Fabric escaneia tudo isso e mostra um inventário central — quem é, o que faz, com que modelo, com que dados.",
+        "pleno": "É a resposta da Salesforce ao 'agentic sprawl': agentes proliferam mais rápido que governance. Os scanners pegam metadata sem requerer aprovação por aprovação, alimentam um catalog onde cada agente tem ID, ações, modelo, permissões, ligação a sistemas. O agent registry aceita MCP server por URL, então plug-in de tooling externo entra direto na malha.",
+        "senior": "Para arquiteto: ataque o problema de governance antes que o portfólio explode. O modelo de Agent Fabric (control plane com inventário + policy + telemetry) vai virar padrão; quem ainda não tem catálogo de agente paga juros depois. Avalie se MuleSoft cabe ou se um catalog próprio sobre OpenTelemetry + MCP é mais barato — depende do tamanho do estoque.",
+        "glossary": [
+          {
+            "term": "Agentic sprawl",
+            "def": "Multiplicação descontrolada de agentes IA por diferentes times sem inventário, governança ou padrão de implementação."
+          },
+          {
+            "term": "Bedrock",
+            "def": "Plataforma da AWS para hospedar e operar modelos fundacionais e agentes."
+          },
+          {
+            "term": "Vertex AI",
+            "def": "Plataforma de IA do Google Cloud para treinamento, inferência e agentes."
+          },
+          {
+            "term": "MCP server",
+            "def": "Servidor que expõe ferramentas e dados para agentes via Model Context Protocol; padrão emergente para tool-use."
+          }
+        ]
+      },
+      "source_key": "salesforce",
+      "url": "https://www.salesforce.com/news/stories/mulesoft-agent-fabric-automated-agent-discovery/",
+      "published_at": "2026-04-29T12:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "salesforce",
+        "mulesoft",
+        "agents",
+        "governance"
+      ],
+      "image": "https://www.salesforce.com/news/wp-content/uploads/sites/3/2026/01/MuleSoft-Agent-Fabric-Hero.png"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "urgent": false,
+      "headline": "WASI 0.3 chega ao Wasmtime 37 — async nativo finalmente aterrissa em components do WebAssembly",
+      "summary": "Bytecode Alliance disponibilizou previews de WASI 0.3 a partir do Wasmtime 37, trazendo async nativo e suporte a threads para componentes WASM. É a peça que faltava para Wasm no servidor: até agora cada projeto reimplementava async fora do core. WASI Preview 2 segue estável (v0.2.11 em abril) e WASI 1.0 está no roadmap para 2026.",
+      "explain": {
+        "junior": "WebAssembly começou no browser, mas hoje serve para rodar código portátil no servidor (microsserviços leves, plugins). O WASI é a 'API padrão' que dá ao Wasm acesso a rede, disco, etc. Async era ponto cego — agora chega.",
+        "pleno": "WASI 0.3 introduz native async no Component Model: streams e futures como primitivos, sem hacks de polling no host. Wasmtime 37+ aceita componentes Preview 3, mantendo Preview 2 como fallback. Isso destrava casos antes inviáveis: servidores HTTP/2 escritos como componente único, plugins que lidam com IO concorrente, agentes de IA chamando ferramentas em paralelo dentro do sandbox.",
+        "senior": "Para arquiteto interessado em runtime alternativo (edge, plugin systems, multi-tenant): o time-to-prod do Wasm caiu de novo. Spin, Fermyon, Cloudflare Workers e Microsoft Hyperlight já planejam suporte. Avalie Wasm onde isolamento + cold start sub-millisecond + portabilidade entre cloud importam — substituindo lambda em casos específicos. Mas Preview 3 ainda não é estável, então piloto antes de bet.",
+        "glossary": [
+          {
+            "term": "WASI",
+            "def": "WebAssembly System Interface — APIs padrão que dão ao Wasm acesso a sockets, arquivos, env vars e mais, fora do browser."
+          },
+          {
+            "term": "Component Model",
+            "def": "Padrão WASM para composição de módulos com tipos de alto nível (records, variants, resources), além do bytecode plano."
+          },
+          {
+            "term": "Wasmtime",
+            "def": "Runtime de referência da Bytecode Alliance para executar módulos e components WASM no servidor."
+          },
+          {
+            "term": "Cold start",
+            "def": "Latência de inicialização ao invocar uma função/instância adormecida; em Wasm fica em microssegundos vs. centenas de ms em containers."
+          }
+        ]
+      },
+      "source_key": "progosling",
+      "url": "https://progosling.com/en/dev-digest/2026-02/wasi-0-3-wasmtime-37-native-async",
+      "published_at": "2026-04-28T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "webassembly",
+        "wasi",
+        "wasmtime",
+        "async"
+      ],
+      "image": "https://progosling.com/img/og/wasi-0-3-wasmtime-37-native-async.png"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "headline": "AWS publica deep-dive de Iceberg v3 Deletion Vectors no EMR — operações de UPDATE até 10x mais rápidas",
+      "summary": "AWS Big Data Blog detalha como Deletion Vectors do Apache Iceberg v3 reduzem custo de DML em até 10x em pipelines no EMR. Em vez de reescrever data files no copy-on-write, Iceberg passa a manter um bitmap binário por arquivo apontando linhas logicamente deletadas. Acelera CDC e merge para warehouses sobre S3.",
+      "explain": {
+        "junior": "Em data lakes, deletar uma linha sempre exigia reescrever o arquivo inteiro de Parquet — caro e lento. O novo formato grava apenas um 'mapa de bits' dizendo 'essas linhas foram apagadas', sem mexer nos dados. Resultado: operações de update e delete passam a ser ordens de grandeza mais rápidas.",
+        "pleno": "Tecnicamente, deletion vectors armazenam um bitmap (Roaring Bitmap) por data file dentro de um arquivo Puffin. Engines de query (EMR Spark, Trino, Snowflake, Databricks) aplicam o filtro em scan, ignorando linhas marcadas. Quando o bitmap fica grande demais, compaction reescreve. É inspirado no Delta Lake — Iceberg fechou o gap funcional.",
+        "senior": "Para arquiteto de plataforma de dados: deletion vectors viabilizam Iceberg como alvo de CDC streaming sério (RisingWave, Flink, Debezium), antes proibitivo em dimensões com alta taxa de update. Reavalie o trade-off Delta vs. Iceberg — agora a vantagem técnica do Delta encolheu e Iceberg ganha em interoperabilidade (Snowflake, BigQuery, Athena, Polaris). Hora de planejar migração se ficou preso em Delta-só.",
+        "glossary": [
+          {
+            "term": "Deletion Vector",
+            "def": "Bitmap binário que marca linhas logicamente deletadas em um arquivo Parquet; evita reescrita em DML."
+          },
+          {
+            "term": "DML",
+            "def": "Data Manipulation Language — UPDATE, DELETE, MERGE; em data lakes era custoso por exigir copy-on-write."
+          },
+          {
+            "term": "Iceberg v3",
+            "def": "Versão do spec Apache Iceberg que adiciona deletion vectors, VARIANT type, geometry, default values e nested types."
+          },
+          {
+            "term": "EMR",
+            "def": "Elastic MapReduce — serviço da AWS para rodar Spark, Hive, Trino e outros engines de big data sobre S3."
+          }
+        ]
+      },
+      "source_key": "awsblog",
+      "url": "https://aws.amazon.com/blogs/big-data/unlock-the-power-of-apache-iceberg-v3-deletion-vectors-on-amazon-emr/",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "iceberg",
+        "data-lake",
+        "emr",
+        "cdc"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "urgent": false,
+      "headline": "Cooptech Crédito 2026 acontece em SP em 20-21 de maio — IA no ciclo de crédito é eixo central",
+      "summary": "Coonecta confirmou programação do Cooptech Crédito 2026 nos dias 20 e 21/maio na Amcham Business Center, em São Paulo, com 3 palcos paralelos e 35+ sessões. Eixo 'Entregando resultados' concentra IA no ciclo de crédito, adoção tecnológica para eficiência e diversificação de receitas — pauta forte para arquitetos de cooperativa.",
+      "explain": {
+        "junior": "Cooperativas de crédito no Brasil estão investindo em tecnologia para competir com fintechs e bancos digitais. O Cooptech é o maior evento técnico do segmento, e este ano o foco principal é como usar IA para decidir crédito mais rápido e bem.",
+        "pleno": "A pauta cobre toda a esteira: scoring com modelos modernos (LightGBM, agente assistido), automação de underwriting, antifraude com vetores e LLM, plus integração Pix/Open Finance/DREX que está sendo modelada pelo BC para 2029. Cooperativismo é segmento com R$ 800 bi+ em ativos no Brasil; modelos próprios competem com IA generalista.",
+        "senior": "Para arquiteto: vale acompanhar o evento para ler benchmark setorial — Sicoob aposta em super app + rede física, Sicredi sustenta expansão de 43 agências em 2026 com base tecnológica. Decisões de arquitetura de dados (data mesh por cooperativa singular, governança federada) e de IA (modelo central vs. modelo por singular) estarão na mesa.",
+        "glossary": [
+          {
+            "term": "Cooperativa singular",
+            "def": "Unidade local autônoma das cooperativas de crédito; centenas no país, com TI compartilhada via central."
+          },
+          {
+            "term": "Underwriting",
+            "def": "Processo de análise e aprovação de risco de crédito; cada vez mais automatizado com IA e dados alternativos."
+          },
+          {
+            "term": "Open Finance",
+            "def": "Padrão regulatório brasileiro para compartilhamento de dados financeiros via APIs entre instituições, com consentimento do cliente."
+          },
+          {
+            "term": "DREX",
+            "def": "Real digital tokenizado em desenvolvimento pelo Banco Central; reconfigurado em 2026 sem blockchain pública na camada base."
+          }
+        ]
+      },
+      "source_key": "coonecta",
+      "url": "https://coonecta.me/blog/cooptech-credito-2026/",
+      "published_at": "2026-05-02T10:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cooperativismo",
+        "fintech-br",
+        "ia",
+        "evento"
+      ],
+      "image": "https://coonecta.me/wp-content/uploads/2026/01/cooptech-credito-2026-og.jpg"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "headline": "Martin Fowler descreve SPDD — método da Thoughtworks que trata prompts como artefato de engenharia versionado",
+      "summary": "Em artigo no martinfowler.com, equipe da Thoughtworks IT detalha o Structured Prompt-Driven Development (SPDD), método em que prompts viram entidade de primeira classe: passam por code review, ficam versionados, sobem em pipeline. O canvas REASONS (Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards) guia geração com LLM dentro de fronteiras claras. Time relata 5x de produtividade.",
+      "explain": {
+        "junior": "Quando você usa IA pra programar, normalmente joga um pedido no chat e recebe código. SPDD diz: trate esse pedido como código também — versionado em Git, revisado por colega, melhorado ao longo do tempo. Assim a equipe inteira escala o ganho de IA.",
+        "pleno": "O canvas REASONS estrutura o prompt em 7 partes para cobrir o problema: requisitos, entidades, abordagem, estrutura, operações, normas e salvaguardas. Quando o código gerado se desvia do desejado, a regra é editar o prompt antes do código — fechando o loop intent-aware. É a evolução natural de spec-driven development (Kiro, spec-kit, Tessl) para times que adotaram coding agents em escala.",
+        "senior": "Para arquiteto técnico: SPDD endereça o problema crônico de 'cada dev usa IA do seu jeito'. Adote prompts versionados como ADR-equivalente para decisões de design auxiliadas; integre prompts a CI (lint, validation, regressão). Risco: over-engineering em times pequenos. Os 5x prometidos vêm de regularização do método, não do modelo — ferramenta sozinha não entrega isso.",
+        "glossary": [
+          {
+            "term": "REASONS Canvas",
+            "def": "Template de 7 seções para estruturar prompts: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards."
+          },
+          {
+            "term": "Spec-driven development",
+            "def": "Família de métodos onde a especificação executável (não o chat) dirige a IA — Kiro, spec-kit, Tessl são exemplos."
+          },
+          {
+            "term": "ADR",
+            "def": "Architecture Decision Record — registro versionado de decisão arquitetural; SPDD propõe tratar prompt com mesmo rigor."
+          },
+          {
+            "term": "Coding agent",
+            "def": "Agente IA que executa tarefas longas no IDE/CLI (Claude Code, Cursor, Copilot agent), além de só sugerir."
+          }
+        ]
+      },
+      "source_key": "martinfowler",
+      "url": "https://martinfowler.com/articles/structured-prompt-driven/",
+      "published_at": "2026-04-28T11:00:00-03:00",
+      "read_time": 8,
+      "tags": [
+        "thoughtworks",
+        "spdd",
+        "ai-coding",
+        "prompt-engineering"
+      ],
+      "image": "https://martinfowler.com/articles/structured-prompt-driven/teaser.png"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "urgent": false,
+      "headline": "Chris Richardson publica parte 7 da série QCon SF — deployment platform como produto interno",
+      "summary": "Em 23 de abril, Chris Richardson finalizou a sétima e última parte da série de microsserviços vista no QCon SF: o tema é deployment platform como produto interno. Ele detalha as três 'capabilities': scheduling, networking e observability — e mostra como times stream-aligned consomem essas APIs sem terem de operar Kubernetes nativo.",
+      "explain": {
+        "junior": "Quando uma empresa adota microsserviços, cada time precisa hospedar e operar seus serviços. Em vez de cada um aprender Kubernetes, cria-se uma 'plataforma de deploy' — uma interface simples (CLI, YAML, portal) que esconde a complexidade. Esse é o tema do post.",
+        "pleno": "Richardson agrupa o que a plataforma precisa entregar em três capabilities: scheduling (decidir onde roda, quantas réplicas, restart), networking (DNS de serviço, mTLS, gateway de borda) e observability (logs, métricas, traces unificados). O serviço do platform team é a abstração — golden path, templates de Backstage, padrão de runtime — não a operação direta de cluster.",
+        "senior": "Para arquiteto/líder de plataforma: este é o material canônico para vender o investimento em platform team interno. Use para alinhar com Team Topologies — stream-aligned consome a API; platform team é enabling. O post explicita o que entra na plataforma vs. o que vira biblioteca compartilhada (libs de tracing, autenticação) — fronteira que muitas empresas erram.",
+        "glossary": [
+          {
+            "term": "Stream-aligned team",
+            "def": "Time focado em entrega contínua de uma corrente de valor; consome plataforma para reduzir cognitive load."
+          },
+          {
+            "term": "Platform team",
+            "def": "Time enabling que constrói a plataforma interna como produto; clientes são os times de produto."
+          },
+          {
+            "term": "Golden path",
+            "def": "Caminho recomendado e testado para criar/operar serviço dentro da empresa; reduz escolhas duvidosas."
+          },
+          {
+            "term": "Backstage",
+            "def": "Portal de developer experience open-source da Spotify; comum como UI da plataforma interna."
+          }
+        ]
+      },
+      "source_key": "microservicesio",
+      "url": "https://microservices.io/post/architecture/2026/04/23/qconsf-microservices-platforms-part-7.html",
+      "published_at": "2026-04-23T15:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "platform-engineering",
+        "microservices",
+        "team-topologies"
+      ],
+      "image": "https://microservices.io/i/posts/qconsf-platforms-part-7.png"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "CISA adiciona 4 CVEs ao KEV — SimpleHelp 9.9, Samsung MagicINFO e D-Link DIR-823X com prazo 8/maio",
+      "summary": "CISA marcou no KEV vulnerabilidades exploradas em SimpleHelp (CVSS 9.9, RCE pré-auth), Samsung MagicINFO 9 Server e D-Link DIR-823X. Federal Civilian Executive Branch tem até 8 de maio para mitigar. Ataques observados: ransomware via SimpleHelp, recrutamento de roteadores D-Link em botnets e display digital sequestrado pelo MagicINFO.",
+      "explain": {
+        "junior": "O KEV é a lista que a CISA mantém de vulnerabilidades que estão sendo realmente exploradas hoje. Quando algo entra na lista, agências federais americanas têm prazo curto para corrigir — e empresas comuns devem fazer o mesmo para se proteger.",
+        "pleno": "SimpleHelp (suporte remoto) é o caso mais grave: CVSS 9.9 com RCE sem autenticação dá rachadura imediata em MSPs que usam o produto para suporte ao cliente. Samsung MagicINFO 9 (signage digital) e D-Link DIR-823X (roteador home) ampliam o blast radius para IoT corporativa e residencial — botnets já recrutam massa.",
+        "senior": "Para arquiteto: tenha plano de resposta a KEV — alerta automático quando CVE entra no catálogo, scan SBOM contra CVEs ativos, runbook de patch emergencial. Para SimpleHelp e produtos similares de suporte remoto, exija MFA, segmentação de rede e monitoramento de comportamento mesmo após patch — atacantes deixam persistência.",
+        "glossary": [
+          {
+            "term": "Pre-auth RCE",
+            "def": "Remote Code Execution sem precisar de credencial — a falha mais grave possível."
+          },
+          {
+            "term": "FCEB",
+            "def": "Federal Civilian Executive Branch — agências executivas civis dos EUA, sob BOD 22-01 da CISA, devem patchear KEV no prazo."
+          },
+          {
+            "term": "SBOM",
+            "def": "Software Bill of Materials — inventário das dependências do seu software; permite cruzar com lista CVE e priorizar."
+          },
+          {
+            "term": "Botnet",
+            "def": "Rede de dispositivos comprometidos controlados remotamente para ataque DDoS, proxy, mineração."
+          }
+        ]
+      },
+      "cves": [
+        "CVE-2026-12745",
+        "CVE-2026-15050",
+        "CVE-2026-15301"
+      ],
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/04/cisa-adds-4-exploited-flaws-to-kev-sets.html",
+      "published_at": "2026-05-01T18:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cve",
+        "kev",
+        "ransomware",
+        "iot"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "urgent": false,
+      "headline": "Google rebatiza Vertex AI como Gemini Enterprise e mostra Virgo Network ligando 134 mil chips em fabric único",
+      "summary": "No Cloud Next '26, Google consolidou plataforma agente: Vertex AI virou Gemini Enterprise Agent Platform, com Agent Designer, long-running agents e Skills. No nível físico, o Virgo Network conecta NVIDIA Vera Rubin NVL72 ou TPU 8t superpods em até 134 mil aceleradores, com 47 Pbps de bandwidth bisseccional não-bloqueante.",
+      "explain": {
+        "junior": "Google reorganizou seus produtos de IA: o que era 'Vertex AI' agora se chama 'Gemini Enterprise', vira o lugar único para criar agentes. Por baixo, eles construíram uma rede gigantesca chamada Virgo que liga 134 mil chips de IA num único cluster — escala absurda para treinar modelos enormes.",
+        "pleno": "Tecnicamente: Virgo é um fabric purpose-built (não Ethernet/InfiniBand padrão) que conecta GB200/GB300 NVIDIA ou TPU 8t (Ironwood). 47 Pbps non-blocking significa qualquer chip fala com qualquer chip sem hot spot — crítico para distributed training de frontier models. Gemini Enterprise (camada SaaS) traz Agent Designer (low-code), Inbox (gestão de execuções), Skills (workflows reutilizáveis) e Canvas para colaboração.",
+        "senior": "Para arquiteto enterprise: Google posiciona stack vertical que disputa Cloud + Apps + Workspace contra Microsoft 365 + Copilot + Azure. Decisão estratégica: comprar a stack vertical (Gemini Enterprise como front-end de agente) ou montar com OpenTelemetry, MCP e modelos best-of-breed. Virgo importa para quem treina modelos próprios; para a maioria, irrelevante na decisão.",
+        "glossary": [
+          {
+            "term": "TPU",
+            "def": "Tensor Processing Unit — chip do Google para treino e inferência de modelos; 8t é a geração Ironwood."
+          },
+          {
+            "term": "NVL72",
+            "def": "Sistema NVIDIA com 72 GPUs Blackwell interconectadas via NVLink; unidade de escala em training de frontier models."
+          },
+          {
+            "term": "Pbps",
+            "def": "Petabit por segundo — unidade de bandwidth em redes para treino distribuído."
+          },
+          {
+            "term": "Frontier model",
+            "def": "Modelo de IA na fronteira do estado da arte (escala, capacidade); requer cluster de centenas de milhares de chips."
+          }
+        ]
+      },
+      "source_key": "googlecloud",
+      "url": "https://cloud.google.com/blog/products/compute/ai-infrastructure-at-next26",
+      "published_at": "2026-04-24T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "google-cloud",
+        "tpu",
+        "ai-infrastructure",
+        "agents"
+      ],
+      "image": "https://storage.googleapis.com/gweb-cloudblog-publish/images/Cloud_Next_26_Hero.max-1300x1300.jpg"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "headline": "Microsoft Defender confirma Copy Fail (CVE-2026-31431) em RHEL, SUSE, Ubuntu e AWS Linux — workloads cloud em risco",
+      "summary": "Em 1º de maio, Microsoft Security publicou análise da CVE-2026-31431 (Copy Fail): exploit de 732 bytes via AF_ALG + splice() escala para root em todas as distribuições Linux mainstream desde 2017. Defender investiga impacto em workloads cloud, com Red Hat, SUSE, Ubuntu e AWS Linux confirmados como afetados. AlmaLinux já promoveu kernel patched para repos de produção.",
+      "explain": {
+        "junior": "Bug grave no kernel do Linux: qualquer usuário comum dentro de uma máquina (ou container) consegue virar root com um exploit pequeno. Como praticamente todo serviço cloud roda em Linux, o impacto é enorme — Microsoft, Red Hat e Amazon estão investigando em massa.",
+        "pleno": "A falha encadeia AF_ALG (socket de crypto async) com splice() e tratamento ruim de erro em copy: gera overwrite controlado de 4 bytes no page cache, permitindo corromper estruturas privilegiadas. PoC funciona inalterado em qualquer kernel >= 4.x até abril/2026, então o blast radius é praticamente total. Microsoft Defender for Cloud passou a flaggar nodes vulneráveis em VMs Azure, AWS e GCP.",
+        "senior": "Para arquiteto/SRE: priorize patch em todos os nodes Kubernetes — esta é a camada onde explora mais fácil (escapa container e domina node). Aplique kernel update + reboot em janelas curtas, não toda madrugada. Bloqueio temporário: desabilitar carregamento automático do módulo algif_aead (sysctl/init.d), embora isso quebre alguns workloads de crypto.",
+        "glossary": [
+          {
+            "term": "AF_ALG",
+            "def": "Família de socket Linux para acesso a primitivas de criptografia do kernel a partir do user space."
+          },
+          {
+            "term": "splice()",
+            "def": "System call que move dados entre file descriptors sem cópia para user space; envolvida no encadeamento do exploit."
+          },
+          {
+            "term": "Page cache",
+            "def": "Cache de páginas de memória do kernel; corromper estruturas aqui dá controle de processos privilegiados."
+          },
+          {
+            "term": "Microsoft Defender for Cloud",
+            "def": "Serviço da Microsoft que detecta e prioriza vulnerabilidades em workloads multi-cloud (Azure, AWS, GCP)."
+          }
+        ]
+      },
+      "cves": [
+        "CVE-2026-31431"
+      ],
+      "source_key": "microsoft",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/05/01/cve-2026-31431-copy-fail-vulnerability-enables-linux-root-privilege-escalation/",
+      "published_at": "2026-05-01T20:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "cve",
+        "linux",
+        "kernel",
+        "kev"
+      ],
+      "image": "https://wp.technologyreview.com/wp-content/uploads/2026/05/microsoft-defender-copy-fail.png"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "urgent": false,
+      "headline": "AsyncAPI vira OpenAPI dos sistemas event-driven — guia 2026 mostra schema-first em Kafka, SQS e Avro",
+      "summary": "Artigo de janeiro do James Carr ressurge como referência prática em 2026: AsyncAPI documenta APIs assíncronas com a mesma disciplina do OpenAPI para REST. O guia caminha por arquitetura real — Kafka como broker, Avro Schema Registry como source of truth, SQS para fanout — e mostra como contrato de evento vira produto governado.",
+      "explain": {
+        "junior": "OpenAPI documenta REST; o AsyncAPI faz o mesmo para eventos assíncronos (Kafka, SQS, MQTT). O guia mostra como descrever de forma padronizada quem publica, quem consome, qual o formato de cada mensagem e como evoluir tudo isso sem quebrar quem está conectado.",
+        "pleno": "Em uma arquitetura event-driven madura, o spec AsyncAPI vira commit-de-pr: cada producer/consumer aponta a versão do schema no Schema Registry, contract testing valida (Pact, Specmatic), pipeline rejeita PR que quebra contrato. Avro tem evolução de schema embutida (forward/backward compatibility), permitindo deploys canários sem coordenação total entre consumidores.",
+        "senior": "Para arquiteto: AsyncAPI ainda está sub-utilizado em PT-BR. Se sua empresa publica eventos sem spec, é o débito técnico que mais dói no longo prazo — quebra silenciosa entre serviços. Adote AsyncAPI 3 + Schema Registry + contract testing para alinhar com OpenAPI 3.1 e garantir governança de eventos como produto. Custo inicial alto, ROI sustentado.",
+        "glossary": [
+          {
+            "term": "AsyncAPI",
+            "def": "Spec aberta para descrever APIs orientadas a evento (Kafka, AMQP, MQTT, WebSocket); equivalente ao OpenAPI mas para mensageria."
+          },
+          {
+            "term": "Schema Registry",
+            "def": "Serviço central que armazena schemas de mensagem (Avro, Protobuf, JSON Schema) com regras de evolução."
+          },
+          {
+            "term": "Contract testing",
+            "def": "Testes automáticos que validam consumidor e produtor contra um contrato compartilhado (Pact, Specmatic)."
+          },
+          {
+            "term": "Avro",
+            "def": "Formato binário columnar com schema evolution forward e backward; padrão em pipelines Kafka."
+          }
+        ]
+      },
+      "source_key": "jamescarr",
+      "url": "https://james-carr.org/posts/2026-01-16-asyncapi-event-driven-documentation/",
+      "published_at": "2026-01-16T09:00:00-03:00",
+      "read_time": 7,
+      "tags": [
+        "asyncapi",
+        "kafka",
+        "schema-registry",
+        "event-driven"
+      ],
+      "image": "https://james-carr.org/assets/asyncapi-event-driven-og.png"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "urgent": false,
+      "headline": "Postgres + Iceberg sem Kafka: pg_lake, pg_mooncake e Supabase ETL prometem unificar OLTP e analytics",
+      "summary": "Artigo da Coding Nexus mapeia três tools 2026 que tornam Postgres parte do lakehouse direto: pg_lake (Snowflake) abre Iceberg externo no Postgres, pg_mooncake (Databricks) escreve em Iceberg via WAL, Supabase ETL faz CDC end-to-end. Padrão emergente é eliminar Kafka/Debezium em casos onde latência minutos é aceitável.",
+      "explain": {
+        "junior": "Hoje, levar dados do Postgres pro lake exige um pipeline com Kafka ou Debezium. Essas três extensões querem cortar esse meio do caminho: o Postgres passa a ler ou escrever direto no formato Iceberg (no S3), eliminando uma engrenagem da arquitetura.",
+        "pleno": "pg_lake da Snowflake roda em PG normal e mapeia tabelas Iceberg como external — usar Postgres como query engine sobre lake. pg_mooncake da Databricks faz o oposto: escreve direto em Iceberg via WAL streaming. Supabase ETL fecha CDC ponta a ponta com Postgres replication slots. Em benchmark da Supermetal, snapshot Postgres → Iceberg cai de 90+ minutos para 13 contra Flink/Kafka Connect/Spark.",
+        "senior": "Para arquiteto de dados: estes tools repensam o trade-off da arquitetura. Para casos minute-late, eliminar Kafka simplifica drastically — menos componentes, menos custo, menos pipeline para manter. Para sub-second e fanout, Kafka segue inevitável. Avalie por workload: dashboards analíticos cabem nesse padrão; event-driven entre serviços não.",
+        "glossary": [
+          {
+            "term": "WAL",
+            "def": "Write-Ahead Log do Postgres — log sequencial de mudanças usado para replicação e CDC."
+          },
+          {
+            "term": "CDC",
+            "def": "Change Data Capture — capturar mudanças de banco transacional em near real-time para downstream."
+          },
+          {
+            "term": "Lakehouse",
+            "def": "Arquitetura que combina data lake (S3+formatos abertos) com features de warehouse (ACID, schema, queries)."
+          },
+          {
+            "term": "Iceberg external",
+            "def": "Tabela Iceberg referenciada do Postgres como tabela externa, sem importar dados; Postgres se torna engine."
+          }
+        ]
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/postgres-iceberg-cdc-benchmarks/",
+      "published_at": "2026-04-21T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "postgresql",
+        "iceberg",
+        "cdc",
+        "lakehouse"
+      ],
+      "image": "https://cdn.thenewstack.io/media/2026/03/postgres-iceberg-supermetal-feature.jpg"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "urgent": false,
+      "headline": "ByteByteGo desmistifica DDD — Bounded Context, Aggregate e Ubiquitous Language em prática",
+      "summary": "Newsletter da ByteByteGo retorna ao tópico com guia prático de DDD: como Bounded Context delimita modelos, como Aggregate protege invariantes e como Ubiquitous Language alinha código com domínio. Foco no que falha em projetos: confundir Aggregate com tabela e DDD com microsserviço.",
+      "explain": {
+        "junior": "DDD (Domain-Driven Design) é um jeito de organizar código grande deixando o negócio no centro, não a tecnologia. O artigo separa três conceitos básicos: Bounded Context (até onde uma área de negócio vai), Aggregate (grupo de objetos consistentes) e linguagem comum entre dev e PO.",
+        "pleno": "O ponto forte do guia é dizer onde DDD costuma falhar: Aggregate vira CRUD pesado quando time o trata como tabela, Bounded Context é confundido com microsserviço (deveria ser modelo, não deploy), Ubiquitous Language morre se PO não se envolve. DDD bem feito reduz acoplamento entre contextos e aceita modelos diferentes do mesmo conceito (cliente em billing != cliente em suporte).",
+        "senior": "Para arquiteto: use DDD especialmente em domínios complexos (banco, seguros, healthcare); não force em CRUD simples. Estratégico sempre antes de tático: descubra contextos via Event Storming antes de mexer em código. Cuidado com a regra 'um contexto = um microsserviço' — pode levar a fragmentação prematura. Combine com Team Topologies para alinhar boundary de contexto com boundary de time.",
+        "glossary": [
+          {
+            "term": "Bounded Context",
+            "def": "Fronteira em que um modelo de domínio é coerente e tem significado único; modelos diferentes podem coexistir entre contextos."
+          },
+          {
+            "term": "Aggregate",
+            "def": "Cluster de objetos tratado como uma única unidade de consistência transacional; raiz protege invariantes."
+          },
+          {
+            "term": "Ubiquitous Language",
+            "def": "Vocabulário compartilhado entre devs e domain experts; mesmas palavras no código, conversas e documentação."
+          },
+          {
+            "term": "Event Storming",
+            "def": "Workshop colaborativo para descobrir domínios a partir de eventos, comandos e atores; Alberto Brandolini."
+          }
+        ]
+      },
+      "source_key": "bytebytego",
+      "url": "https://blog.bytebytego.com/p/domain-driven-design-ddd-demystified",
+      "published_at": "2026-04-29T08:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "ddd",
+        "architecture",
+        "bounded-context",
+        "aggregate"
+      ],
+      "image": "https://substack-post-media.s3.amazonaws.com/public/images/ddd-demystified-og.png"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "urgent": false,
+      "headline": "Grafana Adaptive Traces normaliza span names em ingestão — alta cardinalidade vira métrica estável",
+      "summary": "Anunciado em 29 de abril, o Adaptive Traces da Grafana passa a normalizar nomes de span seguindo OpenTelemetry semantic conventions na ingestão. Span names como /api/users/7f3a viram GET /api/users/{id}, e métricas de span agregam em rotas estáveis enquanto TraceQL queries voltam a casar entre serviços.",
+      "explain": {
+        "junior": "Em observabilidade, alta 'cardinalidade' é como ter milhões de buckets diferentes em vez de poucos — caro e quase impossível de consultar. Grafana passa a renomear automaticamente para um padrão limpo, sem o time precisar ajustar cada serviço.",
+        "pleno": "O problema clássico: span names com IDs ou parâmetros (/api/users/7f3a) explodem cardinalidade no backend de tracing/metrics, com custo absurdo de storage e queries lentas. OpenTelemetry semantic conventions definem padrão (HTTP route com placeholder), mas raramente são aplicadas no SDK. Adaptive Traces faz o trabalho na ingestão: regex/heuristic colapsa para nome canônico antes de armazenar.",
+        "senior": "Para arquiteto de observability: feature crítica para quem ainda paga storage de tracing por cardinalidade — Datadog, New Relic, Honeycomb, Lightstep, Grafana Cloud. Em vez de obrigar 100 serviços a corrigirem instrumentação, normaliza no ingestão. Combine com sampling adaptativo para fechar o ciclo. Para times com OpenTelemetry-everything, é a régua que vai destravar dashboards e SLOs sobre route names estáveis.",
+        "glossary": [
+          {
+            "term": "Cardinalidade",
+            "def": "Número de valores únicos em um label/dimensão; alta cardinalidade explode custo e degrada query performance."
+          },
+          {
+            "term": "Span name",
+            "def": "Nome canônico de uma operação no tracing (ex: GET /api/users/{id}); deve ser estável para agregação."
+          },
+          {
+            "term": "Semantic conventions",
+            "def": "Padrão OpenTelemetry para nomes e atributos de spans, métricas e logs; HTTP, DB, RPC, etc."
+          },
+          {
+            "term": "TraceQL",
+            "def": "Linguagem de query para traces no Grafana Tempo; depende de span names estáveis para filtros eficientes."
+          }
+        ]
+      },
+      "source_key": "grafana",
+      "url": "https://grafana.com/whats-new/2026-04-29-normalize-span-names-with-adaptive-traces-semantic-conventions/",
+      "published_at": "2026-04-29T13:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "opentelemetry",
+        "tracing",
+        "grafana",
+        "observability"
+      ],
+      "image": "https://grafana.com/api/og?title=Normalize+span+names+with+Adaptive+Traces"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "urgent": false,
+      "headline": "Cloudflare vinext reimplementa 94% da API do Next.js sobre Vite — build 4,4x mais rápido em uma semana de IA",
+      "summary": "Engenheiro da Cloudflare, com IA, construiu em uma semana e US$ 1,1 mil o vinext: implementação alternativa do Next.js sobre Vite 8 com Rolldown. Em app de 33 rotas, build cai de 7,38s (Next.js 16/Turbopack) para 1,67s. Bundle gzipped encolhe 57% (168.9KB → 72.9KB). 1700+ testes Vitest, 380 Playwright. Já roda em CIO.gov, mas é experimental.",
+      "explain": {
+        "junior": "Cloudflare clonou em uma semana, com IA, o framework Next.js que é referência no React — só que rodando sobre Vite (outro bundler). Resultado: build muito mais rápido e bundle bem menor. É experimental, mas mostra para onde o frontend vai.",
+        "pleno": "Vinext implementa 94% da API surface do Next.js (App Router, RSC, middleware, image optimization) sobre Vite 8 com Rolldown bundler. 95% do código é Vite puro — Cloudflare empurrou compatibilidade sem fork pesado. Custo de US$ 1.1k para refazer um framework inteiro com agente IA é o sinal: time de 1 + agente competente substitui squad inteiro em algumas tarefas.",
+        "senior": "Para arquiteto: mantenha vinext no radar como sinal estratégico. Trocar Next.js + Turbopack por vinext + Vite hoje é arriscado (week-old, security flaws já reportadas). Mas mostra que IA-assisted reimplementation virou estratégia válida de competição em frameworks. Vinext também ataca o lock-in da Vercel — a interoperabilidade vinda do Vite community pode acelerar adoção em quem já não está em Vercel. Avaliar para apps internos pequenos antes de bet em produção crítica.",
+        "glossary": [
+          {
+            "term": "Vite",
+            "def": "Build tool focado em DX e velocidade; usa esbuild para dev e Rollup/Rolldown para prod."
+          },
+          {
+            "term": "Rolldown",
+            "def": "Reescrita do Rollup em Rust, parte do ecossistema Vite/VoidZero; promete bundle 10x mais rápido."
+          },
+          {
+            "term": "RSC",
+            "def": "React Server Components — componentes que renderizam no servidor com streaming SSR e zero JS no cliente."
+          },
+          {
+            "term": "Turbopack",
+            "def": "Bundler em Rust da Vercel para Next.js, alternativa ao Webpack; ainda maturando."
+          }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/vinext/",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "cloudflare",
+        "vinext",
+        "vite",
+        "nextjs"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/vinext-OG.png"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "javascript",
+      "name": "JavaScript / TypeScript",
+      "icon": "🟨",
+      "kind": "release",
+      "version": "TS 6.0",
+      "headline": "TypeScript 6.0 sai em março — última versão escrita em JavaScript antes do Project Corsa em Go",
+      "description": "TypeScript 6.0 estabelece strict mode como default e ESM como módulo padrão. É também a última versão construída sobre o codebase JavaScript: TS 7 será reescrito em Go (Project Corsa) com promessa de 10x speedup, compilação nativa e shared-memory parallelism.",
+      "explain": {
+        "junior": "TypeScript é o JavaScript com tipos. A nova versão 6.0 ajusta defaults para serem mais rigorosos. A versão seguinte (7.0) está sendo reescrita em Go para ser muito mais rápida.",
+        "pleno": "Strict mode default e ESM como padrão fecham um ciclo de migração que dura anos. Project Corsa (TS 7 em Go) ataca o problema de tempo de compile em monorepos grandes: 10x não é número marketing, vem de paralelismo real e manipulação de memória mais eficiente que JS oferece. Migração não exige mudança de código (input/output iguais).",
+        "senior": "Para arquiteto: planeje upgrade gradual TS 5 → 6 → 7. Avalie pre-release do Corsa em pipelines lentos; o salto vai destravar workflows de IDE e CI antes inviáveis em codebases gigantes (>500k LOC). Cuidado: alguns plugins TS atrelados a APIs internas vão precisar de port.",
+        "glossary": [
+          {
+            "term": "Strict mode",
+            "def": "Conjunto de checks rigorosos (noImplicitAny, strictNullChecks); pega bugs cedo mas exige código mais explícito."
+          },
+          {
+            "term": "ESM",
+            "def": "ECMAScript Modules — sistema de módulos nativo do JS, em substituição a CommonJS."
+          },
+          {
+            "term": "Project Corsa",
+            "def": "Codename interno do TypeScript 7, port para Go com foco em performance de compilação."
+          },
+          {
+            "term": "shared-memory parallelism",
+            "def": "Paralelismo onde threads compartilham memória; raro em JS por design single-thread, viável em Go."
+          }
+        ]
+      },
+      "source_key": "typescript",
+      "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/",
+      "published_at": "2026-03-15T10:00:00-03:00",
+      "tags": [
+        "typescript",
+        "javascript",
+        "compiler",
+        "migration"
+      ],
+      "image": "https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2026/03/announcing-typescript-6-0.png"
+    },
+    {
+      "tool_key": "checkmarx",
+      "name": "Checkmarx",
+      "icon": "🛡️",
+      "kind": "news",
+      "headline": "Checkmarx supply-chain campaign engole Bitwarden CLI — npm distribuiu @bitwarden/cli@2026.4.0 malicioso por 93 minutos",
+      "description": "Em 22 de abril, atacantes que vinham mirando plugins do Checkmarx publicaram versão maliciosa do @bitwarden/cli no npm. A janela de exposição foi de 17h57 a 19h30 ET. Bitwarden retraiu o pacote e Checkmarx atualizou suas próprias GitHub Actions (ast-github-action 2.3.33, kics 2.1.20).",
+      "explain": {
+        "junior": "Atacantes publicaram uma versão falsa do Bitwarden CLI (gerenciador de senhas pela linha de comando) no npm para roubar segredos de quem instalasse no período. Foi parte de uma campanha maior contra ferramentas de segurança.",
+        "pleno": "O padrão é supply-chain atack: atacante compromete credencial de publicador legítimo e empurra release malicioso para registry público. Janela de 93 minutos parece curta, mas em pipelines automatizados de CI o blast radius é grande — qualquer pipeline que rodou npm install nesse intervalo tem token capturado. Checkmarx é alvo desde março, com plugins OpenVSX comprometidos.",
+        "senior": "Para arquiteto/AppSec: aplicar política de pinning rigoroso (lockfile + SHA), revisar logs de CI de 22/abril, rodar audit em segredos do CI. Para o ecossistema de ferramentas de segurança, normalize o uso de OIDC + Sigstore (assinatura) e elimine PATs de longa duração no publishing.",
+        "glossary": [
+          {
+            "term": "Supply chain attack",
+            "def": "Ataque que compromete uma dependência (lib, binário, plugin) para atingir todos que a consomem."
+          },
+          {
+            "term": "OpenVSX",
+            "def": "Marketplace open de extensões VS Code, alternativa ao Marketplace da Microsoft."
+          },
+          {
+            "term": "OIDC publishing",
+            "def": "Publicação de pacote autenticada por OIDC do CI provider, sem PAT/token de longa duração."
+          },
+          {
+            "term": "Sigstore",
+            "def": "Conjunto de ferramentas para assinar e verificar artefatos de software de forma transparente e sem chaves de longo prazo."
+          }
+        ]
+      },
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/04/bitwarden-cli-compromised-in-ongoing.html",
+      "published_at": "2026-04-23T08:00:00-03:00",
+      "tags": [
+        "supply-chain",
+        "npm",
+        "bitwarden",
+        "checkmarx"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/bitwarden.png"
+    },
+    {
+      "tool_key": "sqs",
+      "name": "AWS SQS",
+      "icon": "📬",
+      "kind": "tutorial",
+      "headline": "Visibility Timeout em SQS: por que 30s é o default ruim e como dimensionar pelo p99 do consumer",
+      "description": "Análise prática de visibility timeout no SQS — quando default de 30 segundos causa double-processing em workers lentos e como ajustar baseado em p99 do consumer + buffer de safety. Cobre interação com DLQ e estratégias de retry exponencial sem flooding.",
+      "explain": {
+        "junior": "Quando seu serviço pega uma mensagem do SQS, ela fica 'invisível' para outros consumidores por um tempo (default 30s). Se o serviço demora mais que isso para processar, a mesma mensagem aparece para outro consumidor — e você processa duplicado. O artigo ensina como evitar.",
+        "pleno": "Regra prática: visibility timeout = p99 do tempo de processamento + 50% buffer. Workers lentos com timeout baixo geram tempestade de duplicatas. Combine com idempotência no consumer (chave de idempotência derivada do message body), DLQ com max receive count = 3-5 e CloudWatch alarm em ApproximateNumberOfMessagesNotVisible.",
+        "senior": "Para arquiteto: visibility timeout é parâmetro estrutural, não cosmético — afeta ordem dos eventos, blast radius de falha de consumer e eficiência de scaling. Em fanout SNS+SQS, timeout deve casar com p99 do consumer mais lento. Se workload tem p99 muito acima da média, FIFO + ChangeMessageVisibility manual durante processamento longo faz mais sentido que timeout uniforme alto.",
+        "glossary": [
+          {
+            "term": "Visibility timeout",
+            "def": "Período em que uma mensagem lida fica invisível para outros consumers; se não for deletada, volta para a fila."
+          },
+          {
+            "term": "DLQ",
+            "def": "Dead Letter Queue — fila secundária para mensagens que falharam N vezes; permite análise sem bloquear pipeline."
+          },
+          {
+            "term": "Idempotência",
+            "def": "Garantia de que processar a mesma mensagem N vezes produz o mesmo efeito que processar 1 vez."
+          },
+          {
+            "term": "p99",
+            "def": "99º percentil — 1% das requisições são piores; usar para dimensionar cobre quase todos os casos."
+          }
+        ]
+      },
+      "source_key": "awsblog",
+      "url": "https://aws.amazon.com/blogs/compute/best-practices-for-amazon-sqs-visibility-timeout/",
+      "published_at": "2026-04-12T10:00:00-03:00",
+      "tags": [
+        "sqs",
+        "messaging",
+        "visibility-timeout",
+        "idempotency"
+      ],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+    },
+    {
+      "tool_key": "mongodb",
+      "name": "MongoDB",
+      "icon": "🍃",
+      "kind": "release",
+      "version": "Voyage 4",
+      "headline": "MongoDB libera Voyage 4 — embedding multimodal cobre vídeo e Atlas Vector Search ganha embedding automático",
+      "description": "Família Voyage 4 chega com 4 modelos (general, large, lite, nano open-weights) e voyage-multimodal-3.5 GA, primeiro production-grade que combina text+image+video. Atlas Vector Search agora gera embedding automaticamente em insert/update — boilerplate vai embora.",
+      "explain": {
+        "junior": "MongoDB melhora seus modelos para transformar texto/imagem/vídeo em vetores para busca semântica e RAG. Agora também faz isso automaticamente quando você insere ou atualiza dados.",
+        "pleno": "Os 4 sabores cobrem trade-off acurácia/custo/latência: 4-large para top retrieval (RAG enterprise), 4-lite para latency-sensitive (chatbot inline), 4-nano open-weights para edge/local. Multimodal-3.5 unifica vídeo no mesmo embedding space que text+image — viabiliza search em videoteca corporativa. Automated Embedding tira pipeline de fora do app: insert no Atlas e o índice se reconstroi.",
+        "senior": "Para arquiteto de plataforma de dados: avalie consolidar pipelines de embedding em Atlas em vez de manter Pinecone/Weaviate + OpenAI text-embedding-3 separados. Vantagem: zero hop entre dado e vetor, mesmo cluster, mesma transação. Risco: lock-in de pipeline em Voyage models. Faz sentido especialmente onde dado já vive em MongoDB.",
+        "glossary": [
+          {
+            "term": "Voyage AI",
+            "def": "Empresa de embedding adquirida pela MongoDB; produz a família de modelos voyage-* para retrieval."
+          },
+          {
+            "term": "Atlas Vector Search",
+            "def": "Serviço gerenciado da MongoDB para indexação HNSW e busca por similaridade dentro do cluster."
+          },
+          {
+            "term": "HNSW",
+            "def": "Hierarchical Navigable Small World — algoritmo de indexação de vetores com bom trade-off recall/latency."
+          },
+          {
+            "term": "Embedding multimodal",
+            "def": "Modelo que vetoriza diferentes mídias (text, image, video) no mesmo espaço vetorial."
+          }
+        ]
+      },
+      "source_key": "mongodb",
+      "url": "https://www.mongodb.com/products/platform/ai-search-and-retrieval",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "tags": [
+        "mongodb",
+        "voyage",
+        "embedding",
+        "vector-search"
+      ],
+      "image": "https://webimages.mongodb.com/_com_assets/cms/Press_OpenGraph-rzmnllyvs5.png"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "release",
+      "version": "18.3 / 17.9",
+      "headline": "PostgreSQL 18.3, 17.9, 16.13, 15.17 e 14.22 saem out-of-cycle para corrigir regressões de 18.2",
+      "description": "Liberação out-of-cycle em 26 de fevereiro corrigiu duas regressões críticas introduzidas em 18.2 (12 de fevereiro): json_strip_nulls / jsonb_strip_nulls voltaram a ser immutable (índice volta a funcionar) e NOT NULL em LATERAL UNION ALL passou a retornar resultado certo.",
+      "explain": {
+        "junior": "Versões corretivas do Postgres apareceram fora do ciclo normal porque a versão 18.2 quebrou dois recursos importantes: índices em campos JSON e queries com NOT NULL em subqueries específicas. O Postgres reagiu rápido.",
+        "pleno": "json_strip_nulls voltar a immutable é crítico para apps que indexam o resultado dessas funções — versão 18.2 marcava como volatile, invalidando índices silenciosamente. O bug LATERAL UNION ALL é mais sutil: resultado errado em queries específicas, sem erro óbvio. Out-of-cycle release demonstra que PG community privilegia correctness sobre cadência.",
+        "senior": "Para arquiteto: aplique 18.3 em primeira janela disponível. Se subiu para 18.2 e usa esses padrões, tem dado errado em produção sem alarme. Para nodes que ainda estão em 17.x, mesma urgência (17.9). Nas próximas updates de major (18.4 esperada em junho), monitore mais de perto — o ciclo 18.x ainda está estabilizando.",
+        "glossary": [
+          {
+            "term": "Out-of-cycle release",
+            "def": "Lançamento fora do calendário trimestral, motivado por regressão crítica."
+          },
+          {
+            "term": "Immutable function",
+            "def": "Função cuja saída só depende dos inputs; pode ser usada em índices funcionais."
+          },
+          {
+            "term": "Volatile function",
+            "def": "Função que pode retornar resultado diferente para mesma entrada; não pode ser indexada."
+          },
+          {
+            "term": "LATERAL",
+            "def": "Cláusula SQL que permite uma subquery referenciar colunas da query externa, útil para joins correlatos."
+          }
+        ]
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/about/news/postgresql-183-179-1613-1517-and-1422-released-3246/",
+      "published_at": "2026-02-26T15:00:00-03:00",
+      "tags": [
+        "postgresql",
+        "release",
+        "regression",
+        "patch"
+      ],
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+    },
+    {
+      "tool_key": "sonar",
+      "name": "SonarQube",
+      "icon": "📊",
+      "kind": "release",
+      "version": "26.2.0",
+      "headline": "SonarQube 26.2.0 ganha 14 regras FastAPI, 8 Flask e abre AI Code Review em alpha",
+      "description": "v26.2.0 (fevereiro 2026) trouxe 14 regras novas para FastAPI, 8 para Flask e suporte first-class a Groovy. AI Code Review (alpha) combina static analysis determinística com agente que comenta inline em PRs e gera diagramas. JDK 21 passa a ser obrigatório a partir de v26.1.0; suporte a Java 17 termina em julho.",
+      "explain": {
+        "junior": "SonarQube é a ferramenta de qualidade e segurança de código mais usada em times Java. Esta versão adiciona regras específicas para frameworks Python populares e começa a oferecer revisão de código com IA dentro do PR.",
+        "pleno": "AI Code Review aproveita que SonarQube já tem o AST e os issues do código para alimentar prompts mais precisos: review com contexto inline, change summary que explica diferença, walkthrough on-demand. Não substitui o reviewer humano — deturpa pouco quando complementa. JDK 21 obrigatório acelera adoção de virtual threads e records nos próprios bots de análise.",
+        "senior": "Para arquiteto: integre AI Code Review onde o time já não consegue revisar PRs grandes (>500 LOC). Bitbucket/Azure DevOps/GitLab ainda fora — limita adoção. Para times Python, novas regras FastAPI mudam o ROI: até pouco tempo Python era cidadão de 2ª classe no Sonar. Java 17 EOL em julho exige planejamento de upgrade nas pipelines.",
+        "glossary": [
+          {
+            "term": "AST",
+            "def": "Abstract Syntax Tree — representação estruturada do código que linters/analyzers usam para entender semantics."
+          },
+          {
+            "term": "Static analysis",
+            "def": "Análise sem rodar o código, baseada no texto/AST; pega muitos bugs cedo."
+          },
+          {
+            "term": "Taint analysis",
+            "def": "Rastreamento de dados externos não confiáveis através do código para detectar injection."
+          },
+          {
+            "term": "JDK 21",
+            "def": "Java LTS atual; trouxe virtual threads, sealed classes, pattern matching estável."
+          }
+        ]
+      },
+      "source_key": "sonar",
+      "url": "https://www.sonarsource.com/products/sonarqube/whats-new/",
+      "published_at": "2026-02-15T11:00:00-03:00",
+      "tags": [
+        "sonarqube",
+        "fastapi",
+        "flask",
+        "ai-code-review"
+      ],
+      "image": "https://www.sonarsource.com/wp-content/uploads/2024/06/SQ-product-OG.png"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🌱",
+      "kind": "tutorial",
+      "headline": "Spring Boot 4 + Spring Framework 7: como migrar @Retryable de Spring Retry para o core",
+      "description": "Time da Broadcom detalha em entrevista InfoQ a migração para resilience features no spring-core: @Retryable agora vem do framework, com adaptação automática para reactive e Virtual Threads. @ConcurrencyLimit substitui pools de thread em endpoints síncronos.",
+      "explain": {
+        "junior": "Spring 7 traz nativamente recursos antes só disponíveis em libs externas. Para retry de chamadas, você não precisa mais de Spring Retry como dependência — está no spring-core direto.",
+        "pleno": "RetryTemplate redesenhado entrega exponential back-off com jitter, exception filtering, listeners e suporte a método reactive sem código extra. @ConcurrencyLimit é essencial com Virtual Threads: Loom permite milhares de threads, mas downstream (DB connection pool, S3 API) pode quebrar; o annotation aplica limite por método sem configurar Executor manualmente.",
+        "senior": "Para arquiteto: revisite stack — em projeto novo, dispense Spring Retry. Para Resilience4j, mantenha onde você usa circuit breaker, bulkhead, time limiter (Spring 7 ainda não cobre isso). Migração de @Retryable é principalmente de imports (org.springframework.retry → org.springframework.core.retry); semântica continua próxima.",
+        "glossary": [
+          {
+            "term": "Spring Retry",
+            "def": "Biblioteca histórica do projeto Spring para retentativa programática; agora ganha versão integrada ao framework."
+          },
+          {
+            "term": "Virtual Threads",
+            "def": "Threads leves do Java 21+ (Loom) que escalam horizontalmente sem stack profundo."
+          },
+          {
+            "term": "Reactive method",
+            "def": "Método que retorna Mono/Flux do Reactor; Retry precisa interceptar diferente do imperativo."
+          },
+          {
+            "term": "Resilience4j",
+            "def": "Lib Java para padrões de resiliência (circuit breaker, retry, rate limiter, bulkhead, time limiter)."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://spring.io/blog/2025/09/09/core-spring-resilience-features",
+      "published_at": "2026-04-23T07:00:00-03:00",
+      "tags": [
+        "spring",
+        "java",
+        "resilience",
+        "retry"
+      ],
+      "image": "https://res.infoq.com/articles/spring-team-spring-7-boot-4/en/headerimage/spring-team-spring-7-boot-4-thumb.jpg"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🚢",
+      "kind": "tutorial",
+      "headline": "ArgoCD 3.0 + GitHub Actions: o pipeline GitOps que cai 94% em deploy failure rate",
+      "description": "Estudo de caso publicado em 2026 mostra como migração de 14 enterprises para ArgoCD 3.0 + GitHub Actions 2026 derrubou taxa de falha em 94% e reduziu MTTR de 47 minutos para 112 segundos. CNCF projeta 80% dos times Kubernetes-native usando ArgoCD 3.x até 2027.",
+      "explain": {
+        "junior": "GitOps separa CI de CD: GitHub Actions constrói imagem e atualiza manifesto Git; ArgoCD pega o Git e aplica no cluster. O caso mostra que com versões atuais dessas ferramentas, falhas em deploy caem drasticamente.",
+        "pleno": "A combinação funciona porque cada ferramenta faz uma coisa bem: GitHub Actions roda CI confiável e dispara deploy via PR no repo de manifesto; ArgoCD reconcilia continuamente o cluster contra o Git. Auto-rollback acontece se health check falhar. Native OCI artifact signing em GHA 2026 elimina cosign wrapper em 89% dos pipelines.",
+        "senior": "Para arquiteto: padronize repo de manifesto separado de repo de aplicação (cada uma tem ciclo próprio). Defina policy de auto-sync apenas para namespaces non-prod; prod precisa aprovação manual. Use ApplicationSet para multi-cluster e Argo Rollouts para canary/blue-green. Backstage como portal para times time encontrarem aplicações.",
+        "glossary": [
+          {
+            "term": "GitOps",
+            "def": "Modelo onde Git é a fonte da verdade do estado desejado; sistema reconcilia continuamente para esse estado."
+          },
+          {
+            "term": "MTTR",
+            "def": "Mean Time To Recovery — tempo médio entre detecção de falha e restauração; queda dramática indica observability + rollback."
+          },
+          {
+            "term": "ApplicationSet",
+            "def": "CRD do Argo CD que gera múltiplas Applications a partir de templates (multi-cluster, multi-team)."
+          },
+          {
+            "term": "Argo Rollouts",
+            "def": "Sister-project do Argo CD para deploys progressivos: canary, blue-green, analysis."
+          }
+        ]
+      },
+      "source_key": "freecodecamp",
+      "url": "https://www.freecodecamp.org/news/from-commit-to-production-hands-on-gitops-promotion-with-github-actions-argo-cd-helm-and-kargo/",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "tags": [
+        "argocd",
+        "gitops",
+        "github-actions",
+        "kubernetes"
+      ],
+      "image": "https://cdn.freecodecamp.org/platform/universal/fcc_meta_1920X1080-indigo.png"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "news",
+      "headline": "Ingress NGINX em fim de vida — Gateway API ou Envoy/Cilium passam a ser as únicas opções suportadas",
+      "description": "Em março de 2026, Ingress NGINX foi oficialmente retirado e não recebe mais patches. Migração canônica é para Gateway API (mais expressiva, vendor-neutral). gitRepo volume também ganhou status de deprecated sem fix de CVEs.",
+      "explain": {
+        "junior": "Ingress NGINX era o jeito mais comum de expor serviços Kubernetes para a internet. Foi descontinuado — não há mais correção, nem de bug nem de segurança. Quem ainda usa precisa migrar.",
+        "pleno": "A substituição não é trivial: Gateway API tem modelo diferente (Gateway → HTTPRoute → Service) e ganhos reais (multi-tenant, traffic split nativo, vendor-neutral), mas force migrações grandes em produções estabelecidas. Implementações sólidas: Envoy Gateway, Istio, Cilium Gateway, Kong, NGINX Gateway Fabric.",
+        "senior": "Para arquiteto: tenha plano de migração — auditoria do que usa Ingress NGINX, escolha de provider Gateway API, conversão progressiva por namespace. Em paralelo, desabilitar gitRepo volume agora: além de deprecated, tem CVEs sem patch e PoCs públicas. Para multi-tenant, Cilium Gateway oferece policies baseadas em eBPF que valem o investimento.",
+        "glossary": [
+          {
+            "term": "Ingress",
+            "def": "API antiga do Kubernetes para roteamento HTTP de fora para serviços internos."
+          },
+          {
+            "term": "Gateway API",
+            "def": "API moderna que substitui Ingress; modelo de Gateway + HTTPRoute mais expressivo e vendor-neutral."
+          },
+          {
+            "term": "gitRepo volume",
+            "def": "Volume Kubernetes que clona repo Git no pod; deprecated por incompatibilidade com modelo de segurança moderno."
+          },
+          {
+            "term": "eBPF",
+            "def": "Kernel feature para executar programas seguros no kernel; Cilium usa para data plane de rede e segurança."
+          }
+        ]
+      },
+      "source_key": "kubernetes",
+      "url": "https://kubernetes.io/blog/2026/03/02/ingress-nginx-retirement/",
+      "published_at": "2026-04-25T10:00:00-03:00",
+      "tags": [
+        "kubernetes",
+        "ingress",
+        "gateway-api",
+        "deprecation"
+      ],
+      "image": "https://kubernetes.io/images/kubernetes-horizontal-color.png"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "headline": "GitHub anuncia preview de fatura para Copilot — usuário verá custo projetado antes de cobrança real em 1º de junho",
+      "description": "A partir do início de maio, GitHub libera experiência de preview bill: cada usuário e admin enxerga custo projetado em AI Credits por feature antes do switch oficial em 1º de junho. Plano Pro mantém US$ 10/mês com US$ 10 de crédito, Pro+ vai a US$ 39 com US$ 39 de crédito.",
+      "explain": {
+        "junior": "Para evitar surpresas com a nova cobrança por uso do Copilot, GitHub mostra durante maio quanto cada pessoa e cada time vai gastar — sem cobrar ainda. É o teste antes de o relógio começar a girar.",
+        "pleno": "Preview bill calcula em tempo real o que cada feature consumiu em AI Credits durante maio: Chat, Cloud Agent, CLI, Spaces. O ganho real é que admins de Business/Enterprise podem realocar pool, ajustar limites e definir governance antes do impacto financeiro. Code completion segue ilimitado.",
+        "senior": "Para arquiteto/líder de plataforma: aproveite maio para instrumentar dashboards de consumo por time/repo, definir budgets de crédito e estabelecer política de quem pode usar Cloud Agent (mais caro). Sem isso, junho vai trazer surpresa em fatura. Conversa com FinOps começa agora — IA virou commodity metered, vai ser tratada como cloud spend.",
+        "glossary": [
+          {
+            "term": "Preview bill",
+            "def": "Fatura simulada que mostra o custo que seria cobrado se a métrica nova já estivesse ativa; sem cobrança real."
+          },
+          {
+            "term": "Pool de créditos",
+            "def": "Saldo compartilhado de AI Credits entre usuários da mesma organização; flexibiliza distribuição."
+          },
+          {
+            "term": "Cloud Agent",
+            "def": "Modo de Copilot que executa tarefas longas no cloud, fora do IDE; consome mais créditos por chamada."
+          },
+          {
+            "term": "FinOps",
+            "def": "Disciplina financeira aplicada a cloud/SaaS — agora também a IA — alinhando engenharia e finanças."
+          }
+        ]
+      },
+      "source_key": "githubblog",
+      "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises",
+      "published_at": "2026-04-25T11:00:00-03:00",
+      "tags": [
+        "github",
+        "copilot",
+        "ai-pricing",
+        "finops"
+      ],
+      "image": "https://github.blog/wp-content/uploads/2025/01/copilot-pricing-OG.png"
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "news",
+      "headline": "Claude Code adiciona auto-retry de MCP servers, fullscreen scrollable e compatibilidade VS Code/Cursor/Windsurf",
+      "description": "Changelog recente do Claude Code traz auto-retry para MCP servers que falham (problema clássico em servers comunitários instáveis), fullscreen mode com scroll, dialogs scrollable, /resume mais rápido em sessões grandes e fix em terminal progress dentro de VS Code, Cursor e Windsurf.",
+      "explain": {
+        "junior": "Claude Code é o agente de codificação da Anthropic via terminal. Os updates recentes melhoram robustez ao usar MCP servers (extensões de terceiros) e tornam a UX mais fluida ao abrir o agente dentro de outros editores.",
+        "pleno": "Auto-retry de MCP era pedido frequente — comunidade publica milhares de servers (banco, Slack, Jira, etc.) com qualidade variável; um timeout não deveria matar workflow. Fullscreen + scrollable dialog ajudam revisar diff longo sem perder contexto. /resume mais rápido vai facilitar troca de tarefas longas, problema crônico antes.",
+        "senior": "Para arquiteto adotando agentic coding em escala: MCP server stability é o ponto de atrito principal — conjugue auto-retry do client com SLO no server. Se time grande usa Claude Code, considere hospedar MCP servers internos (banco, infra, ticketing) para garantir uptime; comunitários para tooling secundário. /resume importa para sessions longas em refactor grande.",
+        "glossary": [
+          {
+            "term": "MCP",
+            "def": "Model Context Protocol — protocolo aberto da Anthropic para conectar agentes a ferramentas, dados e APIs."
+          },
+          {
+            "term": "MCP server",
+            "def": "Servidor que implementa MCP; expõe ferramentas/dados para o agente com schema bem definido."
+          },
+          {
+            "term": "Auto-retry",
+            "def": "Retentativa automática quando uma chamada falha por motivos transitórios (timeout, 5xx, conexão)."
+          },
+          {
+            "term": "/resume",
+            "def": "Comando do Claude Code para voltar a uma sessão anterior; em sessões grandes, performance degradava antes."
+          }
+        ]
+      },
+      "source_key": "claudechangelog",
+      "url": "https://docs.claude.com/en/release-notes/claude-code",
+      "published_at": "2026-04-30T15:00:00-03:00",
+      "tags": [
+        "claudecode",
+        "mcp",
+        "agentic",
+        "ide"
+      ],
+      "image": "https://docs.claude.com/og-image-claude-code.png"
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "tutorial",
+      "headline": "Cursor 3 Agents Window vs Claude Code: o que rouba o terminal do dev em refactor grande",
+      "description": "TheNewStack publica deep-dive comparando Cursor 3 Agents Window (paralelismo de agentes em sidebar) com Claude Code (CLI puro). O artigo detalha trade-offs em refactor grande: Claude Code lidera em workflow CLI/script, Cursor 3 lidera em paralelismo visual e tab model.",
+      "explain": {
+        "junior": "Cursor é um IDE focado em IA. A versão 3, lançada em abril, deixa rodar vários agentes ao mesmo tempo (cada um numa aba). É a aposta principal contra o Claude Code, que vive no terminal.",
+        "pleno": "Cursor 3 expõe paradigma 'paralelismo visual': spawnar 1 agente para refactor, outro para escrever testes, outro para atualizar docs — com sidebar mostrando cada um. Esse modelo casa com fluxo IDE-first e revisão por hover. Claude Code resta vencedor em script/CI, batch jobs e quem prefere CLI puro. O artigo da TheNewStack debunka mito de 'qual é melhor': depende do workflow de revisão.",
+        "senior": "Para arquiteto/líder técnico: a escolha não precisa ser única. Times com workflow heterogêneo combinam: Cursor 3 nos jobs interativos, Claude Code em CI e tarefas longas. Ambos consomem MCP servers — investir em servidores MCP internos (banco, monitoração, ticketing) gera ROI maior que escolher tool. Para code-first cultures, atenção: paralelismo de agente sem code review pode ampliar débito técnico.",
+        "glossary": [
+          {
+            "term": "Agent paralelo",
+            "def": "Padrão onde múltiplos agentes IA executam tarefas independentes em paralelo, com merge final."
+          },
+          {
+            "term": "Refactor",
+            "def": "Mudança de estrutura de código sem alterar comportamento; agentes IA reduzem tédio de port em escala."
+          },
+          {
+            "term": "Tab model",
+            "def": "Padrão de UX onde cada conversa/sessão fica em aba separada; útil para context isolation."
+          },
+          {
+            "term": "Workflow CLI",
+            "def": "Fluxo onde tudo passa pelo terminal/script; favorece reproducibility e CI."
+          }
+        ]
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/cursors-agents-window-vs-claude-code/",
+      "published_at": "2026-04-22T10:00:00-03:00",
+      "tags": [
+        "cursor",
+        "claudecode",
+        "ai-coding",
+        "agents"
+      ],
+      "image": "https://cdn.thenewstack.io/media/2026/04/cursor-3-agents-window-feature.jpg"
+    }
+  ],
+  "videos": [
+    {
+      "id": "QqUFM5J5Yzs",
+      "url": "https://www.youtube.com/watch?v=QqUFM5J5Yzs",
+      "title": "Top 7 Most-Used Distributed System Patterns",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/jK9rjBaSPyLDOyemLm1gHTKCuU8Hf2eBkIMQNfL7OKt5p7e0iYupxHQsjYsmYCmKNfThh4BHiA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-30",
+      "duration": "9 min"
+    },
+    {
+      "id": "6FpANgAGl3I",
+      "url": "https://www.youtube.com/watch?v=6FpANgAGl3I",
+      "title": "Como funciona MCP (Model Context Protocol) na prática",
+      "channel": "Mano Deyvin",
+      "channel_avatar": "https://yt3.googleusercontent.com/yIZF4_NBNjqHVvLGLMvbY1mOyxk3DJrJvmsfNZNW9FksyBPjxpWB5z0ngKZD-0g0BsaUOeEYAA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-29",
+      "duration": "18 min"
+    },
+    {
+      "id": "EWhCS6sWMJU",
+      "url": "https://www.youtube.com/watch?v=EWhCS6sWMJU",
+      "title": "GitOps com ArgoCD: o que muda na sua plataforma",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/_pYvcX5DjfCnxBd7v7jLwtUM3Vmem0Mfeh0cWo8sn5gNRP_VmL7gC3RuG56PPcZj-aDlkBYVQA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-28",
+      "duration": "21 min"
+    }
+  ],
+  "sources": []
+}

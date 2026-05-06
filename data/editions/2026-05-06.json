@@ -1,0 +1,1457 @@
+{
+  "date": "2026-05-06",
+  "weekday": "Quarta-feira",
+  "formatted_date": "Quarta, 6 de Maio de 2026",
+  "generated_at": "2026-05-06T08:30:00-03:00",
+  "hero_title": "Apache HTTP/2 ganha RCE 8.8, JDK 27 mira concorrência estruturada e PG19 entra em beta",
+  "hero_description": "Quarta com peso real para arquitetos: Apache abre 2.4.67 corrigindo um double-free no mod_http2 que vira DoS trivial e RCE em deploys com mmap. No backend, JDK 27 marca como Targeted Structured Concurrency 7th preview, JFR redaction e Lazy Constants — Java arruma a casa para concorrência menos arriscada. E o PostgreSQL fecha o feature freeze e prepara o Beta 1 do 19 com partições mergíveis e replicação lógica mais econômica. Spring AI 2.0-M5 consolida no SDK oficial da OpenAI, Cursor 3.2 ganha multitask de subagents e o Datadog joga GPU Monitoring em GA. Iceberg, DBOS+Databricks e Hyperdrive em VPC fecham o radar de dados e plataformas.",
+  "edition_digest": "Quarta abre forte para arquitetos de backend e plataforma: time do OpenJDK fechou a lista de Targeted do JDK 27 — Structured Concurrency 7th preview, Lazy Constants 3rd preview e Primitive Patterns 5th preview entram no release de setembro. JEP 536 (JFR In-Process Data Redaction) virou Candidate e destrava profiling em produção em ambientes regulados, escondendo args de comando e env vars sensíveis.\n\nEm dados, PostgreSQL fechou feature freeze e o Beta 1 do PG19 entra em maio — MERGE/SPLIT em partições e logical replication com menos WAL são as marcas do release. Em paralelo, Apache solta o 2.4.67 corrigindo CVE-2026-23918, double-free no mod_http2 que dá DoS trivial em deploy default e abre RCE em APR com mmap. Se não dá para atualizar, desabilita HTTP/2.\n\nSpring AI 1.0.6/1.1.5/2.0.0-M5 saíram com cinco CVEs corrigidos; M5 consolida o módulo OpenAI sobre o openai-java oficial e remove Vertex Chat e ZhipuAI do core. WebAssembly Component Model maturou — WASI 0.3 traz async nativo no Wasmtime 37 com 67% dos devs Wasm fora do browser. DBOS apertou durable execution com Go SDK e parceria Databricks; Stonebraker defende state-as-code em Postgres como alternativa real a event-driven.\n\nNa borda, Hyperdrive ganhou conexão a banco privado via Workers VPC, matando allowlist IP ou GRE tunnel. Datadog ligou GPU Monitoring em GA com integração a workload via APM. Snowflake Cortex Code CLI estendeu suporte a dbt e Airflow em GA com primeira assinatura standalone fora de compute Snowflake.\n\nPara fechar, Cursor 3.2 lançou /multitask com subagents async, GitHub Copilot apaga Claude Sonnet 4 hoje e troca para Sonnet 4.6/Opus, e Vitest 4.1 ligou Trace Viewer do Playwright direto no código de teste. Brendan Gregg foi para a OpenAI. Pix prepara cobrança híbrida em junho e contas-salário em julho. Thoughtworks Radar aponta durable execution mainstream, ambient mode service mesh e FinOps embutido em IDP — arquitetura corporativa amadureceu.",
+  "highlights": [
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "JDK 27 promove Structured Concurrency 7th Preview, Lazy Constants e JFR Redaction a Targeted",
+      "summary": "Time do OpenJDK elevou JEP 532 (Primitive Types in Patterns 5th Preview), JEP 533 (Structured Concurrency 7th Preview) e JEP 531 (Lazy Constants 3rd Preview) ao status Targeted para JDK 27. JEP 536 (JFR In-Process Data Redaction) virou Candidate e propõe redatar argumentos de linha de comando, vars de ambiente e system properties antes do flight recorder gravar. Rampdown phase one é em 4 de junho; GA prevista para 14 de setembro.",
+      "explain": {
+        "junior": "Java 27 vai ganhar três previews-chave: padrões com tipos primitivos no switch, concorrência estruturada (uma forma de organizar threads como blocos) e constantes preguiçosas (que só são calculadas no primeiro uso). E uma nova feature do JFR esconde dados sensíveis automaticamente.",
+        "pleno": "Structured Concurrency 7th preview consolida a API: scopes que cancelam tasks filhas atomically, integração com virtual threads, e melhor handling de timeouts. Lazy Constants permitem campos final cuja inicialização é diferida e thread-safe sem boilerplate. JFR Redaction é importante para compliance: telemetry de produção parou em vários times porque o flight recorder estava gravando segredos passados via -D ou env.",
+        "senior": "Para arquiteto: planeje o salto JDK 25 → 27 em ciclos LTS curtos. Structured Concurrency reduz a superfície de bugs em código concorrente e remove a necessidade de bibliotecas como Caffeine para certos padrões. Reviva profiling em produção com JFR redaction ligado — é a peça que destrava observabilidade de runtime em ambientes regulados.",
+        "glossary": [
+          {
+            "term": "JEP",
+            "def": "JDK Enhancement Proposal — documento que descreve uma feature candidata do Java; passa por Draft → Candidate → Proposed → Targeted antes de virar parte de um release."
+          },
+          {
+            "term": "Structured Concurrency",
+            "def": "Modelo onde threads filhas têm escopo lexical do código pai; cancelamento e propagação de erro ficam previsíveis, similar a try-with-resources mas para concorrência."
+          },
+          {
+            "term": "JFR",
+            "def": "Java Flight Recorder — coleta de baixa overhead de eventos da JVM (alocação, locks, GC, syscalls) usada para profiling em produção."
+          },
+          {
+            "term": "Rampdown Phase One",
+            "def": "Marco do ciclo do OpenJDK em que features novas são congeladas; a partir daí só correções de bug entram no release."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/java-news-roundup-apr27-2026/",
+      "published_at": "2026-05-04T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "java",
+        "jdk27",
+        "structured-concurrency",
+        "jep"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg",
+      "source_array": "news"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "PostgreSQL 19 fecha feature freeze e Beta 1 entra na linha de partida de maio",
+      "summary": "O ciclo do PG19 fechou as portas para novas features em 8 de abril e a comunidade entra agora no período de estabilização e bugfix. Beta 1 está previsto para maio com release final em setembro. As marcas do release: melhorias em partição (merge e split), replicação lógica mais econômica em geração de WAL, e ferramentas de DBA para tuning com menos esforço manual. pgvector segue extensão externa, mas com integração mais próxima.",
+      "explain": {
+        "junior": "PostgreSQL é o banco relacional open-source mais popular. A versão 19 fechou o que vai entrar e agora vira testes públicos antes de virar definitivo em setembro. A novidade vai melhorar partições e replicação lógica, que é como dois bancos conseguem manter dados sincronizados.",
+        "pleno": "O par MERGE/SPLIT em partições resolve um problema operacional crônico — antes era preciso recriar partições para reorganizar dados por janela de tempo. A redução de WAL em logical replication ataca custo de bandwidth em deploys cross-region. PG19 também avança em monitoramento built-in: pg_stat_statements normalize agora cobre mais casos e pg_wait_events oferece amostragem leve para identificar contention.",
+        "senior": "Para arquiteto: avalie se o roadmap de logical replication vai habilitar arquiteturas que antes exigiam Debezium/Kafka. Combine PG19 + pg_lake/pg_mooncake/Supabase ETL para ingestão Iceberg sem fila. O salto justifica plano de upgrade já em Q3, antes da janela de freeze do seu time.",
+        "glossary": [
+          {
+            "term": "feature freeze",
+            "def": "Marco no ciclo do PostgreSQL em que apenas correções de bug entram; novas features só na próxima major."
+          },
+          {
+            "term": "logical replication",
+            "def": "Replicação que reproduz mudanças no nível de linhas/tabelas (não físico/blocos), permitindo replicar entre versões e topologias heterogêneas."
+          },
+          {
+            "term": "WAL",
+            "def": "Write-Ahead Log — registro sequencial de modificações usado para crash recovery e replicação."
+          },
+          {
+            "term": "pgvector",
+            "def": "Extensão que adiciona tipos de vetor e índices ANN ao Postgres; base para RAG e semantic search no PG."
+          }
+        ]
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/developer/roadmap/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "postgres",
+        "release",
+        "replication",
+        "partitions"
+      ],
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png",
+      "source_array": "news"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "severity": "high",
+      "headline": "Apache HTTP/2 CVE-2026-23918 — double-free no mod_http2 vira DoS trivial e abre RCE com mmap",
+      "summary": "Apache liberou o 2.4.67 corrigindo um double-free na rotina de cleanup do h2_mplx.c. O bug é disparado quando o cliente envia um HEADERS imediatamente seguido de RST_STREAM com erro não-zero antes do multiplexador registrar a stream — DoS é trivial em qualquer deploy com mod_http2 e MPM multi-thread, e há caminho para RCE em APR com mmap allocator. CVSS 8.8 e mitigação rápida é desabilitar HTTP/2 até patchar.",
+      "explain": {
+        "junior": "O servidor web Apache tinha um bug em como atende conexões HTTP/2: dava para fazer ele soltar a mesma memória duas vezes, derrubando o servidor. Em servidores que usam um tipo específico de gestão de memória (mmap), o atacante pode até rodar código no servidor.",
+        "pleno": "Tecnicamente, o double-free no caminho de cleanup do h2_mplx.c pode ser disparado por uma sequência rápida HEADERS → RST_STREAM. A combinação de stream nunca registrada com cleanup duplicado libera o ponteiro duas vezes; em deploys com APR usando mmap allocator, é possível corromper estruturas adjacentes do heap e ganhar execução. Em deploys default com MPM event/worker, o mais comum é DoS imediato.",
+        "senior": "Para arquiteto: trate o patch como urgente em qualquer Apache exposto na borda. Se não conseguir atualizar para 2.4.67 imediatamente, desabilite mod_http2 (volta para HTTP/1.1) — bloqueia tanto o DoS quanto o vetor de RCE. Reveja workloads ainda em mod_http2: muitos times pararam de monitorar Apache porque migraram pra nginx/envoy, e essas instâncias são exatamente onde patch demora.",
+        "glossary": [
+          {
+            "term": "double-free",
+            "def": "Bug em que o mesmo bloco de memória é liberado duas vezes, corrompendo o heap allocator e abrindo caminho para crash ou execução arbitrária."
+          },
+          {
+            "term": "mod_http2",
+            "def": "Módulo do Apache HTTP Server que implementa o protocolo HTTP/2 sobre o framework de filtros do servidor."
+          },
+          {
+            "term": "RST_STREAM",
+            "def": "Frame HTTP/2 que cancela uma stream específica antes de seu término normal; o uso aqui dispara cleanup precoce."
+          },
+          {
+            "term": "APR mmap allocator",
+            "def": "Apache Portable Runtime configurada para alocar via mmap; condição necessária para escalar o double-free a RCE."
+          }
+        ]
+      },
+      "cves": [
+        "CVE-2026-23918"
+      ],
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/critical-apache-http2-flaw-cve-2026.html",
+      "published_at": "2026-05-05T08:30:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cve",
+        "apache",
+        "http2",
+        "rce"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png",
+      "source_array": "news"
+    }
+  ],
+  "news": [
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "breaking": true,
+      "severity": "high",
+      "headline": "Apache HTTP/2 CVE-2026-23918 — double-free no mod_http2 vira DoS trivial e abre RCE com mmap",
+      "summary": "Apache liberou o 2.4.67 corrigindo um double-free na rotina de cleanup do h2_mplx.c. O bug é disparado quando o cliente envia um HEADERS imediatamente seguido de RST_STREAM com erro não-zero antes do multiplexador registrar a stream — DoS é trivial em qualquer deploy com mod_http2 e MPM multi-thread, e há caminho para RCE em APR com mmap allocator. CVSS 8.8 e mitigação rápida é desabilitar HTTP/2 até patchar.",
+      "explain": {
+        "junior": "O servidor web Apache tinha um bug em como atende conexões HTTP/2: dava para fazer ele soltar a mesma memória duas vezes, derrubando o servidor. Em servidores que usam um tipo específico de gestão de memória (mmap), o atacante pode até rodar código no servidor.",
+        "pleno": "Tecnicamente, o double-free no caminho de cleanup do h2_mplx.c pode ser disparado por uma sequência rápida HEADERS → RST_STREAM. A combinação de stream nunca registrada com cleanup duplicado libera o ponteiro duas vezes; em deploys com APR usando mmap allocator, é possível corromper estruturas adjacentes do heap e ganhar execução. Em deploys default com MPM event/worker, o mais comum é DoS imediato.",
+        "senior": "Para arquiteto: trate o patch como urgente em qualquer Apache exposto na borda. Se não conseguir atualizar para 2.4.67 imediatamente, desabilite mod_http2 (volta para HTTP/1.1) — bloqueia tanto o DoS quanto o vetor de RCE. Reveja workloads ainda em mod_http2: muitos times pararam de monitorar Apache porque migraram pra nginx/envoy, e essas instâncias são exatamente onde patch demora.",
+        "glossary": [
+          {
+            "term": "double-free",
+            "def": "Bug em que o mesmo bloco de memória é liberado duas vezes, corrompendo o heap allocator e abrindo caminho para crash ou execução arbitrária."
+          },
+          {
+            "term": "mod_http2",
+            "def": "Módulo do Apache HTTP Server que implementa o protocolo HTTP/2 sobre o framework de filtros do servidor."
+          },
+          {
+            "term": "RST_STREAM",
+            "def": "Frame HTTP/2 que cancela uma stream específica antes de seu término normal; o uso aqui dispara cleanup precoce."
+          },
+          {
+            "term": "APR mmap allocator",
+            "def": "Apache Portable Runtime configurada para alocar via mmap; condição necessária para escalar o double-free a RCE."
+          }
+        ]
+      },
+      "cves": [
+        "CVE-2026-23918"
+      ],
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/critical-apache-http2-flaw-cve-2026.html",
+      "published_at": "2026-05-05T08:30:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cve",
+        "apache",
+        "http2",
+        "rce"
+      ],
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3wCUF7sbFgfsvX1lJBpWsLUXjBxmKmSwaiCS5emBMWwwASmW7yu-RbqRpXOI8fRgwytq8GPfCe1wD4WpeWifHDKXaHTBOHsrRP4sdoKImq_Z3jWNV-rMSOuPdGS31LH6sFdhx-RrtYMSc/s728-rw-e365/cisa.png"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "JDK 27 promove Structured Concurrency 7th Preview, Lazy Constants e JFR Redaction a Targeted",
+      "summary": "Time do OpenJDK elevou JEP 532 (Primitive Types in Patterns 5th Preview), JEP 533 (Structured Concurrency 7th Preview) e JEP 531 (Lazy Constants 3rd Preview) ao status Targeted para JDK 27. JEP 536 (JFR In-Process Data Redaction) virou Candidate e propõe redatar argumentos de linha de comando, vars de ambiente e system properties antes do flight recorder gravar. Rampdown phase one é em 4 de junho; GA prevista para 14 de setembro.",
+      "explain": {
+        "junior": "Java 27 vai ganhar três previews-chave: padrões com tipos primitivos no switch, concorrência estruturada (uma forma de organizar threads como blocos) e constantes preguiçosas (que só são calculadas no primeiro uso). E uma nova feature do JFR esconde dados sensíveis automaticamente.",
+        "pleno": "Structured Concurrency 7th preview consolida a API: scopes que cancelam tasks filhas atomically, integração com virtual threads, e melhor handling de timeouts. Lazy Constants permitem campos final cuja inicialização é diferida e thread-safe sem boilerplate. JFR Redaction é importante para compliance: telemetry de produção parou em vários times porque o flight recorder estava gravando segredos passados via -D ou env.",
+        "senior": "Para arquiteto: planeje o salto JDK 25 → 27 em ciclos LTS curtos. Structured Concurrency reduz a superfície de bugs em código concorrente e remove a necessidade de bibliotecas como Caffeine para certos padrões. Reviva profiling em produção com JFR redaction ligado — é a peça que destrava observabilidade de runtime em ambientes regulados.",
+        "glossary": [
+          {
+            "term": "JEP",
+            "def": "JDK Enhancement Proposal — documento que descreve uma feature candidata do Java; passa por Draft → Candidate → Proposed → Targeted antes de virar parte de um release."
+          },
+          {
+            "term": "Structured Concurrency",
+            "def": "Modelo onde threads filhas têm escopo lexical do código pai; cancelamento e propagação de erro ficam previsíveis, similar a try-with-resources mas para concorrência."
+          },
+          {
+            "term": "JFR",
+            "def": "Java Flight Recorder — coleta de baixa overhead de eventos da JVM (alocação, locks, GC, syscalls) usada para profiling em produção."
+          },
+          {
+            "term": "Rampdown Phase One",
+            "def": "Marco do ciclo do OpenJDK em que features novas são congeladas; a partir daí só correções de bug entram no release."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/java-news-roundup-apr27-2026/",
+      "published_at": "2026-05-04T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "java",
+        "jdk27",
+        "structured-concurrency",
+        "jep"
+      ],
+      "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "PostgreSQL 19 fecha feature freeze e Beta 1 entra na linha de partida de maio",
+      "summary": "O ciclo do PG19 fechou as portas para novas features em 8 de abril e a comunidade entra agora no período de estabilização e bugfix. Beta 1 está previsto para maio com release final em setembro. As marcas do release: melhorias em partição (merge e split), replicação lógica mais econômica em geração de WAL, e ferramentas de DBA para tuning com menos esforço manual. pgvector segue extensão externa, mas com integração mais próxima.",
+      "explain": {
+        "junior": "PostgreSQL é o banco relacional open-source mais popular. A versão 19 fechou o que vai entrar e agora vira testes públicos antes de virar definitivo em setembro. A novidade vai melhorar partições e replicação lógica, que é como dois bancos conseguem manter dados sincronizados.",
+        "pleno": "O par MERGE/SPLIT em partições resolve um problema operacional crônico — antes era preciso recriar partições para reorganizar dados por janela de tempo. A redução de WAL em logical replication ataca custo de bandwidth em deploys cross-region. PG19 também avança em monitoramento built-in: pg_stat_statements normalize agora cobre mais casos e pg_wait_events oferece amostragem leve para identificar contention.",
+        "senior": "Para arquiteto: avalie se o roadmap de logical replication vai habilitar arquiteturas que antes exigiam Debezium/Kafka. Combine PG19 + pg_lake/pg_mooncake/Supabase ETL para ingestão Iceberg sem fila. O salto justifica plano de upgrade já em Q3, antes da janela de freeze do seu time.",
+        "glossary": [
+          {
+            "term": "feature freeze",
+            "def": "Marco no ciclo do PostgreSQL em que apenas correções de bug entram; novas features só na próxima major."
+          },
+          {
+            "term": "logical replication",
+            "def": "Replicação que reproduz mudanças no nível de linhas/tabelas (não físico/blocos), permitindo replicar entre versões e topologias heterogêneas."
+          },
+          {
+            "term": "WAL",
+            "def": "Write-Ahead Log — registro sequencial de modificações usado para crash recovery e replicação."
+          },
+          {
+            "term": "pgvector",
+            "def": "Extensão que adiciona tipos de vetor e índices ANN ao Postgres; base para RAG e semantic search no PG."
+          }
+        ]
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/developer/roadmap/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "postgres",
+        "release",
+        "replication",
+        "partitions"
+      ],
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spring AI 2.0.0-M5 consolida SDK oficial da OpenAI e remove autoconfig do Vertex AI",
+      "summary": "Versions 1.0.6, 1.1.5 e 2.0.0-M5 saíram com correções para CVE-2026-40966, 40967, 40978, 40979 e 40980. Marco da M5: o módulo spring-ai-openai agora usa o openai-java oficial em todos os models (Chat, Embedding, Image, Audio, Moderation), e o spring-ai-openai-sdk foi mergeado. Vertex AI viu seus módulos de model e autoconfiguration removidos — sobrou só spring-ai-vertex-ai-embedding. ZhipuAI saiu do repo principal.",
+      "explain": {
+        "junior": "Spring AI é a camada do Spring para construir aplicações com modelos de IA. A nova versão pega o cliente oficial do ChatGPT (openai-java) e usa em todo o módulo OpenAI, deixando código mais consistente. Também removeu suporte automático ao Google Vertex (a parte de chat) e ao chinês ZhipuAI.",
+        "pleno": "A consolidação no openai-java traz dois ganhos: features novas da OpenAI chegam mais rápido, e bugs de mapping JSON deixam de viver no fork da comunidade. A retirada de Vertex (chat) e ZhipuAI é racionalização de manutenção: o mantenedor passa para repos próprios. Os 5 CVEs corrigidos cobrem deserialização e validação de prompt em integrações específicas — patch obrigatório.",
+        "senior": "Para arquiteto: se você está usando Vertex Chat via Spring AI, planeje refactoring para spring-ai-vertex-ai-embedding (continua) ou Vertex SDK direto. Para OpenAI consumers, esperem menor lag em features (Responses API, Realtime) e melhor coverage de typing. Tratar 2.0-M5 como linha base para POCs novas, mas seguir 1.1 LTS em produção até GA.",
+        "glossary": [
+          {
+            "term": "Spring AI",
+            "def": "Projeto Spring para integrar modelos de IA (chat, embedding, image, audio, moderation) com auto-configuração e observability."
+          },
+          {
+            "term": "openai-java",
+            "def": "SDK oficial mantido pela OpenAI para clientes Java; substitui implementações comunitárias dispersas."
+          },
+          {
+            "term": "Vertex AI",
+            "def": "Plataforma de IA do Google Cloud; Spring AI mantém apenas o módulo de embedding após M5."
+          },
+          {
+            "term": "milestone (M5)",
+            "def": "Pre-release que consolida features e quebra APIs antes do GA; útil para POCs, instável para produção."
+          }
+        ]
+      },
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/27/spring-ai-1-0-6-1-1-5-2-0-0-M5-available-now/",
+      "published_at": "2026-04-27T15:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "spring",
+        "ai",
+        "release",
+        "openai"
+      ],
+      "image": "https://spring.io/img/og-spring.png"
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "DBOS, Temporal e Restate disputam mercado de durable execution — DBOS lança Go SDK e parceria Databricks",
+      "summary": "Mike Stonebraker (DBOS) publicou em 29 de abril por que workflow architectures vencem event-driven em fault-tolerance — argumento central: state-as-code com Postgres é mais simples que reconstruir estado a partir de eventos. DBOS agora tem Go SDK e parceria com Databricks. Restate aparece como sidecar leve sobre HTTP, Temporal mantém vantagem em escala e cluster próprio. Decisão arquitetural: footprint mínimo (DBOS) vs maturidade comprovada (Temporal) vs simplicidade operacional (Restate).",
+      "explain": {
+        "junior": "Durable execution é uma forma de escrever código que continua de onde parou se cair: o framework guarda o estado e retoma. Três produtos competem nesse espaço: DBOS (que usa Postgres), Temporal (cluster dedicado) e Restate (sidecar leve).",
+        "pleno": "DBOS colapsa estado de workflow no Postgres do app — uma transação só, dado e código no mesmo banco. Temporal mantém cluster próprio com persistência opinada e rich workflow API; vence em escala multi-team e fan-out. Restate intercepta chamadas HTTP em sidecar e adiciona durabilidade — programador escreve serviço normal, infra adiciona retry/replay. Trade-off é claro: complexidade operacional vs determinismo total vs intrusão no código.",
+        "senior": "Para arquiteto: para a maioria dos backend services em 2026, DBOS é suficiente — uma DB, um deploy, métricas comuns. Se o sistema é uma plataforma de workflows (orquestrar 3+ serviços com fan-out), Temporal ainda é a escolha mais segura. Restate brilha em modernizações leves, onde reescrever em workflow framework é caro. A escolha errada custa tooling, observabilidade e horas de incident.",
+        "glossary": [
+          {
+            "term": "Durable Execution",
+            "def": "Modelo em que o framework garante que o código rode até o fim — retoma após falha, faz retry e mantém exactly-once."
+          },
+          {
+            "term": "Saga",
+            "def": "Padrão de transação distribuída que troca commit global por compensações; comum em event-driven sem workflow framework."
+          },
+          {
+            "term": "DBOS",
+            "def": "Plataforma de workflow co-fundada por Mike Stonebraker; armazena estado em Postgres e roda como library no app."
+          },
+          {
+            "term": "Restate",
+            "def": "Sidecar de durable execution para serviços HTTP existentes; adiciona retry e estado sem mudar a forma do código."
+          }
+        ]
+      },
+      "source_key": "dbos",
+      "url": "https://www.dbos.dev/blog/why-workflow-architectures-beat-event-driven-fault-tolerance",
+      "published_at": "2026-04-29T10:00:00-03:00",
+      "read_time": 6,
+      "tags": [
+        "durable-execution",
+        "dbos",
+        "temporal",
+        "restate"
+      ],
+      "image": "https://docs.dbos.dev/img/social-card.jpg"
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Snowflake Cortex Code CLI ganha dbt e Apache Airflow em GA — agente de IA orquestra pipeline fora do warehouse",
+      "summary": "Cortex Code CLI saiu do Snowflake-only e entrou em GA com suporte a dbt models e DAGs do Apache Airflow. Time pode debugar transformação dbt e modelar workflow Airflow direto no terminal usando Claude Opus 4.6 ou GPT-5.2. A novidade real: assinatura standalone independente do compute Snowflake — primeiro plano da empresa que não exige conta com warehouse, abrindo flanco para data engineers fora do ecossistema próprio.",
+      "explain": {
+        "junior": "Snowflake tinha um agente de IA que ajudava a escrever código SQL para o próprio Snowflake. Agora ele também ajuda com dbt (transformações de dados) e Airflow (orquestração de pipelines), e funciona mesmo sem você ter conta Snowflake.",
+        "pleno": "É o primeiro produto Snowflake com modelo de subscrição decoupled de compute consumption. Para o data engineer, ganha CLI que entende contexto de dbt project (manifest, schema, tests) e Airflow DAG semantics, com escolha de model por tarefa (Claude Opus para refactor profundo, GPT-5.2 para mudanças baratas). Posiciona Snowflake mais como plataforma horizontal de data work do que como warehouse fechado.",
+        "senior": "Para arquiteto: ferramenta destrava onboarding e PR review em times com pipeline dbt/Airflow grande. Avaliar se o vendor lock-in implícito (preferência por Snowflake como destino) é compatível com sua estratégia multi-cloud. Combine com gates de CI (dbt build, airflow lint) — IA acelera mas não substitui contract testing entre layers.",
+        "glossary": [
+          {
+            "term": "Cortex Code CLI",
+            "def": "CLI de IA da Snowflake que opera sobre código local e roteia inferência para modelos hosted (Claude, GPT)."
+          },
+          {
+            "term": "dbt",
+            "def": "Data Build Tool — framework SQL-first para transformações em warehouses; testa, documenta e versiona modelos."
+          },
+          {
+            "term": "DAG",
+            "def": "Directed Acyclic Graph — abstração do Airflow para representar pipelines como tarefas com dependências."
+          },
+          {
+            "term": "standalone subscription",
+            "def": "Plano comercial sem necessidade de outra assinatura ativa; pago por uso da feature isolada."
+          }
+        ]
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/snowflake-cortex-code-dbt-airflow/",
+      "published_at": "2026-05-04T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "snowflake",
+        "dbt",
+        "airflow",
+        "ai-coding"
+      ],
+      "image": "https://cdn.thenewstack.io/media/2026/03/postgres-iceberg-supermetal-feature.jpg"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Datadog GPU Monitoring chega ao GA — telemetria liga workload AI a fleet health e custo",
+      "summary": "Datadog ligou o GA mundial do GPU Monitoring em 22 de abril. Produto liga métricas de GPU a workload (modelo, time, conta), reduz spend desperdiçado em GPUs ociosas, acelera triage de falha hardware e prevê crashes antes do downtime. Casa com a tendência de fleet de inferência crescer mais rápido que monitoring tooling — e prepara terreno para o anúncio fiscal Q1 2026 da empresa, marcado para 7 de maio.",
+      "explain": {
+        "junior": "Datadog é uma ferramenta que monitora servidores. Agora ele monitora GPUs — placas usadas para treinar e rodar modelos de IA — e mostra quanto custam, se estão ocupadas e se vão falhar.",
+        "pleno": "Métricas vão além de utilization: temperatura, ECC errors, link bandwidth e frequência por kernel. Liga isso ao traçado de workload via APM, mostrando qual time/modelo está consumindo cada GPU-hora. Permite SLO de inferência (latência p99 + custo por 1k tokens) e detecção precoce de degradação — GPUs que começam a errar costumam dar sinais de cache 24h antes do crash.",
+        "senior": "Para arquiteto: peça de visibility crítica em qualquer plataforma de IA própria. Sem ela, FinOps de GPU vira ilação. Compare com OpenTelemetry GPU semantic conventions (em draft) antes de bater o vendor lock — Datadog cobra por host e GPU, e fleets de centenas de cards inflam fatura rápido. Considere stack híbrida (OTel collector + Datadog ingest) para paths críticos.",
+        "glossary": [
+          {
+            "term": "ECC errors",
+            "def": "Erros de Error-Correcting Code na memória da GPU; correctable indicam degradação, uncorrectable causam crash."
+          },
+          {
+            "term": "GPU utilization",
+            "def": "Métrica nvidia-smi que mostra % de tempo com kernel ativo; engana porque ignora ineficiência de memory bandwidth."
+          },
+          {
+            "term": "FinOps",
+            "def": "Disciplina de gestão financeira de cloud; em GPU o desperdício chega a 60% por ociosidade ou over-provisioning."
+          },
+          {
+            "term": "fleet",
+            "def": "Conjunto de GPUs gerenciadas como pool; comum em treino distribuído e inferência multi-tenant."
+          }
+        ]
+      },
+      "source_key": "datadog",
+      "url": "https://www.datadoghq.com/blog/gpu-monitoring-ga/",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "datadog",
+        "gpu",
+        "observability",
+        "ai-ops"
+      ],
+      "image": "https://imgix.datadoghq.com/img/blog/datadog-gpu-monitoring/datadog-gpu-monitoring-hero-2.png?auto=format&fit=max&w=847"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Cloudflare Hyperdrive ganha private databases via Workers VPC — Postgres atrás de tunnel sem expor IP",
+      "summary": "Hyperdrive agora aceita conexão a banco privado através de Workers VPC service, com TLS verification, observability e reuso entre configs. Setup é em UI: 'Connect to private database' → 'Workers VPC' → escolher Cloudflare Tunnel + origin host/porta. Mata o requisito de allowlist de IPs Cloudflare ou GRE tunnel para clientes que tinham PG/MySQL atrás de VPC.",
+      "explain": {
+        "junior": "Hyperdrive é o pool de conexão da Cloudflare para banco de dados acessado por Workers. Antes, se o banco estava dentro da rede privada (VPC), era difícil; agora dá para conectar usando o Tunnel da Cloudflare, sem abrir IP para o mundo.",
+        "pleno": "Tecnicamente, o Workers VPC service vira um endpoint Cloudflare-side que tunneliza para o origin via Cloudflare Tunnel (cloudflared). Hyperdrive pega a conexão do worker, mantém o pool quente em região próxima do user, e roteia o socket Postgres por dentro do Tunnel até o banco. Latência p50 fica perto da rota Cloudflare-direct e o IP do banco nunca aparece na internet.",
+        "senior": "Para arquiteto: destrava casos onde Workers eram inviáveis por compliance de DB privado (PCI, LGPD com isolamento físico). Compare com VPC peering tradicional: Tunnel é mais simples mas adiciona um hop. Para latência crítica, ainda prefira VPC native peering ou Cloudflare R2 + read replicas. Para apps mainstream com banco dentro de VPC corporativa, vira default.",
+        "glossary": [
+          {
+            "term": "Hyperdrive",
+            "def": "Serviço Cloudflare que faz pool de conexão e cache para databases acessados por Workers — reduz latência e overhead de TLS."
+          },
+          {
+            "term": "Workers VPC",
+            "def": "Recurso Cloudflare que expõe rotas privadas (Tunnel-based) reutilizáveis entre múltiplos Workers e Hyperdrive configs."
+          },
+          {
+            "term": "Cloudflare Tunnel",
+            "def": "Daemon (cloudflared) que mantém conexão saída-only para Cloudflare; substitui inbound NAT/firewall."
+          },
+          {
+            "term": "GRE tunnel",
+            "def": "Generic Routing Encapsulation — tunelamento IP-em-IP usado historicamente para integrar redes privadas a CDNs."
+          }
+        ]
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/elephants-in-tunnels-how-hyperdrive-connects-to-databases-inside-your-vpc-networks/",
+      "published_at": "2026-04-29T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "cloudflare",
+        "hyperdrive",
+        "vpc",
+        "postgres"
+      ],
+      "image": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/durable-object-facets-OG.png"
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "WebAssembly Component Model fecha lacuna multi-linguagem — WASI 0.3 prepara async nativo no Wasmtime 37",
+      "summary": "WebAssembly 3.0 virou padrão W3C em setembro de 2025 e o Component Model deixou de ser promessa: composição segura entre módulos Rust, Python e JS roda em produção. WASI 0.3 traz async I/O nativo como feature carro-chefe; release prevista para Q1 2026 com 1.0 ainda em 2026/início 2027. Bytecode Alliance reporta que 67% dos devs Wasm rodam fora do browser — server, edge e embedded.",
+      "explain": {
+        "junior": "WebAssembly começou como forma de rodar código rápido no navegador, mas virou padrão para rodar em servidor e edge também. O Component Model permite que um módulo escrito em Rust converse com outro em Python sem traduzir, e o WASI é o sistema operacional que dá acesso a arquivo, rede etc.",
+        "pleno": "WebAssembly 3.0 standardiza WasmGC (garbage collection no runtime), exception handling, tail calls, 64-bit memory e SIMD 128-bit. Component Model define interface types (WIT) que deixam dois módulos cross-language interagir com tipo seguro. WASI 0.3 traz futures e streams nativos — mata o pattern de polling para I/O assíncrono, importante para edge e serverless.",
+        "senior": "Para arquiteto: Wasm no servidor maturou. Wasmtime 37, Spin e Cloudflare Workers já permitem deploy de componentes que misturam linguagens em runtime único. Avaliar Wasm para sandboxes multi-tenant (cada plugin um component), edge functions com cold start sub-ms, e migrações graduais (port C/Rust → wasm sem reescrever). Vendor lock-in baixo: spec é aberta.",
+        "glossary": [
+          {
+            "term": "Component Model",
+            "def": "Spec WebAssembly que define unidade composta (componente) com interface tipada para inter-op cross-language."
+          },
+          {
+            "term": "WASI",
+            "def": "WebAssembly System Interface — capabilities standardizadas (filesystem, network, env vars) para Wasm fora do browser."
+          },
+          {
+            "term": "WasmGC",
+            "def": "Adição de garbage collection nativo ao runtime WebAssembly; permite linguagens managed (Java, Kotlin, C#) gerar wasm sem GC own-implemented."
+          },
+          {
+            "term": "Wasmtime",
+            "def": "Runtime de referência da Bytecode Alliance para WebAssembly; embeddable em Rust, Python, Go, e .NET."
+          }
+        ]
+      },
+      "source_key": "bytecodeliance",
+      "url": "https://component-model.bytecodealliance.org/design/why-component-model.html",
+      "published_at": "2026-05-04T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "webassembly",
+        "wasi",
+        "component-model",
+        "wasmtime"
+      ],
+      "image": "https://bytecodealliance.org/articles/img/2023-07-24-roadmap/bytecode-alliance-roadmap-part1-wasi-preview-2.png"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "REST API versioning em 2026: OpenAPI 3.1 traz keyword `deprecate` e Sunset header vira obrigação contratual",
+      "summary": "Compilado de práticas que viraram baseline em 2026: URL path versioning para mudança breaking, OpenAPI 3.1 com keyword `deprecate` para sinalizar campos que vão sair, Sunset header (RFC 8594) anunciando programaticamente a data de retirada, e mínimo de 18 meses de janela de suporte. CI ganhou breaking-change detection automatizado (oasdiff, redocly) com bump semver vinculado.",
+      "explain": {
+        "junior": "Quando uma API muda, clientes velhos quebram. Versionar a API é a forma de manter compatibilidade. Em 2026, o jeito padrão é colocar a versão na URL (/v2/...), avisar com antecedência o que vai sair, e dar pelo menos 18 meses para clientes migrarem.",
+        "pleno": "OpenAPI 3.1 + JSON Schema 2020-12 trouxeram primitives nativas: `deprecated: true` no campo, `x-deprecated-since`/`x-removed-in` em vendor extensions, e Sunset header (RFC 8594) na resposta com data de retirada legível por máquina. Tooling (Spectral, oasdiff) já detecta breaking changes em PR — bumps de major virou processo, não decisão ad-hoc.",
+        "senior": "Para arquiteto: imponha breaking-change detection em CI antes de qualquer merge — OpenAPI specs viram contrato vivo. Combine URL versioning (mudança forte) com header versioning (mudança menor) e content negotiation (sub-tipos de media). 18 meses não é número arbitrário: cobre dois ciclos anuais de planning de clientes corporativos.",
+        "glossary": [
+          {
+            "term": "OpenAPI 3.1",
+            "def": "Spec mais recente que alinha 100% com JSON Schema 2020-12; traz keyword `deprecated` e webhooks como cidadãos de primeira classe."
+          },
+          {
+            "term": "Sunset header",
+            "def": "Header HTTP definido em RFC 8594 que anuncia a data programática em que um endpoint deixa de existir."
+          },
+          {
+            "term": "breaking change",
+            "def": "Mudança incompatível com clientes existentes (rename, remove, type change); demanda bump de major version."
+          },
+          {
+            "term": "oasdiff",
+            "def": "CLI open-source que compara duas versões de OpenAPI e classifica diffs em breaking/non-breaking."
+          }
+        ]
+      },
+      "source_key": "speakeasy",
+      "url": "https://www.speakeasy.com/api-design/versioning",
+      "published_at": "2026-04-30T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "api-design",
+        "versioning",
+        "openapi",
+        "rest"
+      ],
+      "image": "https://www.speakeasy.com/api-design/og-card-versioning.png"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Bounded Contexts em 2026 — DDD vira ferramenta de Conway sem ritual de evento storming caro",
+      "summary": "Síntese de práticas que ganharam tração: Bounded Context é primeiro linguagem ubíqua (mesma palavra com sentidos diferentes em domínios diferentes — 'Revenue' em payment vs marketing), depois fronteira de schema, só então fronteira de microserviço. Mapping com Context Mapper e ADRs para cada decisão substituiu sessões de event storming presenciais de 8 horas. Microserviço continua mapeando para 1 BC, mas a relação não é 1:1 forçada.",
+      "explain": {
+        "junior": "Em sistemas grandes, a mesma palavra significa coisas diferentes em partes diferentes (ex.: 'cliente' no marketing é lead; no faturamento é CNPJ ativo). Bounded Context é o conceito do DDD que dá fronteira a essas diferenças. Quando a fronteira é clara, o time evita confusão e cada parte do sistema cresce sem virar bagunça.",
+        "pleno": "Em prática 2026, a discoveria começa por linguagem ubíqua (workshops curtos com glossário versionado) → schema bounded (entities + aggregates definidos) → fronteira física (deploy unit). Tooling como Context Mapper e ADRs automatizadas reduzem o custo do ritual original de event storming. A relação BC ↔ microserviço continua útil mas não é dogma: monolitos modulares com BCs bem definidos batem microserviços mal cortados.",
+        "senior": "Para arquiteto: use BC como ferramenta de Conway para guiar topologia de times (Team Topologies). Antes de quebrar monolito, identifique BCs e mapeie equipes. Aggregate roots viram unidade de transação; relacionamentos cruzados viram event-driven. ADR explicando 'por que esse bounded context tem essa fronteira' poupa meses de discussão futura.",
+        "glossary": [
+          {
+            "term": "Bounded Context",
+            "def": "Fronteira explícita dentro da qual um modelo de domínio é consistente; mesma palavra pode ter sentidos distintos em BCs diferentes."
+          },
+          {
+            "term": "Linguagem Ubíqua",
+            "def": "Vocabulário compartilhado entre time técnico e domínio do negócio dentro de um BC; reduz erro de tradução."
+          },
+          {
+            "term": "Aggregate",
+            "def": "Cluster de entidades tratadas como unidade transacional; protegido por aggregate root, garante invariantes."
+          },
+          {
+            "term": "Event Storming",
+            "def": "Workshop colaborativo (post-its laranja) para descobrir eventos do domínio; em 2026 versões mais curtas e remotas substituem o original de 8h."
+          }
+        ]
+      },
+      "source_key": "martinfowler",
+      "url": "https://martinfowler.com/bliki/BoundedContext.html",
+      "published_at": "2026-04-30T08:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "ddd",
+        "bounded-context",
+        "team-topologies",
+        "design"
+      ],
+      "image": "https://martinfowler.com/logo-sq.png"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "Brendan Gregg vai para a OpenAI — Systems Performance 2nd ed segue como bíblia de tuning Linux/cloud",
+      "summary": "Performance arquiteto sênior Brendan Gregg deixou Intel em dezembro e entrou na OpenAI em 7 de fevereiro de 2026. Systems Performance (Addison-Wesley, 2ª edição) segue como referência para entendimento profundo de OS, hardware e tuning em cloud. Materiais USE Method, flame graphs e perf-tools continuam atualizados em brendangregg.com — base para qualquer time que opera infra Linux em escala.",
+      "explain": {
+        "junior": "Brendan Gregg é um dos profissionais mais respeitados do mundo em performance de sistemas Linux. Trabalhou na Netflix por anos, depois Intel, agora OpenAI. O livro dele é considerado a referência para entender como CPU, memória, disco e rede afetam performance.",
+        "pleno": "USE Method (Utilization, Saturation, Errors) é checklist universal para troubleshooting de qualquer recurso — CPU, disk, network. Flame graphs viraram padrão para profile visual de stack traces. perf-tools e bcc/eBPF são tooling que devops Linux usa todo dia. A entrada dele na OpenAI sinaliza onde está o foco de tuning: GPU/inference cluster com workloads emergentes.",
+        "senior": "Para arquiteto: Systems Performance 2nd ed é leitura obrigatória, não opcional. Quando a investigação custa uma hora ou um incidente, o conhecimento de hardware (cache lines, NUMA, branch prediction, IO scheduling) faz diferença entre achar e adivinhar. Aplique USE method como primeiro filtro em qualquer alerta de performance — antes de abrir Datadog, antes de dashboard.",
+        "glossary": [
+          {
+            "term": "USE Method",
+            "def": "Checklist criado por Gregg: para cada recurso, verifique Utilization, Saturation e Errors — cobre 80% dos problemas de performance."
+          },
+          {
+            "term": "Flame Graph",
+            "def": "Visualização hierárquica de stack samples; eixo X é proporção de tempo, profundidade Y é stack depth — diagnóstico instantâneo de hot path."
+          },
+          {
+            "term": "eBPF",
+            "def": "Tecnologia Linux que permite rodar programas sandboxed no kernel sem patch; base para tooling moderno (bcc, bpftrace, Cilium)."
+          },
+          {
+            "term": "NUMA",
+            "def": "Non-Uniform Memory Access — arquitetura onde latência de memória depende do socket que acessa; afeta tuning de processos multi-thread."
+          }
+        ]
+      },
+      "source_key": "brendangregg",
+      "url": "https://www.brendangregg.com/sysperfbook.html",
+      "published_at": "2026-04-28T10:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "performance",
+        "linux",
+        "ebpf",
+        "fundamentals"
+      ],
+      "image": "https://www.brendangregg.com/Images/sysperf2nd_bookcover_360.jpg"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "OpenTelemetry Collector 0.151.0 ganha Winget no Windows e fecha lacuna de packaging enterprise",
+      "summary": "Versão 0.151.0 do OpenTelemetry Collector adicionou suporte ao Winget (Windows Package Manager) — install, upgrade e uninstall pelo CLI nativo do Windows. Mantém compatibilidade com instalação manual e MSI. Vinda de release com ebpf-profiler e k8s distributions liberados em 29 de abril, completa terreno onde Windows Server era cidadão de segunda classe.",
+      "explain": {
+        "junior": "O OpenTelemetry Collector é um agente que coleta métricas, logs e traces e manda para sua plataforma de observabilidade. Agora ele pode ser instalado no Windows como qualquer programa — pelo gerenciador de pacotes Winget, igual ao apt no Linux.",
+        "pleno": "Winget é o package manager oficial Windows desde Win 10/11. Pacote OTel registrado no winget repository permite scripts de provisioning (Ansible, Chef, GHA) instalarem o collector em servidores Windows com uma linha. A 0.151.0 também consolida ebpf-profiler distribution e k8s-specific bundles publicados em 29/abril, padronizando deploy em zoo de runtimes.",
+        "senior": "Para arquiteto: detalhe que destrava observabilidade em fleets Windows-heavy (financial, retail). Combine com OpenTelemetry Operator no Kubernetes para auto-instrumentation, e DaemonSet para nodes Linux — collector vira camada uniforme. Monitorize a evolução de profiling signal (GA Q3 2026) e continuous profiling RC.",
+        "glossary": [
+          {
+            "term": "OpenTelemetry Collector",
+            "def": "Componente do projeto OTel que recebe, processa e exporta telemetria; suporta múltiplos receivers/exporters em pipeline configurável."
+          },
+          {
+            "term": "Winget",
+            "def": "Windows Package Manager — CLI oficial Microsoft para instalar/atualizar apps no Windows, similar ao apt/brew."
+          },
+          {
+            "term": "ebpf-profiler",
+            "def": "Distribution do OTel Collector que coleta CPU profiling via eBPF no Linux com baixa overhead; entrada na Q1 2026."
+          },
+          {
+            "term": "OTLP",
+            "def": "OpenTelemetry Protocol — wire format binário (gRPC) ou HTTP/JSON para envio padronizado de traces, métricas e logs."
+          }
+        ]
+      },
+      "source_key": "opentelemetry",
+      "url": "https://github.com/open-telemetry/opentelemetry-collector-releases/releases/tag/v0.151.0",
+      "published_at": "2026-04-29T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "opentelemetry",
+        "collector",
+        "windows",
+        "release"
+      ],
+      "image": "https://opengraph.githubassets.com/1/open-telemetry/opentelemetry-collector-releases"
+    },
+    {
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "headline": "Vitest 4.1 integra Trace Viewer do Playwright com page.mark e linkagem ao código de teste",
+      "summary": "Vitest 4.1 (12 de março, com follow-up em abril) elevou o Trace Viewer do Playwright em browser mode: ações como click, fill, expect.element ficam agrupadas e linkadas à linha exata no arquivo de teste. Novas APIs page.mark e locator.mark adicionam annotations próprias ao trace. Compatível com Vite 8. Coverage HTML viewing virou confiável em UI mode, HTML reporter e browser mode mesmo em subpath deploys.",
+      "explain": {
+        "junior": "Vitest é um framework de teste rápido para JS/TS. A versão 4.1 melhora a integração com Playwright (browser mode), facilitando ver o que aconteceu durante um teste — onde clicou, o que digitou, qual elemento esperou. E coverage HTML agora funciona consistente em todos os modos.",
+        "pleno": "Trace Viewer do Playwright já era poderoso (network, DOM, screenshots por step), mas vinha desconectado do código de teste. Vitest 4.1 instrumenta as ações de browser mode para gerar entries no trace que linkam de volta ao arquivo + linha do test runner. page.mark/locator.mark dão escape hatch: você define markers customizados (ex.: 'after login', 'before payment') para narrative.",
+        "senior": "Para arquiteto: stack Vitest + Browser Mode + Playwright Trace virou alternativa real ao Cypress + Allure em 2026. CI pipeline de E2E ganha debugging instantâneo (download trace, abre no Trace Viewer, vê tudo) — reduz tempo de triagem de flaky test em ordem de magnitude. Avaliar para times saturados de Cypress flaky e setup complexo de Allure.",
+        "glossary": [
+          {
+            "term": "Vitest",
+            "def": "Framework de teste para JS/TS construído sobre Vite; mais rápido que Jest, compartilha config Vite, suporta ESM nativo."
+          },
+          {
+            "term": "Browser Mode",
+            "def": "Modo do Vitest que roda testes em browser real (Chromium/Firefox/WebKit) gerenciado por Playwright, dando acesso a APIs nativas."
+          },
+          {
+            "term": "Trace Viewer",
+            "def": "App da Playwright que abre arquivos .zip de trace mostrando timeline de ações, network, screenshots e DOM por step."
+          },
+          {
+            "term": "page.mark / locator.mark",
+            "def": "APIs novas do Vitest 4.1 para criar markers no trace timeline; útil para anotar fases do teste sem poluir asserts."
+          }
+        ]
+      },
+      "source_key": "vitest",
+      "url": "https://vitest.dev/blog/vitest-4-1.html",
+      "published_at": "2026-03-12T10:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "vitest",
+        "playwright",
+        "testing",
+        "browser"
+      ],
+      "image": "https://vitest.dev/og.png"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "Next.js 16.3 entra em canary — Vercel coloca App Router e RSC no centro enquanto vinext desafia build time",
+      "summary": "Next.js 16.2.4 saiu em 16 de abril e v16.3.0-canary.7 chegou em 1 de maio. App Router segue como recomendação default; RSC streaming se consolida. Em paralelo, Cloudflare vinext reimplementa 94% da API do Next.js sobre Vite com build 4,4x mais rápido (já coberto em 5/5), pressionando Vercel a melhorar Turbopack. Atualização traz fixes em hydration, dev server e RSC error boundary.",
+      "explain": {
+        "junior": "Next.js é o framework React mais usado para apps web modernos. A versão 16.3 está em pré-release (canary), com correções de bugs e pequenas melhorias. O concorrente vinext da Cloudflare está pressionando o projeto a melhorar tempo de build.",
+        "pleno": "Foco da 16.x ainda é maturar App Router e React Server Components: streaming de chunks parciais, error boundary granular, dev server com HMR mais previsível. Turbopack ganha cobertura de features pendentes versus webpack. Em workloads críticos de developer experience (monorepo > 50 páginas), build time virou diferencial competitivo — daí a relevância de vinext mostrar 4.4x.",
+        "senior": "Para arquiteto: continue em 16.x stable em produção, mas trace plano para avaliar build alternatives (vinext, Turbopack RC, Million.js). Para apps com SSG agressivo, Astro/SvelteKit continuam mais rápidos; para SaaS dinâmico com RSC, Next ainda é a escolha de menor risco. Cuidado com canary em produção — esperar pelo menos 16.3.0 stable.",
+        "glossary": [
+          {
+            "term": "App Router",
+            "def": "Sistema de roteamento do Next.js (lançado em 13) baseado em React Server Components; convive com Pages Router legacy."
+          },
+          {
+            "term": "RSC",
+            "def": "React Server Components — componentes que rodam só no servidor, sem JS no bundle do cliente; reduzem tamanho e melhoram TTFB."
+          },
+          {
+            "term": "canary",
+            "def": "Versão pre-release contínua com builds noturnos; usuários testam features antes do stable, cientes de bugs."
+          },
+          {
+            "term": "vinext",
+            "def": "Tentativa Cloudflare de implementar a API Next.js sobre Vite para acelerar build; cobertura de 94% reportada em maio."
+          }
+        ]
+      },
+      "source_key": "nextjs",
+      "url": "https://github.com/vercel/next.js/releases/tag/v16.2.4",
+      "published_at": "2026-05-01T16:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "nextjs",
+        "react",
+        "rsc",
+        "frontend"
+      ],
+      "image": "https://nextjs.org/api/og?title=Next.js%2016.3"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Cursor 3.2 lança subagents async — /multitask paraleliza tarefas e worktrees ficam multi-root",
+      "summary": "Cursor 3.2 (24 de abril) introduz /multitask: em vez de enfileirar pedidos em uma única chat session, dispara subagents async em paralelo. Worktrees experience melhorada com multi-root workspaces para mudanças cross-repo. Mantém compatibilidade com Claude Sonnet 4.6/Opus 4.7 e GPT-5.x. Joga forte na disputa direta com Claude Code agentic-window e Windsurf Devin integration.",
+      "explain": {
+        "junior": "Cursor é uma IDE com IA integrada. A versão 3.2 deixa rodar várias tarefas de IA em paralelo (em vez de uma de cada vez), e facilita trabalhar com vários repositórios git ao mesmo tempo.",
+        "pleno": "Subagents async em /multitask quebram o gargalo de chat sequencial: comando 'refator esses 5 services' agora dispara 5 agents que rodam em paralelo, cada um isolado em worktree. Multi-root workspace permite ter 3+ repos abertos com agents que enxergam todos. Combinação destrava workflows tipo monorepo/poly-repo migrations sem dor.",
+        "senior": "Para arquiteto: para times que adotaram Cursor, 3.2 reduz tempo de chore tasks em 30-50% nos cenários certos (renames cross-repo, security fix em N services). Pesar custo de credit-based billing (Cursor migrou para usage) versus value entregue. Comparar com /multitask de outros tools — feature similar virá em Claude Code e Windsurf em semanas.",
+        "glossary": [
+          {
+            "term": "subagent",
+            "def": "Agent secundário disparado pelo agent principal para tarefa específica; isolado em contexto e ferramenta."
+          },
+          {
+            "term": "worktree",
+            "def": "Feature do git que cria checkout adicional do mesmo repo em diretório separado; útil para trabalhar em N branches simultâneas."
+          },
+          {
+            "term": "multi-root workspace",
+            "def": "Workspace que abre múltiplos diretórios/repos como pares de primeira classe; agents enxergam tudo junto."
+          },
+          {
+            "term": "credit-based billing",
+            "def": "Modelo de cobrança Cursor (e outros) onde cada operação de IA consome créditos; substitui assinatura flat fee."
+          }
+        ]
+      },
+      "source_key": "cursor",
+      "url": "https://cursor.com/changelog/3-2",
+      "published_at": "2026-04-24T18:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "cursor",
+        "agents",
+        "ai-coding",
+        "release"
+      ],
+      "image": "https://www.cursor.com/og-image.png"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "GitHub Copilot apaga Claude Sonnet 4 hoje (6/maio) e desliga modelo legacy de chat e completion",
+      "summary": "Hoje, 6 de maio, é o dia da depreciação oficial de Claude Sonnet 4 em todas as experiências do Copilot — Chat, inline edits, ask, agent mode e code completions. Substitutos GA: Claude Sonnet 4.6, Claude Opus 4.6/4.7 e GPT-5.x. GitHub também sinalizou em 27 de abril que Copilot Code Review passa a consumir minutos do Actions em repos privados a partir de 1º de junho. Camada de billing usage-based vai com tudo.",
+      "explain": {
+        "junior": "Quem usa GitHub Copilot via Claude Sonnet 4 perde acesso hoje — precisa migrar para Sonnet 4.6 ou Opus. E a partir de junho, code review automático do Copilot vai descontar minutos de Actions, mudando como o custo é calculado em equipes pequenas.",
+        "pleno": "Sonnet 4 era um dos default models para tier free do Copilot Chat. Com a deprecação, usuários veem fallback automático para 4.6, com qualidade superior e mesmo preço por token nos planos pagos. A mudança no billing de Code Review (consumir Actions minutes) torna PR review automático mais caro em monorepos com muitos PRs simultâneos — incentivando uso seletivo.",
+        "senior": "Para arquiteto: revise consumo de Actions minutes em repos privados antes de 1/junho. Code review IA pode quintuplicar gasto em times prolíficos. Compare custo Copilot vs alternativas (Sourcegraph Cody, Cursor com billing por agent action). Para arquitetura sem dependência forte de IDE-IA, considere disable de auto-review e enable manual via comment.",
+        "glossary": [
+          {
+            "term": "Claude Sonnet 4",
+            "def": "Modelo intermediário da Anthropic, lançado em 2024; depreciado em GitHub Copilot em 6 de maio de 2026."
+          },
+          {
+            "term": "Copilot Code Review",
+            "def": "Feature do GitHub Copilot que comenta automaticamente em PRs com sugestões e checks; vai consumir Actions minutes a partir de junho."
+          },
+          {
+            "term": "usage-based billing",
+            "def": "Modelo onde cobrança escala com uso (tokens, requests, minutes); substitui assinatura flat para alinhar custo a valor."
+          },
+          {
+            "term": "deprecação",
+            "def": "Anúncio formal de que uma feature/produto será removida; janela típica de 30-90 dias antes da remoção efetiva."
+          }
+        ]
+      },
+      "source_key": "githubblog",
+      "url": "https://github.blog/changelog/2026-03-31-upcoming-deprecation-of-claude-sonnet-4-in-github-copilot/",
+      "published_at": "2026-05-06T08:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "github-copilot",
+        "claude",
+        "deprecation",
+        "billing"
+      ],
+      "image": "https://github.blog/wp-content/uploads/2025/01/copilot-pricing-OG.png"
+    },
+    {
+      "category": "fintech",
+      "category_label": "Fintech & Pagamentos",
+      "category_icon": "💳",
+      "headline": "Pix prepara cobrança híbrida em junho, contas-salário em julho e MED 2.0 já rastreia até 5 contas em fraudes",
+      "summary": "Banco Central abre nova fase do Pix em 2026: cobrança híbrida (mesmo QR oferece boleto e Pix) entra no regulamento em junho; débito automático via contas-salário começa em julho. MED 2.0, obrigatório desde 2 de fevereiro, já rastreia caminho do dinheiro em fraudes por até 5 contas subsequentes. Drex chega em 2026 sem blockchain, focado em registro de garantias e gravames entre instituições.",
+      "explain": {
+        "junior": "Pix é o sistema de pagamento instantâneo do Brasil. Em 2026 ganha mais funcionalidades: pagar boletos e Pix com o mesmo QR (junho), permitir débito automático em conta-salário (julho), e rastrear melhor fraudes — agora seguindo o dinheiro por 5 contas em vez de 1.",
+        "pleno": "Cobrança híbrida unifica fluxo de pagamento de utility/educação: emissor gera QR único, pagador escolhe boleto ou Pix sem alteração de sistemas legacy de cobrança. MED 2.0 (Mecanismo Especial de Devolução) usa rastreamento multi-hop por até 5 contas subsequentes para devolver fundos em fraudes — transforma fraudes 'split-account' em recuperáveis. Drex em 2026 é mais Banco Central infraestrutura do que CBDC público — foco em reconciliação de garantias entre bancos.",
+        "senior": "Para arquiteto fintech: prepare integrações para cobrança híbrida em junho — APIs do Pix Cobrança vão evoluir e times de billing/cobrança precisam ajustar fluxos. MED 2.0 multi-hop muda compliance e impõe SLA mais rígido para PSPs. Drex 2026 não é blockchain mas sistema centralizado de registro: planeje integração caso seu produto envolva colateralização de ativos entre instituições.",
+        "glossary": [
+          {
+            "term": "MED",
+            "def": "Mecanismo Especial de Devolução do Pix — fluxo regulado para devolver fundos em casos de fraude; versão 2.0 rastreia até 5 contas subsequentes."
+          },
+          {
+            "term": "Pix Automático",
+            "def": "Modalidade de débito recorrente sobre Pix, lançada em 2024; em 2026 expande para contas-salário."
+          },
+          {
+            "term": "cobrança híbrida",
+            "def": "Capacidade de oferecer Pix e boleto na mesma cobrança usando QR único — em junho de 2026 entra no regulamento."
+          },
+          {
+            "term": "Drex",
+            "def": "Iniciativa de moeda digital do Banco Central; em 2026 começa restrita a instituições financeiras com foco em garantias e registros."
+          }
+        ]
+      },
+      "source_key": "convergenciadigital",
+      "url": "https://terrabrasilnoticias.com/2026/05/pix-vai-mudar-em-junho-de-2026-o-que-o-banco-central-confirmou-e-o-que-afeta-quem-usa-todo-dia",
+      "published_at": "2026-05-04T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "pix",
+        "drex",
+        "open-finance",
+        "med"
+      ],
+      "image": "https://www.riotimesonline.com/wp-content/uploads/2026/03/brazil-fintech-2026-pix-nubank.jpg"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Thoughtworks Radar volume 33 chega em outubro — observatório de adoção em backstage, IDPs e durable execution",
+      "summary": "Antes do próximo Radar (outubro), atualização sobre estado de adoção em arq. corporativa: Backstage continua de fato como plataforma IDP open-source, mas aparece concorrência (Port, Cortex). Durable execution (Temporal/DBOS/Restate) entra no mainstream. Service Mesh perde para Gateway API + ambient mode (Istio). FinOps deixa de ser tema separado e vira métrica embutida em IDP. Tese: golden paths comoditizados são lei.",
+      "explain": {
+        "junior": "Thoughtworks Radar é uma publicação semestral que mostra que tecnologias estão entrando ou saindo de uso entre times sêniores. Em 2026, Backstage como plataforma para devs, ferramentas de orquestração de workflows (DBOS, Temporal) e novas formas de service mesh estão ganhando força.",
+        "pleno": "Movimentos a observar: (1) Backstage tem competição séria pela primeira vez (Port, Cortex), abrindo espaço a stack-as-product; (2) Durable execution sai de hype para 'Adopt' em times com workflow stack; (3) Gateway API substitui Service Mesh full em muitos casos — ambient mode do Istio reduz overhead sem sacrificar mTLS; (4) FinOps vira plugin de IDP em vez de prática separada — gasto de cloud aparece junto com ownership de service.",
+        "senior": "Para arquiteto corporativo: revise stack do IDP. Backstage continua aposta segura, mas Port/Cortex saem de 'experimentar' para alternativa real. Avalie ambient mode (Istio) ou Cilium service mesh em vez de sidecars tradicionais — economia em CPU/memória soma rápido em fleets grandes. Embuta cost telemetry no IDP — Backstage tem plugins prontos.",
+        "glossary": [
+          {
+            "term": "IDP",
+            "def": "Internal Developer Platform — plataforma curada para devs entregarem código sem entender toda infra; Backstage é o reference."
+          },
+          {
+            "term": "Service Mesh ambient mode",
+            "def": "Modo do Istio sem sidecar por pod; usa ztunnel + waypoint, reduz overhead em 60% sem perder mTLS e observability."
+          },
+          {
+            "term": "Gateway API",
+            "def": "Spec Kubernetes para ingress mais expressivo que Ingress legacy; substitui muitos casos de service mesh full."
+          },
+          {
+            "term": "FinOps",
+            "def": "Disciplina de gestão financeira de cloud; em IDPs 2026 vira coluna de dashboard junto com ownership e SLO."
+          }
+        ]
+      },
+      "source_key": "thoughtworks",
+      "url": "https://www.thoughtworks.com/radar",
+      "published_at": "2026-05-04T09:00:00-03:00",
+      "read_time": 5,
+      "tags": [
+        "thoughtworks-radar",
+        "platform-engineering",
+        "backstage",
+        "service-mesh"
+      ],
+      "image": "https://www.thoughtworks.com/content/dam/thoughtworks/images/photography/insight/technology-radar/social-share-image.png"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🌱",
+      "kind": "release",
+      "version": "Spring AI 2.0.0-M5",
+      "headline": "Spring AI 2.0.0-M5 unifica módulo OpenAI sob SDK oficial e remove auto-config Vertex Chat",
+      "description": "Quinto milestone do Spring AI 2.0 consolida spring-ai-openai sobre openai-java oficial em todos os models, remove Vertex AI chat e ZhipuAI do core, e corrige cinco CVEs de segurança em integrações.",
+      "explain": {
+        "junior": "Spring AI é a camada do Spring Boot para integrar com modelos de IA (chat, embedding, image). A nova versão pega o cliente oficial Java mantido pela própria OpenAI e usa em tudo, deixando código mais consistente.",
+        "pleno": "Mudança grande: openai-java é mantido pela própria OpenAI e ganha features (Responses API, structured output) com lag mínimo. Spring AI passa a herdar isso por dependência. Vertex AI (chat) e ZhipuAI saem por custo de manutenção — quem usa Vertex Chat precisa migrar para SDK direto. Vertex AI Embedding continua suportado.",
+        "senior": "Para arquiteto: bom timing para padronizar agents Java em Spring AI. Avalie 1.1 LTS para produção e 2.0 para POCs até GA. Para times com Vertex AI Chat: planeje migração agora — janela de support do módulo legacy é curta. Combine com Spring AI Tools (function calling) e MCP integration emergente.",
+        "glossary": [
+          {
+            "term": "openai-java",
+            "def": "SDK oficial Java mantido pela OpenAI; substitui implementações comunitárias com lag de release menor."
+          },
+          {
+            "term": "Spring AI",
+            "def": "Sub-projeto Spring com auto-config para chat, embedding, image, audio e moderation com vários providers."
+          },
+          {
+            "term": "milestone (M5)",
+            "def": "Pre-release que consolida features e quebra APIs antes do GA; útil para POCs."
+          },
+          {
+            "term": "Vertex AI",
+            "def": "Plataforma de IA do Google Cloud; em Spring AI 2.0-M5 mantém apenas o módulo de embedding."
+          }
+        ]
+      },
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/27/spring-ai-1-0-6-1-1-5-2-0-0-M5-available-now/",
+      "published_at": "2026-04-27T15:00:00-03:00",
+      "image": "https://spring.io/img/og-spring.png",
+      "tags": [
+        "spring",
+        "ai",
+        "release",
+        "openai"
+      ]
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "JDK 27 fecha lista de Targeted: Structured Concurrency 7th, Lazy Constants 3rd e Primitive Patterns 5th",
+      "description": "Time do OpenJDK promoveu JEP 532, 533 e 531 a Targeted para JDK 27. JEP 536 (JFR Redaction) entrou como Candidate. Rampdown phase one em 4/jun, GA em 14/set.",
+      "explain": {
+        "junior": "Java 27 vai ganhar três previews importantes: Structured Concurrency (organizar threads em escopo), Lazy Constants (constantes que só calculam ao usar) e Primitive Patterns no switch.",
+        "pleno": "Structured Concurrency 7th preview consolida API: scopes que cancelam tasks atomically com integração com virtual threads. Lazy Constants permitem campos final inicializados sob demanda thread-safe sem boilerplate. JEP 536 (JFR Redaction) é importante para ambientes regulados — flight recorder esconde args de linha de comando, env vars e system properties sensíveis.",
+        "senior": "Para arquiteto: planeje upgrade JDK 25 → 27 no ciclo LTS. Structured Concurrency reduz superfície de bugs em código concorrente. JFR redaction reabre profiling em produção em ambientes que pararam por compliance.",
+        "glossary": [
+          {
+            "term": "JEP",
+            "def": "JDK Enhancement Proposal — documento que descreve uma feature do Java; Draft → Candidate → Proposed → Targeted."
+          },
+          {
+            "term": "Structured Concurrency",
+            "def": "Modelo onde threads filhas têm escopo lexical do código pai; cancelamento previsível, similar a try-with-resources."
+          },
+          {
+            "term": "Targeted",
+            "def": "Status que confirma que a feature vai entrar no release indicado — última etapa antes de virar parte do JEP do release."
+          },
+          {
+            "term": "Lazy Constants",
+            "def": "Campos `final` cuja inicialização é diferida e thread-safe, evitando boilerplate de double-checked locking."
+          }
+        ]
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/java-news-roundup-apr27-2026/",
+      "published_at": "2026-05-04T10:00:00-03:00",
+      "image": "https://res.infoq.com/news/2026/04/java-news-roundup-apr20-2026/en/headerimage/java-news-roundup-image-1777324638353.jpg",
+      "tags": [
+        "java",
+        "jdk27",
+        "jep",
+        "structured-concurrency"
+      ]
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "news",
+      "headline": "PostgreSQL 19 fecha feature freeze e Beta 1 entra na agenda de maio",
+      "description": "Comunidade fecha feature freeze em 8 de abril e prepara Beta 1 do PG19 para maio. Marcas: MERGE/SPLIT em partições, logical replication com menos WAL, e tooling de DBA mais leve. Release em setembro.",
+      "explain": {
+        "junior": "PostgreSQL é o banco relacional open-source mais popular. A versão 19 fechou o que vai entrar; agora vira testes públicos antes do release final em setembro.",
+        "pleno": "MERGE/SPLIT em partições resolve operação cara de reorganizar dados por tempo. Redução de WAL em logical replication ataca custo de bandwidth cross-region. PG19 também avança em monitoramento built-in: pg_stat_statements normalize cobre mais casos, pg_wait_events oferece amostragem leve para identificar contention.",
+        "senior": "Para arquiteto: avalie se logical replication evolução habilita arquiteturas que antes exigiam Debezium/Kafka. Combine PG19 + extensions Iceberg-friendly (pg_lake, pg_mooncake) para unificar OLTP e analytics. Plano de upgrade já em Q3 antes da janela de freeze do time.",
+        "glossary": [
+          {
+            "term": "feature freeze",
+            "def": "Marco no ciclo do PostgreSQL em que apenas correções de bug entram; novas features só na próxima major."
+          },
+          {
+            "term": "MERGE/SPLIT partitions",
+            "def": "Comandos que permitem reorganizar partições existentes (juntar duas em uma, dividir uma) sem recriar tabela."
+          },
+          {
+            "term": "logical replication",
+            "def": "Replicação que reproduz mudanças no nível de linhas/tabelas (não físico/blocos); permite replicar entre versões."
+          },
+          {
+            "term": "WAL",
+            "def": "Write-Ahead Log — registro sequencial de modificações usado para crash recovery e replicação."
+          }
+        ]
+      },
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/developer/roadmap/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png",
+      "tags": [
+        "postgres",
+        "release",
+        "replication",
+        "partitions"
+      ]
+    },
+    {
+      "tool_key": "cursor",
+      "name": "Cursor IDE",
+      "icon": "🎯",
+      "kind": "release",
+      "version": "3.2",
+      "headline": "Cursor 3.2 lança subagents async via /multitask e multi-root workspaces",
+      "description": "Cursor 3.2 (24 de abril) introduz /multitask paralelizando subagents e multi-root workspace para mudanças cross-repo. Worktrees experience aprimorada. Mantém Claude/GPT models.",
+      "explain": {
+        "junior": "Cursor é uma IDE com IA. A 3.2 deixa rodar várias tarefas de IA ao mesmo tempo (em vez de uma a uma) e facilita trabalhar com vários repositórios git de uma vez.",
+        "pleno": "Subagents async em /multitask quebra gargalo de chat sequencial: 'refator esses 5 services' dispara 5 agents em paralelo, cada um isolado em worktree. Multi-root workspace permite ter 3+ repos abertos com agents que enxergam todos. Combinação destrava workflows monorepo/poly-repo.",
+        "senior": "Para arquiteto: para times Cursor, 3.2 reduz tempo de chore tasks 30-50% em cenários certos (renames cross-repo, security fix em N services). Pesar custo de credit-based billing. Feature similar virá em Claude Code e Windsurf.",
+        "glossary": [
+          {
+            "term": "subagent",
+            "def": "Agent secundário disparado pelo agent principal; isolado em contexto e ferramenta."
+          },
+          {
+            "term": "worktree",
+            "def": "Feature do git que cria checkout adicional do mesmo repo em diretório separado."
+          },
+          {
+            "term": "multi-root workspace",
+            "def": "Workspace que abre múltiplos diretórios/repos como pares de primeira classe."
+          },
+          {
+            "term": "credit-based billing",
+            "def": "Modelo onde cada operação de IA consome créditos; substitui assinatura flat fee."
+          }
+        ]
+      },
+      "source_key": "cursor",
+      "url": "https://cursor.com/changelog/3-2",
+      "published_at": "2026-04-24T18:00:00-03:00",
+      "image": "https://www.cursor.com/og-image.png",
+      "tags": [
+        "cursor",
+        "agents",
+        "ai-coding",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "datadog",
+      "name": "Datadog",
+      "icon": "🐶",
+      "kind": "news",
+      "headline": "Datadog GPU Monitoring chega ao GA — telemetria liga workload AI a fleet health e custo",
+      "description": "GA mundial de GPU Monitoring em 22 de abril. Liga métricas de GPU (utilization, ECC, link bandwidth) a workload via APM, dando SLO de inferência e detecção precoce de degradação.",
+      "explain": {
+        "junior": "Datadog agora monitora GPUs — placas usadas para treinar e rodar modelos de IA — e mostra quanto custam, se estão ocupadas e se vão falhar.",
+        "pleno": "Métricas além de utilization: temperatura, ECC errors, link bandwidth e frequência por kernel. Liga isso ao traçado de workload via APM, mostrando qual time/modelo está consumindo cada GPU-hora. Permite SLO de inferência (latência p99 + custo por 1k tokens) e detecção precoce de degradação.",
+        "senior": "Para arquiteto: peça de visibility crítica em qualquer plataforma de IA própria. Sem ela, FinOps de GPU vira ilação. Compare com OpenTelemetry GPU semantic conventions antes de bater o vendor lock — fleets grandes inflam fatura rápido.",
+        "glossary": [
+          {
+            "term": "GPU utilization",
+            "def": "Métrica nvidia-smi que mostra % de tempo com kernel ativo; engana porque ignora ineficiência de memory bandwidth."
+          },
+          {
+            "term": "ECC errors",
+            "def": "Erros de Error-Correcting Code na memória da GPU; correctable indicam degradação, uncorrectable causam crash."
+          },
+          {
+            "term": "fleet",
+            "def": "Conjunto de GPUs gerenciadas como pool; comum em treino distribuído e inferência multi-tenant."
+          },
+          {
+            "term": "FinOps",
+            "def": "Disciplina de gestão financeira de cloud; em GPU desperdício chega a 60% por ociosidade."
+          }
+        ]
+      },
+      "source_key": "datadog",
+      "url": "https://www.datadoghq.com/blog/gpu-monitoring-ga/",
+      "published_at": "2026-04-22T14:00:00-03:00",
+      "image": "https://imgix.datadoghq.com/img/blog/datadog-gpu-monitoring/datadog-gpu-monitoring-hero-2.png?auto=format&fit=max&w=847",
+      "tags": [
+        "datadog",
+        "gpu",
+        "observability",
+        "release"
+      ]
+    },
+    {
+      "tool_key": "databricks",
+      "name": "Databricks",
+      "icon": "🧱",
+      "kind": "news",
+      "headline": "Databricks fecha parceria com DBOS e empurra durable execution para Postgres-friendly",
+      "description": "DBOS anuncia parceria com Databricks e Go SDK em abril, posicionando workflow architectures como alternativa a event-driven em apps que preferem Postgres como single source. Databricks oferece DBOS como opção de orquestração lightweight ao lado de Workflows próprios.",
+      "explain": {
+        "junior": "Durable execution é uma forma de escrever código que continua de onde parou se cair. DBOS faz isso usando Postgres. Databricks adicionou DBOS como opção para clientes que preferem essa abordagem.",
+        "pleno": "DBOS armazena estado de workflow no Postgres do app — uma transação só, dado e código no mesmo banco. Parceria Databricks + Go SDK destrava casos onde orquestração mais leve faz sentido (sem cluster Temporal). Vai ao encontro do argumento de Mike Stonebraker: workflow architectures > event-driven em fault-tolerance simples.",
+        "senior": "Para arquiteto: para a maioria dos backend services em 2026, DBOS é suficiente — uma DB, um deploy, métricas comuns. Se a aplicação roda em Databricks (Spark + dbt) e precisa de orquestração de workflow stateful, DBOS é caminho de menor fricção. Para fan-out massivo, Temporal mantém vantagem.",
+        "glossary": [
+          {
+            "term": "DBOS",
+            "def": "Plataforma de workflow co-fundada por Mike Stonebraker; armazena estado em Postgres e roda como library no app."
+          },
+          {
+            "term": "Durable Execution",
+            "def": "Modelo em que o framework garante que o código rode até o fim — retoma após falha, faz retry e mantém exactly-once."
+          },
+          {
+            "term": "Workflow Architecture",
+            "def": "Estilo onde processo de negócio é código declarativo orquestrado pelo framework; alternativa a saga + eventos."
+          },
+          {
+            "term": "Lakehouse",
+            "def": "Padrão da Databricks que combina data lake + warehouse com transações ACID via Delta Lake / Iceberg."
+          }
+        ]
+      },
+      "source_key": "databricks",
+      "url": "https://www.databricks.com/blog/dbos-partnership-durable-workflows",
+      "published_at": "2026-04-29T11:00:00-03:00",
+      "image": "https://www.databricks.com/sites/default/files/2025-09/blog-meta-image.png",
+      "tags": [
+        "databricks",
+        "dbos",
+        "durable-execution",
+        "partnership"
+      ]
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🚀",
+      "kind": "news",
+      "headline": "Argo CD 3.4 entra em rampdown — five features para acompanhar antes do release",
+      "description": "Roadmap pós-3.3 (Syncing Sophistication) consolida cinco temas para 3.4: melhor UI Application Sets, hardening de security context, integração nativa com OCI charts, observability via OTel e API expansion para CRDs custom. Cadência de four releases por ano mantida.",
+      "explain": {
+        "junior": "Argo CD é a ferramenta GitOps mais usada em Kubernetes. A versão 3.4 está chegando com melhorias em UI, segurança e suporte a charts em OCI registry (formato moderno).",
+        "pleno": "Foco da 3.4 é o terreno entre 'feature complete' e 'production polish': Application Sets ganha UI mais sólida, security context hardening reduz superfície em runtime, OCI charts viram cidadão de primeira classe, e observability nativa via OTel sai de bolt-on para integração core. API gain destrava CRDs custom em ApplicationSet.",
+        "senior": "Para arquiteto: cadência trimestral de minor releases torna Argo CD previsível para roadmap de plataforma. Combine 3.4 com Gateway API + ambient mode (Istio) para stack platform engineering modern em 2026. Avalie OCI charts versus Helm tradicional — registries únicos para image + chart simplificam supply chain security.",
+        "glossary": [
+          {
+            "term": "GitOps",
+            "def": "Padrão onde estado desejado fica em git; agent (Argo CD) reconcilia continuamente com cluster real."
+          },
+          {
+            "term": "Application Set",
+            "def": "CRD do Argo que gera múltiplas Applications dinamicamente a partir de generator (cluster, list, git)."
+          },
+          {
+            "term": "OCI charts",
+            "def": "Helm charts armazenados em registry OCI (Docker registry v2); substituem chart museum tradicional."
+          },
+          {
+            "term": "rampdown",
+            "def": "Período no fim do ciclo onde apenas bugfixes entram; new features ficam para próxima minor."
+          }
+        ]
+      },
+      "source_key": "argo",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.0",
+      "published_at": "2026-05-04T12:00:00-03:00",
+      "image": "https://opengraph.githubassets.com/1/argoproj/argo-cd",
+      "tags": [
+        "argocd",
+        "gitops",
+        "kubernetes",
+        "roadmap"
+      ]
+    },
+    {
+      "tool_key": "structurizr",
+      "name": "Structurizr",
+      "icon": "📐",
+      "kind": "tutorial",
+      "headline": "Structurizr DSL + ADRs: arquitetura como código que sobrevive ao próximo time",
+      "description": "Compilado de práticas que combinam Structurizr DSL para diagramas C4 versionados em git e ADRs (Architecture Decision Records) para registrar 'porquês'. Ferramenta cobre Containers, Components e Code views, gera deploy-time docs e integra com Mermaid/PlantUML como fallback de export.",
+      "explain": {
+        "junior": "Structurizr é uma ferramenta para fazer diagramas de arquitetura usando código (DSL). Junto com ADRs (decisões registradas em texto), ajuda time novo entender por que sistema está organizado de certa forma.",
+        "pleno": "C4 model define quatro níveis (Context, Containers, Components, Code) — Structurizr DSL cria todos a partir do mesmo modelo, evitando dessincronização. ADRs (formato proposto por Michael Nygard) documentam decisão + consequência + alternativas consideradas. Combinação resolve problema clássico: diagrama no Confluence vira lixo em 6 meses.",
+        "senior": "Para arquiteto: imponha Structurizr DSL versionado + ADRs em CI como artifact obrigatório. Diagrama gerado é parte do PR. Mermaid serve para diagramas pequenos inline em docs; Structurizr para sistema inteiro. Veja Context Mapper como complemento se trabalha com DDD pesado.",
+        "glossary": [
+          {
+            "term": "C4 Model",
+            "def": "Notação de Simon Brown com 4 níveis (Context → Containers → Components → Code) para diagramas de arquitetura escaláveis."
+          },
+          {
+            "term": "ADR",
+            "def": "Architecture Decision Record — documento curto que captura decisão arquitetural (contexto, escolha, consequências)."
+          },
+          {
+            "term": "DSL",
+            "def": "Domain-Specific Language; no Structurizr, sintaxe específica para descrever modelo + views em texto versionável."
+          },
+          {
+            "term": "deploy-time docs",
+            "def": "Documentação gerada na pipeline de CD para refletir o estado real do sistema — não a versão idealizada do dev."
+          }
+        ]
+      },
+      "source_key": "structurizr",
+      "url": "https://structurizr.com/help/dsl",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "image": "https://static.structurizr.com/img/structurizr-banner.png",
+      "tags": [
+        "c4-model",
+        "adr",
+        "architecture-as-code",
+        "dsl"
+      ]
+    },
+    {
+      "tool_key": "mongodb",
+      "name": "MongoDB",
+      "icon": "🍃",
+      "kind": "tutorial",
+      "headline": "MongoDB Voyage 4 + LangChain: vetorização multimodal direto no Atlas Vector Search",
+      "description": "Atlas Vector Search com Voyage 4 (multimodal-3.5 GA — vídeo, imagem, texto) integra-se com LangChain via VectorStore retriever. Tutorial cobre schema, embedding automático e hybrid search (vetor + filtro). Caso real: RAG sobre vídeo aulas com clip-level retrieval.",
+      "explain": {
+        "junior": "MongoDB Atlas agora deixa armazenar vetores (representação numérica de texto, imagem, vídeo) e fazer busca por similaridade. Junto com LangChain (framework de IA), você monta um RAG (sistema que encontra contexto relevante para responder perguntas) com poucas linhas.",
+        "pleno": "voyage-multimodal-3.5 GA cobre vídeo (diferencial sobre OpenAI/Cohere). Atlas Vector Search já fazia HNSW + ANN; novo é embedding automático na ingestão (sem pipeline próprio). LangChain VectorStore retriever cobre cases comuns (similar_search, mmr). Hybrid search permite filtro estrutural (tenant_id, date range) + busca vetorial.",
+        "senior": "Para arquiteto: avaliar contra pgvector + Postgres como alternativa para times Mongo-heavy. Vantagem MongoDB: mesmo cluster para data + vetores, sem ETL. Desvantagem: lock-in maior. Para RAG sobre vídeo, é uma das poucas opções end-to-end maduras em 2026.",
+        "glossary": [
+          {
+            "term": "Vector Search",
+            "def": "Busca por similaridade em embeddings; dimensions altos (768+) com índices ANN (HNSW) para latência baixa."
+          },
+          {
+            "term": "Voyage AI",
+            "def": "Empresa adquirida pela MongoDB que fornece embeddings; voyage-3 GA, voyage-multimodal-3.5 cobre texto+imagem+vídeo."
+          },
+          {
+            "term": "RAG",
+            "def": "Retrieval-Augmented Generation — pipeline de IA que busca contexto relevante e injeta em prompt."
+          },
+          {
+            "term": "Hybrid Search",
+            "def": "Combinação de filtro estrutural (campos exatos) + busca vetorial (similaridade); reduz recall e melhora precisão."
+          }
+        ]
+      },
+      "source_key": "mongodb",
+      "url": "https://www.mongodb.com/developer/products/atlas/atlas-vector-search-voyage-langchain/",
+      "published_at": "2026-05-04T10:00:00-03:00",
+      "image": "https://webimages.mongodb.com/_com_assets/cms/Press_OpenGraph-rzmnllyvs5.png",
+      "tags": [
+        "mongodb",
+        "voyage",
+        "vector-search",
+        "rag"
+      ]
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "release",
+      "version": "Desktop 4.71.0",
+      "headline": "Docker Desktop 4.71 encerra suporte a RHEL 8 e estabiliza image cache automatizado",
+      "description": "Versão 4.71.0 (27 de abril) marca fim do suporte ao RHEL 8 e segue 4.70 que adicionou CLI hint para Logs view e image cache automatizado. Releases agora a cada duas semanas. Patches recentes cobrem CVE-2026-2664 (grpcfuse OOB read) e CVE-2026-28400 (runtime flag injection).",
+      "explain": {
+        "junior": "Docker Desktop é a versão para desktop do Docker (Windows/Mac/Linux). A 4.71 parou de suportar Red Hat 8, e versões recentes adicionam dicas no terminal e cache automático de imagens.",
+        "pleno": "Image cache automatizado evita re-download desnecessário em cenários de pull repetido (CI local, multi-container compose). Drop de RHEL 8 reflete EOL Red Hat. Cadência quinzenal aproxima Docker Desktop de produto SaaS — patches de CVE saem rápido.",
+        "senior": "Para arquiteto: padronize Docker Desktop 4.71+ em estações de dev. Para CI/CD com Docker Engine puro em RHEL 8, planeje migração — segurança parou de receber backport. Avalie alternativas (Podman, Rancher Desktop) em fleets corporativos com licensing concerns.",
+        "glossary": [
+          {
+            "term": "Docker Desktop",
+            "def": "Aplicação que provê Docker Engine + GUI + Kubernetes para Windows/Mac/Linux; licença comercial em empresas grandes."
+          },
+          {
+            "term": "image cache",
+            "def": "Camada local que evita re-download de layers já presentes; em 4.70 ganhou automação para cleanup."
+          },
+          {
+            "term": "grpcfuse",
+            "def": "Módulo do Docker Desktop que expõe filesystems via gRPC + FUSE; CVE-2026-2664 é OOB read corrigido em 4.71."
+          },
+          {
+            "term": "MPM",
+            "def": "Multi-Processing Module — modelos do Apache (event, worker, prefork) que controlam como processos atendem requisições."
+          }
+        ]
+      },
+      "source_key": "docker",
+      "url": "https://docs.docker.com/desktop/release-notes/",
+      "published_at": "2026-04-27T10:00:00-03:00",
+      "image": "https://docs.docker.com/images/thumbnail.webp",
+      "tags": [
+        "docker",
+        "release",
+        "rhel8",
+        "cve"
+      ]
+    },
+    {
+      "tool_key": "mermaid",
+      "name": "Mermaid",
+      "icon": "📊",
+      "kind": "tutorial",
+      "headline": "Mermaid em PRs: diagramas inline para fluxo de eventos e ADRs sem ferramenta externa",
+      "description": "GitHub e GitLab renderizam Mermaid nativamente em Markdown. Tutorial mostra como usar para sequence diagrams de fluxo de evento (Kafka producer/consumer), state diagrams para máquinas de estado de pedido e flowcharts em ADRs — sem precisar PlantUML server ou Structurizr.",
+      "explain": {
+        "junior": "Mermaid é uma forma de fazer diagramas escrevendo texto, parecido com Markdown. GitHub renderiza automaticamente, então você coloca o diagrama direto no README ou PR.",
+        "pleno": "Sintaxe cobre 20+ tipos: flowchart, sequence, state, class, ER, gantt, gitGraph, journey, mindmap, timeline. Em PRs, reviewers veem o diagrama na hora — não precisa abrir tool externa. Para diagramas grandes (system landscape), Structurizr/PlantUML continuam mais robustos; para inline em Markdown, Mermaid vence em fricção zero.",
+        "senior": "Para arquiteto: padronize Mermaid em PRs (sequence diagrams), ADRs (decisões com flowchart de alternativas) e READMEs (state diagrams de máquina de domínio). Combina com Structurizr para system overview e PlantUML para diagrams ricos. Ganhos em onboarding e PR review.",
+        "glossary": [
+          {
+            "term": "Mermaid",
+            "def": "JavaScript library que renderiza diagramas a partir de texto; sintaxe inspirada em Markdown."
+          },
+          {
+            "term": "sequence diagram",
+            "def": "Tipo de diagrama UML que mostra interação temporal entre atores/sistemas com setas e activations."
+          },
+          {
+            "term": "state diagram",
+            "def": "Diagrama UML que modela estados possíveis de uma entidade e transições; útil para máquinas de pedido/checkout."
+          },
+          {
+            "term": "ADR",
+            "def": "Architecture Decision Record — documento que captura decisão arquitetural; comum incluir Mermaid para alternativas."
+          }
+        ]
+      },
+      "source_key": "mermaid",
+      "url": "https://mermaid.js.org/intro/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "image": "https://mermaid.js.org/header.png",
+      "tags": [
+        "mermaid",
+        "diagrams-as-code",
+        "documentation",
+        "github"
+      ]
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "📨",
+      "kind": "tutorial",
+      "headline": "Kafka 4.0 + KRaft: como sair do ZooKeeper sem janela de manutenção em produção",
+      "description": "Kafka 4.0 removeu ZooKeeper definitivamente (KRaft é único modo). Tutorial cobre upgrade rolling de cluster ZK → KRaft com zero downtime, gotchas de ACLs e quotas, monitoramento via JMX após mudança e checklist de validação pós-cutover. Acompanha movimento Confluent de schema IDs em headers.",
+      "explain": {
+        "junior": "Kafka é a fila de mensagens mais usada para arquitetura orientada a eventos. Antes precisava de outro serviço (ZooKeeper) para coordenar; agora ele faz tudo sozinho via KRaft. Migrar precisa cuidado para não derrubar produção.",
+        "pleno": "KRaft (Kafka Raft) substitui ZK como source of truth de metadata. Migração zero-downtime envolve: upgrade brokers para 3.6+, configure dual-write mode, migrate metadata para Raft, decommission ZK. ACLs e quotas têm armadilhas — formato de armazenamento mudou. Monitoramento JMX precisa novos MBeans.",
+        "senior": "Para arquiteto: agendar migração para Q3 com runbook detalhado. Combine com upgrade Confluent Schema Registry (schema IDs em headers) para reduzir acoplamento. Avalie Tansu.io e Kafka-compatible alternatives — Kafka 4.0 maturou, mas operação ainda pesada vs sistemas mais leves para casos médios.",
+        "glossary": [
+          {
+            "term": "KRaft",
+            "def": "Kafka Raft Metadata mode — substitui ZooKeeper como controlador de cluster; default em Kafka 4.0."
+          },
+          {
+            "term": "ZooKeeper",
+            "def": "Serviço de coordenação distribuída usado historicamente pelo Kafka para metadata; obsoleto a partir do 4.0."
+          },
+          {
+            "term": "Schema Registry",
+            "def": "Serviço Confluent que armazena schemas (Avro, Protobuf, JSON) e gera schema IDs; em 2026 IDs migram para headers."
+          },
+          {
+            "term": "rolling upgrade",
+            "def": "Estratégia de atualização um broker por vez, mantendo cluster sempre operacional."
+          }
+        ]
+      },
+      "source_key": "kafka",
+      "url": "https://kafka.apache.org/40/documentation.html",
+      "published_at": "2026-05-04T09:00:00-03:00",
+      "image": "https://res.infoq.com/news/2026/04/spring-news-roundup-apr20-2026/en/headerimage/java-istock-image-01-1777241266425.jpg",
+      "tags": [
+        "kafka",
+        "kraft",
+        "zookeeper",
+        "migration"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "id": "F6A_HpTJCVQ",
+      "url": "https://www.youtube.com/watch?v=F6A_HpTJCVQ",
+      "title": "AIOps na Pratica: Como a IA Vai Transformar DevOps em 2026",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/_pYvcX5DjfCnxBd7v7jLwtUM3Vmem0Mfeh0cWo8sn5gNRP_VmL7gC3RuG56PPcZj-aDlkBYVQA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-01-06",
+      "duration": "22 min"
+    },
+    {
+      "id": "YzapWW6RK18",
+      "url": "https://www.youtube.com/watch?v=YzapWW6RK18",
+      "title": "GOLANG: A MAIOR OPORTUNIDADE DE 2026 E NINGUÉM ESTÁ VENDO!",
+      "channel": "Renato Augusto",
+      "channel_avatar": "https://yt3.googleusercontent.com/X1zr1L4qQRKJrgLfx8rHzS84-pT4Kc8a-yqGQfAJ-sXZHrVH8mMK3-eEW3jVMyB6kxK_nPGy=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-22",
+      "duration": "18 min"
+    },
+    {
+      "id": "GhLDw9Tgcus",
+      "url": "https://www.youtube.com/watch?v=GhLDw9Tgcus",
+      "title": "Mano Deyvin x Vibe Coder | O ULTIMATO",
+      "channel": "Mano Deyvin",
+      "channel_avatar": "https://yt3.googleusercontent.com/yIZF4_NBNjqHVvLGLMvbY1mOyxk3DJrJvmsfNZNW9FksyBPjxpWB5z0ngKZD-0g0BsaUOeEYAA=s900-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-30",
+      "duration": "32 min"
+    }
+  ],
+  "sources": []
+}
