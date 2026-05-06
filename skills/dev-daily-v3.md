@@ -148,6 +148,7 @@ Escrever o arquivo em disco antes de pesquisar garante que compressão de contex
   "weekday": "<dia da semana em PT-BR>",
   "formatted_date": "<ex: 18 de abril de {current_year}>",
   "generated_at": "<ISO timestamp agora>",
+  "editorial_thesis": "",
   "hero_title": "",
   "hero_description": "",
   "edition_digest": "",
@@ -190,11 +191,15 @@ Use essas quatro respostas para escrever `summary` e `explain`.
 
 - `comece`: 35-65 palavras. Introduz o domínio e o vocabulário essencial da notícia. Explique o que é e por que importa sem pressupor contexto, mas sem infantilizar.
 - `aprofunde`: 55-95 palavras. Explica mecanismo, integração com o ecossistema e trade-off técnico. Deve responder "como isso funciona na prática?".
-- `decida`: 45-85 palavras. Fecha com leitura de decisão: quando adotar, quando evitar, risco operacional, impacto arquitetural e próximo passo técnico.
+- `decida`: 45-100 palavras. Fecha com leitura de decisão: quando adotar, quando evitar, risco operacional, impacto arquitetural e próximo passo técnico.
 - `glossary`: 2-5 termos quando houver siglas, protocolos, produtos, CVEs, padrões ou conceitos não óbvios. Cada definição deve ter até 28 palavras, ser autônoma e não repetir a explicação.
 - Use nomes concretos da notícia. Ex.: se a notícia é sobre Quarkus tree-shaking, as três abas precisam falar de Quarkus, bytecode, build/runtime e impacto de empacotamento.
 - Não coloque listas, Markdown, links, HTML ou quebras de linha dentro de `comece`, `aprofunde` ou `decida`. A UI renderiza texto plano dentro da aba.
 - Evite frases vagas: "isso melhora a produtividade", "isso é importante para empresas", "vale ficar de olho". Troque por consequência testável.
+
+#### REGRA ANTI-LEGACY (obrigatória, bloqueante)
+
+As ÚNICAS chaves aceitas em `explain` são `comece`, `aprofunde` e `decida` (mais `glossary`). NUNCA gere `junior`, `pleno` ou `senior` — essas são chaves legacy de versões anteriores do produto e produzem inconsistência na UI. Se você gerou legacy por reflexo, RESCREVA antes do checkpoint. O validador local rejeita a edição se detectar qualquer chave legacy em qualquer item de `news[]`, `tools[]` ou `highlights[]`.
 
 #### Regra para `tip` e `curiosity`
 
@@ -316,11 +321,19 @@ Antes de entrar em ferramentas, revise `news[]` como pauta jornalística, não c
 
 #### Prioridade 1 — Ferramentas com update real recente (prioridade máxima)
 
-Busque ferramentas do catálogo (ver `## LINGUAGENS & FERRAMENTAS MONITORADAS`) que tiveram:
+**Esgote esta prioridade ANTES de ir pra Prioridade 2.** Para cada ferramenta do catálogo (38 tools listadas em `## LINGUAGENS & FERRAMENTAS MONITORADAS`), faça uma busca rápida:
+
+```
+WebSearch("{tool_name} release {current_year} OR CVE OR announcement after:{last_generated}")
+```
+
+Marque como candidata se tiver:
 - **Release oficial** nos últimos 3-7 dias (changelog/release notes).
 - **News relevante** nos últimos 3-7 dias (CVE crítico, feature anunciada, incidente, aquisição).
 
-Use estas primeiro. Toda ferramenta com update real relevante **deve** entrar, mesmo que ultrapasse 10. Na FASE 5D, priorize recursos de `learning` para esses itens.
+Use TODAS as candidatas qualificadas, mesmo que ultrapasse 10. Na FASE 5D, priorize recursos de `learning` para esses itens.
+
+**Cota mínima**: a edição final deve ter **pelo menos 2 itens com `kind` em `{release, news}`**. Se Prioridade 1 não retornar 2, faça WebSearch adicional dirigido para releases conhecidos da semana (HackerNews releases tag, GitHub Releases trending, etc.). Só caia em rotação evergreen depois disso.
 
 #### Prioridade 2 — Rotação para completar o mínimo de 10
 
@@ -361,42 +374,52 @@ Se não houver update real E a rotação levar você a uma ferramenta sem conte�
 
 ---
 
-### FASE 5B — Vídeos do YouTube (3 por edição)
+### FASE 5B — Vídeos do YouTube (5 por edição, com trilha de aprendizado)
 
-Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da edição.
+Curate **5 vídeos do YouTube** relacionados aos temas mais relevantes da edição.
 
 **Perfil dos vídeos**:
 - Conteúdo dos canais fixos abaixo — **não busque fora dessa lista**.
 - Relevância temática: conectem-se aos temas cobertos na edição (`highlights[]` e top `news[]`).
-- Trilha de aprendizado: os 3 vídeos devem cobrir três funções diferentes: **conceito/fundamento**, **tutorial prático** e **contexto arquitetural/case**. Evite três vídeos com o mesmo ângulo.
-- Varie os canais a cada edição — não repita o mesmo canal nas 3 slots.
+- **Trilha de aprendizado obrigatória**: os 5 vídeos devem cobrir 5 papéis distintos via campo `track_role`:
+  - `concept` — conceito/fundamento (ex.: "como funciona X", "o que é Y")
+  - `tutorial` — tutorial prático/hands-on (ex.: "construindo X", "implementando Y")
+  - `architecture` — contexto arquitetural/case real de empresa
+  - `news` — notícia técnica em PT-BR (Cortes do Mano, Compilado Podcast)
+  - `deep_dive` — análise profunda em EN (ByteByteGo é o canal canônico)
+- **Diversidade de canais**: nenhum canal repete em 2 slots da mesma edição.
 - Não repita `id` de vídeos de edições anteriores.
 
 **Canais autorizados**:
 
-| Canal | URL | Idioma |
-|---|---|---|
-| ByteByteGo | https://www.youtube.com/@ByteByteGo | EN |
-| Mano Deyvin | https://www.youtube.com/@manodeyvin | PT-BR |
-| Renato Augusto Tech | https://www.youtube.com/@RenatoAugustoTech | PT-BR |
-| Fabricio Veronez | https://www.youtube.com/@fabricioveronez | PT-BR |
-| Lucas Montano | https://www.youtube.com/@LucasMontano | PT-BR |
-| Guto Galego | https://www.youtube.com/@GutoGalego | PT-BR |
-| Cortes do Mano (ofc) | https://www.youtube.com/@cortesdomanoofc | PT-BR |
-| Compilado Podcast | https://www.youtube.com/@CompiladoPodcast | PT-BR |
-| Código Fonte TV | https://www.youtube.com/@codigofontetv | PT-BR |
+| Canal | URL | Idioma | Roles típicos |
+|---|---|---|---|
+| ByteByteGo | https://www.youtube.com/@ByteByteGo | EN | concept, deep_dive, architecture |
+| Mano Deyvin | https://www.youtube.com/@manodeyvin | PT-BR | tutorial, concept |
+| Renato Augusto Tech | https://www.youtube.com/@RenatoAugustoTech | PT-BR | tutorial, architecture |
+| Fabricio Veronez | https://www.youtube.com/@fabricioveronez | PT-BR | tutorial, architecture |
+| Lucas Montano | https://www.youtube.com/@LucasMontano | PT-BR | architecture, concept |
+| Guto Galego | https://www.youtube.com/@GutoGalego | PT-BR | concept, architecture |
+| Cortes do Mano (ofc) | https://www.youtube.com/@cortesdomanoofc | PT-BR | news |
+| Compilado Podcast | https://www.youtube.com/@CompiladoPodcast | PT-BR | news |
+| Código Fonte TV | https://www.youtube.com/@codigofontetv | PT-BR | concept, news |
 
 **Como buscar**:
-- `WebFetch("https://www.youtube.com/@{handle}/videos", "List the 10 most recent videos with title, URL and publish date.")` — faça para 3-4 canais relevantes.
-- Escolha 1 vídeo por canal, variando entre PT-BR e EN. ByteByteGo deve aparecer quando o tema for arquitetura/sistemas.
+- `WebFetch("https://www.youtube.com/@{handle}/videos", "List the 10 most recent videos with title, URL and publish date.")` — faça para 5-6 canais, cobrindo os 5 papéis.
+- Escolha 1 vídeo por canal, variando entre PT-BR e EN.
 - **Prefira canais que já têm `channel_avatar` salvo em edições anteriores** — reutilize o mesmo avatar URL.
 - Se o WebFetch do canal não retornar vídeos, tente `WebSearch("site:youtube.com \"<nome do canal>\" \"<tópico>\"")` como fallback.
 
 **Como preencher os campos**:
 1. Extraia `id` da URL YouTube (a parte após `?v=` ou após `youtu.be/`).
 2. **Validação obrigatória**: `WebFetch("https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={id}&format=json", "Return the JSON fields: title, author_name, author_url.")` — use `title` como `title`, `author_name` como `channel`. **Se o oEmbed retornar 404 ou erro, descarte e escolha outro vídeo.** Nunca salve `title: ""`.
-3. Preencha `published_at` (formato `YYYY-MM-DD`) e `duration` (ex. `"12 min"` ou `"1h 05 min"`) se conseguir extrair.
-4. **Avatar do canal** — em ordem: (a) cache local de edições anteriores; (b) YouTube Data API via `.secrets`; (c) omitir se os dois falharem.
+3. Preencha `published_at` (formato `YYYY-MM-DD`) e `duration` (ex. `"12 min"` ou `"1h 05 min"`). **`published_at` é OBRIGATÓRIO** — busque no oEmbed estendido ou via WebFetch da página do vídeo. Se realmente não encontrar, marque `published_at: null` e o validador permite, mas log a falha.
+4. **Avatar do canal** — em ordem: (a) cache local de edições anteriores (procure em `data/editions/` últimas 30 edições por mesmo `channel`); (b) YouTube Data API via `.secrets`; (c) omitir se os dois falharem. **A UI tem placeholder visual quando ausente** — não invente URL.
+5. **`freshness` inteligente**: avalie o título e tipo do vídeo:
+   - Vídeo de **podcast de notícias** (título com `#NN` numerado, ou termos "novo", "expulso", "lançou", "anunciou") → `"fresh"`
+   - Vídeo de **conceito atemporal** (título "Como funciona", "O que é", "vs", explicações técnicas) → `"evergreen"`
+   - Em dúvida, prefira `"evergreen"` — é o default seguro.
+6. **`track_role` é OBRIGATÓRIO**: `concept`, `tutorial`, `architecture`, `news` ou `deep_dive`.
 
 **Estrutura de cada item de `videos[]`**:
 ```json
@@ -407,11 +430,15 @@ Curate **3 vídeos do YouTube** relacionados aos temas mais relevantes da ediç�
   "channel": "Nome do canal",
   "channel_avatar": "https://yt3.googleusercontent.com/...",
   "published_at": "2026-04-15",
-  "duration": "12 min"
+  "duration": "12 min",
+  "track_role": "concept",
+  "freshness": "evergreen"
 }
 ```
 
 > Não inclua campo `start` — todos os vídeos sempre iniciam do segundo zero.
+
+**Validação de trilha (BLOQUEANTE)**: a edição deve ter os 5 `track_role` distintos. Não pode haver 2 vídeos com mesmo role. Se faltar role, busque outro vídeo até completar.
 
 **Ao fim da FASE 5B**: CHECKPOINT → Read / adicione `videos[]` / Write.
 
@@ -474,6 +501,34 @@ Pegue o primeiro resultado cujo título cubra o mesmo fato/produto. Rode Tentati
 
 **Exceção única**: `tools[]` com `kind` in `{tip, curiosity}` pode ter `image` omitido se as 3 tentativas falharem.
 
+#### Marcação obrigatória de `image_kind` (novo campo)
+
+Para cada item, ao salvar `image`, salve também `image_kind` indicando a origem da imagem:
+
+| Valor | Significado | Quando usar |
+|---|---|---|
+| `editorial` | og:image específica do artigo (Tentativa 1 funcionou) | Imagem real do post, com hero image, screenshot ou foto editorial |
+| `alternative` | og:image de cobertura alternativa (Tentativa 2 funcionou) | Mesma notícia em outro veículo (TechCrunch, InfoQ, etc.) |
+| `institutional` | fallback institucional do domínio (Tentativa 3) | Logo/og:image padrão do vendor (ex.: aws_logo_smile, grafana-meta.png) |
+
+A UI usa esse campo para diferenciar visualmente imagens editoriais (foto do post) de logos institucionais (genéricos).
+
+#### Cota máxima de imagens institucionais (BLOQUEANTE)
+
+**No máximo 30% dos itens da edição podem ter `image_kind: "institutional"`**. Se ultrapassar, volte aos itens com fallback e tente mais agressivamente as Tentativas 1 e 2:
+
+- Para a Tentativa 2, force pesquisa em **2-3 fontes secundárias** (ex.: TechCrunch, InfoQ, BleepingComputer, TheNewStack, theregister.com) que historicamente publicam og:image editorial mais frequente.
+- Se ainda assim falhar, considere **substituir o item editorial** por outro candidato qualificado da mesma categoria que tenha imagem editorial — qualidade visual do produto vale mais do que cobertura completa do tópico.
+
+```bash
+# Validação da cota (bloqueante antes de FASE 5D)
+jq -e '
+  ([.news[], .highlights[], (.tools[] | select((.kind // "news") as $k | ["release","news","tutorial"] | index($k)))]
+   | map(.image_kind // "unknown")) as $kinds
+  | (($kinds | map(select(. == "institutional")) | length) * 100 / ($kinds | length)) < 30
+' data/editions/{YYYY-MM-DD}.json
+```
+
 #### Validação local após o sweep (BLOQUEANTE)
 
 ```bash
@@ -488,7 +543,7 @@ jq -e '
 
 **Não avance para FASE 5D até a lista zerar.**
 
-**Regra para `highlights[]`**: o `image` do highlight é **copiado do item de origem em `news[]`/`tools[]`** — nunca re-buscado da página do artigo.
+**Regra para `highlights[]`**: o `image` do highlight é **copiado do item de origem em `news[]`/`tools[]`** — nunca re-buscado da página do artigo. O `image_kind` também é copiado.
 
 **Ao fim da FASE 5C**: CHECKPOINT → Read / atualize `image` em todos os itens / Write / valide o `jq` acima.
 
@@ -586,9 +641,18 @@ Percorra todos os itens de `news[]`, `tools[]`, `highlights[]` e `videos[]` e at
 
 **Aplique o PERFIL EDITORIAL DO CESAR antes de escolher hero/highlights.**
 
-**Tese da edição**: antes do hero, escreva mentalmente uma tese editorial de 1 frase sobre qual mudança técnica do dia importa para arquitetura/plataforma.
+**Tese da edição**: antes do hero, escreva uma tese editorial de 1 frase sobre qual mudança técnica do dia importa para arquitetura/plataforma. Salve em `editorial_thesis` (campo de primeiro nível do JSON da edição) — **CAMPO OBRIGATÓRIO**, não apenas mental.
 
 **Hero**: selecione o tema de maior impacto dentro das categorias principais. Escreva `hero_title` (máx 80 chars) e `hero_description` (2-3 frases, contexto editorial). Se a janela foi estreita, mencione isso aqui.
+
+**Score visível**: para cada item de `news[]`, `tools[]` e `highlights[]`, salve o score calculado e o breakdown:
+```json
+{
+  "score": 7,
+  "score_breakdown": ["release+3", "convergencia+2", "utilidade+2"]
+}
+```
+Permite auditoria editorial pós-edição. Se um item entrar como highlight com score baixo, o `score_breakdown` mostra o motivo (ex.: PERFIL EDITORIAL DO CESAR sobrepõe score puro).
 
 **Highlights (top 3 do dia)**:
 1. Tente selecionar **3 itens de categorias principais** com melhor score e imagem editorial validada.
@@ -611,31 +675,36 @@ Score ≥5 continua preferido, mas **não escolha top 3 por score bruto** se iss
 
 Verifique todos os itens antes de declarar a edição concluída:
 
-- [ ] **URLs específicas**: nenhuma termina em `/blog/`, `/releases`, `/changelog`, `/news/` sem slug.
-- [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que todos os URLs publicados apontam para páginas específicas.
+- [ ] **URLs específicas**: nenhuma termina em `/blog/`, `/releases`, `/changelog`, `/news/`, `/articles/`, `/posts/` sem slug.
+- [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que todos os URLs publicados apontam para páginas específicas E o título da página menciona o produto/versão/CVE do `headline` (verificação semântica).
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou intra-edição.
+- [ ] **Sem duplicatas highlights ↔ news**: nenhuma URL de `highlights[]` aparece também em `news[]`. Se um item virou highlight, ele NÃO repete em `news[]` — `highlights[]` substitui o item, não duplica.
 - [ ] **Highlights completo**: exatamente 3 itens — selecionados por score + PERFIL EDITORIAL DO CESAR, ideal ≥2 categorias distintas.
-- [ ] **Highlights com `learning`**: pelo menos 2 dos 3 highlights devem ter `learning` preenchido sempre que possível.
+- [ ] **Highlights com `learning`**: **3/3 highlights obrigatório** com `learning` preenchido. Se algum não tiver, escolha outro highlight.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤24h) / 20 (1-3 dias) / 25 (>3 dias).
+- [ ] **Cobertura `learning` em `news[]`**: ≥80% dos itens com `learning` preenchido. Itens sem learning DEVEM ter `learning_missing_reason`.
 - [ ] **Distribuição editorial**: tende a 50-60% categorias principais, 25-35% secundárias, máximo 15-20% demais.
 - [ ] **Sexta-feira**: `fundamentals` tem 2-3 itens, ≥1 evergreen canônico.
 - [ ] **`tools[]` rotação**: mínimo 10 itens, **sem repetir** `tool_key` com URL idêntica das últimas 7 edições.
+- [ ] **`tools[]` campos obrigatórios**: `tool_key`, `kind`, `category`, `category_label`, `category_icon`, `headline`, `summary`, `url`, `image` (exceto `tip`/`curiosity` sem imagem), `explain`, `freshness`. **`category: null` falha a validação.**
 - [ ] **`kind === "release"` tem `version`**.
-- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`, `image`, `freshness`.
-- [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. Chaves obrigatórias: `comece` (35-65 palavras), `aprofunde` (55-95 palavras), `decida` (45-85 palavras). Para `tools[]` com `kind: "tip"` ou `"curiosity"`: apenas `comece` é obrigatório.
+- [ ] **Campos obrigatórios** em `news[]`: `category`, `category_label`, `category_icon`, `headline`, `summary`, `source_key`, `url`, `read_time`, `explain`, `image`, `image_kind`, `freshness`.
+- [ ] **Campo `explain`** obrigatório em cada item de `news[]`, `highlights[]` e `tools[]`. Chaves obrigatórias: `comece` (35-65 palavras), `aprofunde` (55-95 palavras), `decida` (45-100 palavras). **Chaves legacy (`junior`/`pleno`/`senior`) FALHAM A VALIDAÇÃO.** Para `tools[]` com `kind: "tip"` ou `"curiosity"`: apenas `comece` é obrigatório.
 - [ ] **`freshness`** obrigatório em todos os itens de `news[]`, `tools[]`, `highlights[]`, `videos[]`.
+- [ ] **`image_kind`** obrigatório em todos os itens com `image`. Valores: `editorial`, `alternative`, `institutional`. **Cota máxima de `institutional`: 30% dos itens da edição.**
 - [ ] **`learning`** quando presente deve ter `url` verificada (não 404), `title`, `type`, `source_name` e `why`.
 - [ ] **Teste anti-explicação genérica**: cada `explain` menciona pelo menos um substantivo específico do item.
 - [ ] **`edition_digest`** preenchido: 4–6 parágrafos, 200–350 palavras.
-- [ ] **Imagens**: `highlights[]` 3/3 com imagem editorial; `news[]` 100% com `image`.
+- [ ] **`editorial_thesis`** preenchido: 1 frase com a tese técnica do dia (ex.: "Quarta-feira é dia de plataforma amadurecer.")
+- [ ] **Imagens**: `highlights[]` 3/3 com imagem editorial ou alternative (não institutional); `news[]` 100% com `image`.
 - [ ] **`tools[]` chaves válidas** — ver conjunto autoritativo em `scripts/validate_editions.py`.
-- [ ] **`videos[]` com exatamente 3 itens**: cada item tem `id`, `url` e `title` preenchido. Sem campo `start`.
+- [ ] **`videos[]` com exatamente 5 itens** (ver FASE 5B): cada item tem `id`, `url`, `title`, `channel`, `track_role`, `freshness`. Sem campo `start`.
 - [ ] **Datas coerentes**: `date`, `weekday`, `formatted_date` batem entre si.
 - [ ] **Diversidade de fonte**: nenhum domínio aparece em >3 itens por edição.
 - [ ] **Anti-clickbait**: nenhum `headline`/`summary` com `"top N"`, `"N razões"`, `"N ways"`, `"N things"`.
 - [ ] **Consistência `severity`+`urgent`**: item `category:"sec"` com `urgent:true` → `severity` obrigatório.
 - [ ] **Formato CVE**: `CVE-YYYY-NNNNN`.
-- [ ] **Balanço de `kind`**: >70% de `tip`+`curiosity` em `tools[]` = edição fraca.
+- [ ] **Balanço de `kind`**: >70% de `tip`+`curiosity` em `tools[]` = edição fraca. Pelo menos 2 itens com `kind: release` ou `news` (conteúdo realmente fresco).
 
 **Check obrigatório de imagens antes de salvar finais:**
 
@@ -677,7 +746,7 @@ Execute WebFetch em **100% das URLs publicadas** antes de finalizar. Ordem de pr
 
 Para cada URL:
 ```
-WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo principal é sobre [TÓPICO]? A página contém palavras como '404', 'not found', 'page not found'? Responda em 3 linhas.")
+WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo principal é sobre [TÓPICO específico do headline, com versão/CVE/produto exato]? A página contém palavras como '404', 'not found', 'page not found'? Responda em 3 linhas.")
 ```
 
 **Critérios de rejeição:**
@@ -687,7 +756,16 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 | Resposta contém "404", "not found", "page not found" | Soft-404 | Busque URL alternativa ou substitua por evergreen |
 | Título completamente diferente do tópico | Link irrelevante | Busque URL específica do artigo |
 | Página é homepage ou lista/índice | URL muito genérica | Desça um nível |
+| **Versão/CVE/produto do headline NÃO aparece no h1/título da página** | URL descasada do conteúdo | **Substituir por URL específica do release/CVE — não publicar com URL aproximada** |
+| **Página é roundup semanal e o headline cita 1 anúncio específico de dentro** | URL agregadora demais | Buscar o post dedicado do anúncio específico e usar essa URL |
 | WebFetch retorna erro ou timeout | URL possivelmente inválida | Tente uma vez mais; se falhar, substitua |
+
+**Verificação semântica obrigatória**: para cada item, o título principal da página retornada pelo WebFetch DEVE conter pelo menos um dos seguintes elementos do `headline`:
+- A versão exata mencionada (ex.: "3.2.11", "4.1 RC1", "13.0")
+- O CVE exato mencionado (ex.: "CVE-2026-0300")
+- O nome do produto/feature na grafia específica (ex.: "Git Sync", "Diskless Kafka")
+
+Se nenhum aparecer, a URL está descasada do conteúdo. Caso clássico: headline diz "Argo CD 3.2.11 com correção crítica", URL aponta para artigo sobre "Argo CD 3.3 RC1" — falha. Substitua por release notes do GitHub (ex.: `github.com/argoproj/argo-cd/releases/tag/v3.2.11`) ou cobertura específica do CVE.
 
 **Valide também URLs de `learning`**: se a URL de `learning` retornar erro → remova o campo `learning` desse item (não invente URL alternativa).
 
@@ -1257,7 +1335,9 @@ Toda `url` **deve apontar ao artigo, post ou release específico** descrito no r
 - `https://aws.amazon.com/new/` ou `https://aws.amazon.com/about-aws/whats-new/` sem slug
 - `https://*/releases` ou `https://*/changelog` sem âncora `#versao` ou slug específico
 - `https://*/blog/` ou `https://*/news/` sem post específico
+- `https://*/articles/` ou `https://*/posts/` sem slug do artigo
 - Homepages de vendor (`https://docker.com/`, `https://nextjs.org/`)
+- **Roundups semanais agregadores** (ex.: `aws-weekly-roundup-*`, `this-week-in-spring-*`) quando contêm 3+ anúncios distintos relevantes — nesses casos, identifique o anúncio específico e use a URL dedicada (ex.: post oficial em `/about-aws/whats-new/`, release notes do produto, post específico do release no blog Spring).
 
 ### Como garantir URL específica
 
@@ -1304,7 +1384,7 @@ Se após a cascata um highlight ainda estiver com Google Favicon:
 4. **Sexta-feira = fundamentals deep dive**: 2-3 itens em `fundamentals`, ≥1 evergreen clássico de autor canônico.
 5. **Top 3 destaques** pelo score + PERFIL EDITORIAL DO CESAR. Preferir pelo menos 2 categorias distintas.
 6. **`freshness` obrigatório** em todos os itens: `"fresh"` para publicados dentro da janela, `"evergreen"` para conteúdo perene deliberado.
-7. **`learning` best-effort**: tente cobrir todos os 3 highlights e os 5+ primeiros itens de `news[]`. Omita quando não houver recurso verificável — nunca invente.
+7. **`learning` cobertura mínima**: **3/3 highlights obrigatório** + **80% das `news[]` mínimo**. Quando um item não tem recurso verificável de aprendizado, marque `learning_missing_reason` com curta justificativa (ex.: `"topic too niche"`, `"no canonical resource yet"`). Nunca invente URL — mas o reason existe pra forçar a IA a TENTAR antes de pular.
 8. **Distribuição editorial**: tende a 50-60% categorias principais, 25-35% secundárias, máximo 15-20% demais.
 9. **Tese da edição**: hero, highlights e abertura do digest precisam contar uma história técnica coerente.
 10. **URLs específicas e verificáveis** (FASE 7.1 obrigatória). Inclui validação das URLs de `learning`.

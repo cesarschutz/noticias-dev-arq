@@ -3002,6 +3002,8 @@ body.drawer-open .qbar-chip{pointer-events:none;}
 .yt-slide-title{font-size:12px;font-weight:500;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-0.224px}
 .yt-slide-meta{display:flex;align-items:center;gap:5px;line-height:1.4}
 .yt-channel-avatar{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0;opacity:.85}
+.yt-channel-avatar-fallback{display:inline-flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--accent) 22%, transparent);color:var(--text2);font-size:9px;font-weight:700;text-transform:uppercase;line-height:1;opacity:.85}
+.home-yt-track .yt-channel-avatar-fallback{font-size:11px}
 .yt-slide-channel{font-size:10px;color:var(--text-3);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .yt-slide-sep{font-size:10px;color:var(--text-3);flex-shrink:0;opacity:.5}
 .yt-slide-date{font-size:10px;color:var(--text-3);white-space:nowrap;flex-shrink:0}
@@ -8141,7 +8143,7 @@ function renderHome() {
     const dur = v.duration ? `<span class="yt-duration">${v.duration}</span>` : '';
     const sep = (v.channel && v.published_at) ? `<span class="yt-slide-sep">·</span>` : '';
     const date = v.published_at ? `<span class="yt-slide-date">${v.published_at.slice(0,7).split('-').reverse().join('/')}</span>` : `<span class="yt-slide-date" id="yt-date-${i}"></span>`;
-    const avatar = v.channel_avatar ? `<img class="yt-channel-avatar" src="${v.channel_avatar}" alt="">` : '';
+    const avatar = _ytAvatarHtml(v);
     return `<div class="yt-slide"><div class="yt-aspect" onclick="ytPlay(this,'${v.id}')"><img class="yt-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" loading="lazy" alt=""><div class="yt-play-btn"></div>${dur}</div><div class="yt-slide-info"><div class="yt-slide-title" id="yt-title-${i}">${v.title||''}</div><div class="yt-slide-meta">${avatar}<span class="yt-slide-channel" id="yt-channel-${i}">${v.channel||''}</span>${sep}${date}</div></div></div>`;
   }).join('');
   const _ytSection = _ytVids.length ? `<div class="yt-section-header"><span class="card-kicker">Vídeos</span><button class="yt-size-btn" id="yt-size-btn" onclick="event.stopPropagation();ytToggleSize()" aria-label="Expandir vídeos"><svg id="yt-size-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
@@ -8224,7 +8226,7 @@ function renderHome() {
       const dur = v.duration ? `<span class="yt-duration">${v.duration}</span>` : '';
       const sep = (v.channel && v.published_at) ? `<span class="yt-slide-sep">·</span>` : '';
       const date = v.published_at ? `<span class="yt-slide-date">${v.published_at.slice(0,7).split('-').reverse().join('/')}</span>` : '';
-      const avatar = v.channel_avatar ? `<img class="yt-channel-avatar" src="${v.channel_avatar}" alt="">` : '';
+      const avatar = _ytAvatarHtml(v);
       return `<div class="yt-slide"><div class="yt-aspect" onclick="ytPlay(this,'${v.id}')"><img class="yt-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" loading="lazy" alt=""><div class="yt-play-btn"></div>${dur}</div><div class="yt-slide-info"><div class="yt-slide-title">${e(v.title||'')}</div><div class="yt-slide-meta">${avatar}<span class="yt-slide-channel">${e(v.channel||'')}</span>${sep}${date}</div></div></div>`;
     })
   ).join('');
@@ -8420,9 +8422,12 @@ function renderDay(date) {
   const day = STATE.days[date];
   if (!day) return renderDayNotFound(date);
 
-  const totalNews = (day.news||[]).length;
+  // Filtra news que também aparecem como highlight para evitar duplicação visual
+  const _hlUrlsForCounts = new Set((day.highlights||[]).map(h => h.url).filter(Boolean));
+  const _newsForDisplay = (day.news||[]).filter(n => !_hlUrlsForCounts.has(n.url));
+  const totalNews = _newsForDisplay.length;
   const totalTools = (day.tools||[]).length;
-  const totalCats = new Set((day.news||[]).map(n=>n.category)).size;
+  const totalCats = new Set(_newsForDisplay.map(n=>n.category)).size;
   const dates = sortedDates();
   const idx = dates.indexOf(date);
   const prev = dates[idx+1];
@@ -8432,7 +8437,7 @@ function renderDay(date) {
   const dt = new Date(date+'T00:00:00');
   const wkd = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][dt.getDay()];
   const dayCatCounts = {};
-  for (const n of (day.news||[])) dayCatCounts[n.category] = (dayCatCounts[n.category] || 0) + 1;
+  for (const n of _newsForDisplay) dayCatCounts[n.category] = (dayCatCounts[n.category] || 0) + 1;
   const dayCatOrder = Object.keys(CAT_COLORS);
   const dayCatEntries = Object.entries(dayCatCounts).sort((a,b)=>{
     const ia = dayCatOrder.indexOf(a[0]), ib = dayCatOrder.indexOf(b[0]);
@@ -8538,7 +8543,7 @@ function renderDay(date) {
       const dur = v.duration ? `<span class="yt-duration">${v.duration}</span>` : '';
       const sep = (v.channel && v.published_at) ? `<span class="yt-slide-sep">·</span>` : '';
       const vdate = v.published_at ? `<span class="yt-slide-date">${v.published_at.slice(0,7).split('-').reverse().join('/')}</span>` : `<span class="yt-slide-date" id="yt-date-${i}"></span>`;
-      const avatar = v.channel_avatar ? `<img class="yt-channel-avatar" src="${v.channel_avatar}" alt="">` : '';
+      const avatar = _ytAvatarHtml(v);
       return `<div class="yt-slide"><div class="yt-aspect" onclick="ytPlay(this,'${v.id}')"><img class="yt-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" loading="lazy" alt=""><div class="yt-play-btn"></div>${dur}</div><div class="yt-slide-info"><div class="yt-slide-title" id="yt-title-${i}">${v.title||''}</div><div class="yt-slide-meta">${avatar}<span class="yt-slide-channel" id="yt-channel-${i}">${v.channel||''}</span>${sep}${vdate}</div></div></div>`;
     }).join('');
     const _SVG_PREV = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`;
@@ -8595,8 +8600,10 @@ function renderDay(date) {
 
   // News — filter pills + flat masonry, no per-cat wrappers
   // Ordem alfabética por label da categoria (mesma do sidebar lateral)
+  // Filtra duplicatas: itens cuja URL já é highlight não aparecem em news (evita mesmo card 2x na tela)
   const _catLbl = c => CAT_LABELS[c] || c || '';
-  const allNews = (day.news||[]).slice().sort((a,b)=>{
+  const _hlUrls = new Set((day.highlights||[]).map(h => h.url).filter(Boolean));
+  const allNews = (day.news||[]).filter(n => !_hlUrls.has(n.url)).slice().sort((a,b)=>{
     const c = _catLbl(a.category).localeCompare(_catLbl(b.category), 'pt', { sensitivity: 'base' });
     if (c !== 0) return c;
     return (b.urgent?1:0)-(a.urgent?1:0) || new Date(b.published_at||b._date)-new Date(a.published_at||a._date);
@@ -9036,11 +9043,11 @@ function _explainHtml(item) {
   if (!ex) return '';
   // suporte a chaves v3 (comece/aprofunde/decida) e fallback legado (junior/pleno/senior)
   const LEVELS = [
-    {key:'comece',    legacy:'junior', lbl:'Comece',    c:'#30D158',
+    {key:'comece',    legacy:'junior', lbl:'Comece',    tip:'Comece — introdução e vocabulário', c:'#30D158',
      svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>'},
-    {key:'aprofunde', legacy:'pleno',  lbl:'Aprofunde', c:'#FFD60A',
+    {key:'aprofunde', legacy:'pleno',  lbl:'Aprofunde', tip:'Aprofunde — mecanismo e trade-off técnico', c:'#FFD60A',
      svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'},
-    {key:'decida',    legacy:'senior', lbl:'Decida',    c:'var(--accent)',
+    {key:'decida',    legacy:'senior', lbl:'Decida',    tip:'Decida — quando adotar, riscos e próximo passo', c:'var(--accent)',
      svg:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>'},
   ];
   const visibleLevels = LEVELS.filter(l => ex[l.key] || ex[l.legacy]);
@@ -9051,7 +9058,7 @@ function _explainHtml(item) {
       ).join('')}</div>`
     : '';
   const tabsHtml = visibleLevels.map((l, i) =>
-    `<button type="button" class="tl-explain-tab${i===0?' is-active':''}" data-lvl="${l.key}" style="--lc:${l.c}" onclick="toggleExplainTab(this)" aria-label="${e(l.lbl)}" title="${e(l.lbl)}">${l.svg}</button>`
+    `<button type="button" class="tl-explain-tab${i===0?' is-active':''}" data-lvl="${l.key}" style="--lc:${l.c}" onclick="toggleExplainTab(this)" aria-label="${e(l.tip)}" title="${e(l.tip)}">${l.svg}</button>`
   ).join('');
   const panelsHtml = visibleLevels.map((l, i) =>
     `<div class="tl-explain-panel${i===0?' is-active':''}" data-lvl="${l.key}">${e(ex[l.key]||ex[l.legacy]||'')}</div>`
@@ -9078,6 +9085,15 @@ function _freshnessBadge(item) {
   if (f === 'fresh') return '<span class="badge-fresh">Nova</span>';
   if (f === 'evergreen') return '<span class="badge-evergreen">Atemporal</span>';
   return '';
+}
+
+// Avatar do canal de vídeo: imagem real se houver, senão placeholder com inicial
+function _ytAvatarHtml(v) {
+  if (v.channel_avatar) {
+    return `<img class="yt-channel-avatar" src="${v.channel_avatar}" alt="" onerror="this.outerHTML='<span class=&quot;yt-channel-avatar yt-channel-avatar-fallback&quot;>'+((this.getAttribute(&quot;data-letter&quot;))||'?')+'</span>'" data-letter="${e((v.channel||'?')[0].toUpperCase())}">`;
+  }
+  const letter = e((v.channel || '?')[0].toUpperCase());
+  return `<span class="yt-channel-avatar yt-channel-avatar-fallback" aria-hidden="true">${letter}</span>`;
 }
 
 const LEARNING_TYPE_ICONS = {

@@ -4,10 +4,10 @@
     {
       "date": "2026-05-06",
       "hero_title": "Spring Boot 4.1 RC1, golden paths em 3 minutos e Grafana versionado em Git",
-      "hero_description": "A edição de hoje volta o foco para o que realmente sustenta plataforma: Spring Boot 4.1 chega ao RC1 com integração reativa, Platform Engineering vira métrica concreta com golden paths automatizados, e Grafana 13 abre Git Sync para tratar dashboards como código. No radar, Argo CD 3.2.11 traz patch de segurança crítico e a CVE-2026-0300 da Palo Alto exige resposta imediata.",
+      "hero_description": "A edição de hoje volta o foco para o que realmente sustenta plataforma: Spring Boot 4.1 chega ao RC1 com integração reativa, Platform Engineering vira métrica concreta com golden paths automatizados, e Grafana 13 abre Git Sync para tratar dashboards como código. No radar, Argo CD 3.3 reforça práticas GitOps e a CVE-2026-0300 da Palo Alto exige resposta imediata.",
       "counts_by_category": {
         "sec": 1,
-        "backend": 3,
+        "backend": 2,
         "devops": 2,
         "distarch": 1,
         "design": 1,
@@ -16,8 +16,7 @@
         "fundamentals": 1,
         "obs": 2,
         "frontend": 1,
-        "cloud": 2,
-        "aiops": 1
+        "cloud": 2
       },
       "counts_by_tool": {
         "gradle": 1,

@@ -801,6 +801,45 @@
     }
     .btn-primary:hover .arr { transform: translateX(3px); }
 
+    /* Secundário: ghost/outlined com mesma cor de acento */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 22px;
+      background: transparent;
+      color: var(--link);
+      border: 1px solid color-mix(in srgb, var(--link) 50%, transparent);
+      border-radius: 980px;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.022em;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, transform .12s ease;
+    }
+    .btn-secondary:hover {
+      background: color-mix(in srgb, var(--link) 8%, transparent);
+      border-color: var(--link);
+    }
+    .btn-secondary:active { transform: scale(.985); }
+    .btn-secondary .arr {
+      transition: transform .2s;
+      margin-left: 2px;
+    }
+    .btn-secondary:hover .arr { transform: translateX(3px); }
+
+    /* hero-actions agrupa primário + secundário lado a lado */
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    @media (max-width: 600px) {
+      .btn-secondary { padding: 10px 18px; font-size: 15px; }
+      .hero-actions { gap: 8px; }
+    }
+
     .btn-pill {
       display: inline-flex;
       align-items: center;
@@ -863,8 +902,33 @@
       color: var(--text-2);
       margin: 0;
     }
+    .how-manifesto {
+      max-width: 720px;
+      margin: 56px auto 0;
+      padding: 28px 30px;
+      border-left: 3px solid var(--blue);
+      background: color-mix(in srgb, var(--blue) 6%, transparent);
+      border-radius: 0 14px 14px 0;
+    }
+    .how-manifesto p {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text);
+      margin: 0;
+      letter-spacing: -0.012em;
+    }
+    .how-manifesto strong {
+      color: var(--text);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 19px;
+    }
     @media (max-width: 768px) {
       .how-grid { grid-template-columns: 1fr; max-width: 480px; }
+      .how-manifesto { padding: 22px 24px; margin: 40px auto 0; }
+      .how-manifesto p { font-size: 15px; }
+      .how-manifesto strong { font-size: 17px; }
     }
     .section-inner {
       width: 100%;
@@ -1184,18 +1248,125 @@
       letter-spacing: -0.01em;
     }
 
-    /* ── Footer ── */
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--divider);
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--divider);
+      padding: 0;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 22px 4px 22px 0;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.018em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: color .2s ease;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      border-right: 2px solid var(--text-dim);
+      border-bottom: 2px solid var(--text-dim);
+      transform: rotate(45deg);
+      transition: transform .25s ease, border-color .2s ease;
+      margin-right: 4px;
+      margin-top: -4px;
+    }
+    .faq-item[open] summary::after { transform: rotate(-135deg); margin-top: 4px; border-color: var(--blue); }
+    .faq-item summary:hover { color: var(--blue); }
+    .faq-item p {
+      padding: 0 4px 24px 0;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-soft);
+      margin: 0;
+      max-width: 680px;
+    }
+    .faq-item p strong { color: var(--text); font-weight: 600; }
+    .faq-item p a { color: var(--link); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent); text-underline-offset: 3px; }
+    .faq-item p a:hover { text-decoration-color: var(--link); }
+
+    /* ── Footer (novo, multi-coluna) ── */
     .apple-footer {
       background: var(--bg);
       border-top: 1px solid var(--divider);
-      padding: 28px var(--page-gutter);
-      text-align: center;
-      font-size: 12px;
+      padding: 56px var(--page-gutter) 28px;
       color: var(--text-dim);
       letter-spacing: -0.01em;
     }
-    .apple-footer a { color: var(--link); }
-    .apple-footer a:hover { text-decoration: underline; }
+    .footer-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-cols {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col { display: flex; flex-direction: column; gap: 8px; }
+    .footer-brand { display: flex; align-items: center; gap: 1px; margin-bottom: 12px; }
+    .footer-tagline {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-dim);
+      max-width: 320px;
+      margin: 0;
+    }
+    .footer-h {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+    .footer-link {
+      font-size: 13px;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 3px 0;
+      transition: color .15s ease;
+    }
+    .footer-link:hover { color: var(--blue); }
+    .footer-bottom {
+      border-top: 1px solid var(--divider);
+      padding-top: 24px;
+      text-align: center;
+    }
+    .footer-credit {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin: 0;
+      letter-spacing: -0.005em;
+    }
+    @media (max-width: 900px) {
+      .footer-cols { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+      .apple-footer { padding-top: 44px; }
+    }
+    @media (max-width: 540px) {
+      .footer-cols { grid-template-columns: 1fr; gap: 28px; }
+      .footer-tagline { max-width: 100%; }
+      .faq-item summary { font-size: 16px; padding: 18px 4px 18px 0; }
+      .faq-item p { font-size: 14px; padding-bottom: 20px; }
+    }
 
     /* ── Responsive ── */
     @media (max-width: 1099px) {
@@ -1317,6 +1488,10 @@
           Entrar no sistema
           <span class="arr" aria-hidden="true">›</span>
         </a>
+        <a class="btn-secondary" href="home.html">
+          Ver edição de hoje
+          <span class="arr" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
 
@@ -1329,10 +1504,11 @@
           <div class="hero-left-col">
             <h1 class="hero-h1">Aprenda com o que importa hoje.</h1>
             <p class="hero-sub">
-              Todo dia, uma IA pesquisa notícias técnicas frescas e entrega cada uma
+              Todo dia, uma curadoria automatizada com revisão editorial pesquisa notícias técnicas frescas e entrega cada uma
               em <strong>3 camadas de profundidade</strong> — da introdução à decisão arquitetural —
               com um <strong>recurso externo</strong> para você aprofundar na hora.
-              <strong>16 categorias</strong>, <strong>3 linguagens</strong> e <strong>38 ferramentas</strong> monitoradas.
+              <strong>16 categorias</strong>, <strong>3 linguagens</strong> e <strong>38 ferramentas</strong> monitoradas, incluindo
+              Spring Boot, Kubernetes, Postgres, Kafka e Grafana.
             </p>
           </div>
           <div class="hero-emblem-col">
@@ -1381,6 +1557,13 @@
         <p class="how-desc">Sempre que possível, cada notícia traz um tutorial, artigo, documentação ou vídeo cuidadosamente selecionado para você aprender mais na hora — com contexto do porquê ele conecta ao tema.</p>
       </div>
     </div>
+    <div class="how-manifesto">
+      <p>
+        <strong>Não é mais uma newsletter de "ficar atualizado".</strong>
+        Cada item é tratado como mini-aula de 3-5 minutos. A diferença é a forma de leitura:
+        rápida quando você só quer radar, profunda quando você precisa decidir.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1420,9 +1603,91 @@
   </div>
 </section>
 
+<!-- ═════════ FAQ ═════════ -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Perguntas frequentes</div>
+      <h2 class="section-title">Dúvidas honestas, respostas honestas.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>O conteúdo é gerado por IA. Como confio?</summary>
+        <p>A pesquisa é feita por IA, mas com regras editoriais rígidas: cada notícia vem de uma busca real na web, com URL específica e verificação de que o conteúdo da página suporta o que o resumo afirma. Não há invenção de fatos, versões ou recursos. A skill que gera as edições tem mais de 1.300 linhas de regras de qualidade — é um curador automatizado, não um chat livre.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Quem está por trás disso?</summary>
+        <p>Cesar, arquiteto de soluções com foco em backend, plataforma, integração e dados. O DevDaily nasceu da minha própria necessidade de me manter atualizado sem perder profundidade — e da percepção de que não existe nada equivalente em português brasileiro para o público sênior.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Por que em português e não em inglês?</summary>
+        <p>O mercado brasileiro tem dezenas de milhares de arquitetos, tech leads e engenheiros sênior que dominam o tema técnico em inglês — mas que aprendem mais rápido, pensam melhor e tomam decisões com mais clareza no idioma materno. Conteúdo técnico denso em PT-BR para esse público é gap de mercado real.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Como funcionam as 3 camadas de explicação?</summary>
+        <p><strong>Comece</strong> apresenta o domínio e o vocabulário em 35-65 palavras — para quando você só quer saber do que se trata. <strong>Aprofunde</strong> mostra mecanismo, integração e trade-off técnico em 55-95 palavras. <strong>Decida</strong> fecha em 45-100 palavras com leitura de decisão: quando adotar, quando evitar, riscos operacionais e próximo passo. As 3 camadas falam do mesmo fato com profundidade crescente.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Quais fontes vocês monitoram?</summary>
+        <p>Mais de 180 fontes técnicas — blogs de engenharia (Netflix, Uber, Cloudflare, Stripe, Shopify, Nubank), publicações especializadas (InfoQ, The New Stack, Help Net Security), changelogs oficiais de 38 ferramentas, GitHub Trending, Hacker News, Lobste.rs e referências canônicas (Martin Fowler, Kleppmann, Hohpe, ByteByteGo). Tudo verificado por URL específica antes de publicar.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Posso reusar o conteúdo no meu blog ou empresa?</summary>
+        <p>Os resumos e explicações são originais nossos e podem ser citados com link. Os links externos apontam para os artigos originais — esses pertencem aos autores citados. Para reuso comercial ou tradução para outros idiomas, fale comigo.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Como sugiro um tópico, ferramenta ou correção?</summary>
+        <p>Mande um email para <a href="mailto:contato@devdaily.com.br">contato@devdaily.com.br</a> ou abra issue no repositório do projeto. Sugestões de fontes que estão fora do radar são especialmente bem-vindas.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ═════════ FOOTER ═════════ -->
 <footer class="apple-footer">
-  <p>DevDaily — arquivo diário de aprendizado técnico para engenheiros e arquitetos de software.</p>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="dev-mini" style="font-size:18px;font-weight:800;letter-spacing:-.04em;color:var(--text)">DEV</span><span class="daily-mini" style="font-size:12px;font-weight:800;letter-spacing:.06em;background:var(--blue);color:#fff;padding:3px 5px 4px;border-radius:6px;line-height:1;margin-left:1px">DAILY</span>
+        </div>
+        <p class="footer-tagline">Aprenda com o que importa hoje. Arquivo diário de aprendizado técnico para arquitetos, tech leads e engenheiros sênior.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Produto</h4>
+        <a class="footer-link" href="home.html">Edição de hoje</a>
+        <a class="footer-link" href="home.html#categories">Categorias</a>
+        <a class="footer-link" href="home.html#tools">Ferramentas</a>
+        <a class="footer-link" href="data/editions.json">RSS / JSON feed</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Comunidade</h4>
+        <a class="footer-link" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="footer-link" href="#" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="footer-link" href="#" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+        <a class="footer-link" href="mailto:contato@devdaily.com.br">Sugerir tópico</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Transparência</h4>
+        <a class="footer-link" href="home.html#sources">Fontes monitoradas</a>
+        <a class="footer-link" href="#faq">Como funciona</a>
+        <a class="footer-link" href="mailto:contato@devdaily.com.br">Reportar erro</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-credit">Curadoria editorial por Cesar · Conteúdo gerado com IA e verificado antes de cada edição · © 2026 DevDaily</p>
+    </div>
+  </div>
 </footer>
 
 <!-- Theme inicial (antes do render pra evitar flash) -->
