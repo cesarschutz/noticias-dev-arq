@@ -100,7 +100,9 @@ NEWS_REQUIRED = {
 }
 
 TOOL_REQUIRED = {"tool_key", "name", "kind", "headline", "explain", "source_key", "url"}
-EXPLAIN_REQUIRED = {"junior", "pleno", "senior"}
+EXPLAIN_REQUIRED = {"comece", "aprofunde", "decida"}
+EXPLAIN_LEGACY = {"junior", "pleno", "senior"}
+EXPLAIN_TIP_REQUIRED = {"comece"}
 CLICKBAIT_RE = re.compile(
     r"\b(top\s*\d+|\d+\s+(razoes|razões|ways|things)|melhores\s+\d+|voce nao vai acreditar|você não vai acreditar)\b",
     re.IGNORECASE,
@@ -192,13 +194,17 @@ def word_count(text: object) -> int:
     return len(re.findall(r"\b[\w'-]+\b", text, flags=re.UNICODE))
 
 
-def validate_explain(reporter: Reporter, explain: object, label: str) -> None:
+def validate_explain(reporter: Reporter, explain: object, label: str, required_keys: set[str] | None = None) -> None:
     if not isinstance(explain, dict):
         reporter.error(f"{label}: explain must be an object")
         return
-    for key in EXPLAIN_REQUIRED:
+    keys = required_keys if required_keys is not None else EXPLAIN_REQUIRED
+    for key in keys:
         if not is_nonempty_string(explain.get(key)):
             reporter.error(f"{label}: explain.{key} is required")
+    for legacy in EXPLAIN_LEGACY:
+        if legacy in explain:
+            reporter.error(f"{label}: explain.{legacy} is a legacy key and must be removed")
     glossary = explain.get("glossary", [])
     if glossary is not None and not isinstance(glossary, list):
         reporter.error(f"{label}: explain.glossary must be an array when present")
@@ -211,6 +217,7 @@ def validate_common_story(
     source_keys: set[str],
     require_image: bool,
     image_no_fallback: bool,
+    explain_required_keys: set[str] | None = None,
 ) -> None:
     if not isinstance(item, dict):
         reporter.error(f"{label}: item must be an object")
@@ -231,7 +238,7 @@ def validate_common_story(
         elif image_no_fallback and FALLBACK_IMAGE_RE.search(image):
             reporter.error(f"{label}: image uses blocked fallback: {image}")
 
-    validate_explain(reporter, item.get("explain"), label)
+    validate_explain(reporter, item.get("explain"), label, explain_required_keys)
 
     for text_key in ("headline", "summary", "description"):
         value = item.get(text_key)
@@ -284,6 +291,7 @@ def validate_tool_item(reporter: Reporter, item: object, index: int, source_keys
         reporter.error(f"{label}: invalid category {item.get('category')!r}")
 
     require_image = kind in IMAGE_REQUIRED_TOOL_KINDS
+    explain_required = EXPLAIN_TIP_REQUIRED if kind in {"tip", "curiosity"} else EXPLAIN_REQUIRED
     validate_common_story(
         reporter,
         item,
@@ -291,6 +299,7 @@ def validate_tool_item(reporter: Reporter, item: object, index: int, source_keys
         source_keys,
         require_image=require_image,
         image_no_fallback=require_image,
+        explain_required_keys=explain_required,
     )
 
 

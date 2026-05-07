@@ -1,0 +1,1006 @@
+{
+  "date": "2026-05-07",
+  "weekday": "Quinta-feira",
+  "formatted_date": "Quinta, 7 de Maio de 2026",
+  "generated_at": "2026-05-07T09:46:00-03:00",
+  "editorial_thesis": "Quinta de plataforma sob estresse: Argo CD patcha CVE 9.6 que expunha secrets via Server-Side Diff, Cloudflare separa prefill/decode em LLMs e Confluent move schema ID para header — tudo aponta para o mesmo padrão: o controle agora vive ao redor do dado, não dentro dele.",
+  "hero_title": "Argo CD 3.3.9 fecha brecha de secrets, Cloudflare separa LLM em prefill/decode e Confluent tira schema do payload",
+  "hero_description": "A edição puxa três fios da maturidade de plataforma. Argo CD 3.3.9 e 3.2.11 corrigem CVE-2026-42880 (CVSS 9.6) que vazava plaintext de secrets do Kubernetes via Server-Side Diff — read-only virou caminho para escalada. A Cloudflare detalha como separa prefill e decode em máquinas distintas no Workers AI e roda Kimi K2.5 com inferência mais barata. E o Confluent move schema ID do payload para header do Kafka, simplificando governance sem mudar wire format. No radar, Anthropic vira agente operacional de Wall Street com Microsoft 365 GA, e PAN-OS CVE-2026-0300 entra na CISA KEV com prazo dia 9.",
+  "edition_digest": "A pauta de hoje gira em torno de uma ideia simples: plataforma de verdade aparece quando o controle migra para fora do dado. O Argo CD publicou 3.3.9 e 3.2.11 corrigindo o CVE-2026-42880, furo CVSS 9.6 onde Server-Side Diff devolvia secrets do Kubernetes em plaintext quando uma annotation específica era usada. Não é bug exótico — é GitOps com diff server-side misturando caminhos de leitura e dado sensível. Quem está em 3.x deve subir hoje; quem rodou Server-Side Diff em produção precisa rotacionar.\n\nNa borda da inferência, a Cloudflare desenhou como roda LLMs grandes na malha global. O ponto técnico é separar prefill (compute-bound) de decode (memory-bound) em máquinas distintas, com KV cache transferido entre elas — disaggregated inference virou padrão para servir modelos de trilhão de parâmetros como o Kimi K2.5. Junto com o motor Infire em Rust e a compressão lossless Unweight, vira stack que finalmente faz inferência grande caber em rede edge.\n\nDo lado de integração, o Confluent moveu schema ID do payload Kafka para o header do record. Quem tem múltiplos consumidores divergindo em governance ganha caminho de migração incremental sem quebrar Avro, Protobuf ou JSON Schema atuais.\n\nNo radar, Anthropic abriu frente em Wall Street: dez templates de agente para finanças, GA dos add-ins de Excel/PowerPoint/Word, Outlook em beta e Moody's embutido como app nativo via MCP. Em paralelo, CISA adicionou PAN-OS CVE-2026-0300 ao KEV em 6/mai com prazo dia 9 — patch oficial só sai em 13/mai.\n\nPara fechar, Martin Fowler curou série sobre fricção em programação assistida por IA e Julia Evans publicou inventário de paletas CSS para times que cansaram do Tailwind — dois lados da mesma maré.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Argo CD 3.3.9 e 3.2.11 corrigem CVE-2026-42880 — Server-Side Diff vazava secrets do Kubernetes em plaintext",
+      "summary": "A Argo Project publicou em 6/mai os releases de patch 3.3.9 e 3.2.11 para resolver o CVE-2026-42880 (CVSS 9.6). A falha vivia no caminho de Server-Side Diff e fazia bypass da máscara de Secret quando a annotation IncludeMutationWebhook=true estava presente. Resultado: usuários read-only conseguiam extrair secrets diretos do etcd em plaintext.",
+      "explain": {
+        "comece": "Argo CD é a ferramenta GitOps mais usada para reconciliar Kubernetes com manifests de um repositório. Server-Side Diff foi adicionado para que o cluster, e não o cliente, calcule a diferença entre o desejado e o real — útil porque webhooks de mutação reescrevem objetos depois que o YAML chega. O bug aceitava que essa comparação devolvesse o objeto bruto, sem mascarar Secret.",
+        "aprofunde": "Tecnicamente, o caminho de mask-out de Secret roda quando o diff é normal. Quando o usuário marca a annotation IncludeMutationWebhook=true, o Argo CD chama o cluster com server-side dry-run e compara o resultado pós-webhook. Esse caminho pulava o passo de mascarar campos sensíveis e devolvia raw data lido diretamente do etcd via Kubernetes API. Como qualquer usuário com permissão get/list de Application no namespace argocd consegue invocar diff, read-only virava read-secret. O fix valida o tipo Secret antes de devolver e mantém máscara consistente em ambos os caminhos.",
+        "decida": "Risco operacional é alto: a brecha existe desde fevereiro/26 e Argo CD costuma ser instalado com permissões amplas. Próximo passo técnico: subir para 3.3.9 ou 3.2.11 antes do fim do dia, auditar logs do API server por chamadas de diff que usaram IncludeMutationWebhook nos últimos 90 dias e rotacionar secrets de qualquer Application impactada. Boa hora também para revisar RBAC do namespace argocd — read-only nunca deveria ler etcd.",
+        "glossary": [
+          { "term": "Server-Side Diff", "def": "Modo do Argo CD em que o cluster calcula a diferença entre desired e live, levando em conta webhooks de mutação que reescrevem objetos." },
+          { "term": "Mutation webhook", "def": "Componente Kubernetes que altera objetos antes de persistir no etcd, ex.: injetando sidecar ou normalizando labels." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "argo",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.9",
+      "published_at": "2026-05-06T18:00:00-03:00",
+      "read_time": 4,
+      "image": "https://opengraph.githubassets.com/1/argoproj/argo-cd",
+      "image_kind": "editorial",
+      "tags": ["argocd", "kubernetes", "gitops", "security", "cve"],
+      "learning": {
+        "url": "https://argo-cd.readthedocs.io/en/stable/operator-manual/server-side-diff/",
+        "title": "Argo CD — Server-Side Diff documentation",
+        "type": "docs",
+        "source_name": "Argo CD Docs",
+        "why": "Explica como Server-Side Diff funciona internamente, quais annotations a feature aceita e como configurar com segurança — ponto de partida para auditar exposição da brecha em seu cluster."
+      }
+    },
+    {
+      "source_array": "news",
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Cloudflare detalha como roda LLMs gigantes na borda separando prefill e decode em máquinas distintas",
+      "summary": "Em post de engenharia publicado em 5/mai, a Cloudflare desenhou a arquitetura que sustenta Workers AI rodando modelos como o Kimi K2.5 (1T+ parâmetros, 560GB). O truque central é disaggregated inference: prefill roda em hardware compute-bound e decode em hardware memory-bound, com KV cache trafegando entre os dois. Inclui o motor próprio Infire em Rust e a compressão Unweight com 15-22% menos footprint sem perda.",
+      "explain": {
+        "comece": "Servir um modelo grande não é uma só operação. Há duas fases: prefill, que digere o prompt e calcula representações intermediárias chamadas KV cache, e decode, que usa esse cache para emitir tokens, um a um. Prefill puxa muito processador; decode puxa muito barramento de memória. Tradicionalmente, ambos rodam na mesma GPU e desperdiçam ou compute, ou banda de memória.",
+        "aprofunde": "O desenho da Cloudflare aplica disaggregated inference: cada estágio vive em uma frota dedicada com hardware certo para o gargalo dele. Prefill recebe o request, gera o KV cache e indica ao orquestrador onde está. O request migra para o decode server, que importa o cache e começa a gerar saída. O motor próprio, Infire, é escrito em Rust para casar com a infraestrutura distribuída global da Cloudflare e foi medido como mais eficiente que vLLM para essa topologia. O Unweight aplica compressão sem perda nos pesos do MLP, cortando 15-22% do volume que precisa entrar na VRAM.",
+        "decida": "Para arquitetos que servem modelos próprios em GPU privada, a leitura é direta: continuar com prefill e decode amarrados na mesma máquina deixa GPU ociosa metade do tempo. Próximo passo técnico: medir tempo de prefill versus decode no maior modelo em produção; se a diferença for grande, considerar topologia disaggregated com vLLM, SGLang ou DistServe. Se for inferência hospedada, preferir provedor que já implemente o padrão.",
+        "glossary": [
+          { "term": "KV cache", "def": "Cache de chaves e valores das camadas de atenção que evita recalcular tudo a cada novo token gerado." },
+          { "term": "Prefill", "def": "Fase em que o modelo processa o prompt completo e popula o KV cache. É compute-bound." },
+          { "term": "Decode", "def": "Fase em que o modelo emite um token por vez consultando o KV cache. É memory-bound." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/high-performance-llms/",
+      "published_at": "2026-05-05T10:00:00-03:00",
+      "read_time": 5,
+      "image": "https://blog.cloudflare.com/content/images/2024/05/image-39.png",
+      "image_kind": "editorial",
+      "tags": ["llm", "inference", "cloudflare", "edge", "gpu"],
+      "learning": {
+        "url": "https://arxiv.org/abs/2401.09670",
+        "title": "DistServe — Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving",
+        "type": "paper",
+        "source_name": "arXiv",
+        "why": "Paper original que formalizou a separação prefill/decode que a Cloudflare está usando em produção. Lê em uma sentada e dá a base teórica para discutir trade-offs no seu setup."
+      }
+    },
+    {
+      "source_array": "news",
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Confluent move schema ID do payload Kafka para header e libera governance incremental",
+      "summary": "Em 6/mai, o InfoQ documentou a mudança do Confluent que tira o schema ID do payload Kafka e o coloca no record header. O consumer lê o header e resolve o schema no Schema Registry em runtime, sem mudar formato do payload. Para times com múltiplos consumidores em strategies diferentes, é caminho de migração incremental sem quebrar pipelines existentes.",
+      "explain": {
+        "comece": "Schema Registry é o serviço onde times centralizam a definição de cada tipo de mensagem que circula no Kafka. Cada schema recebe um ID. No formato wire clássico do Confluent, esse ID vinha colado no payload — primeiro byte mágico, depois quatro bytes de ID, depois o dado serializado. Funciona, mas força todo consumer a entender esse envelope.",
+        "aprofunde": "Mover o ID para o header desacopla envelope e dado. O consumer continua lendo o ID em runtime, mas o payload vira Avro, Protobuf ou JSON puro, sem cabeçalho proprietário. Vantagem prática: um time pode começar a publicar com schema validation no header enquanto outros consumers leem o payload antigo direto, sem mudar produção. A Confluent demonstra que dá para coexistir os dois formatos no mesmo tópico durante migração, e o Schema Registry mantém versionamento e compatibility check do mesmo jeito.",
+        "decida": "Faz sentido se sua plataforma tem múltiplos times produzindo no mesmo tópico com governance heterogênea, ou se você quer adotar schema validation sem reformatar mensagens legadas. Risco: nem todo cliente Kafka lê headers de forma consistente — kcat e bibliotecas mais antigas precisam atualizar. Próximo passo técnico: rodar produção em paralelo num tópico de teste, validar que consumers atuais leem schema no header, e medir overhead — costuma ser menor que 200 bytes por mensagem.",
+        "glossary": [
+          { "term": "Schema Registry", "def": "Serviço Confluent que armazena definições de schema versionadas e atribui IDs inteiros a cada versão." },
+          { "term": "Wire format", "def": "Convenção de bytes que envelopa o payload Kafka com metadados como o ID do schema." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+      "published_at": "2026-05-06T11:00:00-03:00",
+      "read_time": 4,
+      "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/confluent-kafka-header-thumb.jpg",
+      "image_kind": "editorial",
+      "tags": ["kafka", "schema-registry", "integration", "confluent"],
+      "learning": {
+        "url": "https://docs.confluent.io/platform/current/schema-registry/fundamentals/serdes-develop/index.html",
+        "title": "Schema Registry serializers and deserializers",
+        "type": "docs",
+        "source_name": "Confluent Docs",
+        "why": "Mostra como o serializer atual embute schema ID no payload e onde plugar a configuração que move ID para header — leitura obrigatória antes de planejar migração."
+      }
+    }
+  ],
+  "news": [
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "urgent": true,
+      "breaking": true,
+      "headline": "Argo CD 3.3.9 e 3.2.11 corrigem CVE-2026-42880 — Server-Side Diff vazava secrets do Kubernetes em plaintext",
+      "summary": "A Argo Project publicou em 6/mai os releases de patch 3.3.9 e 3.2.11 para resolver o CVE-2026-42880 (CVSS 9.6). A falha vivia no caminho de Server-Side Diff — feature que compara o estado desejado contra o estado real no cluster — e fazia bypass da máscara de dados quando a annotation argocd.argoproj.io/compare-options: IncludeMutationWebhook=true estava presente. Resultado: usuários read-only conseguiam extrair secrets diretos do etcd em plaintext. O time recomenda upgrade imediato e rotação de qualquer secret que tenha trafegado pela API durante a janela exposta.",
+      "explain": {
+        "comece": "Argo CD é a ferramenta GitOps mais usada para reconciliar Kubernetes com manifests de um repositório. Server-Side Diff foi adicionado para que o cluster, e não o cliente, calcule a diferença entre o desejado e o real — útil porque webhooks de mutação reescrevem objetos depois que o YAML chega. O bug aceitava que essa comparação devolvesse o objeto bruto, sem mascarar Secret.",
+        "aprofunde": "Tecnicamente, o caminho de mask-out de Secret roda quando o diff é normal. Quando o usuário marca a annotation IncludeMutationWebhook=true, o Argo CD chama o cluster com server-side dry-run e compara o resultado pós-webhook. Esse caminho pulava o passo de mascarar campos sensíveis e devolvia raw data lido diretamente do etcd via Kubernetes API. Como qualquer usuário com permissão get/list de Application no namespace argocd consegue invocar diff, read-only virava read-secret. O fix valida o tipo Secret antes de devolver e mantém máscara consistente em ambos os caminhos.",
+        "decida": "Risco operacional é alto: a brecha existe desde fevereiro/26 e Argo CD costuma ser instalado com permissões amplas. Próximo passo técnico: subir para 3.3.9 ou 3.2.11 antes do fim do dia, auditar logs do API server por chamadas de diff que usaram IncludeMutationWebhook nos últimos 90 dias e rotacionar secrets de qualquer Application impactada. Boa hora também para revisar RBAC do namespace argocd — read-only nunca deveria ler etcd.",
+        "glossary": [
+          { "term": "Server-Side Diff", "def": "Modo do Argo CD em que o cluster calcula a diferença entre desired e live, levando em conta webhooks de mutação que reescrevem objetos." },
+          { "term": "Mutation webhook", "def": "Componente Kubernetes que altera objetos antes de persistir no etcd, ex.: injetando sidecar ou normalizando labels." },
+          { "term": "etcd", "def": "Banco de dados chave-valor distribuído usado pelo Kubernetes para armazenar todo o estado do cluster, incluindo Secrets." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "argo",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.9",
+      "published_at": "2026-05-06T18:00:00-03:00",
+      "read_time": 4,
+      "tags": ["argocd", "kubernetes", "gitops", "security", "cve"],
+      "image": "https://opengraph.githubassets.com/1/argoproj/argo-cd",
+      "image_kind": "editorial",
+      "cves": ["CVE-2026-42880"],
+      "severity": "critical",
+      "learning": {
+        "url": "https://argo-cd.readthedocs.io/en/stable/operator-manual/server-side-diff/",
+        "title": "Argo CD — Server-Side Diff documentation",
+        "type": "docs",
+        "source_name": "Argo CD Docs",
+        "why": "Doc oficial do Server-Side Diff: como funciona, quais annotations a feature aceita e configurações relevantes — leitura prática para auditar exposição da brecha em seu cluster."
+      }
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Cloudflare detalha como roda LLMs gigantes na borda separando prefill e decode em máquinas distintas",
+      "summary": "Em post de engenharia publicado em 5/mai, a Cloudflare desenhou a arquitetura que sustenta Workers AI rodando modelos como o Kimi K2.5 (1T+ parâmetros, 560GB). O truque central é disaggregated inference: o estágio prefill — que processa o input e popula o KV cache — roda em máquinas otimizadas para compute, enquanto o decode — que gera tokens — roda em hardware otimizado para memória. O KV cache é transferido entre os dois nós. Junto, a Cloudflare descreve o motor próprio Infire (em Rust) e a compressão Unweight, que reduz o footprint de pesos em 15-22% sem perder acurácia.",
+      "explain": {
+        "comece": "Servir um modelo grande não é uma só operação. Há duas fases: prefill, que digere o prompt e calcula representações intermediárias chamadas KV cache, e decode, que usa esse cache para emitir tokens, um a um. Prefill puxa muito processador; decode puxa muito barramento de memória. Tradicionalmente, ambos rodam na mesma GPU e desperdiçam ou compute, ou banda de memória.",
+        "aprofunde": "O desenho da Cloudflare aplica disaggregated inference: cada estágio vive em uma frota dedicada com hardware certo para o gargalo dele. Prefill recebe o request, gera o KV cache e indica ao orquestrador onde está. O request migra para o decode server, que importa o cache e começa a gerar saída. O motor próprio, Infire, é escrito em Rust para casar com a infraestrutura distribuída global da Cloudflare e foi medido como mais eficiente que vLLM para essa topologia. O Unweight aplica compressão sem perda nos pesos do MLP, cortando 15-22% do volume que precisa entrar na VRAM.",
+        "decida": "Para arquitetos que servem modelos próprios em GPU privada, a leitura é direta: continuar com prefill e decode amarrados na mesma máquina deixa GPU ociosa metade do tempo. Próximo passo técnico: medir tempo de prefill versus decode no maior modelo em produção; se a diferença for grande, considerar topologia disaggregated com vLLM, SGLang ou DistServe. Se for inferência hospedada, preferir provedor que já implemente o padrão — vai impactar custo por token a partir de 2026.",
+        "glossary": [
+          { "term": "KV cache", "def": "Cache de chaves e valores das camadas de atenção que evita recalcular tudo a cada novo token gerado." },
+          { "term": "Prefill", "def": "Fase em que o modelo processa o prompt completo e popula o KV cache. É compute-bound." },
+          { "term": "Decode", "def": "Fase em que o modelo emite um token por vez consultando o KV cache. É memory-bound." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/high-performance-llms/",
+      "published_at": "2026-05-05T10:00:00-03:00",
+      "read_time": 5,
+      "tags": ["llm", "inference", "cloudflare", "edge", "gpu"],
+      "image": "https://blog.cloudflare.com/content/images/2024/05/image-39.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://arxiv.org/abs/2401.09670",
+        "title": "DistServe — Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving",
+        "type": "paper",
+        "source_name": "arXiv",
+        "why": "Paper original que formalizou a separação prefill/decode que a Cloudflare implementou em produção. Dá a base teórica e os números para justificar a topologia."
+      }
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Confluent move schema ID do payload Kafka para header e libera governance incremental",
+      "summary": "Em 6/mai, o InfoQ documentou a mudança do Confluent que tira o schema ID do payload Kafka e o coloca no record header. Tradicionalmente, o wire format do Confluent embute o ID no início da mensagem, casando dado e metadado. A nova abordagem mantém o payload limpo: o consumer lê o header, resolve o schema no Schema Registry em runtime e desserializa Avro, Protobuf ou JSON Schema sem mudar formato. Para times com múltiplos consumidores em strategies diferentes, é caminho de migração incremental sem quebrar pipelines existentes.",
+      "explain": {
+        "comece": "Schema Registry é o serviço onde times centralizam a definição de cada tipo de mensagem que circula no Kafka. Cada schema recebe um ID. No formato wire clássico do Confluent, esse ID vinha colado no payload — primeiro byte mágico, depois quatro bytes de ID, depois o dado serializado. Funciona, mas força todo consumer a entender esse envelope.",
+        "aprofunde": "Mover o ID para o header desacopla envelope e dado. O consumer continua lendo o ID em runtime, mas o payload vira Avro, Protobuf ou JSON puro, sem cabeçalho proprietário. Vantagem prática: um time pode começar a publicar com schema validation no header enquanto outros consumers leem o payload antigo direto, sem mudar produção. A Confluent demonstra que dá para coexistir os dois formatos no mesmo tópico durante migração, e o Schema Registry mantém versionamento e compatibility check do mesmo jeito.",
+        "decida": "Faz sentido se sua plataforma tem múltiplos times produzindo no mesmo tópico com governance heterogênea, ou se você quer adotar schema validation sem reformatar mensagens legadas. Risco: nem todo cliente Kafka lê headers de forma consistente — kcat e bibliotecas mais antigas precisam atualizar. Próximo passo técnico: rodar produção em paralelo num tópico de teste, validar que consumers atuais (Spark, Flink, Connect) leem schema no header, e medir overhead — costuma ser menor que 200 bytes por mensagem.",
+        "glossary": [
+          { "term": "Schema Registry", "def": "Serviço Confluent que armazena definições de schema versionadas e atribui IDs inteiros a cada versão." },
+          { "term": "Wire format", "def": "Convenção de bytes que envelopa o payload Kafka com metadados como o ID do schema." },
+          { "term": "Record header", "def": "Campo opcional do Kafka que carrega pares chave-valor ao lado de key e value, sem afetar o payload." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+      "published_at": "2026-05-06T11:00:00-03:00",
+      "read_time": 4,
+      "tags": ["kafka", "schema-registry", "integration", "confluent"],
+      "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/confluent-kafka-header-thumb.jpg",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://docs.confluent.io/platform/current/schema-registry/fundamentals/serdes-develop/index.html",
+        "title": "Schema Registry serializers and deserializers",
+        "type": "docs",
+        "source_name": "Confluent Docs",
+        "why": "Cobre como o serializer atual embute schema ID no payload e onde fica a configuração que move ID para header — leitura obrigatória antes de migrar."
+      }
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Anthropic lança 10 agentes Claude para Wall Street e abre Microsoft 365 add-ins em GA",
+      "summary": "Em evento privado em Nova York no dia 5/mai, a Anthropic anunciou dez templates prontos de agente Claude para finanças (pitchbook, KYC, credit memo, underwriting, month-end close), GA dos add-ins de Excel, PowerPoint e Word, beta do Claude para Outlook e Moody's embutido como app MCP nativo. O conjunto vem com Claude Opus 4.7 como modelo de referência e parcerias de dados com Verisk, Fiscal AI, Dun & Bradstreet, GLG, Guidepoint e IBISWorld além das já existentes (LSEG, S&P Capital IQ, Morningstar, PitchBook).",
+      "explain": {
+        "comece": "Templates de agente são reference architectures empacotadas: skills (workflows), connectors (acesso governado a dado) e subagents (chamadas Claude especializadas) que automatizam um processo inteiro como gerar pitchbook ou montar KYC. A diferença para SDK cru é que vêm prontos para o setor de finanças, com playbooks e segurança já desenhados.",
+        "aprofunde": "Tecnicamente, os add-ins de Office viram clientes do Claude Platform, levando contexto entre Excel, PowerPoint, Word e Outlook num único agent state — algo que a Microsoft tenta com Copilot dentro do Office, mas Anthropic está fazendo via plug-in independente. O Moody's app é o primeiro grande integrador via MCP em volume institucional: dados de rating de mais de 600 milhões de empresas ficam acessíveis ao Claude sem sair do app. O movimento sinaliza Claude virando shell operacional sobre stack proprietário do banco.",
+        "decida": "Para arquitetos de plataforma em fintechs ou bancos: chegou o momento de avaliar o trade-off entre construir agente próprio sobre LLM open-weight (Mistral, DeepSeek, Llama) e adotar templates prontos. Risco: lock-in com Anthropic em workflows críticos e custo por token em volume bancário. Próximo passo: pegar um workflow real (geração de credit memo, por exemplo), instrumentar com OpenTelemetry e medir latência, custo e qualidade no template Anthropic versus baseline com agente in-house.",
+        "glossary": [
+          { "term": "MCP", "def": "Model Context Protocol — padrão da Anthropic para conectar LLMs a fontes de dado e ferramentas externas." },
+          { "term": "Subagent", "def": "Chamada Claude especializada disparada por um agente principal para resolver uma sub-tarefa com prompt e ferramentas próprios." },
+          { "term": "Pitchbook", "def": "Documento com dezenas de slides usado por banqueiros de investimento para apresentar uma operação a um cliente." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "fortune",
+      "url": "https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/",
+      "published_at": "2026-05-05T17:00:00-03:00",
+      "read_time": 4,
+      "tags": ["anthropic", "claude", "agents", "fintech", "microsoft-365"],
+      "image": "https://fortune.com/img-assets/wp-content/uploads/2026/05/anthropic-financial-services-claude.jpg?resize=1200,600",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://modelcontextprotocol.io/introduction",
+        "title": "Model Context Protocol — Introduction",
+        "type": "docs",
+        "source_name": "MCP",
+        "why": "Os agentes Anthropic e o app Moody's rodam sobre MCP. Entender o protocolo é pré-requisito para avaliar onde caber agente próprio versus template Anthropic."
+      }
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "headline": "CISA adiciona PAN-OS CVE-2026-0300 ao KEV em 6/mai — patch oficial só em 13/mai, prazo FCEB é dia 9",
+      "summary": "A CISA incluiu em 6/mai o CVE-2026-0300 no catálogo Known Exploited Vulnerabilities. Trata-se de buffer overflow não autenticado no User-ID Authentication Portal do PAN-OS da Palo Alto Networks, com CVSS 9.3 quando o portal está exposto à internet. Há exploração ativa relatada e o patch oficial só sai em 13/mai. CISA dá prazo de 9/mai para mitigação em órgãos federais americanos (FCEB) — o que na prática vira 72 horas para todo mundo aplicar workaround.",
+      "explain": {
+        "comece": "PAN-OS é o sistema operacional dos firewalls da Palo Alto Networks. Quando o User-ID Authentication Portal está habilitado e exposto, ele aceita requisições não autenticadas para iniciar fluxo de login. O bug é buffer overflow no parsing dessa requisição inicial — não precisa de credencial para ser acionado.",
+        "aprofunde": "A vulnerabilidade permite execução remota de código (RCE) com privilégios elevados. Atacantes ganham foothold direto no perímetro, e o firewall vira pivô para o resto da rede. O fato de a Palo Alto ainda não ter patch e a CISA já ter incluído no KEV sinaliza que a exploração está confirmada em pelo menos uma campanha. O workaround sugerido é desabilitar o portal externo ou restringir o IP de origem da rede de management até o release de 13/mai. CVSS 9.3 e janela de 72h colocam o caso na lista de incidentes prioritários da semana.",
+        "decida": "Para arquiteto de rede ou SRE com firewall PAN-OS exposto: aplicar workaround hoje, não esperar patch. Próximo passo técnico: rodar inventário de quais firewalls têm User-ID portal exposto na internet, mover authentication para VPN-só, ativar logs de tentativa de auth com origem fora do range esperado e preparar janela de patch para 13/mai. Quem não consegue desabilitar o portal pode pelo menos restringir geo-IP ou aplicar regra do WAF na frente.",
+        "glossary": [
+          { "term": "KEV", "def": "Known Exploited Vulnerabilities — catálogo da CISA que lista CVEs com exploração ativa confirmada e prazo de mitigação." },
+          { "term": "FCEB", "def": "Federal Civilian Executive Branch — órgãos civis do governo federal americano que devem cumprir prazos de remediação CISA." },
+          { "term": "Buffer overflow", "def": "Erro em que dados além do tamanho de um buffer sobrescrevem memória adjacente, frequentemente levando a RCE." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/palo-alto-pan-os-flaw-under-active.html",
+      "published_at": "2026-05-06T12:00:00-03:00",
+      "read_time": 4,
+      "tags": ["cve", "kev", "pan-os", "firewall", "rce"],
+      "image": "https://www.cisa.gov/sites/default/files/styles/16x9_small/public/2023-11/IMAGE%20CTA%20-%20KEV%20Listing-%20700x394.png?h=abce51c1&itok=hQcfchot",
+      "image_kind": "institutional",
+      "cves": ["CVE-2026-0300"],
+      "severity": "critical",
+      "learning": {
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+        "title": "CISA — Known Exploited Vulnerabilities Catalog",
+        "type": "docs",
+        "source_name": "CISA",
+        "why": "Catálogo oficial KEV com prazo de mitigação por CVE. Útil para ler condições do CVE-2026-0300 e operar SLA interno de remediação a partir de inclusões na KEV."
+      }
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Apache Polaris 1.4 chega como primeiro release pós-graduação ASF com KMS por catálogo e métricas Iceberg",
+      "summary": "A comunidade Polaris publicou em 23/abr o 1.4.0, primeiro major depois de virar projeto top-level na Apache Software Foundation em fevereiro. O release adiciona controle granular sobre como Polaris fala com armazenamento de objeto, suporta multi-tenancy com encryption keys e identidades IAM separadas por catálogo, persiste métricas Iceberg (ScanReports, CommitReports) direto no DB do Polaris e adiciona STS session tags por realm/catalog/table. CLI Python 1.4 saiu em 28/abr.",
+      "explain": {
+        "comece": "Apache Polaris é catálogo aberto para Apache Iceberg — o serviço onde dataops registra qual tabela existe, com qual schema, em qual storage. A novidade é menos sobre Iceberg em si e mais sobre como times com múltiplos clientes de dado convivem no mesmo Polaris sem misturar credencial ou bucket.",
+        "aprofunde": "1.4 isola encryption no nível do catálogo: cada tenant pode ter chave KMS própria, IAM role própria e session tags STS específicos. Isso fecha a lacuna que tornava Polaris difícil de operar como serviço compartilhado em corporações com vários domínios de negócio. A persistência das métricas Iceberg no DB Polaris é o outro ponto crítico para ops: antes você dependia de logs do executor (Spark, Trino, Flink) para saber tamanho médio de scan, hot files, taxa de commit. Agora vira dado consultável direto no catálogo.",
+        "decida": "Para arquiteto de plataforma de dados que usa Iceberg: se o catálogo é REST customizado ou Glue, vale avaliar Polaris 1.4 como alternativa cloud-agnostic. Risco: 1.x ainda evolui rápido, e o ecossistema (Snowflake Open Catalog, Starburst, Trino) ainda está alinhando interoperabilidade. Próximo passo técnico: subir Polaris 1.4 em homologação, replicar metadata de 2-3 tabelas reais e medir latência de operações de catálogo (createTable, loadTable, commit) versus o catálogo atual.",
+        "glossary": [
+          { "term": "Iceberg catalog", "def": "Camada que mapeia nomes de tabela para localização física da metadata, garantindo consistência de operações concorrentes." },
+          { "term": "STS session tags", "def": "Tags AWS IAM que viajam com a sessão temporária e podem ser usadas em policy condicional para multi-tenancy." },
+          { "term": "ScanReport", "def": "Métrica Iceberg sobre tamanho e padrão de leitura de uma query, útil para identificar files frios e otimizar layout." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://www.snowflake.com/en/engineering-blog/apache-polaris-1-4-release/",
+      "published_at": "2026-04-28T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["polaris", "iceberg", "data-lakehouse", "catalog"],
+      "image": "https://www.snowflake.com/wp-content/uploads/2024/06/Snowflake-Logo-Blue-1200x630.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://polaris.apache.org/releases/1.4.0/",
+        "title": "Apache Polaris 1.4.0 release notes",
+        "type": "docs",
+        "source_name": "Apache Polaris",
+        "why": "Doc oficial do release com configurações de KMS por catálogo, STS session tags e métricas Iceberg — leitura prática para POC de multi-tenancy."
+      }
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "GitHub Copilot em Visual Studio ganha Debugger Agent que valida fix contra runtime real",
+      "summary": "Em 30/abr, a GitHub publicou no Changelog a April Update do Copilot em Visual Studio com peso em workflow agentic. O destaque é o novo Debugger Agent: parte de uma issue do GitHub ou Azure DevOps, reproduz, instrumenta, diagnostica e sugere fix testando contra execução ao vivo. Também GA dos C++ Code Editing Tools, Cloud Agent sessions iniciando dentro da IDE e custom agents agora user-level (.agent.md no profile, não só no repositório).",
+      "explain": {
+        "comece": "Copilot no Visual Studio até pouco tempo era completação de código com chat lateral. April Update vira a chave: o agente agora liga em ferramentas reais do IDE (debugger, terminal, git) para testar hipóteses antes de propor patch. É o passo do par programador para o time engineering virtual.",
+        "aprofunde": "O Debugger Agent funciona em loop fechado: lê a issue, dispara repro local com breakpoints, captura estado, levanta hipóteses, aplica fix, roda teste e volta para ajustar se falhar. É mais barato que cloud agent porque roda na máquina do dev — mas só faz sentido para bug com reprodução determinística. Custom agents user-level resolvem o problema de quem mantém vários repos: definição de agente em .agent.md vai junto com o usuário e não precisa ser duplicada por projeto. Junto com o sistema de billing por AI Credits que entra em junho, é o sinal de que GitHub está commoditizando agente de codificação.",
+        "decida": "Para tech lead avaliando AI coding na empresa: vale rodar o Debugger Agent em uma sprint contra bugs reais e medir taxa de fix correto na primeira tentativa, taxa de retrabalho e tempo total. Comparar contra Claude Code e Cursor com mesma issue. Risco: o agente pode esconder dependências do bug ao corrigir só o sintoma — manter revisão humana antes do merge.",
+        "glossary": [
+          { "term": "Cloud agent", "def": "Agente Copilot que roda em runner remoto e devolve PR pronto para revisão, sem ocupar máquina do dev." },
+          { "term": ".agent.md", "def": "Arquivo de definição de agente custom com prompt, ferramentas e regras de comportamento." },
+          { "term": "AI Credits", "def": "Unidade que GitHub vai usar a partir de junho/26 para cobrar uso de Copilot por tokens consumidos." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "githubchangelog",
+      "url": "https://github.blog/changelog/2026-04-30-github-copilot-in-visual-studio-april-update/",
+      "published_at": "2026-04-30T15:00:00-03:00",
+      "read_time": 4,
+      "tags": ["github-copilot", "visual-studio", "agents", "debugger"],
+      "image": "https://github.blog/wp-content/uploads/2024/12/changelog.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://docs.github.com/en/copilot/concepts/agents/about-agents",
+        "title": "About GitHub Copilot agents",
+        "type": "docs",
+        "source_name": "GitHub Docs",
+        "why": "Cobre o modelo de agentes do Copilot — diferenças entre cloud agent e custom agent, formato .agent.md e quando usar cada um. Base para definir guideline interno."
+      }
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "Julia Evans publica inventário de paletas CSS e propõe substituto pragmático ao Tailwind",
+      "summary": "Em 4/mai, Julia Evans publicou em jvns.ca um post longo com paletas CSS que ela passou a usar depois de decidir parar de adotar Tailwind em projetos novos. O texto não é manifesto — é catálogo prático, com 30+ paletas open-source organizadas por uso (terminal, dashboards, sites editoriais), explicando como escolher por contraste WCAG, intenção visual e ergonomia de design system. É leitura rápida que rende reflexão sobre quanto da complexidade de Tailwind realmente vale a pena para times pequenos.",
+      "explain": {
+        "comece": "Tailwind virou padrão de fato em times que não querem manter CSS próprio. Julia Evans é uma das vozes mais respeitadas na comunidade dev por explicar fundamentos sem mistério, e o post dela é radar para times pequenos que se cansaram do bundle, da configuração e da steep learning curve.",
+        "aprofunde": "O texto inventaria paletas como Catppuccin, Solarized, Nord, Tailwind Colors, Open Color, Radix Colors e o sistema oklch da CSS Color Module Level 4. Para cada uma, ela mostra como integrar via custom properties (var(--color-fg)), como aplicar dark mode com prefers-color-scheme e como validar contraste com APCA ou WCAG 2.x. A escolha de oklch sobre hex/rgb tem ganho prático: gradiação perceptualmente uniforme e suporte a wide gamut em monitores modernos.",
+        "decida": "Útil para times de uma a três pessoas decidindo o stack do front. Se o app tem 5 cores e 12 componentes, custom properties + paleta open source resolvem sem precisar do build pipeline do Tailwind. Próximo passo técnico: pegar um app pequeno em Tailwind, reescrever 3 componentes com CSS variables e oklch, medir tamanho do bundle CSS final e comparar com o JIT do Tailwind. Não funciona bem para design system corporativo grande — Tailwind ganha quando há 20+ devs e tokens precisam de tooling.",
+        "glossary": [
+          { "term": "oklch", "def": "Espaço de cor perceptualmente uniforme do CSS Color Module Level 4, com luminância, chroma e hue como eixos." },
+          { "term": "APCA", "def": "Algoritmo moderno de cálculo de contraste, mais preciso que WCAG 2.x para texto pequeno e cores saturadas." },
+          { "term": "Custom property", "def": "Variável CSS declarada com --nome e consultada com var(--nome), suportada nativamente sem build step." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://jvns.ca/blog/2026/05/04/css-colour-palettes/",
+      "published_at": "2026-05-04T14:00:00-03:00",
+      "read_time": 5,
+      "tags": ["css", "frontend", "design-system", "tailwind"],
+      "image": "https://jvns.ca/images/social.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch",
+        "title": "MDN — oklch() color function",
+        "type": "docs",
+        "source_name": "MDN Web Docs",
+        "why": "Referência canônica sobre o espaço de cor oklch que Julia Evans usa nos exemplos. Mostra interpolação, gamut e fallback para browsers antigos."
+      }
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Martin Fowler curou em 5/mai série sobre reduzir fricção em programação assistida por IA",
+      "summary": "Na edição de Fragments de 5/mai, Martin Fowler destacou a série de Rahul Garg sobre reduzir fricção em programação com assistente de IA, mais um framework open-source que operacionaliza esses padrões. O argumento central: pair com IA exige disciplina nova — quando explicar contexto, quando deixar o agente errar, quando interromper. Fowler vê padrão reproduzível para times que estão escalando uso de Copilot/Claude/Cursor sem deixar a qualidade colapsar.",
+      "explain": {
+        "comece": "Programação assistida por IA passou de novidade para parte do fluxo. O problema agora é que cada dev usa de um jeito, e times sem padrão acabam com PRs gerados em estilos divergentes, ou com acoplamento implícito ao que o modelo entende como bom código. Fowler está mapeando como a comunidade está respondendo a isso.",
+        "aprofunde": "A série de Garg propõe abstrações: prompt blocks, context cards, review loops e escalation policies. A ideia é tratar o agente como um colaborador que precisa de onboarding repetível — não como autocompletar inteligente. O framework operacionaliza isso com templates de prompt em Markdown, contextos versionados em repositório e regras de quando o humano precisa revisar antes da execução. Fowler comenta que é o tipo de prática que transforma uso ad-hoc de IA em capacidade de plataforma de engenharia.",
+        "decida": "Para arquiteto que está escalando IA no time: ler a série antes de definir guidelines internos. Risco: adotar abstração pesada cedo demais — em times de 5 devs, prompt versionado em README pode bastar. Próximo passo técnico: documentar três prompts atuais que funcionam para o time, transformar em context cards e medir se a taxa de aceitação de PR de IA melhora ao longo de duas sprints.",
+        "glossary": [
+          { "term": "Context card", "def": "Documento curto e versionado que dá ao agente IA o contexto técnico e regras do domínio para uma tarefa específica." },
+          { "term": "Pair programming com IA", "def": "Modelo de trabalho em que humano e agente alternam papéis de driver e navigator, com responsabilidades explícitas." },
+          { "term": "Escalation policy", "def": "Regra que define quando o agente deve parar e pedir validação humana em vez de seguir." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "martinfowler",
+      "url": "https://martinfowler.com/fragments/2026-05-05.html",
+      "published_at": "2026-05-05T12:00:00-03:00",
+      "read_time": 3,
+      "tags": ["ai-coding", "engineering-practice", "fowler"],
+      "image": "https://martinfowler.com/img/mf-square.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://martinfowler.com/articles/exploring-gen-ai/",
+        "title": "Exploring Gen AI in Software Development",
+        "type": "article",
+        "source_name": "Martin Fowler",
+        "why": "Coleção de Fowler com posts de Birgitta Böckeler e outros sobre uso prático de IA em codificação. Complementa a série de Garg destacada no Fragments."
+      }
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Spring Modulith 2.1 RC1 chega com @ModuleSlicing e melhora teste de transação",
+      "summary": "A Pivotal/VMware publicou em 24/abr o primeiro release candidate do Spring Modulith 2.1, junto com 2.0.6 e 1.4.11. O release traz a anotação @ModuleSlicing — que resolve falhas em testes integrados quando há múltiplas classes anotadas com @SpringBootApplication — e melhora handling de transação em integração com JobRunr. Também ajusta naming de métricas de observabilidade para uniformidade entre módulos.",
+      "explain": {
+        "comece": "Spring Modulith é a tentativa do ecossistema Spring de dar caminho oficial para monolito modular: o app continua sendo um único deploy, mas é fatiado em módulos com fronteira explícita, eventos pub-sub e testes de slice. Resolve o problema de quem não quer microsserviço mas precisa de boundary respeitado.",
+        "aprofunde": "@ModuleSlicing é importante porque até agora o test slicing do Modulith quebrava em apps com múltiplas @SpringBootApplication (caso comum em monorepos com várias entry points). A anotação permite forçar qual aplicação carregar, isolando o teste do módulo certo. O fix em JobRunr resolve transação propagando errado quando o handler de evento dispara job — bug operacional que aparece quando se tenta usar Modulith como backbone de orquestração interna. Naming de métricas alinha com OpenTelemetry semantic conventions, fechando integração com Grafana e Datadog sem mapeamento custom.",
+        "decida": "Para times Spring que evitaram microsserviço mas precisam de fronteira clara: 2.1 RC é candidato real para teste em projeto novo. Risco: Modulith ainda é novo o suficiente para ter API churn entre minor versions. Próximo passo técnico: criar projeto exemplo com 3 módulos, escrever um test slice por módulo, medir tempo de build e clarificação do diagrama de dependência via @ApplicationModule.",
+        "glossary": [
+          { "term": "Modulith", "def": "Padrão de monolito modular onde o aplicativo é dividido em módulos com fronteira explícita e dependências controladas." },
+          { "term": "Test slicing", "def": "Recurso Spring que sobe apenas as beans necessárias para um teste, acelerando integração sem subir o app inteiro." },
+          { "term": "JobRunr", "def": "Biblioteca Java para background jobs distribuídos com Postgres ou Redis como backing store." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/24/spring-modulith-2-1-rc1-2-0-6-and-1-4-11-released/",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "read_time": 3,
+      "tags": ["spring", "modulith", "monolith", "testing"],
+      "image": "https://spring.io/img/og-spring.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://docs.spring.io/spring-modulith/reference/index.html",
+        "title": "Spring Modulith Reference Documentation",
+        "type": "docs",
+        "source_name": "Spring Docs",
+        "why": "Doc oficial cobrindo @ApplicationModule, eventos pub-sub e test slices. Base para desenhar fronteira de módulo antes de adotar 2.1 em projeto real."
+      }
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Wasmtime 38 estreia gdbstub embutido para depurar Wasm guest com LLDB",
+      "summary": "Em 20/abr, a Bytecode Alliance publicou o release de abril do Wasmtime com novidade direta para troubleshooting: a CLI agora aceita -g e abre um servidor gdbstub-compatível que pode ser anexado pelo LLDB para depurar o programa Wasm. Suporte experimental ao tipo map<K,V> do component model, exceptions e tags via C API, e implementação inicial de wasi:tls 0.3.0-draft completam o release. Wasmtime agora exige Rust 1.92.0+ para build.",
+      "explain": {
+        "comece": "Wasmtime é o runtime WebAssembly da Bytecode Alliance, usado em Spin, Fastly Compute@Edge e cada vez mais em backend. Até agora, depurar guest Wasm exigia logs ou ferramentas externas. O gdbstub embutido fecha um gap que limitava adoção em times sem dev tooling pesado.",
+        "aprofunde": "A flag -g sobe um servidor que fala protocolo gdb remote, então qualquer cliente compatível (LLDB, GDB, IDEs com plug-in) pode conectar e dar break, step, watch em código guest. O suporte experimental a map<K,V> tira boilerplate de quem trabalha com component model e modela tipos com chave-valor. wasi:tls 0.3.0-draft padroniza TLS no nível WASI, o que permite cliente HTTP autônomo dentro do guest sem depender de bridge customizada. A unificação dos crates wasmtime-wasi-tls-* em um único crate com feature flags simplifica dependência.",
+        "decida": "Para arquiteto considerando Wasm em runtime de backend (Spin, NGINX Unit, edge functions): a maturidade do tooling agora justifica POC sério. Risco: ecossistema ainda fragmenta entre Wasmtime, WAMR e Wasmer com APIs sutilmente diferentes. Próximo passo técnico: rodar serviço pequeno em Spin com Wasmtime 38, conectar LLDB via gdbstub e medir overhead do debugger contra runtime sem -g.",
+        "glossary": [
+          { "term": "gdbstub", "def": "Implementação do protocolo gdb remote dentro do runtime, permitindo debugger externo controlar execução guest." },
+          { "term": "Component model", "def": "Modelo Wasm para empacotar interfaces tipadas e composição de módulos com tipos ricos como map e variant." },
+          { "term": "WASI", "def": "WebAssembly System Interface — padrão que dá ao guest acesso controlado a filesystem, rede e ambiente do host." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "bytecodeliance",
+      "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v38.0.0",
+      "published_at": "2026-04-20T13:00:00-03:00",
+      "read_time": 3,
+      "tags": ["wasm", "wasmtime", "debugger", "runtime"],
+      "image": "https://opengraph.githubassets.com/1/bytecodealliance/wasmtime",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://docs.wasmtime.dev/wasi-tls.html",
+        "title": "Wasmtime — WASI TLS",
+        "type": "docs",
+        "source_name": "Wasmtime Docs",
+        "why": "Documenta o suporte a wasi:tls que o release de abril mira. Necessário para quem quer rodar HTTP client autônomo dentro do guest sem bridge custom."
+      }
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "Performance Update do JDK 21 ao JDK 25 mostra ganho de até 70x em workload com virtual threads",
+      "summary": "Inside.java republicou em 8/mar análise de Per-Åke Minborg medindo evolução de performance da JVM entre 21 e 25, com benchmarks que mostram 70x de aceleração em workload de 5.000 virtual threads em carrier thread única só por upgrade de JVM, sem mudança de código. Inclui também ganho médio de 4 bytes por objeto com -XX:+UseCompactObjectHeaders, que reduz pressão de cache e GC.",
+      "explain": {
+        "comece": "Virtual threads, introduzidas em JEP 425 para JDK 21 e estabilizadas em 25, são threads gerenciadas pela JVM em vez do SO. Mil de uma costumavam custar caro; agora são baratas. O ganho que vem só de subir versão de JVM é uma das maiores razões pragmáticas para fazer upgrade.",
+        "aprofunde": "O fix mais impactante foi JEP 491, em JDK 24: synchronized não pina mais virtual thread no carrier. Antes, qualquer bloco synchronized travava o carrier durante I/O, anulando o ganho de virtual thread. Agora a JVM rastreia ownership pelo virtual thread, não pelo carrier, e desmonta safely. Em I/O-heavy workload, throughput salta de ~360ms (200 platform threads) para 18s — não, ao contrário: 10k requisições em 360ms versus 18s. UseCompactObjectHeaders reduz cabeçalho de objeto em 4 bytes, melhorando cache locality em apps com milhões de objetos pequenos.",
+        "decida": "Para arquiteto Java em produção: 25 LTS já é candidato real de upgrade — não precisa esperar mais um ciclo. Risco: ainda existem libs antigas com ThreadLocal cache que não funcionam bem com virtual thread. Próximo passo técnico: rodar JFR pinning event monitoring na app principal, mapear quais bibliotecas ainda pinam carrier (ex.: drivers JDBC antigos), planejar substituição e medir ganho real com benchmark de carga representativa antes de mudar config de pool.",
+        "glossary": [
+          { "term": "Virtual thread", "def": "Thread leve da JVM que multiplexa em poucas threads do SO, viabilizando concorrência massiva sem custo de OS thread." },
+          { "term": "Carrier thread", "def": "Thread do SO que executa virtual threads. A JVM monta e desmonta virtual threads sobre carriers." },
+          { "term": "UseCompactObjectHeaders", "def": "Flag JVM que reduz o cabeçalho de objeto em 4 bytes, economizando heap e melhorando cache locality." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "infoq",
+      "url": "https://inside.java/2026/03/08/jfokus-java-performance-update/",
+      "published_at": "2026-03-08T10:00:00-03:00",
+      "read_time": 5,
+      "tags": ["java", "jvm", "virtual-threads", "performance"],
+      "image": "https://inside.java/assets/images/inside_java_logo_transparent.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html",
+        "title": "Java SE 25 — Virtual Threads",
+        "type": "docs",
+        "source_name": "Oracle Docs",
+        "why": "Doc oficial cobrindo modelo de virtual thread, padrões de uso e armadilhas de pinning. Ponto de partida concreto antes de mudar pool de produção."
+      }
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS expande EC2 I8ge para mais regiões com Graviton4 e foco em workloads de banco de dados",
+      "summary": "A AWS anunciou em 4/mai a disponibilidade do EC2 I8ge em regiões adicionais. As instâncias rodam Graviton4 (Arm) e foram desenhadas para workloads I/O-intensive como Postgres, Redis e Cassandra — com até 1,1x mais performance por core que a geração I7g e local NVMe storage de baixa latência. Para arquitetos que operam fleet de banco em EC2, é caminho de migração com ganho de custo/perf mensurável.",
+      "explain": {
+        "comece": "EC2 I8ge é a família de instâncias storage-optimized da AWS baseada em Graviton4. Storage-optimized significa que a instância vem com NVMe local físico (não EBS), o que é o que faz diferença para banco de dados e cache que punem I/O remoto.",
+        "aprofunde": "Graviton4 entrega ~30% mais performance por core vs Graviton3 e ~40% mais memory bandwidth, com até 96 cores e DDR5 nativo. Em Postgres com workload TPC-C, AWS reporta queda de p99 de leitura de 2,1ms para 1,3ms. O NVMe local ajuda OLAP em rede com cache quente local, e com pricing 20% abaixo da família M7i equivalente em compute, o ROI vira óbvio para times que rodam Postgres self-managed em EC2 ou Cassandra rings com 5+ nós. Trade-off: Arm exige binários compilados para Arm — ainda há libs e drivers nativos que precisam confirmar suporte.",
+        "decida": "Para SRE com Postgres/Cassandra em EC2 x86: rodar benchmark direto em I8ge antes de assumir migração trivial. Próximo passo técnico: subir réplica Postgres em I8ge com pg_bench ou TPC-C, medir p50/p99 e comparar contra réplica em I7g e M7i. Se time tem pacote Java, validar que JDK do vendor (Corretto, Temurin, Liberica) suporta Arm em produção. Custo absoluto não muda muito — o ganho está em performance/dolar.",
+        "glossary": [
+          { "term": "Graviton4", "def": "Processador Arm da AWS baseado em Neoverse V2, com até 96 cores e foco em performance por watt." },
+          { "term": "NVMe local", "def": "Storage físico anexado à instância, sem hop de rede. Latência típica abaixo de 100µs para leitura aleatória." },
+          { "term": "Storage-optimized", "def": "Família EC2 desenhada para workload com IOPS e throughput altos, como banco de dados e search." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "awswhatsnew",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/05/ec2-i8ge-available-new-regions/",
+      "published_at": "2026-05-04T15:00:00-03:00",
+      "read_time": 3,
+      "tags": ["aws", "ec2", "graviton4", "storage"],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://aws.amazon.com/ec2/instance-types/i8ge/",
+        "title": "Amazon EC2 I8ge Instances",
+        "type": "docs",
+        "source_name": "AWS Docs",
+        "why": "Especificação da família I8ge com Graviton4, NVMe local e perfis de I/O. Base para dimensionar workload de banco antes de migrar."
+      }
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Dremio fecha suporte completo a Iceberg V3 e empurra Polaris como catálogo aberto",
+      "summary": "A Dremio anunciou em 6/abr (release noticiado de novo na semana com a graduação de JB Onofre como ASF Board) read e write completo para Apache Iceberg V3 em produção, incluindo VARIANT para JSON semi-estruturado, deletion vectors para CDC streaming e row-level lineage. O movimento posiciona Polaris como catálogo aberto de fato — mesmo que Snowflake e Databricks ofereçam variantes proprietárias compatíveis. É consolidação de stack onde lakehouse vira commodity.",
+      "explain": {
+        "comece": "Iceberg V3 é a versão 3 do formato de tabela aberto do Apache Iceberg, com novidades em tipos (VARIANT para JSON), deletion vectors (mais rápido que delete files) e row-level lineage. Catálogo, na prática, é o serviço que sabe onde está cada tabela. Polaris é a opção open source que disputa espaço com Snowflake Open Catalog e Glue.",
+        "aprofunde": "VARIANT permite armazenar JSON semi-estruturado direto em coluna sem flatten — útil para event streams e logs. Deletion vectors substituem o file-level delete v2 por bitmap de linhas deletadas, o que torna upsert e CDC viáveis em escala (RisingWave, Flink, Debezium agora têm caminho fluido para Iceberg). Row-level lineage abre janela para auditoria fina e compliance. O movimento de Dremio reforça que catálogos abertos viraram requisito de plataforma — quem amarrar dado em catálogo proprietário tem custo alto de saída em dois anos.",
+        "decida": "Para arquiteto de plataforma de dados: já é hora de ler o spec Iceberg V3 e mapear se workload atual se beneficia. Risco: V3 ainda em rollout em vários engines (Snowflake suporta em preview, Databricks idem). Próximo passo técnico: rodar uma tabela existente convertida para V3 com deletion vectors e medir latência de UPDATE/DELETE versus formato V2.",
+        "glossary": [
+          { "term": "VARIANT", "def": "Tipo Iceberg V3 que guarda JSON semi-estruturado com schema dinâmico, sem precisar normalizar em colunas." },
+          { "term": "Deletion vector", "def": "Bitmap por arquivo de dado indicando quais linhas estão deletadas, mais barato que reescrever o arquivo inteiro." },
+          { "term": "Row-level lineage", "def": "Capacidade de rastrear origem e transformação de cada linha entre commits, útil para audit e compliance." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "siliconangle",
+      "url": "https://www.opensourceforu.com/2026/04/dremio-strengthens-open-data-standards-with-iceberg-v3-and-polaris/",
+      "published_at": "2026-04-07T10:00:00-03:00",
+      "read_time": 3,
+      "tags": ["iceberg", "polaris", "lakehouse", "data"],
+      "image": "https://www.opensourceforu.com/wp-content/uploads/2017/03/OSFY-Logo.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://iceberg.apache.org/spec/",
+        "title": "Apache Iceberg — Table Specification",
+        "type": "docs",
+        "source_name": "Apache Iceberg",
+        "why": "Spec oficial cobrindo VARIANT, deletion vectors e row-level lineage do V3. Leitura pesada mas evita acreditar em cada vendor sem checar a fonte."
+      }
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "OpenTelemetry semantic conventions 1.41 estabiliza database e prepara declaração de stable",
+      "summary": "A comunidade OpenTelemetry publicou em 19/fev o release candidate 2 das Database Semantic Conventions, com declaração de stable prevista para o próximo release. Em paralelo, o pacote Python opentelemetry-semantic-conventions 0.62b1 saiu em 24/abr e o repo de semantic-conventions já está em 1.41.0. Para arquiteto que padronizou observabilidade em Datadog, Grafana ou Honeycomb, é o sinal verde para migrar mapeamento de atributos sem risco de churn.",
+      "explain": {
+        "comece": "Semantic Conventions são o vocabulário comum do OpenTelemetry: db.system, db.statement, http.route, messaging.kafka.partition. Sem eles, cada lib instrumenta com nome diferente e dashboards quebram. Estabilizar database é entregar contrato: dali em diante, mudanças seguem deprecation cycle.",
+        "aprofunde": "1.41 traz HTTP, RPC, messaging e gen-ai já estáveis. Database em RC2 chega na próxima rodada. Na prática, isso permite lib autores (drivers JDBC, ORMs, ODBC, mongo-driver) atualizarem instrumentação confiantes que vão durar — antes, qualquer minor mudava nome de atributo e quebrava alerta. Para vendor agnostic, isso resolve o caso clássico de quem quer migrar de Datadog para Grafana e percebe que metade dos atributos era custom.",
+        "decida": "Para SRE com observabilidade fragmentada: planejar migração de instrumentação custom para Semantic Conventions 1.41 ainda este trimestre. Risco: alguns vendors mantêm naming legado por compatibilidade — verificar se Datadog Agent ou Dynatrace OneAgent já mapeia para SC. Próximo passo técnico: rodar otel-collector com transform processor que faz rename automático de atributo legado para SC, validando que dashboards continuam acendendo, e plantar feature flag no agente de aplicação para emitir SC nativo.",
+        "glossary": [
+          { "term": "Semantic Conventions", "def": "Especificação OpenTelemetry que define nomes e tipos canônicos para atributos de span, métrica e log." },
+          { "term": "Stable", "def": "Estado de uma convenção que segue deprecation cycle estendido — mudanças quebrantes só em major version." },
+          { "term": "OTel Collector", "def": "Processo OpenTelemetry que recebe, transforma e exporta telemetria entre formatos e vendors." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "opentelemetry",
+      "url": "https://opentelemetry.io/docs/specs/semconv/",
+      "published_at": "2026-04-24T12:00:00-03:00",
+      "read_time": 3,
+      "tags": ["opentelemetry", "observability", "semantic-conventions"],
+      "image": "https://opentelemetry.io/img/social/logo-wordmark-001.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://opentelemetry.io/docs/specs/semconv/database/database-spans/",
+        "title": "OpenTelemetry — Database Semantic Conventions",
+        "type": "docs",
+        "source_name": "OpenTelemetry",
+        "why": "Spec oficial das conventions de database em RC2. Mostra atributos canônicos (db.system, db.namespace, db.operation.name) que vão estabilizar."
+      }
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "Cloudflare publica Unweight — compressão lossless de pesos LLM com 15-22% de footprint reduzido",
+      "summary": "Como parte do anúncio da arquitetura LLM em 5/mai, a Cloudflare detalhou o Unweight: sistema de compressão lossless aplicada a pesos do MLP que reduz tamanho do modelo em 15-22% sem perda de acurácia. O paper de pesquisa detalha a técnica e a Cloudflare está rodando em produção dentro do Workers AI. É concorrente direto de quantization 8-bit/4-bit, mas sem trade-off de precisão.",
+      "explain": {
+        "comece": "Modelo grande tem pesos grandes — 560GB para Kimi K2.5. O gargalo na inferência é trazer esses pesos para a VRAM. Quantization corta tamanho mas pode perder precisão. Compressão lossless, se funcionar, é melhor dos dois mundos: mesmo modelo, menor footprint, mesma resposta.",
+        "aprofunde": "Unweight aplica compressão dirigida na estrutura do MLP — multi-layer perceptron, parte que mais pesa em LLMs. A técnica explora redundância estatística sem mudar bit-pattern do output do modelo, então não há drift de comportamento. Resultado: 15-22% a menos de bytes movendo entre RAM, PCIe e VRAM, e proporcional menos energia para inferência. Tradeoff: descomprimir custa um pouco de cycle a mais durante load — mas o ganho em throughput e cache fitting compensa em workload com alto reuse.",
+        "decida": "Para times que rodam inferência own-host (vLLM, TGI, SGLang): vale ler o paper e checar se a técnica pode ser adicionada ao pipeline de loading. Risco: implementação aberta ainda não está disponível como biblioteca padrão; pode exigir fork. Próximo passo técnico: medir bandwidth de RAM-VRAM no maior modelo em produção; se for o gargalo (e geralmente é), plantar Unweight no roadmap junto com quantização int8.",
+        "glossary": [
+          { "term": "MLP", "def": "Multi-Layer Perceptron — bloco da arquitetura Transformer que aplica feed-forward por camada. Costuma representar a maior fração dos pesos." },
+          { "term": "Lossless compression", "def": "Compressão que permite reconstruir o dado original byte-a-byte. Em ML, garante que output seja idêntico ao do modelo descomprimido." },
+          { "term": "VRAM", "def": "Memória dedicada da GPU. Modelo precisa caber, ou parte vai para RAM com perda massiva de throughput." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "cloudflare",
+      "url": "https://research.cloudflare.com/papers/unweight-2026.pdf",
+      "published_at": "2026-05-05T11:00:00-03:00",
+      "read_time": 4,
+      "tags": ["llm", "compression", "cloudflare", "research"],
+      "image": "https://blog.cloudflare.com/content/images/2026/05/hyperdrive-vpc-og.png",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://huggingface.co/docs/transformers/main/en/quantization/overview",
+        "title": "Hugging Face — Quantization overview",
+        "type": "docs",
+        "source_name": "Hugging Face",
+        "why": "Explica abordagens de quantization (int8, int4, AWQ, GPTQ) que são alternativas e complementares à compressão lossless. Útil para comparar trade-offs com Unweight."
+      }
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "Brendan Gregg revisita 'Why I joined OpenAI' e adapta perf engineering para infra de IA",
+      "summary": "Em post de 7/fev relido pela comunidade SRE em 5/mai, Brendan Gregg conta por que saiu da Intel para OpenAI e como o playbook de performance engineering muda quando o workload dominante é treino e inferência de LLM. Ele aponta que ferramentas como BPF Compiler Collection, perf, flame graphs e USE method continuam centrais, mas mudam de posição: GPU e barramento PCIe viram alvo principal, e métricas de utilização CPU dão lugar a SM occupancy e HBM bandwidth.",
+      "explain": {
+        "comece": "Brendan Gregg é um dos nomes mais respeitados em performance engineering, autor de BPF Performance Tools e dos USE/RED methods. O texto vale menos pela mudança de carreira e mais pelo desenho de como instrumentação de Linux precisa evoluir para o workload de IA.",
+        "aprofunde": "Tradicionalmente, perf engineering em Linux fala de CPU, IO, rede e memória. Em IA, o gargalo migra para GPU streaming multiprocessor (SM) occupancy, HBM bandwidth e PCIe transfer entre host e GPU. eBPF segue útil mas precisa de extensões para cobrir nvidia-smi metrics e profile de kernel CUDA. Flame graphs viram timing diagrams ao longo do pipeline prefill→decode, mostrando onde está esperando dado entre nós. USE method (Utilization, Saturation, Errors) ainda funciona — só muda o recurso a olhar.",
+        "decida": "Para SRE em times com inferência ou treino próprio: revisitar instrumentação. Próximo passo técnico: instalar nvidia-dcgm exporter, capturar métricas SM occupancy e HBM bandwidth, comparar com utilização da GPU reportada por nvidia-smi (que costuma esconder ociosidade real) e construir flame graph do path inteiro de uma chamada de inferência. Para quem opera GPU rented (RunPod, Lambda Labs, Together), é a única maneira de saber se o vendor entrega a banda contratada.",
+        "glossary": [
+          { "term": "SM occupancy", "def": "Fração de Streaming Multiprocessors da GPU efetivamente ocupados executando warps. Indicador real de uso, ao contrário de %GPU em nvidia-smi." },
+          { "term": "HBM", "def": "High Bandwidth Memory — memória empilhada conectada à GPU com banda muito superior à GDDR. É o recurso escasso em LLM inference." },
+          { "term": "USE method", "def": "Framework de Brendan Gregg que olha Utilization, Saturation e Errors para cada recurso ao diagnosticar performance." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "brendangregg",
+      "url": "https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html",
+      "published_at": "2026-02-07T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["performance", "ebpf", "gpu", "fundamentals"],
+      "image": "https://www.brendangregg.com/Images/Brendan_Gregg_2018_03.jpg",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://www.brendangregg.com/usemethod.html",
+        "title": "The USE Method",
+        "type": "article",
+        "source_name": "Brendan Gregg",
+        "why": "Framework canônico que continua válido para diagnóstico de GPU/HBM/SM occupancy. Lê em 10 minutos e dá vocabulário para conversar com vendor."
+      }
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "InfoQ reabre debate sobre Architecture Advice Process como caminho descentralizado de decisão",
+      "summary": "Em artigo recente (3/mar), o InfoQ recolocou em pauta o Architecture Advice Process como mecanismo para descentralizar decisão arquitetural sem perder coerência. A proposta: qualquer pessoa pode tomar decisão desde que busque conselho de quem é afetado e de quem tem expertise; ADRs viram contrato; arquitetos saem do gargalo e viram coaches. É reação à dor real de times com Conway's Law operando contra plataformas verticalizadas.",
+      "explain": {
+        "comece": "Architecture Advice Process foi formalizado por Andrew Harmel-Law e tem inspiração em modelos de Sociocracia e Holacracy. A ideia é tirar 'comitê de arquitetura' como gargalo e empoderar times stream-aligned a tomarem decisões com responsabilidade — desde que cumpram o ritual de buscar advice de quem importa.",
+        "aprofunde": "Operacionalmente, o processo tem três passos: a pessoa propõe, busca advice de impactados e expertos, escreve ADR registrando decisão e contexto. ADR vira contrato auditável e pode ser revisado em retrospectiva. Risco mapeado: sem cultura forte de feedback, vira excuse para não consultar; sem ferramentas de ADR (adr-tools, log4brains, MADR), vira documento perdido em wiki. O artigo mostra exemplos onde times decidiram entre Lambda, microsserviço em Kubernetes e nodes bespoke usando o processo, com ADRs publicados em monorepo.",
+        "decida": "Para arquiteto corporativo em organização grande, é alternativa real ao gating tradicional. Próximo passo técnico: pegar 3 decisões pequenas (escolha de lib, padrão de auth, estratégia de cache), aplicar Advice Process com timeline curta de 5 dias, registrar como ADRs e comparar contra fluxo anterior em duração e qualidade da decisão. Não funciona se a empresa puniu errar tecnicamente — exige cultura de blameless.",
+        "glossary": [
+          { "term": "ADR", "def": "Architecture Decision Record — documento curto que registra contexto, decisão e consequência de uma escolha arquitetural." },
+          { "term": "Stream-aligned team", "def": "Time orientado a uma corrente de valor de negócio, com autonomia ponta-a-ponta. Conceito central de Team Topologies." },
+          { "term": "Advice Process", "def": "Mecanismo de decisão em que qualquer um pode decidir desde que ouça impactados e experts, registrando em ADR." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/03/architecture-advice-process/",
+      "published_at": "2026-03-15T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["architecture", "adr", "team-topologies", "decision"],
+      "image": "https://res.infoq.com/news/2026/03/architecture-advice-process/en/headerimage/architecture-advice-thumb.jpg",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+        "title": "Architecture Decision Record templates",
+        "type": "docs",
+        "source_name": "joelparkerhenderson/architecture-decision-record",
+        "why": "Coleção de templates de ADR em formatos diferentes (Nygard, MADR, Y-Statements). Ponto de partida para padronizar registro de decisão antes de adotar Advice Process."
+      }
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🔄",
+      "kind": "release",
+      "version": "3.3.9",
+      "category": "devops",
+      "headline": "Argo CD 3.3.9 e 3.2.11 saem com fix do CVE-2026-42880 — secrets eram retornados em plaintext via Server-Side Diff",
+      "description": "Releases de patch publicadas em 6/mai corrigem o GHSA-3v3m-wc6v-x4x3 / CVE-2026-42880 (CVSS 9.6) onde a annotation IncludeMutationWebhook=true fazia bypass do mask de Secret. Inclui também fix em ApplicationSet DuckType Generator, get/put de OCI metadata em Redis cache e bump de Go por CVEs.",
+      "explain": {
+        "comece": "Argo CD é o controlador GitOps mais adotado em Kubernetes. Server-Side Diff é o caminho onde o cluster, e não o cliente, calcula a diferença entre estado desejado e estado vivo. O bug fazia esse caminho devolver Secret cru quando uma annotation específica estava ativa.",
+        "aprofunce": "skip",
+        "aprofunde": "Tecnicamente, o fix entra no path que normaliza diff antes de retornar para a API. Quando IncludeMutationWebhook=true era usado, o objeto saía pós-webhook sem passar pelo redact de campos sensíveis. Read-only conseguia listar Application e ler secrets. As release notes incluem ainda fix em ApplicationSet DuckType, melhoria de cache OCI em Redis e Go bump cobrindo CVEs anteriores. O fix é small e seguro de aplicar.",
+        "decida": "Subir para 3.3.9 ou 3.2.11 ainda hoje. Próximo passo técnico: rodar audit no API server por chamadas de diff com a annotation impactada nos últimos 90 dias, rotacionar secrets de Applications afetadas e revisar RBAC do namespace argocd. Aproveitar a janela para reativar política de mínimo privilégio em users que só precisavam de read.",
+        "glossary": [
+          { "term": "Server-Side Diff", "def": "Modo do Argo CD em que o cluster calcula diff considerando webhooks de mutação." },
+          { "term": "ApplicationSet", "def": "Recurso Argo CD que gera múltiplas Applications a partir de um template e generators." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "argo",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.2.11",
+      "published_at": "2026-05-06T18:00:00-03:00",
+      "image": "https://opengraph.githubassets.com/2/argoproj/argo-cd",
+      "image_kind": "editorial",
+      "tags": ["argocd", "gitops", "security", "kubernetes"]
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "category": "devops",
+      "headline": "GitHub Copilot CLI 1.0.43 chega em 6/mai com auto-mode de seleção de modelo e proteção contra repos maliciosos",
+      "description": "Release 1.0.43 traz toggle de username no /statusline, auto-mode usando server-side model routing para selecionar modelo em tempo real, melhor display de session em resume prompt e proteção contra RCE via repositórios bare aninhados em projetos.",
+      "explain": {
+        "comece": "GitHub Copilot CLI é o cliente terminal do Copilot — concorre direto com Claude Code e Codex CLI. As novidades de 1.0.43 são pequenas mas tocam dois pontos importantes: roteamento de modelo automático e segurança contra projetos com repositório bare malicioso.",
+        "aprofunde": "Auto-mode delega ao servidor a escolha de qual modelo usar para cada turno (Sonnet, Opus, GPT-5.5, etc), olhando complexidade da tarefa e custo. Para times que pagam por AI Credits a partir de junho, ajuda a otimizar gasto sem trabalho manual. A proteção contra bare repos aninhados fecha vetor onde clonar projeto com .git pirateado dentro permitia execução de hooks maliciosos. /statusline ganha indicador de qual conta está ativa, importante para devs com várias contas.",
+        "decida": "Para times que padronizaram em Copilot CLI: atualizar não é urgente mas vale empacotar no próximo deploy. Próximo passo técnico: validar comportamento do auto-mode com um repo real e medir custo médio por sessão antes e depois. Se a equipe usa repos com submódulos antigos, testar o fix de bare repos antes de abrir PRs com clone fresco.",
+        "glossary": [
+          { "term": "Bare repo", "def": "Repositório Git sem working tree, usado normalmente em servidores. Quando aninhado pode esconder hooks executáveis." },
+          { "term": "Server-side model routing", "def": "Decisão de qual LLM usar feita pelo servidor com base em complexidade do prompt e disponibilidade." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "githubchangelog",
+      "url": "https://github.com/github/copilot-cli/releases/tag/v1.0.43",
+      "published_at": "2026-05-06T16:00:00-03:00",
+      "image": "https://github.blog/wp-content/uploads/2024/02/Copilot_CLI_Card.png",
+      "image_kind": "editorial",
+      "tags": ["github", "copilot", "cli", "ai-coding"]
+    },
+    {
+      "tool_key": "vscode",
+      "name": "VS Code",
+      "icon": "📘",
+      "kind": "news",
+      "category": "devops",
+      "headline": "Copilot em VS Code lança ciclo April com busca semântica em workspace e logs persistidos do Agent Debug",
+      "description": "GitHub Changelog publicou em 6/mai o roundup das releases de abril (v1.116-1.119). Destaques: busca semântica em workspace e queries grep-style em repos GitHub e orgs, persistência local do Agent Debug Log, custom agents user-level em ~/.github/agents/, terminais foreground compartilhados com agentes e Copilot embutido sem precisar instalar a extensão.",
+      "explain": {
+        "comece": "VS Code é o IDE de referência para a maior parte do trabalho de dev hoje. As releases de abril empurram o Copilot para o lado agentic — mais autonomia, mais ferramentas, mais persistência entre sessões.",
+        "aprofunde": "Busca semântica usa embeddings do código para responder 'onde está o handler de checkout?' sem regex preciso. Queries grep-style em repos remotos permitem bater contexto contra orgs inteiras sem clonar. Custom agents user-level resolvem o problema de quem mantém vários repos: o agente vai junto com o usuário (~/.github/agents/) em vez de duplicar em cada projeto. Persistência do Agent Debug Log permite refazer linha de raciocínio do agente em sessões antigas — útil para postmortem ou para entender por que um patch foi gerado.",
+        "decida": "Para tech leads avaliando AI coding tooling: atualizar para v1.119, pegar 5 PRs gerados pelo agente e auditar Agent Debug Log para ver onde o agente usou contexto certo e onde alucinou. Próximo passo técnico: definir um custom agent user-level que reflete style guide do time e medir taxa de aceitação de PR antes/depois.",
+        "glossary": [
+          { "term": "Custom agent", "def": "Definição de agente Copilot com prompt, ferramentas e regras armazenadas em arquivo .agent.md." },
+          { "term": "Agent Debug Log", "def": "Trace local que registra cada passo de raciocínio e ação tomada pelo agente para auditoria posterior." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "githubchangelog",
+      "url": "https://github.blog/changelog/2026-05-06-github-copilot-in-visual-studio-code-april-releases/",
+      "published_at": "2026-05-06T15:00:00-03:00",
+      "image": "https://github.blog/wp-content/uploads/2024/12/changelog.png",
+      "image_kind": "editorial",
+      "tags": ["vscode", "copilot", "agents", "search"]
+    },
+    {
+      "tool_key": "spring",
+      "name": "Spring Framework",
+      "icon": "🌱",
+      "kind": "news",
+      "category": "backend",
+      "headline": "Spring Framework 6.2.18 e 7.0.7 saem em 17/abr com fixes em web reactive e bump de Reactor",
+      "description": "Releases de patch nas duas linhas suportadas. 6.2.18 mantém compatibilidade com Java 17+ e atualiza dependências (Reactor 2024.0.x). 7.0.7 acompanha o ciclo da 7.x com Java 21 baseline, melhorias em RestClient e fixes em programmatic transaction propagation que afetavam código async legado.",
+      "explain": {
+        "comece": "Spring Framework é a base de quase todo o ecossistema Spring (Boot, Cloud, Data, Security). Patches em 6.x e 7.x mantêm aplicações em produção sem precisar saltar major version, e costumam carregar fixes de transação e segurança que acumularam.",
+        "aprofunde": "Em 7.0.7, a melhoria em RestClient toca o caminho síncrono que ainda é majoritário em apps Spring legacy: chamadas remote agora ficam mais previsíveis em cenários com timeout customizado. O fix em programmatic transaction propagation resolve casos onde @Transactional aninhado com TransactionTemplate quebrava propagação em código que mistura Mono/CompletableFuture. 6.2.18 traz bump de Reactor para corrigir condição de corrida em Sinks.Many under heavy load — bug visto em produção em apps com WebFlux + R2DBC.",
+        "decida": "Times Spring em produção: aplicar no próximo ciclo de deploy. Próximo passo técnico: rodar suite de teste integrada apontando para a 7.0.7, com foco em rotas que usam RestClient e em handlers WebFlux. Para 6.2.x, garantir que dependências secundárias (Spring Data, Spring Security) estão em compatible matrix antes de subir.",
+        "glossary": [
+          { "term": "RestClient", "def": "Cliente HTTP síncrono moderno do Spring 6+, sucessor pragmático do RestTemplate." },
+          { "term": "Sinks.Many", "def": "Primitiva Reactor para emitir N elementos em fluxo controlado para múltiplos subscribers." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/17/spring-framework-6-2-18-and-7-0-7-available-now/",
+      "published_at": "2026-04-17T10:00:00-03:00",
+      "image": "https://spring.io/img/spring-2.svg",
+      "image_kind": "institutional",
+      "tags": ["spring-framework", "release", "patch"]
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "📨",
+      "kind": "tutorial",
+      "category": "integ",
+      "headline": "Confluent guia stream-to-Iceberg via Tableflow + Trino + Jupyter para visualização rápida",
+      "description": "Tutorial publicado pela Confluent mostra como expor um tópico Kafka como Iceberg, consultar via Trino e visualizar em Jupyter sem precisar de pipeline ETL. Útil para arquitetos avaliando lakehouse direto a partir do streaming.",
+      "explain": {
+        "comece": "Tableflow é a ponte oficial Confluent que materializa tópico Kafka como tabela Iceberg ou Delta — sem código de ETL. Junto com Trino e Jupyter, fecha um caminho rápido para fazer análise ad-hoc em dado fresco que vive no Kafka.",
+        "aprofunde": "O tutorial monta o pipeline em três passos: Tableflow expõe o tópico com schema mapeado para Iceberg, Trino aponta para o catálogo (REST, Snowflake Open Catalog, Polaris ou Glue) e Jupyter conecta no Trino via PyHive ou trino-python-client. Não há job Spark intermediário, não há Connect, não há merge manual. O custo está nos compactadores que rodam atrás para manter os arquivos pequenos viáveis para query.",
+        "decida": "Para times de plataforma de dados que ainda usam Connect+S3+Athena: vale comparar custo e latência fim-a-fim contra Tableflow+Iceberg. Próximo passo técnico: subir um tópico de teste, ativar Tableflow, conectar Trino e medir latência de uma query agregada com janela de 5 minutos vs janela de 1 hora. Tradeoff é file size vs frescor.",
+        "glossary": [
+          { "term": "Trino", "def": "Engine de consulta distribuída SQL, sucessor do PrestoDB, otimizado para data lakes." },
+          { "term": "Schema mapping", "def": "Tradução automática do schema Kafka (Avro/Protobuf/JSON Schema) para schema Iceberg ao materializar a tabela." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "kafka",
+      "url": "https://www.confluent.io/blog/integrating-confluent-tableflow-trino-apache-iceberg-jupyter/",
+      "published_at": "2026-04-15T10:00:00-03:00",
+      "image": "https://images.ctfassets.net/8vofjvai1hpv/confluent-meta-image-2024.jpg",
+      "image_kind": "institutional",
+      "tags": ["kafka", "iceberg", "tableflow", "trino"]
+    },
+    {
+      "tool_key": "intellij",
+      "name": "IntelliJ IDEA",
+      "icon": "🧠",
+      "kind": "tip",
+      "category": "backend",
+      "headline": "Use Code with Me + JetBrains AI Assistant Multi-Agent para revisão simultânea com colega e IA",
+      "description": "Combinar Code with Me (sessão colaborativa) com Multi-Agent Assistant deixa dois cérebros revisando o mesmo código ao mesmo tempo: humano e agente. Ganha consistência em pair review remoto sem segundo IDE.",
+      "explain": {
+        "comece": "Code with Me é o modo de programação colaborativa do IntelliJ — um host abre uma sessão e convidados participam dentro do mesmo IDE. JetBrains AI Assistant Multi-Agent permite ter agentes especializados (refactor, security, test) atuando em paralelo. Combinando, dá para fazer pair com humano + IA na mesma sessão.",
+        "glossary": [
+          { "term": "Code with Me", "def": "Recurso JetBrains de colaboração em tempo real dentro do IDE, com voice e share de cursor." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "jetbrains",
+      "url": "https://blog.jetbrains.com/idea/2026/04/intellij-idea-2026-1-eap-7/",
+      "published_at": "2026-04-10T10:00:00-03:00",
+      "image": "",
+      "image_kind": "",
+      "tags": ["intellij", "collaboration", "ai"]
+    },
+    {
+      "tool_key": "datadog",
+      "name": "Datadog",
+      "icon": "📊",
+      "kind": "tip",
+      "category": "obs",
+      "headline": "Use OpenTelemetry collector como gateway para Datadog em vez de DD Agent direto",
+      "description": "Em vez de instalar Datadog Agent em todo host, configurar otel-collector com exporter datadog-exporter na borda mantém time agnostic de vendor e abre caminho para multi-destination tracing.",
+      "explain": {
+        "comece": "Datadog Agent é o caminho default — instala em cada host, coleta tudo, manda para datadoghq.com. Funciona, mas amarra você ao formato proprietário. OpenTelemetry collector com datadog-exporter resolve o mesmo problema sem comprometer portabilidade futura.",
+        "glossary": [
+          { "term": "datadog-exporter", "def": "Componente do OpenTelemetry Collector que traduz métricas/spans/logs para o protocolo Datadog." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "datadog",
+      "url": "https://docs.datadoghq.com/opentelemetry/setup/collector_exporter/",
+      "published_at": "2026-04-01T10:00:00-03:00",
+      "image": "",
+      "image_kind": "",
+      "tags": ["datadog", "opentelemetry", "observability"]
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "news",
+      "category": "data",
+      "headline": "PostgreSQL 19 entra em fase beta após feature freeze de 8/abr — GA prevista para setembro",
+      "description": "A comunidade Postgres travou features para o ciclo 19 em 8/abr e começa em maio o ciclo de beta e release candidates. Versão final está prevista para setembro de 2026.",
+      "explain": {
+        "comece": "PostgreSQL é o banco relacional open source mais adotado em workloads modernos. Cada major version (anual em setembro) traz mudanças em planner, replicação, JSON e tipos de índice. PG19 entra agora na fase beta — momento certo de montar lab para testar.",
+        "aprofunde": "Ciclo Postgres tem quatro fases: feature freeze (em abril), beta (maio-julho), RCs (agosto) e GA (setembro). Beta 1 deve sair nas próximas semanas com mudanças em logical replication, melhorias em vector search via pgvector, e novidades em parallel query. Compatibilidade com extensions costuma ser o tester real — pgvector, pg_trgm, postgis costumam acompanhar antes da GA.",
+        "decida": "Para arquitetos com Postgres em produção: subir réplica em PG19 beta em ambiente isolado, rodar pg_dump + restore do banco real e medir tempo de query mais pesada da aplicação. Próximo passo técnico: marcar todas extensions usadas, conferir compatibilidade na release notes da beta e preparar plano de upgrade para Q4.",
+        "glossary": [
+          { "term": "Feature freeze", "def": "Marco onde nenhuma nova feature entra na release; passa a aceitar só fixes e estabilização." },
+          { "term": "Logical replication", "def": "Replicação Postgres baseada em mudanças lógicas (insert/update/delete) em vez de WAL puro, útil para CDC e migrações." }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/developer/roadmap/",
+      "published_at": "2026-04-08T10:00:00-03:00",
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png",
+      "image_kind": "institutional",
+      "tags": ["postgres", "release", "beta"]
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform",
+      "icon": "🪨",
+      "kind": "tip",
+      "category": "devops",
+      "headline": "Use terraform_data como sentinela leve em vez de null_resource quando só precisa de trigger",
+      "description": "terraform_data é resource interno do Terraform 1.4+ que substitui null_resource sem dependência de provider. Útil para acoplar lifecycle a variável computada, sem custo de provider plugin.",
+      "explain": {
+        "comece": "null_resource é o jeito clássico de criar 'sentinela' que dispara provisioner quando alguma input muda. Mas exige o null provider instalado e tem ciclos de plan/apply um pouco mais lentos. terraform_data é a alternativa nativa.",
+        "glossary": [
+          { "term": "Sentinela", "def": "Resource sem efeito colateral usado para amarrar dependência ou disparar provisioner em mudança." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "terraform",
+      "url": "https://developer.hashicorp.com/terraform/language/resources/terraform-data",
+      "published_at": "2026-03-15T10:00:00-03:00",
+      "image": "",
+      "image_kind": "",
+      "tags": ["terraform", "iac", "lifecycle"]
+    },
+    {
+      "tool_key": "istio",
+      "name": "Istio",
+      "icon": "🛡️",
+      "kind": "tutorial",
+      "category": "distarch",
+      "headline": "Istio Ambient Mesh — guia oficial para migrar de sidecar para ztunnel sem downtime",
+      "description": "A doc oficial do Istio cobre o caminho de migração do modo sidecar (Envoy proxy por pod) para Ambient Mesh (ztunnel + waypoint proxy). Reduz overhead de memória em ~50% e simplifica operação em clusters grandes.",
+      "explain": {
+        "comece": "Istio nasceu com sidecar — Envoy injetado em cada pod. Ambient Mesh é o modelo novo onde tráfego L4 vai por ztunnel (um por node) e tráfego L7 por waypoint proxy (um por namespace ou serviço). Tira sobrecarga sem perder controle.",
+        "aprofunde": "Migração tem quatro passos: instalar componentes Ambient ao lado do controle plane existente, criar AmbientPolicy escolhendo workloads que migram, validar mTLS e policies funcionando no novo modo, e remover sidecars. ztunnel implementa mTLS e policies L4 em Rust com peso bem menor que Envoy. Waypoint só sobe para namespaces que precisam de policies L7 (auth complexa, retries customizados). Ganho operacional: nenhum restart de aplicação necessário durante migração.",
+        "decida": "Para SRE com Istio sidecar em escala (centenas de pods): vale planejar migração para Ambient. Risco: AuthorizationPolicy L7 pode precisar de revisão se depender de detalhes do Envoy interno. Próximo passo técnico: criar cluster de teste, instalar Ambient, migrar 2-3 namespaces de baixa criticidade e medir uso de memória e latência p99.",
+        "glossary": [
+          { "term": "ztunnel", "def": "Componente Istio Ambient escrito em Rust que roda como daemonset e cuida de tráfego L4 + mTLS." },
+          { "term": "Waypoint proxy", "def": "Envoy opcional do Ambient Mesh, sobe por namespace/serviço para tratar policies L7 quando necessário." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "istio",
+      "url": "https://istio.io/latest/docs/ambient/install/migrate-from-sidecars/",
+      "published_at": "2026-04-05T10:00:00-03:00",
+      "image": "https://istio.io/latest/img/istio-whitelogo-bluebackground-framed.svg",
+      "image_kind": "institutional",
+      "tags": ["istio", "service-mesh", "ambient"]
+    },
+    {
+      "tool_key": "secrets-manager",
+      "name": "AWS Secrets Manager",
+      "icon": "🔐",
+      "kind": "tip",
+      "category": "sec",
+      "headline": "Use VPC endpoint para Secrets Manager em vez de NAT Gateway — economia direta em egress",
+      "description": "Tráfego de Lambda ou EC2 para Secrets Manager via NAT Gateway custa por GB. VPC interface endpoint (PrivateLink) corta esse custo e mantém tráfego dentro da AWS.",
+      "explain": {
+        "comece": "Lambda em VPC chamando Secrets Manager via internet pública sai por NAT Gateway — e NAT cobra por GB processado. Trocar para VPC interface endpoint resolve sem mudar código: a chamada vai por PrivateLink e fica dentro da AWS.",
+        "glossary": [
+          { "term": "VPC interface endpoint", "def": "ENI privada que expõe um serviço AWS dentro da VPC via PrivateLink, sem passar pela internet." }
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "awsblog",
+      "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/vpc-endpoint-overview.html",
+      "published_at": "2026-03-20T10:00:00-03:00",
+      "image": "",
+      "image_kind": "",
+      "tags": ["aws", "secrets-manager", "privatelink", "cost"]
+    }
+  ],
+  "videos": [
+    {
+      "id": "RGOj5yH7evk",
+      "url": "https://www.youtube.com/watch?v=RGOj5yH7evk",
+      "title": "Top 8 Most Important Software Architecture Patterns",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/ytc/AIdro_kRsX_3l9pkJOd5xixQ_RkM4VZ86PwIp5K1TpQz=s176-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-28",
+      "duration": "10 min",
+      "track_role": "concept",
+      "freshness": "evergreen"
+    },
+    {
+      "id": "F8ZZxgjRJzs",
+      "url": "https://www.youtube.com/watch?v=F8ZZxgjRJzs",
+      "title": "Argo CD na prática: do zero ao GitOps em 30 minutos",
+      "channel": "Fabricio Veronez",
+      "published_at": "2026-04-15",
+      "duration": "32 min",
+      "track_role": "tutorial",
+      "freshness": "evergreen"
+    },
+    {
+      "id": "Kk3YPbN0nEU",
+      "url": "https://www.youtube.com/watch?v=Kk3YPbN0nEU",
+      "title": "Como o Nubank escala microsserviços — entrevista com arquiteto",
+      "channel": "Lucas Montano",
+      "published_at": "2026-04-22",
+      "duration": "28 min",
+      "track_role": "architecture",
+      "freshness": "evergreen"
+    }
+  ],
+  "sources": [
+    { "name": "Argo Project", "url": "https://github.com/argoproj/argo-cd/" },
+    { "name": "Cloudflare Blog", "url": "https://blog.cloudflare.com/" },
+    { "name": "InfoQ", "url": "https://www.infoq.com/" },
+    { "name": "The Hacker News", "url": "https://thehackernews.com/" },
+    { "name": "Spring Blog", "url": "https://spring.io/blog/" },
+    { "name": "GitHub Changelog", "url": "https://github.blog/changelog/" },
+    { "name": "Fortune", "url": "https://fortune.com/" },
+    { "name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/" },
+    { "name": "Martin Fowler", "url": "https://martinfowler.com/" },
+    { "name": "OpenTelemetry Blog", "url": "https://opentelemetry.io/blog/" }
+  ]
+}

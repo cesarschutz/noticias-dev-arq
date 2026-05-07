@@ -2,1321 +2,1302 @@
   "date": "2026-05-06",
   "weekday": "Quarta-feira",
   "formatted_date": "Quarta, 6 de Maio de 2026",
-  "generated_at": "2026-05-06T08:30:00-03:00",
-  "hero_title": "Spring Boot 4.1 RC1, golden paths em 3 minutos e Grafana versionado em Git",
-  "hero_description": "A edição de hoje volta o foco para o que realmente sustenta plataforma: Spring Boot 4.1 chega ao RC1 com integração reativa, Platform Engineering vira métrica concreta com golden paths automatizados, e Grafana 13 abre Git Sync para tratar dashboards como código. No radar, Argo CD 3.3 reforça práticas GitOps e a CVE-2026-0300 da Palo Alto exige resposta imediata.",
-  "edition_digest": "Quarta-feira é dia de plataforma amadurecer, e a edição de hoje conta exatamente essa história. Spring Boot 4.1 chegou à RC1 mirando GA em maio com virtual threads automatizadas, Reactive Transactions amarradas ao @Transactional do Spring e autoconfigure mais magro para FaaS. Quem mantém serviços em Java tem janela aberta para começar testes em homologação antes da GA virar realidade.\n\nNo terreno de plataformas, o discurso virou prática: golden paths de três minutos — repositório, pipeline, manifests Kubernetes, dashboards e entrada Backstage — viraram a régua de quem tem IDP de verdade. Em paralelo, GrafanaCON 2026 lançou Grafana 13 com Git Sync GA, fechando o ciclo GitOps para observabilidade. Loki ganhou ingestão Kafka e cortou dados varridos em até 20×.\n\nNa frente DevOps, Argo CD 3.3 entra como melhoria operacional de GitOps: PreDelete hooks, shallow clone e refresh OIDC reduzem scripts paralelos e atrito diário. GitHub Actions promoveu custom runner images a GA, abrindo caminho para snapshots de imagem versionada e Visual Studio 2026 chegando à windows-2025.\n\nO radar de fundamentos não fica de fora. WebAssembly 3.0 virou recomendação W3C com WasmGC, exception handling, memory64 e SIMD 128-bit, e o Wasmtime 26 amadurece. Java, Kotlin, Dart e Scala compilam para Wasm sem reimplementar GC. Quarkus 3.35 estreia tree shaker que encolhe JARs em produção. O Google catalogou oito padrões de design para sistemas multi-agente sobre os primitivos do Agent Development Kit.\n\nNo terreno de risco, a CVE-2026-0300 nos firewalls Palo Alto entra como exceção crítica: já é explorada em massa, é automatizável e o patch só sai em 13 e 28 de maio. Quem opera PA-Series ou VM-Series com captive portal exposto precisa restringir antes do fim do dia.",
+  "generated_at": "2026-05-06T09:00:00-03:00",
+  "editorial_thesis": "Quarta de plataforma e produto interno: feature flags ganham primeira implementação edge-native, GitOps amadurece com Kyverno graduado e CNCF Sandbox para Velero, e DORA confirma que qualidade de plataforma virou a alavanca real para extrair valor de IA.",
+  "hero_title": "Cloudflare Flagship liga OpenFeature à edge, Kyverno gradua e DORA cravou: plataforma boa multiplica IA",
+  "hero_description": "Edição puxa três fios da maturidade de plataforma: Cloudflare lança Flagship como serviço de feature flag sub-millisecond na malha global e abraça OpenFeature; Kyverno entrega o primeiro release pós-graduação na CNCF e Velero entra como Sandbox; e a leitura mais recente do DORA mostra que onde a plataforma é boa, IA destrava performance — onde não é, vira ruído. No radar, Anthropic abre 'dreaming' para agentes Claude refinarem contexto entre sessões e Apache patcha CVE 8.8 no HTTP/2.",
+  "edition_digest": "Hoje a pauta volta para o que o time de plataforma entrega no dia a dia. A Cloudflare deu um passo grande ao colocar feature flags nativos rodando em Workers, KV e Durable Objects — o Flagship promete avaliação sub-millisecond e fala OpenFeature, então o vendor lock-in fica menor enquanto a latência some. Para quem opera produtos com flags hoje em LaunchDarkly, Statsig ou ConfigCat, é a primeira vez que o trade-off de mover para a borda fica viável fora do Cloudflare-only.\n\nA outra ponta da mesma história é GitOps. O Kyverno acabou de publicar o 1.18 — primeira release depois de graduar dentro da CNCF — e a Velero entrou como Sandbox project, fechando um ciclo onde policy-as-code e disaster recovery viram parte oficial do menu cloud-native. Junto com o GitHub anunciando GA do Code-to-Cloud Risk com Microsoft Defender for Cloud, dá para ver que a indústria está ligando os pontos: código, build, runtime e política agora compartilham contexto.\n\nNo backend, a janela do JDK 27 fechou com peso: Lazy Constants e Structured Concurrency foram promovidas a Proposed to Target. A sétima preview de Structured Concurrency é, na prática, um sinal de que a Oracle está perto de tornar pipelines concorrentes algo escrevível como uma única unidade de trabalho — e a Valkey 9.0 também movimenta o data plane com slot migrations atômicas que mudam como clusters Redis-compatíveis rebalanceiam.\n\nEm aprendizado contínuo de plataforma, o achado mais importante do DORA 2025 voltou ao centro da conversa: quando a plataforma interna é de alta qualidade, a adoção de IA realmente vira ganho de performance organizacional; quando não é, o efeito é nulo. Casa com a chegada do Vitest 4.1, que adiciona reporter para agentes de IA codificadores e test tags inspirados em pytest, e com o GraphQLConf 2026 começando hoje em Menlo Park.\n\nNo radar de segurança, o Apache HTTP Server 2.4.67 corrige o CVE-2026-23918 — um double-free no HTTP/2 com CVSS 8.8 e potencial de RCE; vale priorizar antes do fim de semana. E em IA aplicada, Anthropic apresentou o 'dreaming', recurso em research preview que deixa agentes Claude revisarem trabalho entre sessões e atualizarem arquivos de contexto e preferências automaticamente.",
   "highlights": [
     {
-      "source_array": "news",
-      "category": "backend",
-      "category_label": "Backend & Runtimes",
-      "category_icon": "🔧",
-      "headline": "Spring Boot 4.1 chega à RC1 com mira em GA de maio e integração reativa profunda",
-      "summary": "A linha Spring Boot 4.1 alcançou release candidate em 23 de abril e tem GA mirado para maio. Entre as novidades, suporte refinado a virtual threads, configurações reativas com Hibernate Reactive e ajustes no autoconfigure que reduzem cold start em ambientes serverless.",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Cloudflare lança Flagship — feature flags edge-native sub-millisecond compatíveis com OpenFeature",
+      "summary": "A Cloudflare apresentou o Flagship, novo serviço de feature flag construído sobre Workers, KV e Durable Objects, com avaliação sub-millisecond direto na malha global e implementação compatível com OpenFeature, o padrão CNCF para feature flags. Funciona em Workers, Node.js, Bun, Deno e browser, mas é mais rápido em Workers porque a avaliação acontece dentro da rede da Cloudflare. Está em private beta. É a primeira tentativa séria de eliminar latência de provedor terceiro em apps que já rodam na Cloudflare e que dependem de flags para lançamentos progressivos de IA.",
       "explain": {
+        "comece": "Feature flag é a chave que liga ou desliga um pedaço de código em produção sem precisar redesplegar nada. Em apps grandes, ela vira parte do funil de release: rollout gradual, A/B test, kill switch quando algo quebra. O Flagship é o serviço novo da Cloudflare que faz essa avaliação direto na rede, em vez de depender de chamada externa para LaunchDarkly, Statsig ou ConfigCat.",
+        "aprofunde": "Tecnicamente, o Flagship guarda definição de flag em Cloudflare KV (replicado globalmente) e usa Durable Objects para coordenar regras de targeting. Como roda no mesmo Worker que está atendendo a request, a chamada de avaliação fica em microssegundos em vez dos dezenas de milissegundos típicos de provider terceiro. A integração com OpenFeature, padrão CNCF, garante que o código não fica grudado no Cloudflare: troca o provider e o resto continua igual. Suporta Workers, Node.js, Bun, Deno e browser, com targeting rules e gradual rollouts.",
+        "decida": "Faz sentido se o app já roda em Workers e a latência de avaliação importa — caso típico de aplicações com agentes de IA que decidem path em loop apertado. Risco hoje: serviço em private beta, sem SLA público, e a expressividade de targeting ainda não rivaliza com LaunchDarkly maduro. Próximo passo técnico: tirar uma flag crítica do provider atual, escrever wrapper OpenFeature compatível e benchmarkar latência fim a fim antes de migrar mais coisa.",
         "glossary": [
           {
-            "term": "Virtual threads",
-            "def": "Threads leves entregues pelo Project Loom no JDK 21+, permitindo um pool praticamente ilimitado para tarefas IO-bound sem sobrecarregar o sistema operacional."
+            "term": "OpenFeature",
+            "def": "Padrão CNCF para uma API unificada de feature flags. Desacopla código da implementação do provedor."
           },
           {
-            "term": "Hibernate Reactive",
-            "def": "Variante reativa do Hibernate que substitui drivers JDBC bloqueantes por drivers reativos como Vert.x SQL Client."
+            "term": "Durable Objects",
+            "def": "Primitiva da Cloudflare que dá um único endereçável global com estado consistente para coordenação."
           },
           {
-            "term": "GraalVM Native Image",
-            "def": "Compilador AOT que transforma código Java em executável nativo sem JVM, reduzindo tempo de inicialização e consumo de memória."
+            "term": "Sub-millisecond",
+            "def": "Avaliação que retorna em menos de 1ms, possível porque o cálculo acontece no mesmo node que atende a requisição."
           }
-        ],
-        "comece": "Spring Boot é o framework mais usado para escrever aplicações Java de backend, pois faz a 'mágica' de configurar bibliotecas automaticamente. A versão 4.1 está em fase RC, ou seja, a base já está estabilizada e equipes podem testar em ambientes de homologação antes do lançamento oficial.",
-        "aprofunde": "A 4.1 traz integração mais limpa com Project Loom: virtual threads são preferidas em endpoints síncronos sem precisar de configurações manuais, o que ajuda a sair de pools fixos no Tomcat. Há também a nova extensão de Reactive Transactions, que faz a anotação @Transactional do Spring Framework funcionar com Hibernate Reactive, eliminando soluções caseiras. Em ambientes nativos com GraalVM, o autoconfigure foi enxugado para reduzir tempo de boot quando a aplicação roda em FaaS ou contêineres efêmeros.",
-        "decida": "A janela ideal para validar o upgrade é agora: rode o test suite contra o RC1, mire benchmark de cold start em ambientes serverless e teste o comportamento de virtual threads sob carga blocking real (chamadas JDBC, drivers HTTP). Lembre que a 4.0 segue suportada, então não há urgência de migração — adote 4.1 quando a curva de risco for menor que o ganho mensurado em produtividade ou latência. Documente em ADR a decisão e crie um spike de uma semana com observabilidade ligada antes de assumir o salto."
+        ]
       },
       "freshness": "fresh",
-      "source_key": "spring",
-      "url": "https://spring.io/blog/2026/05/05/this-week-in-spring-may-05-2026/",
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/flagship/",
+      "published_at": "2026-05-06T10:00:00-03:00",
       "read_time": 4,
       "tags": [
-        "spring-boot",
-        "java",
-        "virtual-threads",
-        "reactive"
+        "feature-flags",
+        "openfeature",
+        "edge",
+        "workers"
       ],
-      "image": "https://spring.io/img/og-spring.png",
-      "published_at": "2026-05-05T08:00:00-03:00",
+      "image": "https://blog.cloudflare.com/content/images/2026/04/image16.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://spring.io/blog",
-        "title": "Spring Blog (releases & news)",
+        "url": "https://openfeature.dev/specification/",
+        "title": "OpenFeature Specification",
         "type": "docs",
-        "source_name": "Spring",
-        "why": "Acompanhamento direto das notas de cada milestone, RC e GA do Spring Boot 4.1, com links para release notes detalhadas e exemplos."
-      }
+        "source_name": "OpenFeature (CNCF)",
+        "why": "Define o padrão usado pelo Flagship — entender Provider, Hook e Evaluation Context te dá a base para trocar de provedor ou rolar implementação própria sem mexer no resto do código."
+      },
+      "source_array": "news",
+      "score": 7,
+      "score_breakdown": [
+        "release+3",
+        "convergencia+2",
+        "utilidade+2"
+      ]
     },
     {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Kyverno 1.18 é primeiro release pós-graduação na CNCF — investe em segurança, CLI e confiabilidade do engine",
+      "summary": "A CNCF anunciou o Kyverno 1.18, primeira release publicada depois que o projeto graduou dentro da fundação. O foco do ciclo foi reforçar Kyverno como engine de policy-as-code Kubernetes-nativo, com investimentos em segurança, novas capacidades na CLI e melhorias na confiabilidade do engine de avaliação. Para times de plataforma, é o sinal de que policy gate em cluster deixa de ser experimento e vira componente padrão do menu CNCF, ao lado de OPA Gatekeeper.",
+      "explain": {
+        "comece": "Kyverno é um engine de policy-as-code para Kubernetes — você escreve políticas em YAML que dizem 'todo Pod precisa de limit de memória' ou 'imagem só pode vir desse registry' e o admission controller bloqueia quem não cumpre. Versão 1.18 é a primeira depois que o projeto graduou na CNCF, status que sinaliza maturidade para produção em larga escala.",
+        "aprofunde": "Tecnicamente Kyverno difere do OPA Gatekeeper por usar YAML estruturado em vez de Rego, o que reduz curva de aprendizado mas perde flexibilidade em políticas complexas. O 1.18 endurece o engine de validação, traz melhorias na CLI para testar políticas localmente antes de aplicar e fortalece auditoria e geração de relatórios. Graduação CNCF significa também política de release mais estável, processo de security disclosure publicado e governança comunitária validada.",
+        "decida": "Adote para casos onde policy precisa caminhar com cluster — pod security, restrição de registry, mutação automática de manifests. Evite Kyverno se você precisa lógica complexa cross-resource onde Rego ainda é mais expressivo. Próximo passo: rode kyverno apply --policy ./pol.yaml --resource ./test.yaml em CI antes de empurrar política nova ao cluster, e use o reports controller para ter visibilidade de violações sem bloquear deploys.",
+        "glossary": [
+          {
+            "term": "Policy-as-code",
+            "def": "Práticas e regras de governança escritas como código versionado, avaliadas automaticamente em pipelines ou em runtime."
+          },
+          {
+            "term": "Graduated CNCF project",
+            "def": "Status mais alto na trilha de incubação CNCF, indicando maturidade técnica, comunitária e de governança."
+          }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "cncf",
+      "url": "https://www.cncf.io/blog/2026/05/05/announcing-kyverno-release-1-18/",
+      "published_at": "2026-05-05T09:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "kubernetes",
+        "policy",
+        "kyverno",
+        "cncf"
+      ],
+      "image": "https://www.cncf.io/wp-content/uploads/2024/10/Kyverno-graduation-cncf.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://kyverno.io/docs/",
+        "title": "Kyverno Documentation",
+        "type": "docs",
+        "source_name": "Kyverno",
+        "why": "Documentação oficial cobre escrita de policy YAML, mutação automática de manifests e integração com admission controller — material essencial antes de aplicar policy gate em cluster de produção."
+      },
       "source_array": "news",
+      "score": 7,
+      "score_breakdown": [
+        "release+3",
+        "convergencia+2",
+        "utilidade+2"
+      ]
+    },
+    {
       "category": "enterprise",
       "category_label": "Arq. Corporativa",
       "category_icon": "🗺️",
-      "headline": "Platform Engineering em 2026: golden path automatizado em três minutos vira norma",
-      "summary": "Análises recentes apontam que platform engineering deixou de ser jargão e virou prática mensurável. Caminho-de-ouro mais comum em 2026: comando de scaffold cria repositório, pipeline de CI, manifests Kubernetes, dashboards e entrada no Backstage em menos de três minutos.",
+      "headline": "DORA crava: qualidade de plataforma é o preditor mais forte de IA gerar valor real",
+      "summary": "A leitura mais recente do DORA Report de 2025 voltou ao debate público com força esta semana: alta qualidade de plataforma interna é o preditor #1 de adoção de IA virar performance organizacional. Onde a plataforma é boa, IA destrava ganho mensurável; onde é ruim, o efeito é nulo. Achado bate com a tese da Gartner de que 80% das grandes organizações terão times de plataforma dedicados em 2026 — e com Backstage detendo 89% do market share entre quem adotou um IDP.",
       "explain": {
+        "comece": "DORA é a pesquisa anual mantida pela Google Cloud que mede capacidades técnicas e culturais que predizem performance de entrega de software. Em 2025, depois de cruzar adoção de IA com qualidade de plataforma, encontrou padrão claro: o ganho de IA só aparece quando a base — pipelines, observabilidade, golden paths — está funcionando.",
+        "aprofunde": "O dado é importante porque inverte a narrativa fácil de 'compre IA e ganhe produtividade'. Sem CI/CD confiável, sem ambiente de teste reproduzível, sem observabilidade que mostre qual prompt está funcionando, IA vira ruído: o dev gera código, mas o ciclo de validação ainda é lento, então o ganho some. Plataforma de qualidade encurta o feedback loop; com isso, sugestão de IA chega ao dev, vira PR, é validada e merge em horas em vez de dias. O efeito é multiplicativo, não aditivo.",
+        "decida": "Para CTO e head de plataforma, é argumento concreto para priorizar inversão em IDP, golden paths e métricas DevEx antes de qualquer iniciativa de Copilot, Cursor ou agentes corporativos. Risco: o achado é correlacional, não causal — pode haver variável omitida (cultura de aprendizado, por exemplo). Próximo passo: medir as quatro métricas DORA do seu time agora, reler o relatório completo e desenhar uma hipótese: se subirmos lead time pela metade, qual é o efeito esperado de adoção do Copilot?",
         "glossary": [
           {
-            "term": "Internal Developer Platform (IDP)",
-            "def": "Conjunto de ferramentas e abstrações que oferecem self-service para desenvolvedores criarem ambientes, pipelines e infraestrutura."
+            "term": "DORA Metrics",
+            "def": "Quatro métricas que predizem performance de delivery: deployment frequency, lead time, change failure rate, time to recover."
           },
           {
-            "term": "Golden path",
-            "def": "Caminho recomendado e automatizado para uma tarefa comum, com decisões já tomadas e ferramentas pré-configuradas."
+            "term": "IDP",
+            "def": "Internal Developer Platform — plataforma interna que abstrai infraestrutura e oferece self-service curado a devs."
           },
           {
-            "term": "Backstage",
-            "def": "Portal de desenvolvedor open source criado pela Spotify e mantido na CNCF, base mais comum de IDPs em 2026."
-          },
-          {
-            "term": "DORA / SPACE",
-            "def": "Frameworks de métricas para medir performance e produtividade de times de engenharia (DORA: deploy/lead time/MTTR/CFR; SPACE: satisfação, performance, atividade, comunicação, eficiência)."
+            "term": "DevEx",
+            "def": "Developer Experience — qualidade percebida pelo dev de ferramentas, processos e ciclo de feedback."
           }
-        ],
-        "comece": "Platform engineering é a disciplina de construir 'plataformas internas' que outros times de engenharia usam para entregar software sem reinventar a roda. Em 2026, o conceito amadureceu: o foco saiu do hype e virou métricas como tempo até o primeiro deploy e satisfação do desenvolvedor.",
-        "aprofunde": "O artefato concreto é o golden path, um caminho recomendado e automatizado para tarefas comuns. Exemplo: 'criar novo microsserviço'. Em três minutos, o desenvolvedor recebe repositório no GitHub com estrutura padrão, pipeline de CI configurado, manifests Kubernetes gerados a partir de templates, dashboard de observabilidade e entrada no Backstage. Por baixo, um IDP integra Backstage, Crossplane, Argo CD e ferramentas internas. Backstage continua dominante como portal — adotado por Netflix, Uber, American Airlines — e o ecossistema de plugins já é mais estável do que dois anos atrás.",
-        "decida": "A decisão estratégica para um arquiteto corporativo é o nível de investimento. DIY puro morreu: o custo de manter Backstage com plugins próprios sem time dedicado de plataforma é alto. As opções viáveis são produtos como Roadie/Port (gerenciado), Backstage self-hosted com time dedicado e capabilities mapeadas em portfólio. O sucesso é mensurável via DORA e SPACE: lead time, change failure rate e satisfação. Comece pequeno, com um único golden path realmente bom (criar microsserviço, por exemplo), e expanda quando os times pedem o segundo."
+        ]
       },
       "freshness": "fresh",
-      "source_key": "javacodegeeks",
-      "url": "https://www.javacodegeeks.com/2026/05/platform-engineering-in-2026-what-it-actually-is-why-its-not-just-devops-renamed-and-how-to-build-an-internal-developer-platform.html",
-      "read_time": 6,
+      "source_key": "dora",
+      "url": "https://dora.dev/research/2024/dora-report/",
+      "published_at": "2026-05-05T08:00:00-03:00",
+      "read_time": 4,
       "tags": [
         "platform-engineering",
-        "backstage",
-        "idp",
-        "golden-path"
+        "dora",
+        "ai",
+        "devex"
       ],
-      "image": "https://platformengineering.org/og.jpg",
-      "published_at": "2026-05-01T09:00:00-03:00",
+      "image": "https://dora.dev/img/dora-share.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://platformengineering.org/talks-library",
-        "title": "Platform Engineering Talks Library",
-        "type": "docs",
-        "source_name": "Platform Engineering",
-        "why": "Biblioteca curada de talks com casos reais de implementação de IDPs, golden paths e Backstage por times de Spotify, Adidas, ING e outros."
-      }
-    },
-    {
-      "source_array": "news",
-      "category": "obs",
-      "category_label": "Observabilidade & SRE",
-      "category_icon": "📈",
-      "headline": "Grafana 13 e Loki redesenhado cortam dados varridos em até 20× e abrem GitOps nativo",
-      "summary": "GrafanaCON 2026 lançou Grafana 13 com Git Sync GA, dashboards sugeridos automaticamente e o novo Grafana Advisor. Em paralelo, Loki ganhou ingestão Kafka, novo planner de queries e cortes de até 20× nos dados varridos. Cloudshare ganhou observabilidade de IA em preview público.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Git Sync",
-            "def": "Funcionalidade da Grafana que sincroniza dashboards e alertas com repositório Git, permitindo workflow GitOps."
-          },
-          {
-            "term": "Loki",
-            "def": "Sistema de agregação de logs da Grafana Labs com indexação esparsa e armazenamento em object storage."
-          },
-          {
-            "term": "Query planner",
-            "def": "Componente que decide o plano de execução de uma consulta, distribuindo trabalho entre nós e particionando por dados."
-          }
-        ],
-        "comece": "Grafana é a interface mais usada para gráficos de monitoramento. A versão 13 trouxe novidades pensadas em quem opera plataforma: ele te sugere dashboards automaticamente, sincroniza configurações com Git e tem um 'consultor' de IA que aponta problemas de saúde do servidor.",
-        "aprofunde": "Git Sync, agora GA, traz workflows GitOps nativos para a Grafana: dashboards e alertas viram código versionado em repositório, com PR e revisão. O Grafana Advisor é uma ferramenta de health check que recomenda ajustes. Em backend, o Loki recebeu reescrita: ingestão via Kafka, novo scheduler e query engine que paraleliza por partições. Resultado: até 20× menos dados varridos e até 10× mais performance em queries agregadas. AI Observability em preview público observa entrada/saída e fluxos de execução de agentes em tempo real, com alertas para data exposure. A aquisição da Logline reforça pesquisa precisa em logs gigantes.",
-        "decida": "Para times de SRE que dependem de dashboards versionados em PR, Git Sync GA é o gatilho para retirar exportadores manuais. A reescrita do Loki muda o cálculo de capacity planning: filas Kafka pré-Loki precisam de policy de retention coerente. AI Observability é janela de oportunidade para times com agentes em produção começarem a tratar LLM como serviço de SLO. Avalie integrar o4 com Loki e Tempo via OpenTelemetry semanticamente — o Logline nas mãos da Grafana melhora needle-in-haystack. Comece migrando uma stack canary para validar custos de armazenamento e latência."
+        "url": "https://dora.dev/capabilities/platform-engineering/",
+        "title": "DORA Capabilities — Platform Engineering",
+        "type": "article",
+        "source_name": "DORA",
+        "why": "Síntese das capacidades de plataforma que o DORA mediu — ponto de partida para mapear gaps no IDP atual antes de medir impacto de IA."
       },
-      "freshness": "fresh",
-      "source_key": "grafana",
-      "url": "https://grafana.com/blog/grafanacon-2026-announcements/",
-      "read_time": 5,
-      "tags": [
-        "grafana",
-        "loki",
-        "gitops",
-        "observability"
-      ],
-      "image": "https://grafana.com/static/img/grafana-meta.png",
-      "published_at": "2026-04-21T10:00:00-03:00",
-      "learning": {
-        "url": "https://grafana.com/docs/grafana/latest/administration/git-sync/",
-        "title": "Git Sync — Grafana documentation",
-        "type": "docs",
-        "source_name": "Grafana Docs",
-        "why": "Documentação oficial de Git Sync mostrando como configurar repo, autenticação e fluxo de PR para dashboards e alertas como código."
-      }
+      "source_array": "news",
+      "score": 7,
+      "score_breakdown": [
+        "authority+1",
+        "convergencia+2",
+        "utilidade+2"
+      ]
     }
   ],
   "news": [
     {
-      "category": "sec",
-      "category_label": "Segurança & IAM",
-      "category_icon": "🔐",
-      "headline": "CVE-2026-0300 atinge firewalls Palo Alto e já é explorada em massa",
-      "summary": "A vulnerabilidade crítica CVE-2026-0300 no portal de captive da PAN-OS permite execução remota de código com privilégios de root sem autenticação. A Palo Alto confirma exploração ativa automatizável e só libera correção em 13 e 28 de maio; até lá, restringir o portal ou desativá-lo é a mitigação oficial.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "PAN-OS",
-            "def": "Sistema operacional dos firewalls da Palo Alto Networks que roda em PA-Series físicos e VM-Series virtuais."
-          },
-          {
-            "term": "Buffer overflow",
-            "def": "Falha em que dados gravam além do espaço alocado na memória, permitindo sobrescrever instruções e desviar o fluxo do programa."
-          },
-          {
-            "term": "User-ID Authentication Portal",
-            "def": "Página de captive portal usada pela PAN-OS para mapear usuários a endereços IP antes de aplicar políticas."
-          }
-        ],
-        "comece": "Um firewall é o porteiro da rede; ele decide quais pacotes entram e saem. PAN-OS é o sistema operacional dos firewalls da Palo Alto Networks, marca usada em datacenters de bancos, hospitais e governos. A falha CVE-2026-0300 está em um portal web que valida usuários e pode ser abusado por qualquer um que consiga acessá-lo pela internet.",
-        "aprofunde": "Tecnicamente é um buffer overflow no User-ID Authentication Portal: pacotes especialmente crafted estouram a memória do serviço e permitem executar código com permissões de root. Como o portal escuta antes da autenticação, o atacante não precisa de credenciais, e a Palo Alto declarou que a exploração é automatizável — ou seja, scanners de massa varrem a internet em busca de portais expostos. Como mitigação imediata, a fabricante recomenda restringir o acesso a IPs internos ou desligar o portal nos PA-Series e VM-Series afetados.",
-        "decida": "Para o time de plataforma, a janela de risco é o intervalo até 13 e 28 de maio quando saem os patches por linha de versão. Trate o caso como incidente: catalogue todos os firewalls com captive portal ligado, restrinja a interface para uma VLAN administrativa, ative regras de detecção que monitorem o serviço e prepare janelas de manutenção para aplicar a correção no dia da liberação. Se o ambiente é regulado (PCI, LGPD), comece já o registro de evidência e revisão de logs anteriores em busca de indicadores."
-      },
-      "freshness": "fresh",
-      "source_key": "helpnetsecurity",
-      "url": "https://www.helpnetsecurity.com/2026/05/06/palo-alto-firewalls-vulnerability-exploited-cve-2026-0300/",
-      "read_time": 4,
-      "tags": [
-        "palo-alto",
-        "firewall",
-        "cve",
-        "captive-portal"
-      ],
-      "image": "https://img.helpnetsecurity.com/wp-content/uploads/2017/04/09095411/HNS_logo_squared_3000.png",
-      "urgent": true,
-      "breaking": true,
-      "published_at": "2026-05-06T09:30:00-03:00",
-      "learning": {
-        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
-        "title": "Known Exploited Vulnerabilities Catalog",
-        "type": "docs",
-        "source_name": "CISA",
-        "why": "Catálogo oficial da CISA com CVEs explorados em produção. Acompanhar a entrada da CVE-2026-0300 confirma o status de exploração ativa e dá deadlines compulsórios para órgãos federais."
-      },
-      "severity": "critical",
-      "cves": [
-        "CVE-2026-0300"
-      ]
-    },
-    {
-      "category": "backend",
-      "category_label": "Backend & Runtimes",
-      "category_icon": "🔧",
-      "headline": "Spring Boot 4.1 chega à RC1 com mira em GA de maio e integração reativa profunda",
-      "summary": "A linha Spring Boot 4.1 alcançou release candidate em 23 de abril e tem GA mirado para maio. Entre as novidades, suporte refinado a virtual threads, configurações reativas com Hibernate Reactive e ajustes no autoconfigure que reduzem cold start em ambientes serverless.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Virtual threads",
-            "def": "Threads leves entregues pelo Project Loom no JDK 21+, permitindo um pool praticamente ilimitado para tarefas IO-bound sem sobrecarregar o sistema operacional."
-          },
-          {
-            "term": "Hibernate Reactive",
-            "def": "Variante reativa do Hibernate que substitui drivers JDBC bloqueantes por drivers reativos como Vert.x SQL Client."
-          },
-          {
-            "term": "GraalVM Native Image",
-            "def": "Compilador AOT que transforma código Java em executável nativo sem JVM, reduzindo tempo de inicialização e consumo de memória."
-          }
-        ],
-        "comece": "Spring Boot é o framework mais usado para escrever aplicações Java de backend, pois faz a 'mágica' de configurar bibliotecas automaticamente. A versão 4.1 está em fase RC, ou seja, a base já está estabilizada e equipes podem testar em ambientes de homologação antes do lançamento oficial.",
-        "aprofunde": "A 4.1 traz integração mais limpa com Project Loom: virtual threads são preferidas em endpoints síncronos sem precisar de configurações manuais, o que ajuda a sair de pools fixos no Tomcat. Há também a nova extensão de Reactive Transactions, que faz a anotação @Transactional do Spring Framework funcionar com Hibernate Reactive, eliminando soluções caseiras. Em ambientes nativos com GraalVM, o autoconfigure foi enxugado para reduzir tempo de boot quando a aplicação roda em FaaS ou contêineres efêmeros.",
-        "decida": "A janela ideal para validar o upgrade é agora: rode o test suite contra o RC1, mire benchmark de cold start em ambientes serverless e teste o comportamento de virtual threads sob carga blocking real (chamadas JDBC, drivers HTTP). Lembre que a 4.0 segue suportada, então não há urgência de migração — adote 4.1 quando a curva de risco for menor que o ganho mensurado em produtividade ou latência. Documente em ADR a decisão e crie um spike de uma semana com observabilidade ligada antes de assumir o salto."
-      },
-      "freshness": "fresh",
-      "source_key": "spring",
-      "url": "https://spring.io/blog/2026/05/05/this-week-in-spring-may-05-2026/",
-      "read_time": 4,
-      "tags": [
-        "spring-boot",
-        "java",
-        "virtual-threads",
-        "reactive"
-      ],
-      "image": "https://spring.io/img/og-spring.png",
-      "published_at": "2026-05-05T08:00:00-03:00",
-      "learning": {
-        "url": "https://spring.io/blog",
-        "title": "Spring Blog (releases & news)",
-        "type": "docs",
-        "source_name": "Spring",
-        "why": "Acompanhamento direto das notas de cada milestone, RC e GA do Spring Boot 4.1, com links para release notes detalhadas e exemplos."
-      }
-    },
-    {
-      "category": "backend",
-      "category_label": "Backend & Runtimes",
-      "category_icon": "🔧",
-      "headline": "Quarkus 3.35 estreia tree shaker experimental para encolher JARs em produção",
-      "summary": "Quarkus 3.35 traz tree-shaking experimental de bytecode em build time, removendo classes inalcançáveis antes de empacotar o JAR. No próprio Quarkus CLI, a análise eliminou mais de 6.000 classes e reduziu cerca de 39,5% do artefato. A versão também adiciona PGO para native builds, suporte a Semeru AOT e @Transactional para Hibernate Reactive.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Tree shaking",
-            "def": "Análise estática que detecta código inalcançável a partir dos pontos de entrada e o exclui do artefato final."
-          },
-          {
-            "term": "Build-time optimization",
-            "def": "Otimizações aplicadas durante a compilação, antes do runtime, comuns em GraalVM e Quarkus para reduzir custos em produção."
-          }
-        ],
-        "comece": "Quarkus é um framework Java focado em rodar rápido em contêineres e GraalVM. 'Tree shaking' é uma técnica popular no mundo JavaScript: o build identifica código que ninguém usa e o descarta, deixando o pacote final menor. Agora isso chegou ao Java de forma oficial, ainda em modo experimental.",
-        "aprofunde": "O tree shaker do Quarkus roda em build time e faz análise de alcançabilidade em bytecode. Ele segue referências por supertipos, anotações, ServiceLoader, carregamento reflexivo e outros pontos de entrada para identificar classes que podem sair do artefato. O ganho é JAR menor, imagem OCI mais leve e menos custo de cold start. O trade-off é o mesmo de toda otimização AOT: reflection e carregamento dinâmico exigem testes fortes e configuração explícita.",
-        "decida": "Use como experimento controlado, não como padrão global no primeiro dia. Escolha um serviço stateless, ative a opção em homologação, compare tamanho do JAR, tempo de boot e cobertura de testes contra o build normal. Se houver uso pesado de reflection, CDI dinâmico ou libs antigas, trate como risco e documente no ADR antes de promover."
-      },
-      "freshness": "fresh",
-      "source_key": "quarkus",
-      "url": "https://quarkus.io/blog/quarkus-3-35-released/",
-      "read_time": 4,
-      "tags": [
-        "quarkus",
-        "java",
-        "build-time",
-        "graalvm"
-      ],
-      "image": "https://quarkus.io/assets/images/brand/quarkus_icon_default.png",
-      "published_at": "2026-05-01T08:00:00-03:00",
-      "learning": {
-        "url": "https://quarkus.io/guides/all-config#quarkus-package-jar_quarkus-package-jar-tree-shake",
-        "title": "Quarkus package JAR tree-shake configuration",
-        "type": "docs",
-        "source_name": "Quarkus Docs",
-        "why": "Documentação oficial da configuração quarkus.package.jar.tree-shake, útil para testar a feature com controle explícito antes de levar para produção."
-      }
-    },
-    {
       "category": "devops",
       "category_label": "DevOps & Plataformas",
       "category_icon": "⚙️",
-      "headline": "Argo CD 3.3 melhora o ciclo GitOps com PreDelete hooks, OIDC refresh e shallow clone",
-      "summary": "A linha Argo CD 3.3 traz melhorias práticas para operação diária de GitOps: PreDelete hooks tornam exclusões mais seguras, OIDC background token refresh reduz logout inesperado em integrações com provedores como Keycloak, e shallow clone diminui tempo de fetch em monorepos grandes. A notícia deixa de ser tratada como patch de segurança isolado e passa a refletir corretamente o conteúdo da fonte.",
+      "headline": "Cloudflare lança Flagship — feature flags edge-native sub-millisecond compatíveis com OpenFeature",
+      "summary": "A Cloudflare apresentou o Flagship, novo serviço de feature flag construído sobre Workers, KV e Durable Objects, com avaliação sub-millisecond direto na malha global e implementação compatível com OpenFeature, o padrão CNCF para feature flags. Funciona em Workers, Node.js, Bun, Deno e browser, mas é mais rápido em Workers porque a avaliação acontece dentro da rede da Cloudflare. Está em private beta. É a primeira tentativa séria de eliminar latência de provedor terceiro em apps que já rodam na Cloudflare e que dependem de flags para lançamentos progressivos de IA.",
       "explain": {
-        "comece": "Argo CD é uma das ferramentas GitOps mais usadas em Kubernetes: o Git descreve o estado desejado e o Argo reconcilia o cluster. A versão 3.3 interessa porque melhora operações comuns do dia a dia, principalmente exclusão segura de aplicações, login OIDC mais estável e performance em repositórios grandes.",
-        "aprofunde": "PreDelete hooks completam o ciclo de vida que já tinha PreSync, Sync e PostSync, permitindo executar Jobs de limpeza antes de apagar recursos. OIDC background refresh evita sessões caindo durante troubleshooting com provedores como Keycloak. Shallow clone reduz o custo de buscar repositórios grandes quando o histórico completo não é necessário. O ganho é menos script paralelo e mais previsibilidade dentro do próprio fluxo GitOps.",
-        "decida": "Se você opera Argo CD em monorepo ou clusters compartilhados, avalie 3.3 em homologação e teste PreDelete em aplicações com dependências externas, como DNS, filas ou storage. Evite migrar direto sem revisar RBAC, plugins e ApplicationSets. A decisão boa é criar um runbook de upgrade e validar shallow clone apenas onde histórico completo não é requisito.",
+        "comece": "Feature flag é a chave que liga ou desliga um pedaço de código em produção sem precisar redesplegar nada. Em apps grandes, ela vira parte do funil de release: rollout gradual, A/B test, kill switch quando algo quebra. O Flagship é o serviço novo da Cloudflare que faz essa avaliação direto na rede, em vez de depender de chamada externa para LaunchDarkly, Statsig ou ConfigCat.",
+        "aprofunde": "Tecnicamente, o Flagship guarda definição de flag em Cloudflare KV (replicado globalmente) e usa Durable Objects para coordenar regras de targeting. Como roda no mesmo Worker que está atendendo a request, a chamada de avaliação fica em microssegundos em vez dos dezenas de milissegundos típicos de provider terceiro. A integração com OpenFeature, padrão CNCF, garante que o código não fica grudado no Cloudflare: troca o provider e o resto continua igual. Suporta Workers, Node.js, Bun, Deno e browser, com targeting rules e gradual rollouts.",
+        "decida": "Faz sentido se o app já roda em Workers e a latência de avaliação importa — caso típico de aplicações com agentes de IA que decidem path em loop apertado. Risco hoje: serviço em private beta, sem SLA público, e a expressividade de targeting ainda não rivaliza com LaunchDarkly maduro. Próximo passo técnico: tirar uma flag crítica do provider atual, escrever wrapper OpenFeature compatível e benchmarkar latência fim a fim antes de migrar mais coisa.",
         "glossary": [
           {
-            "term": "GitOps",
-            "def": "Padrão em que o estado desejado da infraestrutura fica em Git e um controlador reconcilia o ambiente."
+            "term": "OpenFeature",
+            "def": "Padrão CNCF para uma API unificada de feature flags. Desacopla código da implementação do provedor."
           },
           {
-            "term": "PreDelete hook",
-            "def": "Recurso executado antes da exclusão de recursos, útil para limpeza, backup, drenagem ou notificação."
+            "term": "Durable Objects",
+            "def": "Primitiva da Cloudflare que dá um único endereçável global com estado consistente para coordenação."
           },
           {
-            "term": "Shallow clone",
-            "def": "Clone Git com histórico reduzido, usado para baixar menos dados e acelerar operações em repositórios grandes."
+            "term": "Sub-millisecond",
+            "def": "Avaliação que retorna em menos de 1ms, possível porque o cálculo acontece no mesmo node que atende a requisição."
           }
         ]
       },
-      "freshness": "evergreen",
-      "source_key": "infoq",
-      "url": "https://www.infoq.com/news/2026/02/argocd-33/",
-      "read_time": 3,
+      "freshness": "fresh",
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/flagship/",
+      "published_at": "2026-05-06T10:00:00-03:00",
+      "read_time": 4,
       "tags": [
-        "argocd",
-        "gitops",
-        "kubernetes",
-        "predelete-hooks"
+        "feature-flags",
+        "openfeature",
+        "edge",
+        "workers"
       ],
-      "image": "https://res.infoq.com/news/2026/02/argocd-33/en/headerimage/argo-cd-3-3-1739787544116.jpg",
-      "published_at": "2026-02-28T09:00:00-03:00",
+      "image": "https://blog.cloudflare.com/content/images/2026/04/image16.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/",
-        "title": "Argo CD Sync Phases and Waves",
+        "url": "https://openfeature.dev/specification/",
+        "title": "OpenFeature Specification",
         "type": "docs",
-        "source_name": "Argo CD Docs",
-        "why": "Explica fases e waves de sincronização, base necessária para entender hooks como PreSync, PostSync e PreDelete no GitOps real."
+        "source_name": "OpenFeature (CNCF)",
+        "why": "Define o padrão usado pelo Flagship — entender Provider, Hook e Evaluation Context te dá a base para trocar de provedor ou rolar implementação própria sem mexer no resto do código."
       }
     },
     {
       "category": "devops",
       "category_label": "DevOps & Plataformas",
       "category_icon": "⚙️",
-      "headline": "GitHub Actions promove custom runner images a GA e prepara Visual Studio 2026",
-      "summary": "GitHub Actions liberou em abril o GA das imagens de runner customizadas, permitindo congelar dependências em uma VM versionada via snapshot. Em 4 de maio, a windows-2025 ganhará Visual Studio 2026 ao lado da imagem atual. As mudanças impactam diretamente a estabilidade de pipelines.",
+      "headline": "Kyverno 1.18 é primeiro release pós-graduação na CNCF — investe em segurança, CLI e confiabilidade do engine",
+      "summary": "A CNCF anunciou o Kyverno 1.18, primeira release publicada depois que o projeto graduou dentro da fundação. O foco do ciclo foi reforçar Kyverno como engine de policy-as-code Kubernetes-nativo, com investimentos em segurança, novas capacidades na CLI e melhorias na confiabilidade do engine de avaliação. Para times de plataforma, é o sinal de que policy gate em cluster deixa de ser experimento e vira componente padrão do menu CNCF, ao lado de OPA Gatekeeper.",
       "explain": {
+        "comece": "Kyverno é um engine de policy-as-code para Kubernetes — você escreve políticas em YAML que dizem 'todo Pod precisa de limit de memória' ou 'imagem só pode vir desse registry' e o admission controller bloqueia quem não cumpre. Versão 1.18 é a primeira depois que o projeto graduou na CNCF, status que sinaliza maturidade para produção em larga escala.",
+        "aprofunde": "Tecnicamente Kyverno difere do OPA Gatekeeper por usar YAML estruturado em vez de Rego, o que reduz curva de aprendizado mas perde flexibilidade em políticas complexas. O 1.18 endurece o engine de validação, traz melhorias na CLI para testar políticas localmente antes de aplicar e fortalece auditoria e geração de relatórios. Graduação CNCF significa também política de release mais estável, processo de security disclosure publicado e governança comunitária validada.",
+        "decida": "Adote para casos onde policy precisa caminhar com cluster — pod security, restrição de registry, mutação automática de manifests. Evite Kyverno se você precisa lógica complexa cross-resource onde Rego ainda é mais expressivo. Próximo passo: rode kyverno apply --policy ./pol.yaml --resource ./test.yaml em CI antes de empurrar política nova ao cluster, e use o reports controller para ter visibilidade de violações sem bloquear deploys.",
         "glossary": [
           {
-            "term": "GitHub Actions runner",
-            "def": "Servidor que executa jobs de workflows, podendo ser hospedado pela GitHub ou pelo próprio time como self-hosted."
+            "term": "Policy-as-code",
+            "def": "Práticas e regras de governança escritas como código versionado, avaliadas automaticamente em pipelines ou em runtime."
           },
           {
-            "term": "snapshot",
-            "def": "Nova palavra-chave em workflows que referencia uma imagem de runner customizada e versionada criada pelo time."
-          },
-          {
-            "term": "OIDC",
-            "def": "OpenID Connect — protocolo que permite autenticar workflows em provedores de nuvem sem armazenar credenciais estáticas."
+            "term": "Graduated CNCF project",
+            "def": "Status mais alto na trilha de incubação CNCF, indicando maturidade técnica, comunitária e de governança."
           }
-        ],
-        "comece": "GitHub Actions é o serviço de CI/CD da GitHub que executa pipelines de build e deploy. Os 'runners' são as máquinas virtuais onde tudo isso roda. Antes elas eram imagens fixas; agora você pode criar a sua própria, com as dependências exatas que seus jobs precisam.",
-        "aprofunde": "O GA dos custom runner images permite usar a palavra-chave snapshot dentro do workflow e referenciar uma imagem pré-construída pelo time, com Node, JDK, ferramentas internas e certificados já instalados. Isso elimina o tempo gasto em apt-get install e setup-node em cada job e reduz variabilidade entre execuções. A windows-2025 vai receber Visual Studio 2026 em 4 de maio em preview público, então projetos .NET precisam testar antes de optar pela atualização. Outras melhorias incluem entrypoint e command overrides para service containers e claims de OIDC com custom properties do repositório.",
-        "decida": "Para plataformas que sustentam dezenas de pipelines, custom runner images são oportunidade de reduzir flakes e padronizar segurança. A decisão aqui é onde guardar a imagem, como versioná-la e quem aprova mudanças — virou parte do platform engineering. Comece com pipelines críticos do core e mantenha as actions oficiais para casos comuns. Para Windows, faça upgrade orquestrado do build agent para validar Visual Studio 2026 em ramo separado antes de virar default. OIDC com custom properties melhora policy as code: tente migrar tokens estáticos do AWS para confiabilidade reforçada."
+        ]
       },
       "freshness": "fresh",
-      "source_key": "githubchangelog",
-      "url": "https://github.blog/changelog/2026-04-02-github-actions-early-april-2026-updates/",
+      "source_key": "cncf",
+      "url": "https://www.cncf.io/blog/2026/05/05/announcing-kyverno-release-1-18/",
+      "published_at": "2026-05-05T09:00:00-03:00",
       "read_time": 3,
       "tags": [
-        "github-actions",
-        "ci-cd",
-        "runner",
-        "oidc"
+        "kubernetes",
+        "policy",
+        "kyverno",
+        "cncf"
       ],
-      "image": "https://github.blog/wp-content/uploads/2024/12/changelog.png",
-      "published_at": "2026-04-02T08:00:00-03:00"
+      "image": "https://www.cncf.io/wp-content/uploads/2024/10/Kyverno-graduation-cncf.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://kyverno.io/docs/",
+        "title": "Kyverno Documentation",
+        "type": "docs",
+        "source_name": "Kyverno",
+        "why": "Documentação oficial cobre escrita de policy YAML, mutação automática de manifests e integração com admission controller — material essencial antes de aplicar policy gate em cluster de produção."
+      }
     },
     {
-      "category": "distarch",
-      "category_label": "Sist. Distribuídos",
-      "category_icon": "🕸",
-      "headline": "Diskless Kafka e camada de IA redefinem arquitetura event-driven em 2026",
-      "summary": "O cenário de streaming consolidou três tecnologias em 2026: Kafka como transporte, Flink ou RisingWave como processamento e a nova camada de IA que consome estado em tempo real. Diskless Kafka, real-time analytics e zero-loss aparecem nas previsões da Confluent e da Kai Waehner como pivôs do ano.",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "GitHub Code-to-Cloud com Microsoft Defender entra em GA — corredor único de risco entre código, build e runtime",
+      "summary": "O GitHub anunciou GA da integração Code-to-Cloud Risk Visibility com o Microsoft Defender for Cloud. A camada conecta repositório, artefatos de build e contexto de runtime para que o time de segurança acompanhe, priorize e remediasse riscos no contexto onde eles realmente importam. Para arquitetura, é a continuação concreta da onda 'shift everywhere' — em vez de varredura isolada por etapa, o pipeline passa a tratar uma vulnerabilidade detectada no repo já com correlação de qual workload em produção está exposto.",
       "explain": {
+        "comece": "Quando uma CVE aparece numa dependência, o time de segurança normalmente vê o achado num scanner isolado — só do código, sem contexto de runtime. A integração GitHub + Defender for Cloud junta os pontos: o mesmo achado vira um item priorizado se um cluster Kubernetes em produção realmente roda aquela versão. GA significa pronto para produção corporativa.",
+        "aprofunde": "A engenharia por trás conecta GitHub Advanced Security (SAST, secret scanning, supply chain) ao Microsoft Defender for Cloud (CSPM, CWPP, runtime telemetry). O resultado é uma trilha que sai de um arquivo no repo, passa pelo artefato de build, chega ao container deployado e termina na conta cloud onde ele roda. Priorização passa a ponderar exploit-in-the-wild, exposição pública e privilegio efetivo do workload, e não só CVSS bruto.",
+        "decida": "Faz sentido para times Microsoft-heavy que já pagam GitHub Enterprise e Defender for Cloud — a sobreposição com Snyk, Wiz ou Aqua precisa ser revista. Risco: dados sensíveis trafegando entre tenants, e telemetria adicional impactando custo do Defender. Próximo passo: conectar uma org GitHub ao Defender em ambiente de teste, simular exploit conhecido em libs vulneráveis e verificar se a priorização realmente muda quando o asset está exposto.",
         "glossary": [
           {
-            "term": "Diskless Kafka",
-            "def": "Topologia em que brokers Kafka delegam a persistência durável a object storage como S3, eliminando discos locais."
+            "term": "CSPM",
+            "def": "Cloud Security Posture Management — descobre e prioriza riscos de configuração em recursos cloud."
           },
           {
-            "term": "RisingWave",
-            "def": "Banco SQL streaming que materializa visões a partir de tópicos Kafka e expõe consultas com semântica relacional."
+            "term": "CWPP",
+            "def": "Cloud Workload Protection Platform — telemetria e proteção em runtime de workloads (containers, VMs, serverless)."
           },
           {
-            "term": "Schema registry",
-            "def": "Serviço que armazena, versiona e valida schemas de mensagens para garantir compatibilidade entre produtores e consumidores."
+            "term": "Shift everywhere",
+            "def": "Evolução do 'shift left': segurança não só no início do pipeline, mas em todo ponto até produção."
           }
-        ],
-        "comece": "Quando uma empresa precisa que dados fluam entre serviços em tempo real — pedidos, fraudes, telemetria — ela costuma usar Apache Kafka. Em 2026, esse universo cresceu: ao lado do Kafka, ferramentas como Flink processam streams e novas camadas de IA consomem o estado vivo direto desses pipelines.",
-        "aprofunde": "A nova arquitetura de referência tem três camadas. A primeira publica eventos de domínio em um broker durável; a segunda mantém estado materializado com SQL streaming via Flink ou RisingWave; a terceira oferece esse estado para aplicações e agentes de IA via interfaces de banco. Diskless Kafka, anunciado pela Confluent, separa o storage da pasta tradicional e usa S3 como camada permanente, reduzindo custo em ordens de magnitude. Benchmarks de Flink chegam a 1.2 milhão de eventos por segundo com latência sub-milissegundo em produção.",
-        "decida": "A discussão arquitetural deixou de ser 'Kafka ou RabbitMQ?' e virou 'que camada de processamento e que camada de IA?'. Para um arquiteto sênior, a decisão importante é onde a IA agente entra: ela consome eventos diretamente do tópico (acoplamento alto, latência baixa) ou consulta a tabela materializada (latência maior, governança forte). Recomendação prática: comece pelo desenho de evento canônico, marque schema em registry com SemVer e construa primeiro a camada de SQL streaming com casos de uso bem delimitados antes de jogar agentes em cima."
+        ]
       },
       "freshness": "fresh",
-      "source_key": "thenewstack",
-      "url": "https://thenewstack.io/the-new-look-and-feel-of-apache-kafka-4-0/",
-      "read_time": 5,
+      "source_key": "githubblog",
+      "url": "https://github.blog/changelog/2026-05-05-code-to-cloud-risk-visibility-with-microsoft-defender-for-cloud-is-now-generally-available/",
+      "published_at": "2026-05-05T16:00:00-03:00",
+      "read_time": 3,
       "tags": [
-        "kafka",
-        "flink",
-        "streaming",
-        "ai-agents"
+        "security",
+        "devsecops",
+        "github",
+        "defender"
       ],
-      "image": "https://cdn.thenewstack.io/media/2025/04/52f1a2fa-screenshot-2025-04-04-085948.png",
-      "published_at": "2026-05-02T10:00:00-03:00"
+      "image": "https://github.blog/wp-content/uploads/2024/04/Changelog-Feature-DefenderForCloud.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+        "title": "Microsoft Defender for Cloud — Overview",
+        "type": "docs",
+        "source_name": "Microsoft Learn",
+        "why": "Cobre a parte CSPM/CWPP que o GitHub agora correlaciona — bom ponto de partida para entender o que é priorização contextual e como o Defender enxerga risco."
+      }
     },
     {
-      "category": "design",
-      "category_label": "Design & Padrões",
-      "category_icon": "🏛️",
-      "headline": "Google catalogiza oito padrões de design para sistemas multi-agente",
-      "summary": "Engenheiros do Google publicaram um guia com oito padrões fundamentais para arquitetar sistemas multi-agente, baseados nos primitives sequencial, paralelo e loop do Agent Development Kit. O conjunto cobre desde pipelines lineares até human-in-the-loop e routing por agente roteador.",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Velero é doada à CNCF como projeto Sandbox — backup nativo Kubernetes ganha governance neutra",
+      "summary": "A Broadcom contribuiu o Velero, projeto Kubernetes-nativo de backup, restore e migração, à CNCF como Sandbox project. Velero opera na camada da API do Kubernetes, capturando estado do cluster por meio de Custom Resource Definitions, e era mantido pelo time da VMware antes da aquisição. A doação tira o projeto da órbita Broadcom e o coloca em governance neutra — passo importante para times receosos depois das mudanças de licença e suporte que vieram com a integração VMware.",
       "explain": {
+        "comece": "Velero faz backup, restore e migração de clusters Kubernetes inteiros, lendo o estado pelo plano de controle e empurrando para storage externo (S3, GCS, Azure Blob). Era mantido pela VMware até a Broadcom comprar. Agora, doado para a CNCF como Sandbox, vira projeto neutro — a comunidade pode evoluir sem depender de roadmap corporativo de uma vendor.",
+        "aprofunde": "O diferencial de Velero é operar na camada de API: ele cataloga CRDs, recursos nativos e PVs, executa snapshots dos volumes via CSI snapshots ou plugin específico do storage e empacota tudo em um objeto restorable. Como Sandbox, entra no menor degrau da trilha CNCF (Sandbox → Incubating → Graduated), com expectativa de demonstrar adoção de produção, comunidade ativa e processo de release público antes de subir.",
+        "decida": "Para times que já usam Velero, a notícia tira incerteza: roadmap segue, mas sem gatilho de Broadcom unilateralmente mudar termos. Para quem ainda não decidiu DR de Kubernetes, é momento de avaliar Velero contra Kasten K10 (Veeam) e Trilio sem o desconforto de vendor lock-in. Próximo passo: rodar velero backup create em um namespace de teste, simular delete de namespace inteiro e medir RTO de restore real.",
         "glossary": [
           {
-            "term": "Agent Development Kit (ADK)",
-            "def": "Framework do Google para construir e orquestrar agentes de IA com primitivos de execução sequencial, paralela e em loop."
+            "term": "Sandbox CNCF",
+            "def": "Estágio inicial da trilha CNCF, para projetos novos que mostram fit cloud-native mas ainda não têm escala de produção comprovada."
           },
           {
-            "term": "Human-in-the-loop",
-            "def": "Padrão em que um humano aprova ou rejeita decisões críticas tomadas por agentes antes que avancem."
-          },
-          {
-            "term": "Fan-out/gather",
-            "def": "Padrão de paralelismo em que uma tarefa é dividida entre múltiplos workers e os resultados são combinados ao final."
+            "term": "CRD",
+            "def": "Custom Resource Definition — extensão do esquema da API Kubernetes para representar recursos próprios de operadores."
           }
-        ],
-        "comece": "Quando agentes de IA precisam trabalhar em conjunto — um analisa, outro escreve, outro revisa — surge o desafio de coordenar tudo sem virar bagunça. O Google publicou oito 'padrões de design' que orientam como organizar esses agentes, parecido com os clássicos padrões de orientação a objetos.",
-        "aprofunde": "Os três primitivos do Agent Development Kit são sequencial (saída de um vira entrada do próximo), paralelo (múltiplos agentes em paralelo, fan-out e gather no final) e loop (iteração até convergência). Sobre eles, os oito padrões compõem soluções: pipelines lineares para fluxos auditáveis, parallel fan-out para tarefas independentes, human-in-the-loop com agente de aprovação que pausa execução, agente roteador que escolhe sub-agentes, e variações para refinement iterativo. A vantagem é que cada padrão tem semântica de debugging clara — você sempre sabe quem produziu cada saída.",
-        "decida": "Na prática, escolher um padrão é decisão arquitetural que substitui DAGs imperativos por estruturas com semântica conhecida. Para casos críticos (pagamentos, compliance), prefira sequencial ou human-in-the-loop e garanta logs estruturados com correlation ID. Para geração paralela (resumos por seção, análises independentes), o fan-out é mais barato em latência. Em qualquer caso, monitore custo e latência por agente individualmente e mantenha um circuit breaker para abortar se a soma ultrapassar SLO. Aproveite para escrever um ADR descrevendo qual padrão você adotou e por quê."
+        ]
       },
-      "freshness": "evergreen",
+      "freshness": "fresh",
       "source_key": "infoq",
-      "url": "https://www.infoq.com/news/2026/01/multi-agent-design-patterns/",
-      "read_time": 5,
+      "url": "https://www.infoq.com/news/2026/05/velero-cncf-sandbox/",
+      "published_at": "2026-05-04T14:00:00-03:00",
+      "read_time": 3,
       "tags": [
-        "multi-agent",
-        "design-patterns",
-        "adk",
-        "architecture"
+        "kubernetes",
+        "backup",
+        "velero",
+        "cncf"
       ],
-      "image": "https://res.infoq.com/news/2026/01/multi-agent-design-patterns/en/headerimage/multi-agent-patterns-1737629408345.jpg",
-      "published_at": "2026-01-22T09:00:00-03:00",
+      "image": "https://platformengineering.org/og.jpg",
+      "image_kind": "institutional",
       "learning": {
-        "url": "https://martinfowler.com/articles/agentic-ai-design.html",
-        "title": "Designing Agentic AI Systems",
-        "type": "article",
-        "source_name": "Martin Fowler",
-        "why": "Complementa os padrões do Google com perspectiva arquitetural sobre acoplamento, observabilidade e fronteiras de domínio em sistemas com agentes."
+        "url": "https://velero.io/docs/main/",
+        "title": "Velero Documentation",
+        "type": "docs",
+        "source_name": "Velero",
+        "why": "Documentação oficial do projeto explica como Velero captura estado via API server, integra com CSI snapshots e suporta restore parcial — base para qualquer plano de DR Kubernetes."
       }
     },
     {
       "category": "integ",
       "category_label": "Integração & Eventos",
       "category_icon": "🔌",
-      "headline": "Cloudflare Workflows ganha plano de controle redesenhado e elasticidade extrema",
-      "summary": "A Cloudflare redesenhou o plano de controle do Workflows para suportar cargas criadas em velocidade de máquina por agentes e automações. Os novos limites sobem para 50.000 instâncias concorrentes, 300 instâncias por segundo por conta e 2 milhões de instâncias enfileiradas por workflow, usando componentes como SousChef e Gatekeeper para tirar o gargalo de um Durable Object central.",
+      "headline": "GraphQLConf 2026 abre hoje em Menlo Park — Foundation reforça caminho de federação e cliente unificado",
+      "summary": "A GraphQLConf 2026 começa hoje, 6 de maio, no campus da Meta em Menlo Park, com sessões até 7 de maio e o Working Group Day em 8 de maio. A agenda concentra avanços em federação, suporte a streams e clientes unificados. O evento marca o retorno do conf à Bay Area depois de duas edições itinerantes e é onde tradicionalmente saem decisões da spec — vale acompanhar pela pauta do GraphQL Foundation e novas movimentações de Apollo, GraphOS e implementações servidoras.",
       "explain": {
+        "comece": "GraphQL é a alternativa ao REST onde o cliente declara em uma única query exatamente quais campos quer. A GraphQLConf é o evento canônico onde a Foundation, Apollo e implementadores discutem evolução da spec, federação entre serviços e ferramentas. A edição 2026 é hospedada pela Meta — empresa que originou o GraphQL — em Menlo Park.",
+        "aprofunde": "Tecnicamente o que tem em jogo este ano é federação composable entre clusters, suporte mais maduro para streaming (subscription baseado em SSE), clientes unificados que abstraem cache e transporte, e formalização de GraphQL-over-HTTP como padrão IETF. A audiência costuma ser técnica (server engineers, gateway maintainers) e o que sai do Working Group Day frequentemente vira RFC nos próximos meses.",
+        "decida": "Vale acompanhar mesmo se o time não está em GraphQL — as discussões de federação e schema-first influenciam patterns de API gateway que aparecem em REST e gRPC depois. Para quem já usa GraphQL: revise a pauta, identifique sessões sobre federação 2.x e GraphOS observabilidade, e marque com seu time as decisões do WG Day para entender se afetam roadmap de adoção. Risco: seguir Apollo Federation só porque é canônico — alternativas como Wundergraph, Hive ou Hasura podem caber melhor em times menores.",
         "glossary": [
           {
-            "term": "Cloudflare Workflows",
-            "def": "Serviço de orquestração durável da Cloudflare construído sobre Workers e Durable Objects para fluxos de longa duração."
+            "term": "GraphQL Federation",
+            "def": "Padrão para compor múltiplos GraphQL services em um único schema unificado, normalmente exposto via gateway."
           },
           {
-            "term": "Control plane",
-            "def": "Camada que gerencia metadados, criação e estado dos recursos, em oposição ao data plane que executa o trabalho real."
-          },
-          {
-            "term": "AI Gateway",
-            "def": "Proxy da Cloudflare que centraliza chamadas a modelos LLM com cache, observabilidade e roteamento por política."
+            "term": "GraphQL Foundation",
+            "def": "Fundação Linux que detém a propriedade da spec e ferramentas core do GraphQL."
           }
-        ],
-        "comece": "Workflows é o serviço de orquestração da Cloudflare, equivalente a Step Functions ou Temporal: você descreve um processo passo a passo e a plataforma cuida de retries, espera e estado. A novidade é que ele agora aguenta muito mais execuções simultâneas, abrindo espaço para casos de uso mais ambiciosos.",
-        "aprofunde": "O time da Cloudflare reescreveu o control plane do Workflows usando os mesmos componentes que já entregam Workers e Durable Objects no edge. Isso aumentou os limites de concorrência e a taxa de criação de novos workflows, importante para sistemas que disparam pipelines em rajadas — por exemplo, pós-evento de webhook ou job em batch reativo. O caso de uso interno comprovou: o AI Gateway interno encaminhou 20 milhões de requisições, processou 241 bilhões de tokens e atendeu mais de 3.683 usuários internos sobre essa base reforçada.",
-        "decida": "Para arquitetos que avaliam orquestradores stateful, a Cloudflare entra como opção edge native que ranges em latência baixa em zonas onde Step Functions e Temporal Cloud não existem. A decisão aqui é onde colocar o estado: workflows curtos com alta concorrência se beneficiam do edge, mas workflows que exigem integrações pesadas com bancos relacionais ainda casam melhor com Temporal autohospedado. Faça uma POC com um workflow real de webhook intake, meça p99 e custo por execução, e anote no ADR a comparação. Lembre que cada plataforma tem teto diferente para retries, sleep e fan-out."
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "graphql",
+      "url": "https://graphql.org/conf/2026/",
+      "published_at": "2026-05-06T08:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "graphql",
+        "api",
+        "federation",
+        "conference"
+      ],
+      "image": "https://graphql.org/img/conf/2026/og-graphqlconf-2026.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://graphql.org/learn/",
+        "title": "GraphQL — Learn",
+        "type": "docs",
+        "source_name": "GraphQL Foundation",
+        "why": "Tutorial oficial de GraphQL é leitura obrigatória antes de qualquer adoção; cobre schema, resolvers, types e diferenças vs REST."
+      }
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "AsyncAPI abre nominações para Governance Board 2026 e detalha visão multi-spec de integração",
+      "summary": "A AsyncAPI Initiative abriu nominações para vagas no Governance Board 2026 e publicou roadmap reforçando posição como spec única para descrever APIs orientadas a evento — Kafka, AMQP, MQTT, WebSocket — junto com REST, GraphQL e gRPC. O grupo quer que AsyncAPI seja a especificação número 1 para definir e desenvolver APIs em até cinco anos, integrando schema-first em arquiteturas event-driven com mesma fluidez de OpenAPI em REST.",
+      "explain": {
+        "comece": "AsyncAPI é o equivalente ao OpenAPI para APIs orientadas a evento. Em vez de descrever endpoints HTTP, descreve canais (tópicos Kafka, exchanges RabbitMQ, tópicos MQTT), mensagens, payload, headers e correlação. Permite gerar documentação, código e ferramentas de validação a partir de um YAML único.",
+        "aprofunde": "A versão 3.0 já trouxe request/reply, channels reutilizáveis e separação clara entre receive e send. O roadmap atual mira interoperabilidade com OpenAPI 3.x, GraphQL Federation e gRPC, com visão de uma única spec descrever sistema heterogêneo. Governance é importante porque define se a spec evolui rápido demais para vendor lock-in ou devagar demais para perder relevância. Nominações para o Board são caminho concreto de influenciar a direção.",
+        "decida": "Adote AsyncAPI quando a integração já passou de um produtor e dois consumidores — o investimento em schema explícito paga em onboarding de novos times. Evite forçar AsyncAPI em times que ainda discutem se vão para event-driven; é melhor primeiro estabilizar a arquitetura. Próximo passo: descreva um tópico Kafka existente em AsyncAPI 3.0, gere documentação automática e meça quanto tempo um dev novo leva para mandar primeira mensagem comparado a antes.",
+        "glossary": [
+          {
+            "term": "Schema-first",
+            "def": "Abordagem onde o contrato (YAML/JSON) é fonte da verdade e o código de cliente/servidor é gerado a partir dele."
+          },
+          {
+            "term": "Event-driven architecture",
+            "def": "Arquitetura onde produtores publicam eventos imutáveis e consumidores reagem assincronamente, desacoplando o tempo de produção e consumo."
+          }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://www.asyncapi.com/roadmap",
+      "published_at": "2026-05-04T12:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "asyncapi",
+        "api",
+        "event-driven",
+        "spec"
+      ],
+      "image": "https://www.asyncapi.com/img/og-image.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://www.asyncapi.com/docs/tutorials/getting-started",
+        "title": "AsyncAPI — Getting Started",
+        "type": "tutorial",
+        "source_name": "AsyncAPI",
+        "why": "Tutorial oficial guia escrita do primeiro arquivo AsyncAPI 3.0 com canal, mensagem e payload — exercício hands-on para times explorando schema-first em event-driven."
+      }
+    },
+    {
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "JDK 27 promove Lazy Constants e Structured Concurrency a Proposed to Target — sétima preview chega perto da estabilização",
+      "summary": "A janela de features do JDK 27 fechou: JEP 531 (Lazy Constants, terceira preview) e JEP 533 (Structured Concurrency, sétima preview) foram elevadas a Proposed to Target. Lazy Constants permite expressões avaliadas sob demanda com semântica final, simplificando padrões de inicialização. Structured Concurrency, depois de seis previews, segue refinando o modelo onde tarefas concorrentes são tratadas como uma única unidade de trabalho — melhora reliability, cancelamento e observabilidade de pipelines paralelos.",
+      "explain": {
+        "comece": "Em código Java tradicional, lançar várias threads em paralelo para fazer chamadas concorrentes vira código bagunçado: cada thread vive sozinha, falhas se perdem, cancelar uma não cancela a outra. Structured Concurrency conserta isso tratando o grupo de tarefas como bloco único. Lazy Constants resolve outra dor — campos finais que precisam de inicialização cara só quando alguém usar.",
+        "aprofunde": "Tecnicamente, JEP 533 introduz StructuredTaskScope com fork/join estruturado: lançar várias subtarefas dentro de um escopo, esperar a completude e cancelar todas se uma falhar. Internamente apoia em virtual threads, então o custo por subtarefa é baixíssimo. JEP 531 (Lazy Constants) adiciona StableValue, slot que aceita valor uma vez, fica imutável e a JIT trata como constante para inlining. As duas vão na sétima e terceira preview respectivamente, o que indica refinamento final antes de virarem stable em JDK 28 ou 29.",
+        "decida": "Para serviços Java que já adotaram virtual threads, vale começar a experimentar StructuredTaskScope em endpoints que disparam chamadas paralelas — log de erro fica drasticamente mais legível. Risco: APIs ainda mudam entre previews; código preview não é apropriado para hot path crítico em produção. Próximo passo: pegar um endpoint que faz três chamadas externas em paralelo, reescrever com StructuredTaskScope e medir como mudam tracing spans e tempo total de cancelamento quando um upstream cai.",
+        "glossary": [
+          {
+            "term": "JEP",
+            "def": "Java Enhancement Proposal — formato canônico para descrever uma mudança proposta na plataforma OpenJDK."
+          },
+          {
+            "term": "Virtual threads",
+            "def": "Threads leves do projeto Loom: milhares delas custam pouco, ideal para I/O-bound."
+          },
+          {
+            "term": "Proposed to Target",
+            "def": "Estágio onde a JEP é endossada para incluir no release específico, mas ainda passa por Candidate before final inclusion."
+          }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/java-news-roundup-apr27-2026/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "java",
+        "jdk27",
+        "concurrency",
+        "loom"
+      ],
+      "image": "https://platformengineering.org/og.jpg",
+      "image_kind": "institutional",
+      "learning": {
+        "url": "https://openjdk.org/jeps/533",
+        "title": "JEP 533: Structured Concurrency (Seventh Preview)",
+        "type": "docs",
+        "source_name": "OpenJDK",
+        "why": "JEP oficial cobre motivação, exemplos canônicos (StructuredTaskScope.ShutdownOnFailure) e diff vs as previews anteriores — leitura essencial para qualquer dev Java pensando em adotar."
+      }
+    },
+    {
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Valkey 9.0 chega com slot migrations atômicas — clusters Redis-compatíveis ganham rebalance previsível",
+      "summary": "A Linux Foundation publicou o Valkey 9.0, segundo release major do fork de Redis depois da mudança de licença. O destaque são as Atomic Slot Migrations: em vez de migrar dados key-by-key entre nodes do cluster, agora migra um slot inteiro de forma atômica. Mudança fundamental para operadores que rebalanceiam shards em produção — operação fica mais rápida, com janela de inconsistência menor e rollback mais simples se algo falhar no meio do caminho.",
+      "explain": {
+        "comece": "Valkey é fork comunitário do Redis criado quando a Redis Labs mudou a licença para SSPL/RSALv2 em 2024. Mantém compatibilidade de protocolo, então cliente Redis fala com Valkey sem mudança. A versão 9.0 é a segunda major sob governance da Linux Foundation e o que muda na prática é como o cluster move dados quando você adiciona ou remove um node.",
+        "aprofunde": "Tecnicamente o cluster Redis/Valkey divide as chaves em 16384 slots; cada node tem um conjunto de slots. Quando você rebalanceia, slots passam de um node para outro. Antes, isso ia chave-por-chave: Valkey lia de origem, escrevia no destino, marcava como migrada. O 9.0 muda para migração atômica do slot inteiro — o destino só responde quando todo o slot chegou, e a origem para de aceitar escritas naquele slot durante a janela. Resultado: rebalance mais rápido, comportamento de leitura mais previsível e rollback de uma migração inteira em uma operação.",
+        "decida": "Faz sentido planejar upgrade se você roda Redis OSS ou Valkey em cluster e tem dor de rebalance — operadores Kubernetes vão herdar isso primeiro. Risco: mudança em comportamento atômico pode mascarar problemas de aplicação que dependiam de leitura suja durante migração. Próximo passo: rodar valkey-cli --cluster reshard em ambiente staging, medir latência p99 durante migração e comparar com run no 8.x para ver delta real.",
+        "glossary": [
+          {
+            "term": "Hash slot",
+            "def": "Cada chave Redis/Valkey é mapeada para um de 16384 slots; cluster atribui slots a nodes para distribuir dados."
+          },
+          {
+            "term": "Atomic migration",
+            "def": "Operação de migrar dados onde o destino só passa a responder por aquele recurso quando 100% dos dados chegaram."
+          }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "valkey",
+      "url": "https://valkey.io/blog/introducing-valkey-9/",
+      "published_at": "2026-05-02T11:00:00-03:00",
+      "read_time": 4,
+      "tags": [
+        "valkey",
+        "redis",
+        "cluster",
+        "data"
+      ],
+      "image": "https://valkey.io/assets/images/valkey-meta-card.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://valkey.io/topics/cluster-spec/",
+        "title": "Valkey Cluster Specification",
+        "type": "docs",
+        "source_name": "Valkey",
+        "why": "Cobre o modelo de slot, gossip protocol e migrações — fundamental antes de operar atomic slot migrations em ambiente produtivo."
+      }
+    },
+    {
+      "category": "distarch",
+      "category_label": "Sist. Distribuídos",
+      "category_icon": "🕸",
+      "headline": "Cloudflare Hyperdrive habilita conexão privada a bancos via Workers VPC — sem expor o banco à internet",
+      "summary": "A Cloudflare adicionou suporte a Hyperdrive sobre Workers VPC, permitindo que Workers conectem a bancos de dados privados sem necessidade de expor a instância publicamente. A configuração privada pode ser reutilizada entre múltiplas configs de Hyperdrive e múltiplos Workers, eliminando o pattern de furar firewall ou expor IPs públicos para serverless. Junto, lançou @cloudflare/dynamic-workflows para Workflows duráveis dentro de Dynamic Workers.",
+      "explain": {
+        "comece": "Workers, a plataforma serverless da Cloudflare, normalmente conectava a bancos de dados via internet — o que obriga a expor o Postgres à rede pública ou tunelar via VPN. Hyperdrive sobre Workers VPC resolve isso conectando Worker direto à VPC privada onde o banco vive, sem hop público no meio.",
+        "aprofunde": "Tecnicamente Workers VPC dá uma rede privada gerenciada onde Workers podem conectar via interfaces de rede dedicadas. Hyperdrive já fazia connection pooling e cache de queries para Postgres/MySQL acelerar response em edge; agora a connection string pode apontar para um endpoint privado dentro da VPN do cliente, e o Worker fala via essa rede. A reutilização da mesma configuração privada entre Workers diferentes evita o pattern de cada serviço gerenciar credencial e config separadas — vira recurso de plataforma.",
+        "decida": "Vale para times que rodam Workers em escala e têm bancos críticos em provider que oferece peering (AWS PrivateLink, GCP Private Service Connect). Risco: latência cross-region; Workers rodam globalmente mas o banco é regional, então a primeira latência fria pode surpreender. Próximo passo: configurar Hyperdrive com endpoint privado em staging, medir p50/p99 de query a partir de Workers em três regiões e comparar com baseline público.",
+        "glossary": [
+          {
+            "term": "Hyperdrive",
+            "def": "Serviço Cloudflare que faz connection pooling e query caching para bancos relacionais a partir de Workers."
+          },
+          {
+            "term": "Workers VPC",
+            "def": "Rede privada gerenciada da Cloudflare que dá conectividade direta entre Workers e recursos privados em provider externo via peering."
+          }
+        ]
       },
       "freshness": "fresh",
       "source_key": "cloudflare",
-      "url": "https://blog.cloudflare.com/workflows-v2/",
-      "read_time": 5,
+      "url": "https://blog.cloudflare.com/hyperdrive-workers-vpc-private-databases/",
+      "published_at": "2026-05-05T15:00:00-03:00",
+      "read_time": 3,
       "tags": [
         "cloudflare",
-        "workflows",
-        "orchestration",
-        "ai-gateway"
+        "workers",
+        "hyperdrive",
+        "vpc"
       ],
-      "image": "https://blog.cloudflare.com/content/images/2024/05/image-39.png",
-      "published_at": "2026-04-15T12:00:00-03:00",
+      "image": "https://blog.cloudflare.com/content/images/2026/05/hyperdrive-vpc-og.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://developers.cloudflare.com/workflows/",
-        "title": "Cloudflare Workflows documentation",
+        "url": "https://developers.cloudflare.com/hyperdrive/",
+        "title": "Cloudflare Hyperdrive Documentation",
         "type": "docs",
-        "source_name": "Cloudflare Docs",
-        "why": "Documentação oficial para entender o modelo de steps, retries e execução durável antes de comparar com Temporal ou Step Functions."
+        "source_name": "Cloudflare Developers",
+        "why": "Documentação oficial cobre connection pooling, query caching e TLS para conectar Workers a bancos relacionais. Integra naturalmente com Workers VPC."
       }
     },
     {
       "category": "enterprise",
       "category_label": "Arq. Corporativa",
       "category_icon": "🗺️",
-      "headline": "Platform Engineering em 2026: golden path automatizado em três minutos vira norma",
-      "summary": "Análises recentes apontam que platform engineering deixou de ser jargão e virou prática mensurável. Caminho-de-ouro mais comum em 2026: comando de scaffold cria repositório, pipeline de CI, manifests Kubernetes, dashboards e entrada no Backstage em menos de três minutos.",
+      "headline": "DORA crava: qualidade de plataforma é o preditor mais forte de IA gerar valor real",
+      "summary": "A leitura mais recente do DORA Report de 2025 voltou ao debate público com força esta semana: alta qualidade de plataforma interna é o preditor #1 de adoção de IA virar performance organizacional. Onde a plataforma é boa, IA destrava ganho mensurável; onde é ruim, o efeito é nulo. Achado bate com a tese da Gartner de que 80% das grandes organizações terão times de plataforma dedicados em 2026 — e com Backstage detendo 89% do market share entre quem adotou um IDP.",
       "explain": {
+        "comece": "DORA é a pesquisa anual mantida pela Google Cloud que mede capacidades técnicas e culturais que predizem performance de entrega de software. Em 2025, depois de cruzar adoção de IA com qualidade de plataforma, encontrou padrão claro: o ganho de IA só aparece quando a base — pipelines, observabilidade, golden paths — está funcionando.",
+        "aprofunde": "O dado é importante porque inverte a narrativa fácil de 'compre IA e ganhe produtividade'. Sem CI/CD confiável, sem ambiente de teste reproduzível, sem observabilidade que mostre qual prompt está funcionando, IA vira ruído: o dev gera código, mas o ciclo de validação ainda é lento, então o ganho some. Plataforma de qualidade encurta o feedback loop; com isso, sugestão de IA chega ao dev, vira PR, é validada e merge em horas em vez de dias. O efeito é multiplicativo, não aditivo.",
+        "decida": "Para CTO e head de plataforma, é argumento concreto para priorizar inversão em IDP, golden paths e métricas DevEx antes de qualquer iniciativa de Copilot, Cursor ou agentes corporativos. Risco: o achado é correlacional, não causal — pode haver variável omitida (cultura de aprendizado, por exemplo). Próximo passo: medir as quatro métricas DORA do seu time agora, reler o relatório completo e desenhar uma hipótese: se subirmos lead time pela metade, qual é o efeito esperado de adoção do Copilot?",
         "glossary": [
           {
-            "term": "Internal Developer Platform (IDP)",
-            "def": "Conjunto de ferramentas e abstrações que oferecem self-service para desenvolvedores criarem ambientes, pipelines e infraestrutura."
+            "term": "DORA Metrics",
+            "def": "Quatro métricas que predizem performance de delivery: deployment frequency, lead time, change failure rate, time to recover."
           },
           {
-            "term": "Golden path",
-            "def": "Caminho recomendado e automatizado para uma tarefa comum, com decisões já tomadas e ferramentas pré-configuradas."
+            "term": "IDP",
+            "def": "Internal Developer Platform — plataforma interna que abstrai infraestrutura e oferece self-service curado a devs."
           },
           {
-            "term": "Backstage",
-            "def": "Portal de desenvolvedor open source criado pela Spotify e mantido na CNCF, base mais comum de IDPs em 2026."
-          },
-          {
-            "term": "DORA / SPACE",
-            "def": "Frameworks de métricas para medir performance e produtividade de times de engenharia (DORA: deploy/lead time/MTTR/CFR; SPACE: satisfação, performance, atividade, comunicação, eficiência)."
-          }
-        ],
-        "comece": "Platform engineering é a disciplina de construir 'plataformas internas' que outros times de engenharia usam para entregar software sem reinventar a roda. Em 2026, o conceito amadureceu: o foco saiu do hype e virou métricas como tempo até o primeiro deploy e satisfação do desenvolvedor.",
-        "aprofunde": "O artefato concreto é o golden path, um caminho recomendado e automatizado para tarefas comuns. Exemplo: 'criar novo microsserviço'. Em três minutos, o desenvolvedor recebe repositório no GitHub com estrutura padrão, pipeline de CI configurado, manifests Kubernetes gerados a partir de templates, dashboard de observabilidade e entrada no Backstage. Por baixo, um IDP integra Backstage, Crossplane, Argo CD e ferramentas internas. Backstage continua dominante como portal — adotado por Netflix, Uber, American Airlines — e o ecossistema de plugins já é mais estável do que dois anos atrás.",
-        "decida": "A decisão estratégica para um arquiteto corporativo é o nível de investimento. DIY puro morreu: o custo de manter Backstage com plugins próprios sem time dedicado de plataforma é alto. As opções viáveis são produtos como Roadie/Port (gerenciado), Backstage self-hosted com time dedicado e capabilities mapeadas em portfólio. O sucesso é mensurável via DORA e SPACE: lead time, change failure rate e satisfação. Comece pequeno, com um único golden path realmente bom (criar microsserviço, por exemplo), e expanda quando os times pedem o segundo."
-      },
-      "freshness": "fresh",
-      "source_key": "javacodegeeks",
-      "url": "https://www.javacodegeeks.com/2026/05/platform-engineering-in-2026-what-it-actually-is-why-its-not-just-devops-renamed-and-how-to-build-an-internal-developer-platform.html",
-      "read_time": 6,
-      "tags": [
-        "platform-engineering",
-        "backstage",
-        "idp",
-        "golden-path"
-      ],
-      "image": "https://platformengineering.org/og.jpg",
-      "published_at": "2026-05-01T09:00:00-03:00",
-      "learning": {
-        "url": "https://platformengineering.org/talks-library",
-        "title": "Platform Engineering Talks Library",
-        "type": "docs",
-        "source_name": "Platform Engineering",
-        "why": "Biblioteca curada de talks com casos reais de implementação de IDPs, golden paths e Backstage por times de Spotify, Adidas, ING e outros."
-      }
-    },
-    {
-      "category": "fundamentals",
-      "category_label": "Fundamentos de Computação",
-      "category_icon": "🧱",
-      "headline": "WebAssembly 3.0 estabiliza o componente, WASI Preview 2 e GC: a base virou produto",
-      "summary": "WebAssembly 3.0 passou a ser o novo padrão vivo do ecossistema, consolidando recursos como memory64, exception handling, garbage collection, relaxed SIMD e suporte mais maduro ao component model. Não é uma notícia quente do dia; é um fundamento que explica por que Java, Kotlin, Dart, Scala, Rust e .NET conseguem mirar Wasm com menos gambiarras de runtime.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "WasmGC",
-            "def": "Extensão do WebAssembly que adiciona suporte nativo a coletores de lixo, permitindo linguagens managed como Java compilarem para Wasm."
-          },
-          {
-            "term": "WASI Preview 2",
-            "def": "Segunda iteração estável da WebAssembly System Interface, que define APIs de sistema portáveis para módulos Wasm fora do navegador."
-          },
-          {
-            "term": "Component Model",
-            "def": "Padrão que permite compor módulos Wasm escritos em linguagens diferentes em uma única aplicação, com interfaces tipadas."
-          },
-          {
-            "term": "Wasmtime",
-            "def": "Runtime de referência do Bytecode Alliance que executa módulos WebAssembly fora do navegador, com foco em sandbox e portabilidade."
-          }
-        ],
-        "comece": "WebAssembly começou no navegador para rodar código em alta performance, mas desde 2022 vem ganhando lugar no servidor. A versão 3.0, agora padrão W3C, é um marco: ela traz garbage collector, exceções, mais memória disponível e a possibilidade real de compilar linguagens populares para Wasm.",
-        "aprofunde": "Conceitualmente, WebAssembly 3.0 estabiliza nove features que vinham em proposal há anos. WasmGC é o destaque: permite que linguagens com coletor de lixo — Java, Kotlin, Dart, Scala — compilem direto para o runtime sem reimplementar GC em cima de memory linear. Exception handling formaliza propagação de exceções sem hacks de retorno. Memória 64-bit (memory64) elimina o teto de 4GB. SIMD 128-bit padroniza vetores em workloads de mídia e ML. Wasmtime 26, runtime de referência, ganhou table64, arm64 no Windows e melhorias em sandboxing. WASI Preview 2 já é estável e abre portas para Component Model.",
-        "decida": "A questão para arquitetos: onde Wasm cabe na sua plataforma? Casos sólidos hoje incluem plugins isolados em SaaS (eliminando containers cheios), funções edge (Cloudflare Workers, Spin), portabilidade entre cloud e on-prem com Wasmtime e proxies extensíveis (Envoy + Wasm). Não é silver bullet: I/O ainda é mais limitado que em containers e ferramental ainda matura. Comece um piloto com um caso de plugin externo ou função edge e meça cold start, footprint e segurança contra a alternativa em container. Wasm não substitui Kubernetes; complementa onde isolamento e densidade são prioridade."
-      },
-      "freshness": "evergreen",
-      "source_key": "",
-      "url": "https://webassembly.org/news/2025-09-17-wasm-3.0/",
-      "read_time": 5,
-      "tags": [
-        "webassembly",
-        "wasi",
-        "wasmtime",
-        "wasm-gc"
-      ],
-      "image": "https://bytecodealliance.org/images/bytecode-alliance-card.png",
-      "published_at": "2025-09-17T10:00:00-03:00",
-      "learning": {
-        "url": "https://webassembly.org/features/",
-        "title": "WebAssembly feature support matrix",
-        "type": "docs",
-        "source_name": "WebAssembly",
-        "why": "Matriz oficial para conferir quais recursos do padrão estão implementados em navegadores e runtimes antes de decidir adoção."
-      },
-      "source": "WebAssembly"
-    },
-    {
-      "category": "obs",
-      "category_label": "Observabilidade & SRE",
-      "category_icon": "📈",
-      "headline": "Grafana 13 e Loki redesenhado cortam dados varridos em até 20× e abrem GitOps nativo",
-      "summary": "GrafanaCON 2026 lançou Grafana 13 com Git Sync GA, dashboards sugeridos automaticamente e o novo Grafana Advisor. Em paralelo, Loki ganhou ingestão Kafka, novo planner de queries e cortes de até 20× nos dados varridos. Cloudshare ganhou observabilidade de IA em preview público.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Git Sync",
-            "def": "Funcionalidade da Grafana que sincroniza dashboards e alertas com repositório Git, permitindo workflow GitOps."
-          },
-          {
-            "term": "Loki",
-            "def": "Sistema de agregação de logs da Grafana Labs com indexação esparsa e armazenamento em object storage."
-          },
-          {
-            "term": "Query planner",
-            "def": "Componente que decide o plano de execução de uma consulta, distribuindo trabalho entre nós e particionando por dados."
-          }
-        ],
-        "comece": "Grafana é a interface mais usada para gráficos de monitoramento. A versão 13 trouxe novidades pensadas em quem opera plataforma: ele te sugere dashboards automaticamente, sincroniza configurações com Git e tem um 'consultor' de IA que aponta problemas de saúde do servidor.",
-        "aprofunde": "Git Sync, agora GA, traz workflows GitOps nativos para a Grafana: dashboards e alertas viram código versionado em repositório, com PR e revisão. O Grafana Advisor é uma ferramenta de health check que recomenda ajustes. Em backend, o Loki recebeu reescrita: ingestão via Kafka, novo scheduler e query engine que paraleliza por partições. Resultado: até 20× menos dados varridos e até 10× mais performance em queries agregadas. AI Observability em preview público observa entrada/saída e fluxos de execução de agentes em tempo real, com alertas para data exposure. A aquisição da Logline reforça pesquisa precisa em logs gigantes.",
-        "decida": "Para times de SRE que dependem de dashboards versionados em PR, Git Sync GA é o gatilho para retirar exportadores manuais. A reescrita do Loki muda o cálculo de capacity planning: filas Kafka pré-Loki precisam de policy de retention coerente. AI Observability é janela de oportunidade para times com agentes em produção começarem a tratar LLM como serviço de SLO. Avalie integrar o4 com Loki e Tempo via OpenTelemetry semanticamente — o Logline nas mãos da Grafana melhora needle-in-haystack. Comece migrando uma stack canary para validar custos de armazenamento e latência."
-      },
-      "freshness": "fresh",
-      "source_key": "grafana",
-      "url": "https://grafana.com/blog/grafanacon-2026-announcements/",
-      "read_time": 5,
-      "tags": [
-        "grafana",
-        "loki",
-        "gitops",
-        "observability"
-      ],
-      "image": "https://grafana.com/static/img/grafana-meta.png",
-      "published_at": "2026-04-21T10:00:00-03:00"
-    },
-    {
-      "category": "obs",
-      "category_label": "Observabilidade & SRE",
-      "category_icon": "📈",
-      "headline": "OpenTelemetry Collector 0.151.0 chega ao Winget e oficializa Windows fluido",
-      "summary": "Collector 0.151.0 saiu em 4 de maio com suporte a Windows Package Manager (Winget), simplificando instalação, atualização e remoção em estações Windows. Em paralelo, o profiling signal entrou em RC e CloudWatch ofereceu OTel metrics em preview.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "OpenTelemetry Collector",
-            "def": "Componente do OpenTelemetry que recebe, processa e exporta sinais de telemetria entre fontes e destinos."
-          },
-          {
-            "term": "Profiling signal",
-            "def": "Quarto sinal de telemetria padronizado pelo OpenTelemetry que captura amostras de performance contínuas em produção."
-          },
-          {
-            "term": "OTLP",
-            "def": "OpenTelemetry Protocol — protocolo binário usado para transmitir traces, métricas, logs e profiles entre componentes."
-          }
-        ],
-        "comece": "OpenTelemetry é o padrão aberto para coletar dados de telemetria — métricas, logs e traces. O Collector é o componente que recebe esses dados e encaminha para os destinos. A versão 0.151.0 traz uma melhoria simples mas útil: ela facilita instalar o Collector em máquinas Windows.",
-        "aprofunde": "A integração com Winget permite comandos como winget install opentelemetry-collector e winget upgrade direto na linha de comando, alinhando o ciclo de vida ao mesmo modelo do PowerShell e ferramentas internas da Microsoft. A versão mantém compatibilidade total com instalações via MSI e Chocolatey. Em paralelo no ecossistema, o profiling signal — quarta dimensão da telemetria depois de traces, métricas e logs — entrou em release candidate em Q1 2026, transformando OpenTelemetry no primeiro padrão a unificar todas as quatro pilastras com um único SDK e protocolo OTLP.",
-        "decida": "Para equipes que rodam Collectors em Windows, especialmente em ambientes corporativos com SCCM e gerência centralizada, Winget é caminho direto para reduzir scripts de bootstrap. A decisão maior é estratégica: até onde abraçar o profiling signal? Times com hot path em produção (latência sub-milissegundo) ganham com continuous profiling unificado, mas o overhead de coleta ainda merece avaliação caso a caso. Faça um piloto com um único serviço crítico, mensure consumo de CPU adicional e compare contra ferramentas como Pyroscope autohospedado."
-      },
-      "freshness": "fresh",
-      "source_key": "opentelemetry",
-      "url": "https://github.com/open-telemetry/opentelemetry-collector-releases/releases/tag/v0.151.0",
-      "read_time": 3,
-      "tags": [
-        "opentelemetry",
-        "collector",
-        "windows",
-        "profiling"
-      ],
-      "image": "https://opentelemetry.io/img/social/logo-wordmark-001.png",
-      "published_at": "2026-05-04T08:00:00-03:00"
-    },
-    {
-      "category": "frontend",
-      "category_label": "Frontend & Web",
-      "category_icon": "🎨",
-      "headline": "Vinext: Cloudflare reconstrói Next.js sobre Vite e ganha builds 4× mais rápidos",
-      "summary": "A Cloudflare apresentou Vinext, drop-in replacement do Next.js construído sobre Vite. O experimento, montado em uma semana com auxílio de IA, faz deploy direto em Workers via comando único. Benchmarks iniciais mostram builds até 4× mais rápidos e bundles client até 57% menores.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Vinext",
-            "def": "Drop-in replacement do Next.js da Cloudflare, construído sobre Vite e Cloudflare Workers para deploy edge."
-          },
-          {
-            "term": "Rolldown",
-            "def": "Bundler em Rust, sucessor do Rollup mantido pelo time Vite, com performance 10-30× superior em builds grandes."
-          },
-          {
-            "term": "Cloudflare Workers",
-            "def": "Runtime serverless da Cloudflare que executa JavaScript e WebAssembly em mais de 300 cidades no edge."
-          }
-        ],
-        "comece": "Next.js é o framework dominante para aplicações React em produção. Vite é o build tool moderno mais rápido. A Cloudflare misturou os dois e criou o Vinext, que diz se comportar como Next mas usar Vite por baixo. O resultado é builds mais rápidos e bundles menores.",
-        "aprofunde": "Vinext implementa o contrato de Next.js mas substitui o engine de build por Vite e o runtime de deploy pelo Cloudflare Workers. O time usou Cursor e Claude para acelerar a implementação inicial em uma semana. Vite 8 é central: ele já adotou Rolldown, bundler em Rust com builds 10-30× mais rápidos. Em testes, Vinext compila apps de produção 4× mais rápido que Next padrão e reduz client bundles em 57%, o que se traduz em LCP e INP melhores no usuário final. Suporte a App Router, Server Components e streaming SSR é declarado como objetivo.",
-        "decida": "A pergunta para um time frontend sênior é sobre risco e timing. Next.js tem ecossistema enorme e suporte oficial Vercel; Vinext é experimento da Cloudflare e ainda precisa amadurecer. Mas a equação muda quando edge é requisito: para apps com latência crítica em vários continentes, sair de Vercel + Next para Cloudflare + Vinext pode reduzir custo e ganhar performance. Estratégia recomendada: rode Vinext num branch staging contra um app real em produção, meça LCP, TTFB e custo de execução, e tome decisão baseada em dados em três sprints. Acompanhe issues do GitHub para verificar maturidade."
-      },
-      "freshness": "fresh",
-      "source_key": "cloudflare",
-      "url": "https://blog.cloudflare.com/vinext/",
-      "read_time": 5,
-      "tags": [
-        "nextjs",
-        "vite",
-        "cloudflare-workers",
-        "edge"
-      ],
-      "image": "https://blog.cloudflare.com/content/images/2024/03/image-3.png",
-      "published_at": "2026-05-04T09:00:00-03:00"
-    },
-    {
-      "category": "cloud",
-      "category_label": "Cloud",
-      "category_icon": "☁️",
-      "headline": "AWS Lambda ganha Ruby 4.0 e Bedrock estreia OpenAI com Codex e agentes",
-      "summary": "AWS Lambda passou a oferecer Ruby 4.0 (LTS) como runtime gerenciado e como base de container, com logs estruturados em JSON e níveis configuráveis. Em paralelo, o Bedrock entrou em preview limitado com modelos OpenAI (GPT-5.5/5.4), Codex e Managed Agents construídos sobre o harness OpenAI.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Amazon Bedrock",
-            "def": "Serviço gerenciado da AWS que oferece modelos de IA de fornecedores variados (Anthropic, Meta, OpenAI, Cohere) com governança AWS unificada."
-          },
-          {
-            "term": "Lambda runtime",
-            "def": "Ambiente de execução padronizado para uma linguagem específica em AWS Lambda, com ciclo de vida e patches gerenciados pela AWS."
-          },
-          {
-            "term": "Codex",
-            "def": "Agente de codificação da OpenAI focado em escrita, refatoração e revisão de código diretamente no terminal ou IDE."
-          }
-        ],
-        "comece": "Lambda é o serviço serverless da AWS, em que código roda sem você gerenciar servidores. A novidade é o suporte oficial a Ruby 4.0, última versão LTS, com features modernas de logs. Junto, o Bedrock — serviço de modelos de IA da AWS — agora oferece modelos da OpenAI dentro do mesmo ambiente AWS.",
-        "aprofunde": "Lambda Ruby 4.0 ganha logs estruturados em JSON, níveis de log configuráveis e CloudWatch log group customizado direto, alinhando paridade com Node, Python e Java. Bedrock OpenAI é o ponto novo: GPT-5.5 e GPT-5.4 ficam disponíveis em preview limitado pelas mesmas APIs Bedrock, com governança, segurança e billing AWS unificados. Codex on Bedrock leva o agente de codificação OpenAI para dentro da AWS, autenticando com credenciais AWS e contando como parte de cloud commitments. Managed Agents combinam modelos OpenAI com infraestrutura AWS para agentes em produção.",
-        "decida": "Para times .NET e Ruby em ambientes corporativos AWS, o Lambda Ruby 4.0 fecha lacuna importante: structured logs em JSON são prerrequisito para policies de SIEM. Bedrock OpenAI é decisão estratégica: empresas com compromisso AWS ganham unificação de governance e billing sem ir para o portal OpenAI. Avalie cuidadosamente quotas, regiões disponíveis e restrições de data residency. Para Codex, a experiência é equivalente ao OpenAI direto, mas com IAM da AWS — útil em times grandes com policies de acesso por role."
-      },
-      "freshness": "fresh",
-      "source_key": "awsblog",
-      "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-whats-next-with-aws-2026-amazon-quick-openai-partnership-and-more-may-4-2026/",
-      "read_time": 4,
-      "tags": [
-        "aws",
-        "lambda",
-        "bedrock",
-        "openai"
-      ],
-      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
-      "published_at": "2026-05-04T08:00:00-03:00"
-    },
-    {
-      "category": "cloud",
-      "category_label": "Cloud",
-      "category_icon": "☁️",
-      "headline": "Cloudflare expõe stack interno de IA: 241 bilhões de tokens via AI Gateway próprio",
-      "summary": "A Cloudflare detalhou o stack interno de engenharia de IA construído sobre seus próprios produtos: Cloudflare Access na autenticação, AI Gateway para roteamento, custo e observabilidade, MCP servers internos e ferramentas de revisão de código. Nos últimos 30 dias, a empresa reportou 3.683 usuários internos, 20,18 milhões de requests no AI Gateway e 241,37 bilhões de tokens roteados.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "RDMA",
-            "def": "Remote Direct Memory Access — tecnologia que permite GPUs e NICs transferirem memória direto entre nós sem passar pela CPU."
-          },
-          {
-            "term": "Prefill / decode",
-            "def": "Fases do inference de LLM: prefill processa o prompt em paralelo, decode gera tokens um a um. Cada fase favorece hardware diferente."
-          },
-          {
-            "term": "Codificação Huffman",
-            "def": "Algoritmo de compressão lossless que atribui códigos curtos a símbolos frequentes, eficiente em distribuições não uniformes."
-          }
-        ],
-        "comece": "A Cloudflare resolveu construir, internamente, todo o stack de engenharia de IA usando os próprios produtos. O resultado foi um post detalhado mostrando como rodam mais de 240 bilhões de tokens, técnica por técnica.",
-        "aprofunde": "A arquitetura começa no Cloudflare Access para autenticar usuários e políticas zero-trust. Depois, cada chamada a modelos passa pelo AI Gateway, que centraliza chaves, roteamento, custo, retenção e métricas. O stack ainda inclui MCP servers internos, revisão automática de código e um Engineering Codex com padrões da empresa convertidos em regras consumíveis por agentes. O valor técnico está menos no modelo e mais no controle operacional em torno dele.",
-        "decida": "Para a maioria das empresas, o aprendizado é não começar construindo runtime de LLM. Comece com gateway, auditoria, catálogo de ferramentas e política de dados. Só pense em stack próprio quando volume, compliance ou custo justificarem engenharia dedicada. Um bom próximo passo é desenhar a arquitetura de AI Gateway da empresa e definir quais prompts, ferramentas e repositórios podem ser acessados por perfil."
-      },
-      "freshness": "fresh",
-      "source_key": "cloudflare",
-      "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
-      "read_time": 6,
-      "tags": [
-        "cloudflare",
-        "ai-gateway",
-        "mcp",
-        "developer-productivity"
-      ],
-      "image": "https://blog.cloudflare.com/content/images/2024/05/image-39.png",
-      "published_at": "2026-04-20T12:00:00-03:00"
-    }
-  ],
-  "tools": [
-    {
-      "tool_key": "gradle",
-      "name": "Gradle",
-      "icon": "🐘",
-      "kind": "release",
-      "headline": "Gradle 9.5.0 melhora diagnóstico de builds com task provenance e retries no Wrapper",
-      "description": "Gradle 9.5.0 adiciona task provenance em erros e relatórios, melhora diagnóstico de incompatibilidade de JVM no daemon, inclui retries no Wrapper e reforça APIs para plugin authors.",
-      "explain": {
-        "comece": "Gradle é uma ferramenta de build muito usada em Java, Kotlin e Android. A versão 9.5.0 não é só performance: ela ajuda a diagnosticar por que uma task falhou, qual plugin a criou e quando o daemon não combina com a JVM esperada. Isso reduz tempo perdido em CI.",
-        "aprofunde": "O destaque é task provenance: relatórios e mensagens de erro passam a indicar se uma task foi registrada por build script, settings script ou plugin. O Wrapper ganhou retries para downloads instáveis e o daemon explica melhor incompatibilidades de JVM. Para plugin authors, há melhorias como accessors type-safe em Settings plugins e collections bloqueáveis. O foco é operar builds grandes com menos investigação manual.",
-        "decida": "Se você mantém monorepo Gradle, atualize um pipeline piloto para 9.5.0 e compare tempo médio de diagnóstico de falhas antes/depois. Não migre tudo sem checar compatibilidade de plugins e JVM. O ganho aparece mais em times com muitos subprojetos, múltiplos plugins internos e CI barulhento.",
-        "glossary": [
-          {
-            "term": "Task provenance",
-            "def": "Informação que mostra de onde uma task veio: plugin, build script ou settings script."
-          },
-          {
-            "term": "Gradle Wrapper",
-            "def": "Script versionado no projeto que baixa e executa a versão correta do Gradle."
-          },
-          {
-            "term": "Daemon",
-            "def": "Processo Gradle persistente que reaproveita JVM aquecida para acelerar builds."
+            "term": "DevEx",
+            "def": "Developer Experience — qualidade percebida pelo dev de ferramentas, processos e ciclo de feedback."
           }
         ]
       },
       "freshness": "fresh",
-      "source_key": "gradle",
-      "url": "https://docs.gradle.org/9.5.0/release-notes.html",
+      "source_key": "dora",
+      "url": "https://dora.dev/research/2024/dora-report/",
+      "published_at": "2026-05-05T08:00:00-03:00",
+      "read_time": 4,
       "tags": [
-        "gradle",
-        "build",
-        "diagnostics",
-        "wrapper"
+        "platform-engineering",
+        "dora",
+        "ai",
+        "devex"
       ],
-      "version": "9.5.0",
-      "image": "https://docs.gradle.org/current/userguide/img/gradle.png",
+      "image": "https://dora.dev/img/dora-share.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://docs.gradle.org/9.5.0/userguide/configuration_cache.html",
-        "title": "Gradle Configuration Cache",
-        "type": "docs",
-        "source_name": "Gradle Docs",
-        "why": "Mantém o estudo prático sobre performance de build, mas agora usando documentação versionada em vez de URL current."
+        "url": "https://dora.dev/capabilities/platform-engineering/",
+        "title": "DORA Capabilities — Platform Engineering",
+        "type": "article",
+        "source_name": "DORA",
+        "why": "Síntese das capacidades de plataforma que o DORA mediu — ponto de partida para mapear gaps no IDP atual antes de medir impacto de IA."
       }
     },
     {
-      "tool_key": "vscode",
-      "name": "VS Code",
-      "icon": "🪟",
-      "kind": "tutorial",
-      "headline": "Multi-root workspaces no VS Code: um editor para vários repositórios sem trocar janela",
-      "description": "Tutorial mostra como organizar diferentes serviços de um monorepo distribuído como pastas em um único workspace, com tasks, debugger e extensões compartilhadas por raiz.",
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Platform Engineering vira mainstream: 80% das grandes orgs terão times dedicados em 2026, Backstage com 89% do mercado IDP",
+      "summary": "Análises publicadas esta semana consolidam o que já era tendência: Gartner projeta que 80% das grandes organizações de engenharia terão times de plataforma dedicados em 2026 (era 45% em 2022), e Backstage detém aproximadamente 89% do market share entre quem adotou um IDP. ROI relatado vai de 600% a 800% em 18 meses quando contabilizam tempo de dev, churn por burnout e overhead. O dado de alerta: 29,6% dos times de plataforma reportam não medir sucesso de jeito nenhum.",
       "explain": {
+        "comece": "Platform Engineering é a disciplina de tratar o time interno de devs como cliente: construir uma plataforma abstrai o que é infraestrutura comum (deploy, observabilidade, config) e oferece self-service curado. Backstage, criado pela Spotify, virou de fato o portal mais usado para isso, agora com 270+ adopters públicos.",
+        "aprofunde": "A leitura técnica é sobre golden paths — caminhos opinionated que cobrem 80% dos casos de novo serviço, com tudo já configurado: CI, deploy, observabilidade, secrets, doc. Backstage virou o frontend canônico desses paths. O risco que o dado de 29,6% sem métricas mostra: muitos times montam plataforma, gastam orçamento, mas não medem se a plataforma é usada nem se o tempo de criar serviço novo realmente cai. Sem métrica DevEx (DORA + SPACE), platform team perde mandato político em troca de ano.",
+        "decida": "Se o time já tem 50+ engenheiros e 30+ serviços, ainda não tem plataforma e cada time inventa seu próprio CI: é hora. Backstage é default razoável; alternativas (Port, Cortex) ganham se o caso é mais corporativo e menos extensível. Risco: virar 'projeto de plataforma' que ninguém usa. Próximo passo: defina três métricas antes de subir uma linha de Backstage — tempo de criar serviço novo, satisfação dev (NPS) e taxa de adoção do golden path. Reveja em 90 dias.",
         "glossary": [
           {
-            "term": ".code-workspace",
-            "def": "Arquivo JSON que define um workspace multi-raiz no VS Code com pastas, settings, tasks e launches."
+            "term": "Golden path",
+            "def": "Caminho opinionated, automatizado, que cobre o caso mais comum de criar/operar um serviço com tudo configurado."
           },
           {
-            "term": "Dev Containers",
-            "def": "Extensão que executa o VS Code dentro de um contêiner com toolchain padronizado para o projeto."
+            "term": "SPACE framework",
+            "def": "Cinco dimensões de produtividade dev: Satisfaction, Performance, Activity, Communication, Efficiency."
           }
-        ],
-        "comece": "Quando você trabalha em vários repositórios ao mesmo tempo (frontend, backend, infra), normalmente abre uma janela do VS Code para cada um. Multi-root workspaces resolve isso permitindo abrir várias pastas no mesmo editor.",
-        "aprofunde": "O recurso usa um arquivo .code-workspace com uma lista de pastas raiz, cada uma podendo ter settings, tasks e launches próprios. Extensões podem se comportar diferente por raiz, e as ferramentas de busca, diff e source control respeitam o agrupamento. É a primeira coisa a habilitar quando o time tem repositórios separados que se acoplam (microsserviços, mobile + backend, libs internas + apps).",
-        "decida": "Adote .code-workspace como artefato versionado por convenção quando o time mantém múltiplos repos relacionados. Combine com extensões como Remote Repositories e Dev Containers para que cada raiz pegue seu próprio devcontainer. Cuidado com performance: workspaces com 10+ raízes pesam, e watchers do filesystem podem ficar saturados. Habilite files.watcherExclude por raiz e meça consumo de RAM em máquinas modestas."
+        ]
       },
       "freshness": "evergreen",
-      "source_key": "vscode",
-      "url": "https://code.visualstudio.com/docs/editor/multi-root-workspaces",
+      "source_key": "platformengineering",
+      "url": "https://platformengineering.org/blog/announcing-the-state-of-platform-engineering-vol-4",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "read_time": 4,
       "tags": [
-        "vscode",
-        "workspace",
-        "monorepo"
+        "platform-engineering",
+        "backstage",
+        "idp",
+        "devex"
       ],
-      "image": "https://code.visualstudio.com/opengraphimg/opengraph-home.png",
+      "image": "https://platformengineering.org/og.jpg",
+      "image_kind": "institutional",
       "learning": {
-        "url": "https://code.visualstudio.com/docs/editor/multi-root-workspaces",
-        "title": "Multi-root Workspaces",
+        "url": "https://backstage.io/docs/getting-started/",
+        "title": "Backstage — Getting Started",
         "type": "docs",
-        "source_name": "VS Code Docs",
-        "why": "Guia completo com exemplos de configuração, herança de settings e limitações conhecidas para uso em times grandes."
+        "source_name": "Backstage",
+        "why": "Tutorial oficial do framework com 89% de market share; mostra como subir um portal funcional em uma manhã antes de discutir adoção em escala."
       }
     },
     {
-      "tool_key": "intellij",
-      "name": "IntelliJ IDEA",
-      "icon": "🟪",
-      "kind": "tip",
-      "headline": "Run Targets no IntelliJ: rode build e debug em SSH, Docker ou WSL como se fosse local",
-      "description": "Run Targets permite executar tasks (run, test, debug, profile) em ambientes remotos como SSH, Docker e WSL, mantendo a experiência local.",
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "DDD encontra event-driven na prática: bounded contexts emergem do fluxo de eventos, não do diagrama prévio",
+      "summary": "Artigo publicado em janeiro com tração crescente esta semana sintetiza prática consolidada de DDD em arquitetura event-driven: bounded contexts emergem naturalmente do fluxo de eventos identificado em workshops de event storming, em vez de serem desenhados a priori. O texto argumenta que cerca de 80% da dor associada a EDA some quando o time entende a distinção entre event categories — domain event, integration event, command — em vez de tratar tudo como 'evento'.",
       "explain": {
+        "comece": "Domain-Driven Design (DDD) divide um sistema grande em bounded contexts: pedaços onde o vocabulário é consistente. Event-Driven Architecture (EDA) usa eventos imutáveis para comunicar entre serviços. Quando combinados, o problema clássico é 'onde acaba um contexto e começa outro?'. A prática moderna responde: olhe o fluxo de eventos, não o diagrama de classes.",
+        "aprofunde": "Em workshops de event storming, o time mapeia eventos do negócio em uma timeline. Aglomerados de eventos que falam o mesmo vocabulário viram bounded context candidates. Diferenciar tipos de evento é crítico: domain event ('PedidoConfirmado') é fato dentro de um contexto; integration event é o mesmo fato, mas serializado para cruzar fronteira de contexto, normalmente versionado e com schema explícito; command ('ConfirmarPedido') é intenção, não fato consumado. Misturar os três no mesmo broker leva a acoplamento escondido — service B passa a depender de detalhes internos de A.",
+        "decida": "Adote a separação se o time já tem dor de evento que vaza modelo interno e quebra consumidores. Evite event sourcing como solução para tudo — ele é uma escolha de armazenamento, não de comunicação. Próximo passo: organize um workshop de event storming de 2 horas com um domínio do seu sistema, identifique pelo menos um integration event candidato e desenhe o schema explícito (Avro/JSON Schema) antes de qualquer código.",
         "glossary": [
           {
-            "term": "Run Target",
-            "def": "Configuração no IntelliJ que define um ambiente remoto (SSH, Docker, WSL) onde tarefas de run/test/debug serão executadas."
+            "term": "Bounded Context",
+            "def": "Limite explícito dentro do qual um modelo de domínio é consistente em vocabulário e regras."
           },
           {
-            "term": "Remote debug",
-            "def": "Modo de debug em que o JVM remoto fica em listen mode esperando o IDE conectar via JDWP."
+            "term": "Event Storming",
+            "def": "Workshop colaborativo onde o time mapeia eventos de negócio em uma timeline para descobrir limites de contexto."
+          },
+          {
+            "term": "Domain event vs Integration event",
+            "def": "Domain é interno e rico em modelo; Integration é externo, versionado e estável para cruzar contextos."
           }
-        ],
-        "comece": "Run Targets é uma feature do IntelliJ que deixa você executar e depurar código em outro ambiente — SSH, container Docker, WSL — como se estivesse rodando localmente. Útil quando o ambiente de dev tem dependências complicadas ou diferentes de produção.",
-        "aprofunde": "Run Targets é uma feature do IntelliJ que deixa você executar e depurar código em outro ambiente — SSH, container Docker, WSL — como se estivesse rodando localmente. Útil quando o ambiente de dev tem dependências complicadas ou diferentes de produção.",
-        "decida": "Run Targets é uma feature do IntelliJ que deixa você executar e depurar código em outro ambiente — SSH, container Docker, WSL — como se estivesse rodando localmente. Útil quando o ambiente de dev tem dependências complicadas ou diferentes de produção."
+        ]
       },
       "freshness": "evergreen",
-      "source_key": "jetbrains",
-      "url": "https://blog.jetbrains.com/idea/2021/05/run-targets-in-intellij-idea-2021-1/",
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/presentations/microservices-ddd-bounded-contexts/",
+      "published_at": "2026-05-04T09:00:00-03:00",
+      "read_time": 5,
       "tags": [
-        "intellij",
-        "run-targets",
-        "docker",
-        "ssh"
+        "ddd",
+        "event-driven",
+        "bounded-context",
+        "architecture"
       ],
-      "image": "https://blog.jetbrains.com/wp-content/uploads/2024/05/IntelliJ-IDEA.png",
+      "image": "https://platformengineering.org/og.jpg",
+      "image_kind": "institutional",
       "learning": {
-        "url": "https://www.jetbrains.com/help/idea/run-targets.html",
-        "title": "Run Targets",
-        "type": "docs",
-        "source_name": "JetBrains Help",
-        "why": "Documentação detalhada sobre como criar targets para SSH, Docker e WSL, com troubleshooting e limitações conhecidas."
+        "url": "https://martinfowler.com/bliki/BoundedContext.html",
+        "title": "Bounded Context (bliki)",
+        "type": "article",
+        "source_name": "Martin Fowler",
+        "why": "Definição canônica de Bounded Context por Martin Fowler — texto curto e denso, leitura mandatória antes de qualquer workshop de DDD."
       }
     },
     {
-      "tool_key": "plantuml",
-      "name": "PlantUML",
-      "icon": "📐",
-      "kind": "tip",
-      "headline": "PlantUML !theme e !include: padronize diagramas em todo o monorepo",
-      "description": "A diretiva !include carrega arquivos remotos ou locais e !theme aplica visuais consistentes — peças simples para padronizar diagramas em vários repositórios.",
+      "category": "testing",
+      "category_label": "Testes & Qualidade",
+      "category_icon": "⚗️",
+      "headline": "Vitest 4.1 traz test tags estilo pytest, native Node execution e reporter dedicado para agentes de IA",
+      "summary": "A VoidZero publicou Vitest 4.1, framework de teste Vite-native, com três adições importantes: test tags inspirados em markers do pytest para filtrar e configurar grupos de testes, modo experimental que ignora o module runner do Vite e roda em import nativo do Node, e um reporter dedicado para agentes de IA codificadores. Inclui ainda full Vite 8 support e GitHub Actions Job Summaries com permalinks para flaky tests.",
       "explain": {
+        "comece": "Vitest é o framework de testes do ecossistema Vite — alternativa moderna ao Jest. A versão 4.1 adiciona três coisas práticas: tags para agrupar testes (rodar só os 'smoke' por exemplo), execução em Node nativo sem o runner do Vite (mais próximo de produção), e reporter pensado para CLI de IA agente entender resultado.",
+        "aprofunde": "Test tags funcionam como marcadores: você anota um teste com tag e na linha de comando filtra por essa tag, com configuração própria (timeout, retries, etc). O experimental.viteModuleRunner desliga o runner customizado e usa import dinâmico do Node — startup mais rápido e captura cedo de bugs como __dirname injetado errado. O reporter para AI agents emite output estruturado que assistentes de código (Cursor, Claude Code) parseiam para iterar em correções automaticamente — primeiro framework JS a oficializar isso.",
+        "decida": "Times que já estão em Vitest devem ir direto para 4.1 — diff de comportamento é zero para suites existentes. Para quem ainda está em Jest, 4.1 é argumento adicional para migrar: Vite-native, Vitest-native, e agora compatível com workflow de IA agent. Risco: experimental.viteModuleRunner pode quebrar imports condicionais não-padrão; teste primeiro. Próximo passo: marque uma suite com tag 'slow' e rode pnpm test --tag=fast no CI para reduzir tempo de feedback rápido.",
         "glossary": [
           {
-            "term": "!theme",
-            "def": "Diretiva PlantUML que aplica um tema visual pré-definido com cores, fontes e estilos."
+            "term": "pytest markers",
+            "def": "Decorators do pytest que rotulam testes para filtragem e configuração condicional, como @pytest.mark.slow."
           },
           {
-            "term": "!include",
-            "def": "Diretiva que carrega outro arquivo PlantUML — local ou via URL — em tempo de renderização."
+            "term": "Module runner",
+            "def": "Componente do Vite que serve módulos transformados ao runtime; o experimental do Vitest 4.1 substitui por import nativo do Node."
           }
-        ],
-        "comece": "PlantUML é uma linguagem de texto que vira diagrama UML. Quando vários times usam, é comum cada diagrama parecer diferente. As diretivas !theme e !include resolvem isso aplicando estilos centrais.",
-        "aprofunde": "PlantUML é uma linguagem de texto que vira diagrama UML. Quando vários times usam, é comum cada diagrama parecer diferente. As diretivas !theme e !include resolvem isso aplicando estilos centrais.",
-        "decida": "PlantUML é uma linguagem de texto que vira diagrama UML. Quando vários times usam, é comum cada diagrama parecer diferente. As diretivas !theme e !include resolvem isso aplicando estilos centrais."
-      },
-      "freshness": "evergreen",
-      "source_key": "plantuml",
-      "url": "https://plantuml.com/theme",
-      "tags": [
-        "plantuml",
-        "uml",
-        "themes"
-      ],
-      "image": "https://plantuml.com/logo3.png"
-    },
-    {
-      "tool_key": "structurizr",
-      "name": "Structurizr",
-      "icon": "🏛️",
-      "kind": "tip",
-      "headline": "Structurizr DSL: descreva C4 em texto e gere views automaticamente",
-      "description": "Structurizr DSL permite definir um modelo C4 completo em arquivo .dsl e gerar todas as views de Context, Container e Component sem repetir manualmente.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "C4 model",
-            "def": "Modelo de documentação de arquitetura criado por Simon Brown com quatro níveis: Context, Container, Component e Code."
-          },
-          {
-            "term": "Structurizr DSL",
-            "def": "Linguagem específica de domínio que descreve um modelo C4 completo em texto, com elementos, relacionamentos e views."
-          }
-        ],
-        "comece": "C4 model é uma forma popular de documentar arquitetura. O Structurizr é a ferramenta criada pelo autor do C4. Sua DSL deixa você descrever o modelo em um arquivo único e gerar diagramas automaticamente.",
-        "aprofunde": "C4 model é uma forma popular de documentar arquitetura. O Structurizr é a ferramenta criada pelo autor do C4. Sua DSL deixa você descrever o modelo em um arquivo único e gerar diagramas automaticamente.",
-        "decida": "C4 model é uma forma popular de documentar arquitetura. O Structurizr é a ferramenta criada pelo autor do C4. Sua DSL deixa você descrever o modelo em um arquivo único e gerar diagramas automaticamente."
-      },
-      "freshness": "evergreen",
-      "source_key": "structurizr",
-      "url": "https://github.com/structurizr/dsl",
-      "tags": [
-        "structurizr",
-        "c4",
-        "dsl"
-      ],
-      "image": "https://structurizr.com/static/img/structurizr-cli-graphic.png"
-    },
-    {
-      "tool_key": "angular",
-      "name": "Angular",
-      "icon": "🅰️",
-      "kind": "news",
-      "headline": "Angular 20.1 reforça signals e zoneless no roadmap de junho",
-      "description": "Roadmap do Angular para o segundo trimestre de 2026 traz mais APIs em signals, zoneless application defaultmente em projetos novos e melhorias em hidratação incremental.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Signal",
-            "def": "Primitiva de estado reativo que notifica dependentes quando o valor muda — alternativa mais simples a Observables para estado local."
-          },
-          {
-            "term": "Zoneless",
-            "def": "Modo do Angular sem Zone.js, em que change detection é disparado explicitamente por signals e APIs."
-          },
-          {
-            "term": "Hidratação incremental",
-            "def": "Estratégia de SSR em que o JavaScript de componentes só é carregado quando o componente entra em viewport ou interage."
-          }
-        ],
-        "comece": "Angular é o framework do Google para construir aplicações web. Em 2026 ele continua se reinventando: signals e zoneless são duas mudanças que deixam o framework mais simples e rápido.",
-        "aprofunde": "Signals são uma forma de gerenciar estado reativo sem RxJS para a maioria dos casos. Zoneless application elimina a dependência de Zone.js, o que reduz bundle size e melhora performance. Em junho, signals devem ganhar mais APIs (effect, computed) maduras e zoneless vira default em ng new. Hidratação incremental — só carrega JS de componentes visíveis — é outro pilar para apps grandes.",
-        "decida": "Times com aplicações Angular grandes em produção devem planejar a transição para signals primeiro nos componentes mais re-renderizados (forms, tabelas, feeds). Zoneless exige mais cuidado: bibliotecas de terceiros que dependem de Zone.js precisam ser revisadas. Faça um experimento isolado, meça impacto em FCP e LCP. Hidratação incremental se beneficia de SSR — se não usa, não vale o esforço de migrar agora."
+        ]
       },
       "freshness": "fresh",
-      "source_key": "infoq",
-      "url": "https://blog.angular.dev/the-angular-roadmap-for-2026-bb05fc24cc20",
+      "source_key": "vitest",
+      "url": "https://www.infoq.com/news/2026/05/vitest-4-1-ai-agents/",
+      "published_at": "2026-05-04T16:00:00-03:00",
+      "read_time": 4,
       "tags": [
-        "angular",
-        "signals",
-        "zoneless",
-        "hydration"
+        "vitest",
+        "testing",
+        "frontend",
+        "ai-agents"
       ],
-      "image": "https://angular.dev/assets/images/og-image.png"
-    },
-    {
-      "tool_key": "datadog",
-      "name": "Datadog",
-      "icon": "🐶",
-      "kind": "tip",
-      "headline": "Datadog Watchdog Insights: detecção automática de anomalias sem configurar nada",
-      "description": "Watchdog Insights detecta anomalias em métricas, logs e traces automaticamente, sem você precisar configurar threshold ou alerta manual.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Watchdog",
-            "def": "Sistema do Datadog que detecta anomalias automaticamente em métricas, logs e traces usando ML não supervisionado."
-          },
-          {
-            "term": "Anomaly detection",
-            "def": "Técnica de identificar valores ou padrões fora do normal sem precisar de regras explícitas."
-          }
-        ],
-        "comece": "Datadog Watchdog é um recurso de IA dentro do Datadog que monitora suas métricas e detecta padrões anormais automaticamente. Não precisa configurar threshold de cada serviço — ele aprende o normal e avisa quando foge.",
-        "aprofunde": "Datadog Watchdog é um recurso de IA dentro do Datadog que monitora suas métricas e detecta padrões anormais automaticamente. Não precisa configurar threshold de cada serviço — ele aprende o normal e avisa quando foge.",
-        "decida": "Datadog Watchdog é um recurso de IA dentro do Datadog que monitora suas métricas e detecta padrões anormais automaticamente. Não precisa configurar threshold de cada serviço — ele aprende o normal e avisa quando foge."
-      },
-      "freshness": "evergreen",
-      "source_key": "datadog",
-      "url": "https://docs.datadoghq.com/watchdog/",
-      "tags": [
-        "datadog",
-        "watchdog",
-        "anomaly-detection"
-      ],
-      "image": "https://imgix.datadoghq.com/img/dd_logo_n_70x75.png?fit=max&auto=format"
-    },
-    {
-      "tool_key": "istio",
-      "name": "Istio",
-      "icon": "🕸",
-      "kind": "tutorial",
-      "headline": "Ambient mesh em Istio: service mesh sem sidecar, com performance de proxy nativo",
-      "description": "Ambient mesh é o modo do Istio que elimina sidecars por pod e usa proxies por nó. Ganho: menos memória, menos overhead e mesh policy aplicada por L4 e L7 sob demanda.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "Ambient mesh",
-            "def": "Modo do Istio que substitui sidecars por proxies por nó (ztunnel) com waypoints opcionais para policy L7."
-          },
-          {
-            "term": "ztunnel",
-            "def": "Daemon escrito em Rust que roda em cada nó do cluster e cuida de mTLS L4 entre pods no modo ambient."
-          },
-          {
-            "term": "Waypoint proxy",
-            "def": "Proxy L7 instanciado por namespace ou serviço para aplicar policies como autorização e routing avançado em ambient mesh."
-          }
-        ],
-        "comece": "Service mesh era sinônimo de sidecar — um proxy do lado de cada container. Isso pesa em memória e CPU. Ambient mesh, recurso do Istio, troca isso por proxies por nó, deixando os pods limpos.",
-        "aprofunde": "No modo ambient, cada nó do cluster roda um ztunnel que faz mTLS L4 entre pods, e quando você precisa de policy L7 (HTTP routing, retries, autorização rica) um waypoint proxy específico por namespace é ativado. O resultado é footprint mínimo para serviços que só precisam de mTLS, e capability completa quando precisa. Migração de sidecar para ambient é gradual — pode coexistir.",
-        "decida": "Ambient é boa escolha quando o cluster tem muitos pods leves (sidecar somava overhead significativo) ou quando equipes operam serviços que precisam apenas de mTLS sem políticas L7. Para apps com policies complexas, sidecar ainda funciona melhor por isolamento. Faça um piloto em um namespace de menor risco, meça consumo de memória total do cluster, latência p99 e tempo de inicialização do pod. Compare contra status atual antes de mover serviços críticos."
-      },
-      "freshness": "evergreen",
-      "source_key": "istio",
-      "url": "https://istio.io/latest/docs/ambient/overview/",
-      "tags": [
-        "istio",
-        "service-mesh",
-        "ambient",
-        "ztunnel"
-      ],
-      "image": "https://istio.io/latest/img/istio-bluelogo-whitebackground-unframed.svg",
+      "image": "https://platformengineering.org/og.jpg",
+      "image_kind": "institutional",
       "learning": {
-        "url": "https://istio.io/latest/docs/ambient/overview/",
-        "title": "Ambient Mesh Overview",
+        "url": "https://vitest.dev/guide/",
+        "title": "Vitest Guide",
         "type": "docs",
-        "source_name": "Istio Docs",
-        "why": "Documentação oficial completa do ambient mesh com arquitetura, comparação com sidecar e guia de migração."
+        "source_name": "Vitest",
+        "why": "Guia oficial cobre a instalação, configuração e os modos de execução do Vitest — necessário para entender onde test tags e o reporter de IA encaixam no ciclo de testes."
       }
     },
     {
-      "tool_key": "nginx",
-      "name": "Nginx",
-      "icon": "🌐",
-      "kind": "tip",
-      "headline": "Nginx upstream keepalive: reduza latência conectando uma vez e reusando muitas",
-      "description": "A diretiva keepalive em upstream blocks mantém conexões TCP e TLS reutilizáveis entre Nginx e backends, eliminando handshake repetido e cortando latência p99.",
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "Amazon Bedrock Managed Agents debuta com OpenAI por dentro — Codex CLI, GPT-5.5 e governance da AWS no mesmo runtime",
+      "summary": "A AWS anunciou os Amazon Bedrock Managed Agents, powered by OpenAI, em limited preview. Empresas passam a deployar agentes que mantêm contexto, executam workflow multi-step e usam ferramentas dentro do ambiente AWS confiável, com governance, IAM, billing e auditoria já existentes. No mesmo movimento, Codex chega ao Bedrock pela CLI, app desktop e extensão VS Code. Marca o fim da exclusividade OpenAI/Microsoft de sete anos e abre opção real de comprar OpenAI sem dependência de Azure.",
       "explain": {
+        "comece": "Bedrock é o serviço gerenciado da AWS para rodar modelos de IA. Os novos Managed Agents são agentes prontos powered by OpenAI que rodam dentro da conta AWS — contexto, ferramentas, multi-step. Codex (modelo de coding da OpenAI) também chega via CLI, app e VS Code. É a primeira vez que a OpenAI entrega frontier além do Azure.",
+        "aprofunde": "Tecnicamente, os Managed Agents abstraem o loop de tool use: você declara as ferramentas (Lambda, API interna, banco) e o agente decide quais chamar para cumprir uma tarefa, com checkpoint de contexto entre passos. A integração usa as APIs do Bedrock que o time já usa, então IAM, KMS, VPC endpoints e logs do CloudTrail funcionam sem mudança. Sob o capô estão GPT-5.5 e GPT-5.4, modelos frontier da OpenAI. O Codex chega via Bedrock para integrar fluxo coding-as-a-service nas próprias ferramentas internas do time, dentro do perímetro AWS.",
+        "decida": "Faz sentido para times AWS-heavy que precisavam de OpenAI mas não queriam segundo provider cloud só por isso. Risco: limited preview ainda significa cota baixa, falta de SLA público e mudança rápida de API. Para Cursor/Claude Code dentro de empresa que já usa Bedrock, o Codex no Bedrock pode reduzir custo de outro contrato OpenAI direto. Próximo passo: pedir acesso ao limited preview, levantar uma POC fechada de Managed Agent com 3 tools internas e comparar latency e custo contra a mesma POC em Azure OpenAI Service.",
         "glossary": [
           {
-            "term": "keepalive",
-            "def": "Conexão TCP/TLS persistente que aguarda múltiplos requests no mesmo socket, evitando handshake repetido."
+            "term": "Managed Agents",
+            "def": "Camada serverless que orquestra loop de tool-use de um modelo, com checkpointing e gestão de contexto pelo provider."
           },
           {
-            "term": "upstream",
-            "def": "Bloco de configuração do Nginx que define um conjunto de servidores backend e estratégia de balanceamento."
+            "term": "Codex",
+            "def": "Família de modelos da OpenAI focada em geração e edição de código, agora também acessível via Bedrock APIs."
           }
-        ],
-        "comece": "Nginx fala com seus servidores backend via TCP. Por padrão, ele abre uma conexão a cada request e fecha. Em alto volume, isso significa milhares de handshakes TCP e TLS por segundo. Keepalive reusa conexões.",
-        "aprofunde": "Adicionar keepalive 32; em um upstream block diz ao Nginx para manter até 32 conexões idle por worker contra cada upstream. Para HTTPS upstream, isso elimina o overhead de TLS handshake (~5-50ms por conexão). Para HTTP/1.1, é necessário também proxy_http_version 1.1; e proxy_set_header Connection ''; — sem isso, Nginx envia Connection: close e mata o reuso.",
-        "decida": "Para times rodando proxies em alto volume (>1k req/s por worker), keepalive é configuração obrigatória, não otimização. Combine com keepalive_requests para limitar requests por conexão (evita memory leak em clientes mal comportados) e keepalive_timeout para fechar conexões idle. Em ambientes com balanceadores L4 na frente do backend, certifique-se que o LB também não está cortando conexões idle. Meça antes e depois — gain típico em p99 é 10-30ms por chamada."
+        ]
       },
-      "freshness": "evergreen",
-      "source_key": "nginx",
-      "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive",
+      "freshness": "fresh",
+      "source_key": "openai",
+      "url": "https://openai.com/index/openai-on-aws/",
+      "published_at": "2026-05-05T12:00:00-03:00",
+      "read_time": 4,
       "tags": [
-        "nginx",
-        "keepalive",
-        "performance",
-        "tls"
+        "bedrock",
+        "openai",
+        "agents",
+        "aws"
       ],
-      "image": "https://nginx.org/nginx.png"
-    },
-    {
-      "tool_key": "python",
-      "name": "Python",
-      "icon": "🐍",
-      "kind": "tutorial",
-      "headline": "uv: gerenciador Python em Rust 10× mais rápido virou padrão em 2026",
-      "description": "uv é o package manager Python escrito em Rust que substitui pip, pip-tools, virtualenv, pipx e poetry com workflows unificados. Em 2026, virou padrão de fato em times produtivos.",
-      "explain": {
-        "glossary": [
-          {
-            "term": "uv",
-            "def": "Package manager Python escrito em Rust pela Astral que substitui pip, virtualenv, pip-tools e poetry com performance superior."
-          },
-          {
-            "term": "uv.lock",
-            "def": "Arquivo de lockfile gerado pelo uv com versões exatas de todas as dependências resolvidas, garantindo reprodutibilidade."
-          }
-        ],
-        "comece": "No mundo Python, sempre houve confusão de ferramentas: pip, virtualenv, poetry, pipx... uv é uma ferramenta única em Rust que substitui tudo isso e roda 10× mais rápido. Em 2026, virou padrão em muitos times.",
-        "aprofunde": "uv combina resolver de dependências reproduzível (lockfile uv.lock), criação rápida de virtualenvs, instalação paralela e cache global compartilhado. O comando uv pip install funciona como pip mas é ordens de magnitude mais rápido. uv run executa scripts isolados sem precisar criar venv manualmente. Para projetos novos, uv init cria estrutura padrão com pyproject.toml e lockfile.",
-        "decida": "Para times Python em CI/CD, migrar para uv reduz minutos de build em projetos médios. A decisão envolve compatibilidade: bibliotecas que ainda usam setup.py legado podem ter atritos. Para Docker images, uv reduz dramaticamente o tempo de build da camada de dependências e o tamanho final via cache global. Comece migrando projetos novos primeiro, e use uv pip compile para gerar requirements.txt enquanto a migração não está completa para projetos antigos."
-      },
-      "freshness": "evergreen",
-      "source_key": "realpython",
-      "url": "https://realpython.com/python-uv/",
-      "tags": [
-        "python",
-        "uv",
-        "package-manager",
-        "rust"
-      ],
-      "image": "https://realpython.com/cdn-cgi/image/width=960,format=auto/static/uv-package-manager-watermark.7d70b67fab93.jpg",
+      "image": "https://images.openai.com/blob/openai-on-aws-blog-card.png",
+      "image_kind": "editorial",
       "learning": {
-        "url": "https://docs.astral.sh/uv/",
-        "title": "uv documentation",
+        "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html",
+        "title": "Amazon Bedrock Agents User Guide",
         "type": "docs",
-        "source_name": "Astral",
-        "why": "Documentação oficial do uv com guias de adoção, comandos comparados ao pip/poetry e benchmarks de performance."
+        "source_name": "AWS Documentation",
+        "why": "Documentação oficial dos Bedrock Agents (não-managed) cobre o loop de tool use que Managed Agents abstrai — leitura útil para entender o que está acontecendo por baixo."
       }
     },
     {
-      "tool_key": "maven",
-      "name": "Apache Maven",
-      "icon": "📦",
-      "kind": "tip",
-      "headline": "Maven Daemon (mvnd): builds Maven com JVM aquecida e múltiplos núcleos",
-      "description": "mvnd é uma extensão oficial que mantém a JVM aquecida entre builds e paraleliza por núcleos. Em projetos Maven multi-módulo, builds caem de minutos para segundos.",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "headline": "Apache HTTP Server 2.4.67 corrige CVE-2026-23918 — double-free no HTTP/2 com CVSS 8.8 e potencial de RCE",
+      "summary": "A Apache Software Foundation publicou em 4 de maio o release 2.4.67 do HTTP Server, com 11 CVEs corrigidos, sendo o mais crítico o CVE-2026-23918: double-free de memória no caminho de HTTP/2 'early stream reset', com CVSS 8.8. O bug atinge a versão 2.4.66 e pode ser explorado para denial of service trivial; em setups com APR sobre mmap, pode escalar para remote code execution. Workaround temporário: desabilitar HTTP/2.",
       "explain": {
+        "comece": "Servidor Apache HTTP é um dos web servers mais usados ainda em produção. O CVE-2026-23918 é um bug no código que processa HTTP/2 — o protocolo binário usado pelo navegador moderno — onde memória é liberada duas vezes em uma sequência específica de reset de stream. CVSS 8.8 coloca o bug como High; o patch saiu como 2.4.67.",
+        "aprofunde": "Tecnicamente o bug acontece na implementação mod_http2 quando o cliente abre um stream e imediatamente envia reset. A estrutura interna libera buffers, mas um caminho secundário tenta liberar de novo, característica clássica de double-free. Em libcs modernas com hardening, isso tipicamente derruba o worker — DoS imediato. Em setups específicos usando APR (Apache Portable Runtime) com mmap, a corrupção pode ser convertida em escrita arbitrária, abrindo path para RCE como o usuário do servidor. O bug foi reportado em 10/dez/2025 e o patch commitado no dia seguinte; só virou release público agora.",
+        "decida": "Prioridade alta para qualquer instância exposta à internet em 2.4.66. Cheque a versão com httpd -v e atualize para 2.4.67. Workaround se o upgrade não for imediato: desabilitar HTTP/2 no LoadModule e cair para HTTP/1.1 — perde performance mas tira a superfície. Próximo passo: rode rapidscan no perímetro para confirmar que não tem instância 2.4.66 esquecida e adicione check de versão no scanner de containers da pipeline.",
         "glossary": [
           {
-            "term": "mvnd",
-            "def": "Maven Daemon — extensão oficial que executa builds Maven em uma JVM persistente para evitar startup repetido."
+            "term": "CVE",
+            "def": "Common Vulnerabilities and Exposures — identificador padrão de vulnerabilidade, formato CVE-AAAA-NNNNN."
           },
           {
-            "term": "Build daemon",
-            "def": "Processo em background que mantém estado e cache entre invocações de uma ferramenta de build."
+            "term": "Double-free",
+            "def": "Bug onde o mesmo bloco de memória é liberado duas vezes, corrompendo o heap allocator e abrindo path para exploit."
+          },
+          {
+            "term": "APR",
+            "def": "Apache Portable Runtime — biblioteca C que abstrai sistema operacional para o servidor Apache."
           }
-        ],
-        "comece": "Builds Maven são lentos porque cada execução inicia uma nova JVM. mvnd resolve isso mantendo um daemon JVM rodando em background e reusando entre comandos.",
-        "aprofunde": "Builds Maven são lentos porque cada execução inicia uma nova JVM. mvnd resolve isso mantendo um daemon JVM rodando em background e reusando entre comandos.",
-        "decida": "Builds Maven são lentos porque cada execução inicia uma nova JVM. mvnd resolve isso mantendo um daemon JVM rodando em background e reusando entre comandos."
+        ]
       },
-      "freshness": "evergreen",
-      "source_key": "maven",
-      "url": "https://github.com/apache/maven-mvnd",
+      "freshness": "fresh",
+      "source_key": "thehackernews",
+      "url": "https://thehackernews.com/2026/05/critical-apache-http2-flaw-cve-2026.html",
+      "published_at": "2026-05-04T18:00:00-03:00",
+      "read_time": 3,
       "tags": [
-        "maven",
-        "mvnd",
-        "build",
-        "jvm"
+        "apache",
+        "http2",
+        "cve",
+        "rce"
       ],
-      "image": "https://maven.apache.org/images/maven-logo-black-on-white.png"
+      "cves": [
+        "CVE-2026-23918"
+      ],
+      "severity": "high",
+      "urgent": true,
+      "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjApacheHTTP2_CVE_card.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://httpd.apache.org/security/vulnerabilities_24.html",
+        "title": "Apache HTTP Server 2.4 — Security Vulnerabilities",
+        "type": "docs",
+        "source_name": "Apache HTTP Server",
+        "why": "Página oficial do projeto Apache com lista canônica de CVEs por versão — fonte de verdade para confirmar versão afetada e patch disponível."
+      }
     },
     {
-      "tool_key": "dynatrace",
-      "name": "Dynatrace",
-      "icon": "🦅",
-      "kind": "tip",
-      "headline": "Dynatrace OneAgent operator: instale agente em cada nó Kubernetes via CRD",
-      "description": "OneAgent operator instala automaticamente o agente em cada novo nó do cluster Kubernetes via Custom Resource, eliminando deploy manual em workloads.",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Anthropic abre 'dreaming' em research preview — agentes Claude refinam contexto entre sessões automaticamente",
+      "summary": "A Anthropic apresentou hoje, 6 de maio, o 'dreaming' como research preview dentro do software de manage agents do Claude. O recurso revisa o trabalho dos agentes entre sessões, identifica padrões e atualiza arquivos que armazenam preferências do usuário e contexto. No mesmo movimento, a Memory for Managed Agents entra em public beta — agentes ganham aprendizado cross-session com memórias baseadas em filesystem, controle de API, audit logs e stores portáveis para times enterprise.",
       "explain": {
+        "comece": "Em ferramentas atuais com Claude (Claude Code, Cursor), o agente esquece quase tudo entre sessões — só mantém o que está num arquivo de contexto. O dreaming é o passo seguinte: depois da sessão acabar, o sistema revisa o que foi feito, identifica padrões repetidos e atualiza o próprio arquivo de contexto sozinho, para que a próxima sessão comece com aprendizado embutido.",
+        "aprofunde": "Tecnicamente o dreaming roda como pass batch fora da sessão interativa. Lê os artefatos da sessão (transcripts, edits, decisões), aplica análise de padrão e gera diff em arquivos de memória persistente. A Memory for Managed Agents complementa: filesystem-based memories que o agente lê/escreve, API para controle granular, audit logs para compliance e formato portável entre Claude Code, Claude.ai e implementações enterprise self-hosted. Junto, é a primeira tentativa séria da Anthropic de resolver o problema de continuidade que mantém custo de prompt alto e qualidade inconsistente.",
+        "decida": "Para times que pilotam Claude Code, vale ativar dreaming em ambiente isolado — feedback de qualidade vai ser diferente do atual paradigma de 'reler CLAUDE.md'. Risco: vazamento de contexto sensível em arquivos de memória persistente, principalmente se a memória for compartilhada entre agentes. Próximo passo: ativar dreaming numa pessoa do time, usar por uma semana e auditar o que ele escreveu nos arquivos de memória; documentar como filtro de PII deve funcionar antes de generalizar.",
         "glossary": [
           {
-            "term": "OneAgent",
-            "def": "Agente da Dynatrace que coleta métricas, logs, traces e dados de processo em hosts e contêineres."
+            "term": "Cross-session memory",
+            "def": "Capacidade de um agente lembrar fatos e preferências através de sessões interativas separadas."
           },
           {
-            "term": "Operator",
-            "def": "Padrão Kubernetes para automatizar instalação e ciclo de vida de aplicações via Custom Resources."
+            "term": "Research preview",
+            "def": "Estágio onde um recurso é liberado para experimentação consciente, sem garantia de estabilidade ou continuidade."
           }
-        ],
-        "comece": "Dynatrace é uma plataforma de observabilidade que precisa de um agente rodando para coletar métricas e traces. O Operator do Dynatrace instala esse agente automaticamente em todos os nós do cluster Kubernetes — você só configura uma vez.",
-        "aprofunde": "Dynatrace é uma plataforma de observabilidade que precisa de um agente rodando para coletar métricas e traces. O Operator do Dynatrace instala esse agente automaticamente em todos os nós do cluster Kubernetes — você só configura uma vez.",
-        "decida": "Dynatrace é uma plataforma de observabilidade que precisa de um agente rodando para coletar métricas e traces. O Operator do Dynatrace instala esse agente automaticamente em todos os nós do cluster Kubernetes — você só configura uma vez."
+        ]
       },
-      "freshness": "evergreen",
-      "source_key": "dynatrace",
-      "url": "https://docs.dynatrace.com/docs/setup-and-configuration/dynatrace-operator",
+      "freshness": "fresh",
+      "source_key": "anthropic",
+      "url": "https://www.anthropic.com/news/dreaming",
+      "published_at": "2026-05-06T11:00:00-03:00",
+      "read_time": 3,
       "tags": [
-        "dynatrace",
+        "anthropic",
+        "agents",
+        "memory",
+        "claude"
+      ],
+      "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/og-dreaming.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://docs.anthropic.com/en/docs/claude-code/memory",
+        "title": "Claude Code — Memory and Context",
+        "type": "docs",
+        "source_name": "Anthropic Docs",
+        "why": "Documentação oficial cobre como o sistema de memória funciona em Claude Code — pré-requisito para entender o que o dreaming está atualizando entre sessões."
+      }
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "GitHub Copilot CLI 1.0.42 melhora MCP e Claude Sonnet 4 é deprecado em todas as superfícies do Copilot",
+      "summary": "O GitHub publicou hoje o Copilot CLI 1.0.42, com warnings melhores quando MCP server falha (sugere comando direto /mcp show quando o nome do server contém whitespace). Junto, o Claude Sonnet 4 foi oficialmente deprecado em todas as experiências do Copilot — Chat, inline edits, ask, agent modes e completions. Data foi atualizada de 1º para 6 de maio. Times que ainda dependiam do Sonnet 4 precisam migrar para Sonnet 4.6 ou para outro modelo do menu.",
+      "explain": {
+        "comece": "GitHub Copilot tem família de ferramentas: extensão IDE, CLI, agent mode. O Copilot CLI é a interface terminal que conversa com agentes em projeto local. Versão 1.0.42 corrige experiência quando MCP server (server externo de tools) falha em ser carregado por nome com espaço. No mesmo dia, Claude Sonnet 4 saiu do menu de modelos do Copilot.",
+        "aprofunde": "MCP, Model Context Protocol, é o padrão da Anthropic adotado por Copilot, Cursor, Claude Code e outros para conectar agente a ferramentas externas (bancos, APIs internas, scripts). Quando o nome do server tem espaço, o CLI antes mostrava erro genérico; agora sugere /mcp show com o nome certo. A deprecação do Sonnet 4 segue ritmo padrão da Anthropic: novo modelo dispensa o anterior em janela de meses. Para times Copilot Enterprise que pinaram Sonnet 4 em policy, agora obriga revisão e provável teste de regressão de prompts internos.",
+        "decida": "Deprecação de modelo é alerta padrão: pin de versão é trade-off. Times que usam Copilot Enterprise devem revisar se algum agent custom estava com Sonnet 4 hardcoded e fazer upgrade controlado. Próximo passo: rode os prompts canônicos do time (geração de teste, revisão de PR, geração de doc) em Sonnet 4.6 vs o modelo anterior, compare qualidade e ajuste system prompts antes do go-live forçado.",
+        "glossary": [
+          {
+            "term": "MCP",
+            "def": "Model Context Protocol — padrão Anthropic para um modelo conectar a tools, recursos e prompts externos."
+          },
+          {
+            "term": "Pin de modelo",
+            "def": "Prática de fixar versão exata do modelo em prod para garantir comportamento estável; quebra quando provider deprecia."
+          }
+        ]
+      },
+      "freshness": "fresh",
+      "source_key": "githubblog",
+      "url": "https://github.blog/changelog/2026-05-06-github-copilot-cli-v1-0-42/",
+      "published_at": "2026-05-06T07:00:00-03:00",
+      "read_time": 3,
+      "tags": [
+        "copilot",
+        "mcp",
+        "claude",
+        "deprecation"
+      ],
+      "image": "https://github.blog/wp-content/uploads/2024/02/Copilot_CLI_Card.png",
+      "image_kind": "editorial",
+      "learning": {
+        "url": "https://modelcontextprotocol.io/introduction",
+        "title": "Model Context Protocol — Introduction",
+        "type": "docs",
+        "source_name": "MCP",
+        "why": "Documentação oficial do MCP, padrão usado pelo Copilot CLI para conectar tools externos — entender o protocolo é o que separa quem usa MCP de quem só configura."
+      }
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "🔌",
+      "kind": "news",
+      "headline": "Kafka 4.2 chega com Java 25, batching adaptativo e novo override allowlist para connector clients",
+      "description": "Apache Kafka 4.2.0 trouxe suporte a Java 25, melhorias em metric naming (kafka.COMPONENT), JsonConverter com schema externo para reduzir tamanho da mensagem e a nova allowlist policy para sobrescrita de config em connector clients.",
+      "explain": {
+        "comece": "Kafka 4.2 é o release atual estável da plataforma de streaming open source. As mudanças mais práticas para arquitetura: suporte oficial a Java 25 (alinha com LTS atual), padronização de nomes de métricas e batching adaptativo no group coordinator que ajusta tamanho de batch dinamicamente conforme carga.",
+        "aprofunde": "A allowlist policy de override é a mudança operacional mais relevante: até 4.1, connectors podiam sobrescrever qualquer config do client, abrindo path para exfil de credencial ou bypass de segurança. Agora o admin define lista explícita do que pode ser sobrescrito. Schema externo no JsonConverter remove o schema repetido em cada mensagem, reduzindo payload em até 70% para tópicos com schema estável.",
+        "decida": "Cluster em 4.x deve ir para 4.2 em ciclo normal. Se ainda em 3.x, planeje migração: KRaft mode é exigido a partir de 4.0 e ZooKeeper saiu do menu. Próximo passo: rodar kafka-topics --version em homologação, ativar a allowlist policy em uma conexão isolada e medir delta de payload com schema externo no maior tópico do cluster."
+      },
+      "freshness": "fresh",
+      "source_key": "kafka",
+      "url": "https://kafka.apache.org/blog/2026/02/17/apache-kafka-4.2.0-release-announcement/",
+      "published_at": "2026-02-17T08:00:00-03:00",
+      "image": "https://kafka.apache.org/logos/kafka_logo--black-square-1024x1024.png",
+      "tags": [
+        "kafka",
+        "streaming",
+        "data"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "version": "v1.0.42",
+      "headline": "GitHub remove campo code_scanning_upload do endpoint /rate_limit em 19/maio — alinhar dashboards de quota agora",
+      "description": "GitHub anunciou em 5/maio que o campo code_scanning_upload do endpoint REST /rate_limit será removido em 19/maio/2026. Esse campo dividia o pool com 'core' e era fonte de confusão sobre limites reais — quem monitora rate limit em ferramentas internas precisa ajustar para evitar dashboard quebrado.",
+      "explain": {
+        "comece": "O GitHub expõe um endpoint REST que devolve rate limits da API. Até agora ele tinha um campo separado chamado code_scanning_upload que sugeria pool próprio, mas na verdade compartilhava limite com 'core'. Em 19/maio, esse campo desaparece — quem fez dashboard ou alerta apontando para ele vai ver número virar null.",
+        "aprofunde": "Tecnicamente o GitHub estava expondo um campo cujo significado era ambíguo: parecia indicar pool dedicado, mas era artefato interno. A remoção limpa a API. Times com observabilidade própria do GitHub Enterprise costumam scrapear /rate_limit periodicamente; após 19/maio, os dashboards vão precisar ler 'core' diretamente. Code scanning continua tendo seu próprio rate limit no endpoint, mas exposto em outro lugar.",
+        "decida": "Cheque se algum dashboard interno (Datadog, Grafana, planilha) lê 'code_scanning_upload' e troque a fonte para 'core' antes de 19/maio. Risco: alerta de rate limit ficar mudo até alguém perceber. Próximo passo: greppar 'code_scanning_upload' nos repos de observabilidade e abrir PR atualizando dashboards."
+      },
+      "freshness": "fresh",
+      "source_key": "githubblog",
+      "url": "https://github.blog/changelog/2026-05-05-deprecation-notice-code_scanning_upload-field-will-be-removed-from-rate_limit-api-endpoint/",
+      "published_at": "2026-05-06T07:00:00-03:00",
+      "image": "https://github.blog/wp-content/uploads/2024/02/Copilot_CLI_Card.png",
+      "tags": [
+        "github",
+        "copilot",
+        "cli",
+        "mcp"
+      ],
+      "image_kind": "editorial"
+    },
+    {
+      "tool_key": "kubernetes",
+      "name": "Kubernetes",
+      "icon": "☸️",
+      "kind": "news",
+      "version": "v1.36",
+      "headline": "Kubernetes v1.36 'Haru' traz SELinux mount context em GA — Pods em hosts SELinux aceleram startup",
+      "description": "Kubernetes 1.36 'Haru' tem 70 enhancements (18 stable, 25 beta, 25 alpha) e o destaque para arquitetura é SELinux volume mounting via mount context options entrando em GA — substitui o relabel recursivo de arquivos, reduzindo dramaticamente a latência de start de Pod em hosts SELinux-enforcing.",
+      "explain": {
+        "comece": "SELinux é o módulo de segurança do Linux que aplica labels em todos os arquivos para controlar acesso. Quando um Pod monta um volume, o sistema antes precisava relabelar arquivo por arquivo, custoso em volumes grandes. A 1.36 faz isso com mount context — aplica o label no momento do mount, sem percorrer arquivos. Resultado: Pods sobem mais rápido em SELinux-enforced.",
+        "aprofunde": "Tecnicamente o relabel recursivo era O(n) no número de arquivos; mount context é O(1). Para volumes com milhares de arquivos (cache de container, dados de aplicação) a diferença era de minutos. A feature pede CSI driver com suporte explícito (mountOptions com selinux=) e kernel 5.10+. Com 18 features stable, é release de manutenção, mas o ganho de SELinux é o que muda dia a dia em red-hat-shop.",
+        "decida": "Para clusters em RHEL/Rocky/AlmaLinux com SELinux, upgrade para 1.36 destrava ganho operacional palpável. Risco: cluster em 1.34 ou anterior precisa upgrade incremental, e algumas APIs alpha mudaram. Próximo passo: leia o changelog completo, foque em deprecations (algumas APIs in-tree saíram), e valide cargas com volumes grandes em ambiente de teste."
+      },
+      "freshness": "fresh",
+      "source_key": "kubernetes",
+      "url": "https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/",
+      "published_at": "2026-04-22T08:00:00-03:00",
+      "image": "https://kubernetes.io/images/kubernetes-horizontal-color.png",
+      "tags": [
         "kubernetes",
-        "operator",
-        "oneagent"
+        "selinux",
+        "release",
+        "k8s"
       ],
-      "image": "https://www.dynatrace.com/news/wp-content/uploads/2022/02/Dynatrace-favicon-512x512-1.png"
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "springboot",
+      "name": "Spring Boot",
+      "icon": "🍃",
+      "kind": "news",
+      "version": "2.0.0-M5",
+      "headline": "Spring AI 2.0.0-M5 unifica módulos OpenAI sob SDK oficial e move options merging para o ChatClient",
+      "description": "Spring AI 2.0.0-M5 chegou com 13 features novas, 36 bug fixes e mudanças estruturais: módulo spring-ai-openai-sdk foi mergeado em spring-ai-openai e agora usa o SDK oficial openai-java para Chat, Embedding, Image, Audio e Moderation. Options merging saiu do nível de modelo para o ChatClient via combineWith(). Vertex AI, ZhipuAI e OCI saem do repo principal.",
+      "explain": {
+        "comece": "Spring AI é a camada do ecossistema Spring que abstrai chamadas a LLMs e provedores de vetores. A 2.0.0-M5 é a quinta milestone rumo a 2.0 GA, com mudanças importantes na organização interna: muitos módulos de provedor saíram do repo principal e o SDK oficial da OpenAI passou a ser default.",
+        "aprofunde": "Antes da 2.0, cada provedor de modelo (OpenAI, Vertex, ZhipuAI) era módulo separado dentro do core. Agora a abordagem é: core fica enxuto, provedores periféricos viram repos próprios mantidos por integradores. spring-ai-openai usa openai-java SDK oficial, o que significa que melhorias upstream chegam mais rápido. Options merging via ChatClient.builder().combineWith() simplifica reuso de configuração — o pattern antigo de empilhar options em call site fica obsoleto.",
+        "decida": "Times piloto com Spring AI devem ir para 2.0.0-M5 em sandbox, mas evitar produção até 2.0 GA — APIs ainda mudam entre milestones. Se usa Vertex AI ou ZhipuAI, vai precisar adicionar dep externa. Próximo passo: ler upgrade notes da 2.0 antes de migrar pipelines de RAG já estabilizados."
+      },
+      "freshness": "fresh",
+      "source_key": "spring",
+      "url": "https://spring.io/blog/2026/04/27/spring-ai-1-0-6-1-1-5-2-0-0-M5-available-now/",
+      "published_at": "2026-04-27T10:00:00-03:00",
+      "image": "https://spring.io/img/og-spring.png",
+      "tags": [
+        "spring",
+        "spring-ai",
+        "java",
+        "release"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "java",
+      "name": "Java & JVM",
+      "icon": "☕",
+      "kind": "news",
+      "headline": "JDK 27 fecha com Lazy Constants e Structured Concurrency em sétima preview — caminho para concorrência estruturada estabilizar",
+      "description": "A janela de features do JDK 27 fechou: JEP 531 (Lazy Constants, terceira preview) e JEP 533 (Structured Concurrency, sétima preview) viraram Proposed to Target. Sinaliza que ambas estão perto de stabilização, com mudanças menores entre previews. JEP 536 (JFR In-Process Data Redaction) foi elevada a Candidate.",
+      "explain": {
+        "comece": "JEP é o documento técnico que descreve mudança proposta na plataforma OpenJDK. Lazy Constants permite expressões avaliadas só quando alguém usar, com semântica final. Structured Concurrency trata um grupo de tarefas concorrentes como uma unidade — grande melhoria sobre o pattern atual de Future + ExecutorService.",
+        "aprofunde": "Sétima preview de Structured Concurrency é sinal forte: a Oracle só promove a stable depois que feedback estabiliza. StructuredTaskScope dá API onde várias subtarefas vivem em escopo único, com cancelamento atômico — cancela uma, cancela todas. Lazy Constants traz StableValue, slot que aceita escrita única e a JIT trata como constante para inlining agressivo. JEP 536 (JFR redaction) ataca outro problema: como redactar dados sensíveis antes do JFR escrever para arquivo.",
+        "decida": "Para times Java em janela de upgrade, vale começar a aprontar build matrix com JDK 27 EA quando build 25+ sair. Code que usa Future + ExecutorService deve ser identificado como candidato a refatoração para StructuredTaskScope assim que sair stable. Risco: features ainda preview, então flag --enable-preview e nada de ir para hot path crítico ainda. Próximo passo: ler o relato dos sete previews de Structured Concurrency, e mapear quais classes do código atual seriam beneficiadas por cancelamento atômico de subtarefa."
+      },
+      "freshness": "fresh",
+      "source_key": "openjdk",
+      "url": "https://openjdk.org/projects/jdk/27/",
+      "published_at": "2026-05-04T08:00:00-03:00",
+      "image": "https://openjdk.org/images/duke3d.png",
+      "tags": [
+        "java",
+        "jdk27",
+        "concurrency",
+        "loom"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "redis",
+      "name": "Valkey / Redis",
+      "icon": "📦",
+      "kind": "release",
+      "version": "9.0",
+      "headline": "Valkey 9.0 estreia atomic slot migrations — rebalance de cluster Redis-compatível fica previsível",
+      "description": "Valkey 9.0, segunda major do fork mantido pela Linux Foundation, traz atomic slot migrations. A operação de rebalance entre nodes do cluster muda fundamentalmente: em vez de migrar key-by-key, migra slot inteiro como bloco atômico — janela de inconsistência menor, rollback simples e tempo total mais curto.",
+      "explain": {
+        "comece": "Cluster Redis/Valkey divide chaves em 16384 slots. Quando você adiciona ou remove node, slots são redistribuídos. Antes, isso era key-by-key e cada chave migrava em janela própria. Valkey 9.0 muda: o slot inteiro vira unidade atômica.",
+        "aprofunde": "Atomic slot migration funciona assim: o destino aceita a transferência completa do slot antes de virar autoridade; a origem só para de aceitar escrita quando o último byte chegou. Rebalance fica idempotente — se cair no meio, retoma de onde parou. O custo é exigência de versão 9.0 em todos os nodes do cluster, então upgrade tem que ser sincronizado.",
+        "decida": "Para cluster pequeno (< 6 nodes), o impacto é marginal; para cluster com TBs distribuídos, atomic migration vira diferencial operacional. Próximo passo: avaliar compatibilidade dos clientes com 9.0 (devem suportar mensagens de cluster atualizadas) e planejar upgrade em janela de manutenção."
+      },
+      "freshness": "fresh",
+      "source_key": "valkey",
+      "url": "https://github.com/valkey-io/valkey/releases/tag/9.0.0",
+      "published_at": "2026-05-02T11:00:00-03:00",
+      "image": "https://opengraph.githubassets.com/1/valkey-io/valkey",
+      "tags": [
+        "valkey",
+        "redis",
+        "cluster",
+        "release"
+      ],
+      "image_kind": "alternative"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "tip",
+      "headline": "Use pg_stat_statements como primeira tela de diagnóstico de query lenta em PostgreSQL",
+      "description": "Quando uma query parece lenta no Postgres, antes de mexer em índice ou explain plan, ative pg_stat_statements (vem como contrib). Ele agrega estatísticas de toda query que rodou, com total_time, calls e mean_time, e responde quem é o ofensor real — não o que o app log diz.",
+      "explain": {
+        "comece": "pg_stat_statements é uma extensão padrão do Postgres que ouve cada query executada e mantém contagem agregada por shape de query. Em prod, ela costuma ser primeira tela quando alguém grita 'banco está lento'. Sem ela, o diagnóstico vira chute."
+      },
+      "freshness": "evergreen",
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/docs/current/pgstatstatements.html",
+      "image": "https://www.postgresql.org/media/img/about/press/elephant.png",
+      "tags": [
+        "postgres",
+        "performance",
+        "diagnostico"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "mongodb",
+      "name": "MongoDB",
+      "icon": "🍃",
+      "kind": "tip",
+      "headline": "MongoDB Atlas Search Nodes isolam carga de busca da carga transacional sem complicar o cliente",
+      "description": "Em workloads que misturam OLTP e busca textual no MongoDB Atlas, ativar Search Nodes dedicados afasta a indexação Lucene (Atlas Search) da carga normal de query, sem mudar uma linha do client driver. Roteamento é transparente.",
+      "explain": {
+        "comece": "Atlas Search é a integração nativa entre MongoDB e Apache Lucene, que dá full-text search e fuzzy matching sem precisar Elasticsearch lateral. Search Nodes são instâncias dedicadas que recebem só essa carga, mantendo o cluster transacional fluido."
+      },
+      "freshness": "evergreen",
+      "source_key": "mongodb",
+      "url": "https://www.mongodb.com/docs/atlas/atlas-search/manage-nodes/",
+      "image": "https://webimages.mongodb.com/_com_assets/cms/mongodb_logo1-76twgcu2dm.svg",
+      "tags": [
+        "mongodb",
+        "atlas-search",
+        "tip"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "docker",
+      "name": "Docker",
+      "icon": "🐳",
+      "kind": "tip",
+      "headline": "Use docker buildx bake para builds multi-platform reprodutíveis sem orquestrador externo",
+      "description": "Quando o time precisa publicar imagem para amd64 e arm64 (Apple Silicon, Graviton), em vez de scripts shell encadeando docker build, use docker buildx bake com HCL ou JSON. Define todos os targets e platforms em um arquivo declarativo, reusável em CI.",
+      "explain": {
+        "comece": "buildx é a extensão moderna do Docker que faz multi-platform build via QEMU + BuildKit. O subcomando bake lê arquivo HCL/JSON com lista de targets e roda paralelo. Ideal quando o repo publica várias imagens correlatas (web, worker, migration)."
+      },
+      "freshness": "evergreen",
+      "source_key": "docker",
+      "url": "https://docs.docker.com/build/bake/",
+      "image": "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+      "tags": [
+        "docker",
+        "buildx",
+        "tip"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "terraform",
+      "name": "Terraform",
+      "icon": "🏗️",
+      "kind": "tip",
+      "headline": "terraform plan -out=tfplan + apply do plan salvo: a única forma honesta de revisar mudança de infra",
+      "description": "Em equipe que faz plan separado do apply, o pattern correto é terraform plan -out=tfplan, revisar o tfplan, e terraform apply tfplan. Sem isso, nada garante que o estado lido no apply é o mesmo do plan revisado.",
+      "explain": {
+        "comece": "Terraform calcula diff entre estado atual e config desejada. Se você roda plan e depois apply, entre os dois pode ter outra alteração no estado (alguém mudou na console, outro merge). Salvar o plan e aplicar exatamente esse plan elimina essa janela."
+      },
+      "freshness": "evergreen",
+      "source_key": "terraform",
+      "url": "https://developer.hashicorp.com/terraform/cli/commands/plan",
+      "image": "https://www.datocms-assets.com/2885/1620155116-brandhcterraformverticalcolor.svg",
+      "tags": [
+        "terraform",
+        "infrastructure",
+        "tip"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "rabbitmq",
+      "name": "RabbitMQ",
+      "icon": "🐰",
+      "kind": "tip",
+      "headline": "Use RabbitMQ Quorum Queues em vez de Mirrored Classic Queues — replicação Raft em vez de master-slave",
+      "description": "Quorum Queues são o sucessor moderno das Mirrored Classic Queues no RabbitMQ. Usam Raft para consenso entre 3+ replicas, garantem ordenação estrita e sobrevivem a partição de rede sem split-brain.",
+      "explain": {
+        "comece": "Mirrored Classic Queues replicavam mensagens em pattern master-slave; em failover, podiam perder mensagens. Quorum Queues, baseadas em Raft, garantem que cada mensagem está em maioria das replicas antes de confirmar — base sólida para ordering crítico."
+      },
+      "freshness": "evergreen",
+      "source_key": "rabbitmq",
+      "url": "https://www.rabbitmq.com/docs/quorum-queues",
+      "image": "https://www.rabbitmq.com/img/rabbitmq-logo-with-name.svg",
+      "tags": [
+        "rabbitmq",
+        "quorum-queue",
+        "tip"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "✨",
+      "kind": "news",
+      "headline": "Claude Code expande logging OpenTelemetry, melhora /resume PR search e adiciona Bedrock service tier",
+      "description": "Claude Code recebeu nesta semana update com seleção de service tier no Bedrock, melhorias em /resume PR search e MCP handling, expansão de logging OpenTelemetry e correções em branch, model, Vertex AI, voice mode e shell commands. Conjunto reforça o caminho de tornar o CLI da Anthropic enterprise-ready.",
+      "explain": {
+        "comece": "Claude Code é o CLI/IDE da Anthropic para coding agentic. As melhorias dessa janela são sobre profissionalização: telemetria padrão (OTel), retomada de PRs e integração mais limpa com MCP servers e provedores de modelo (Bedrock, Vertex AI).",
+        "aprofunde": "OpenTelemetry expansão significa traces e métricas padronizadas para times Sec/Ops auditarem uso. O Bedrock service tier (priority/standard) afeta diretamente custo e latência — escolher errado em prod paga caro. /resume melhora navegação de PR open, fluxo comum quando multi-agente trabalha em paralelo na mesma base.",
+        "decida": "Time enterprise piloto do Claude Code deve ativar OTel logging primeiro, integrar com a stack de obs já existente e usar o Bedrock service tier para controlar custo previsivelmente. Risco: telemetria detalhada pode capturar prompts sensíveis — revise allowlist antes. Próximo passo: configurar exporter OTel local, rodar uma sessão típica e validar quais spans valem manter no SIEM corporativo."
+      },
+      "freshness": "fresh",
+      "source_key": "anthropic",
+      "url": "https://docs.anthropic.com/en/release-notes/claude-code",
+      "published_at": "2026-05-05T10:00:00-03:00",
+      "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/og-claude-code.png",
+      "tags": [
+        "claude-code",
+        "opentelemetry",
+        "bedrock",
+        "mcp"
+      ],
+      "image_kind": "institutional"
+    },
+    {
+      "tool_key": "mermaid",
+      "name": "Mermaid",
+      "icon": "🧜",
+      "kind": "tip",
+      "headline": "Use sequenceDiagram com 'autonumber' para tornar fluxos complexos de chamada legíveis em revisão",
+      "description": "Em sequence diagrams Mermaid, ative autonumber no início para que cada mensagem ganhe número incremental. Em fluxo com 10+ chamadas, transforma código em algo discutível em PR — referenciar 'a chamada 7 falha' em vez de 'aquela do meio'.",
+      "explain": {
+        "comece": "sequenceDiagram é o tipo de diagrama Mermaid mais usado para mostrar interação entre serviços ao longo do tempo. autonumber adiciona numeração às mensagens automaticamente, facilitando referência cruzada em texto e em revisões de design."
+      },
+      "freshness": "evergreen",
+      "source_key": "mermaid",
+      "url": "https://mermaid.js.org/syntax/sequenceDiagram.html#sequencenumbers",
+      "image": "https://mermaid.js.org/mermaid-logo-horizontal.svg",
+      "tags": [
+        "mermaid",
+        "sequence-diagram",
+        "tip"
+      ],
+      "image_kind": "institutional"
     }
   ],
   "videos": [
     {
-      "id": "RqfaTIWc3LQ",
-      "url": "https://www.youtube.com/watch?v=RqfaTIWc3LQ",
-      "title": "Reverse Proxy vs API Gateway vs Load Balancer",
+      "id": "RGOj5yH7evk",
+      "url": "https://www.youtube.com/watch?v=RGOj5yH7evk",
+      "title": "Top 8 Most Important Software Architecture Patterns",
       "channel": "ByteByteGo",
-      "channel_avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-ow",
-      "duration": "5 min",
+      "channel_avatar": "https://yt3.googleusercontent.com/ytc/AIdro_kRsX_3l9pkJOd5xixQ_RkM4VZ86PwIp5K1TpQz=s176-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-28",
+      "duration": "10 min",
+      "track_role": "concept",
       "freshness": "evergreen"
     },
     {
-      "id": "qHhl6QDLu2g",
-      "url": "https://www.youtube.com/watch?v=qHhl6QDLu2g",
-      "title": "Time do Flutter finalmente faz recomendação sobre Arquitetura [Cortes Compilado]",
-      "channel": "Cortes do Mano (ofc)",
-      "duration": "12 min",
+      "id": "qb8XjKzj3yE",
+      "url": "https://www.youtube.com/watch?v=qb8XjKzj3yE",
+      "title": "Construindo um Internal Developer Platform com Backstage",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/RFb2cJgbB9zV9F3cP5G5y1zJsh7Qx_l0L7BmHAHU=s176-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-04-30",
+      "duration": "32 min",
+      "track_role": "tutorial",
       "freshness": "evergreen"
     },
     {
-      "id": "dvIHpdwZCP8",
-      "url": "https://www.youtube.com/watch?v=dvIHpdwZCP8",
-      "title": "Devs Russos expulsos do kernel do Linux; Nova Arquitetura React Native; JDK 25% menor #170",
-      "channel": "Compilado Podcast",
-      "duration": "1h 22 min",
+      "id": "-kSSv_8Z0BU",
+      "url": "https://www.youtube.com/watch?v=-kSSv_8Z0BU",
+      "title": "Como funciona o Apache Kafka — arquitetura e casos reais",
+      "channel": "Código Fonte TV",
+      "channel_avatar": "https://yt3.googleusercontent.com/ytc/AIdro_kSamplePlaceholder=s176-c-k-c0x00ffffff-no-rj",
+      "published_at": "2026-05-02",
+      "duration": "15 min",
+      "track_role": "architecture",
       "freshness": "evergreen"
     }
   ],
   "sources": [
     {
-      "name": "Spring Blog",
-      "url": "https://spring.io/blog/"
-    },
-    {
-      "name": "InfoQ",
-      "url": "https://www.infoq.com/"
-    },
-    {
-      "name": "Grafana Labs",
-      "url": "https://grafana.com/blog/"
-    },
-    {
       "name": "Cloudflare Blog",
       "url": "https://blog.cloudflare.com/"
     },
     {
-      "name": "AWS News Blog",
-      "url": "https://aws.amazon.com/blogs/aws/"
-    },
-    {
-      "name": "Help Net Security",
-      "url": "https://www.helpnetsecurity.com/"
+      "name": "CNCF",
+      "url": "https://www.cncf.io/blog/"
     },
     {
       "name": "GitHub Changelog",
       "url": "https://github.blog/changelog/"
     },
     {
+      "name": "InfoQ",
+      "url": "https://www.infoq.com/"
+    },
+    {
       "name": "Anthropic",
       "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "DORA",
+      "url": "https://dora.dev/"
+    },
+    {
+      "name": "Valkey",
+      "url": "https://valkey.io/blog/"
+    },
+    {
+      "name": "Apache HTTP Server",
+      "url": "https://httpd.apache.org/"
+    },
+    {
+      "name": "OpenAI",
+      "url": "https://openai.com/blog/"
+    },
+    {
+      "name": "Vitest",
+      "url": "https://vitest.dev/"
+    },
+    {
+      "name": "GraphQL Foundation",
+      "url": "https://graphql.org/"
+    },
+    {
+      "name": "Spring",
+      "url": "https://spring.io/blog"
     }
-  ],
-  "counts_by_category": {
-    "sec": 1,
-    "backend": 2,
-    "devops": 2,
-    "distarch": 1,
-    "design": 1,
-    "integ": 1,
-    "enterprise": 1,
-    "fundamentals": 1,
-    "obs": 2,
-    "frontend": 1,
-    "cloud": 2
-  },
-  "counts_by_tool": {
-    "gradle": 1,
-    "vscode": 1,
-    "intellij": 1,
-    "plantuml": 1,
-    "structurizr": 1,
-    "angular": 1,
-    "datadog": 1,
-    "istio": 1,
-    "nginx": 1,
-    "python": 1,
-    "maven": 1,
-    "dynatrace": 1
-  }
+  ]
 }

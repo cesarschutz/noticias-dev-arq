@@ -1152,6 +1152,18 @@
       "key": "quarkus",
       "name": "Quarkus Blog",
       "url": "https://quarkus.io/blog/"
+    },
+    {
+      "key": "graphql",
+      "name": "GraphQL Foundation",
+      "url": "https://graphql.org/blog/",
+      "image": "https://cdn.simpleicons.org/graphql/E10098"
+    },
+    {
+      "key": "rabbitmq",
+      "name": "RabbitMQ Blog",
+      "url": "https://blog.rabbitmq.com/",
+      "image": "https://cdn.simpleicons.org/rabbitmq/FF6600"
     }
   ]
 }

@@ -1,52 +1,103 @@
 {
-  "last_generated": "2026-05-06T08:30:00-03:00",
+  "last_generated": "2026-05-07T09:46:00-03:00",
   "editions": [
     {
-      "date": "2026-05-06",
-      "hero_title": "Spring Boot 4.1 RC1, golden paths em 3 minutos e Grafana versionado em Git",
-      "hero_description": "A edição de hoje volta o foco para o que realmente sustenta plataforma: Spring Boot 4.1 chega ao RC1 com integração reativa, Platform Engineering vira métrica concreta com golden paths automatizados, e Grafana 13 abre Git Sync para tratar dashboards como código. No radar, Argo CD 3.3 reforça práticas GitOps e a CVE-2026-0300 da Palo Alto exige resposta imediata.",
+      "date": "2026-05-07",
+      "hero_title": "Argo CD 3.3.9 fecha brecha de secrets, Cloudflare separa LLM em prefill/decode e Confluent tira schema do payload",
+      "hero_description": "A edição puxa três fios da maturidade de plataforma. Argo CD 3.3.9 e 3.2.11 corrigem CVE-2026-42880 (CVSS 9.6) que vazava plaintext de secrets do Kubernetes via Server-Side Diff — read-only virou caminho para escalada. A Cloudflare detalha como separa prefill e decode em máquinas distintas no Workers AI e roda Kimi K2.5 com inferência mais barata. E o Confluent move schema ID do payload para header do Kafka, simplificando governance sem mudar wire format. No radar, Anthropic vira agente operacional de Wall Street com Microsoft 365 GA, e PAN-OS CVE-2026-0300 entra na CISA KEV com prazo dia 9.",
       "counts_by_category": {
-        "sec": 1,
-        "backend": 2,
+        "backend": 3,
+        "data": 2,
         "devops": 2,
-        "distarch": 1,
+        "fundamentals": 2,
+        "ai": 1,
+        "aiops": 1,
+        "cloud": 1,
         "design": 1,
-        "integ": 1,
-        "enterprise": 1,
-        "fundamentals": 1,
-        "obs": 2,
+        "distarch": 1,
         "frontend": 1,
-        "cloud": 2
+        "integ": 1,
+        "obs": 1,
+        "sec": 1
       },
       "counts_by_tool": {
-        "gradle": 1,
-        "vscode": 1,
-        "intellij": 1,
-        "plantuml": 1,
-        "structurizr": 1,
-        "angular": 1,
+        "argocd": 1,
         "datadog": 1,
+        "github": 1,
+        "intellij": 1,
         "istio": 1,
-        "nginx": 1,
-        "python": 1,
-        "maven": 1,
-        "dynatrace": 1
+        "kafka": 1,
+        "postgres": 1,
+        "secrets-manager": 1,
+        "spring": 1,
+        "terraform": 1,
+        "vscode": 1
       },
       "highlights": [
         {
-          "title": "Spring Boot 4.1 chega à RC1 com mira em GA de maio e integração reativa profunda",
-          "url": "https://spring.io/blog/2026/05/05/this-week-in-spring-may-05-2026/",
-          "image": "https://spring.io/img/og-spring.png"
+          "title": "Argo CD 3.3.9 e 3.2.11 corrigem CVE-2026-42880 — Server-Side Diff vazava secrets do Kubernetes em plaintext",
+          "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.9",
+          "image": "https://opengraph.githubassets.com/1/argoproj/argo-cd"
         },
         {
-          "title": "Platform Engineering em 2026: golden path automatizado em três minutos vira norma",
-          "url": "https://www.javacodegeeks.com/2026/05/platform-engineering-in-2026-what-it-actually-is-why-its-not-just-devops-renamed-and-how-to-build-an-internal-developer-platform.html",
-          "image": "https://platformengineering.org/og.jpg"
+          "title": "Cloudflare detalha como roda LLMs gigantes na borda separando prefill e decode em máquinas distintas",
+          "url": "https://blog.cloudflare.com/high-performance-llms/",
+          "image": "https://blog.cloudflare.com/content/images/2024/05/image-39.png"
         },
         {
-          "title": "Grafana 13 e Loki redesenhado cortam dados varridos em até 20× e abrem GitOps nativo",
-          "url": "https://grafana.com/blog/grafanacon-2026-announcements/",
-          "image": "https://grafana.com/static/img/grafana-meta.png"
+          "title": "Confluent move schema ID do payload Kafka para header e libera governance incremental",
+          "url": "https://www.infoq.com/news/2026/05/confluent-kafka-header-schema-id/",
+          "image": "https://res.infoq.com/news/2026/05/confluent-kafka-header-schema-id/en/headerimage/confluent-kafka-header-thumb.jpg"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-06",
+      "hero_title": "Cloudflare Flagship liga OpenFeature à edge, Kyverno gradua e DORA cravou: plataforma boa multiplica IA",
+      "hero_description": "Edição puxa três fios da maturidade de plataforma: Cloudflare lança Flagship como serviço de feature flag sub-millisecond na malha global e abraça OpenFeature; Kyverno entrega o primeiro release pós-graduação na CNCF e Velero entra como Sandbox; e a leitura mais recente do DORA mostra que onde a plataforma é boa, IA destrava performance — onde não é, vira ruído. No radar, Anthropic abre 'dreaming' para agentes Claude refinarem contexto entre sessões e Apache patcha CVE 8.8 no HTTP/2.",
+      "counts_by_category": {
+        "devops": 4,
+        "integ": 2,
+        "backend": 1,
+        "data": 1,
+        "distarch": 1,
+        "enterprise": 2,
+        "design": 1,
+        "testing": 1,
+        "cloud": 1,
+        "sec": 1,
+        "aiops": 2
+      },
+      "counts_by_tool": {
+        "kafka": 1,
+        "github": 1,
+        "kubernetes": 1,
+        "springboot": 1,
+        "java": 1,
+        "redis": 1,
+        "postgres": 1,
+        "mongodb": 1,
+        "docker": 1,
+        "terraform": 1,
+        "rabbitmq": 1,
+        "claudecode": 1,
+        "mermaid": 1
+      },
+      "highlights": [
+        {
+          "title": "Cloudflare lança Flagship — feature flags edge-native sub-millisecond compatíveis com OpenFeature",
+          "url": "https://blog.cloudflare.com/flagship/",
+          "image": "https://blog.cloudflare.com/content/images/2026/04/image16.png"
+        },
+        {
+          "title": "Kyverno 1.18 é primeiro release pós-graduação na CNCF — investe em segurança, CLI e confiabilidade do engine",
+          "url": "https://www.cncf.io/blog/2026/05/05/announcing-kyverno-release-1-18/",
+          "image": "https://www.cncf.io/wp-content/uploads/2024/10/Kyverno-graduation-cncf.png"
+        },
+        {
+          "title": "DORA crava: qualidade de plataforma é o preditor mais forte de IA gerar valor real",
+          "url": "https://dora.dev/research/2024/dora-report/",
+          "image": "https://dora.dev/img/dora-share.png"
         }
       ]
     },
