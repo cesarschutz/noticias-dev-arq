@@ -468,7 +468,13 @@ WebFetch(url_do_item,
    Return the literal string NONE if no match.")
 ```
 
-**Aceite** se: começa com `https://` E não contém `favicon|apple-touch-icon|cropped-favicon|avatar|profile|pixel|1x1|tracking|adserver|simpleicons.org|s2/favicons|screenshot.11ty.dev|screenshotapi|urlbox|thum.io`.
+**Aceite como `editorial`** se: começa com `https://` E não contém `favicon|apple-touch-icon|cropped-favicon|avatar|profile|pixel|1x1|tracking|adserver|simpleicons.org|s2/favicons|screenshot.11ty.dev|screenshotapi|urlbox|thum.io` **E não parece imagem genérica de site inteiro**.
+
+**Imagem genérica de site inteiro** — se a URL retornada pela Tentativa 1 contiver qualquer dos padrões abaixo, ela é institucional (não editorial) e você deve **prosseguir para Tentativa 2** antes de aceitar:
+- Conteúdo literal: URL idêntica a qualquer entrada da tabela de Tentativa 3 (`grafana-meta.png`, `og-spring.png`, `og.jpg` de platformengineering, `aws_logo_smile`, etc.)
+- Padrões de path: `/-meta\.|-og\.|_icon_default|logo_smile|logo_squared|logo-wordmark|logo\.png|_logo_|wordmark|/static/img/|/img/og-|/img/social-|/assets/images/brand/|brand\/quarkus`
+
+Se a Tentativa 1 retornar uma imagem que cai nesses padrões, marque-a como candidato `institutional` e **tente Tentativa 2** para encontrar imagem editorial do artigo. Só aceite o fallback institucional da Tentativa 1 se a Tentativa 2 também falhar (sem boa cobertura alternativa).
 
 ##### Tentativa 2 — cobertura alternativa via WebSearch
 
@@ -572,12 +578,21 @@ Objetivo: enriquecer os itens com um recurso externo de aprendizado real — um 
 
 **Não use** como learning: posts de marketing de vendor, listas genéricas ("10 coisas sobre X"), artigos sem autor identificado, links para homepages, links quebrados.
 
+#### URLs de learning PROIBIDAS (rejeição imediata)
+
+As regras abaixo são **bloqueantes** — se a URL candidata se encaixar em qualquer caso, descarte sem tentar, busque outra:
+
+1. **Homepage / raiz de blog** — URL termina em `/blog`, `/blog/`, `/docs`, `/docs/`, `/news`, `/news/`, `/articles/`, `/posts/`, `/changelog`, `/features/` sem slug de artigo específico. Ex.: `spring.io/blog` ❌, `spring.io/blog/2026/05/05/this-week-...` ✅
+2. **Índice ou lista de categorias** — título da página é apenas o nome do site ou de uma seção (ex.: "Spring Blog", "Grafana Docs", "AWS What's New"). Título deve conter o conceito ensinado.
+3. **Anchor link não verificado** — `#fragmento` em docs só é aceito se o WebFetch confirmar que o fragmento existe e a seção é sobre o tópico.
+4. **Soft-404** — página retorna 200 mas conteúdo contém frases como "we can't find this page", "not found", "page not found", "404", "doesn't exist". Trate como URL morta.
+
 #### Como buscar e validar
 
 1. Formule a busca baseando-se no conceito central da notícia, não na notícia em si. Ex.: se a notícia é sobre "Kafka 4.0 com KRaft", o learning pode ser "como KRaft funciona internamente" → buscar em `site:martin.kleppmann.com` ou docs do Kafka.
 2. `WebSearch("{conceito central} site:{fonte_preferida}")`
-3. `WebFetch(url_candidata, "O conteúdo desta página é principalmente sobre {conceito}? Qual é o título? Está em inglês ou português?")` — valide que a URL está viva e o conteúdo é relevante.
-4. Se a URL retornar 404/soft-404 ou o conteúdo não for sobre o tema → **descarte e tente próxima fonte**. Se nenhuma fonte qualificar → **omita `learning`** para este item.
+3. `WebFetch(url_candidata, "Qual é o título h1/title desta página? O conteúdo principal é sobre {conceito}? A página contém frases como 'not found', '404', 'page not found', 'we can't find'? A URL é uma homepage ou lista de artigos? Responda em 4 linhas.")` — valide que a URL está viva, é uma página específica e o conteúdo é relevante.
+4. Se a URL retornar 404/soft-404, for homepage/lista, ou o conteúdo não for sobre o tema → **descarte e tente próxima fonte**. Se nenhuma fonte qualificar → **omita `learning`** para este item.
 
 #### Campos de `learning`
 
@@ -678,7 +693,7 @@ Verifique todos os itens antes de declarar a edição concluída:
 - [ ] **URLs específicas**: nenhuma termina em `/blog/`, `/releases`, `/changelog`, `/news/`, `/articles/`, `/posts/` sem slug.
 - [ ] **Links verificados (FASE 7.1)**: WebFetch confirmou que todos os URLs publicados apontam para páginas específicas E o título da página menciona o produto/versão/CVE do `headline` (verificação semântica).
 - [ ] **Sem duplicatas** com a blocklist (modo normal) ou intra-edição.
-- [ ] **Sem duplicatas highlights ↔ news**: nenhuma URL de `highlights[]` aparece também em `news[]`. Se um item virou highlight, ele NÃO repete em `news[]` — `highlights[]` substitui o item, não duplica.
+- [ ] **Highlights permanecem em news[]**: os itens de `highlights[]` DEVEM continuar em `news[]` — a UI exibe destaques na seção de abertura E nas notícias abaixo. **Nunca remova o item de `news[]` ao promovê-lo para `highlights[]`**. Duplicata de URL entre `highlights[]` e `news[]` é **intencional e obrigatória**.
 - [ ] **Highlights completo**: exatamente 3 itens — selecionados por score + PERFIL EDITORIAL DO CESAR, ideal ≥2 categorias distintas.
 - [ ] **Highlights com `learning`**: **3/3 highlights obrigatório** com `learning` preenchido. Se algum não tiver, escolha outro highlight.
 - [ ] **Volume mínimo `news[]`**: 15 (janela ≤24h) / 20 (1-3 dias) / 25 (>3 dias).
@@ -767,7 +782,20 @@ WebFetch(url, "Qual é o título principal (h1/title) desta página? O conteúdo
 
 Se nenhum aparecer, a URL está descasada do conteúdo. Caso clássico: headline diz "Argo CD 3.2.11 com correção crítica", URL aponta para artigo sobre "Argo CD 3.3 RC1" — falha. Substitua por release notes do GitHub (ex.: `github.com/argoproj/argo-cd/releases/tag/v3.2.11`) ou cobertura específica do CVE.
 
-**Valide também URLs de `learning`**: se a URL de `learning` retornar erro → remova o campo `learning` desse item (não invente URL alternativa).
+**Valide também URLs de `learning` (obrigatório, não pule)**:
+
+Para cada item que tiver `learning.url`, execute:
+```
+WebFetch(learning.url, "Qual é o título h1/title desta página? A página contém frases como 'not found', '404', 'page not found', 'we can't find', 'page does not exist'? Esta é uma homepage, blog index ou lista genérica? O conteúdo é especificamente sobre [tópico do learning]? Responda em 4 linhas.")
+```
+
+Remova o campo `learning` do item se qualquer das condições ocorrer:
+- WebFetch retorna erro, timeout ou conteúdo vazio
+- Página contém soft-404 ("not found", "can't find", "page not found", "404", "doesn't exist")
+- Página é homepage, blog index ou lista sem conteúdo específico (título é apenas nome do site/seção)
+- Título da página não menciona o tópico do `learning`
+
+**Nunca substitua por URL alternativa inventada** — se a URL de learning não passa, **omita o campo** `learning` inteiro.
 
 **Salvar arquivos finais:**
 

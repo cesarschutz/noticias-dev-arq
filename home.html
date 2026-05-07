@@ -8379,9 +8379,7 @@ function renderDay(date) {
   const day = STATE.days[date];
   if (!day) return renderDayNotFound(date);
 
-  // Filtra news que também aparecem como highlight para evitar duplicação visual
-  const _hlUrlsForCounts = new Set((day.highlights||[]).map(h => h.url).filter(Boolean));
-  const _newsForDisplay = (day.news||[]).filter(n => !_hlUrlsForCounts.has(n.url));
+  const _newsForDisplay = (day.news||[]);
   const totalNews = _newsForDisplay.length;
   const totalTools = (day.tools||[]).length;
   const totalCats = new Set(_newsForDisplay.map(n=>n.category)).size;
@@ -8557,10 +8555,8 @@ function renderDay(date) {
 
   // News — filter pills + flat masonry, no per-cat wrappers
   // Ordem alfabética por label da categoria (mesma do sidebar lateral)
-  // Filtra duplicatas: itens cuja URL já é highlight não aparecem em news (evita mesmo card 2x na tela)
   const _catLbl = c => CAT_LABELS[c] || c || '';
-  const _hlUrls = new Set((day.highlights||[]).map(h => h.url).filter(Boolean));
-  const allNews = (day.news||[]).filter(n => !_hlUrls.has(n.url)).slice().sort((a,b)=>{
+  const allNews = (day.news||[]).slice().sort((a,b)=>{
     const c = _catLbl(a.category).localeCompare(_catLbl(b.category), 'pt', { sensitivity: 'base' });
     if (c !== 0) return c;
     return (b.urgent?1:0)-(a.urgent?1:0) || new Date(b.published_at||b._date)-new Date(a.published_at||a._date);
