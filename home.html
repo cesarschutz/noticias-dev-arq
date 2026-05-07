@@ -5714,161 +5714,118 @@ body.sidebar-collapsed .qbar-host {
   right: auto !important;
 }
 
-/* Quote bar — visual mais profissional */
+/* Quote bar — visual refinado */
 .qbar {
   position: relative;
-  margin-top: 0 !important;
-  grid-template-columns: auto 1fr auto !important;
-  gap: 22px !important;
-  padding: 22px 28px 22px 22px !important;
-  border-radius: 16px !important;
-  border: 1px solid var(--border) !important;
-  background: var(--surface) !important;
-  box-shadow:
-    0 1px 2px rgba(15,23,42,0.04),
-    0 4px 12px rgba(15,23,42,0.04) !important;
+  margin-top: 10px !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: start !important;
+  gap: 8px !important;
+  padding: 9px 9px 9px 9px !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--panel-border) !important;
+  background: color-mix(in srgb, var(--surface-card) 92%, transparent) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 12px 32px rgba(15, 23, 42, .08) !important;
   overflow: hidden;
 }
 [data-theme="dark"] .qbar {
-  background: var(--surface) !important;
-  box-shadow:
-    0 1px 2px rgba(0,0,0,0.40),
-    0 4px 12px rgba(0,0,0,0.30) !important;
+  background: color-mix(in srgb, var(--surface-card) 92%, #000 8%) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .40), 0 18px 44px rgba(0, 0, 0, .42) !important;
 }
 
-/* Aspas decorativa GRANDE no canto superior direito */
+/* Faixa lateral accent */
 .qbar::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+  width: 3px !important;
+  background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 25%, transparent)) !important;
+  font-size: unset !important;
+  font-family: unset !important;
+  color: unset !important;
+  letter-spacing: unset !important;
+  z-index: 0 !important;
+}
+
+/* Aspa decorativa grande — plantada no canto superior direito */
+.qbar::after {
   content: "\201D" !important;
   position: absolute !important;
-  inset: auto 22px auto auto !important;
-  right: 22px !important;
-  left: auto !important;
-  bottom: auto !important;
-  font-family: "Newsreader", Georgia, "Times New Roman", serif !important;
-  font-size: 140px;
-  font-weight: 700;
-  font-style: normal;
-  line-height: 1;
-  color: color-mix(in srgb, var(--accent) 22%, transparent);
-  pointer-events: none;
-  user-select: none;
-  letter-spacing: -0.05em;
-  z-index: 0;
-  -webkit-mask: none;
-          mask: none;
-  background: none;
-  width: auto;
-  height: auto;
-  opacity: 1;
+  right: 10px !important;
+  top: -8px !important;
+  font-family: "Newsreader", Georgia, serif !important;
+  font-size: 140px !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  line-height: 1 !important;
+  color: color-mix(in srgb, var(--accent) 22%, transparent) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 0 !important;
 }
-[data-theme="dark"] .qbar::before {
-  color: color-mix(in srgb, var(--accent) 32%, transparent);
+[data-theme="dark"] .qbar::after {
+  color: color-mix(in srgb, var(--accent) 32%, transparent) !important;
 }
 
-/* Aspa decorativa grande à direita */
-.qbar::after {
-  content: none !important;
-}
-
-/* Mascote — tamanho profissional */
 .qbar-mascot {
-  width: 64px !important;
-  height: 80px !important;
+  width: 62px !important;
+  height: 78px !important;
   align-self: end !important;
-  margin-bottom: -8px !important;
-  z-index: 1;
+  margin-bottom: -4px !important;
+  margin-left: -4px !important;
 }
-.qbar-mascot img {
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22)) !important;
-}
-
-/* Body — texto maior */
 .qbar-body {
   position: relative;
   z-index: 1;
-  align-self: center;
-  padding-right: 60px; /* respiro p/ o " grande no canto superior direito */
+  align-self: center !important;
+  padding-right: 0;
 }
 .qbar-text {
-  font-family: "Newsreader", Charter, "Iowan Old Style", "Source Serif Pro", Georgia, serif !important;
-  font-style: normal !important;
-  font-size: 22px !important;
-  line-height: 1.45 !important;
+  font-size: clamp(16px, 1.35vw, 20px) !important;
+  line-height: 1.5 !important;
   font-weight: 500 !important;
+  font-style: italic !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
   -webkit-line-clamp: 3 !important;
-  letter-spacing: 0 !important;
-  color: var(--text) !important;
+  letter-spacing: -.01em !important;
 }
 .qbar-author {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
-  font-style: normal !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  margin-top: 8px;
   display: block !important;
-  color: var(--text-soft, var(--text)) !important;
-  letter-spacing: 0.01em;
+  margin: 5px 0 0 !important;
+  font-family: var(--ff-text) !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: .01em !important;
+  color: var(--accent) !important;
 }
-.qbar-ctx-row {
-  margin-top: 6px !important;
-  font-size: 12px;
-}
-.qbar-ctx { font-size: 12.5px !important; }
+.qbar-ctx-row { max-width: 100%; margin-top: 6px !important; }
+.qbar-ctx { font-size: 12px !important; }
 
-/* Actions reposicionadas no canto INFERIOR direito */
+/* Botões — 3ª coluna do grid, empurrados para baixo, sem contorno conjunto */
 .qbar-actions {
-  position: absolute !important;
-  top: auto !important;
-  bottom: 12px !important;
-  right: 14px !important;
-  z-index: 2;
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 10px;
-  padding: 2px;
-  gap: 2px !important;
+  position: static !important;
+  align-self: end !important;
+  justify-self: end !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 0 !important;
+  margin-bottom: 4px !important;
+  border: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  bottom: unset !important;
+  right: unset !important;
 }
 .qbar-btn {
-  width: 30px !important; height: 30px !important;
-  font-size: 17px !important;
-  border-radius: 8px !important;
-  opacity: 0.72;
+  width: 32px !important; height: 32px !important;
+  border-radius: 50% !important;
+  font-size: 18px !important;
+  opacity: .78;
 }
-.qbar-btn:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
-  opacity: 1;
-}
-
-/* Quando colapsado (sidebar fechada no desktop), continua alinhada */
-body.sidebar-collapsed .qbar-host {
-  left: 0 !important;
-  right: 0 !important;
-}
-
-/* RESPONSIVO */
-@media (max-width: 960px) {
-  .qbar-host { left: 0 !important; right: 0 !important; padding: 0 !important; }
-}
-@media (max-width: 720px) {
-  .qbar {
-    grid-template-columns: 56px 1fr !important;
-    padding: 18px 18px 18px 16px !important;
-    gap: 14px !important;
-  }
-  .qbar-mascot { width: 56px !important; height: 70px !important; }
-  .qbar-text { font-size: 16px !important; -webkit-line-clamp: 4 !important; }
-  .qbar-author { font-size: 12.5px !important; }
-  .qbar-body { padding-right: 0; padding-bottom: 36px; }
-}
-@media (max-width: 480px) {
-  .qbar { grid-template-columns: 60px 1fr !important; padding: 14px 14px 14px 12px !important; }
-  .qbar-mascot { width: 60px !important; height: 72px !important; }
-  .qbar-text { font-size: 14.5px !important; }
-  .qbar-body { padding-right: 0; padding-bottom: 32px; }
-  .qbar-actions { bottom: 8px !important; right: 8px !important; }
-  .qbar-btn { width: 26px !important; height: 26px !important; }
-}
+.qbar-btn:hover { background: var(--surface) !important; opacity: 1; }
 
 /* ============================================================
    EDITORIAL HERO — painel da última edição (revista)
