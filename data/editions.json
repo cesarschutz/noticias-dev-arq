@@ -1,6 +1,53 @@
 {
-  "last_generated": "2026-05-07T09:46:00-03:00",
+  "last_generated": "2026-05-08T13:00:00-03:00",
   "editions": [
+    {
+      "date": "2026-05-08",
+      "hero_title": "Agentes mudam plataforma — fundamentos seguram a corda",
+      "hero_description": "Cloudflare corta 1.100 vagas para se ‘rearquitetar para a era agêntica’, Ably mostra como sessões duráveis salvam agentes de longa duração, e a Linux Foundation cristaliza o MCP em uma fundação só sua. No mesmo dia, kernel Linux ganha LPE encadeada (‘Dirty Frag’) e o Cursor 3.3 enfia revisão de PR e agentes paralelos no IDE. Fundamentos e protocolo ficam em destaque numa edição enxuta de janela de 24h.",
+      "counts_by_category": {
+        "fundamentals": 3,
+        "enterprise": 2,
+        "integ": 2,
+        "ai": 1,
+        "aiops": 1,
+        "cloud": 1,
+        "design": 1,
+        "devops": 1,
+        "frontend": 1,
+        "obs": 1,
+        "sec": 1
+      },
+      "counts_by_tool": {
+        "argocd": 1,
+        "claudecode": 1,
+        "datadog": 1,
+        "github": 1,
+        "kafka": 1,
+        "mermaid": 1,
+        "nginx": 1,
+        "postgres": 1,
+        "python": 1,
+        "structurizr": 1
+      },
+      "highlights": [
+        {
+          "title": "Cloudflare corta 1.100 vagas para ‘rearquitetar a empresa para a era agêntica’",
+          "url": "https://blog.cloudflare.com/building-for-the-future/",
+          "image": "https://blog.cloudflare.com/content/images/2024/12/Building-for-the-future-OG-3.png"
+        },
+        {
+          "title": "Ably descreve por que agentes de longa duração quebram em HTTP — e detalha sessões duráveis e ‘live objects’",
+          "url": "https://thenewstack.io/ably-durable-sessions-ai/",
+          "image": "https://cdn.thenewstack.io/media/2026/05/ably-durable-sessions-ai.jpg"
+        },
+        {
+          "title": "‘Dirty Frag’: LPE encadeada no kernel Linux leva qualquer usuário local a root em quase toda distro pós-2017",
+          "url": "https://ubuntu.com/blog/dirty-frag-linux-vulnerability-fixes-available",
+          "image": "https://ubuntu.com/wp-content/uploads/d2c1/og-image-2.png"
+        }
+      ]
+    },
     {
       "date": "2026-05-07",
       "hero_title": "Argo CD 3.3.9 fecha brecha de secrets, Cloudflare separa LLM em prefill/decode e Confluent tira schema do payload",

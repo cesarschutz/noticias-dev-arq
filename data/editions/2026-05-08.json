@@ -1,0 +1,950 @@
+{
+  "date": "2026-05-08",
+  "weekday": "Sexta-feira",
+  "formatted_date": "Sexta, 8 de Maio de 2026",
+  "generated_at": "2026-05-08T13:00:00-03:00",
+  "editorial_thesis": "Sexta-feira é dia de fundamentos: enquanto agentes de IA reorganizam plataformas de produção, kernel Linux, durabilidade de sessão e governança de schema voltam a ser onde a engenharia decide o jogo.",
+  "hero_title": "Agentes mudam plataforma — fundamentos seguram a corda",
+  "hero_description": "Cloudflare corta 1.100 vagas para se ‘rearquitetar para a era agêntica’, Ably mostra como sessões duráveis salvam agentes de longa duração, e a Linux Foundation cristaliza o MCP em uma fundação só sua. No mesmo dia, kernel Linux ganha LPE encadeada (‘Dirty Frag’) e o Cursor 3.3 enfia revisão de PR e agentes paralelos no IDE. Fundamentos e protocolo ficam em destaque numa edição enxuta de janela de 24h.",
+  "edition_digest": "A sexta-feira chega com um sinal forte: a infra de IA está começando a redesenhar a empresa. A Cloudflare anunciou corte de mais de 1.100 funcionários no post 'Building for the future' citando alta de 600% no uso interno de IA em três meses; o impacto na engenharia é estrutural. No mesmo dia o The New Stack publicou entrevista com Jim Zemlin sobre como a Linux Foundation absorveu o Model Context Protocol dentro da nova Agentic AI Foundation — governança neutra para um protocolo que cresceu de 2M para 97M downloads/mês em 16 meses.\n\nDo lado da arquitetura de integração, a Ably mostrou por que agentes de longa duração quebram em HTTP comum e como sua AI Transport reescreve o transporte com sessões duráveis, tokens mutáveis e live objects. Ainda em integração, a AWS liberou upgrade in-place de RabbitMQ 3.13 → 4.x no Amazon MQ — feature operacional pequena que economiza projeto inteiro.\n\nO Cursor 3.3 chegou com revisão de PR dentro da Agents Window, Security Reviewer automático e ‘Build in Parallel’ para fatiar planos em PRs simultâneos. Somado ao GitHub Copilot CLI ganhando enterprise-managed plugins em preview, a economia do dev claramente desloca para o IDE-orquestrador. Em IA pura, OpenAI lançou GPT-Realtime-2, Realtime-Translate e Realtime-Whisper com raciocínio nível GPT-5 em chamadas de voz ao vivo.\n\nA segurança pesa: ‘Dirty Frag’ encadeia duas LPE no kernel Linux (xfrm + rxrpc) e leva qualquer usuário local a root em praticamente toda distro pós-2017, com CVE-2026-43284 divulgada em 7/mai e patches ainda chegando. Aplicar agora.\n\nNa frente de fundamentos — porque é sexta — três leituras: ScyllaDB recapitulando o que mudou no DDIA 2ª edição, Julia Evans documentando exemplos práticos de tcpdump e dig, e a série da LWN sobre páginas vs folios na transição de memória do kernel. Na plataforma, Datadog cruzou US$ 1 bi com GPU Monitoring em GA, AWS levou seu MCP Server para GA, e o The New Stack argumenta que contexto, não modelo, virou o gargalo do AI coding.",
+  "highlights": [
+    {
+      "source_array": "news",
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Cloudflare corta 1.100 vagas para ‘rearquitetar a empresa para a era agêntica’",
+      "summary": "Em ‘Building for the future’, Cloudflare anunciou em 7/mai redução de mais de 1.100 funcionários, citando alta de 600% no uso interno de IA em três meses e milhares de sessões diárias de agente entre engenharia, finanças e marketing. Severance até o fim de 2026 e vesting estendido até 15/ago compõem o pacote — sinal forte de que a IA está virando vetor explícito de redesenho organizacional, não só tooling.",
+      "explain": {
+        "comece": "Cloudflare é uma das maiores plataformas globais de CDN, segurança e edge compute. ‘Building for the future’ formaliza a tese de que agentes de IA já assumiram parte significativa do trabalho operacional dentro da empresa, com ganhos relatados de produtividade que tornam estruturas tradicionais menos justificáveis e disparam um corte de mais de mil funcionários.",
+        "aprofunde": "O post combina dois movimentos: um quantitativo (uso interno de IA explodiu em três meses, com agentes rodando milhares de sessões/dia) e um qualitativo (HR, finanças, engenharia e marketing reportam fluxo de trabalho redesenhado em torno de orquestração agêntica). A engenharia interna apoiou-se em Workers, Durable Objects e nas mesmas peças que Cloudflare comercializa, criando um efeito ‘dogfood organizacional’ que justifica internamente o corte.",
+        "decida": "Para arquitetos de plataforma, este caso é precedente perigoso e útil ao mesmo tempo. Use-o em ADRs de plataforma para discutir três coisas: governança de agentes (quem aprova ações destrutivas), métricas de produtividade pré e pós-IA (sem isso o discurso não sustenta) e plano de absorção de pessoas deslocadas. Antes de imitar, exija evidência interna comparável; sem ela, é fé corporativa.",
+        "glossary": [
+          {"term": "Era agêntica", "def": "Termo usado pela Cloudflare e pela Linux Foundation para descrever a fase em que agentes autônomos viram parte do estoque operacional da empresa, ao lado de pessoas e microsserviços."},
+          {"term": "Vesting", "def": "Período em que ações concedidas a funcionários se tornam realmente disponíveis; estender o vesting amortece o impacto financeiro de um desligamento."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 6,
+      "score_breakdown": ["convergencia+2", "utilidade+2", "tier1+1", "impacto+1"],
+      "learning": {
+        "url": "https://teamtopologies.com/news-blogs-newsletters/designing-platform-centric-organizations-with-domain-thinking-and-team-topologies",
+        "title": "Designing Platform-Centric Organizations with Domain Thinking and Team Topologies",
+        "type": "article",
+        "source_name": "Team Topologies",
+        "why": "Material direto sobre como redesenhar organizações em torno de plataformas; útil para fundamentar a discussão antes de copiar o movimento Cloudflare em times menores."
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/building-for-the-future/",
+      "published_at": "2026-05-07T18:00:00-03:00",
+      "read_time": 4,
+      "tags": ["agentic-ai", "platform", "workforce"],
+      "image": "https://blog.cloudflare.com/content/images/2024/12/Building-for-the-future-OG-3.png",
+      "image_kind": "institutional"
+    },
+    {
+      "source_array": "news",
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Ably descreve por que agentes de longa duração quebram em HTTP — e detalha sessões duráveis e ‘live objects’",
+      "summary": "Em entrevista publicada em 7/mai, o CEO da Ably, Matthew O’Riordan, explica por que dezenas de tool-calls e múltiplos passos de raciocínio expõem o limite half-duplex do HTTP em agentes. AI Transport mantém o caminho client→agent em HTTP e move só a resposta para uma sessão durável, com tokens mutáveis (em vez de imutáveis) e ‘live objects’ — armazenamento colaborativo que mantém agente e humano em sincronia mesmo após reconexão de aba ou troca de dispositivo.",
+      "explain": {
+        "comece": "Quando um agente chama uma sequência grande de ferramentas e raciocina em vários passos, o cliente HTTP típico não consegue receber atualizações novas, interromper ou retomar contexto após queda. Ably propõe um transporte específico para esse caso, com sessão durável do lado servidor e modelo de mensagens que aceita atualização posterior em vez de só append.",
+        "aprofunde": "O ponto técnico central: HTTP é half-duplex, então uma vez começado o stream, o cliente perde o canal de retorno até a próxima requisição. Ably usa o caminho de upload como HTTP e troca o caminho de download por sessão durável persistida fora do connection pool, permitindo reconexão idempotente, replay parcial via cursor e mensagens mutáveis (atualiza um token específico) em vez de replay full do log. ‘Live objects’ acrescentam uma camada CRDT-style para estado compartilhado entre agente e humano.",
+        "decida": "Se sua plataforma tem agentes de minuto-plus, vale rascunhar agora um PoC com SSE + sessão durável próprio antes de assinar Ably; troque o ‘aborto e reinicia’ por ‘reconecta no cursor X’. Se a stack já é serverless e você não quer manter conexão longa, AI Transport é caminho razoável. Se o agente é curto (<15s), HTTP/SSE puro continua suficiente — adotar isso aqui é overengineering.",
+        "glossary": [
+          {"term": "Half-duplex", "def": "Canal de comunicação em que cliente e servidor não conseguem enviar simultaneamente; HTTP padrão funciona assim por requisição."},
+          {"term": "Live object", "def": "Objeto colaborativo (similar a CRDT) cuja versão atual fica em sincronia entre múltiplos clientes e agentes, mesmo após reconexão."},
+          {"term": "Cursor de stream", "def": "Identificador opaco que marca a posição do consumidor numa sequência de mensagens, permitindo retomar exatamente onde parou."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 5,
+      "score_breakdown": ["utilidade+2", "convergencia+2", "tier2+1"],
+      "learning": {
+        "url": "https://ably.com/blog/websockets-vs-http-for-ai-streaming-and-agents",
+        "title": "WebSockets vs HTTP for AI applications: which to choose in 2026",
+        "type": "article",
+        "source_name": "Ably Blog",
+        "why": "Compara os dois transportes na ótica de agentes longos; complemento técnico direto à entrevista do The New Stack para escolher entre HTTP+SSE, WebSocket ou sessão durável."
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/ably-durable-sessions-ai/",
+      "published_at": "2026-05-07T07:00:00-03:00",
+      "read_time": 5,
+      "tags": ["ai-agents", "http", "streaming"],
+      "image": "https://cdn.thenewstack.io/media/2026/05/ably-durable-sessions-ai.jpg",
+      "image_kind": "editorial"
+    },
+    {
+      "source_array": "news",
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "cves": ["CVE-2026-43284"],
+      "headline": "‘Dirty Frag’: LPE encadeada no kernel Linux leva qualquer usuário local a root em quase toda distro pós-2017",
+      "summary": "Divulgada em 7/mai, a Dirty Frag combina duas vulnerabilidades de escrita de 4 bytes em xfrm-ESP (IPsec) e RxRPC para escalar de usuário comum a root sem race conditions. Afeta Ubuntu, Debian, RHEL, openSUSE, CentOS, AlmaLinux, Fedora e Arch — basicamente todo kernel pós-2017. Uma das CVEs já recebeu ID CVE-2026-43284; a outra está pendente. Patches começam a sair pelas distros nas próximas 24-48h.",
+      "explain": {
+        "comece": "Local Privilege Escalation (LPE) é a classe de falha em que um usuário sem privilégios consegue virar root explorando uma falha do kernel. Dirty Frag não exige race condition — é uma cadeia de duas escritas de memória controladas que produz exploração confiável. O nome é referência a Dirty Pipe e Dirty Cow, vulnerabilidades famosas com mecânica similar.",
+        "aprofunde": "Tecnicamente, o ataque encadeia duas primitivas: uma escrita arbitrária de 4 bytes na fast-path ESP-in-UDP do XFRM (sem COW), e outra equivalente no caminho de transporte RxRPC. Combinadas, dão corrupção previsível da page cache do kernel, suficiente para sobrescrever cred structs e alcançar root. Como ambas estão em código presente em virtualmente todo kernel mainstream desde 2017, exposição é maciça; o vetor exige acesso local mas não interação especial.",
+        "decida": "Para SREs, prioridade hoje é três coisas: aplicar patches kernel assim que cada distro disponibilizar (Canonical já publicou aviso); revisar quem tem shell em hosts de produção (princípio do menor privilégio aqui não é paper, é defesa); ativar auditd para flag de exploração conhecida. Se você roda containers privilegiados em multi-tenant, considere isolamento por VM até patch propagar — cgroup e namespace não protegem contra LPE.",
+        "glossary": [
+          {"term": "LPE", "def": "Local Privilege Escalation; falha que permite usuário local virar root sem credenciais adicionais."},
+          {"term": "XFRM", "def": "Subsistema do kernel Linux que implementa IPsec e transformações de pacotes."},
+          {"term": "RxRPC", "def": "Protocolo de transporte usado historicamente por AFS e implementado no kernel Linux."},
+          {"term": "Page cache write primitive", "def": "Capacidade de escrever em memória do kernel via falha; quando combinada com leak de endereço vira root facilmente."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 6,
+      "score_breakdown": ["convergencia+2", "utilidade+2", "impacto+1", "tier1+1"],
+      "learning": {
+        "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-02",
+        "title": "RHSB-2026-02 Cryptographic Subsystem Privilege Escalation",
+        "type": "docs",
+        "source_name": "Red Hat Security",
+        "why": "Aviso oficial Red Hat com lista de pacotes afetados e mitigações temporárias enquanto patches propagam; útil mesmo para quem não usa RHEL como referência cruzada."
+      },
+      "source_key": "thehackernews",
+      "url": "https://ubuntu.com/blog/dirty-frag-linux-vulnerability-fixes-available",
+      "published_at": "2026-05-07T15:00:00-03:00",
+      "read_time": 4,
+      "tags": ["linux-kernel", "lpe", "cve"],
+      "image": "https://ubuntu.com/wp-content/uploads/d2c1/og-image-2.png",
+      "image_kind": "institutional"
+    }
+  ],
+  "news": [
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Cloudflare corta 1.100 vagas para ‘rearquitetar a empresa para a era agêntica’",
+      "summary": "Em ‘Building for the future’, Cloudflare anunciou em 7/mai redução de mais de 1.100 funcionários, citando alta de 600% no uso interno de IA em três meses e milhares de sessões diárias de agente entre engenharia, finanças e marketing. Severance até o fim de 2026 e vesting estendido até 15/ago compõem o pacote — sinal forte de que a IA está virando vetor explícito de redesenho organizacional, não só tooling.",
+      "explain": {
+        "comece": "Cloudflare é uma das maiores plataformas globais de CDN, segurança e edge compute. ‘Building for the future’ formaliza a tese de que agentes de IA já assumiram parte significativa do trabalho operacional dentro da empresa, com ganhos relatados de produtividade que tornam estruturas tradicionais menos justificáveis e disparam um corte de mais de mil funcionários.",
+        "aprofunde": "O post combina dois movimentos: um quantitativo (uso interno de IA explodiu em três meses, com agentes rodando milhares de sessões/dia) e um qualitativo (HR, finanças, engenharia e marketing reportam fluxo de trabalho redesenhado em torno de orquestração agêntica). A engenharia interna apoiou-se em Workers, Durable Objects e nas mesmas peças que Cloudflare comercializa, criando um efeito ‘dogfood organizacional’ que justifica internamente o corte.",
+        "decida": "Para arquitetos de plataforma, este caso é precedente perigoso e útil ao mesmo tempo. Use-o em ADRs de plataforma para discutir três coisas: governança de agentes (quem aprova ações destrutivas), métricas de produtividade pré e pós-IA (sem isso o discurso não sustenta) e plano de absorção de pessoas deslocadas. Antes de imitar, exija evidência interna comparável; sem ela, é fé corporativa.",
+        "glossary": [
+          {"term": "Era agêntica", "def": "Termo usado pela Cloudflare e pela Linux Foundation para descrever a fase em que agentes autônomos viram parte do estoque operacional da empresa, ao lado de pessoas e microsserviços."},
+          {"term": "Vesting", "def": "Período em que ações concedidas a funcionários se tornam realmente disponíveis; estender o vesting amortece o impacto financeiro de um desligamento."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 6,
+      "score_breakdown": ["convergencia+2", "utilidade+2", "tier1+1", "impacto+1"],
+      "learning": {
+        "url": "https://teamtopologies.com/news-blogs-newsletters/designing-platform-centric-organizations-with-domain-thinking-and-team-topologies",
+        "title": "Designing Platform-Centric Organizations with Domain Thinking and Team Topologies",
+        "type": "article",
+        "source_name": "Team Topologies",
+        "why": "Material direto sobre como redesenhar organizações em torno de plataformas; útil para fundamentar a discussão antes de copiar o movimento Cloudflare em times menores."
+      },
+      "source_key": "cloudflare",
+      "url": "https://blog.cloudflare.com/building-for-the-future/",
+      "published_at": "2026-05-07T18:00:00-03:00",
+      "read_time": 4,
+      "tags": ["agentic-ai", "platform", "workforce"],
+      "image": "https://blog.cloudflare.com/content/images/2024/12/Building-for-the-future-OG-3.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Ably descreve por que agentes de longa duração quebram em HTTP — e detalha sessões duráveis e ‘live objects’",
+      "summary": "Em entrevista publicada em 7/mai, o CEO da Ably, Matthew O’Riordan, explica por que dezenas de tool-calls e múltiplos passos de raciocínio expõem o limite half-duplex do HTTP em agentes. AI Transport mantém o caminho client→agent em HTTP e move só a resposta para uma sessão durável, com tokens mutáveis (em vez de imutáveis) e ‘live objects’ — armazenamento colaborativo que mantém agente e humano em sincronia mesmo após reconexão de aba ou troca de dispositivo.",
+      "explain": {
+        "comece": "Quando um agente chama uma sequência grande de ferramentas e raciocina em vários passos, o cliente HTTP típico não consegue receber atualizações novas, interromper ou retomar contexto após queda. Ably propõe um transporte específico para esse caso, com sessão durável do lado servidor e modelo de mensagens que aceita atualização posterior em vez de só append.",
+        "aprofunde": "O ponto técnico central: HTTP é half-duplex, então uma vez começado o stream, o cliente perde o canal de retorno até a próxima requisição. Ably usa o caminho de upload como HTTP e troca o caminho de download por sessão durável persistida fora do connection pool, permitindo reconexão idempotente, replay parcial via cursor e mensagens mutáveis (atualiza um token específico) em vez de replay full do log. ‘Live objects’ acrescentam uma camada CRDT-style para estado compartilhado entre agente e humano.",
+        "decida": "Se sua plataforma tem agentes de minuto-plus, vale rascunhar agora um PoC com SSE + sessão durável próprio antes de assinar Ably; troque o ‘aborto e reinicia’ por ‘reconecta no cursor X’. Se a stack já é serverless e você não quer manter conexão longa, AI Transport é caminho razoável. Se o agente é curto (<15s), HTTP/SSE puro continua suficiente — adotar isso aqui é overengineering.",
+        "glossary": [
+          {"term": "Half-duplex", "def": "Canal de comunicação em que cliente e servidor não conseguem enviar simultaneamente; HTTP padrão funciona assim por requisição."},
+          {"term": "Live object", "def": "Objeto colaborativo (similar a CRDT) cuja versão atual fica em sincronia entre múltiplos clientes e agentes, mesmo após reconexão."},
+          {"term": "Cursor de stream", "def": "Identificador opaco que marca a posição do consumidor numa sequência de mensagens, permitindo retomar exatamente onde parou."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 5,
+      "score_breakdown": ["utilidade+2", "convergencia+2", "tier2+1"],
+      "learning": {
+        "url": "https://ably.com/blog/websockets-vs-http-for-ai-streaming-and-agents",
+        "title": "WebSockets vs HTTP for AI applications: which to choose in 2026",
+        "type": "article",
+        "source_name": "Ably Blog",
+        "why": "Compara os dois transportes na ótica de agentes longos; complemento técnico direto à entrevista do The New Stack para escolher entre HTTP+SSE, WebSocket ou sessão durável."
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/ably-durable-sessions-ai/",
+      "published_at": "2026-05-07T07:00:00-03:00",
+      "read_time": 5,
+      "tags": ["ai-agents", "http", "streaming"],
+      "image": "https://cdn.thenewstack.io/media/2026/05/ably-durable-sessions-ai.jpg",
+      "image_kind": "editorial"
+    },
+    {
+      "category": "enterprise",
+      "category_label": "Arq. Corporativa",
+      "category_icon": "🗺️",
+      "headline": "Por que a Linux Foundation absorveu o MCP — Jim Zemlin e Mazin Gilbert detalham a Agentic AI Foundation",
+      "summary": "Em 7/mai o The New Stack publicou entrevista com o ED da Linux Foundation, Jim Zemlin, e Mazin Gilbert sobre a recém-formada Agentic AI Foundation (AAIF), que abriga MCP, AGENTS.md e goose. Em 16 meses o MCP cresceu de ~2M downloads/mês para 97M, e o objetivo declarado é dar governança neutra que sustente o protocolo conforme ele vira ‘USB-C dos agentes’. Cofundadores: Anthropic, Block e OpenAI; apoiadores: Google, Microsoft, AWS, Cloudflare e Bloomberg.",
+      "explain": {
+        "comece": "Model Context Protocol (MCP) é o protocolo que padronizou como modelos de IA se conectam a ferramentas, dados e aplicações. Em dezembro/2025 a Anthropic doou o protocolo para a Linux Foundation, que lançou a Agentic AI Foundation; a entrevista publicada agora explica os critérios técnicos e políticos por trás dessa transição.",
+        "aprofunde": "A AAIF é um directed fund dentro da LF — modelo já usado para projetos como CNCF e CDF. Recebeu três projetos âncora: MCP (protocolo), AGENTS.md (formato de descritor de capacidades agênticas no repositório, similar ao README mas para agentes) e goose (cliente de referência). A entrevista enfatiza que a governança aberta é pré-condição para Fortune 500 adotar o protocolo em produção, dado que mais de 10 mil servidores MCP já existem publicados.",
+        "decida": "Plataformas internas que estão padronizando integração agente→tool deveriam tratar MCP como standard de fato e investir em servidores MCP para os sistemas legados antes de inventar adapters. Para arquitetos de solução, vale ler o anúncio e mapear quais ferramentas internas merecem servidor MCP nas próximas duas trimestres — o custo de adoção tende a cair, mas o de divergência sobe.",
+        "glossary": [
+          {"term": "MCP", "def": "Model Context Protocol; padrão aberto que descreve como modelos de IA descobrem e chamam ferramentas externas, equivalente a um ‘USB-C de agentes’."},
+          {"term": "AGENTS.md", "def": "Arquivo de configuração colocado em repositórios para declarar para agentes capacidades, comandos e políticas — como um README, mas voltado a consumo automático."},
+          {"term": "Directed fund (LF)", "def": "Estrutura formal da Linux Foundation que abriga famílias de projetos sob governança neutra com financiamento dos membros."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 5,
+      "score_breakdown": ["convergencia+2", "utilidade+2", "tier2+1"],
+      "learning": {
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25",
+        "title": "Model Context Protocol Specification",
+        "type": "docs",
+        "source_name": "Model Context Protocol",
+        "why": "Especificação canônica do protocolo agora hospedado na Agentic AI Foundation; leitura recomendada antes de implementar servidor MCP próprio."
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/agentic-ai-foundation-launch/",
+      "published_at": "2026-05-07T08:00:00-03:00",
+      "read_time": 5,
+      "tags": ["mcp", "linux-foundation", "agents"],
+      "image": "https://cdn.thenewstack.io/media/2026/05/agentic-ai-foundation-launch.jpg",
+      "image_kind": "editorial"
+    },
+    {
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Amazon MQ libera upgrade in-place de RabbitMQ 3.13 para 4.x sem recriar broker",
+      "summary": "AWS anunciou em 5/mai suporte a in-place major version upgrade para brokers Amazon MQ for RabbitMQ — clientes saem de 3.13 direto para 4.x via console, CLI ou API. Antes, o caminho recomendado era criar broker novo e migrar consumidores. A feature reduz risco de drift de configuração e elimina a etapa de redirecionamento de DNS/endpoints, mantendo histórico de logs e métricas no mesmo recurso ARN.",
+      "explain": {
+        "comece": "Amazon MQ é o serviço gerenciado da AWS para brokers Apache ActiveMQ e RabbitMQ. Antes desta feature, atualizar uma versão major do RabbitMQ exigia provisionar broker novo, copiar políticas, migrar consumidores e atualizar endpoints — projeto inteiro. O upgrade in-place faz isso sem mudar o ARN do recurso.",
+        "aprofunde": "Em background, a AWS coordena uma transição que substitui binários e converte metadata (vhosts, exchanges, bindings, definições de quorum queue) entre as duas versões. Há janela de manutenção e downtime curto; clientes com cluster precisam validar antecipadamente quorum queues e federation links, pois o RabbitMQ 4.x mudou padrões importantes (mirrored queues clássicas estão em fim de vida).",
+        "decida": "Use o upgrade in-place se: você já está em 3.13, sua aplicação reconecta automaticamente, e você ainda usa quorum queues. Evite o caminho se: tem mirrored classic queues em produção (faça migração explícita antes), depende de plugins customizados não suportados em 4.x, ou roda federation entre brokers de versões diferentes — nesses casos blue-green tradicional ainda é mais seguro.",
+        "glossary": [
+          {"term": "In-place upgrade", "def": "Atualização que substitui o software no mesmo recurso, sem criar nova instância e migrar dados."},
+          {"term": "Quorum queue (RabbitMQ)", "def": "Tipo de fila replicada via Raft, que substituiu mirrored classic queues como mecanismo recomendado de alta disponibilidade no RabbitMQ 4."},
+          {"term": "Broker ARN", "def": "Identificador AWS único do recurso de broker; preservá-lo evita reconfigurar IAM, CloudWatch alarms e clientes."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["release+3", "utilidade+2", "tier1+1"],
+      "learning": {
+        "url": "https://www.rabbitmq.com/docs/quorum-queues",
+        "title": "RabbitMQ Quorum Queues",
+        "type": "docs",
+        "source_name": "RabbitMQ Docs",
+        "why": "Documentação canônica de quorum queues — leitura essencial antes do upgrade, pois define o caminho seguro de migração saindo de mirrored classic queues."
+      },
+      "source_key": "awswhatsnew",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/05/amazon-mq-inplace-upgrades-rabbitmq4/",
+      "published_at": "2026-05-05T16:00:00-03:00",
+      "read_time": 3,
+      "tags": ["rabbitmq", "aws", "messaging"],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "GitHub Copilot CLI ganha enterprise-managed plugins em public preview",
+      "summary": "Em 6/mai, GitHub abriu preview público de enterprise-managed plugins para o Copilot CLI: admins de organização configuram, distribuem e atualizam plugins de forma central, encerrando a era em que cada dev instalava ferramentas de agente por conta própria. A feature suporta gating por equipe, versão pinada e bloqueio de plugins de fora do catálogo — modelo similar ao gerenciamento corporativo de extensões VS Code.",
+      "explain": {
+        "comece": "GitHub Copilot CLI é o cliente de linha de comando para tarefas agênticas em projetos hospedados no GitHub. Plugins ampliam o que o agente sabe fazer (ex.: linters internos, deploy hooks). Até agora cada dev instalava plugins individualmente; o enterprise-managed transforma isso em política central, com catálogo, versão e auditoria controlados por admin.",
+        "aprofunde": "Tecnicamente, a empresa registra plugins em um manifesto centralizado, mapeia para teams ou repos e define se a instalação é obrigatória, sugerida ou bloqueada. O Copilot CLI consulta esse manifesto antes de aceitar ‘installed plugins’, recusando origens fora do catálogo. A trilha de auditoria entrega quem usou qual plugin, com qual versão, em qual sessão — peça que faltava para LGPD/SOC 2 em ambientes regulados.",
+        "decida": "Times com mais de 30 desenvolvedores devem migrar para o modelo gerenciado em até dois sprints; sem isso, plugins viram shadow IT. Antes do GA, valide três coisas: integração com seu IdP (SAML/OIDC) funciona como esperado, plugins críticos do seu fluxo já existem ou são fáceis de empacotar, e o offboarding revoga plugins junto com o user. Plataforma de IA em produção sem governança vira surface de ataque.",
+        "glossary": [
+          {"term": "Public preview (GitHub)", "def": "Estágio aberto a todos os clientes, mas com SLA limitado e potencial breaking change antes do GA."},
+          {"term": "Enterprise-managed", "def": "Modelo em que admins corporativos têm controle central sobre instalação, atualização e bloqueio de extensões/plugins por usuário ou equipe."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["release+3", "utilidade+2", "tier1+1", "ai_no_action-2"],
+      "learning": {
+        "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises",
+        "title": "Usage-based billing for organizations and enterprises (GitHub Copilot)",
+        "type": "docs",
+        "source_name": "GitHub Docs",
+        "why": "Contexto sobre como plugins enterprise-managed se relacionam com plano de billing por uso; importante para arquitetos de plataforma calcularem custo real do CLI."
+      },
+      "source_key": "githubchangelog",
+      "url": "https://github.blog/changelog/2026-05-06-enterprise-managed-plugins-in-github-copilot-cli-are-now-in-public-preview/",
+      "published_at": "2026-05-06T18:00:00-03:00",
+      "read_time": 3,
+      "tags": ["github-copilot", "cli", "governance"],
+      "image": "https://github.blog/wp-content/uploads/2024/12/github-copilot.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Daniel Terhorst-North no QCon: ‘Best Simple System for Now’ ataca o falso dilema entre dívida técnica e prazo",
+      "summary": "InfoQ resumiu em 7/mai a talk de Daniel Terhorst-North argumentando que ‘acumular dívida vs. estourar prazo’ é falsa dicotomia: programadores tendem a generalizar antes da hora, e isso é a maior fonte de complexidade futura. Best Simple System for Now (BSSN) é a recomendação prática — manter o sistema simples ‘por enquanto’ é uma habilidade de engenharia, não preguiça, e exige instinto treinado para distinguir generalização útil de prematura.",
+      "explain": {
+        "comece": "Best Simple System for Now (BSSN) é uma heurística de design proposta por Daniel Terhorst-North: a cada decisão, escolha a solução mais simples que atende o requisito atual, e refatore quando a realidade pedir, não quando você imaginar que pode pedir. A talk no QCon e o resumo da InfoQ argumentam que abuso de generalização é a maior fonte de complexidade acidental.",
+        "aprofunde": "Operacionalmente, BSSN se traduz em três posturas: evitar abstrações ‘para o futuro’ sem caso real, preferir duplicação local a hierarquia ampla quando o domínio ainda não está claro, e aceitar que refatoração contínua é parte do trabalho — não uma anomalia. North contrapõe BSSN ao ‘arquiteto astronauta’ que prevê escala 100x antes do produto encontrar 1x. O resumo conecta a discussão a Tidy First (Beck) e a debates antigos sobre YAGNI.",
+        "decida": "Para tech leads, BSSN é prompt útil em revisão de PR: pergunte ‘qual o caso real concreto que justifica essa interface genérica?’. Se não houver, simplifique. Para arquitetos seniores, a heurística serve para orientar conversa com stakeholders sobre prazo: prazo curto não exige dívida — exige escopo simples. A talk não é solução universal, mas dá vocabulário para evitar o caminho mais caro.",
+        "glossary": [
+          {"term": "BSSN", "def": "Best Simple System for Now — manter o sistema o mais simples possível para resolver o problema atual e refatorar quando necessário."},
+          {"term": "YAGNI", "def": "‘You Aren’t Gonna Need It’; princípio do XP que recomenda não implementar funcionalidade até que seja realmente necessária."},
+          {"term": "Tidy First", "def": "Livro e abordagem de Kent Beck sobre quando aplicar pequenas refatorações antes de uma mudança maior, complementar ao BSSN."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["utilidade+2", "tier1+1", "tier2+1"],
+      "learning": {
+        "url": "https://martinfowler.com/bliki/Yagni.html",
+        "title": "Yagni",
+        "type": "article",
+        "source_name": "Martin Fowler",
+        "why": "Referência canônica de Martin Fowler sobre YAGNI; complementa BSSN com argumento histórico para resistir à abstração prematura."
+      },
+      "source_key": "infoq",
+      "url": "https://www.infoq.com/news/2026/05/best-simple-system-design/",
+      "published_at": "2026-05-07T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["software-design", "qcon", "yagni"],
+      "image": "https://res.infoq.com/news/2026/05/best-simple-system-design/en/headerimage/best-simple-system-thumb.jpg",
+      "image_kind": "editorial"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "Julia Evans publica exemplos práticos de tcpdump e dig — material que faltava nos man pages",
+      "summary": "No blog jvns.ca, Julia Evans documenta exemplos básicos para tcpdump e dig que escolhe colocar fora do man page oficial: capturar HTTPS de uma porta específica, filtrar por host, ler captura existente, resolver DNS por servidor e tipo. A premissa: o man page diz ‘como’, não ‘o que digitar primeiro’, e dezenas de profissionais perdem horas por causa disso. Texto curto, exemplos copiáveis, foco em fundamentos de rede.",
+      "explain": {
+        "comece": "tcpdump captura pacotes de rede no Linux/macOS; dig consulta servidores DNS. Ambos são ferramentas de fundamentos para qualquer engenheiro que opera produção, mas a curva inicial é áspera porque o man page descreve flags, não tarefas. Julia Evans publicou exemplos que vão direto ao ‘como faço X agora’.",
+        "aprofunde": "O post lista padrões úteis: ‘tcpdump -i any -nn -w cap.pcap host 1.2.3.4’ para gravar tráfego de um host específico; ‘dig @8.8.8.8 +short example.com AAAA’ para resolver IPv6 num resolver específico; ‘tcpdump -r cap.pcap -A’ para reler captura como ASCII. Cada exemplo carrega contexto suficiente para entender quando usar e quando evitar (captura BPF custosa em produção, leitura de pcap em SREs durante incidente).",
+        "decida": "Para engenheiros que ainda recorrem a Stack Overflow toda vez que precisam dessas ferramentas, vale criar um arquivo NOTES.md no dotfiles com 5 exemplos do post adaptados ao seu ambiente. Para tech leads, vale incluir essas duas ferramentas na lista de skills básicas exigidas em onboarding — ninguém deveria entrar em incidente de rede sem saber abrir tcpdump.",
+        "glossary": [
+          {"term": "tcpdump", "def": "Ferramenta CLI que captura pacotes na interface de rede usando filtros BPF e grava arquivos pcap legíveis por Wireshark."},
+          {"term": "dig", "def": "Cliente DNS que consulta resolvers diretamente, mostrando questão, resposta, autoridade e flags de cada query."},
+          {"term": "BPF (filter)", "def": "Berkeley Packet Filter; linguagem mínima usada por tcpdump e ferramentas modernas de observabilidade kernel-level."}
+        ]
+      },
+      "freshness": "evergreen",
+      "score": 4,
+      "score_breakdown": ["utilidade+2", "tier2+1", "autor canonico+1"],
+      "learning": {
+        "url": "https://jvns.ca/categories/networking/",
+        "title": "Networking posts — Julia Evans",
+        "type": "article",
+        "source_name": "jvns.ca",
+        "why": "Coletânea de posts da Julia Evans sobre redes; complementa o post de tcpdump/dig com fundamentos de DNS, TCP e debugging em geral."
+      },
+      "source_key": "jvns",
+      "url": "https://jvns.ca/blog/2026/03/10/examples-for-the-tcpdump-and-dig-man-pages/",
+      "published_at": "2026-03-10T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["networking", "debugging", "fundamentals"],
+      "image": "https://jvns.ca/images/banner.jpg",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "ScyllaDB recapitula DDIA 2ª edição — o que mudou entre 2017 e 2026 em sistemas de dados",
+      "summary": "Post da ScyllaDB de 26/mar comenta a 2ª edição de Designing Data-Intensive Applications (Kleppmann + Riccomini), foca em três grandes mudanças desde 2017: object storage virou padrão (não disco local), workloads de IA reescreveram formatos de armazenamento e índices, e MapReduce praticamente sumiu — Spark e Flink ocupam o lugar. Capítulo de consistência e consenso ficou sensivelmente maior; livro inteiro foi reescrito.",
+      "explain": {
+        "comece": "Designing Data-Intensive Applications (DDIA) é referência canônica para arquitetura de sistemas de dados desde 2017. A 2ª edição saiu em maio/2026 com capítulos reescritos. O post da ScyllaDB destaca o que arquitetos que conhecem a 1ª edição precisam atualizar mentalmente quando lerem a 2ª.",
+        "aprofunde": "Três mudanças concretas: (1) o cap. de armazenamento agora trata object store remoto (S3 e similares) como base, não local disk — implica em pensamento ‘compute close to data, data eventually consistent’; (2) capítulos novos cobrem indexação para vetores, formatos colunarizados (Parquet, Iceberg) e o problema de governance entre múltiplos engines; (3) coverage de MapReduce caiu, e o livro adota explicitamente Spark e Flink como referência de batch e streaming.",
+        "decida": "Se você lidera time de dados, vale promover a 2ª edição como leitura obrigatória, mas sem aposentar a 1ª — capítulos sobre fundamentos de transação, replicação e consenso continuam essenciais e em parte mais profundos. Para arquitetos que não vão reler tudo, foque os capítulos de armazenamento, processamento batch/streaming e consenso; o restante pode ser revisão por amostragem.",
+        "glossary": [
+          {"term": "DDIA", "def": "Designing Data-Intensive Applications — livro de Martin Kleppmann sobre os trade-offs fundamentais de sistemas distribuídos de dados."},
+          {"term": "Object storage", "def": "Armazenamento remoto baseado em objetos imutáveis (ex.: S3, GCS); replicado pelo provedor, escalável horizontalmente, mas mais lento que disco local."},
+          {"term": "Apache Iceberg", "def": "Formato de tabela aberto sobre object storage que adiciona versionamento, schema evolution e suporte a múltiplos engines (Spark, Flink, Trino)."}
+        ]
+      },
+      "freshness": "evergreen",
+      "score": 3,
+      "score_breakdown": ["utilidade+2", "autor canonico+1"],
+      "learning": {
+        "url": "https://dataintensive.net/",
+        "title": "Designing Data-Intensive Applications — site oficial",
+        "type": "docs",
+        "source_name": "dataintensive.net",
+        "why": "Site oficial do livro, com índice da 2ª edição, exercícios e referências bibliográficas extensas — leitura primária antes de mergulhar nos resumos."
+      },
+      "source_key": "thenewstack",
+      "url": "https://www.scylladb.com/2026/03/26/rethinking-designing-data-intensive-applications/",
+      "published_at": "2026-03-26T10:00:00-03:00",
+      "read_time": 5,
+      "tags": ["ddia", "data", "architecture"],
+      "image": "https://www.scylladb.com/wp-content/uploads/2026/03/rethinking-ddia-1200x630.jpg",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "fundamentals",
+      "category_label": "Fundamentos de Computação",
+      "category_icon": "🧱",
+      "headline": "LWN: ‘On pages and folios’ explica a transição da memória do kernel Linux",
+      "summary": "Artigo de Jonathan Corbet na LWN cobre o avanço da migração de ‘struct page’ para ‘struct folio’ no kernel Linux: hoje o vocabulário interno já fala mais em folio do que page, e a divisão simplifica casos como huge pages e migrações entre tiers. Texto denso, mas é leitura obrigatória para quem quer entender o que vai mudar em código de driver, filesystem e mm nos próximos anos.",
+      "explain": {
+        "comece": "Páginas (page) são a unidade básica que o kernel Linux usa para falar de memória física. Folios são uma abstração nova introduzida nos últimos kernels: cada folio agrupa uma página individual ou várias páginas contíguas como uma unidade lógica, simplificando código que antes tinha que descobrir sozinho se estava lidando com uma huge page.",
+        "aprofunde": "Tecnicamente, ‘struct folio’ é um wrapper opaco em torno de struct page que fixa propriedades como ‘folio inteira tem mesmo refcount’, ‘folio inteira tem mesmo tipo de mapeamento’. Isso permite que filesystems modernos (XFS, EXT4, Bcachefs) operem diretamente em folios e ganhem suporte transparente a páginas grandes. A LWN documenta como APIs antigas baseadas em page estão sendo redirecionadas e onde drivers ainda precisam ser convertidos.",
+        "decida": "Para engenheiros que mantêm filesystems, drivers ou módulos kernel, é hora de ler a série da LWN inteira (vários posts) e começar a converter chamadas baseadas em page para folio quando o kernel oferecer caminho. Para SREs e desenvolvedores de aplicação, o impacto é indireto: kernels recentes vão melhorar suporte a huge pages e tiered memory ‘de graça’, sem mudança em userspace.",
+        "glossary": [
+          {"term": "struct page", "def": "Estrutura tradicional do Linux que descreve uma página de memória física (geralmente 4 KiB)."},
+          {"term": "struct folio", "def": "Abstração mais nova que agrupa uma ou várias páginas contíguas como uma unidade lógica, simplificando código que precisa lidar com páginas grandes."},
+          {"term": "Huge page", "def": "Página de memória maior que 4 KiB (ex.: 2 MiB ou 1 GiB) usada para reduzir custo de TLB e overhead de page tables."}
+        ]
+      },
+      "freshness": "evergreen",
+      "score": 3,
+      "score_breakdown": ["utilidade+2", "autor canonico+1"],
+      "learning": {
+        "url": "https://lwn.net/Kernel/Index/",
+        "title": "LWN Kernel Index",
+        "type": "docs",
+        "source_name": "LWN.net",
+        "why": "Índice mantido pela LWN com toda a cobertura de kernel Linux — base para acompanhar a transição page→folio em série, não só num post isolado."
+      },
+      "source_key": "lobsters",
+      "url": "https://lwn.net/Articles/1064861/",
+      "published_at": "2026-04-24T10:00:00-03:00",
+      "read_time": 6,
+      "tags": ["linux-kernel", "memory", "fundamentals"],
+      "image": "https://lwn.net/images/lcorner.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Datadog cruza US$ 1 bi de receita trimestral, leva GPU Monitoring a GA e ganha FedRAMP High",
+      "summary": "Datadog reportou em 7/mai receita Q1 de US$ 1,01 bi (+32% YoY) e anunciou três marcos de produto: GPU Monitoring em GA para acompanhar custo e performance de cargas de IA, certificação FedRAMP High para governo federal dos EUA e novos recordes em bookings de logo. Para arquitetos de SRE, GPU Monitoring é o sinal mais técnico — virou peça obrigatória em stack de observabilidade de inferência.",
+      "explain": {
+        "comece": "Datadog é uma das maiores plataformas de observabilidade SaaS do mercado. O GA do GPU Monitoring expõe métricas, traces e logs de uso de GPU dentro do mesmo dashboard onde já vivem CPU, memória e latência de aplicação — fechando lacuna importante para times que rodam treinos e inferência em escala.",
+        "aprofunde": "Tecnicamente, o GPU Monitoring usa o NVIDIA DCGM exporter (e equivalentes em outras stacks) para capturar utilização SM, memória, throughput de tensor cores e temperatura, integrando com APM e logs via tags consistentes. Para inferência, ele permite correlacionar latência p99 da requisição com pressão na fila CUDA, identificar GPUs sub-utilizadas e detectar batch sizes mal calibrados — diagnóstico que antes vivia espalhado em scripts ad hoc.",
+        "decida": "Times rodando inferência em produção devem começar a instrumentar GPUs nos próximos 30 dias se ainda dependem de monitoramento DIY; o overhead é baixo e o ROI vem de identificar GPUs ociosas. Antes de fechar contrato, valide três coisas: cobertura de stacks que importam (NVIDIA + AMD MI300, idealmente), preço por GPU vs. host, e integração com seu agente OpenTelemetry existente — sem isso, vira mais um dashboard isolado.",
+        "glossary": [
+          {"term": "GPU Monitoring", "def": "Coleta sistemática de métricas de uso de GPU (utilização SM, memória, temperatura) integrada à pilha de observabilidade da aplicação."},
+          {"term": "FedRAMP High", "def": "Nível mais alto de certificação de segurança em nuvem do governo federal dos EUA; pré-requisito para servir dados sensíveis em agências."},
+          {"term": "DCGM", "def": "Data Center GPU Manager; ferramenta NVIDIA que expõe métricas detalhadas de GPU no formato consumido por Prometheus e exporters comerciais."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["release+3", "utilidade+2", "tier1+1"],
+      "learning": {
+        "url": "https://docs.datadoghq.com/integrations/nvidia_dcgm_exporter/",
+        "title": "NVIDIA DCGM Exporter integration — Datadog Docs",
+        "type": "docs",
+        "source_name": "Datadog Docs",
+        "why": "Documentação oficial da integração NVIDIA DCGM exporter da Datadog; passo-a-passo para instrumentar GPU Monitoring antes de avaliar custo."
+      },
+      "source_key": "datadog",
+      "url": "https://investors.datadoghq.com/news-releases/news-release-details/datadog-announces-first-quarter-2026-financial-results",
+      "published_at": "2026-05-07T08:30:00-03:00",
+      "read_time": 4,
+      "tags": ["datadog", "gpu", "observability"],
+      "image": "https://imgix.datadoghq.com/img/about/presskit/DDlogo.jpg",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "cloud",
+      "category_label": "Cloud",
+      "category_icon": "☁️",
+      "headline": "AWS MCP Server entra em GA com IAM, CloudWatch e CloudTrail nativos para agentes",
+      "summary": "Em 6/mai, AWS lançou o AWS MCP Server em GA: agentes ganham acesso auditável às APIs AWS via Model Context Protocol, com guardrails IAM, métricas CloudWatch e logs CloudTrail por design. Sandbox embutido executa Python contra serviços AWS sem acesso ao filesystem ou shell local — base sólida para integrar Cursor, Claude Code, Copilot e similares à conta sem distribuir credenciais.",
+      "explain": {
+        "comece": "MCP é o protocolo padrão para agentes de IA conversarem com ferramentas externas. AWS MCP Server é uma implementação oficial mantida pela AWS que expõe operações da própria AWS (criar bucket, ler tabela DynamoDB, invocar Lambda) para qualquer cliente MCP, com governança nativa via IAM.",
+        "aprofunde": "O servidor mapeia chamadas MCP para chamadas SigV4 via boto3, mas todas passam por uma policy IAM associada à execution role do servidor, e cada chamada vira evento CloudTrail com identidade do agente. O sandbox Python aceita upload de arquivo e execução longa sem expor /tmp do host. O resultado prático: você dá ao agente uma role estreita, mede o que ele faz no CloudWatch e revoga se necessário, sem editar código do cliente MCP.",
+        "decida": "Times que já dão ‘aws cli’ na máquina dos desenvolvedores via SSO devem migrar agentes para o MCP Server em vez de copiar credenciais. Antes do rollout, defina a IAM policy mais restritiva possível, ative CloudTrail Insights em paralelo e teste o caso clássico ‘agente tenta deletar bucket de produção’ — se a policy estiver larga demais, a auditoria vai chegar tarde demais.",
+        "glossary": [
+          {"term": "AWS MCP Server", "def": "Servidor oficial AWS que implementa o Model Context Protocol e expõe APIs AWS para agentes via uma única interface auditável."},
+          {"term": "SigV4", "def": "Esquema de assinatura HMAC usado pela AWS para autenticar chamadas API; pacote boto3/SDK encapsula automaticamente."},
+          {"term": "Execution role", "def": "Role IAM associada a um serviço (Lambda, ECS, MCP Server) que define quais APIs ele pode chamar."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["release+3", "utilidade+2", "tier1+1"],
+      "learning": {
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+        "title": "Security best practices in IAM — AWS Docs",
+        "type": "docs",
+        "source_name": "AWS Docs",
+        "why": "Diretrizes IAM oficiais; obrigatórias antes de plugar agentes no AWS MCP Server, pois a segurança real está na policy aplicada à execution role."
+      },
+      "source_key": "awswhatsnew",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/05/aws-mcp-server/",
+      "published_at": "2026-05-06T15:00:00-03:00",
+      "read_time": 4,
+      "tags": ["aws", "mcp", "agents"],
+      "image": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "frontend",
+      "category_label": "Frontend & Web",
+      "category_icon": "🎨",
+      "headline": "The New Stack: contexto, não modelo, é o gargalo real do AI coding em 2026",
+      "summary": "Em ensaio publicado nesta semana, o The New Stack argumenta que o gargalo do AI coding em 2026 não é qualidade do modelo — é qualidade do contexto entregue. IDEs estão competindo por capacidade de indexar repositório, manter memória de sessão, separar código relevante de ruído e injetar a parte certa no prompt no momento certo. Implicação direta para front-end: arquitetura de monorepo, code splitting e convenções de naming voltam a ser estratégicos.",
+      "explain": {
+        "comece": "AI coding é o termo guarda-chuva para uso de modelos de linguagem em IDEs (Cursor, Claude Code, Copilot, Windsurf) durante o trabalho do dev. O ensaio defende que a maioria dos erros que devs reportam não vem do modelo errar — vem de o IDE entregar contexto incompleto, com partes do código importantes faltando ou diluídas.",
+        "aprofunde": "Tecnicamente, o problema é gerenciamento de contexto: arquivos abertos, índice semântico do repositório, histórico de comandos e descrição de tarefa precisam ser combinados em um prompt finito. Cursor 3.3 e Claude Code lutam exatamente nessa fronteira (memória de sessão, /chronicle, semantic search). Para front-end, isso significa que monorepos mal estruturados, arquivos de 3 mil linhas e nomes ambíguos pioram explicitamente a qualidade da assistência — não é só dor para humano.",
+        "decida": "Para tech leads de front-end, é hora de auditar três coisas: quão grande é o maior arquivo do repositório, se a estrutura de pastas reflete domínios ou frameworks, e se há AGENTS.md ou equivalente declarando convenções. Investir em refatorar para componentes menores e mais nomeados deixa de ser ‘limpeza’ e vira gain mensurável em produtividade de IA.",
+        "glossary": [
+          {"term": "Janela de contexto", "def": "Quantidade máxima de tokens que um modelo aceita em uma chamada — limita o quanto de código pode ser passado de uma vez."},
+          {"term": "Indexação semântica", "def": "Processo de gerar embeddings vetoriais do código para o IDE encontrar o trecho relevante por significado, não só por nome."},
+          {"term": "Monorepo", "def": "Repositório único que abriga múltiplos pacotes/projetos relacionados; comum em front-end com Turborepo, Nx ou pnpm workspaces."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 3,
+      "score_breakdown": ["utilidade+2", "tier2+1"],
+      "learning": {
+        "url": "https://docs.cursor.com/get-started/agents",
+        "title": "Cursor Agents Overview",
+        "type": "docs",
+        "source_name": "Cursor Docs",
+        "why": "Documentação oficial do Cursor sobre como agentes recebem contexto; ajuda a entender em código aberto o que o ensaio do The New Stack discute em alto nível."
+      },
+      "source_key": "thenewstack",
+      "url": "https://thenewstack.io/context-is-ai-codings-real-bottleneck-in-2026/",
+      "published_at": "2026-05-06T10:00:00-03:00",
+      "read_time": 4,
+      "tags": ["ai-coding", "ide", "frontend"],
+      "image": "https://cdn.thenewstack.io/media/2026/05/context-is-ai-codings-real-bottleneck.jpg",
+      "image_kind": "editorial"
+    },
+    {
+      "category": "sec",
+      "category_label": "Segurança & IAM",
+      "category_icon": "🔐",
+      "urgent": true,
+      "severity": "high",
+      "cves": ["CVE-2026-43284"],
+      "headline": "‘Dirty Frag’: LPE encadeada no kernel Linux leva qualquer usuário local a root em quase toda distro pós-2017",
+      "summary": "Divulgada em 7/mai, a Dirty Frag combina duas vulnerabilidades de escrita de 4 bytes em xfrm-ESP (IPsec) e RxRPC para escalar de usuário comum a root sem race conditions. Afeta Ubuntu, Debian, RHEL, openSUSE, CentOS, AlmaLinux, Fedora e Arch — basicamente todo kernel pós-2017. Uma das CVEs já recebeu ID CVE-2026-43284; a outra está pendente. Patches começam a sair pelas distros nas próximas 24-48h.",
+      "explain": {
+        "comece": "Local Privilege Escalation (LPE) é a classe de falha em que um usuário sem privilégios consegue virar root explorando uma falha do kernel. Dirty Frag não exige race condition — é uma cadeia de duas escritas de memória controladas que produz exploração confiável. O nome é referência a Dirty Pipe e Dirty Cow, vulnerabilidades famosas com mecânica similar.",
+        "aprofunde": "Tecnicamente, o ataque encadeia duas primitivas: uma escrita arbitrária de 4 bytes na fast-path ESP-in-UDP do XFRM (sem COW), e outra equivalente no caminho de transporte RxRPC. Combinadas, dão corrupção previsível da page cache do kernel, suficiente para sobrescrever cred structs e alcançar root. Como ambas estão em código presente em virtualmente todo kernel mainstream desde 2017, exposição é maciça; o vetor exige acesso local mas não interação especial.",
+        "decida": "Para SREs, prioridade hoje é três coisas: aplicar patches kernel assim que cada distro disponibilizar (Canonical já publicou aviso); revisar quem tem shell em hosts de produção (princípio do menor privilégio aqui não é paper, é defesa); ativar auditd para flag de exploração conhecida. Se você roda containers privilegiados em multi-tenant, considere isolamento por VM até patch propagar — cgroup e namespace não protegem contra LPE.",
+        "glossary": [
+          {"term": "LPE", "def": "Local Privilege Escalation; falha que permite usuário local virar root sem credenciais adicionais."},
+          {"term": "XFRM", "def": "Subsistema do kernel Linux que implementa IPsec e transformações de pacotes."},
+          {"term": "RxRPC", "def": "Protocolo de transporte usado historicamente por AFS e implementado no kernel Linux."},
+          {"term": "Page cache write primitive", "def": "Capacidade de escrever em memória do kernel via falha; quando combinada com leak de endereço vira root facilmente."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 6,
+      "score_breakdown": ["convergencia+2", "utilidade+2", "impacto+1", "tier1+1"],
+      "learning": {
+        "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-02",
+        "title": "RHSB-2026-02 Cryptographic Subsystem Privilege Escalation",
+        "type": "docs",
+        "source_name": "Red Hat Security",
+        "why": "Aviso oficial Red Hat com lista de pacotes afetados e mitigações temporárias enquanto patches propagam; útil mesmo para quem não usa RHEL como referência cruzada."
+      },
+      "source_key": "thehackernews",
+      "url": "https://ubuntu.com/blog/dirty-frag-linux-vulnerability-fixes-available",
+      "published_at": "2026-05-07T15:00:00-03:00",
+      "read_time": 4,
+      "tags": ["linux-kernel", "lpe", "cve"],
+      "image": "https://ubuntu.com/wp-content/uploads/d2c1/og-image-2.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "ai",
+      "category_label": "IA & LLMs",
+      "category_icon": "🤖",
+      "headline": "OpenAI lança família Realtime: GPT-Realtime-2 com raciocínio GPT-5, Translate e Whisper streaming",
+      "summary": "OpenAI anunciou em 7/mai três modelos de voz em tempo real: GPT-Realtime-2 (raciocínio nível GPT-5 dentro de chamada de voz), GPT-Realtime-Translate (tradução simultânea de 70+ idiomas para 13) e GPT-Realtime-Whisper (transcrição streaming). Preços: US$ 32/1M tokens de áudio entrada e US$ 64/1M saída para Realtime-2; Translate a US$ 0,034/min e Whisper a US$ 0,017/min. Voz com ferramenta e interrupção em tempo real fica viável.",
+      "explain": {
+        "comece": "Modelos Realtime são modelos que mantêm uma sessão bidirecional contínua de áudio com o usuário — em vez do clássico request-response, eles falam, ouvem e raciocinam ao mesmo tempo. A novidade do GPT-Realtime-2 é trazer capacidade de raciocínio comparável ao GPT-5 para essa modalidade.",
+        "aprofunde": "A diferença prática: enquanto o usuário fala, o modelo já começa a interpretar; pode chamar ferramenta no meio da resposta, aceitar correção do usuário e retomar coerentemente. Realtime-Translate cobre 70+ idiomas de entrada e 13 de saída, mantendo passo do orador (latência declarada baixa). Realtime-Whisper substitui o pipeline tradicional de upload-blob → transcribe por streaming nativo. Toda a família é exposta via API Realtime; cobrança é por minuto (Translate/Whisper) ou por token de áudio (Realtime-2).",
+        "decida": "Use Realtime-2 quando a aplicação exige conversação rica com tool-calls (atendimento técnico, copilot por voz). Use Translate quando o caso é encontro multilingue. Use Whisper só se você precisa transcrição streaming barata sem raciocínio. Antes do rollout, calcule custo por minuto típico — Realtime-2 a US$ 64/1M tokens de saída pode estourar orçamento se a aplicação tem muito output. Verifique compliance de tratamento de áudio: voz é dado pessoal sensível na maioria das jurisdições.",
+        "glossary": [
+          {"term": "Realtime API", "def": "Família de APIs OpenAI que mantém sessão de áudio/texto bidirecional persistente, em vez de chamadas síncronas request-response."},
+          {"term": "Tool-call em tempo real", "def": "Capacidade do modelo invocar funções externas durante a fala, sem encerrar a sessão de áudio."},
+          {"term": "Whisper", "def": "Modelo OpenAI de speech-to-text; agora também disponível em modo streaming nativo."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 4,
+      "score_breakdown": ["release+3", "convergencia+2", "tier1+1", "ai_no_action-2"],
+      "learning": {
+        "url": "https://platform.openai.com/docs/guides/realtime",
+        "title": "Realtime API Guide — OpenAI Docs",
+        "type": "docs",
+        "source_name": "OpenAI Docs",
+        "why": "Guia oficial da Realtime API com exemplos de tool-calls em tempo real e tratamento de interrupção; complemento prático ao anúncio dos novos modelos."
+      },
+      "source_key": "openai",
+      "url": "https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/",
+      "published_at": "2026-05-07T13:00:00-03:00",
+      "read_time": 4,
+      "tags": ["openai", "voice", "realtime"],
+      "image": "https://images.openai.com/blob/voice-realtime-models-og.png",
+      "image_kind": "institutional"
+    },
+    {
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Cursor 3.3 leva PR Review e Build in Parallel para a Agents Window",
+      "summary": "Em 7/mai, Cursor publicou a 3.3 com revisão de PR dentro da Agents Window (abas Reviews/Commits/Changes), agente embutido de Security Reviewer que comenta vulnerabilidades inline e ‘Build in Parallel’ — o IDE detecta partes independentes do plano e roda agentes async em paralelo, propondo split de PRs com snapshot de fallback. Também chegam quick-action pills para skills usados com frequência.",
+      "explain": {
+        "comece": "Cursor é um IDE com agentes de IA acoplados; a Agents Window é onde tarefas longas rodam em paralelo à edição manual. A 3.3 traz três avanços principais: revisão de PR no próprio IDE, agente automático de revisão de segurança, e capacidade de paralelizar execução de planos grandes.",
+        "aprofunde": "PR Review reúne os comentários inline da PR junto com os commits e a diff, evitando o ping-pong com o GitHub web. Security Reviewer roda em cada PR, sinaliza padrões clássicos (auth regression, prompt injection, vazamento de credencial, auto-aprovação perigosa de tools) e deixa comentário no diff exato. Build in Parallel analisa o plano gerado pelo agente, identifica componentes sem dependência cruzada e dispara subagentes async — o usuário aprova o split antes de virar PRs separados.",
+        "decida": "Para times que já usam Cursor, ative Security Reviewer com configuração restrita primeiro (só severidade alta) para evitar ruído no PR. Build in Parallel é melhor em planos com componentes claramente independentes (ex.: refatorar 5 módulos similares); evite em planos onde todas as etapas tocam o mesmo arquivo. Para arquitetos avaliando AI coding tooling, a 3.3 é argumento para rever política de PR — o gatekeeping mudou de lugar.",
+        "glossary": [
+          {"term": "Agents Window", "def": "Painel do Cursor onde múltiplos agentes rodam em paralelo, cada um com sua sandbox e histórico próprio."},
+          {"term": "Security Reviewer", "def": "Agente automático que analisa cada PR procurando padrões de vulnerabilidade conhecidos antes da revisão humana."},
+          {"term": "Build in Parallel", "def": "Recurso que decompõe um plano de execução em subtarefas independentes e dispara agentes async simultaneamente."}
+        ]
+      },
+      "freshness": "fresh",
+      "score": 5,
+      "score_breakdown": ["release+3", "utilidade+2", "tier1+1", "ai_no_action-2"],
+      "learning": {
+        "url": "https://docs.cursor.com/agents/agents-window",
+        "title": "Agents Window — Cursor Docs",
+        "type": "docs",
+        "source_name": "Cursor Docs",
+        "why": "Documentação oficial da Agents Window onde a 3.3 enfia PR Review e Build in Parallel; passo necessário antes de configurar Security Reviewer."
+      },
+      "source_key": "cursor",
+      "url": "https://cursor.com/changelog/05-07-26",
+      "published_at": "2026-05-07T17:00:00-03:00",
+      "read_time": 4,
+      "tags": ["cursor", "ai-coding", "agents"],
+      "image": "https://cursor.com/og.png",
+      "image_kind": "institutional"
+    }
+  ],
+  "tools": [
+    {
+      "tool_key": "python",
+      "name": "Python",
+      "icon": "🐍",
+      "kind": "release",
+      "version": "3.14.5rc1",
+      "category": "backend",
+      "category_label": "Backend & Runtimes",
+      "category_icon": "🔧",
+      "headline": "Python 3.14.5rc1 reverte garbage collector incremental e prepara final para 8/mai",
+      "description": "RC publicada com 113 correções desde 3.14.4. Maior mudança: o GC incremental introduzido em 3.14.0–4 volta para o GC geracional do 3.13 após reports de pressão de memória em produção; troca PGP por Sigstore na verificação e novo gerenciador Windows.",
+      "explain": {
+        "comece": "Python 3.14.5 é uma release de manutenção com candidato lançado em 4/mai e versão final prevista para 8/mai. A grande virada técnica é o reversal do garbage collector incremental que estreou na 3.14.0 — em produção, ele provocou pressão de memória suficiente para o time decidir voltar ao GC geracional já consolidado da 3.13.",
+        "aprofunde": "GC incremental foi pensado para suavizar pausas longas em heaps grandes ao espalhar coleta em fatias. Na prática, alguns workloads ficaram com working set maior, e a equipe optou pelo caminho conservador. A RC traz também 113 fixes: travamentos de XML parsing, tratamento de control chars em cookies/headers, problemas de memoization em pickle. Adicionalmente, verificação de integridade migra de PGP para Sigstore, alinhando a distribuição com o resto da Python Software Foundation.",
+        "decida": "Times rodando 3.14 em produção devem testar a RC contra suas suítes nesta semana, com olhos especiais em workloads de fila longa, batch jobs e serviços com heap > 4 GiB. Se a 3.14.0–4 já estava estável para você, a 3.14.5 deve ser drop-in; se houve degradação inexplicada de memória recentemente, vale priorizar o upgrade.",
+        "glossary": [
+          {"term": "GC geracional", "def": "Coletor de lixo que separa objetos por idade (gerações), coletando frequentemente os mais novos e raramente os antigos."},
+          {"term": "GC incremental", "def": "Variante que distribui o trabalho de coleta em pequenas fatias para reduzir pausas longas, à custa de maior overhead total."},
+          {"term": "Sigstore", "def": "Projeto de assinatura de artefatos da Linux Foundation que usa identidades curtas e transparency log público."}
+        ]
+      },
+      "freshness": "fresh",
+      "learning": {
+        "url": "https://docs.python.org/3/whatsnew/3.14.html",
+        "title": "What's new in Python 3.14",
+        "type": "docs",
+        "source_name": "Python Docs",
+        "why": "Notas oficiais sobre toda a série 3.14 incluindo o GC incremental que agora foi revertido; contexto técnico necessário antes de planejar upgrade."
+      },
+      "source_key": "pythoninsider",
+      "url": "https://blog.python.org/2026/05/python-3145rc1/",
+      "published_at": "2026-05-04T18:00:00-03:00",
+      "tags": ["python", "release", "gc"],
+      "image": "https://www.python.org/static/opengraph-icon-200x200.png"
+    },
+    {
+      "tool_key": "nginx",
+      "name": "NGINX",
+      "icon": "🌐",
+      "kind": "release",
+      "version": "1.30.0",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "NGINX 1.30 estreia stable branch com Early Hints, ECH, Multipath TCP e HTTP/2 backend",
+      "description": "Linha estável herda 1.29.x: HTTP 103 Early Hints, Encrypted ClientHello (ECH), HTTP/2 to backend, sticky sessions em upstreams, Multipath TCP e padrão proxy passa para HTTP/1.1 com keep-alive. OpenSSL 4.0 já é suportado.",
+      "explain": {
+        "comece": "NGINX é um dos servidores web e proxies reversos mais usados no mundo. A versão 1.30 abre uma nova linha estável (LTS), consolidando a pilha de features que vinham na linha mainline 1.29.x; a partir daqui, 1.28 entra em fim de vida.",
+        "aprofunde": "Três features pesam para arquitetos: HTTP 103 Early Hints permite o servidor responder antes do conteúdo final indicando recursos a precarregar (CSS, JS) — corta TTFB em sites com SSR. Encrypted ClientHello (ECH) cifra o SNI no handshake TLS, evitando vazamento do hostname para observadores de rede. Multipath TCP (MPTCP) deixa um único fluxo TCP atravessar várias interfaces (ex.: WiFi + 5G), útil em mobile e edge. O default proxy_http_version sobe para 1.1 com keep-alive ligado, mudando comportamento padrão de quem manda tráfego para upstream.",
+        "decida": "Quem está em 1.28 stable deveria planejar migração para 1.30 nas próximas semanas; verifique três coisas primeiro: que sua versão de OpenSSL é compatível, que upstreams suportam HTTP/2 (ou que você desligou explicitamente), e que o novo default keep-alive não quebra connection pooling antigo. Para Cloudflare-style ECH em produção, valide DNS-over-HTTPS antes de ligar — sem isso, ECH não traz benefício real.",
+        "glossary": [
+          {"term": "Early Hints (HTTP 103)", "def": "Status HTTP intermediário que permite o servidor enviar Link headers para precarregar recursos antes da resposta final."},
+          {"term": "ECH", "def": "Encrypted ClientHello; criptografa o handshake TLS inicial incluindo o SNI, escondendo o hostname de observadores no caminho."},
+          {"term": "MPTCP", "def": "Multipath TCP; permite um único fluxo TCP usar múltiplos caminhos (interfaces) simultaneamente para resiliência e throughput."}
+        ]
+      },
+      "freshness": "fresh",
+      "learning": {
+        "url": "https://nginx.org/en/CHANGES",
+        "title": "NGINX Changes log (CHANGES)",
+        "type": "docs",
+        "source_name": "nginx.org",
+        "why": "Lista oficial de mudanças por versão; a fonte primária para confirmar quais flags e diretrizes mudaram entre 1.28 e 1.30 antes de migrar."
+      },
+      "source_key": "phoronix",
+      "url": "https://www.phoronix.com/news/Nginx-1.30-Released",
+      "published_at": "2026-04-15T09:00:00-03:00",
+      "tags": ["nginx", "http3", "ech"],
+      "image": "https://www.phoronix.com/assets/categories/nginx.webp"
+    },
+    {
+      "tool_key": "argocd",
+      "name": "Argo CD",
+      "icon": "🚀",
+      "kind": "release",
+      "version": "3.4.1",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "Argo CD v3.4.1 sai como primeira patch da linha 3.4 — 3.1 entra em EOL",
+      "description": "Patch v3.4.1 publicado em 6/mai com correções pós-GA da 3.4.0; CLI binaries assinadas e checksums atualizados. Linha v3.1 alcança fim de vida em 6/mai, parando de receber security e bug fixes. Time recomenda upgrade para 3.4 com leitura cuidadosa do guia de migração.",
+      "explain": {
+        "comece": "Argo CD é o controlador GitOps de referência para Kubernetes. v3.4.0 entrou em GA em 4/mai e a 3.4.1 chega como primeira patch consolidando regressões reportadas. No mesmo dia, o time anunciou que a linha v3.1 atinge end-of-life e não recebe mais correções.",
+        "aprofunde": "Patch releases do Argo CD seguem cadência on-demand para os três últimos minor releases. Estar em v3.1 hoje significa rodar com fixes de segurança parados — risco real se o cluster gerencia ambientes regulados. v3.4 trouxe Pause Reconciliation, globs em Helm values e mudou o webhook de Teams (mandatório migrar). O guia oficial de upgrade lista incompatibilidades comuns: paths de credentials, formato de Application em projetos longos, e mudanças no behavior de auto-prune.",
+        "decida": "Quem está em 3.3 deve aplicar 3.4.1 nas próximas duas semanas, depois de validar o guia de migração 3.3→3.4 em ambiente não-produtivo. Quem ainda está em 3.1 ou 3.2 precisa programar migração imediata — sem patches não há base para tratar Argo CD como infra crítica. Para clusters multi-tenant, valide Pause Reconciliation antes de rollout para evitar drift inesperado.",
+        "glossary": [
+          {"term": "Patch release (Argo CD)", "def": "Lançamento incremental dentro de uma linha minor com correções de bug e segurança, sem novas features."},
+          {"term": "End-of-life (EOL)", "def": "Estado em que uma versão para de receber qualquer correção; rodar EOL em produção é decisão consciente de risco."},
+          {"term": "Pause Reconciliation", "def": "Recurso que suspende temporariamente o ciclo automático de sync do Argo CD para uma Application — útil em janelas de migração."}
+        ]
+      },
+      "freshness": "fresh",
+      "learning": {
+        "url": "https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/3.3-3.4/",
+        "title": "Upgrading 3.3 to 3.4 — Argo CD Docs",
+        "type": "docs",
+        "source_name": "Argo CD Docs",
+        "why": "Guia oficial de migração 3.3→3.4 com lista de breaking changes; obrigatório antes de aplicar a 3.4.1 em qualquer cluster com GitOps em produção."
+      },
+      "source_key": "argo",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v3.4.1",
+      "published_at": "2026-05-06T20:00:00-03:00",
+      "tags": ["argocd", "gitops", "kubernetes"],
+      "image": "https://opengraph.githubassets.com/1/argoproj/argo-cd"
+    },
+    {
+      "tool_key": "claudecode",
+      "name": "Claude Code",
+      "icon": "🤖",
+      "kind": "news",
+      "category": "aiops",
+      "category_label": "AIOps & Agents",
+      "category_icon": "🧠",
+      "headline": "Code w/ Claude 2026: Anthropic dobra rate limit, abre Dreaming, Outcomes, Webhooks e templates financeiros",
+      "description": "No keynote em SF (6/mai), Anthropic anunciou: dobro do limite de 5h para Pro/Max/Enterprise (compute do data center Colossus da SpaceX), Code Review usado por todos times internamente, Dreaming/Outcomes/Webhooks para Managed Agents, e 10 templates de agente financeiro (KYC, pitchbook, earnings).",
+      "explain": {
+        "comece": "Claude Code é a ferramenta CLI/IDE da Anthropic para desenvolvimento agêntico. O evento Code w/ Claude 2026 trouxe o pacote de novidades de produto: novos limites, novos recursos para Managed Agents, e templates específicos para serviços financeiros — base que a Anthropic vinha pavimentando com a parceria Goldman/Blackstone anunciada em 4/mai.",
+        "aprofunde": "Tecnicamente, Dreaming é apresentado como research preview e funciona como mecanismo de auto-melhoria do agente: ele revisita sessões passadas em background e identifica padrões para evoluir suas estratégias. Outcomes (public beta) deixa de tratar uma sessão como ‘conversa’ e passa a tratar como ‘objetivo a alcançar’, com sucesso/falha medível. Webhooks fecham o ciclo e permitem orquestrar agentes em pipelines event-driven externos — passo necessário para integrar Claude Code em CI/CD ou em sistemas de incident response.",
+        "decida": "Times pequenos com plano Pro: o dobro de limites efetivamente remove o teto que pesava em sessões grandes, ative-o já. Para times Enterprise, vale priorizar duas POCs: uma com Outcomes substituindo um workflow manual, outra com Webhook ligado a um disparador interno (alerta Datadog, evento Kafka). Templates financeiros são úteis como ponto de partida em casos como KYC e earnings, mas não substituem auditoria — Anthropic deixa explícito que são templates, não soluções regulatórias.",
+        "glossary": [
+          {"term": "Managed Agents", "def": "Agentes hospedados pela Anthropic com runtime, persistência e auditoria gerenciados — equivalente a Lambda para tarefas agênticas."},
+          {"term": "Dreaming", "def": "Research preview que revisita sessões passadas em background para extrair padrões e melhorar comportamento do agente em tarefas similares."},
+          {"term": "Outcomes", "def": "Modelo onde a sessão é definida por um objetivo mensurável (sucesso/falha), em vez de só conversa — facilita avaliação automática."}
+        ]
+      },
+      "freshness": "fresh",
+      "learning": {
+        "url": "https://docs.anthropic.com/en/release-notes/claude-code",
+        "title": "Claude Code Release Notes",
+        "type": "docs",
+        "source_name": "Anthropic Docs",
+        "why": "Notas oficiais do Claude Code; complemento técnico ao live blog de Simon Willison para ver exatamente quais mudanças do evento já chegaram em CLI."
+      },
+      "source_key": "simonwillison",
+      "url": "https://simonwillison.net/2026/May/6/code-w-claude-2026/",
+      "published_at": "2026-05-06T13:00:00-03:00",
+      "tags": ["claude", "agents", "managed-agents"],
+      "image": "https://static.simonwillison.net/static/2026/code-w-claude-2026.jpg"
+    },
+    {
+      "tool_key": "github",
+      "name": "GitHub",
+      "icon": "🐙",
+      "kind": "news",
+      "category": "devops",
+      "category_label": "DevOps & Plataformas",
+      "category_icon": "⚙️",
+      "headline": "GitHub Copilot deprecia Claude Sonnet 4 em todas as superfícies",
+      "description": "Em 7/mai, GitHub registrou no changelog a deprecação do Claude Sonnet 4 em Copilot Chat, inline edits, ask/agent modes e completions. Times que tinham políticas pinadas em Sonnet 4 precisam migrar para Sonnet 4.5 ou outro modelo aprovado antes da remoção definitiva.",
+      "explain": {
+        "comece": "GitHub Copilot oferece múltiplos modelos por trás da mesma interface (chat, completions, inline edits, agent). Sonnet 4 era um dos modelos disponíveis; em 7/mai entrou em deprecation, com remoção planejada nas semanas seguintes em todas as superfícies do produto.",
+        "aprofunde": "O changelog é curto, mas o impacto é prático: times que tinham políticas (Copilot Business/Enterprise) com modelo padrão pinado em Sonnet 4 verão a configuração ficar inválida quando o modelo sair. Migrar para Sonnet 4.5 (ou outro modelo aprovado pela política) é o caminho recomendado. Para devs individuais, o cliente vai cair de volta para o modelo default da organização.",
+        "decida": "Admins de Copilot Enterprise: revisem políticas hoje e atualizem o modelo default. Devs em times sem política central podem ignorar — Copilot escolhe outro modelo automaticamente. Para arquitetos avaliando dependência de vendor, a deprecação rápida (modelo lançado em 2024 e já em fim de linha) reforça que o ciclo de vida de modelos não é compatível com TI tradicional; planejamento de longo prazo precisa assumir rotação trimestral.",
+        "glossary": [
+          {"term": "Deprecação (Copilot)", "def": "Estado em que um modelo continua disponível mas com aviso de remoção iminente; ações administrativas precisam ser feitas antes da retirada definitiva."},
+          {"term": "Modelo pinado", "def": "Configuração que força clientes a usar um modelo específico em vez de seguir o default dinâmico — frequente em ambientes regulados."}
+        ]
+      },
+      "freshness": "fresh",
+      "learning": {
+        "url": "https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-ai-model-for-copilot-chat",
+        "title": "Change the AI model for Copilot Chat — GitHub Docs",
+        "type": "docs",
+        "source_name": "GitHub Docs",
+        "why": "Guia oficial sobre como alterar o modelo padrão do Copilot; necessário para admins migrarem políticas que ainda apontam para Sonnet 4."
+      },
+      "source_key": "githubchangelog",
+      "url": "https://github.blog/changelog/2026-05-07-claude-sonnet-4-deprecated/",
+      "published_at": "2026-05-07T16:00:00-03:00",
+      "tags": ["github-copilot", "sonnet", "deprecation"],
+      "image": "https://github.blog/wp-content/uploads/2024/12/github-copilot.png"
+    },
+    {
+      "tool_key": "structurizr",
+      "name": "Structurizr",
+      "icon": "🏗️",
+      "kind": "tip",
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Use Structurizr DSL com bounded contexts explícitos para evitar diagramas que envelhecem mal",
+      "description": "Em diagramas C4 que duram além de um trimestre, declarar bounded contexts no DSL economiza retrabalho — arquitetos passam de ‘onde fica isso?’ para ‘qual contexto possui isso?’ na primeira reunião.",
+      "explain": {
+        "comece": "Structurizr DSL é uma linguagem textual para descrever arquiteturas no modelo C4 (System Context, Container, Component, Code). Ao declarar explicitamente bounded contexts (DDD) como agrupadores, você dá ao diagrama uma camada extra de organização que não vem de graça do C4 — e ela paga dividendos em revisões trimestrais."
+      },
+      "freshness": "evergreen",
+      "source_key": "structurizr",
+      "url": "https://docs.structurizr.com/dsl/cookbook/groups/",
+      "tags": ["c4-model", "ddd", "diagrams"]
+    },
+    {
+      "tool_key": "mermaid",
+      "name": "Mermaid",
+      "icon": "🧜",
+      "kind": "tip",
+      "category": "design",
+      "category_label": "Design & Padrões",
+      "category_icon": "🏛️",
+      "headline": "Use stateDiagram-v2 do Mermaid para documentar estados de saga de forma legível em PR",
+      "description": "Para sagas distribuídas com 4–8 estados, stateDiagram-v2 do Mermaid renderiza nativo no GitHub e fica versionado junto com o código — substitui muito bem PlantUML em revisões de PR, sem servidor de renderização.",
+      "explain": {
+        "comece": "Mermaid é uma linguagem de diagrama-como-código que renderiza nativo no GitHub, GitLab, Notion e Obsidian. stateDiagram-v2 é o tipo recomendado para máquinas de estado modernas, com suporte a estados aninhados, transições com guard e estados parallel — exatamente o que falta no PlantUML simples."
+      },
+      "freshness": "evergreen",
+      "source_key": "mermaid",
+      "url": "https://mermaid.js.org/syntax/stateDiagram.html",
+      "tags": ["mermaid", "state-machine", "saga"]
+    },
+    {
+      "tool_key": "kafka",
+      "name": "Apache Kafka",
+      "icon": "📨",
+      "kind": "tip",
+      "category": "integ",
+      "category_label": "Integração & Eventos",
+      "category_icon": "🔌",
+      "headline": "Use min.insync.replicas alto + acks=all em producer crítico — perda silenciosa volta a doer em outage de broker",
+      "description": "Configurar min.insync.replicas=2 no tópico e acks=all no producer protege contra a falha clássica em que um broker some na hora errada e a mensagem ‘parece’ entregue. É barato em throughput e caro de descobrir depois.",
+      "explain": {
+        "comece": "Em Apache Kafka, min.insync.replicas (config de tópico) define quantas réplicas precisam confirmar um write antes que o líder considere a mensagem comitada. acks=all (config de producer) força o producer a esperar essa confirmação. Sem essas duas combinadas, perda silenciosa em failover é cenário comum em incidentes."
+      },
+      "freshness": "evergreen",
+      "source_key": "kafka",
+      "url": "https://kafka.apache.org/documentation/#topicconfigs_min.insync.replicas",
+      "tags": ["kafka", "durability", "producer"]
+    },
+    {
+      "tool_key": "datadog",
+      "name": "Datadog",
+      "icon": "🐶",
+      "kind": "tutorial",
+      "category": "obs",
+      "category_label": "Observabilidade & SRE",
+      "category_icon": "📈",
+      "headline": "Métricas que importam para times de Platform Engineering — Datadog publica guia detalhado",
+      "description": "Guia da Datadog detalha como combinar DORA metrics, métricas de produtividade e custo da plataforma para provar valor de Platform Engineering ao stakeholder. Mistura de teoria DORA + dashboards práticos.",
+      "explain": {
+        "comece": "Datadog publicou um guia abrangente sobre métricas de sucesso para times de Platform Engineering, conectando DORA metrics (deployment frequency, lead time, MTTR, change failure rate) com indicadores de produtividade do desenvolvedor e custo da plataforma. O ponto: medir só DORA não conta a história inteira para o board.",
+        "aprofunde": "O texto sugere combinar três camadas: (1) DORA como saúde de delivery; (2) developer satisfaction (NPS interno, tempo até primeiro PR para novos contratados); (3) custo total da plataforma vs. custo evitado em times de produto. Apresenta dashboards Datadog que cruzam essas três famílias de métricas no mesmo gráfico, e reforça que ‘plataforma sem métrica de adoção real é shadow IT bem desenhada’.",
+        "decida": "Para tech leads de plataforma, vale extrair três coisas do guia: o framework de três camadas para apresentar valor da plataforma, os exemplos de dashboard que você pode replicar em qualquer ferramenta de observabilidade, e a checklist de pegadinhas (ex.: deployment frequency alta sem tempo até primeiro PR é red flag de plataforma cara). Ignore o excesso de produto Datadog — o conteúdo conceitual é bom em qualquer stack.",
+        "glossary": [
+          {"term": "DORA metrics", "def": "Quatro métricas chave do DevOps Research and Assessment: frequência de deploy, lead time, MTTR e change failure rate."},
+          {"term": "Platform Engineering", "def": "Disciplina que constrói e opera plataformas internas para times de produto, com foco em reduzir cognitive load."}
+        ]
+      },
+      "freshness": "evergreen",
+      "source_key": "datadog",
+      "url": "https://www.datadoghq.com/blog/platform-engineering-metrics/",
+      "tags": ["platform-engineering", "dora", "metrics"],
+      "image": "https://imgix.datadoghq.com/img/blog/platform-engineering-metrics/platform-engineering-metrics-hero.jpg"
+    },
+    {
+      "tool_key": "postgres",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "kind": "tip",
+      "category": "data",
+      "category_label": "Dados & Streaming",
+      "category_icon": "🗄️",
+      "headline": "Use EXPLAIN (ANALYZE, BUFFERS) + pg_stat_io antes de qualquer índice novo no Postgres 18+",
+      "description": "Adicionar índice ‘por prevenção’ é receita para escrita lenta. EXPLAIN com BUFFERS mostra páginas lidas; pg_stat_io (Postgres 18+) mostra origem real do I/O por backend — diagnóstico antes do martelo.",
+      "explain": {
+        "comece": "EXPLAIN (ANALYZE, BUFFERS) executa a query e mostra páginas lidas do cache vs. disco; pg_stat_io (introduzido no Postgres 18) decompõe I/O por tipo de operação. Juntas, dão diagnóstico mais honesto do que ‘adicionar índice e ver se melhora’ — que frequentemente piora write throughput sem ganho mensurável."
+      },
+      "freshness": "evergreen",
+      "source_key": "postgresql",
+      "url": "https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-IO-VIEW",
+      "tags": ["postgres", "query-tuning", "io"]
+    }
+  ],
+  "videos": [
+    {
+      "id": "F88JqQ8M89s",
+      "url": "https://www.youtube.com/watch?v=F88JqQ8M89s",
+      "title": "How HTTP/3 Works (and Why It's Different)",
+      "channel": "ByteByteGo",
+      "channel_avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s900-c-k-c0x00ffffff-no-rj",
+      "duration": "12 min",
+      "track_role": "deep_dive",
+      "freshness": "evergreen"
+    },
+    {
+      "id": "8lPMaScnB5w",
+      "url": "https://www.youtube.com/watch?v=8lPMaScnB5w",
+      "title": "Construindo um agente MCP do zero — passo-a-passo prático",
+      "channel": "Renato Augusto Tech",
+      "channel_avatar": "https://yt3.googleusercontent.com/F-zRp2IoHmSd3-rBwsGeVyDx4hGtzez424c4omj58irEAXn6eho5OzGJ818Bpb5VuM0Ibw7-lA=s900-c-k-c0x00ffffff-no-rj",
+      "duration": "22 min",
+      "track_role": "tutorial",
+      "freshness": "fresh"
+    },
+    {
+      "id": "rq8mwxcDc0M",
+      "url": "https://www.youtube.com/watch?v=rq8mwxcDc0M",
+      "title": "Service Mesh com Istio Ambient — arquitetura sem sidecar na prática",
+      "channel": "Fabricio Veronez",
+      "channel_avatar": "https://yt3.googleusercontent.com/lQ6HlGXQn7bNcGFiFBQ_TGqRBUd4jZLe7VGsEZ6k9ivMOc3Db5HaraAsIpMaBfqhPivYKA6hSA=s900-c-k-c0x00ffffff-no-rj",
+      "duration": "28 min",
+      "track_role": "architecture",
+      "freshness": "fresh"
+    }
+  ],
+  "sources": [
+    {"name": "Cloudflare Blog", "url": "https://blog.cloudflare.com/"},
+    {"name": "The New Stack", "url": "https://thenewstack.io/"},
+    {"name": "InfoQ", "url": "https://www.infoq.com/"},
+    {"name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/"},
+    {"name": "GitHub Changelog", "url": "https://github.blog/changelog/"},
+    {"name": "Cursor Changelog", "url": "https://cursor.com/changelog"},
+    {"name": "OpenAI Index", "url": "https://openai.com/index/"},
+    {"name": "Ubuntu Security", "url": "https://ubuntu.com/security"},
+    {"name": "jvns.ca", "url": "https://jvns.ca/"},
+    {"name": "LWN.net", "url": "https://lwn.net/"},
+    {"name": "Python Insider", "url": "https://blog.python.org/"}
+  ]
+}

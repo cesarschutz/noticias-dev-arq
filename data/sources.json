@@ -504,6 +504,12 @@
       "image": "https://cdn.simpleicons.org/istio/466BB0"
     },
     {
+      "key": "jvns",
+      "name": "Julia Evans (jvns.ca)",
+      "url": "https://jvns.ca/",
+      "image": "https://www.google.com/s2/favicons?domain=jvns.ca&sz=256"
+    },
+    {
       "key": "jamescarr",
       "name": "James Carr Blog",
       "url": "https://james-carr.org/",
